@@ -156,6 +156,18 @@
 <td data-label="Issue"><strong>Guide titles are working titles; traffic and popularity are unmeasured</strong><br><span class="small">The guide titles are editorial hypotheses. No popularity, search volume, trend, or product-superiority claim is made. The brief asks that the next topic be chosen from measured queries, which do not exist yet.</span></td>
 <td data-label="Sources">-</td>
 <td data-label="Action requested">Measure traffic after publication, then choose the next guide.</td>
+</tr><tr id="P-20">
+<td data-label="ID"><strong>P-20</strong></td>
+<td data-label="Severity"><span class="pill high">High</span></td>
+<td data-label="Issue"><strong>Root site (other session) shows prices and star ratings</strong><br><span class="small">The root site (The Countertop Guide, built by root build_site.py) displays list and sale prices and star ratings with snapshot dates (for example $79.93, 4.2 stars). Participation Requirements 2(b) allows prices and availability on a site only if Amazon serves the link or via Creators API / PA-API. Section 6(t), which governs ratings, was not re-read in this session. Flagged for review; not changed by this session.</span></td>
+<td data-label="Sources"><a class="cite" href="https://affiliate-program.amazon.com/help/operating/policies" rel="sponsored noopener" target="_blank">S2</a></td>
+<td data-label="Action requested">Owner decision: confirm the basis for displayed prices and ratings, or remove them, before the root site is treated as compliant.</td>
+</tr><tr id="P-21">
+<td data-label="ID"><strong>P-21</strong></td>
+<td data-label="Severity"><span class="pill medium">Medium</span></td>
+<td data-label="Issue"><strong>Root index.html footer edits are not produced by the root build script</strong><br><span class="small">On main, the committed root index.html links to docs/products.html, docs/flagged.html and docs/campaign-ledger.html in its footer. Running the root build_site.py regenerates index.html without those links, so the committed file and the generator disagree. Not changed by this session.</span></td>
+<td data-label="Sources">-</td>
+<td data-label="Action requested">Owner or root-site session: add these links to the generator, or remove them from the committed file, so that a rebuild does not drop them.</td>
 </tr></tbody></table></div>
 </section>
 
