@@ -11,7 +11,7 @@ Tracking ID: `shopnow047c-20` · Outbound format: `https://www.amazon.com/dp/ASI
 ```
 python3 -m pip install pillow        # once: regenerates the social card
 # edit data/products.json (facts + sources) or data/editorial.json (voice, policy, cadence)
-python3 build_site.py                # writes all 24 pages (21 in the sitemap, 3 consolidated), sitemap, feed, robots, search index
+python3 build_site.py                # writes all 25 pages (21 in the sitemap, 4 consolidated), sitemap, feed, robots, search index
 python3 scripts/make_og.py           # writes assets/og-image.png + assets/favicon.svg
 node scripts/check_meta.mjs          # publishing gate (same one CI runs)
 ```
@@ -28,7 +28,7 @@ Reader-facing: `index.html` (front page: picks, products, chooser, guides) ·
 
 Review desk (internal surfaces, one nav group + footer): `review-desk.html` ·
 `verification.html` (line-by-line register, intended ASIN separate from observed redirect) ·
-`flagged.html` (FLG-001…FLG-048; the ranges are three sessions' passes merged into one register, see `COORDINATION.md`) · `suggestions.html` (SG board, Q/I/A register, design prompt) · `design-brief.html` (parallel brief, owner picks one) ·
+`flagged.html` (FLG-001…FLG-050; the ranges are three sessions' passes merged into one register, see `COORDINATION.md`) · `suggestions.html` (SG board, Q/I/A register, DI design inputs, design prompt) · `design-brief.html` (parallel brief, owner picks one) ·
 `methodology.html` (automation map, five events, empty campaign ledger) ·
 `compliance.html` (policy reads, quoted) · `executive-summary.html`.
 
