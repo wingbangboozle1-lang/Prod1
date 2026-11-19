@@ -22,3 +22,23 @@ Added pages include a separate product-intent schema with intended ASIN/listing/
 - Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/2 — merged to `main` on 2026-11-19.
 - Deployment: GitHub Pages API reports `status: built`, `public: true`, URL `https://wingbangboozle1-lang.github.io/Prod1/`. The Actions workflow run 44526411369 failed at deploy-pages with “No artifacts named github-pages”; a concurrent Pages deployment run completed successfully and the Pages API reports the site built. Treat the API state, rather than the failed concurrent run, as deployment confirmation; continue monitoring on future pushes.
 - Merge note: origin/main had advanced and a clean merge was not possible initially. Resolved by retaining the upstream site's implementation and product evidence, adding our review pages as supplementary pages, then validated and merged the integration.
+
+## Session 9b748801 (2026-11-19) — claim, integration and log
+
+- **Claim.** Session 9b748801 claimed T1 to T6 in its branch (`arena/9b748801-prod1`) before the upstream integration. Its own parallel site was built and reviewed in that branch.
+- **Integration (T7 / this session).** `origin/main` had advanced (sessions ab9cbcdc and 71354f04 merged a complete live site). Merging it made a clean merge impossible for the root site and `docs/`. Resolution: the upstream site and its data are authoritative. This session's parallel site was NOT published. Its sources and review data are kept in `review/9b748801/`. The cross-check is recorded in `review/9b748801/README.md`.
+- **Changes to shared outputs (logged per protocol, integration session):**
+  - `build_site.py` and `flagged.html`: added FLG-013 to FLG-020 (irregularities from this session that the register did not already cover). Rebuilt `flagged.html`; `index.html` was left as committed (the regenerated copy differed in one nav line, which was not changed).
+- **Verification performed in integration (2026-11-19).**
+  - Five submitted links resolve to the five ASINs in `data/products.json`. ThermoMaven price $16.99 consistent with the listing page header.
+  - Associates Operating Agreement §1 and §5 read (official). Program Policies opening part read. Google outbound-link rules read (official). FTC Disclosures 101 read (applicability is a reviewer decision).
+  - Live site: 26 pages, each with the Associates statement; 75 Amazon product-type links, all `rel="sponsored"`; 0 broken internal links or anchors.
+  - NOT re-verified: other prices, ratings, dimensions, wattage, warranty of the main products (FLG-020).
+- **Irregularities.** FLG-013 to FLG-020 (above). Plus the existing FLG-001 to FLG-012.
+- **Pages.** The live site is built by `build_site.py` and `.github/workflows/pages.yml` (main). Deploy status is recorded in the merge record below.
+- **Pull request.** PR #8 (`arena/9b748801-prod1` → `main`), recorded in the merge record below.
+
+## Merge record (session 9b748801)
+
+_Recorded after the PR is merged and the Pages deploy is checked (see the next update)._
+
