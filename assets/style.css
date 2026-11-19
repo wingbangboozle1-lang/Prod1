@@ -141,3 +141,31 @@ img.og{max-width:100%;height:auto;border-radius:12px}
   .searchbox input{flex:1;min-width:0}
   body{font-size:.99rem}
 }
+
+/* ---------- topic calendar + decision desk utilities (session bb3ae11b) ---------- */
+.status-published{color:var(--good);font-weight:700}
+.status-planned{color:var(--warn);font-weight:700}
+.table-wrap{overflow-x:auto;margin:1.4rem 0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:.86rem}
+.table-wrap th{text-align:left;background:var(--tint);color:var(--ink-2);padding:.75rem .9rem;font-size:.78rem}
+.table-wrap td{vertical-align:top;border-bottom:1px solid var(--line);padding:.8rem .9rem;line-height:1.6}
+.table-wrap a{word-break:break-word}
+.doc-hero{padding:2.6rem 0 1.7rem;border-bottom:1px solid var(--line)}
+.doc-hero h1{font-size:clamp(1.8rem,1.4rem + 1.6vw,2.6rem);margin:.2rem 0 .8rem}
+.doc-hero>p:last-child{max-width:60ch;font-size:1rem;line-height:1.7;color:var(--muted)}
+.doc-main{max-width:760px;padding:1.6rem 0 3rem;min-height:40vh}
+.doc-main h2{margin-top:2rem}
+.doc-main h3{margin-top:1.6rem}
+.doc-main p,.doc-main li{font-size:.95rem;line-height:1.7;color:var(--ink-2)}
+.doc-main ul,.doc-main ol{padding-left:1.3rem}
+.doc-main a{color:var(--clay-ink)}
+.callout{background:var(--tint);border-left:3px solid var(--clay);padding:.9rem 1.1rem;margin:1.4rem 0}
+.callout p{margin:.35rem 0}
+.decision-board{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem;margin:1.4rem 0}
+.decision-board table{width:100%;border-collapse:collapse;font-size:.86rem}
+.decision-board th{text-align:left;background:var(--tint);padding:.6rem .8rem;font-size:.78rem}
+.decision-board td{border-bottom:1px solid var(--line);padding:.7rem .8rem;vertical-align:top}
+.decision-board select{min-height:40px;padding:.45rem .6rem;border:1px solid var(--line-strong);border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;background:var(--paper)}
+.review-panel{display:flex;gap:.6rem;flex-wrap:wrap;margin:1rem 0}
+.review-panel .btn{margin:0}
+.pick-status{color:var(--muted);font-size:.85rem}

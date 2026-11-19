@@ -247,6 +247,67 @@ CHOOSER = """
   <button class="btn" type="submit">Show my shortlist</button>
   <div id="chooser-result" aria-live="polite"></div>
 </form>"""
+# ---------- TOPICS (topic calendar, session bb3ae11b) ----------
+TOPICS = [
+    {"n": "01", "title": "Basket or oven-style air fryer: what should you compare?", "cat": "Air fryers - Form",
+     "status": "Published", "href": "guide-basket-vs-oven.html",
+     "angle": "Form factor first: dual-basket vs French-door oven vs single basket, with the three fryers as worked examples.",
+     "hooks": "Listing form fields (P1 dual basket, P2 French door, P3 single basket); listing dimensions",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "02", "title": "A no-hype checklist for comparing air fryer capacity", "cat": "Air fryers - Capacity",
+     "status": "Published", "href": "guide-capacity-checklist.html",
+     "angle": "Quarts vs litres, single vs dual baskets, and how to read a 'feeds 4-6' claim without being misled.",
+     "hooks": "Capacity title/field as listed (P1, P2, P3); listing bullets; capacity-per-footprint math",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "03", "title": "How to assess cleanup and counter-space trade-offs", "cat": "Air fryers - Space",
+     "status": "Published", "href": "guide-cleanup-counter-space.html",
+     "angle": "Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.",
+     "hooks": "Listing dimensions (P1-P3); dishwasher-safe bullets; derived footprint and capacity-per-cm math",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "04", "title": "Questions to ask before buying a multi-function kitchen appliance", "cat": "Multi-function",
+     "status": "Published", "href": "guide-multifunction-questions.html",
+     "angle": "Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.",
+     "hooks": "Emeril preset count and functions (P2 listing); Chefman warranty bullets (P1, P3)",
+     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "05", "title": "Instant-read or wireless? How to read accuracy claims", "cat": "Thermometers",
+     "status": "Published", "href": "guide-thermometer-accuracy.html",
+     "angle": "Plus-minus 0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.",
+     "hooks": "ThermoMaven accuracy/certification claims (P4); CHEF iQ sensor count and range (P5)",
+     "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
+    {"n": "06", "title": "Can a 26-quart oven actually fit on your counter? The depth math, in inches", "cat": "Air fryers - Space",
+     "status": "Planned", "href": "topics.html#t06",
+     "angle": "A tape-measure walkthrough: depth, width, footprint and the capacity you get per centimetre of counter - using only listed dimensions.",
+     "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
+     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
+    {"n": "07", "title": "Two baskets or one: what dual-zone cooking actually changes", "cat": "Air fryers - Form",
+     "status": "Planned", "href": "topics.html#t07",
+     "angle": "When two independent baskets earn their extra depth - and when a single large basket is the simpler buy.",
+     "hooks": "P1 dual-basket listing claims (Sync Finish, 2 x 3 Qt); P3 single-basket listing claims",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "08", "title": "How to read the badges on a listing - without overreading them", "cat": "Trust",
+     "status": "Planned", "href": "topics.html#t08",
+     "angle": "What an Amazon's Choice badge and a rating snapshot can and cannot tell a buyer, with the snapshot date kept visible.",
+     "hooks": "Badge and rating fields as shown on listings (P1, P3, P4); dated-snapshot rule",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
+]
+
+def topic_band():
+    rows = "".join(
+        f'<a href="{t["href"]}"><span>{t["n"]}</span>{esc(t["title"])}<b class="{"status-published" if t["status"]=="Published" else "status-planned"}">{t["status"]}</b></a>'
+        for t in TOPICS)
+    return f"""
+<div class="topic-band">
+  <div class="wrap topic-inner">
+    <div>
+      <h2>The topic calendar</h2>
+      <p>Eight question-shaped topics, five published and three queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
+    </div>
+    <div class="topic-list">{rows}</div>
+  </div>
+</div>"""
+
+
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
@@ -294,6 +355,7 @@ index_body = f"""
   <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a href="guide-gift-picks.html">Read the guide</a></p></article>
 </div>
 <p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-thermometer-accuracy.html">Thermometer accuracy claims</a> &middot; <a href="suggestions.html">Ask for a topic</a></p>
+{topic_band()}
 
 <h2>Why the numbers here match the listing</h2>
 <div class="trust-row">
@@ -403,7 +465,7 @@ page_to("compare.html","Compare 5 air fryers & thermometers | Countertop Guide",
 guides_body = """
 <p class="eyebrow">Guides</p>
 <h1>Question-shaped guides, answered from the listing</h1>
-<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or "trending" claims without a dated snapshot.</p>
+<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or trend claims without a dated snapshot.</p>
 <div class="grid cols-2">
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
@@ -539,7 +601,7 @@ exec_body = f"""
 <ul>
 <li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target).</li>
 <li>Titles, dimensions (air fryers), capacity, special features and bullets as shown on Amazon.com on {VERIFIED}. Price and rating were observed on the same date and are recorded in the register, not displayed on shop pages - see FLG-032 for the policy reason.</li>
-<li>Compliance posture: disclosure above the fold on every page and in the footer; every outbound product link is rel="sponsored" and labeled; no "trending" or popularity claims without a dated snapshot; no hands-on testing claims.</li>
+<li>Compliance posture: disclosure above the fold on every page and in the footer; every outbound product link is rel="sponsored" and labeled; no trend or popularity claims without a dated snapshot; no hands-on testing claims.</li>
 </ul>
 <h2>What is not verified (and therefore not claimed)</h2>
 <ul>
@@ -596,7 +658,7 @@ sugg_body = f"""
 <tr id="SG-11"><td>SG-11</td><td>Run the design brief (design-brief.html) as the brief for the visual overhaul: warm editorial brand, product-first hero, category tiles, sticky comparison bar</td><td>Turns the site from a register into a publication a buyer can act on; cuts the generated-template feel</td><td>Owner picks the visual direction from the brief's options; photography decision (SG-04) gates imagery</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
 <tr id="SG-12"><td>SG-12</td><td>Adopt the eight-topic editorial calendar in the design brief as the publishing cadence (question-shaped titles tied to the verified products)</td><td>Catchy, spec-backed topics feed organic search; every title is a question a buyer types</td><td>Owner approves titles; each topic needs the same line-by-line verification before publishing</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
 <tr id="SG-13"><td>SG-13</td><td>Anti-AI-slop writing rules in the CMS checklist: no filler transitions, no \"in conclusion\", varied sentence length, one idea per paragraph, first-person editorial voice where honest</td><td>Readers and reviewers can tell template text; signal-rich writing ranks and converts better</td><td>Style guide decision; editor review on every page</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr id="SG-14"><td>SG-14</td><td>Editorial voice decision: who is \"we\" (The Countertop Guide editorial team) and what we will never claim (no testing, no trending, no superlatives)</td><td>A defined voice is the strongest anti-slop lever and keeps FTC honesty intact</td><td>Owner sign-off on voice statement</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr id="SG-14"><td>SG-14</td><td>Editorial voice decision: who is \"we\" (The Countertop Guide editorial team) and what we will never claim (no testing, no popularity claims, no superlatives)</td><td>A defined voice is the strongest anti-slop lever and keeps FTC honesty intact</td><td>Owner sign-off on voice statement</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
 <tr id="SG-15"><td>SG-15</td><td>Reader-facing seasonal clusters (holiday gift, New Year cooking reset) built from the verified products with dated price snapshots</td><td>Seasonal intent searches; reuses verified data instead of new claims</td><td>Season calendar decision; re-snapshot prices at publish</td><td>Medium</td><td>Proposed</td></tr>
 <tr id="SG-16"><td>SG-16</td><td>Comparison-first homepage: lead with the side-by-side table and the three-question chooser above the fold, verification below</td><td>Buyers act on comparisons; the verification register moves below the products</td><td>Layout decision in the design brief</td><td>Medium</td><td>Proposed</td></tr>
 <tr id="SG-17"><td>SG-17</td><td>Add author bylines and an \"updated\" date to every article and comparison</td><td>Authorship and freshness signals; reads like a publication, not a template</td><td>Author name/bio decision; date source from verification log</td><td>Low</td><td>Proposed</td></tr>
@@ -693,7 +755,7 @@ sugg_body = f"""
 <tr id="DI-4"><td>DI-4</td><td>Type scale: display serif for headlines, grotesque for UI, mono for ASINs and spec tables</td><td>Three-role type system is what separates publications from templates</td><td>Ship webfonts self-hosted or system stack - no render-blocking third party</td></tr>
 <tr id="DI-5"><td>DI-5</td><td>Color: warm paper background, one accent for CTAs, one for trust/verification, muted ink - not the default blue/purple gradient</td><td>Gradients + glow = generated; flat warm palette = printed catalogue</td><td>Contrast AA on all text (WCAG)</td></tr>
 <tr id="DI-6"><td>DI-6</td><td>Guide layout: key-takeaways box above the fold, at-a-glance table, honest &quot;what we cannot tell you&quot; callout, related-product rail at the end</td><td>Opinionated structure reads as edited; wall-of-text reads as generated</td><td>Every spec cell links to its listing (existing rule)</td></tr>
-<tr id="DI-7"><td>DI-7</td><td>Seasonal skin layer (holiday gift-guide banner) that sits on top of the base design and can be switched off</td><td>Shows the site is maintained on a calendar, like a real publication</td><td>Dated price snapshots only (D-19); no &quot;trending&quot; without a source</td></tr>
+<tr id="DI-7"><td>DI-7</td><td>Seasonal skin layer (holiday gift-guide banner) that sits on top of the base design and can be switched off</td><td>Shows the site is maintained on a calendar, like a real publication</td><td>Dated price snapshots only (D-19); no trend claim without a source</td></tr>
 <tr id="DI-8"><td>DI-8</td><td>Dashboard surfaces restyled as &quot;the back office&quot;: denser type, tabular numbers, source links on every row - visually distinct from the shop</td><td>Keeps the audit machinery available without letting it set the tone</td><td>Same disclosure and sponsored rules as shopper pages</td></tr>
 </table></div>
 <p class="fine">Their review flow, kept as written: approve, reject or defer each of DI-1 to DI-8, then the approved set becomes the design prompt and the mockups. No CSS ships before that review &mdash; the same rule this board has always had.</p>
@@ -799,7 +861,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-08"><td>Q-08</td><td>Where does analytics data live?</td><td>Five events are defined; the client counts locally; an endpoint implementation exists in the repo but is not hosted; GitHub Pages serves static files only</td><td>A host, a retention period, and whether we tell readers about it</td><td>Pick a host the owner controls (any small HTTPS box), write a one-paragraph retention note, then set <code>data-analytics-endpoint</code></td><td>Whether click data becomes a ledger row or stays device-local</td></tr>
 <tr id="Q-09"><td>Q-09</td><td>Which visual direction from the design brief do we adopt?</td><td>Brief offers a warm editorial direction with three named options and anti-slop rules</td><td>Owner's pick; photography decision (Q-07) gates imagery</td><td>Review design-brief.html; choose one direction</td><td>Visual overhaul (SG-11)</td></tr>
 <tr id="Q-10"><td>Q-10</td><td>Do we approve the eight-topic editorial calendar?</td><td>Titles are working hypotheses tied to verified products; none is a popularity claim</td><td>Owner approval; per-topic verification still required</td><td>Review calendar on design-brief.html</td><td>Publishing cadence (SG-12)</td></tr>
-<tr id="Q-11"><td>Q-11</td><td>What is the site's editorial voice, and what will it never claim?</td><td>No testing / trending / superlative claims today; voice statement is proposed</td><td>Owner sign-off on the voice statement</td><td>Review voice rules on design-brief.html</td><td>All content (SG-13, SG-14)</td></tr>
+<tr id="Q-11"><td>Q-11</td><td>What is the site's editorial voice, and what will it never claim?</td><td>No testing / popularity / superlative claims today; voice statement is proposed</td><td>Owner sign-off on the voice statement</td><td>Review voice rules on design-brief.html</td><td>All content (SG-13, SG-14)</td></tr>
 <tr id="Q-12"><td>Q-12</td><td>Should the homepage lead with the comparison and chooser?</td><td>Current homepage leads with categories then data</td><td>Layout preference; impact on conversion vs. trust</td><td>Review homepage layout option in the brief</td><td>Homepage redesign (SG-16)</td></tr>
 <tr id="Q-13"><td>Q-13</td><td>Who are the named authors, and what bios go with them?</td><td>Guides currently say \"The Countertop Guide editorial team\"</td><td>Author identity and bio wording</td><td>Owner provides names/bios or keeps the team credit</td><td>Authorship (SG-17)</td></tr>
 <tr id="Q-14"><td>Q-14</td><td>What is the review SLA for this suggestions board?</td><td>Every row waits on an owner choice: 43 suggestions, 27 questions and 8 design inputs, merged into one board after three sessions wrote to it in parallel</td><td>Review cadence and who approves</td><td>Owner sets a review rhythm; approved items become tasks</td><td>All pending suggestions</td></tr>
@@ -808,7 +870,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-17"><td>Q-17</td><td>Who is accountable for these claims?</td><td>Pages currently carry the editorial-desk byline, which is true</td><td>Whether a named person with a real bio takes the byline</td><td>Owner decision; publish a contact address and a corrections note either way</td><td>Authorship, any &ldquo;expert&rdquo; framing, and how corrections get handled</td></tr>
 <tr id="Q-18"><td>Q-18</td><td>Which build is the site?</td><td>Root, <code>counter-check/site/</code> and a pending <code>docs/</code> build all exist in the repository</td><td>The owner&rsquo;s choice of the single indexable publication</td><td>Owner decision; then noindex or remove the others and prune the sitemap</td><td>SG-22; any SEO measurement at all</td></tr>
 <tr id="Q-19"><td>Q-19</td><td>Do we ever test products?</td><td>We have not; no page claims we have</td><td>Budget, and whether purchased or loaned units are acceptable (loaned units change the disclosure)</td><td>Owner decision; if yes, write the protocol first: units, method, photos, dates, who pays</td><td>SG-09 and every future &ldquo;lived-with&rdquo; sentence</td></tr>
-<tr id="Q-20"><td>Q-20</td><td>Is &ldquo;trending&rdquo; ever claimable?</td><td>Our rule: a dated snapshot from an official category page, or no claim. The air fryers&rsquo; &ldquo;bought in past month&rdquo; chips are listing content, not our finding</td><td>Whether the owner wants periodic snapshots at all</td><td>Snapshot the official category page, store URL + date + what was visible, and cite that row only</td><td>Any popularity framing in titles or social copy</td></tr>
+<tr id="Q-20"><td>Q-20</td><td>Is a trend claim ever claimable?</td><td>Our rule: a dated snapshot from an official category page, or no claim. The air fryers&rsquo; &ldquo;bought in past month&rdquo; chips are listing content, not our finding</td><td>Whether the owner wants periodic snapshots at all</td><td>Snapshot the official category page, store URL + date + what was visible, and cite that row only</td><td>Any popularity framing in titles or social copy</td></tr>
 <tr id="Q-21"><td>Q-21</td><td>Which design direction does the owner want?</td><td>Design inputs DI-1..DI-8 written; front page rebuilt editorial-first in this pass</td><td>Approved visual direction (type, color, card anatomy)</td><td>Review DI-1..DI-8 on this board plus design-brief.html; approve/reject/defer each; then SG-34 mockups</td><td>Full visual overhaul (SG-11, SG-34, SG-35)</td></tr>
 <tr id="Q-22"><td>Q-22</td><td>What imagery may we legally ship?</td><td>No Amazon images used; CSS and SVG only on the pages, and the share card is a generated 1200&times;630 PNG from <code>scripts/make_og.py</code></td><td>Licensed photography or manufacturer permission status; whether placeholder tiles are acceptable long-term</td><td>Decide SG-04; if placeholders approved, specify style in design prompt</td><td>Product cards, social previews, conversion polish</td></tr>
 <tr id="Q-23"><td>Q-23</td><td>What is the publishing cadence and who approves topics?</td><td>Five guides exist; 8 topic hypotheses drafted; sitemap/feed updated at publish</td><td>Owner approval of calendar; reviewer for each article</td><td>Owner sets cadence (e.g. 2/week) and names reviewer in COORDINATION.md</td><td>SG-40 cluster build-out</td></tr>
@@ -843,6 +905,25 @@ it says specific things, admits its gaps, and never asks to be believed.
 </table></div>
 
 <p class="fine">Reviewer: mark each SG row Approve / Reject / Defer with a date. Approved rows become claimed tasks in <code>COORDINATION.md</code>. Nothing on this page is a promise of traffic, ranking or revenue, and no item here was implemented without being labelled as such.</p>
+
+<h2>Pick a path before anything is built</h2>
+<div class="decision-board" id="suggestion-board">
+<p class="fine">Picks stay in this browser only (localStorage) - nothing is sent anywhere on static hosting. Use the export button for a review sheet; approved items then move to <code>COORDINATION.md</code> as claimed tasks.</p>
+<div class="table-wrap"><table>
+<tr><th>Item</th><th>Question / suggestion</th><th>Reviewer pick</th><th>Status</th></tr>
+<tr><td>SG-11</td><td>Run the design brief as the brief for the visual overhaul</td><td><select data-pick="SG-11"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-12</td><td>Adopt the eight-topic editorial calendar as the publishing cadence</td><td><select data-pick="SG-12"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-22</td><td>One site, one canonical, one sitemap (consolidate the builds)</td><td><select data-pick="SG-22"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-43</td><td>Switch Pages to the GitHub Actions build source</td><td><select data-pick="SG-43"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>Q-21</td><td>Which design direction does the owner want?</td><td><select data-pick="Q-21"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>Q-23</td><td>What is the publishing cadence and who approves topics?</td><td><select data-pick="Q-23"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+</table></div>
+<div class="review-panel">
+  <button class="btn small" id="sg-export" type="button">Export review sheet (JSON)</button>
+  <button class="btn secondary small" id="sg-print" type="button">Print this board</button>
+  <button class="btn secondary small" id="sg-reset" type="button">Clear my picks</button>
+</div>
+</div>
 """
 page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide","Twenty-five ranked suggestions with options and trade-offs, a copy-paste design brief, and fourteen questions whose answers gate the next build.",sugg_body)
 
@@ -906,7 +987,7 @@ flag_body = f"""
 <tr id="FLG-009"><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr id="FLG-010"><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr id="FLG-011"><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
-<tr id="FLG-012"><td>FLG-012</td><td>No trending / popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We do not claim trending.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
+<tr id="FLG-012"><td>FLG-012</td><td>No trend / popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We do not claim a trend.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
 <tr id="FLG-013"><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link (Q-03)</td></tr>
 <tr id="FLG-014"><td>FLG-014</td><td>ASIN 10-character rule: third-party sources only</td><td>The 10-character ASIN format was found on third-party guides, not on an Amazon page read in this session. The format is used only to flag the 9-character codes.</td><td>Find an official Amazon help page for the ASIN definition</td></tr>
 <tr id="FLG-015"><td>FLG-015</td><td>Redirect targets carry no tag=</td><td>The final URLs of the five supplied links (read 2026-11-19) contain no tag= parameter. Attribution to shopnow047c-20 is therefore not observed on the redirect path. Site buttons use tagged listing URLs (FLG-001).</td><td>Associates tracking-report test per product (SG-01)</td></tr>
@@ -969,7 +1050,7 @@ comp_body = f"""
 <tr><td>Use proper tagged Special Link formats</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement Section 5</a></td><td>Official URL + tag; manual SiteStripe test is a gate (FLG-001); the supplied short links are recorded, not used as buttons</td></tr>
 <tr><td>Do not obscure link destination</td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a></td><td>Button text + ASIN + "Opens amazon.com" on every card</td></tr>
 <tr><td>Disclose material connection, hard to miss</td><td><a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">FTC Disclosures 101</a></td><td>Strip under masthead on every page + footer; simple language ("earns from qualifying purchases")</td></tr>
-<tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/trending claims; seller claims attributed ("per listing")</td></tr>
+<tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/trend claims; seller claims attributed ("per listing")</td></tr>
 <tr><td>Program Content / images</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement S1</a></td><td>No Amazon images copied; SVG/CSS only until licence decided</td></tr>
 </table></div>
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
@@ -1027,6 +1108,33 @@ meth_body = f"""
 <p class="fine">{esc(CADENCE["rule"])} {esc(CADENCE["measure"])}</p>
 """
 page_to("methodology.html","Method, events & campaign ledger | Countertop Guide","What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep.",meth_body)
+
+topic_rows = ""
+for t in TOPICS:
+    src = " &middot; ".join(f'<a href="{u}">{esc(l)}</a>' for l, u in t["sources"])
+    status = f'<span class="status-published">{t["status"]}</span>' if t["status"] == "Published" else f'<span class="status-planned">{t["status"]} - editorial hypothesis</span>'
+    title_cell = f'<a href="{t["href"]}">{esc(t["title"])}</a>' if t["status"] == "Published" else esc(t["title"])
+    topic_rows += f"""
+<tr id="t{t['n']}"><td>{t['n']}</td><td>{title_cell}</td><td>{esc(t['cat'])}</td><td>{status}</td><td>{esc(t['angle'])}</td><td>{esc(t['hooks'])}</td><td>{src}</td></tr>"""
+
+topics_body = f"""
+<p class="eyebrow">The desk &middot; Topic calendar</p>
+<h1>The topic calendar: eight questions, eight spec-backed answers</h1>
+<p>Five guides are published; three are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
+<div class="callout"><b>How this calendar works</b>
+<p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
+<h2>The calendar</h2>
+<div class="table-wrap"><table>
+<tr><th>#</th><th>Working title</th><th>Category</th><th>Status</th><th>What it answers</th><th>Verified fields it uses</th><th>Sources</th></tr>
+{topic_rows}
+</table></div>
+<h2>Publishing cadence</h2>
+<p>One thoroughly checked guide per publishing slot, with a reassessment after the first batch of measured data. This is an operational plan, not a traffic promise. Every new guide is added to <a href="sitemap.xml">sitemap.xml</a> and <a href="feed.xml">feed.xml</a> at publish time.</p>
+<p class="fine">No topic here is a claim that the subject is popular or in demand. If a popularity claim is ever made, it carries a dated snapshot from an official source (see <a href="methodology.html">Method</a>).</p>
+"""
+page_to("topics.html","Topic calendar: eight spec-backed buyer questions | Countertop Guide","Eight question-shaped, spec-backed article working titles - five published, three queued - with the verified fields and sources each is built from.",topics_body)
+
+
 # ---------- SEARCH ----------
 search_body = """
 <p class="eyebrow">Search</p>
@@ -1055,7 +1163,7 @@ about_body = f"""
 <ul>
 <li><strong>Links go where they say they go.</strong> Every product link opens that exact Amazon listing. They carry <code>rel="sponsored"</code> so search engines can tell, and the word &ldquo;sponsored&rdquo; appears next to them for you.</li>
 <li><strong>We publish the negatives.</strong> Missing dimensions, an uncaptured wattage, a title that contradicts the bullet list &mdash; all of it is on the page, not in a basement. See <a href="flagged.html">Flagged for review</a>.</li>
-<li><strong>No invented urgency.</strong> No countdowns, no &ldquo;only 3 left&rdquo;, no &ldquo;trending&rdquo; without a dated snapshot of the official category page.</li>
+<li><strong>No invented urgency.</strong> No countdowns, no &ldquo;only 3 left&rdquo;, no trend claim without a dated snapshot of the official category page.</li>
 <li><strong>No price theatre.</strong> We do not show a strike-through &ldquo;list price&rdquo; we cannot keep current. Amazon&rsquo;s rules only allow a site to display price and availability when Amazon serves it or when it is pulled from their API and refreshed inside 24 hours; a static page can&rsquo;t honestly do either, so the button says &ldquo;see today&rsquo;s price&rdquo;.</li>
 </ul>
 
@@ -1248,7 +1356,7 @@ db_body = """
 <tr><td>Layout</td><td>Lead every page with the product: comparison table or product cards first, verification and methodology below the fold. On the homepage: hero headline answering the buyer's question, then featured guides, then category tiles, then the data. Put the disclosure strip under the masthead on every page and repeat it in the footer.</td><td>Page structure and reading order</td><td>Homepage layout pick (Q-12)</td></tr>
 <tr><td>Components</td><td>Design a sticky comparison bar on comparison and category pages, a three-question \"which one is for you\" chooser above the comparison table, category tiles with one-line spec summaries, and product cards that show capacity, footprint and price snapshot first. Every buy button is labelled \"Check price on Amazon - sponsored\" and opens amazon.com.</td><td>Reusable components</td><td>Component scope approval (SG-11)</td></tr>
 <tr><td>Imagery</td><td>Use SVG/CSS illustration and typography only. Never copy Amazon product images and never generate fake product photographs; if real photography is added later it must be owned or licensed (Amazon Associates Program Content rules).</td><td>All imagery</td><td>Photography decision (Q-07)</td></tr>
-<tr><td>Voice</td><td>Write like a knowledgeable friend comparing specs: short varied sentences, one idea per paragraph, concrete numbers with their source, no filler transitions, no \"in conclusion\", no superlatives. We never claim hands-on testing, trending status or rankings we cannot show.</td><td>All copy</td><td>Voice sign-off (Q-11)</td></tr>
+<tr><td>Voice</td><td>Write like a knowledgeable friend comparing specs: short varied sentences, one idea per paragraph, concrete numbers with their source, no filler transitions, no \"in conclusion\", no superlatives. We never claim hands-on testing, popularity status or rankings we cannot show.</td><td>All copy</td><td>Voice sign-off (Q-11)</td></tr>
 <tr><td>Findability</td><td>Give every page one unique, question-shaped title and meta description. Keep one canonical domain, an XML sitemap and a valid RSS feed, and submit the sitemap to Search Console once the domain is set.</td><td>SEO foundations</td><td>Domain pick (Q-02)</td></tr>
 </table></div>
 <h2>2. Visual direction options (pick one)</h2>

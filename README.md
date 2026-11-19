@@ -71,7 +71,7 @@ generated HTML, or if the gate finds a violation. So a hand-edited page cannot m
 Reader-facing: `index.html` (front page: picks, products, chooser, guides) ·
 `air-fryers.html`, `thermometers.html` (category pages with spec tables) ·
 `compare.html` (all five + three-question chooser + counter-space maths) ·
-`guides.html` + `guide-*.html` (six question-led guides) · `about.html`.
+`guides.html` + `guide-*.html` (six question-led guides) · `topics.html` (topic calendar: eight spec-backed working titles, five published) · `about.html`.
 
 Review desk (internal surfaces, one nav group + footer): `review-desk.html` ·
 `verification.html` (line-by-line register, intended ASIN separate from observed redirect) ·
