@@ -21,7 +21,7 @@ Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other session
 | T-FIX1 Fix generator canonical placeholder | done | arena/8e82d03c-prod1 | build_site.py + all generated HTML | page() emitted canonical https://example.com/ (regresses FLG-007); live Pages canonical is https://wingbangboozle1-lang.github.io/Prod1/ | FLG-007 residual in generator |
 | T-FIX2 Add check step to Pages workflow | done | arena/8e82d03c-prod1 | .github/workflows/pages.yml | scripts/check_site.mjs gate must run before upload-pages-artifact | — |
 | T-POLISH Seasonal question-shaped guides + shop-style landing | done | arena/8e82d03c-prod1 | guide-holiday-gifts.html, guide-small-kitchen.html, guide-holiday-roast.html, index.html, guides.html, sitemap.xml, feed.xml | Working titles only; no volume/popularity claims; verified specs only | — |
-| T-DEPLOY Build, link check, PR to main, merge, Pages deploy | in progress | arena/8e82d03c-prod1 | all root site files | pages.yml + check gate; live Pages https://wingbangboozle1-lang.github.io/Prod1/ | — |
+| T-DEPLOY Build, link check, PR to main, merge, Pages deploy | in progress | arena/8e82d03c-prod1 | all root site files | pages.yml + check gate; `python3 build_site.py` regenerates 45 HTML; `node scripts/check_site.mjs` PASSED 45 files, 0 issues, 0 warnings (3 new guides created, disclosure verbatim per OA §5, "trending" wording removed); ready to push/PR/merge/deploy | — |
 
 ## Integration update — arena/71354f04-prod1 (2026-11-19)
 
