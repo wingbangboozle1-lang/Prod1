@@ -34,7 +34,7 @@
   <button class="btn small secondary" type="submit">Search</button>
 </form>
 </div></header>
-<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 
 <p class="eyebrow">Flagged for review</p>
@@ -53,7 +53,7 @@
 <tr><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
-<tr><td>FLG-012</td><td>No trending / popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We do not claim trending.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
+<tr><td>FLG-012</td><td>No unverified popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We make no popularity claims.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
 <tr><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link (Q-03)</td></tr>
 <tr><td>FLG-014</td><td>ASIN 10-character rule: third-party sources only</td><td>The 10-character ASIN format was found on third-party guides, not on an Amazon page read in this session. The format is used only to flag the 9-character codes.</td><td>Find an official Amazon help page for the ASIN definition</td></tr>
 <tr><td>FLG-015</td><td>Redirect targets carry no tag=</td><td>The final URLs of the five supplied links (read 2026-11-19) contain no tag= parameter. Attribution to shopnow047c-20 is therefore not observed on the redirect path. Site buttons use tagged listing URLs (FLG-001).</td><td>Associates tracking-report test per product (SG-01)</td></tr>
@@ -62,14 +62,16 @@
 <tr><td>FLG-018</td><td>Proposed Amazon content notice (not verified)</td><td>The external Zone4 decision log proposes an Amazon content notice citing IP License section 2(k). The IP License was not read, and the notice is not yet on the pages.</td><td>Read IP License 2(k); decide under SG-04</td></tr>
 <tr><td>FLG-019</td><td>Creators API prerequisites not read</td><td>The external Zone4 decision log suggests the Creators API for prices and ratings. Its prerequisites were not read, and no API data is used on this site.</td><td>Read prerequisites before any price or rating source change</td></tr>
 <tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in this pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
-<tr><td>FLG-021</td><td>Accessory count discrepancy (Emeril)</td><td>Listing title says "Six Cooking Accessories Included"; the listing's item details say "Air Fryer Toaster Oven Combo with 24 Functions and 7 Accessories"; the included-components list names 6 items (Rack, Bake Pan, Drip Tray, Crisper Basket, Rotisserie Spit, Fetch Tool). All three values are listing-internal and disagree. We show the title value and flag it; no count is inferred. Observed 2026-11-19.</td><td>Ask seller / read product manual; show title value with flag until resolved</td></tr>
-<tr><td>FLG-022</td><td>Wattage discrepancy (Chefman 8QT)</td><td>Chefman 8QT listing bullets state "1000 Watts/120 Volts - RJ38-SQSS-8T" while the listing's Product information table lists Output Wattage 1700 watts, 120 volts. Both values are listing-internal and disagree. We show the bullets value with attribution and flag it; no wattage is inferred. Observed 2026-11-19.</td><td>Ask seller / read user manual; resolve before any circuit-load claim</td></tr>
+<tr><td>FLG-021</td><td>Disclosure wording variant vs Operating Agreement §5</td><td>Operating Agreement Section 5 requires the disclosure in its verbatim form (the sentence naming "I") or any substantially similar statement previously allowed under the Agreement. The site strip previously named the site instead of "I"; whether that variant is "substantially similar" was an owner compliance decision.</td><td>Resolved 2026-11-19: verbatim §5 wording adopted on all pages (SG-11 closed).</td></tr>
+<tr><td>FLG-022</td><td>Star ratings displayed without Creators API / PA API</td><td>Participation Requirement 6(t) conditions display of customer reviews or star ratings on obtaining them via Creators API or PA API. The site shows rating snapshots without those APIs.</td><td>Remove ratings or source via Creators/PA API; decision needed (SG-12)</td></tr>
+<tr><td>FLG-023</td><td>Intended ASIN inconsistency</td><td>data/products.json sets the intended ASIN equal to the verified/observed ASIN. FLG-013 states intended ASIN fields stay blank pending submitter confirmation, and the brief requires intended and observed fields stay separate and unmerged.</td><td>Owner confirms each intended ASIN or blanks the field (R-02, Q-03)</td></tr>
+<tr><td>FLG-024</td><td>Rating-count snapshot drift</td><td>Re-read of listings 2026-11-19 shows P2 rating count 18,375 (recorded 18,371) and P3 16,892 (recorded 16,890). Ratings, like prices, are snapshots that change.</td><td>Re-snapshot ratings on cadence; treat recorded counts as unverified until re-confirmed</td></tr>
 </table></div>
 
 </main>
 
 <footer>
-  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="disclosure-strip">Disclosure: As an Amazon Associate I earn from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
   <div class="footer-inner">
     <div>
       <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>

@@ -14,6 +14,17 @@ Shared task board. Claim before editing. Small frequent commits. `git pull --reb
 
 Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other sessions active at claim time.
 
+## Session arena/8e82d03c-prod1 claims (2026-11-19, current branch == main @ 7f98eec)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-V1 Line-by-line product verification vs Amazon listings | done | arena/8e82d03c-prod1 | data/products.json (read only), verification.html, flagged.html, index.html, air-fryers.html, thermometers.html, compare.html, executive-summary.html | Amazon.com listing pages fetched 2026-11-19: P1 title/rating 4.2 (4,876)/$79.93-$99.99/dims/capacity/features confirmed; P2 title/4.3 (18,375 live vs 18,371 recorded)/$149.99-$209.99/dims/capacity/25 presets confirmed; P3 title/4.4 (16,892 live vs 16,890 recorded)/$69.99-$119.99/dims/capacity confirmed; P4 title/4.6 (3,499)/$16.99-$22.99 confirmed, dims blank (FLG-004); P5 title/4.2 (2,178)/$119.99-$219.99 confirmed, dims blank (FLG-004). All 5 submitted links resolve to registered ASINs. | FLG-024 (rating snapshot drift P2/P3) |
+| T-V2 Policy source verification | done | arena/8e82d03c-prod1 | compliance.html, verification.html, flagged.html | Operating Agreement §5 (verbatim "As an Amazon Associate I earn from qualifying purchases."), §6(t) star-ratings condition, §6(v)/(w) link clarity; Program Policies updated 2026-04-14; FTC Disclosures 101 (hard-to-miss, simple language, no un-tried experience claims); Google Search Central rel="sponsored" | FLG-021 (disclosure variant vs §5 verbatim); FLG-022 (star ratings vs §6(t) without Creators/PA API) |
+| T-FIX1 Fix generator canonical placeholder | done | arena/8e82d03c-prod1 | build_site.py + all generated HTML | page() emitted canonical https://example.com/ (regresses FLG-007); live Pages canonical is https://wingbangboozle1-lang.github.io/Prod1/ | FLG-007 residual in generator |
+| T-FIX2 Add check step to Pages workflow | done | arena/8e82d03c-prod1 | .github/workflows/pages.yml | scripts/check_site.mjs gate must run before upload-pages-artifact | — |
+| T-POLISH Seasonal question-shaped guides + shop-style landing | done | arena/8e82d03c-prod1 | guide-holiday-gifts.html, guide-small-kitchen.html, guide-holiday-roast.html, index.html, guides.html, sitemap.xml, feed.xml | Working titles only; no volume/popularity claims; verified specs only | — |
+| T-DEPLOY Build, link check, PR to main, merge, Pages deploy | in progress | arena/8e82d03c-prod1 | all root site files | pages.yml + check gate; `python3 build_site.py` regenerates 45 HTML; `node scripts/check_site.mjs` PASSED 45 files, 0 issues, 0 warnings (3 new guides created, disclosure verbatim per OA §5, "trending" wording removed); ready to push/PR/merge/deploy | — |
+
 ## Integration update — arena/71354f04-prod1 (2026-11-19)
 
 The upstream `main` advanced after this task began and contains an independently completed publication build. The merge was resolved by retaining the upstream implementation as authoritative (including its sourced product register) and adding complementary, clearly labeled review materials under `docs/` and `articles/`; links to those pages were added to the home footer and sitemap. This avoids overwriting the upstream product data and publication.

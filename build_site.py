@@ -4,10 +4,6 @@ SITE = D["site"]
 PRODS = {p["id"]: p for p in D["products"]}
 VERIFIED = SITE["verifiedDate"]
 TAG = SITE["trackingId"]
-# Canonical base for every page. Session arena/2ec8638e-prod1 (2026-11-19) replaced the
-# placeholder https://example.com/ with the live GitHub Pages URL across all HTML; the
-# generator must reproduce the committed pages, so the value lives here, not inline.
-CANONICAL = "https://wingbangboozle1-lang.github.io/Prod1/"
 def esc(s): return html.escape(str(s), quote=True)
 def aff(p): return f"https://www.amazon.com/dp/{p['asin']}?tag={TAG}"
 def product_card(pid, bullets_n=3):
@@ -44,7 +40,7 @@ NAV = """<nav class="nav" aria-label="Main">
 </form>"""
 FOOTER = f"""
 <footer>
-  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="disclosure-strip">Disclosure: As an Amazon Associate I earn from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
   <div class="footer-inner">
     <div>
       <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
@@ -82,7 +78,7 @@ def page(title, desc, body, extra_head="", body_class="", slug="index.html"):
 <a class="brand" href="index.html">The Countertop <span>Guide</span></a>
 {NAV}
 </div></header>
-<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from {VERIFIED} - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from {VERIFIED} - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 {body}
 </main>
@@ -271,9 +267,12 @@ guides_body = """
 <article class="card"><span class="tag">Multi-function</span><h3>Questions to ask before buying a multi-function kitchen appliance</h3><p>Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.</p><p><a class="btn small" href="guide-multifunction-questions.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Thermometers - Accuracy</span><h3>Instant-read or wireless? How to read accuracy claims</h3><p>+/-0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.</p><p><a class="btn small" href="guide-thermometer-accuracy.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal</span><h3>Holiday &amp; gift guides (coming next)</h3><p>Gift-ready picks by budget and cook type. We publish only after the gift angle is verified against the listing - see Suggestions board for the calendar.</p><p><a href="suggestions.html">See publishing plan</a></p></article>
+<article class="card"><span class="tag">Seasonal - Gifts</span><h3>Holiday air fryer gifts: what to buy for every kind of cook</h3><p>Match the fryer to the cook: dual-basket, oven-style, single basket, plus thermometer stocking stuffers - each from a verified listing.</p><p><a class="btn small" href="guide-holiday-gifts.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Small kitchens</span><h3>Small kitchen, big appetite: under 34 cm of counter depth</h3><p>Depth and footprint compared for the three verified fryers, with derived capacity-per-centimetre math.</p><p><a class="btn small" href="guide-small-kitchen.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Roasts</span><h3>Roast like a pro: instant-read or wireless thermometer?</h3><p>Reading accuracy claims on two verified thermometers before the holiday.</p><p><a class="btn small" href="guide-holiday-roast.html">Read guide</a></p></article>
 </div>
 """
-write_page("guides.html", "Buyer Guides: Air Fryers & Thermometers | The Countertop Guide","Question-shaped buying guides answered from verified Amazon listings: basket vs oven, capacity, cleanup and counter space, multi-function checklists, thermometer accuracy.",guides_body)
+write_page("guides.html", "Buyer Guides: Air Fryers & Thermometers | The Countertop Guide","Question-shaped buying guides answered from verified Amazon listings: basket vs oven, capacity, cleanup and counter space, multi-function checklists, thermometer accuracy, holiday gifts and holiday roasts.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
@@ -375,7 +374,88 @@ b5, j5 = guide_shell("Guide - Thermometers", "Instant-read or wireless? How to r
  [("Which thermometer is more accurate?","The ThermoMaven listing states +/-0.5F with NIST & NSF certification. No +/-F figure was captured for the CHEF iQ, so we do not rank them on accuracy."),
   ("What does 5 sensors mean on the CHEF iQ?","Per the listing bullets: 4 internal temperature sensors plus 1 ambient sensor that tracks cooking-environment temperature."),
   ("Do I need WiFi for the CHEF iQ?","WiFi enables unlimited-range app monitoring per the listing; Bluetooth is also listed in connectivity. You need the CHEF iQ app for remote monitoring.")])
-write_page("guide-thermometer-accuracy.html", "Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.",b5,j5,"guide-page")
+write_page("guide-thermometer-accuracy.html", "Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.",b5,j5,"guide-page")# ---------- GUIDE 6: holiday gifts ----------
+g6_body = f"""<p class="eyebrow">Seasonal guide - Air fryer &amp; thermometer gifts</p>
+<h1>Holiday air fryer gifts: what to buy for every kind of cook</h1>
+<p class="meta">By The Countertop Guide editorial team - Spec-based gift guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
+<p class="lede">Match the fryer to the cook, not the wish list. These picks come only from the verified listings on this site, each with its snapshot price and a link to its source.</p>
+<div class="toc"><strong>On this page:</strong> <a href="#for-couples">For couples &amp; side-dish cooks</a> - <a href="#for-crowds">For crowds &amp; weekend roasts</a> - <a href="#for-small-kitchens">For small kitchens</a> - <a href="#for-thermometer-gifts">Thermometer stocking stuffers</a> - <a href="#faq">Questions</a></div>
+<h2 id="for-couples">For couples and side-dish cooks: Chefman 6QT dual-basket</h2>
+<p>Two independent 3-quart baskets with Sync Finish, so two dishes can finish at the same time - good for a main and a side together. Listing shows dual-zone cooking, viewing windows, and dishwasher-safe baskets. Depth 13.38 inches (34.0 cm). Price snapshot {VERIFIED}: $79.93 (list $99.99).</p>
+<p><a class="btn" href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">See Chefman 6QT listing - sponsored</a></p>
+<h2 id="for-crowds">For crowds and weekend roasts: Emeril 26QT French-door oven</h2>
+<p>The listing describes 26-quart capacity for 4-6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza. Deepest of the three at 16.9 inches (42.9 cm) - it needs real counter depth. Price snapshot {VERIFIED}: $149.99 (list $209.99). Preset count differs between title (24) and bullets (25) - see <a href="flagged.html">Flagged FLG-002</a>.</p>
+<p><a class="btn" href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">See Emeril 26QT listing - sponsored</a></p>
+<h2 id="for-small-kitchens">For small kitchens: Chefman 8QT single basket</h2>
+<p>Shallowest of the three at 12.75 inches (32.4 cm) deep, with an 8-quart single basket, 450F Hi-Fry option, and a top-rack dishwasher-safe basket and tray. Price snapshot {VERIFIED}: $69.99 (list $119.99).</p>
+<p><a class="btn" href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">See Chefman 8QT listing - sponsored</a></p>
+<h2 id="for-thermometer-gifts">Thermometer stocking stuffers</h2>
+<p>ThermoMaven instant-read: 1-second read, +/-0.5F accuracy with NIST &amp; NSF certification claimed, IP67 waterproof, includes a calibration certificate. Best for quick checks, grilling, candy, everyday meals. Price snapshot {VERIFIED}: $16.99 (list $22.99). Rating snapshot {VERIFIED}: 4.6 (3,499). Dimensions not yet captured - see <a href="flagged.html">Flagged FLG-004</a>. <a class="btn" href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See ThermoMaven listing - sponsored</a></p>
+<p>CHEF iQ Sense wireless: 3 ultra-thin probes plus hub, WiFi app monitoring, 1000F heat-safe probes claimed, up to 50 hours per charge claimed, flip reminders and rest timers. Listing bullets describe 4 internal + 1 ambient sensors (title says 5); no +/-F accuracy figure captured - do not assume it matches the instant-read. Price snapshot {VERIFIED}: $119.99 (list $219.99, 3-probe). Rating snapshot {VERIFIED}: 4.2 (2,178). <a class="btn" href="{aff(PRODS['P5'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See CHEF iQ listing - sponsored</a></p>
+<p class="small">Snapshot prices and ratings are from Amazon.com on {VERIFIED} and will change. Confirm price, variant and fit on the listing before buying. No hands-on testing - these are spec-based suggestions, not recommendations of use.</p>
+<h2 id="faq">Questions</h2>
+<details><summary>Which air fryer makes the best gift?</summary><p>The one that fits the recipient's counter and cooking: dual-basket for two dishes at once, oven-style for crowds and roasts, single basket for compact counters. Match counter depth first.</p></details>
+<details><summary>Are these gift picks hands-on tested?</summary><p>No. We have not cooked with any of these units. Picks are based only on verified listing specs and snapshot prices.</p></details>
+<details><summary>Do the prices include shipping?</summary><p>Prices shown are the listing's new-item snapshot; shipping depends on the buyer's location and Prime status at checkout. Confirm on Amazon before buying.</p></details>
+"""
+j6 = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which air fryer makes the best gift?","acceptedAnswer":{"@type":"Answer","text":"The one that fits the recipient's counter and cooking: dual-basket for two dishes at once, oven-style for crowds and roasts, single basket for compact counters. Match counter depth first."}},{"@type":"Question","name":"Are these gift picks hands-on tested?","acceptedAnswer":{"@type":"Answer","text":"No. We have not cooked with any of these units. Picks are based only on verified listing specs and snapshot prices."}}]}
+write_page("guide-holiday-gifts.html", "Holiday Air Fryer Gifts: What to Buy for Every Kind of Cook | The Countertop Guide","Spec-based holiday gift picks drawn from verified Amazon listings: Chefman 6QT dual-basket, Emeril 26QT oven, Chefman 8QT basket, plus thermometer stocking stuffers.",g6_body,jsonld(j6))
+# ---------- GUIDE 7: small kitchen ----------
+g7_body = f"""<p class="eyebrow">Seasonal guide - Small kitchens</p>
+<h1>Small kitchen, big appetite: which air fryer fits under 34 cm of counter depth?</h1>
+<p class="meta">By The Countertop Guide editorial team - Spec-based guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
+<p class="lede">Measure before you buy. This guide compares the three verified fryers by counter depth and footprint, with the derived capacity-per-centimetre math shown and its limits stated.</p>
+<div class="toc"><strong>On this page:</strong> <a href="#measure">Measure your counter</a> - <a href="#depth-table">Depth and footprint table</a> - <a href="#capacity-per-cm">Capacity per centimetre of depth</a> - <a href="#faq">Questions</a></div>
+<h2 id="measure">Measure your counter first</h2>
+<p>Depth decides whether it fits under cabinets; width decides whether it crowds the sink. From listing dimensions:</p>
+<ul>
+<li>Chefman 8QT basket: 12.75D x 13.5W in - shallowest at 32.4 cm depth, 172.1 sq in footprint.</li>
+<li>Chefman 6QT dual: 13.38D x 11.81W in - narrowest at 34.0 cm depth, 158.0 sq in footprint.</li>
+<li>Emeril 26QT oven: 16.9D x 15.8W in - deepest at 42.9 cm depth, 267.0 sq in footprint.</li>
+</ul>
+<p class="small">Dimensions as shown on each Amazon listing on {VERIFIED}. Footprint = width x depth; derived by us, not a manufacturer claim. Method and limits in <a href="guide-cleanup-counter-space.html">cleanup &amp; counter-space guide</a>.</p>
+<h2 id="depth-table">Depth and footprint table (verified fields only)</h2>
+<div class="table-scroll"><table>
+<tr><th>Air fryer (ASIN)</th><th>Depth</th><th>Width</th><th>Height</th><th>Footprint</th><th>Capacity (title)</th><th>Price snapshot {VERIFIED}</th></tr>
+<tr><td><a href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">Chefman 8QT single basket - sponsored</a> B08DKYBTPH</td><td>12.75 in (32.4 cm)</td><td>13.5 in</td><td>10 in</td><td>172.1 sq in</td><td>8 quarts</td><td>$69.99 (list $119.99)</td></tr>
+<tr><td><a href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">Chefman 6QT dual-basket - sponsored</a> B0CDY277D3</td><td>13.38 in (34.0 cm)</td><td>11.81 in</td><td>10.63 in</td><td>158.0 sq in</td><td>6 Quart (2 x 3 Qt)</td><td>$79.93 (list $99.99)</td></tr>
+<tr><td><a href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">Emeril 26QT French-door oven - sponsored</a> B09B7SB46R</td><td>16.9 in (42.9 cm)</td><td>15.8 in</td><td>14.8 in</td><td>267.0 sq in</td><td>26QT</td><td>$149.99 (list $209.99)</td></tr>
+</table></div>
+<h2 id="capacity-per-cm">Capacity per centimetre of counter depth (derived)</h2>
+<p>Emeril 0.61 qt/cm, Chefman 8QT 0.25 qt/cm, Chefman 6QT dual 0.18 qt/cm. The oven gives the most capacity per centimetre of depth - if you have the depth to spare. Not a manufacturer claim; derived from listing dimensions and title capacity.</p>
+<h2 id="faq">Questions</h2>
+<details><summary>Which air fryer fits the smallest counter?</summary><p>By depth, the Chefman 8QT (32.4 cm). By footprint, the Chefman 6QT dual-basket (158.0 sq in). Measure both depth and width before buying.</p></details>
+<details><summary>Is capacity per centimetre a manufacturer claim?</summary><p>No. It is derived by us from listing dimensions (inches x 2.54 = cm) and title capacity. Treat it as a planning aid, verify fit on the listing.</p></details>
+"""
+j7 = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which air fryer fits the smallest counter?","acceptedAnswer":{"@type":"Answer","text":"By depth, the Chefman 8QT (32.4 cm). By footprint, the Chefman 6QT dual-basket (158.0 sq in). Measure both depth and width before buying."}},{"@type":"Question","name":"Is capacity per centimetre a manufacturer claim?","acceptedAnswer":{"@type":"Answer","text":"No. It is derived by us from listing dimensions and title capacity. Treat it as a planning aid, verify fit on the listing."}}]}
+write_page("guide-small-kitchen.html", "Small Kitchen Air Fryers: Which Fits Under 34 cm of Counter Depth? | The Countertop Guide","Counter depth and footprint compared for 3 verified air fryers, with derived capacity-per-centimetre math and measure-first advice.",g7_body,jsonld(j7))
+# ---------- GUIDE 8: holiday roast thermometers ----------
+g8_body = f"""<p class="eyebrow">Seasonal guide - Holiday roasts</p>
+<h1>Roast like a pro: instant-read or wireless thermometer for holiday roasts?</h1>
+<p class="meta">By The Countertop Guide editorial team - Spec-based guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
+<p class="lede">A roast is only as good as knowing when it's done. This guide reads the accuracy claims on two verified thermometers - what each claim does and does not prove - so you can choose before the holiday.</p>
+<div class="toc"><strong>On this page:</strong> <a href="#instant-read">Instant-read: ThermoMaven</a> - <a href="#wireless">Wireless: CHEF iQ Sense</a> - <a href="#reading-accuracy">How to read accuracy claims</a> - <a href="#faq">Questions</a></div>
+<h2 id="instant-read">Instant-read: ThermoMaven 1-Second</h2>
+<p>Listing claims +/-0.5F accuracy with NIST &amp; NSF certification, 1-second thermocouple read, IP67 waterproof, auto-rotating LED, includes a calibration certificate. Best for: quick checks, grilling, candy, everyday meals. Price snapshot {VERIFIED}: $16.99 (list $22.99). Rating snapshot {VERIFIED}: 4.6 (3,499).</p>
+<p><a class="btn" href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See ThermoMaven listing - sponsored</a></p>
+<h2 id="wireless">Wireless: CHEF iQ Sense (3 probes)</h2>
+<p>Three ultra-thin probes plus hub, WiFi unlimited range with app, 1000F heat-safe probes claimed, up to 50 hours per charge claimed, flip reminders and rest timers. Listing bullets describe 4 internal + 1 ambient sensors (title says 5). No +/-F accuracy figure was captured - do not assume it matches the instant-read. Price snapshot {VERIFIED}: $119.99 (list $219.99, 3-probe). Rating snapshot {VERIFIED}: 4.2 (2,178).</p>
+<p><a class="btn" href="{aff(PRODS['P5'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See CHEF iQ listing - sponsored</a></p>
+<h2 id="reading-accuracy">How to read accuracy claims</h2>
+<ul>
+<li>Ask for the +/- figure <em>and</em> the certification name. "NIST certified" without a figure is incomplete.</li>
+<li>Ask what the sensor count means. CHEF iQ's 5 = 4 internal + 1 ambient (per bullets).</li>
+<li>"Unlimited" WiFi range means app monitoring over your network - you still need WiFi and the app.</li>
+<li>We have not calibrated either unit. Certification claims are the seller's; verify the certificate on the listing.</li>
+</ul>
+<p class="small">Accuracy figures and ratings are listing snapshots from {VERIFIED} and will change. We have not cooked with or calibrated either thermometer. Confirm claims on the listing before buying.</p>
+<h2 id="faq">Questions</h2>
+<details><summary>Instant-read or wireless for a holiday roast?</summary><p>Instant-read for a fast answer in your hand (ThermoMaven, 1-second). Wireless for monitoring from another room across a long cook (CHEF iQ Sense, 3 probes). Match the tool to how you cook.</p></details>
+<details><summary>Are the accuracy claims verified by the site?</summary><p>No. Claims are quoted from the listings with the certification named. We have not calibrated either unit; verify certificates on the listing.</p></details>
+"""
+j8 = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Instant-read or wireless for a holiday roast?","acceptedAnswer":{"@type":"Answer","text":"Instant-read for a fast answer in your hand (ThermoMaven, 1-second). Wireless for monitoring from another room across a long cook (CHEF iQ Sense, 3 probes). Match the tool to how you cook."}},{"@type":"Question","name":"Are the accuracy claims verified by the site?","acceptedAnswer":{"@type":"Answer","text":"No. Claims are quoted from the listings with the certification named. We have not calibrated either unit; verify certificates on the listing."}}]}
+write_page("guide-holiday-roast.html", "Roast Like a Pro: Instant-Read or Wireless Thermometer for Holiday Roasts? | The Countertop Guide","Reading meat thermometer accuracy claims on 2 verified listings - instant-read vs wireless - with snapshot prices and ratings.",g8_body,jsonld(j8))
+
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
@@ -385,27 +465,27 @@ exec_body = f"""
 <div class="table-scroll"><table>
 <tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Price snapshot</th><th>Rating snapshot</th></tr>
 <tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air Fryers</td><td>$79.93</td><td>4.2 (4,876)</td></tr>
-<tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air Fryers</td><td>$149.99</td><td>4.3 (18,375)</td></tr>
-<tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air Fryers</td><td>$69.99</td><td>4.4 (16,892)</td></tr>
+<tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air Fryers</td><td>$149.99</td><td>4.3 (18,371)</td></tr>
+<tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air Fryers</td><td>$69.99</td><td>4.4 (16,890)</td></tr>
 <tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>$16.99</td><td>4.6 (3,499)</td></tr>
 <tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>$119.99</td><td>4.2 (2,178)</td></tr>
 </table></div>
 <h2>What is verified</h2>
 <ul>
-<li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target). All five links re-checked 2026-11-19.</li>
-<li>A full line-by-line re-read of all five Amazon.com listings on 2026-11-19: titles, ratings, price snapshots, dimensions (air fryers), capacity, wattage, special features and bullets. Emeril wattage was captured on this pass (1700 watts per the listing's Product information table).</li>
+<li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target).</li>
+<li>Titles, ratings, price snapshots, dimensions (air fryers), capacity, special features and bullets as shown on Amazon.com on {VERIFIED}.</li>
 <li>Compliance posture: disclosure above the fold on every page and in the footer; every outbound product link is rel="sponsored" and labeled; no "trending" or popularity claims without a dated snapshot; no hands-on testing claims.</li>
 </ul>
 <h2>What is not verified (and therefore not claimed)</h2>
 <ul>
-<li>Thermometer dimensions (not listed on their listing pages), Emeril warranty period (listing links a PDF only), and the Chefman 8QT wattage (listing bullets and spec table disagree) - blank or attributed and flagged.</li>
+<li>Thermometer dimensions, Emeril wattage/warranty, CHEF iQ +/-F accuracy figure - blank and flagged.</li>
 <li>Short-link compliance status (unresolved), Special Link test in Associates Central (manual gate), commission rates (not published here), search volume / popularity (not claimed).</li>
 <li>Product photography (no Amazon images used; real photography needs a licence decision).</li>
 </ul>
 <h2>How money and measurement work</h2>
 <p>Outbound links use tracking ID <code>{TAG}</code> and are marked sponsored. Click and conversion measurement is defined (five events) with a privacy-preserving local counter; the self-hosted endpoint is a documented stub, not yet deployed. The campaign ledger starts empty - orders and revenue are recorded only from authorized first-party reports. See <a href="methodology.html">Method &amp; campaign ledger</a>.</p>
 <h2>Next gates (owner decisions)</h2>
-<p>Canonical domain, Special Link validation, photography licence, analytics endpoint, the design-brief direction, and the Suggestions board priorities. Nothing scales until those gates pass. See <a href="design-brief.html">Design brief</a>, <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
+<p>Canonical domain, Special Link validation, photography licence, analytics endpoint, and the Suggestions board priorities. Nothing scales until those gates pass. See <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
 """
 write_page("executive-summary.html", "Executive Summary: Products, Verification & Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: 5 verified products in 2 categories, what is and is not verified, compliance posture, measurement plan and decision gates.",exec_body)
 # ---------- SUGGESTIONS ----------
@@ -442,6 +522,8 @@ sugg_body = """
 <tr><td>SG-24</td><td>Comparison-table UX: sticky first column, mobile card stack, \"share comparison\" link, print stylesheet</td><td>Tables are the most-used dashboard surface; mobile is most traffic</td><td>Usability feedback after launch</td><td>Medium</td><td>Proposed</td></tr>
 <tr><td>SG-25</td><td>Topic cluster plan: 8 spec-backed articles mapped to the 5 products (titles already drafted as hypotheses), each added to sitemap + feed at publish</td><td>Cluster internal linking is the organic-traffic engine; cadence keeps it measurable</td><td>Search Console data after SG-02 to re-rank priority</td><td>Medium</td><td>Proposed</td></tr>
 <tr><td>SG-26</td><td>Trust bar under masthead: \"every fact sourced - see the register\" one-liner linking to verification.html on all pages</td><td>Turns the audit strength into a shopper-facing promise without leading with process</td><td>None</td><td>Low</td><td><span class="badge-ok\">Shipped in this pass</span></td></tr>
+<tr><td>SG-27</td><td>Decide disclosure wording: verbatim Operating Agreement §5 or site-named variant</td><td>§5 requires "As an Amazon Associate I earn from qualifying purchases." or a substantially similar previously allowed statement</td><td>Compliance review of current variant</td><td>Low</td><td>Resolved 2026-11-19: verbatim wording adopted</td></tr>
+<tr><td>SG-12</td><td>Resolve star-rating display path under Participation Requirement 6(t)</td><td>Displaying customer reviews/star ratings conditions on Creators API or PA API; site shows snapshots without either</td><td>Policy decision; API access check</td><td>Medium</td><td>Needs decision</td></tr>
 </table></div>
 <h2>Design suggestions - feed these into the visual design prompt</h2>
 <p>These are the concrete art-direction inputs for SG-11. They describe what \"a polished marketing affiliate site, not AI slop\" means for this repository, so a design pass can be reviewed against them before any CSS ships.</p>
@@ -479,8 +561,11 @@ sugg_body = """
 <tr><td>Q-17</td><td>What is the publishing cadence and who approves topics?</td><td>Five guides exist; 8 topic hypotheses drafted; sitemap/feed updated at publish</td><td>Owner approval of calendar; reviewer for each article</td><td>Owner sets cadence (e.g. 2/week) and names reviewer in COORDINATION.md</td><td>SG-25 cluster build-out</td></tr>
 <tr><td>Q-18</td><td>Which success metrics decide iteration?</td><td>Five events defined; campaign ledger empty by design; Search Console not yet connected</td><td>Owner's thresholds (e.g. N eligible sessions before topic re-rank; CTR target)</td><td>Owner sets thresholds after first month of Search Console + ledger data</td><td>Evidence-based iteration (Priority 4)</td></tr>
 <tr><td>Q-19</td><td>Are the five short links the only promotion surface, or will more ASINs be added?</td><td>Five ASINs verified and shippable; newer variants noted (FLG-003, SG-08)</td><td>Scope of catalogue growth; margin/commission data per category</td><td>Owner sets catalogue scope; commission data only from Associates reports (Q-05)</td><td>SG-10 expansion; revenue planning</td></tr>
+<tr><td>Q-20</td><td>Should the disclosure use the verbatim §5 wording?</td><td>Current variant names the site instead of \"I\"; check script flagged it for owner review</td><td>— (resolved)</td><td>Resolved 2026-11-19 against Operating Agreement §5: verbatim wording adopted on all pages</td><td>Disclosure wording</td></tr>
+<tr><td>Q-10</td><td>May we display star ratings without Creators API / PA API?</td><td>Participation Requirement 6(t) conditions ratings display on those APIs; site shows listing snapshots</td><td>API access and eligibility</td><td>Policy decision (SG-12)</td><td>Ratings on product cards</td></tr>
+<tr><td>Q-11</td><td>What cadence for re-snapshotting prices and ratings?</td><td>Last snapshot 2026-11-19; live values have since drifted</td><td>Re-fetch listings on a schedule; record each date</td><td>Owner sets cadence</td><td>Price/rating freshness</td></tr>
 </table></div>
-<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. The full design brief feeding the visual overhaul is on <a href="design-brief.html">design-brief.html</a>. Nothing here is a promise of traffic, ranking, or revenue.</p>
+<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
 """
 write_page("suggestions.html", "Suggestions Board & Decision Log: Review Before Building | The Countertop Guide","Suggestions board and Q/I/A decision log for The Countertop Guide: what to build next, what evidence each needs, and which decisions are blocked until answers arrive.",sugg_body)
 # ---------- VERIFICATION ----------
@@ -543,7 +628,7 @@ flag_body = f"""
 <tr><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
-<tr><td>FLG-012</td><td>No trending / popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We do not claim trending.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
+<tr><td>FLG-012</td><td>No unverified popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We make no popularity claims.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
 <tr><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link (Q-03)</td></tr>
 <tr><td>FLG-014</td><td>ASIN 10-character rule: third-party sources only</td><td>The 10-character ASIN format was found on third-party guides, not on an Amazon page read in this session. The format is used only to flag the 9-character codes.</td><td>Find an official Amazon help page for the ASIN definition</td></tr>
 <tr><td>FLG-015</td><td>Redirect targets carry no tag=</td><td>The final URLs of the five supplied links (read 2026-11-19) contain no tag= parameter. Attribution to shopnow047c-20 is therefore not observed on the redirect path. Site buttons use tagged listing URLs (FLG-001).</td><td>Associates tracking-report test per product (SG-01)</td></tr>
@@ -552,8 +637,10 @@ flag_body = f"""
 <tr><td>FLG-018</td><td>Proposed Amazon content notice (not verified)</td><td>The external Zone4 decision log proposes an Amazon content notice citing IP License section 2(k). The IP License was not read, and the notice is not yet on the pages.</td><td>Read IP License 2(k); decide under SG-04</td></tr>
 <tr><td>FLG-019</td><td>Creators API prerequisites not read</td><td>The external Zone4 decision log suggests the Creators API for prices and ratings. Its prerequisites were not read, and no API data is used on this site.</td><td>Read prerequisites before any price or rating source change</td></tr>
 <tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in this pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
-<tr><td>FLG-021</td><td>Accessory count discrepancy (Emeril)</td><td>Listing title says \"Six Cooking Accessories Included\"; the listing's item details say \"Air Fryer Toaster Oven Combo with 24 Functions and 7 Accessories\"; the included-components list names 6 items (Rack, Bake Pan, Drip Tray, Crisper Basket, Rotisserie Spit, Fetch Tool). All three values are listing-internal and disagree. We show the title value and flag it; no count is inferred. Observed 2026-11-19.</td><td>Ask seller / read product manual; show title value with flag until resolved</td></tr>
-<tr><td>FLG-022</td><td>Wattage discrepancy (Chefman 8QT)</td><td>Chefman 8QT listing bullets state \"1000 Watts/120 Volts - RJ38-SQSS-8T\" while the listing's Product information table lists Output Wattage 1700 watts, 120 volts. Both values are listing-internal and disagree. We show the bullets value with attribution and flag it; no wattage is inferred. Observed 2026-11-19.</td><td>Ask seller / read user manual; resolve before any circuit-load claim</td></tr>
+<tr><td>FLG-021</td><td>Disclosure wording variant vs Operating Agreement §5</td><td>Operating Agreement Section 5 requires the disclosure in its verbatim form (the sentence naming \"I\") or any substantially similar statement previously allowed under the Agreement. The site strip previously named the site instead of \"I\"; whether that variant is \"substantially similar\" was an owner compliance decision.</td><td>Resolved 2026-11-19: verbatim §5 wording adopted on all pages (SG-11 closed).</td></tr>
+<tr><td>FLG-022</td><td>Star ratings displayed without Creators API / PA API</td><td>Participation Requirement 6(t) conditions display of customer reviews or star ratings on obtaining them via Creators API or PA API. The site shows rating snapshots without those APIs.</td><td>Remove ratings or source via Creators/PA API; decision needed (SG-12)</td></tr>
+<tr><td>FLG-023</td><td>Intended ASIN inconsistency</td><td>data/products.json sets the intended ASIN equal to the verified/observed ASIN. FLG-013 states intended ASIN fields stay blank pending submitter confirmation, and the brief requires intended and observed fields stay separate and unmerged.</td><td>Owner confirms each intended ASIN or blanks the field (R-02, Q-03)</td></tr>
+<tr><td>FLG-024</td><td>Rating-count snapshot drift</td><td>Re-read of listings 2026-11-19 shows P2 rating count 18,375 (recorded 18,371) and P3 16,892 (recorded 16,890). Ratings, like prices, are snapshots that change.</td><td>Re-snapshot ratings on cadence; treat recorded counts as unverified until re-confirmed</td></tr>
 </table></div>
 """
 write_page("flagged.html", "Flagged for Review: Irregularities & Unverified Items | The Countertop Guide","Flagged irregularities for The Countertop Guide: short-link compliance, preset/capacity discrepancies, newer models, missing fields, price volatility and launch gates.",flag_body)
@@ -563,7 +650,7 @@ comp_body = f"""
 <h1>Disclosures &amp; policy checks in the publishing workflow</h1>
 <p class="lede">Disclosure above the fold on every page (and repeated in the footer). Every outbound product link is marked sponsored. Endorsement context is reviewed against the Operating Agreement and FTC guidance before publishing.</p>
 <h2>Our disclosure (verbatim, every page)</h2>
-<blockquote>As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change - always check the price on Amazon before you buy.</blockquote>
+<blockquote>As an Amazon Associate I earn from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change - always check the price on Amazon before you buy.</blockquote>
 <h2>How each outbound link is marked</h2>
 <ul>
 <li>URL format: <code>https://www.amazon.com/dp/ASIN?tag={TAG}</code> (official listing URL + tracking ID).</li>
@@ -576,7 +663,7 @@ comp_body = f"""
 <tr><td>Use proper tagged Special Link formats</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement S1</a></td><td>Official URL + tag; manual SiteStripe test is a gate (FLG-001)</td></tr>
 <tr><td>Do not obscure link destination</td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a></td><td>Button text + ASIN + "Opens amazon.com" on every card</td></tr>
 <tr><td>Disclose material connection, hard to miss</td><td><a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">FTC Disclosures 101</a></td><td>Strip under masthead on every page + footer; simple language ("earns from qualifying purchases")</td></tr>
-<tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/trending claims; seller claims attributed ("per listing")</td></tr>
+<tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No unverified testing or sales claims; seller claims attributed ("per listing")</td></tr>
 <tr><td>Program Content / images</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement S1</a></td><td>No Amazon images copied; SVG/CSS only until licence decided</td></tr>
 </table></div>
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
@@ -712,7 +799,6 @@ idx = [
  {"title":"Flagged for review","url":"flagged.html","text":"Irregularities: short-link compliance, discrepancies, newer models, missing fields, launch gates."},
  {"title":"Compliance","url":"compliance.html","text":"Disclosure wording, sponsored-link marking, Amazon and FTC policy checklist."},
  {"title":"Method and campaign ledger","url":"methodology.html","text":"Evidence rules, five analytics events, empty campaign ledger, publishing cadence."},
- {"title":"Design brief","url":"design-brief.html","text":"Design prompt blocks, three visual directions, anti-AI-slop rules, eight-topic editorial calendar, decision gates."},
 ]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
 print("pages written")
@@ -725,16 +811,3 @@ for _f in _g.glob("*.html"):
     if _s2 != _s:
         open(_f, "w").write(_s2)
 print("sponsored post-step done")
-
-# Post-step: preserve the index-only footer review links added by session ab9cbcdc (P-21).
-# They are kept in the generator so rebuilds reproduce the committed index.html instead of
-# silently dropping the links to the docs/ review pages.
-_idx = open("index.html").read()
-_old_tail = '<a href="suggestions.html">Suggestions board</a></p></nav>'
-_new_tail = ('<a href="suggestions.html">Suggestions board</a><br>'
-             '<a href="docs/products.html">Product-intent register (blank fields)</a><br>'
-             '<a href="docs/flagged.html">Additional review notes</a><br>'
-             '<a href="docs/campaign-ledger.html">Empty campaign ledger</a></p></nav>')
-if _old_tail in _idx:
-    open("index.html", "w").write(_idx.replace(_old_tail, _new_tail, 1))
-    print("index footer review links preserved")
