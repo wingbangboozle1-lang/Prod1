@@ -1,0 +1,226 @@
+{
+  "updated": "2026-11-19",
+  "intro": "Suggestions for review. Nothing here has been implemented. Choose one option per row (or write your own) before any change is made. Status for every row: awaiting selection.",
+  "items": [
+    {
+      "id": "S-01",
+      "topic": "Link format (blocking for scale)",
+      "suggestion": "Validate the supplied links before anything else. Test one Special Link per product in the Associates dashboard and compare its tracking report.",
+      "why": "Operating Agreement section 1 requires tagged Special Links; tracking to shopnow047c-20 is not observed (FL-04, FL-05).",
+      "options": [
+        {
+          "id": "A",
+          "label": "Test one Special Link per product, then decide",
+          "note": "Recommended by the brief's own rule (test one link before scaling). Needs a logged-in Associates session."
+        },
+        {
+          "id": "B",
+          "label": "Keep the supplied short links as they are",
+          "note": "No change; attribution remains unconfirmed."
+        },
+        {
+          "id": "C",
+          "label": "Replace all links now with Special Links",
+          "note": "Not recommended until the test in A is done."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-02",
+      "topic": "Brand name",
+      "suggestion": "Settle the brand name before publishing guides at scale.",
+      "why": "The site uses the working name 'Countertop Check' (FL-14).",
+      "options": [
+        {
+          "id": "A",
+          "label": "Keep 'Countertop Check'",
+          "note": "Working name; check trademark availability first (not checked)."
+        },
+        {
+          "id": "B",
+          "label": "Choose a different name",
+          "note": "Name to be supplied."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-03",
+      "topic": "Authorship",
+      "suggestion": "Decide who is named as author on each guide.",
+      "why": "Guides currently carry the byline 'Editorial team' (FL-14). Named authors must be real people.",
+      "options": [
+        {
+          "id": "A",
+          "label": "Keep 'Editorial team'",
+          "note": "No individual named."
+        },
+        {
+          "id": "B",
+          "label": "Add a named author with a short bio",
+          "note": "Requires the author's details."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-04",
+      "topic": "Publishing cadence",
+      "suggestion": "Set a fixed publishing rhythm so readers and search engines see steady updates.",
+      "why": "Five guides exist at launch. Cadence has not been set.",
+      "options": [
+        {
+          "id": "A",
+          "label": "One guide every two weeks",
+          "note": "Lower effort; slower signal."
+        },
+        {
+          "id": "B",
+          "label": "One guide per week",
+          "note": "Higher effort; more to measure."
+        },
+        {
+          "id": "C",
+          "label": "Pause new guides until measurement (Q-07) has data",
+          "note": "Matches the brief's measure-first principle."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-05",
+      "topic": "Analytics endpoint",
+      "suggestion": "Choose where the self-hosted analytics endpoint runs. GitHub Pages cannot host it.",
+      "why": "The click counter is wired but sends nothing until an endpoint is set (FL-17).",
+      "options": [
+        {
+          "id": "A",
+          "label": "Small serverless function on a host you control",
+          "note": "Needs an account and a URL."
+        },
+        {
+          "id": "B",
+          "label": "Self-hosted analytics server on a VPS",
+          "note": "Needs a server and maintenance."
+        },
+        {
+          "id": "C",
+          "label": "Defer; keep counters local until measurement is needed",
+          "note": "No data leaves the browser."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-06",
+      "topic": "Imagery",
+      "suggestion": "Decide the imagery policy before adding any photo.",
+      "why": "No product photos are used (FL-15). Program Content includes images, and their use needs checking against the IP License.",
+      "options": [
+        {
+          "id": "A",
+          "label": "Typography only (current)",
+          "note": "No image rights questions."
+        },
+        {
+          "id": "B",
+          "label": "Associates-provided images only, with attribution",
+          "note": "Check the IP License first."
+        },
+        {
+          "id": "C",
+          "label": "Commission original photography",
+          "note": "Requires products in hand; cost not estimated."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-07",
+      "topic": "Guide topics",
+      "suggestion": "Choose which guide to publish first from the question list. Working titles only; no popularity is implied.",
+      "why": "Search and click data do not yet exist (Q-07).",
+      "options": [
+        {
+          "id": "A",
+          "label": "Start with the air fryer basket-vs-oven question",
+          "note": "Covers both air fryer product types."
+        },
+        {
+          "id": "B",
+          "label": "Start with the capacity checklist",
+          "note": "Uses only listed capacities."
+        },
+        {
+          "id": "C",
+          "label": "Start with the thermometer listing checklist",
+          "note": "Covers the second category."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-08",
+      "topic": "Price display",
+      "suggestion": "Decide whether prices appear on the site at all.",
+      "why": "No verified main-product price exists yet (FL-06). Price display rules must be checked in the Program Policies before use. The external register also mentions the Creators API for this (FL-21).",
+      "options": [
+        {
+          "id": "A",
+          "label": "Show no prices; link to Amazon (current)",
+          "note": "No stale-price risk."
+        },
+        {
+          "id": "B",
+          "label": "Show prices with a date and a link, once the policy check passes",
+          "note": "Needs policy check (Q-04)."
+        },
+        {
+          "id": "C",
+          "label": "Use the Amazon Creators API for prices and ratings",
+          "note": "Suggested in the external Zone4 log (D-02). Prerequisites not read (FL-21)."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-09",
+      "topic": "Measurement events",
+      "suggestion": "Confirm the five events. The list on the Measurement page is a proposal.",
+      "why": "The brief refers to five defined events without listing them (FL-13).",
+      "options": [
+        {
+          "id": "A",
+          "label": "Accept the proposed five",
+          "note": "page_view, outbound_click, category_open, guide_view, flagged_view."
+        },
+        {
+          "id": "B",
+          "label": "Replace with your own five",
+          "note": "Provide the names and definitions."
+        }
+      ],
+      "decision": ""
+    },
+    {
+      "id": "S-10",
+      "topic": "Category expansion",
+      "suggestion": "Keep to the two categories in the brief, or add more.",
+      "why": "The five submitted links cover two categories: air fryers and meat thermometers.",
+      "options": [
+        {
+          "id": "A",
+          "label": "Stay with the two categories",
+          "note": "Smallest scope."
+        },
+        {
+          "id": "B",
+          "label": "Add categories after the Special Link test",
+          "note": "Requires new product links, each to be checked."
+        }
+      ],
+      "decision": ""
+    }
+  ]
+}

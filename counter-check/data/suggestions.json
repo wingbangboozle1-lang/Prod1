@@ -1,0 +1,237 @@
+{
+  "note": "Suggestions for owner review. Nothing here has been implemented except where marked. Choose an option per item; each choice then becomes a task.",
+  "suggestions": [
+    {
+      "id": "SG-01",
+      "area": "Tracking",
+      "suggestion": "Confirm shopnow047c-20 as the Partner Tag before any link is shared more widely.",
+      "options": [
+        "(a) Confirm in Associates Central now (recommended)",
+        "(b) Use a different enrolled tag",
+        "(c) Keep links untagged until confirmed"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-01",
+        "Q-03"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-02",
+      "area": "Tracking",
+      "suggestion": "Run one Special Link test per product in the enrolled Associates workflow and review its tracking report before scaling.",
+      "options": [
+        "(a) Owner runs the five tests (recommended)",
+        "(b) Scale without testing (not recommended)"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-03"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-03",
+      "area": "Measurement",
+      "suggestion": "Pick an analytics destination. GitHub Pages cannot host the requested endpoint.",
+      "options": [
+        "(a) Hosted privacy-preserving analytics with a free tier (recommended for speed)",
+        "(b) Self-hosted analytics on a server the owner controls",
+        "(c) No site analytics; rely on Associates reports only"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-13",
+        "Q-17"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-04",
+      "area": "Measurement",
+      "suggestion": "Approve the five proposed events on the measurement page.",
+      "options": [
+        "(a) Approve as proposed",
+        "(b) Replace with an owner list"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-17"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-05",
+      "area": "Pricing",
+      "suggestion": "Decide how prices are handled. Showing them requires Amazon-served links or API access.",
+      "options": [
+        "(a) Apply for Creators API / PA-API access, after reviewing its license terms (recommended if prices matter)",
+        "(b) Stay price-free and link to the listing (current state)"
+      ],
+      "recommendation": "b",
+      "blocks": [
+        "Q-04",
+        "Q-05"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-06",
+      "area": "Imagery",
+      "suggestion": "Decide on imagery before adding any photo.",
+      "options": [
+        "(a) No product photos (current)",
+        "(b) Program Content images, if the IP License permits them after review",
+        "(c) Owner-shot photos of products the owner holds"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-20"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-07",
+      "area": "Brand",
+      "suggestion": "Choose the brand name, then run a trademark search.",
+      "options": [
+        "(a) Keep 'Counter Check' after a trademark search",
+        "(b) Owner-supplied name after a trademark search"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-15"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-08",
+      "area": "Publishing",
+      "suggestion": "Set a publishing cadence before the next guide is written.",
+      "options": [
+        "(a) One guide every two weeks",
+        "(b) One guide per month (recommended while data is thin)",
+        "(c) Only when measurement shows a gap"
+      ],
+      "recommendation": "b",
+      "blocks": [
+        "Q-14"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-09",
+      "area": "Search",
+      "suggestion": "Verify the site in Google Search Console and submit sitemap.xml.",
+      "options": [
+        "(a) Owner does this now (recommended)",
+        "(b) Skip search reporting"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-18"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-10",
+      "area": "Data",
+      "suggestion": "Capture dimensions and specification tables from each official listing, with dated sources, before any comparison table goes beyond titles.",
+      "options": [
+        "(a) Capture now (recommended)",
+        "(b) Keep titles only"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-10",
+        "Q-11"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-11",
+      "area": "Authorship",
+      "suggestion": "Name an accountable author, or keep the team byline.",
+      "options": [
+        "(a) Owner supplies an author name and bio",
+        "(b) Keep 'Editorial team'"
+      ],
+      "recommendation": "b",
+      "blocks": [
+        "Q-16"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-12",
+      "area": "Compliance",
+      "suggestion": "Verify the Amazon IP License notice wording before adding any notice text.",
+      "options": [
+        "(a) Verify and add the notice (recommended)",
+        "(b) Publish without it"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "P-09"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-13",
+      "area": "Design",
+      "suggestion": "Add a 'which one is for you' chooser above the comparison table, but only after the owner confirms the two categories and the dimension data is captured.",
+      "options": [
+        "(a) Build after SG-10 is complete (recommended)",
+        "(b) Build now with titles only"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-10",
+        "Q-11"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-14",
+      "area": "Design",
+      "suggestion": "Run a mobile pass on the category tables: larger tap targets and a sticky link to each listing.",
+      "options": [
+        "(a) Approve the mobile pass",
+        "(b) Keep the current layout"
+      ],
+      "recommendation": "a",
+      "blocks": [],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-15",
+      "area": "Decision making",
+      "suggestion": "Use Search Console and the analytics events (SG-03, SG-04) to choose the next guide from measured queries, not from instinct.",
+      "options": [
+        "(a) Adopt this rule (recommended)",
+        "(b) Choose topics by editorial judgement only"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-13",
+        "Q-18"
+      ],
+      "status": "Awaiting owner choice"
+    },
+    {
+      "id": "SG-16",
+      "area": "Decision making",
+      "suggestion": "Add a dated first-party campaign ledger row only from an authorized Associates report, so that performance is judged on evidence.",
+      "options": [
+        "(a) Adopt the ledger rule (recommended)",
+        "(b) Keep no ledger"
+      ],
+      "recommendation": "a",
+      "blocks": [
+        "Q-12"
+      ],
+      "status": "Awaiting owner choice"
+    }
+  ]
+}

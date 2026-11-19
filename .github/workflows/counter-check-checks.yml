@@ -1,0 +1,31 @@
+name: counter-check-checks
+on:
+  pull_request:
+    paths:
+      - "counter-check/**"
+      - ".github/workflows/counter-check-checks.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "counter-check/**"
+jobs:
+  build-and-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build counter-check site from data
+        run: |
+          python3 counter-check/tools/build_site.py
+      - name: Publishing gate
+        run: |
+          python3 counter-check/tools/check_site.py
+      - name: Fail if generated site is stale
+        run: |
+          if ! git diff --exit-code -- counter-check/site/; then
+            echo "counter-check/site is stale; rebuild and commit"
+            exit 1
+          fi

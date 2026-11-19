@@ -1,0 +1,114 @@
+{
+  "updated": "2026-11-19",
+  "intro": "Questions that must be answered before a decision can reasonably be made. For each one: what is already known (with a source), what is missing, and how to find it out. Nothing on this page is a recommendation.",
+  "items": [
+    {
+      "id": "Q-01",
+      "area": "Attribution",
+      "question": "Do the five supplied links credit the selected tracking ID shopnow047c-20?",
+      "known": "None of the five observed redirect URLs contains tag=shopnow047c-20 (FL-04).",
+      "missing": "Associates tracking-report confirmation for each link.",
+      "how_to_find": "Manual: in the logged-in Associates account, generate one Special Link per product, click it once, and compare the tracking report (FL-05).",
+      "source": "https://affiliate-program.amazon.com/help/operating/agreement"
+    },
+    {
+      "id": "Q-02",
+      "area": "Compliance",
+      "question": "Are the supplied link.amazon short links acceptable Special Links?",
+      "known": "The Operating Agreement requires tagged Special Links (section 1). The short-link status is unresolved and is NOT claimed to be invalid.",
+      "missing": "Official confirmation of the short-link status.",
+      "how_to_find": "Test one link in the enrolled Associates workflow; ask Associates support in writing if the result is unclear.",
+      "source": "https://affiliate-program.amazon.com/help/operating/agreement"
+    },
+    {
+      "id": "Q-03",
+      "area": "Product identity",
+      "question": "What ASIN did the submitter intend for each link?",
+      "known": "Observed ASINs: B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z.",
+      "missing": "The submitter's intended ASIN for each row.",
+      "how_to_find": "Ask the submitter to confirm each product page; fill the intended ASIN only from that answer and an official listing.",
+      "source": "https://www.amazon.com/dp/B0CDY277D3"
+    },
+    {
+      "id": "Q-04",
+      "area": "Pricing",
+      "question": "What do the five products cost today?",
+      "known": "Prices in the fetched text belong to carousel items, not to the five main products.",
+      "missing": "A time-stamped official price per product.",
+      "how_to_find": "Read the price from each listing at publication time and show it only if the Associates price rules allow it (verify Program Policies first).",
+      "source": "https://affiliate-program.amazon.com/help/operating/policies"
+    },
+    {
+      "id": "Q-05",
+      "area": "Ratings",
+      "question": "How are the five products rated by buyers?",
+      "known": "Carousel ratings exist for other products only.",
+      "missing": "Main-product star rating and review count.",
+      "how_to_find": "Read the rating and count from each listing page on the day of publication; record the date.",
+      "source": "https://www.amazon.com/dp/B0DHZTCNR5"
+    },
+    {
+      "id": "Q-06",
+      "area": "Specifications",
+      "question": "What are the dimensions and weight of each product?",
+      "known": "Only title values are recorded (capacity, probe count, accuracy).",
+      "missing": "Item dimensions and weight from the product details table.",
+      "how_to_find": "Copy them from each listing's product details table and cite that page.",
+      "source": "https://www.amazon.com/dp/B09B7SB46R"
+    },
+    {
+      "id": "Q-07",
+      "area": "Demand",
+      "question": "Which guide topics do real readers search for and click through to?",
+      "known": "Nothing measured. The four working titles are hypotheses, not evidence of search volume.",
+      "missing": "Search queries, landing-page clicks and outbound clicks from this site.",
+      "how_to_find": "Set up Search Console (manual) and enable the analytics endpoint; read real query and click data for 8 to 12 weeks before choosing the next topic.",
+      "source": "https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links"
+    },
+    {
+      "id": "Q-08",
+      "area": "Commission",
+      "question": "What commission would each product earn?",
+      "known": "Not retrieved from an official source.",
+      "missing": "Official commission rate schedule and category rates.",
+      "how_to_find": "Read the Associates commission rate page and the Commission Income Statement, record the date.",
+      "source": "https://affiliate-program.amazon.com/help/operating/policies"
+    },
+    {
+      "id": "Q-09",
+      "area": "Disclosure",
+      "question": "Is the disclosure placed and worded correctly for FTC purposes on every page?",
+      "known": "Amazon wording (section 5) is confirmed. The FTC Disclosures 101 brochure was read (FL-10): disclosures must be hard to miss and placed with the endorsement.",
+      "missing": "FTC guidance read and checked against the site.",
+      "how_to_find": "Reviewer reads the Endorsement Guides and signs off placement on each page (FL-10).",
+      "source": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers"
+    },
+    {
+      "id": "Q-10",
+      "area": "Brand and voice",
+      "question": "What is the brand name and who is the named author?",
+      "known": "Working name 'Countertop Check' and byline 'Editorial team' are used.",
+      "missing": "A decision on the brand and any named author.",
+      "how_to_find": "Decide from the suggestion list (see Suggestions S-02, S-03).",
+      "source": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+    },
+    {
+      "id": "Q-11",
+      "area": "Imagery",
+      "question": "May the site use product photos?",
+      "known": "Program Content includes images, under the Operating Agreement.",
+      "missing": "A decision on which images (Associates-provided only, or none).",
+      "how_to_find": "Decide from Suggestion S-06; check the IP License before using any image.",
+      "source": "https://affiliate-program.amazon.com/help/operating/agreement"
+    },
+    {
+      "id": "Q-12",
+      "area": "Source register",
+      "question": "Do the external register statuses (S-04 to S-25, D-04 to D-27, F-11 to F-46) match the current site?",
+      "known": "The first part of the Zone4 decision log is reachable (FL-12). It says 'three supplied links' where this brief has five.",
+      "missing": "The rest of the register and the Zone3 register, reconciled line by line.",
+      "how_to_find": "Provide the register contents or a repo path; re-run the review.",
+      "source": "https://kanlerxz87-cyber.github.io/Zone4/docs/decisions.html"
+    }
+  ]
+}

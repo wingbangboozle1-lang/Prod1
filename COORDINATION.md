@@ -23,12 +23,74 @@ Added pages include a separate product-intent schema with intended ASIN/listing/
 - Deployment: GitHub Pages API reports `status: built`, `public: true`, URL `https://wingbangboozle1-lang.github.io/Prod1/`. The Actions workflow run 44526411369 failed at deploy-pages with “No artifacts named github-pages”; a concurrent Pages deployment run completed successfully and the Pages API reports the site built. Treat the API state, rather than the failed concurrent run, as deployment confirmation; continue monitoring on future pushes.
 - Merge note: origin/main had advanced and a clean merge was not possible initially. Resolved by retaining the upstream site's implementation and product evidence, adding our review pages as supplementary pages, then validated and merged the integration.
 
-## Integration update — session-arena-9969fd0c (branch arena/9969fd0c-prod1, 2026-11-19)
+## Integration update — arena/bac417a2-prod1 (2026-11-19)
 
-Merged branch arena/9969fd0c-prod1 into `main` via PR #7. Resolved add/add conflicts in COORDINATION.md, data/products.json, feed.xml, flagged.html, index.html, robots.txt, sitemap.xml, suggestions.html by retaining main's authoritative, Amazon-verified site (The Countertop Guide) and dropping this session's redundant re-implementation files (assets/css/style.css, assets/js/*.js, assets/images/og-default.png, category-kitchen.html, data/confirmations.json, disclosures.html, executive-summary.md) to avoid broken/duplicate links.
+Session ID: **bac417a2**. Branch: `arena/bac417a2-prod1` (fixed for this session). Scope: a separate build in `counter-check/` (`data/`, `tools/`, generated `site/`, `README.md`) plus `.github/workflows/counter-check-checks.yml`. Nothing in the root site (`index.html`, `build_site.py`, `data/products.json`, `docs/`, `assets/`, `styles.css`) was edited. The root `README.md` is unchanged from its original commit.
 
-Launch blocker resolved: replaced placeholder canonical `https://example.com/` with `https://wingbangboozle1-lang.github.io/Prod1/` across all HTML, sitemap.xml, robots.txt, and feed.xml (was FLG-007 / "canonical domain unset; set before launch").
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-B1 Source register and product-intent records (intended ASIN, listing URL, confirmation date, source, observed redirect as a separate field) | done | bac417a2 | `counter-check/data/products.json`, `counter-check/data/sources.json` | Five short links resolved 2026-11-19 (S10–S14); listing titles read for B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z (S5–S9); Associates Operating Agreement §5 and Participation Requirements §2 (S1, S2); Google rel="sponsored" (S3); FTC Disclosures 101 (S4) | P-01 to P-04 |
+| T-B2 Site build (landing, category tables, four working-title guides, summary, analysis, verification, flagged, suggestions, questions, measurement, policy, RSS, sitemap, robots) | done | bac417a2 | `counter-check/tools/build_site.py`, `counter-check/site/` | Build reproduces; gate passes (`counter-check/tools/check_site.py`) | P-07, P-19 |
+| T-B3 Publishing gate (disclosure above the fold and in footer, sponsored on Amazon links, tag on buy links, sourced rows, internal links, sitemap, metadata, no prices or ratings) | done | bac417a2 | `counter-check/tools/check_site.py`, `.github/workflows/counter-check-checks.yml` | Gate PASSED, 16 pages | — |
+| T-B4 Flags, suggestions, questions | done | bac417a2 | `counter-check/data/flags.json`, `suggestions.json`, `questions.json` | 21 flags; 16 suggestions awaiting owner choice | P-20, P-21 |
+| T-B5 Analytics endpoint and five defined events | needs review | bac417a2 | `counter-check/data/measurement.json`, `ledger.csv` | None | P-10 (GitHub Pages cannot host the endpoint); P-11 (events not defined in the brief) |
+| T-B6 Integration: merge with main, root link scan, publish via existing Pages workflow | in progress | bac417a2 | root `COORDINATION.md` (this section) | Root link scan on merged main: 42 HTML files, 0 broken internal links (run in a scratch copy) | P-20, P-21 |
 
-Preserved from main (verified against Amazon.com 2026-11-19): trackingId shopnow047c-20, ASIN B0CDY277D3 (Chefman 6QT) + 4 other verified listings with officialListingUrl, affiliateUrl (tag=shopnow047c-20), observedRedirectTarget (separate field), confirmationDate, confirmationSource; rel="sponsored" on outbound links; disclosure strip above fold + footer; sitemap, robots.txt, RSS feed; suggestion board; flagged review; executive summary; compliance + methodology pages.
+**Conflict handling.** `main` advanced by three merges (PRs #2, #3, #4 from `arena/71354f04` and `arena/ab9cbcdc`) after this session branched. Its `data/products.json`, `docs/` and root pages would have been overwritten by a direct merge of this session's first commit. The session therefore moved its entire build into `counter-check/` and merged `main` cleanly. No other session's work was discarded or edited.
 
-Still open (flagged, do not block merge): short-link compliance unresolved (FLG-001 / ++FLG-003++); product photography undecided (Amazon OA §1 — generated/copied photography not permitted). These are published on flagged.html for review after launch.
+**Published locations.** Root site (other session): https://wingbangboozle1-lang.github.io/Prod1/ . This session's site: https://wingbangboozle1-lang.github.io/Prod1/counter-check/site/ .
+
+**Pull request and merge.** Pull request: see the publication record below. The merge is the last step of this session and is recorded there.
+
+### Publication record (bac417a2)
+- Pull request: _recorded below after creation_
+- Merge result: _recorded below after merge_
+- Pages deploy: _recorded below after deploy_
+
+## Session b4c6c619 (2026-11-19): integration record and requests
+
+Session `arena/b4c6c619-prod1` started from base `86bb372`. Before this integration, `main` had advanced with a complete publication site from sessions `ab9cbcdc` and `71354f04`. This session therefore did **not** publish a second site. Its own site build (a parallel `docs/` output) was dropped from the branch to avoid a duplicate site and conflicting shared files. Its one contribution is the additive tooling below.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| I-01 Independent publishing gate for the published HTML (`scripts/check_site.mjs`) | done | `arena/b4c6c619-prod1` | `scripts/check_site.mjs` (new, read-only) | Run against all 26 HTML files on `main` (this integration): PASS, with the warnings below. | See I-02 to I-05. |
+| I-02 Self-hosted, five-event, privacy-preserving endpoint (`analytics-endpoint/`) | done in code; not hosted | `arena/b4c6c619-prod1` | `analytics-endpoint/server.py`, `analytics-endpoint/README.md` (new) | Tested locally: valid `outbound_click` accepted (204); unknown event (400); malformed ASIN (400); daily counts written; no request log. | Not hosted (GitHub Pages is static). Decision needed (see R-04). |
+
+### Irregularities found in the live site (not fixed here; owned by `ab9cbcdc`)
+
+- **I-02 Disclosure wording (warning on every page).** The disclosure reads "As an Amazon Associate, The Countertop Guide earns from qualifying purchases." Operating Agreement Section 5 requires "As an Amazon Associate I earn from qualifying purchases." or "any substantially similar statement previously allowed under this Agreement". Whether the variant qualifies is an owner and compliance decision. Source: https://affiliate-program.amazon.com/help/operating/agreement (Section 5, read line by line in this session). Owner to confirm or change the wording.
+- **I-03 Intended ASIN equals observed ASIN.** `data/products.json` sets `asin` (the intended ASIN field) equal to the ASIN in the observed redirect target, and stamps `confirmationDate` 2026-11-19. The source given is the product page for that same ASIN. That shows the page exists; it does not confirm the owner's intended product, because no intended ASIN was supplied. Brief rule: keep the intended and observed fields separate; do not infer one from the other. Request owner confirmation of each intended ASIN, or blank the field and keep the observed value only.
+- **I-04 Tracking ID in outbound URLs not yet validated.** The site's buttons use `https://www.amazon.com/dp/ASIN?tag=shopnow047c-20`. The Special Link test in Associates Central (the brief's gate) is not recorded as done. The supplied short links' redirect targets carry no `tag=` parameter (observed 2026-11-19). Owner to run the test before scaling.
+- **I-05 Publishing gate not run by the deploy workflow.** `.github/workflows/pages.yml` uploads the repository root without running any check, although `README.md` says the checks are "required in the Pages workflow".
+- **Wording note (not a failure):** the word "trending" appears in disclaimers and rules ("No 'trending' without a dated snapshot"). Not a claim. Reported as a warning only.
+
+### Requests to owning sessions (logged, not edited here)
+
+- **R-01 (to `ab9cbcdc`, owner of `pages.yml`):** add a step `node scripts/check_site.mjs` before `upload-pages-artifact`, so a failed check blocks deploy. Requires that I-02 is resolved or accepted by the owner first; otherwise the step will report the variant wording as a warning only.
+- **R-02 (to `ab9cbcdc`, owner of `data/products.json`):** separate the intended-ASIN field from the observed redirect (I-03). Leave `asin` blank until the owner confirms it.
+- **R-03 (to `ab9cbcdc`, owner of `data/products.json` and `compliance.html`):** record the Special Link test (I-04) with date and tracking report reference, or leave the status "unresolved".
+- **R-04 (to the owner):** decide where `analytics-endpoint/server.py` runs, if anywhere. Until then the site records no network events.
+
+### Pull request
+
+PR #9 (`arena/b4c6c619-prod1` into `main`) was first opened with a parallel site. It conflicted with `main`, and that content has been removed from the branch. The PR now carries only the two additive items above and this record.
+
+## Session 9b748801 (2026-11-19) — claim, integration and log
+
+- **Claim.** Session 9b748801 claimed T1 to T6 in its branch (`arena/9b748801-prod1`) before the upstream integration. Its own parallel site was built and reviewed in that branch.
+- **Integration (T7 / this session).** `origin/main` had advanced (sessions ab9cbcdc and 71354f04 merged a complete live site). Merging it made a clean merge impossible for the root site and `docs/`. Resolution: the upstream site and its data are authoritative. This session's parallel site was NOT published. Its sources and review data are kept in `review/9b748801/`. The cross-check is recorded in `review/9b748801/README.md`.
+- **Changes to shared outputs (logged per protocol, integration session):**
+  - `build_site.py` and `flagged.html`: added FLG-013 to FLG-020 (irregularities from this session that the register did not already cover). Rebuilt `flagged.html`; `index.html` was left as committed (the regenerated copy differed in one nav line, which was not changed).
+- **Verification performed in integration (2026-11-19).**
+  - Five submitted links resolve to the five ASINs in `data/products.json`. ThermoMaven price $16.99 consistent with the listing page header.
+  - Associates Operating Agreement §1 and §5 read (official). Program Policies opening part read. Google outbound-link rules read (official). FTC Disclosures 101 read (applicability is a reviewer decision).
+  - Live site: 26 pages, each with the Associates statement; 75 Amazon product-type links, all `rel="sponsored"`; 0 broken internal links or anchors.
+  - NOT re-verified: other prices, ratings, dimensions, wattage, warranty of the main products (FLG-020).
+- **Irregularities.** FLG-013 to FLG-020 (above). Plus the existing FLG-001 to FLG-012.
+- **Pages.** The live site is built by `build_site.py` and `.github/workflows/pages.yml` (main). Deploy status is recorded in the merge record below.
+- **Pull request.** PR #8 (`arena/9b748801-prod1` → `main`), recorded in the merge record below.
+
+## Merge record (session 9b748801)
+
+_Recorded after the PR is merged and the Pages deploy is checked (see the next update)._
+

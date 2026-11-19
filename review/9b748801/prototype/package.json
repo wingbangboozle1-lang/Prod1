@@ -1,0 +1,13 @@
+{
+  "name": "countertop-check",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static product-listing site (GitHub Pages from main:/docs). No runtime dependencies.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node scripts/build.mjs && node scripts/check.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
