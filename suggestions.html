@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suggestions &mdash; review before implementing | ShopNow Buying Guides</title>
+<meta name="description" content="Suggestions log: proposed changes to the ShopNow site are collected here so someone can review them and choose the best path before anything is implemented. Nothing is changed without a review decision.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/suggestions.html">
+<link rel="alternate" type="application/rss+xml" title="ShopNow Buying Guides — Feed" href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml">
+<link rel="stylesheet" href="assets/css/style.css">
+<meta property="og:title" content="Suggestions &mdash; review before implementing | ShopNow Buying Guides">
+<meta property="og:description" content="Proposed changes are collected and reviewed here before anything is implemented.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/suggestions.html">
+<meta property="og:image" content="https://wingbangboozle1-lang.github.io/Prod1/assets/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Suggestions &mdash; review before implementing",
+  "url": "https://wingbangboozle1-lang.github.io/Prod1/suggestions.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "ShopNow Buying Guides",
+    "url": "https://wingbangboozle1-lang.github.io/Prod1/"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <a class="brand" href="index.html">Shop<span class="accent">Now</span> Buying Guides</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="category-air-fryers.html">Air fryers</a>
+      <a href="category-kitchen.html">Kitchen</a>
+      <a href="suggestions.html" style="color:var(--brand);border-bottom-color:var(--brand)">Suggestions</a>
+      <a href="disclosures.html">Disclosures</a>
+      <a href="flagged.html">Flagged for review</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Disclosure strip — above the fold on every page -->
+<section class="disclosure-strip">
+  <div class="container">
+    <strong>Affiliate disclosure:</strong> As an Amazon Associate we earn from qualifying purchases.
+    Outbound product links on this page are marked <code>rel=&quot;sponsored&quot;</code>. This does not
+    affect the price you pay. <a href="disclosures.html">Read our full affiliate disclosure &rarr;</a>
+  </div>
+</section>
+
+<main class="container">
+  <h1>Suggestions &mdash; review before implementing</h1>
+  <p>Proposed changes to the site are collected here. Nothing on this list is implemented until someone reviews
+    it and chooses the best path. This is the decision gate &mdash; no automated change goes live without review.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Suggestion</th>
+          <th>Rationale</th>
+          <th>Status</th>
+          <th>Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>S-01</td>
+          <td>Real product photography for product cards</td>
+          <td>Makes the front page feel published, not generated</td>
+          <td>Needs decision</td>
+          <td>Open &mdash; blocked by IR-02 (Amazon Operating Agreement &sect;1 treats images as Program Content; generated/copied photography not permitted)</td>
+        </tr>
+        <tr>
+          <td>S-02</td>
+          <td>Validate one submitted link per product in the enrolled Associates workflow</td>
+          <td>Confirm destination and tracking report before scaling</td>
+          <td>In progress</td>
+          <td>Pending &mdash; cannot fetch link.amazon or amazon.com from this environment</td>
+        </tr>
+        <tr>
+          <td>S-03</td>
+          <td>Turn on real analytics so the next topic is chosen from measured queries</td>
+          <td>Data-driven topic calendar instead of instinct</td>
+          <td>Defined</td>
+          <td>Client-side event capture wired (analytics.js); self-hosted beacon endpoint is a gate pending a backend</td>
+        </tr>
+        <tr>
+          <td>S-04</td>
+          <td>Add social preview image</td>
+          <td>S-09 social preview + structured data</td>
+          <td>Needs decision</td>
+          <td>og:image references assets/images/og-default.png &mdash; image not yet created (IR-02)</td>
+        </tr>
+        <tr>
+          <td>S-05</td>
+          <td>Publish question-shaped guides on a cadence</td>
+          <td>S-13 topic calendar: eight catchy, spec-backed articles</td>
+          <td>Planned</td>
+          <td>Four working titles scaffolded on the front page</td>
+        </tr>
+        <tr>
+          <td>S-06</td>
+          <td>Mobile-first pass: type scale, tap targets, sticky comparison bar</td>
+          <td>S-20 mobile presentation</td>
+          <td>Planned</td>
+          <td>CSS uses clamp() and mobile-first grids; sticky bar not yet added</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="section-tight">
+    <h2>How to use this list</h2>
+    <ol>
+      <li>Review each suggestion against the sources in the dashboard and the flagged items.</li>
+      <td>Choose the best path &mdash; mark a row as &ldquo;approved,&rdquo; &ldquo;deferred,&rdquo; or &ldquo;rejected&rdquo; in the Decision column.</td>
+      <li>Only an approved suggestion moves to implementation, and only after its values are verified line by line against an official source.</li>
+      <li>When a suggestion is implemented, record the sources, verification, and any irregularities in COORDINATION.md and move the task to done.</li>
+    </ol>
+  </section>
+
+  <p class="flag">Source convention: every change must link to an official verified source (Amazon Associates help,
+    Google Search Central, FTC guidance). If a value can&rsquo;t be confirmed, leave it blank and flag it unverified.</p>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>ShopNow Buying Guides</h4>
+        <p style="font-size:13px;color:#9aa7b4;margin:0 0 10px;">Buyer-first kitchen appliance guides.</p>
+      </div>
+      <div>
+        <h4>Navigate</h4>
+        <ul style="list-style:none;padding:0;margin:0; font-size:14px;">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="category-air-fryers.html">Air fryers</a></li>
+          <li><a href="category-kitchen.html">Kitchen</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compliance</h4>
+        <ul style="list-style:none;padding:0;margin:0; font-size:14px;">
+          <li><a href="disclosures.html">Affiliate disclosure</a></li>
+          <li><a href="flagged.html">Flagged for review</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Measurement</h4>
+        <ul style="list-style:none;padding:0;margin:0; font-size:14px;">
+          <li><a href="dashboard.html">Click &amp; conversion events</a></li>
+          <li><a href="feed.xml">RSS feed</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div><strong>Affiliate disclosure:</strong> As an Amazon Associate we earn from qualifying purchases. Outbound product links are marked <code>rel=&quot;sponsored&quot;</code>.</div>
+      <div>ShopNow Buying Guides &middot; Tracking ID: shopnow047c-20</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/analytics.js"></script>
+</body>
+</html>

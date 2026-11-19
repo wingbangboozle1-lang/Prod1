@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ShopNow Buying Guides</title>
+    <link>https://wingbangboozle1-lang.github.io/Prod1/</link>
+    <description>Buyer-first kitchen appliance guides. Working titles &mdash; not claims about popularity, search volume, or product superiority. New guides are added to this feed and the sitemap on the publishing cadence.</description>
+    <lastBuildDate>Wed, 19 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <ttl>60</ttl>
+    <atom:link href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Air fryers — capacity, counter depth, and what to compare</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/category-air-fryers.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/category-air-fryers.html</guid>
+      <pubDate>Wed, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Basket vs. oven-style air fryers, capacity per centimetre of counter depth, cleanup trade-offs. Working title &mdash; S-07 hypothesis.</description>
+      <category>Air fryers</category>
+    </item>
+    <item>
+      <title>Kitchen appliances — multi-function buying guide</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/category-kitchen.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/category-kitchen.html</guid>
+      <pubDate>Wed, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Questions to ask before buying a multi-function kitchen appliance. Working title &mdash; S-07 hypothesis.</description>
+      <category>Kitchen</category>
+    </item>
+  </channel>
+</rss>

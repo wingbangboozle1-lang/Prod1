@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — product entries and findings | ShopNow Buying Guides</title>
+<meta name="description" content="ShopNow findings dashboard: the product-intent confirmation register, entry table, and click/conversion event log. Every value is sourced or left blank and flagged unverified.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/dashboard.html">
+<link rel="alternate" type="application/rss+xml" title="ShopNow Buying Guides — Feed" href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml">
+<link rel="stylesheet" href="assets/css/style.css">
+<meta property="og:title" content="Dashboard — product entries and findings | ShopNow Buying Guides">
+<meta property="og:description" content="The product-intent confirmation register, entry table, and click/conversion event log.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/dashboard.html">
+<meta property="og:image" content="https://wingbangboozle1-lang.github.io/Prod1/assets/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Dashboard — product entries and findings",
+  "url": "https://wingbangboozle1-lang.github.io/Prod1/dashboard.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "ShopNow Buying Guides",
+    "url": "https://wingbangboozle1-lang.github.io/Prod1/"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <a class="brand" href="index.html">Shop<span class="accent">Now</span> Buying Guides</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" style="color:var(--brand);border-bottom-color:var(--brand)">Dashboard</a>
+      <a href="category-air-fryers.html">Air fryers</a>
+      <a href="category-kitchen.html">Kitchen</a>
+      <a href="suggestions.html">Suggestions</a>
+      <a href="disclosures.html">Disclosures</a>
+      <a href="flagged.html">Flagged for review</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Disclosure strip — above the fold on every page -->
+<section class="disclosure-strip">
+  <div class="container">
+    <strong>Affiliate disclosure:</strong> As an Amazon Associate we earn from qualifying purchases.
+    Outbound product links on this page are marked <code>rel=&quot;sponsored&quot;</code>. This does not
+    affect the price you pay. <a href="disclosures.html">Read our full affiliate disclosure &rarr;</a>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="dashboard-header">
+    <div>
+      <h1>Findings dashboard</h1>
+      <p>Every table row carries a source link to an official site. If a value can&rsquo;t be confirmed,
+      it&rsquo;s left blank and flagged unverified. Nothing here is inferred.</p>
+    </div>
+    <div>
+      <a class="btn" href="index.html">&larr; Back to home</a>
+      <a class="btn secondary" href="flagged.html">View flagged items</a>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2>Product register &mdash; entries</h2>
+    <p>Five submitted affiliate links, tracking ID <code>shopnow047c-20</code>. Lead with the products;
+    the verification register follows. All values unverified until confirmed from an official source.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Submitted link</th>
+            <th>Intended ASIN</th>
+            <th>Official listing URL</th>
+            <th>Confirmation date</th>
+            <th>Source</th>
+            <th>Redirect target (separate field)</th>
+          </tr>
+        </thead>
+        <tbody id="register-body">
+          <!-- populated from data/products.json -->
+        </tbody>
+      </table>
+    </div>
+    <p class="flag">Rule: intended ASIN and observed redirect target are stored in separate fields and never merged.
+    Amazon&rsquo;s ASIN definition provides a checkable identifier. Do not claim the supplied short links are invalid;
+    their exact compliance status is unresolved (++FLG-003++). Validate one link per product in the enrolled Associates
+    workflow before scaling.</p>
+  </section>
+
+  <section class="section">
+    <h2>Findings &mdash; what we can and cannot confirm</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Finding</th>
+            <th>Status</th>
+            <th>Source / basis</th>
+            <th>Verified?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Submitted affiliate links on file</td>
+            <td>5 links recorded</td>
+            <td>User submission</td>
+            <td><span class="unverified">Unverified</span></td>
+          </tr>
+          <tr>
+            <td>Intended ASINs</td>
+            <td>5 tokens recorded (all 9 characters)</td>
+            <td>Extracted from link.amazon paths</td>
+            <td><span class="unverified">Unverified</span> &mdash; Amazon ASINs are exactly 10 characters (IR-01)</td>
+          </tr>
+          <tr>
+            <td>Official listing URLs</td>
+            <td>Blank</td>
+            <td>Could not be fetched (amazon.com not in allowed outbound set)</td>
+            <td><span class="blank">Blank &mdash; unverified</span></td>
+          </tr>
+          <tr>
+            <td>Confirmation dates</td>
+            <td>Blank</td>
+            <td>Not yet confirmed in the enrolled Associates workflow</td>
+            <td><span class="blank">Blank &mdash; unverified</span></td>
+          </tr>
+          <tr>
+            <td>Observed redirect targets</td>
+            <td>Blank, stored separately</td>
+            <td>Not yet captured</td>
+            <td><span class="blank">Blank &mdash; unverified</span></td>
+          </tr>
+          <tr>
+            <td>Product titles, prices, categories, images</td>
+            <td>Blank</td>
+            <td>No official source accessible</td>
+            <td><span class="blank">Blank &mdash; unverified</span></td>
+          </tr>
+          <tr>
+            <td>Conversion score / revenue forecast</td>
+            <td>Not presented</td>
+            <td>Evidence-based iteration: no forecast without authorized first-party reports</td>
+            <td>Deliberate</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Click &amp; conversion measurement (self-hosted)</h2>
+    <div class="analytics-note">
+      <strong>Privacy-preserving by design.</strong> No cookies, no personal data, no third-party scripts.
+      Events are held in browser localStorage and can be posted to a self-hosted beacon endpoint
+      (<code>/api/analytics/collect</code>) once a backend is deployed. Until then, the endpoint is a gate:
+      automation stops there, which is by design.
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Event</th>
+            <th>Definition</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>page_view</td>
+            <td>Fired on every page load</td>
+            <td>Active (client-side)</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>outbound_click</td>
+            <td>Fired on any click to an off-site URL</td>
+            <td>Active (client-side)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>affiliate_redirect</td>
+            <td>Fired on clicks to Amazon / link.amazon sponsored links</td>
+            <td>Active (client-side)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>guide_view</td>
+            <td>Fired when a question-shaped guide page is viewed</td>
+            <td>Defined &mdash; wire to guide pages</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>conversion_signal</td>
+            <td>Fired on explicit purchase-intent signal (not an actual Amazon conversion)</td>
+            <td>Defined &mdash; cannot capture real conversions without Associates reporting API</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="flag">The five defined events are tracked locally. Real conversion measurement requires the Amazon
+    Associates reporting gateway (authorized first-party reports only). No conversion score or revenue forecast is
+    presented here &mdash; that is the evidence-based iteration rule.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>ShopNow Buying Guides</h4>
+        <p style="font-size:13px;color:#9aa7b4;margin:0 0 10px;">Buyer-first kitchen appliance guides. Questions, not hype.</p>
+      </div>
+      <div>
+        <h4>Navigate</h4>
+        <ul style="list-style:none;padding:0;margin:0; font-size:14px;">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="category-air-fryers.html">Air fryers</a></li>
+          <li><a href="category-kitchen.html">Kitchen</a></li>
+          <li><a href="suggestions.html">Suggestions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compliance</h4>
+        <ul style="list-style:none;padding:0;margin:0; font-size:14px;">
+          <li><a href="disclosures.html">Affiliate disclosure</a></li>
+          <li><a href="flagged.html">Flagged for review</a></li>
+          <li style="margin-top:6px;"><a href="https://affiliate-program.amazon.com/help/operating/agreement" rel="sponsored noopener noreferrer" target="_blank">Amazon Associates Agreement</a></li>
+          <li><a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers" rel="nofollow" target="_blank" rel="noopener noreferrer">FTC disclosure guidance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Measurement</h4>
+        <ul style="list-style:none;padding:0;margin:0; font-size:14px;">
+          <li><a href="dashboard.html">Click &amp; conversion events</a></li>
+          <li><a href="feed.xml">RSS feed</a></li>
+          <li style="margin-top:6px;">Privacy-preserving &mdash; no cookies, no third-party scripts</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div><strong>Affiliate disclosure:</strong> As an Amazon Associate we earn from qualifying purchases. Outbound product links are marked <code>rel=&quot;sponsored&quot;</code>.</div>
+      <div>ShopNow Buying Guides &middot; Tracking ID: shopnow047c-20 &middot; <a href="disclosures.html">Full disclosure</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/analytics.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

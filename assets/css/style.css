@@ -1,0 +1,155 @@
+/* ShopNow Buying Guides — publication stylesheet
+   Clean, mobile-first, marketing-affiliate design. No generated imagery. */
+:root {
+  --brand: #0b3d66;
+  --brand-dark: #082c4d;
+  --accent: #c8531a;
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --bg: #ffffff;
+  --bg-soft: #f7fafc;
+  --border: #e5e7eb;
+  --disclosure-bg: #fef3c7;
+  --disclosure-text: #7a3e00;
+  --radius: 10px;
+  --shadow: 0 4px 12px -2px rgba(0,0,0,0.06);
+  --max-width: 1100px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --scale: 1;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+  font-size: clamp(14px, 1.05vw, 17px);
+}
+a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+a[rel="sponsored"] { color: var(--brand); }
+a[rel="sponsored"]::after { content: " (sponsored)"; font-size: 0.72em; opacity: 0.75; vertical-align: middle; }
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 700; color: var(--brand-dark); margin-top: 0; }
+h1 { font-size: clamp(28px, 2.2vw, 44px); }
+h2 { font-size: clamp(22px, 1.7vw, 30px); margin: 1.5em 0 0.5em; }
+h3 { font-size: clamp(18px, 1.3vw, 22px); margin: 1.25em 0 0.4em; }
+p { margin: 0 0 1em; }
+ul, ol { margin: 0.5em 0 1em 1.2em; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* Layout */
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+.section { padding: 40px 0; }
+.section-tight { padding: 24px 0; }
+
+/* Masthead */
+.masthead {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.masthead .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
+.brand { font-size: 20px; font-weight: 800; color: var(--brand-dark); text-decoration: none; letter-spacing: -0.4px; }
+.brand .accent { color: var(--accent); }
+.nav { display: flex; gap: 22px; align-items: center; }
+.nav a { text-decoration: none; font-weight: 600; font-size: 15px; color: var(--ink); border-bottom: 2px solid transparent; padding-bottom: 4px; }
+.nav a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+.nav .menu-toggle { display: none; }
+
+/* Disclosure strip — above the fold on every page */
+.disclosure-strip {
+  background: var(--disclosure-bg);
+  color: var(--disclosure-text);
+  border-top: 1px solid #f5d58a;
+  border-bottom: 1px solid #f5d58a;
+}
+.disclosure-strip .container { display: flex; align-items: center; gap: 12px; padding: 8px 20px; font-size: 13px; }
+.disclosure-strip b { color: var(--disclosure-text); }
+.disclosure-strip a { color: var(--disclosure-text); text-decoration: underline; }
+
+/* Hero */
+.hero { padding: 48px 0 34px; background: linear-gradient(180deg, #fbfdfe 0%, #ffffff 55%); }
+.hero .container { display: grid; gap: 30px; grid-template-columns: 1fr; }
+@media (min-width: 768px) { .hero .container { grid-template-columns: 1.15fr 0.9fr; } }
+.hero h1 { margin-bottom: 14px; }
+.hero p.lead { color: var(--muted); font-size: clamp(16px, 1.1vw, 19px); margin-bottom: 22px; }
+.hero-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--brand); color: #ffffff; border: none; border-radius: var(--radius);
+  padding: 12px 20px; font-weight: 700; font-size: 16px; text-decoration: none; cursor: pointer;
+}
+.btn:hover { background: var(--brand-dark); }
+.btn.secondary { background: var(--bg-soft); color: var(--ink); border: 1px solid var(--border); }
+.btn.secondary:hover { background: #eef2f5; }
+.product-card {
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; background: #ffffff;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.product-card .thumb { width: 100%; height: 150px; background: var(--bg-soft); border-radius: 8px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
+.product-card h3 { font-size: 17px; margin: 0; }
+.product-card .price { font-size: 15px; color: var(--muted); margin: 0; }
+.product-card .price b { color: var(--ink); }
+.product-actions { margin-top: auto; display: flex; gap: 8px; }
+.product-actions .btn { flex: 1; font-size: 14px; padding: 10px 12px; }
+
+/* Article cards / grid */
+.grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+.card { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; background: #ffffff; display: flex; flex-direction: column; gap: 10px; }
+.card h3 { font-size: 17px; margin: 0 0 6px; }
+.card p { font-size: 14px; color: var(--muted); margin: 0 0 10px; flex: 1; }
+.card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-top: auto; }
+
+/* Chooser */
+.chooser {
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; background: var(--bg-soft);
+  display: flex; gap: 12px; flex-direction: column;
+}
+@media (min-width: 640px) { .chooser { flex-direction: row; align-items: center; } }
+.chooser h3 { margin: 0 0 8px; font-size: 18px; }
+.chooser .q { font-weight: 700; color: var(--brand-dark); }
+.chooser button { flex: 1; text-align: left; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: #ffffff; cursor: pointer; font-size: 14px; }
+.chooser button:hover { border-color: var(--brand); background: #f1f7fb; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; border-bottom: 1px solid var(--border); padding: 10px 12px; vertical-align: top; }
+th { background: var(--bg-soft); color: var(--muted); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+tr:nth-child(even) { background: #fbfdfe; }
+tr:hover { background: #f3f7fa; }
+.unverified { color: #b45309; font-weight: 700; }
+.blank { color: var(--muted); font-style: italic; }
+
+/* Footer */
+footer { border-top: 1px solid var(--border); background: var(--brand-dark); color: #d7e3ec; margin-top: 40px; }
+footer .container { padding: 36px 20px 24px; }
+footer h4 { color: #ffffff; font-size: 15px; margin-bottom: 12px; }
+footer a { color: #9fc3e8; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 26px; }
+@media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(4, 1fr); } }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); margin-top: 26px; padding-top: 18px; font-size: 12px; color: #9aa7b4; display: flex; flex-direction: column; gap: 6px; }
+@media (min-width: 768px) { .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+
+/* Misc */
+.badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge-implemented { background: #dcfce7; color: #166534; }
+.badge-partial { background: #fef3c7; color: #7a3e00; }
+.badge-open { background: #fee2e2; color: #991b1b; }
+.tag { font-size: 12px; color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* Dashboard */
+.dashboard-header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+@media (min-width: 768px) { .dashboard-header { flex-direction: row; justify-content: space-between; align-items: center; } }
+.flag { font-size: 13px; color: var(--muted); margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+
+/* Analytics notice */
+.analytics-note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #1d4ed8; margin-bottom: 16px; }
