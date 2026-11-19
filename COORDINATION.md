@@ -198,3 +198,15 @@ Session ID: **f0db58ea** (branch `arena/f0db58ea-prod1`, base `7f98eec`).
 - **Validation.** `python3 build_site.py` OK; `node scripts/check_site.mjs` PASSED (43 HTML files; disclosure variant + "trending" wording remain pre-existing non-blocking warnings owned by the disclosure wording decision); `python3 counter-check/tools/check_site.py` PASSED (16 pages, 5 products, 21 flags); `git diff --check` clean.
 - **Irregularities.** None new. FLG-001..FLG-020 unchanged except FLG-007 text updated (canonical now set to the GitHub Pages URL; custom domain still an owner decision). Disclosure-variant warnings are the known Section-5 wording question (owner confirmation pending).
 - **Handover.** Shared outputs touched: `index.html` (rebuilt per brief "publication front page"), `sitemap.xml` (added dashboard), `data/products.json` (canonical + two rating-count corrections only). No other session's files edited.
+
+### T6 completion record (merge + ship) — session arena/f0db58ea-prod1 — 2026-11-19 (supersedes the claim above)
+
+- **PR:** https://github.com/wingbangboozle1-lang/Prod1/pull/19 — merged to `main` 2026-11-19T22:09:15Z (merge commit `73ee8af0a48cb42d50af5a7817aaf623f1e0cfaa`).
+- **Pages:** deploy build for `73ee8af` status **built**, no error — site live at https://wingbangboozle1-lang.github.io/Prod1/.
+- **Conflicts resolved without discarding either side:**
+  - vs `origin/main` at `9e4b359` (session 2ec8638e, PRs #15/#16): kept their published SG-11..18 / Q-09..14 / design-brief.html / wattage+FLG-021/022 verification; this session's additions renumbered to **SG-19..SG-26, Q-15..Q-19, design inputs DI-1..DI-8** (DI prefix avoids clash with decisions D-01..D-27).
+  - vs `origin/main` at `b2f03aa` (session 8e82d03c, PR #17): kept their **verbatim §5 disclosure** wording, three seasonal guides (guide-holiday-gifts / guide-small-kitchen / guide-holiday-roast), and their disclosure SG-27 / Q-20 rows; this session kept **per-page canonical + og:url**, Dashboard nav/footer, publication front page, and design-brief footer link. FLG-005 kept the post-wattage-capture wording.
+  - `data/products.json`: canonical kept as the clean URL (their parenthetical would break generator BASE); disclosure set to verbatim §5.
+  - `README.md`: structure updated for SG-01..26, DI-1..8, Q-01..19, FLG-001..022, design-brief.html.
+- **Post-merge gates (local, on merged tree):** `python3 build_site.py` OK; `node scripts/check_site.mjs` **CHECK PASSED 47 HTML files** (disclosure-variant warning cleared by verbatim wording); `python3 counter-check/tools/check_site.py` **PASSED** (16 pages, 5 products, 21 flags).
+- **Handover:** shared outputs unchanged in ownership — sitemap/feed include dashboard + design-brief + 3 seasonal guides; search-index rebuilt by generator. Remaining owner questions are Q-01..Q-20 on suggestions.html; design direction inputs DI-1..DI-8 + design-brief.html.
