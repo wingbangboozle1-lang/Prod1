@@ -80,6 +80,11 @@
     "text": "Eleven question-shaped guides in three clusters: air fryers, thermometers, seasonal."
   },
   {
+    "title": "Dashboard hub",
+    "url": "dashboard.html",
+    "text": "Every dashboard surface in one place: verification register, flagged for review, compliance, method and campaign ledger, executive summary, suggestions board."
+  },
+  {
     "title": "Executive summary",
     "url": "executive-summary.html",
     "text": "What the site is, what is verified, compliance posture, measurement plan, decision gates."

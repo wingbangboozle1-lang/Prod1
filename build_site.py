@@ -75,7 +75,9 @@ FOOTER = f"""
     <nav aria-label="Review desk"><p><strong>Review desk</strong></p><p><a href="suggestions.html">Suggestions &amp; decisions</a><br><a href="executive-summary.html">Executive summary</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a></p></nav>
   </div>
 </footer>"""
-def page(title, desc, body, extra_head="", body_class=""):
+BASE = SITE["canonical"].rstrip("/") + "/"
+def page(title, desc, body, extra_head="", body_class="", slug="index.html"):
+    canonical = BASE if slug == "index.html" else BASE + slug
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,11 +85,11 @@ def page(title, desc, body, extra_head="", body_class=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-<link rel="canonical" href="{CANON}/">
+<link rel="canonical" href="{canonical}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{CANON}/">
+<meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{CANON}/assets/og-image.svg">
 <meta property="og:site_name" content="The Countertop Guide">
 <meta name="twitter:card" content="summary_large_image">
@@ -113,6 +115,8 @@ def page(title, desc, body, extra_head="", body_class=""):
 </body>
 </html>
 """
+def write_page(fname, title, desc, body, extra_head="", body_class=""):
+    open(fname, "w").write(page(title, desc, body, extra_head, body_class, slug=fname))
 def jsonld(obj):
     return f'<script type="application/ld+json">{json.dumps(obj)}</script>'
 def guide_shell(kicker, h1, intro, sections_html, faqs, readtime="4 min read", cluster=""):
@@ -210,11 +214,26 @@ index_body = f"""
 
 <p class="center"><a class="btn secondary" href="suggestions.html">Suggest a topic or review our next steps</a></p>
 """
-open("index.html","w").write(page(
+dash_body = f"""
+<p class="eyebrow">Dashboard</p>
+<h1>Every dashboard surface, one place</h1>
+<p class="lede">The shop lives on the front page; the machinery lives here. Pick a surface below - nothing on this hub is hidden, and every page it links to carries its own sources.</p>
+<div class="grid cols-3">
+  <article class="card"><span class="tag">Products</span><h3><a href="verification.html">Verification register</a></h3><p>Line-by-line sources for every fact: intended ASIN, official listing URL, confirmation date and source - with observed redirect targets kept in a separate field.</p></article>
+  <article class="card"><span class="tag">Review</span><h3><a href="flagged.html">Flagged for review</a></h3><p>Irregularities and unverified items (FLG-001..FLG-022), each with what is known, what is not, and how to resolve it. Flagged items do not block publishing; they block claims.</p></article>
+  <article class="card"><span class="tag">Policy</span><h3><a href="compliance.html">Compliance</a></h3><p>Disclosure wording, sponsored-link marking, and the Amazon Associates + FTC checklist reviewed before each publish.</p></article>
+  <article class="card"><span class="tag">Method</span><h3><a href="methodology.html">Method &amp; campaign ledger</a></h3><p>Evidence rules, the five defined analytics events, and the empty campaign ledger that fills only from authorized first-party reports.</p></article>
+  <article class="card"><span class="tag">Summary</span><h3><a href="executive-summary.html">Executive summary</a></h3><p>What the site is, what is verified, what is not, how money and measurement work, and the next owner gates.</p></article>
+  <article class="card"><span class="tag">Decisions</span><h3><a href="suggestions.html">Suggestions board</a></h3><p>Suggestions SG-01..SG-26 with evidence needed and effort, plus the Q/I/A decision log (Q-01..Q-19) for questions that must be answered before a reasonable choice.</p></article>
+</div>
+<p class="small">Also on this hub: <a href="search.html">site search</a> - <a href="sitemap.xml">sitemap</a> - <a href="feed.xml">RSS feed</a>.</p>
+"""
+write_page("dashboard.html", "Dashboard: Verification, Flags, Compliance & Decisions | The Countertop Guide","One hub for every dashboard surface of The Countertop Guide: verification register, flagged items, compliance checklist, method and ledger, executive summary, and the suggestions board.", dash_body)
+write_page("index.html",
  "The Countertop Guide: Air Fryers &amp; Thermometers Compared From the Listing",
  "Five kitchen products compared from verified Amazon listings: air fryers and meat thermometers with sourced capacity, footprint, cleanup and dated price snapshots. Sponsored links labeled.",
  index_body,
- jsonld({"@context":"https://schema.org","@type":"WebSite","name":"The Countertop Guide","url":CANON+"/","potentialAction":{"@type":"SearchAction","target":CANON+"/search.html?q={search_term_string}","query-input":"required name=search_term_string"}})))
+ jsonld({"@context":"https://schema.org","@type":"WebSite","name":"The Countertop Guide","url":CANON+"/","potentialAction":{"@type":"SearchAction","target":CANON+"/search.html?q={search_term_string}","query-input":"required name=search_term_string"}}))
 # ---------- AIR FRYERS ----------
 af_body = f"""
 <p class="eyebrow">Category &middot; Air Fryers</p>
@@ -250,10 +269,10 @@ af_body = f"""
 </ul>
 <p><a class="btn secondary" href="compare.html">Compare with thermometers</a></p>
 """
-open("air-fryers.html","w").write(page(
+write_page("air-fryers.html",
  "Air Fryers Compared: Dual-Basket, Oven-Style &amp; Single-Basket | The Countertop Guide",
  "Compare the Chefman 6QT dual-basket, Emeril 26QT French-door oven and Chefman 8QT TurboFry from verified Amazon listings: capacity, footprint, wattage, cleanup and dated price snapshots.",
- af_body))
+ af_body)
 # ---------- THERMOMETERS ----------
 th_body = f"""
 <p class="eyebrow">Category &middot; Thermometers</p>
@@ -282,10 +301,10 @@ th_body = f"""
 <li><a href="guide-gifts-by-budget.html">The ThermoMaven is listed as a stocking stuffer &mdash; see our gift tiers</a></li></ul>
 <p><a class="btn secondary" href="compare.html">Compare with air fryers</a></p>
 """
-open("thermometers.html","w").write(page(
+write_page("thermometers.html",
  "Meat Thermometers Compared: Instant-Read vs Wireless | The Countertop Guide",
  "ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe system, compared from verified Amazon listings: accuracy claims, certification fields, range, probes and dated price snapshots.",
- th_body))
+ th_body)
 # ---------- COMPARE ----------
 compare_body = f"""
 <p class="eyebrow">Comparison</p>
@@ -326,10 +345,10 @@ compare_body = f"""
   <a class="btn small buy" href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">Check live price &middot; sponsored</a>
 </div>
 """
-open("compare.html","w").write(page(
+write_page("compare.html",
  "Compare 5 Air Fryers &amp; Thermometers Side by Side | The Countertop Guide",
  "Side-by-side comparison of five verified products: capacity, dimensions, footprint, wattage, ratings and dated price snapshots, plus a 3-question chooser and counter-space math.",
- compare_body))
+ compare_body)
 # ---------- GUIDES INDEX (clusters) ----------
 guides_body = f"""
 <p class="eyebrow">Guides</p>
@@ -363,10 +382,10 @@ guides_body = f"""
 <p><a class="btn secondary small" href="air-fryers.html">Air fryers category</a> <a class="btn secondary small" href="thermometers.html">Thermometers category</a> <a class="btn secondary small" href="compare.html">Full comparison</a></p>
 <p class="small">Publishing cadence: new guides are added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">RSS feed</a> at publish. The next topic is chosen from measured Search Console queries once measurement is on &mdash; see the <a href="suggestions.html">review desk</a>.</p>
 """
-open("guides.html","w").write(page(
+write_page("guides.html",
  "Buying Guides: Air Fryers &amp; Thermometers | The Countertop Guide",
  "Eight question-shaped buying guides in three clusters - choosing an air fryer, meat thermometers, and holiday 2026 seasonal guides - answered from verified Amazon listings.",
- guides_body))
+ guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide &middot; Air fryers &middot; Form", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
@@ -387,7 +406,7 @@ b1, j1 = guide_shell("Guide &middot; Air fryers &middot; Form", "Basket or oven-
  [("Which is better, basket or oven-style air fryer?","Neither - they do different jobs. Dual-basket for two dishes at once, oven-style for crowds, rotisserie and pizza, single-basket for compact one-dish cooking. Use the three questions above."),
   ("How deep is the Emeril 26QT oven?","16.9 inches (42.9 cm) deep, per the Amazon listing dimensions (16.9D x 15.8W x 14.8H in). Measure your counter before buying."),
   ("Can the Chefman 6QT cook two dishes at once?","Yes, per the listing: two independent 3-quart baskets with Sync Finish so both can finish at the same time.")])
-open("guide-basket-vs-oven.html","w").write(page("Basket or Oven-Style Air Fryer: What Should You Compare? | The Countertop Guide","Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth and cleanup, compared from verified Amazon listings.",b1,j1,"guide-page"))
+write_page("guide-basket-vs-oven.html", "Basket or Oven-Style Air Fryer: What Should You Compare? | The Countertop Guide","Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth and cleanup, compared from verified Amazon listings.",b1,j1,"guide-page")
 # ---------- GUIDE 2 ----------
 b2, j2 = guide_shell("Guide &middot; Air fryers &middot; Capacity", "A no-hype checklist for comparing air fryer capacity",
  "Capacity numbers are the easiest place to be misled. Quarts vs litres, single vs dual baskets, and 'feeds 4-6' all mean different things. Use this checklist on any listing - we apply it to the three fryers here.",
@@ -406,7 +425,7 @@ b2, j2 = guide_shell("Guide &middot; Air fryers &middot; Capacity", "A no-hype c
  [("Is 6 quarts the same as 6 litres?","No. The Chefman 6QT listing title says 6 Quart while its capacity field says 6 liters. We report both exactly as shown and flag the difference rather than converting silently."),
   ("How many people does the Emeril 26QT feed?","The listing bullets describe it as suitable for 4-6 people. That is the seller's description, not our tested serving count."),
   ("What does capacity per square inch mean?","Title capacity divided by footprint (width x depth from listing dimensions). It shows how much capacity you get per unit of counter. Derived by us; see the compare page for method.")])
-open("guide-capacity-checklist.html","w").write(page("A No-Hype Checklist for Comparing Air Fryer Capacity | The Countertop Guide","Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims: a checklist for reading air fryer capacity honestly, applied to three verified listings.",b2,j2,"guide-page"))
+write_page("guide-capacity-checklist.html", "A No-Hype Checklist for Comparing Air Fryer Capacity | The Countertop Guide","Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims: a checklist for reading air fryer capacity honestly, applied to three verified listings.",b2,j2,"guide-page")
 # ---------- GUIDE 3 ----------
 b3, j3 = guide_shell("Guide &middot; Air fryers &middot; Space &amp; cleanup", "How to assess cleanup and counter-space trade-offs",
  "The best air fryer is the one that fits your counter and that you will actually wash. Here is the footprint math and the cleanup facts as listed - nothing more.",
@@ -430,7 +449,7 @@ b3, j3 = guide_shell("Guide &middot; Air fryers &middot; Space &amp; cleanup", "
  [("Which air fryer takes the least counter space?","By footprint, the Chefman 6QT dual-basket (158.0 sq in). By depth, the Chefman 8QT (32.4 cm). Measure both depth and width."),
   ("Are the baskets dishwasher safe?","Chefman 6QT: baskets dishwasher safe per bullets. Chefman 8QT: basket and tray top-rack dishwasher safe per bullets. Confirm on the listing."),
   ("How is capacity per cm calculated?","Title capacity (quarts) divided by depth in centimetres (inches x 2.54). Derived by us from listing dimensions; not a manufacturer claim.")])
-open("guide-cleanup-counter-space.html","w").write(page("How to Assess Cleanup and Counter-Space Trade-Offs | The Countertop Guide","Dishwasher-safe baskets, footprint math and capacity per centimetre of counter depth for three verified air fryers. Measure your counter, then compare.",b3,j3,"guide-page"))
+write_page("guide-cleanup-counter-space.html", "How to Assess Cleanup and Counter-Space Trade-Offs | The Countertop Guide","Dishwasher-safe baskets, footprint math and capacity per centimetre of counter depth for three verified air fryers. Measure your counter, then compare.",b3,j3,"guide-page")
 # ---------- GUIDE 4 ----------
 b4, j4 = guide_shell("Guide &middot; Multi-function", "Questions to ask before buying a multi-function kitchen appliance",
  "Multi-function ovens promise everything. Before you pay for presets you will never use, ask these questions. We apply them to the Emeril 26QT French-door oven.",
@@ -448,7 +467,7 @@ b4, j4 = guide_shell("Guide &middot; Multi-function", "Questions to ask before b
  [("How many presets does the Emeril 26QT have?","The title says 24 One-Touch presets while the bullets say 25 cooking pre-sets. We flag the discrepancy and recommend verifying on the listing."),
   ("What accessories come with the Emeril oven?","The title and item-details field say six cooking accessories; the description says seven. Check the listing for the exact list before buying."),
   ("What is the Emeril wattage?","1700 watts / 120 volts per the Product information table on the listing (read 2026-11-19).")])
-open("guide-multifunction-questions.html","w").write(page("Questions to Ask Before Buying a Multi-Function Kitchen Appliance | The Countertop Guide","Presets, accessories, wattage, warranty and fit: the pre-purchase checklist for multi-function ovens, applied to the Emeril 26QT from its verified listing.",b4,j4,"guide-page"))
+write_page("guide-multifunction-questions.html", "Questions to Ask Before Buying a Multi-Function Kitchen Appliance | The Countertop Guide","Presets, accessories, wattage, warranty and fit: the pre-purchase checklist for multi-function ovens, applied to the Emeril 26QT from its verified listing.",b4,j4,"guide-page")
 # ---------- GUIDE 5 ----------
 b5, j5 = guide_shell("Guide &middot; Thermometers &middot; Accuracy", "Instant-read or wireless? How to read accuracy claims",
  "One tool answers in one second in your hand; the other watches from your phone. The right choice depends on how you cook - and on reading accuracy claims carefully.",
@@ -468,7 +487,7 @@ b5, j5 = guide_shell("Guide &middot; Thermometers &middot; Accuracy", "Instant-r
  [("Which thermometer is more accurate?","The ThermoMaven listing states plus-minus 0.5 degrees F with NIST and NSF certification. No plus-minus figure appears for the CHEF iQ in the fields we read, so we do not rank them on accuracy."),
   ("What does 5 sensors mean on the CHEF iQ?","Per the listing bullets: 4 internal temperature sensors plus 1 ambient sensor that tracks cooking-environment temperature."),
   ("Do I need WiFi for the CHEF iQ?","WiFi enables unlimited-range app monitoring per the listing; Bluetooth is also listed in connectivity. You need the CHEF iQ app for remote monitoring.")])
-open("guide-thermometer-accuracy.html","w").write(page("Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing two verified listings.",b5,j5,"guide-page"))
+write_page("guide-thermometer-accuracy.html", "Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing two verified listings.",b5,j5,"guide-page")
 # ---------- GUIDE 6 (NEW - seasonal) ----------
 b6, j6 = guide_shell("Guide &middot; Seasonal &middot; Holiday 2026", "The holiday hosting test: which air fryer actually feeds a crowd?",
  "Thanksgiving week, Hanukkah, game day, the office cookie swap - December asks more of a countertop appliance than a Tuesday does. Here is how our three verified fryers answer the hosting questions that actually decide the meal: how much fits, how many dishes run at once, and whether it fits the counter when the mixer is already there.",
@@ -494,7 +513,7 @@ b6, j6 = guide_shell("Guide &middot; Seasonal &middot; Holiday 2026", "The holid
   ("Do these make good holiday gifts?","The ThermoMaven listing itself positions the thermometer as a stocking stuffer and Secret Santa gift (seller claim). See our gift-by-budget guide for verified-price tiers."),
   ("Are the holiday prices final?","No. All prices on this site are dated snapshots from 2026-11-19 during the Black Friday window. Confirm the live price on Amazon before buying.")],
  readtime="6 min read")
-open("guide-holiday-hosting.html","w").write(page("The Holiday Hosting Test: Which Air Fryer Feeds a Crowd? | The Countertop Guide","Holiday hosting questions answered from verified Amazon listings: two dishes at once, rotisserie and pizza claims, counter-depth math and Black Friday price-snapshot caveats.",b6,j6,"guide-page"))
+write_page("guide-holiday-hosting.html", "The Holiday Hosting Test: Which Air Fryer Feeds a Crowd? | The Countertop Guide","Holiday hosting questions answered from verified Amazon listings: two dishes at once, rotisserie and pizza claims, counter-depth math and Black Friday price-snapshot caveats.",b6,j6,"guide-page")
 # ---------- GUIDE 7 (NEW - seasonal gifts) ----------
 b7, j7 = guide_shell("Guide &middot; Seasonal &middot; Gifts", "Kitchen gifts under $25, under $80 and under $150",
  "Gift guides usually invent prices. This one uses dated snapshots from the five listings we verify ({VERIFIED}) and quotes each product's own gift positioning where the seller makes one. Prices move; the tiers are a starting map, not a promise.",
@@ -521,7 +540,7 @@ b7, j7 = guide_shell("Guide &middot; Seasonal &middot; Gifts", "Kitchen gifts un
   ("Is $79.93 a good gift price for the Chefman dual-basket?","It is the buy-box snapshot from 2026-11-19 against a $99.99 list price shown on the listing. Prices are snapshots during the Black Friday window and can change - confirm on Amazon."),
   ("Should I gift an air fryer to someone with a small kitchen?","Measure their counter depth first. The Chefman 8QT is the shallowest of the three fryers here at 12.75 in (32.4 cm); the Emeril oven needs 16.9 in (42.9 cm).")],
  readtime="5 min read")
-open("guide-gifts-by-budget.html","w").write(page("Kitchen Gifts Under $25, $80 and $150 (Verified-Price Tiers) | The Countertop Guide","Holiday 2026 gift tiers from five verified Amazon listings: dated price snapshots, each product's own gift claims quoted, and a gift-giver's checklist.",b7,j7,"guide-page"))
+write_page("guide-gifts-by-budget.html", "Kitchen Gifts Under $25, $80 and $150 (Verified-Price Tiers) | The Countertop Guide","Holiday 2026 gift tiers from five verified Amazon listings: dated price snapshots, each product's own gift claims quoted, and a gift-giver's checklist.",b7,j7,"guide-page")
 # ---------- GUIDE 8 (NEW - wattage) ----------
 b8, j8 = guide_shell("Guide &middot; Air fryers &middot; Specs", "Will it trip the breaker? Wattage and outlet math for air fryers",
  "Air fryers are high-wattage appliances, and wattage is the spec listings are most likely to get inconsistent. We found exactly that on one of our own products. Here is what wattage means for your kitchen circuit, and how to check any listing for the same trap.",
@@ -548,7 +567,7 @@ b8, j8 = guide_shell("Guide &middot; Air fryers &middot; Specs", "Will it trip t
   ("Can I run an air fryer and a microwave on the same circuit?","Not safely if the air fryer draws 1700W: that alone approaches the capacity of a 15-amp, 120-volt kitchen circuit. Use separate outlets on separate circuits for two high-wattage appliances."),
   ("Why do two sections of the same listing show different wattage?","Seller-entered data can disagree between bullets and the Product information table, exactly as on the Chefman 8QT (FLG-022). Treat the conflict as unresolved and verify on the box or manufacturer's spec sheet.")],
  readtime="5 min read")
-open("guide-wattage-outlets.html","w").write(page("Will It Trip the Breaker? Air Fryer Wattage and Outlet Math | The Countertop Guide","What 1000W vs 1700W means for a 120V kitchen circuit, the wattage-listing conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.",b8,j8,"guide-page"))
+write_page("guide-wattage-outlets.html", "Will It Trip the Breaker? Air Fryer Wattage and Outlet Math | The Countertop Guide","What 1000W vs 1700W means for a 120V kitchen circuit, the wattage-listing conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.",b8,j8,"guide-page")
 # ---------- GUIDE 9 (merged from session arena/8e82d03c - recipient-angle gifts) ----------
 b9, j9 = guide_shell("Guide &middot; Seasonal &middot; Gifts", "Holiday air fryer gifts: what to buy for every kind of cook",
  "Match the fryer to the cook, not the wish list. These picks come only from the verified listings on this site, each with its snapshot price and a link to its source. (Shopping by budget instead? See <a href=\"guide-gifts-by-budget.html\">gifts under $25, $80 and $150</a>.)",
@@ -570,7 +589,7 @@ b9, j9 = guide_shell("Guide &middot; Seasonal &middot; Gifts", "Holiday air frye
   ("Are these gift picks hands-on tested?","No. We have not cooked with any of these units. Picks are based only on verified listing specs and snapshot prices."),
   ("Do the prices include shipping?","Prices shown are the listing's new-item snapshot; shipping depends on the buyer's location and Prime status at checkout. Confirm on Amazon before buying.")],
  readtime="4 min read")
-open("guide-holiday-gifts.html","w").write(page("Holiday Air Fryer Gifts: What to Buy for Every Kind of Cook | The Countertop Guide","Spec-based holiday gift picks matched to the cook: dual-basket for couples, French-door oven for crowds, single basket for small kitchens, thermometer stocking stuffers. Verified snapshots only.",b9,j9,"guide-page"))
+write_page("guide-holiday-gifts.html", "Holiday Air Fryer Gifts: What to Buy for Every Kind of Cook | The Countertop Guide","Spec-based holiday gift picks matched to the cook: dual-basket for couples, French-door oven for crowds, single basket for small kitchens, thermometer stocking stuffers. Verified snapshots only.",b9,j9,"guide-page")
 # ---------- GUIDE 10 (merged from session arena/8e82d03c - holiday roasts) ----------
 b10, j10 = guide_shell("Guide &middot; Seasonal &middot; Thermometers", "Roast like a pro: instant-read or wireless thermometer for holiday roasts?",
  "A roast is only as good as knowing when it's done. This guide reads the accuracy claims on two verified thermometers - what each claim does and does not prove - so you can choose before the holiday.",
@@ -591,7 +610,7 @@ b10, j10 = guide_shell("Guide &middot; Seasonal &middot; Thermometers", "Roast l
  [("Instant-read or wireless for a holiday roast?","Instant-read for a fast answer in your hand (ThermoMaven, 1-second). Wireless for monitoring from another room across a long cook (CHEF iQ Sense, 3 probes). Match the tool to how you cook."),
   ("Are the accuracy claims verified by the site?","No. Claims are quoted from the listings with the certification named. We have not calibrated either unit; verify certificates on the listing.")],
  readtime="4 min read")
-open("guide-holiday-roast.html","w").write(page("Instant-Read or Wireless for Holiday Roasts? | The Countertop Guide","Thermometer accuracy claims read before the holiday: ThermoMaven instant-read vs CHEF iQ wireless for roasts, with certification claims quoted from verified listings.",b10,j10,"guide-page"))
+write_page("guide-holiday-roast.html", "Instant-Read or Wireless for Holiday Roasts? | The Countertop Guide","Thermometer accuracy claims read before the holiday: ThermoMaven instant-read vs CHEF iQ wireless for roasts, with certification claims quoted from verified listings.",b10,j10,"guide-page")
 # ---------- GUIDE 11 (merged from session arena/8e82d03c - small kitchens) ----------
 b11, j11 = guide_shell("Guide &middot; Air fryers &middot; Space", "Small kitchen, big appetite: which air fryer fits under 34 cm of counter depth?",
  "Measure before you buy. This guide compares the three verified fryers by counter depth and footprint, with the derived capacity-per-centimetre math shown and its limits stated.",
@@ -617,7 +636,7 @@ b11, j11 = guide_shell("Guide &middot; Air fryers &middot; Space", "Small kitche
  [("Which air fryer fits the smallest counter?","By depth, the Chefman 8QT (32.4 cm). By footprint, the Chefman 6QT dual-basket (158.0 sq in). Measure both depth and width before buying."),
   ("Is capacity per centimetre a manufacturer claim?","No. It is derived by us from listing dimensions (inches x 2.54 = cm) and title capacity. Treat it as a planning aid, verify fit on the listing.")],
  readtime="4 min read")
-open("guide-small-kitchen.html","w").write(page("Small Kitchen, Big Appetite: Air Fryers Under 34 cm of Depth | The Countertop Guide","Counter-depth comparison of three verified air fryers: depth, footprint and derived capacity-per-centimetre math with its limits stated. Measure before you buy.",b11,j11,"guide-page"))
+write_page("guide-small-kitchen.html", "Small Kitchen, Big Appetite: Air Fryers Under 34 cm of Depth | The Countertop Guide","Counter-depth comparison of three verified air fryers: depth, footprint and derived capacity-per-centimetre math with its limits stated. Measure before you buy.",b11,j11,"guide-page")
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
@@ -651,7 +670,7 @@ exec_body = f"""
 <h2>Next gates (owner decisions at the review desk)</h2>
 <p><strong>First: the price and star-rating display condition (FLG-023).</strong> The Program Policies require prices and ratings to come from Amazon-served links or the Creators/PA API; our dated manual snapshots do not meet that condition as written. Three remediation options are laid out at the review desk &mdash; do not scale traffic until one is chosen. Then: Special Link validation, analytics hosting, photography licence, Search Console verification, and the ranked suggestions. Nothing scales until those gates pass. Start at the <a href="suggestions.html">review desk</a>; the design direction is captured in <a href="https://github.com/wingbangboozle1-lang/Prod1/blob/main/DESIGN_PROMPT.md">DESIGN_PROMPT.md</a>; open items live on <a href="flagged.html">Flagged for review</a>.</p>
 """
-open("executive-summary.html","w").write(page("Executive Summary: Products, Verification &amp; Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: five re-verified products in two categories, compliance posture, measurement plan and the ranked decisions at the review desk.",exec_body))
+write_page("executive-summary.html", "Executive Summary: Products, Verification &amp; Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: five re-verified products in two categories, compliance posture, measurement plan and the ranked decisions at the review desk.",exec_body)
 # ---------- SUGGESTIONS (review desk) ----------
 sugg_body = f"""
 <p class="eyebrow">Review desk</p>
@@ -710,7 +729,86 @@ sugg_body = f"""
 </table></div>
 <p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue. Irregularities found in the data are not fixed silently &mdash; they are listed on <a href="flagged.html">Flagged for review</a>.</p>
 """
-open("suggestions.html","w").write(page("Review Desk: Suggestions, Recommended Paths &amp; Open Questions | The Countertop Guide","The review desk: ranked suggestions with recommended paths and alternatives, plus the Q/I/A map of what must be discovered before each decision.",sugg_body))
+UPSTREAM_SUGG = """
+<section class="section">
+<h2>Merged suggestion log from upstream sessions (kept verbatim)</h2>
+<p class="lede">Sessions 2ec8638e, 8e82d03c and f0db58ea recorded their own boards before this review desk was rebuilt. Nothing here is dropped: IDs are kept exactly as those sessions wrote them, so design-brief.html and their records keep working. Some IDs overlap with the recommended-path board above (SG-11..17) but carry different text - treat each board as its own numbering space.</p>
+<h2>Suggestions for review</h2>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
+<tr><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td><td><span class="badge-warn">Needs decision - gate</span></td></tr>
+<tr><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-05</td><td>Holiday gift guides (air fryer gifts, grill gifts) with dated price snapshots</td><td>Seasonal organic traffic; gift intent converts</td><td>Gift-angle verification per listing</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-06</td><td>"Which one is for you" chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-07</td><td>Reader capture (email signup) with explicit consent</td><td>Owns audience beyond search</td><td>Provider + consent copy + FTC review</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-08</td><td>Newer-model watch (Chefman B0CNY1YVDD, ThermoMaven B0GL7Z4KP4)</td><td>Decide whether to promote newer variants or keep current ASINs</td><td>Variant comparison + margin check</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-09</td><td>Hands-on testing programme (buy, cook, photograph, publish)</td><td>Unlocks "lived-with" content competitors cannot copy</td><td>Budget, protocol, disclosure of free vs bought units</td><td>High</td><td>Proposed - do not claim until done</td></tr>
+<tr><td>SG-10</td><td>Expand categories (second air fryer brand, second thermometer brand)</td><td>More comparison depth; better internal linking</td><td>New ASIN verification pass</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-11</td><td>Run the design brief (design-brief.html) as the brief for the visual overhaul: warm editorial brand, product-first hero, category tiles, sticky comparison bar</td><td>Turns the site from a register into a publication a buyer can act on; cuts the generated-template feel</td><td>Owner picks the visual direction from the brief's options; photography decision (SG-04) gates imagery</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-12</td><td>Adopt the eight-topic editorial calendar in the design brief as the publishing cadence (question-shaped titles tied to the verified products)</td><td>Catchy, spec-backed topics feed organic search; every title is a question a buyer types</td><td>Owner approves titles; each topic needs the same line-by-line verification before publishing</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-13</td><td>Anti-AI-slop writing rules in the CMS checklist: no filler transitions, no \"in conclusion\", varied sentence length, one idea per paragraph, first-person editorial voice where honest</td><td>Readers and reviewers can tell template text; signal-rich writing ranks and converts better</td><td>Style guide decision; editor review on every page</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-14</td><td>Editorial voice decision: who is \"we\" (The Countertop Guide editorial team) and what we will never claim (no testing, no trending, no superlatives)</td><td>A defined voice is the strongest anti-slop lever and keeps FTC honesty intact</td><td>Owner sign-off on voice statement</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-15</td><td>Reader-facing seasonal clusters (holiday gift, New Year cooking reset) built from the verified products with dated price snapshots</td><td>Seasonal intent searches; reuses verified data instead of new claims</td><td>Season calendar decision; re-snapshot prices at publish</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-16</td><td>Comparison-first homepage: lead with the side-by-side table and the three-question chooser above the fold, verification below</td><td>Buyers act on comparisons; the verification register moves below the products</td><td>Layout decision in the design brief</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-17</td><td>Add author bylines and an \"updated\" date to every article and comparison</td><td>Authorship and freshness signals; reads like a publication, not a template</td><td>Author name/bio decision; date source from verification log</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-18</td><td>Internal-link cluster pages: one pillar per category linking every guide to the comparison and buying guide</td><td>Cluster structure helps search engines and keeps readers on-site longer</td><td>Topic approval (SG-12); link audit at publish</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-19</td><td>Design-prompt pass: feed this board into a visual design prompt (publication layout, type scale, product-card anatomy, seasonal skins) and review mockups before shipping</td><td>Turns \"make it look like a shop\" into a reviewable artifact instead of ad-hoc CSS edits</td><td>Owner picks a direction from mockups</td><td>Medium</td><td><span class="badge-warn\">Needs decision</span></td></tr>
+<tr><td>SG-20</td><td>Product-card redesign: photo slot (once licensed), price snapshot date on the card, one primary CTA, spec chips instead of prose bullets</td><td>Shoppers scan cards, they do not read audits; cards are the conversion surface</td><td>Photography decision (SG-04) or approved placeholder art</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-21</td><td>Editorial homepage modules: hero story, \"featured guide\" slot, category tiles, then the product line-up - ordered by reader intent, not by data pipeline</td><td>Publication feel; leads with products and questions, not verification process</td><td>None - content exists</td><td>Low</td><td><span class="badge-ok\">Shipped in this pass (front page rebuilt)</span></td></tr>
+<tr><td>SG-22</td><td>Seasonal skins: holiday gift-guide banner and dated price-snapshot badge (e.g. Black Friday) that auto-expires</td><td>Seasonal relevance lifts click-through without inventing claims</td><td>Dated snapshot rule already approved (D-19)</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-23</td><td>Article template upgrade: key-takeaways box, at-a-glance spec table, \"what the listing cannot tell you\" callout, related-products rail</td><td>Consistent reader-facing polish across guides; reduces AI-slop look</td><td>Voice guide already approved (D-12)</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-24</td><td>Comparison-table UX: sticky first column, mobile card stack, \"share comparison\" link, print stylesheet</td><td>Tables are the most-used dashboard surface; mobile is most traffic</td><td>Usability feedback after launch</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-25</td><td>Topic cluster plan: 8 spec-backed articles mapped to the 5 products (titles already drafted as hypotheses), each added to sitemap + feed at publish</td><td>Cluster internal linking is the organic-traffic engine; cadence keeps it measurable</td><td>Search Console data after SG-02 to re-rank priority</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-26</td><td>Trust bar under masthead: \"every fact sourced - see the register\" one-liner linking to verification.html on all pages</td><td>Turns the audit strength into a shopper-facing promise without leading with process</td><td>None</td><td>Low</td><td><span class="badge-ok\">Shipped in this pass</span></td></tr>
+<tr><td>SG-27</td><td>Decide disclosure wording: verbatim Operating Agreement §5 or site-named variant</td><td>§5 requires "As an Amazon Associate I earn from qualifying purchases." or a substantially similar previously allowed statement</td><td>Compliance review of current variant</td><td>Low</td><td>Resolved 2026-11-19: verbatim wording adopted</td></tr>
+<tr><td>SG-12</td><td>Resolve star-rating display path under Participation Requirement 6(t)</td><td>Displaying customer reviews/star ratings conditions on Creators API or PA API; site shows snapshots without either</td><td>Policy decision; API access check</td><td>Medium</td><td>Needs decision</td></tr>
+</table></div>
+<h2>Design suggestions - feed these into the visual design prompt</h2>
+<p>These are the concrete art-direction inputs for SG-11. They describe what \"a polished marketing affiliate site, not AI slop\" means for this repository, so a design pass can be reviewed against them before any CSS ships.</p>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Design input</th><th>Why it counters the \"generated\" look</th><th>Constraint</th></tr>
+<tr><td>DI-1</td><td>Publication masthead with wordmark, tagline and issue date (verification date), not a generic app bar</td><td>Real shops and magazines have a masthead; app bars read as scaffolding</td><td>Must keep disclosure strip directly beneath</td></tr>
+<tr><td>DI-2</td><td>Editorial hero: one strong headline, one lede, two CTAs (shop / read) - no badge soup</td><td>Audits open with process; shops open with the offer</td><td>Badges limited to three: verified date, sponsored labeled, price-snapshot warning</td></tr>
+<tr><td>DI-3</td><td>Product-card anatomy: image slot, name, star+count, price with list-price strike and snapshot date, 3 spec chips, one CTA, sponsored microcopy</td><td>Card = conversion unit; prose bullets inside cards are the biggest AI-slop tell</td><td>No product photo until SG-04 decides; use licensed placeholder or typographic tile</td></tr>
+<tr><td>DI-4</td><td>Type scale: display serif for headlines, grotesque for UI, mono for ASINs and spec tables</td><td>Three-role type system is what separates publications from templates</td><td>Ship webfonts self-hosted or system stack - no render-blocking third party</td></tr>
+<tr><td>DI-5</td><td>Color: warm paper background, one accent for CTAs, one for trust/verification, muted ink - not the default blue/purple gradient</td><td>Gradients + glow = generated; flat warm palette = printed catalogue</td><td>Contrast AA on all text (WCAG)</td></tr>
+<tr><td>DI-6</td><td>Guide layout: key-takeaways box above the fold, at-a-glance table, honest \"what we cannot tell you\" callout, related-product rail at the end</td><td>Opinionated structure reads as edited; wall-of-text reads as generated</td><td>Every spec cell links to its listing (existing rule)</td></tr>
+<tr><td>DI-7</td><td>Seasonal skin layer (holiday gift-guide banner) that sits on top of the base design and can be switched off</td><td>Shows the site is maintained on a calendar, like a real publication</td><td>Dated price snapshots only (D-19); no \"trending\" without a source</td></tr>
+<tr><td>DI-8</td><td>Dashboard surfaces restyled as \"the back office\": denser type, tabular numbers, source links on every row - visually distinct from the shop</td><td>Keeps the audit machinery available without letting it set the tone</td><td>Same disclosure and sponsored rules as shopper pages</td></tr>
+</table></div>
+<p class="small\">Review flow: pick a direction from DI-1..DI-8 (approve / reject / defer each), then SG-11 turns the approved set into a design prompt and mockups. No CSS changes ship before that review.</p>
+<h2>Questions, information &amp; answers needed before a reasonable decision</h2>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Question</th><th>What we know</th><th>What we do not know</th><th>How to discover it</th><th>Decision blocked</th></tr>
+<tr><td>Q-01</td><td>Are the supplied short links compliant Special Links?</td><td>They resolve to the ASINs in the register (observed 2026-11-19)</td><td>Exact compliance status is unresolved</td><td>Test in Associates Central; read Operating Agreement + Policies</td><td>Scaling outbound links</td></tr>
+<tr><td>Q-02</td><td>What is the canonical domain?</td><td>Canonical set to the GitHub Pages URL (<code>https://wingbangboozle1-lang.github.io/Prod1/</code>) across HTML, sitemap, robots and feed on 2026-11-19</td><td>Whether to move to a custom domain later</td><td>Owner decision; if custom domain chosen, update canonical + re-submit sitemap</td><td>Custom-domain SEO; Search Console property still not created</td></tr>
+<tr><td>Q-03</td><td>What are thermometer dimensions &amp; Emeril wattage?</td><td>Air fryer dims verified; thermometer dims + Emeril wattage not captured</td><td>Missing fields (blank in tables)</td><td>Re-fetch listing product-details sections; record date</td><td>Counter-space table for thermometers; circuit advice</td></tr>
+<tr><td>Q-04</td><td>Should we promote newer models instead?</td><td>Listings show newer variants (see Flagged)</td><td>Margin, rating trajectory, variant fit</td><td>Compare variant listings; check Associates reports</td><td>Product lineup</td></tr>
+<tr><td>Q-05</td><td>What commission rates apply?</td><td>Tracking ID shopnow047c-20; session rules in Policies</td><td>Category rates (not published here)</td><td>Associates Central commission statement (authorized report only)</td><td>Revenue forecasting (not done)</td></tr>
+<tr><td>Q-06</td><td>Is there search demand for these topics?</td><td>Guides are question-shaped hypotheses, not volume claims</td><td>Measured queries (no analytics yet)</td><td>Search Console after launch; choose next topics from data</td><td>Publishing cadence</td></tr>
+<tr><td>Q-07</td><td>Can we use product photos?</td><td>No Amazon images used; SVG/CSS only</td><td>Licence / permission status</td><td>Manufacturer permission or own photography</td><td>Visual overhaul</td></tr>
+<tr><td>Q-08</td><td>Where does analytics data live?</td><td>Local-only counter; endpoint stub documented</td><td>Hosting, retention, consent</td><td>Pick host; publish retention policy</td><td>Measurement &amp; optimisation</td></tr>
+<tr><td>Q-09</td><td>Which visual direction from the design brief do we adopt?</td><td>Brief offers a warm editorial direction with three named options and anti-slop rules</td><td>Owner's pick; photography decision (Q-07) gates imagery</td><td>Review design-brief.html; choose one direction</td><td>Visual overhaul (SG-11)</td></tr>
+<tr><td>Q-10</td><td>Do we approve the eight-topic editorial calendar?</td><td>Titles are working hypotheses tied to verified products; none is a popularity claim</td><td>Owner approval; per-topic verification still required</td><td>Review calendar on design-brief.html</td><td>Publishing cadence (SG-12)</td></tr>
+<tr><td>Q-11</td><td>What is the site's editorial voice, and what will it never claim?</td><td>No testing / trending / superlative claims today; voice statement is proposed</td><td>Owner sign-off on the voice statement</td><td>Review voice rules on design-brief.html</td><td>All content (SG-13, SG-14)</td></tr>
+<tr><td>Q-12</td><td>Should the homepage lead with the comparison and chooser?</td><td>Current homepage leads with categories then data</td><td>Layout preference; impact on conversion vs. trust</td><td>Review homepage layout option in the brief</td><td>Homepage redesign (SG-16)</td></tr>
+<tr><td>Q-13</td><td>Who are the named authors, and what bios go with them?</td><td>Guides currently say \"The Countertop Guide editorial team\"</td><td>Author identity and bio wording</td><td>Owner provides names/bios or keeps the team credit</td><td>Authorship (SG-17)</td></tr>
+<tr><td>Q-14</td><td>What is the review SLA for this suggestions board?</td><td>26 suggestions and 19 questions wait on owner choices</td><td>Review cadence and who approves</td><td>Owner sets a review rhythm; approved items become tasks</td><td>All pending suggestions</td></tr>
+<tr><td>Q-15</td><td>Which design direction does the owner want?</td><td>Design inputs DI-1..DI-8 written; front page rebuilt editorial-first in this pass</td><td>Approved visual direction (type, color, card anatomy)</td><td>Review DI-1..DI-8 on this board plus design-brief.html; approve/reject/defer each; then SG-19 mockups</td><td>Full visual overhaul (SG-11, SG-19, SG-20)</td></tr>
+<tr><td>Q-16</td><td>What imagery may we legally ship?</td><td>No Amazon images used; SVG/CSS only; og-image is a typographic SVG</td><td>Licensed photography or manufacturer permission status; whether placeholder tiles are acceptable long-term</td><td>Decide SG-04; if placeholders approved, specify style in design prompt</td><td>Product cards, social previews, conversion polish</td></tr>
+<tr><td>Q-17</td><td>What is the publishing cadence and who approves topics?</td><td>Five guides exist; 8 topic hypotheses drafted; sitemap/feed updated at publish</td><td>Owner approval of calendar; reviewer for each article</td><td>Owner sets cadence (e.g. 2/week) and names reviewer in COORDINATION.md</td><td>SG-25 cluster build-out</td></tr>
+<tr><td>Q-18</td><td>Which success metrics decide iteration?</td><td>Five events defined; campaign ledger empty by design; Search Console not yet connected</td><td>Owner's thresholds (e.g. N eligible sessions before topic re-rank; CTR target)</td><td>Owner sets thresholds after first month of Search Console + ledger data</td><td>Evidence-based iteration (Priority 4)</td></tr>
+<tr><td>Q-19</td><td>Are the five short links the only promotion surface, or will more ASINs be added?</td><td>Five ASINs verified and shippable; newer variants noted (FLG-003, SG-08)</td><td>Scope of catalogue growth; margin/commission data per category</td><td>Owner sets catalogue scope; commission data only from Associates reports (Q-05)</td><td>SG-10 expansion; revenue planning</td></tr>
+<tr><td>Q-20</td><td>Should the disclosure use the verbatim §5 wording?</td><td>Current variant names the site instead of \"I\"; check script flagged it for owner review</td><td>— (resolved)</td><td>Resolved 2026-11-19 against Operating Agreement §5: verbatim wording adopted on all pages</td><td>Disclosure wording</td></tr>
+<tr><td>Q-10</td><td>May we display star ratings without Creators API / PA API?</td><td>Participation Requirement 6(t) conditions ratings display on those APIs; site shows listing snapshots</td><td>API access and eligibility</td><td>Policy decision (SG-12)</td><td>Ratings on product cards</td></tr>
+<tr><td>Q-11</td><td>What cadence for re-snapshotting prices and ratings?</td><td>Last snapshot 2026-11-19; live values have since drifted</td><td>Re-fetch listings on a schedule; record each date</td><td>Owner sets cadence</td><td>Price/rating freshness</td></tr>
+</table></div>
+<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
+"""
+sugg_body += "\n" + UPSTREAM_SUGG
+write_page("suggestions.html", "Review Desk: Suggestions, Recommended Paths &amp; Open Questions | The Countertop Guide","The review desk: ranked suggestions with recommended paths and alternatives, plus the Q/I/A map of what must be discovered before each decision.",sugg_body)
 # ---------- VERIFICATION ----------
 ver_rows = ""
 for pid in ["P1","P2","P3","P4","P5"]:
@@ -767,7 +865,7 @@ ver_body = f"""
 </table></div>
 <p class="small">Prices and ratings are snapshots and will change. The manual Special Link test in Associates Central remains an open gate (<a href="flagged.html">FLG-001</a>); it is a manual owner step and is not claimed as done.</p>
 """
-open("verification.html","w").write(page("Verification Register: Line-by-Line Sources for Every Fact | The Countertop Guide","Verification register for five products: intended ASIN, listing URL, confirmation date and source per product, integration re-verification results, and official Amazon/FTC policy sources.",ver_body))
+write_page("verification.html", "Verification Register: Line-by-Line Sources for Every Fact | The Countertop Guide","Verification register for five products: intended ASIN, listing URL, confirmation date and source per product, integration re-verification results, and official Amazon/FTC policy sources.",ver_body)
 # ---------- FLAGGED ----------
 flag_body = f"""
 <p class="eyebrow">Flagged for review</p>
@@ -802,7 +900,7 @@ flag_body = f"""
 <tr><td>FLG-025</td><td>Flag numbering note (merge with session 8e82d03c)</td><td>Session 8e82d03c's register used different numbers for different items: its FLG-021 = disclosure variant (now closed - exact &sect;5 sentence on every page), its FLG-022 = price/star display vs API policy (carried here as FLG-023 with the verbatim text read {VERIFIED}), its FLG-024 = rating snapshot drift (covered by FLG-020). This register's FLG-021 = accessory-count conflict, FLG-022 = wattage conflict. Numbers are unique within this register only.</td><td>Reference note</td></tr>
 </table></div>
 """
-open("flagged.html","w").write(page("Flagged for Review: Irregularities &amp; Unverified Items | The Countertop Guide","Flagged irregularities: short-link compliance, listing discrepancies (presets, accessories, wattage), newer models, missing fields, and launch gates - updated after line-by-line re-verification.",flag_body))
+write_page("flagged.html", "Flagged for Review: Irregularities &amp; Unverified Items | The Countertop Guide","Flagged irregularities: short-link compliance, listing discrepancies (presets, accessories, wattage), newer models, missing fields, and launch gates - updated after line-by-line re-verification.",flag_body)
 # ---------- COMPLIANCE ----------
 comp_body = f"""
 <p class="eyebrow">Compliance gate</p>
@@ -835,7 +933,7 @@ comp_body = f"""
 <p>The Program Policies condition price and star-rating display on Amazon-served links or Creators/PA API data. This site's snapshots were read manually from the listings, so that condition is <strong>not</strong> met as written &mdash; recorded as <a href="flagged.html">FLG-023</a> with the verbatim text and three remediation options at the <a href="suggestions.html">review desk</a>. Until it is resolved, do not scale traffic to the site.</p>
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
 """
-open("compliance.html","w").write(page("Compliance: Disclosures &amp; Amazon/FTC Policy Checks | The Countertop Guide","Compliance gate: exact Section 5 disclosure wording, sponsored-link marking, and the Amazon Associates + FTC policy checklist reviewed before publishing.",comp_body))
+write_page("compliance.html", "Compliance: Disclosures &amp; Amazon/FTC Policy Checks | The Countertop Guide","Compliance gate: exact Section 5 disclosure wording, sponsored-link marking, and the Amazon Associates + FTC policy checklist reviewed before publishing.",comp_body)
 # ---------- METHODOLOGY ----------
 meth_body = f"""
 <p class="eyebrow">Method</p>
@@ -869,7 +967,7 @@ meth_body = f"""
 <h2>Publishing gate</h2>
 <p><code>scripts/check_site.mjs</code> runs in the Pages workflow before deploy and fails the build on: missing/disclosure-below-fold, Amazon links without rel="sponsored", broken internal links, duplicate or missing titles/descriptions, and banned claim wording ("bestseller", "top rated", "#1", "guaranteed", "most popular"). Automate the mechanical; gate the judgment.</p>
 """
-open("methodology.html","w").write(page("Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide","Method page: evidence rules, five privacy-preserving analytics events, the empty campaign ledger with provenance rules, publishing cadence and the automated publishing gate.",meth_body))
+write_page("methodology.html", "Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide","Method page: evidence rules, five privacy-preserving analytics events, the empty campaign ledger with provenance rules, publishing cadence and the automated publishing gate.",meth_body)
 # ---------- SEARCH ----------
 search_body = """
 <p class="eyebrow">Search</p>
@@ -882,7 +980,7 @@ search_body = """
 <div id="search-results" aria-live="polite"></div>
 <p><a href="guides.html">Guides</a> &middot; <a href="compare.html">Compare</a> &middot; <a href="air-fryers.html">Air fryers</a> &middot; <a href="thermometers.html">Thermometers</a></p>
 """
-open("search.html","w").write(page("Search Guides &amp; Products | The Countertop Guide","Search The Countertop Guide: air fryers, thermometers, capacity, cleanup, counter space, wattage, accuracy and holiday gift guides.",search_body))
+write_page("search.html", "Search Guides &amp; Products | The Countertop Guide","Search The Countertop Guide: air fryers, thermometers, capacity, cleanup, counter space, wattage, accuracy and holiday gift guides.",search_body)
 idx = [
  {"title":"Home: air fryers & thermometers compared","url":"index.html","text":"Five verified products, two categories, sourced numbers, dated price snapshots. Compare all five, read the guides, use the chooser."},
  {"title":"Air fryers category","url":"air-fryers.html","text":"Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, wattage, cleanup, price snapshots."},
@@ -900,6 +998,7 @@ idx = [
  {"title":"Roast like a pro: instant-read or wireless for holiday roasts?","url":"guide-holiday-roast.html","text":"Thermometer accuracy claims read before the holiday roast."},
  {"title":"Small kitchen, big appetite: air fryers under 34 cm of counter depth","url":"guide-small-kitchen.html","text":"Depth and footprint comparison for tight counters, capacity per centimetre derived."},
  {"title":"All buying guides","url":"guides.html","text":"Eleven question-shaped guides in three clusters: air fryers, thermometers, seasonal."},
+ {"title":"Dashboard hub","url":"dashboard.html","text":"Every dashboard surface in one place: verification register, flagged for review, compliance, method and campaign ledger, executive summary, suggestions board."},
  {"title":"Executive summary","url":"executive-summary.html","text":"What the site is, what is verified, compliance posture, measurement plan, decision gates."},
  {"title":"Review desk: suggestions and decisions","url":"suggestions.html","text":"Ranked suggestions SG-01 to SG-16 with recommended paths; Q-01 to Q-12 missing-information map."},
  {"title":"Verification register","url":"verification.html","text":"Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, integration re-verification."},

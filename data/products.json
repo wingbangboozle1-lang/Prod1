@@ -84,7 +84,7 @@
         "Six cooking accessories included (per title)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021."
     },
     {
       "id": "P3",
@@ -123,7 +123,7 @@
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003."
     },
     {
       "id": "P4",
@@ -201,7 +201,7 @@
         "Flip reminders, rest timers, estimated cooking times and Guided Cooking recipes in the app (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change."
+      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49."
     }
   ]
 }
