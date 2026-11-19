@@ -1,0 +1,41 @@
+name: Deploy static site to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify local links and disclosure
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          class P(HTMLParser):
+              def __init__(self): super().__init__(); self.urls=[]; self.text=[]
+              def handle_starttag(self,t,a):
+                  if t in ('a','link','script'): self.urls += [v for k,v in a if k in ('href','src') and v]
+              def handle_data(self,d): self.text.append(d)
+          files=[Path('index.html'),*Path('docs').glob('*.html'),*Path('articles').glob('*.html')]
+          for f in files:
+              p=P(); p.feed(f.read_text()); s=' '.join(p.text)
+              if 'As an Amazon Associate I earn from qualifying purchases.' not in s: raise SystemExit(f'Missing disclosure: {f}')
+              for u in p.urls:
+                  if u.startswith(('http:','https:','mailto:','#','data:')): continue
+                  if not (f.parent/u.split('#')[0]).resolve().exists(): raise SystemExit(f'Broken local link: {f}: {u}')
+          print(f'Validated {len(files)} HTML files')
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - uses: actions/deploy-pages@v4
