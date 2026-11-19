@@ -18,12 +18,12 @@ Branch `arena/2d5ebe5b-prod1` (Arena session branch; work happens only here). Ac
 
 | Task | Status | Owner | Files touched | Sources / verification | Irregularities |
 |---|---|---|---|---|---|
-| T-2D1 Publication redesign: front page as a publication front (hero, category tiles, featured guides, picks), reader nav + single dashboard group in footer | in progress | 2d5ebe5b | `build_site.py`, `assets/style.css`, root `*.html` (regenerated) | Existing verified data (`data/products.json`, verified 2026-11-19 by prior sessions); gate `scripts/check_site.mjs` | — |
-| T-2D2 Eight catchy spec-backed guides (S-13): keep 5 existing + 3 new seasonal/cluster guides, complete internal linking (S-24) | in progress | 2d5ebe5b | `build_site.py`, new `guide-*.html` | Facts only from `data/products.json` listings (snapshot 2026-11-19); no new claims | Photography stays SVG/CSS (S-18/SG-04 undecided) |
-| T-2D3 Review desk: suggestions with recommended paths + Q/I/A missing-information discovery plan | in progress | 2d5ebe5b | `suggestions.html`, `DESIGN_PROMPT.md` | — | Owner choice required for every recommendation |
-| T-2D4 Machinery: exact Section 5 disclosure wording (I-02), canonical in `build_site.py` + `data/products.json` (regressed FLG-007), deploy gate in `pages.yml` (I-05/R-01) | in progress | 2d5ebe5b | `build_site.py`, `data/products.json`, `.github/workflows/pages.yml` | Amazon OA §5 sentence (verbatim); `scripts/check_site.mjs` | — |
-| T-2D5 counter-check CI determinism fix (R-05) | in progress | 2d5ebe5b | `counter-check/tools/build_site.py` | Rebuild diff test | Owned by bac417a2 (finished); fixed by integration with log below |
-| T-2D6 Final integration: line-by-line re-verify, link check, PR to main, merge, Pages deploy | in progress | 2d5ebe5b | `COORDINATION.md` | Gate runs + Pages API | — |
+| T-2D1 Publication redesign: front page as a publication front (hero, category tiles, featured guides, picks), reader nav + single dashboard group in footer | done | 2d5ebe5b | `build_site.py`, `assets/style.css`, root `*.html` (regenerated) | Existing verified data (`data/products.json`, re-verified 2026-11-19 in this session); gate `scripts/check_site.mjs` PASSED (45 files) | — |
+| T-2D2 Eight catchy spec-backed guides (S-13): kept 5 + 3 new seasonal/cluster guides (holiday hosting, gifts by budget, wattage & outlets), complete internal linking (S-24) | done | 2d5ebe5b | `build_site.py`, new `guide-holiday-hosting.html`, `guide-gifts-by-budget.html`, `guide-wattage-outlets.html` | Facts only from `data/products.json` listings (re-read 2026-11-19); gate PASSED | Photography stays SVG/CSS (S-18/SG-04 undecided, FLG-009) |
+| T-2D3 Review desk: suggestions with recommended paths + Q/I/A missing-information discovery plan | done | 2d5ebe5b | `suggestions.html`, `DESIGN_PROMPT.md` | — | Owner choice required for every recommendation (SG-01..SG-16) |
+| T-2D4 Machinery: exact Section 5 disclosure wording (I-02), canonical in `build_site.py` + `data/products.json` (FLG-007 regression), deploy gate in `pages.yml` (I-05/R-01) | done | 2d5ebe5b | `build_site.py`, `data/products.json`, `.github/workflows/pages.yml` | OA §5 verbatim (fetched 2026-11-19); gate reports 0 disclosure warnings | — |
+| T-2D5 counter-check CI determinism (R-05) | done (verified already fixed) | 2d5ebe5b | — | `counter-check/tools/build_site.py` uses fixed `BUILD_DATE`; rebuild diff = empty; gate PASSED | R-05 closed |
+| T-2D6 Final integration: line-by-line re-verify, link check, PR to main, merge, Pages deploy | done | 2d5ebe5b | `COORDINATION.md`, `review/2d5ebe5b/VERIFICATION.md`, `README.md` | See publication record below | FLG-021, FLG-022 added; I-06 closed |
 
 ## Integration update — arena/71354f04-prod1 (2026-11-19)
 
@@ -137,3 +137,24 @@ Validation (this session): 0 broken internal links across 17 HTML pages; disclos
 - **Review report:** [`review/f34979f7/analytics-integration.md`](review/f34979f7/analytics-integration.md). The report records the current root client/backend event-name and payload mismatch, the unreferenced legacy tracker, the missing `assets/measure.js` README reference, and endpoint retention/origin questions. It includes an explicit request to the owners; no exploit or policy violation is claimed.
 - **Verification:** read-only `git grep` across current `origin/main` confirmed `assets/app.js` is the referenced root client, `data-analytics-endpoint` is blank in the checked root pages, `analytics-endpoint/server.py` has a different allowlist and expects `path`, and `assets/measure.js` is not tracked. The in-memory contract probe returned `invalid path` for `page_view` and `unknown event` for `search`. `node scripts/check_site.mjs` passed (42 HTML files, non-blocking wording warnings); `python3 counter-check/tools/check_site.py` passed (16 pages, 5 products, 21 flags); `git diff --check` passed. GitHub Pages API reported `built`. Official GitHub Pages, Amazon Associates Agreement/Policies, and Google Search Console pages were fetched on 2026-11-19; links are in the report.
 - **Request to T2/T4 and endpoint owners:** choose one event taxonomy and client/server payload contract, update the analytics entry on Flagged for Review, and connect/test only after a separate HTTPS host, retention, origin validation, and privacy notice are selected. Keep conversion values in authorized Associates reports. No production click/conversion data was collected by this session.
+
+## Session 2d5ebe5b — integration & verification record (2026-11-19)
+
+**Line-by-line re-verification.** This session fetched every official source page directly (five Amazon listings + the Associates Operating Agreement) and re-read each published value. Full log with per-field evidence and manual-review links: `review/2d5ebe5b/VERIFICATION.md`. Notable results:
+- **I-06 closed:** P1 buy box $79.93 / List $99.99 reproduced twice against the live listing (the earlier doubt traced to a $74.99 widget for a *different* ASIN — FLG-016).
+- **FLG-005 partially resolved:** P2 wattage found on the listing (1700 W / 120 V, Product information) and filled; P2 warranty precisely recorded (warranty PDF linked, no term in listing text).
+- **FLG-021 added:** Emeril listing conflicts with itself on accessory count (title/item-details 6 vs description 7).
+- **FLG-022 added:** Chefman 8QT listing conflicts with itself on wattage (bullets 1000 W vs Product information 1700 W). Both values published side by side; neither dropped.
+- Rating-count snapshot drift updated with date: P2 18,371→18,375; P3 16,890→16,892. P2 "7K+ bought"→"8K+".
+- **I-02 closed:** disclosure strip and footer now use the exact Operating Agreement §5 sentence (verified verbatim against the fetched agreement); publishing gate reports zero disclosure warnings.
+- **FLG-007 closed at the source:** `build_site.py` no longer emits the `example.com` placeholder (it regressed the earlier HTML patch on every rebuild); canonical is read from `data/products.json` = the Pages URL.
+
+**Publication redesign (shop-first).** Front page rebuilt as a publication front (hero, category tiles, product picks, fresh guides, chooser, trust strip); reader nav (Home/Shop/Compare/Guides) plus one dashboard nav group ("The desk") and full footer columns. New CSS design system (Fraunces/Inter, warm editorial palette, mobile-first, sticky compare bar) in `assets/style.css`. Visual direction captured in `DESIGN_PROMPT.md`. Eight question-shaped guides now published in three clusters (S-13/S-24), with sitemap + RSS generated deterministically by the build.
+
+**Review desk.** `suggestions.html` carries SG-01..SG-16 with recommended paths/alternatives/effort and a Q-01..Q-12 missing-information map (what is known, what is missing, how to discover it, what it blocks). All recommendations await owner approval; none is presented as decided.
+
+**Checks run (all passing).** `python3 build_site.py`; `node scripts/check_site.mjs` (45 HTML files; 3 warnings for the word "trending" inside rule/disclaimer text, not claims); `python3 counter-check/tools/check_site.py` (16 pages, 5 products, 21 flags); `python3 counter-check/tools/build_site.py` rebuild diff empty (R-05 closed); `git diff --check` clean.
+
+**Open items carried forward (non-blocking, published on flagged.html):** FLG-001/FLG-015 (Special Link test + untagged redirect targets — manual gate SG-01), FLG-004 (thermometer dimensions absent from listing fields), FLG-008/SG-03 (analytics endpoint hosting), FLG-009/SG-04 (photography licence), FLG-021, FLG-022.
+
+**Pull request and merge.** Recorded in the publication record below.
