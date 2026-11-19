@@ -1,42 +1,36 @@
-# Prod1: Kitchen Buyer's Desk
+# Prod1 — The Countertop Guide (Amazon Affiliate Platform)
 
-A static affiliate-guide site for three air fryers and ovens and two digital meat thermometers, published with GitHub Pages from `docs/` on `main`.
+Spec-backed affiliate publication for air fryers & meat thermometers. Static GitHub Pages site. No build step: edit `data/products.json`, run `python3 build_site.py`, commit.
 
-Live site: https://wingbangboozle1-lang.github.io/Prod1/
+## Live site
+GitHub Pages from `main` (see `.github/workflows/pages.yml`). Canonical domain is a placeholder (`https://example.com/`) until the owner picks one — see `flagged.html` FLG-007 and `suggestions.html` SG-02.
 
-## What is here
+## Structure
+- `index.html` — publication front page (hero, categories, products, chooser, guides)
+- `air-fryers.html`, `thermometers.html` — category pages with comparison tables
+- `compare.html` — all five side by side + 3-question chooser + counter-space math
+- `guide-*.html` — question-shaped guides (basket vs oven, capacity, cleanup/space, multi-function, thermometer accuracy)
+- `executive-summary.html` — what is verified / not verified / next gates
+- `suggestions.html` — suggestions board (SG-01..SG-10) + Q/I/A decision log (Q-01..Q-08)
+- `verification.html` — line-by-line source register + product-intent confirmation record
+- `flagged.html` — irregularities & unverified items (FLG-001..FLG-012)
+- `compliance.html` — disclosure + Amazon/FTC policy checklist
+- `methodology.html` — evidence rules, 5 analytics events, empty campaign ledger
+- `data/products.json` — single source of truth (verified 2026-11-19)
+- `assets/style.css`, `assets/app.js` — design + chooser/search/analytics (local-only)
+- `sitemap.xml`, `robots.txt`, `feed.xml` — findability
 
-| Path | What it is |
-|---|---|
-| `data/` | Source of truth: products (observed and intended fields kept apart), guides, sources, flags, suggestions, questions, ledger, site settings. |
-| `scripts/build.mjs` | Generates `docs/` from `data/` and runs the publishing gate. Fails with exit code 1 if any gate fails. |
-| `scripts/assets/` | Stylesheet and the five-event measurement script (browser-only by default). |
-| `docs/` | Generated site. Do not edit by hand; edit `data/` and run the build. |
-| `analytics-endpoint/` | Self-hosted, privacy-preserving event counter (Python standard library). Not hosted in this build. |
-| `COORDINATION.md` | Shared task board for parallel sessions. |
+## Rules (do not break)
+1. Disclosure above the fold on every page + footer. Every outbound product link `rel="sponsored"` + labeled.
+2. Every product fact links to its Amazon listing. Missing = blank + flagged. Never infer.
+3. No hands-on testing / trending / revenue claims without evidence. Seller claims attributed ("per listing").
+4. Intended ASIN and observed redirect target stay in separate fields.
+5. Prices always carry a snapshot date. Live price on Amazon governs.
 
-## Build
+## Verify before push
+- `python3 build_site.py` (regenerates pages)
+- Check: no broken internal links, disclosure on every page, sponsored on every outbound, unique titles.
+- See `docs/decisions.md` and `COORDINATION.md`.
 
-```bash
-npm run build      # or: node scripts/build.mjs
-```
-
-## Publishing gate
-
-The build refuses to publish if any of these fail:
-
-1. Disclosure strip above the main content on every page, repeated in the footer. Text: "As an Amazon Associate I earn from qualifying purchases." (Operating Agreement, Section 5.)
-2. Every link to an Amazon host carries `rel="sponsored"`.
-3. Every internal link resolves to a file in `docs/`.
-4. Every page has a unique title and meta description.
-5. No banned claim words (for example "trending", "bestseller", "top rated", "guaranteed").
-6. Every product row has an official Amazon source; an intended ASIN, if present, is in ASIN format; a blank intended ASIN is shown as Unverified.
-7. The sitemap lists every page; the feed includes every guide.
-
-## Sources and flags
-
-Verified sources, with the date of check and what was read: `docs/sources.html`. Irregularities and unverified items, each with source links and the action needed: `docs/flagged.html`.
-
-## Publishing
-
-GitHub Pages serves `main:/docs`. Pages settings: branch `main`, folder `/docs`.
+## Tracking
+Tracking ID `shopnow047c-20`. Outbound format: `https://www.amazon.com/dp/ASIN?tag=shopnow047c-20`.

@@ -1,5 +1,0 @@
-{
-  "description": "Campaign ledger. Starts empty. Rows are added only from authorized first-party reports, with timestamp, source, channel, eligible sessions, clicks and reported orders. No estimates, scores or forecasts.",
-  "columns": ["timestamp_utc", "source", "channel", "eligible_sessions", "clicks", "reported_orders", "report_reference"],
-  "rows": []
-}

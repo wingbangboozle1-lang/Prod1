@@ -1,5 +1,0 @@
-__pycache__/
-*.pyc
-analytics-endpoint/counts.json
-.DS_Store
-node_modules/
