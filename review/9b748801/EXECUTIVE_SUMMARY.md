@@ -1,13 +1,14 @@
 # Executive summary — Countertop Check (working name)
 
-Date: 2026-11-19 · Branch: `arena/9b748801-prod1` · Site: https://wingbangboozle1-lang.github.io/Prod1/ (after deploy from `main:/docs`)
+Date: 2026-11-19 · Branch: `arena/9b748801-prod1` · Published site: https://wingbangboozle1-lang.github.io/Prod1/ (the root site built by other sessions). This session's parallel build was NOT published; see `README.md` in this folder.
 
-## What was built
+## What was built (prototype, not published)
 - A static, sponsored-link site for the five Amazon links you submitted: three air fryers/ovens and two meat thermometers.
 - Front page (products first), two category pages, a products table, five question-shaped guides, and dashboards for Analysis, Verification, Campaign ledger, Measurement, Suggestions, Open questions, **Flagged for Review**, Executive summary, and Disclosure & policy.
 - Disclosure strip under the masthead of every page, repeated in the footer. Wording is the Operating Agreement §5 statement.
 - Every Amazon link carries `rel="sponsored noopener noreferrer"` (Google's guidance for paid/affiliate links).
 - Sitemap, RSS feed of guides, `robots.txt`, unique titles and descriptions per page.
+- Note: the live site on `main` already covers this scope; the review-relevant parts were merged into it as FLG-013 to FLG-020.
 - Build and gate scripts (`npm run build`, `npm run check`). The check fails the build on a missing disclosure, a non-sponsored Amazon link, a broken internal link, a missing sitemap/RSS entry, or a product row without a source.
 
 ## What is verified (sources on each page)

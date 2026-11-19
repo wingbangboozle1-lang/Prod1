@@ -92,5 +92,9 @@ PR #9 (`arena/b4c6c619-prod1` into `main`) was first opened with a parallel site
 
 ## Merge record (session 9b748801)
 
-_Recorded after the PR is merged and the Pages deploy is checked (see the next update)._
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/8 (`arena/9b748801-prod1` → `main`), retitled to the integration scope.
+- Merge result: MERGED 2026-11-19 12:47:43Z, merge commit `625e519`. Merged with the merge command (no auto-merge, no approval wait). `main` had advanced three times during this session (PRs #2–#4, #6, #9 from other sessions); each time `origin/main` was merged into this branch with upstream winning conflicts, and the session's entries were re-logged.
+- Pages deploy: GitHub Pages API reports `built` for commit `625e519` (source `main` `/`). Live check (cache-busted): `flagged.html` shows FLG-013 to FLG-020.
+- Post-merge checks: root live site 26 pages, 0 broken internal links or anchors; 75 Amazon product-type links all `rel="sponsored"`; `counter-check` gate PASSED (16 pages).
+- Note: this record was committed to the session branch after the merge. It appears on `main` only when the next integration merges this branch.
 
