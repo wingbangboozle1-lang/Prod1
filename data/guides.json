@@ -1,0 +1,40 @@
+{
+  "guides": [
+    {
+      "slug": "basket-or-oven-style-air-fryer",
+      "title": "Basket or oven-style air fryer: what should you compare?",
+      "description": "Basket or oven-style air fryer? The questions that decide it, with the listing facts we could confirm for the air fryers in our table.",
+      "category": "air-fryers",
+      "published": "2026-11-19",
+      "status": "Working title (editorial hypothesis, not a popularity claim)",
+      "listing_sources": ["B0CDY277D3", "B08DKYBTPH", "B09B7SB46R"]
+    },
+    {
+      "slug": "checklist-comparing-air-fryer-capacity",
+      "title": "A no-hype checklist for comparing air fryer capacity",
+      "description": "A checklist for comparing air fryer capacity: how quart numbers in listings differ, and what to check before you compare two models.",
+      "category": "air-fryers",
+      "published": "2026-11-19",
+      "status": "Working title (editorial hypothesis, not a popularity claim)",
+      "listing_sources": ["B0CDY277D3", "B08DKYBTPH", "B09B7SB46R"]
+    },
+    {
+      "slug": "cleanup-and-counter-space-trade-offs",
+      "title": "How to assess cleanup and counter-space trade-offs",
+      "description": "How to weigh cleanup effort and counter space when choosing an air fryer or countertop oven, using only what the listings state.",
+      "category": "air-fryers",
+      "published": "2026-11-19",
+      "status": "Working title (editorial hypothesis, not a popularity claim)",
+      "listing_sources": ["B0CDY277D3", "B08DKYBTPH", "B09B7SB46R"]
+    },
+    {
+      "slug": "questions-before-buying-multi-function-appliance",
+      "title": "Questions to ask before buying a multi-function kitchen appliance",
+      "description": "Questions to ask before buying a multi-function kitchen appliance, including how to read preset and function counts on a listing.",
+      "category": "multi-function-ovens",
+      "published": "2026-11-19",
+      "status": "Working title (editorial hypothesis, not a popularity claim)",
+      "listing_sources": ["B09B7SB46R", "B08DKYBTPH"]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "slug": "air-fryers",
+      "name": "Air fryers",
+      "summary": "Basket-style air fryers from the supplied list. Compare format, stated capacity and cleanup notes as the listings state them.",
+      "guide": "basket-or-oven-style-air-fryer",
+      "source_url": "https://www.amazon.com/Air-Fryers/b/ref=dp_bc_5?ie=UTF8&node=17659096011",
+      "source_label": "Amazon.com category page 'Air Fryers' (breadcrumb on the observed listings)"
+    },
+    {
+      "slug": "multi-function-ovens",
+      "name": "Multi-function ovens",
+      "summary": "Countertop air-fryer toaster ovens. The question is how much counter and cooking space you need, and which functions you will use.",
+      "guide": "questions-before-buying-multi-function-appliance",
+      "source_url": "https://www.amazon.com/Air-Fryers/b/ref=dp_bc_5?ie=UTF8&node=17659096011",
+      "source_label": "Amazon.com category page 'Air Fryers' (breadcrumb on the observed listing; listed under Fryers > Air Fryers)"
+    },
+    {
+      "slug": "meat-thermometers",
+      "name": "Meat thermometers",
+      "summary": "Digital and wireless probe thermometers. Compare probe count, range and accuracy claims as printed on the listing.",
+      "guide": null,
+      "source_url": "https://www.amazon.com/Meat-Thermometers-Timers/b/ref=dp_bc_5?ie=UTF8&node=289810",
+      "source_label": "Amazon.com category page 'Meat' (breadcrumb on the observed listings)"
+    }
+  ]
+}

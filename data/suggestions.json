@@ -1,0 +1,41 @@
+{
+  "note": "Nothing below is implemented until the owner picks an option. Each recommendation is an argument for review, not a decision.",
+  "suggestions": [
+    {"id": "SG-01", "topic": "Where the analytics endpoint runs", "options": [
+      {"id": "A", "label": "Keep the site static; leave the tracker off until a consent decision", "tradeoff": "No click data, but no privacy exposure. Matches the current state."},
+      {"id": "B", "label": "Host endpoint/server.js on a server you control", "tradeoff": "Click counts from the five events. Needs hosting, a domain, and a privacy notice."},
+      {"id": "C", "label": "Use a third-party analytics product", "tradeoff": "Faster to set up. Needs a consent banner and its own privacy terms; not reviewed here."}
+    ], "recommendation": "A, until Q-05 is answered. Argument: the endpoint cannot run on GitHub Pages, and no consent review has been done."},
+    {"id": "SG-02", "topic": "Special Link validation", "options": [
+      {"id": "A", "label": "Owner runs the Associates test on one link per product, then reports back", "tradeoff": "Required by the brief before scaling. Needs owner login."},
+      {"id": "B", "label": "Skip the test and publish the links as they are", "tradeoff": "Faster. Leaves F-03 open and the attribution unverified."}
+    ], "recommendation": "A. Argument: the brief makes the test a gate before scaling."},
+    {"id": "SG-03", "topic": "Publishing cadence", "options": [
+      {"id": "A", "label": "Two guides a month for three months, then review", "tradeoff": "Steady output. Ties up review time."},
+      {"id": "B", "label": "One guide a month", "tradeoff": "Lighter load; slower signal."},
+      {"id": "C", "label": "No set cadence until Search Console data exists", "tradeoff": "Avoids guessing. Delays the first measured topic."}
+    ], "recommendation": "C first, then A once Q-09 gives query data. Argument: the brief asks for topics chosen from measured queries."},
+    {"id": "SG-04", "topic": "Product photography", "options": [
+      {"id": "A", "label": "Text and title facts only (current)", "tradeoff": "No licensing risk; less visual appeal."},
+      {"id": "B", "label": "Owner-taken photos of the products", "tradeoff": "Original imagery; needs the products."},
+      {"id": "C", "label": "Amazon-supplied imagery", "tradeoff": "Only if the Operating Agreement terms allow it for this use. Not checked here."}
+    ], "recommendation": "A now; B if the owner has the products. Argument: C is unverified."},
+    {"id": "SG-05", "topic": "Prices and ratings", "options": [
+      {"id": "A", "label": "Show neither", "tradeoff": "Always current-proof; less decision support."},
+      {"id": "B", "label": "Show them from an approved API after access is confirmed", "tradeoff": "Richer. Access and terms not confirmed."}
+    ], "recommendation": "A until access terms are confirmed."},
+    {"id": "SG-06", "topic": "Add a guide for meat thermometers", "options": [
+      {"id": "A", "label": "Yes, one guide on the questions to ask before buying", "tradeoff": "Covers the category; adds one page to review."},
+      {"id": "B", "label": "No; keep four guides", "tradeoff": "Thermometer category has no guide page."}
+    ], "recommendation": "A. Argument: the category has two listings and no guide."},
+    {"id": "SG-07", "topic": "Name and author", "options": [
+      {"id": "A", "label": "Keep 'Counter Notes' as the working name; add an author once named", "tradeoff": "No delay."},
+      {"id": "B", "label": "Choose a different name now", "tradeoff": "Owner decision."}
+    ], "recommendation": "A until the owner names an author."},
+    {"id": "SG-08", "topic": "Which build publishes", "options": [
+      {"id": "A", "label": "This branch (arena/a17ba53c-prod1)", "tradeoff": "Full build with checks; docs/ output."},
+      {"id": "B", "label": "The other session's build (arena/cba9af3f-prod1)", "tradeoff": "Its own file layout; not reviewed here."},
+      {"id": "C", "label": "Merge the two", "tradeoff": "Needs a combined review; file overlap."}
+    ], "recommendation": "Owner decision. This branch is the one carried through the merge in this session."}
+  ]
+}

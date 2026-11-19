@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analytics and measurement: five events, tracker off · Counter Notes</title>
+<meta name="description" content="The five proposed click and page events, what each sends, and why measurement is off until an endpoint and a consent decision exist.">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/analytics/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Counter Notes">
+<meta property="og:title" content="Analytics and measurement: five events, tracker off · Counter Notes">
+<meta property="og:description" content="The five proposed click and page events, what each sends, and why measurement is off until an endpoint and a consent decision exist.">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/analytics/">
+<meta name="analytics-endpoint" content="">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="alternate" type="application/rss+xml" title="Counter Notes guides" href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead"><div class="wrap">
+<div class="row"><a class="brand" href="../">Counter Notes</a><p class="tagline">Air fryers and meat thermometers, sorted by the questions to settle first</p></div>
+<nav class="primary" aria-label="Main"><ul><li><a href="../products/">Products</a></li><li><a href="../guides/">Guides</a></li><li><a href="../analysis/">Analysis</a></li><li><a href="../questions/">Questions</a></li><li><a href="../suggestions/">Suggestions</a></li><li><a href="../flagged/">Flagged for Review</a></li><li><a href="../executive-summary/">Executive summary</a></li></ul></nav>
+</div></header>
+<div class="disclosure" role="note"><div class="wrap"><p><strong>Disclosure:</strong> As an Amazon Associate I earn from qualifying purchases. This site is not endorsed by or affiliated with Amazon. Prices and availability are not shown here; check the listing.</p></div></div>
+<main id="main"><div class="wrap">
+
+<p class="crumbs"><a href="../">Home</a> › Analytics and measurement</p>
+<h1>Analytics and measurement</h1>
+<div class="notice"><p><strong>Tracker status: off.</strong> No endpoint is hosted. GitHub Pages serves static files only, so the collector in <code>endpoint/</code> must run on a server the owner controls (<a href="../flagged/">F-07</a>).</p></div>
+<h2>The five events</h2>
+<p class="small">The brief refers to "the five defined events" but does not list them. These five are a proposal (<a href="../flagged/">F-06</a>).</p>
+<div class="tablewrap"><table class="data compact"><thead><tr><th>Event</th><th>Fires when</th><th>Sends</th><th>Status</th></tr></thead><tbody><tr><td><code>page_view</code></td><td>A page loads</td><td>Path only (no query string)</td><td><span class="unverified">PROPOSED, NOT APPROVED</span></td></tr><tr><td><code>outbound_click</code></td><td>A product link is clicked</td><td>Path and product ID</td><td><span class="unverified">PROPOSED, NOT APPROVED</span></td></tr><tr><td><code>guide_scroll_75</code></td><td>A reader reaches the end section of a guide</td><td>Path only</td><td><span class="unverified">PROPOSED, NOT APPROVED</span></td></tr><tr><td><code>table_filter</code></td><td>A reader first types in the products filter</td><td>Path only</td><td><span class="unverified">PROPOSED, NOT APPROVED</span></td></tr><tr><td><code>feed_subscribe_click</code></td><td>A reader clicks the RSS link</td><td>Path only</td><td><span class="unverified">PROPOSED, NOT APPROVED</span></td></tr></tbody></table></div>
+<h2>Privacy design</h2>
+<ul class="plain">
+<li>No cookies, no localStorage, no fingerprinting.</li>
+<li>The tracker sends the event name, the path without query string, and a product ID for outbound clicks.</li>
+<li>The collector stores daily counts only: no IP address, no user agent.</li>
+<li>Nothing is sent until an endpoint URL is set in the page's <code>analytics-endpoint</code> meta tag.</li>
+</ul>
+<h2>What is needed before this is on</h2>
+<ol class="steps">
+<li>Owner approves the event list (Q-06).</li>
+<li>Owner chooses a hosting option (<a href="../suggestions/">SG-01</a>).</li>
+<li>A privacy notice and consent approach are written (Q-05).</li>
+</ol>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<div class="disclosure disc"><strong>Disclosure:</strong> As an Amazon Associate I earn from qualifying purchases. This site is not endorsed by or affiliated with Amazon.</div>
+<div class="foot-grid"><div><h2>Shop</h2><ul><li><a href="../products/">All products</a></li><li><a href="../categories/air-fryers/">Air fryers</a></li><li><a href="../categories/multi-function-ovens/">Multi-function ovens</a></li><li><a href="../categories/meat-thermometers/">Meat thermometers</a></li></ul></div><div><h2>Guides</h2><ul><li><a href="../guides/">All guides</a></li><li><a href="../guides/basket-or-oven-style-air-fryer/">Basket or oven-style air fryer: what should you compare?</a></li><li><a href="../guides/checklist-comparing-air-fryer-capacity/">A no-hype checklist for comparing air fryer capacity</a></li><li><a href="../guides/cleanup-and-counter-space-trade-offs/">How to assess cleanup and counter-space trade-offs</a></li><li><a href="../guides/questions-before-buying-multi-function-appliance/">Questions to ask before buying a multi-function kitchen appliance</a></li></ul></div><div><h2>Dashboards</h2><ul><li><a href="../analysis/">Analysis</a></li><li><a href="../register/">Backlog register</a></li><li><a href="../intent-records/">Product-intent records</a></li><li><a href="../questions/">Open questions</a></li><li><a href="../suggestions/">Suggestions (awaiting choice)</a></li><li><a href="../ledger/">Campaign ledger</a></li><li><a href="../analytics/">Analytics and measurement</a></li><li><a href="../flagged/">Flagged for Review</a></li><li><a href="../executive-summary/">Executive summary</a></li></ul></div><div><h2>Site</h2><ul><li><a href="../about/">About and editorial standard</a></li><li><a href="../feed.xml" data-event="feed_subscribe_click">RSS feed</a></li><li><a href="../sitemap.xml">Sitemap</a></li><li><a href="../ledger.csv">Ledger CSV (header only)</a></li></ul></div></div>
+<p class="small" style="margin-top:20px">Working name. Last reviewed 2026-11-19. Every fact is taken from the source named on the page; anything not confirmed is marked UNVERIFIED. Repository: <a href="https://github.com/wingbangboozle1-lang/Prod1">github.com/wingbangboozle1-lang/Prod1</a></p>
+</div></footer>
+<script src="../assets/track.js" defer></script>
+</body>
+</html>
