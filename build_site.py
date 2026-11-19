@@ -583,6 +583,87 @@ b5, j5 = guide_shell("Guide &middot; Thermometers", "Instant-read or wireless? H
  "Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.")
 open("guide-thermometer-accuracy.html","w").write(page("guide-thermometer-accuracy.html","Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.",b5,j5,"guide-page"))
 
+# ---------- SEASONAL GUIDES ----------
+g6_body = f"""<p class="eyebrow">Seasonal guide - Air fryer &amp; thermometer gifts</p>
+<h1>Holiday air fryer gifts: what to buy for every kind of cook</h1>
+<p class="meta">By The Countertop Guide editorial team - Spec-based gift guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
+<p class="lede">Match the fryer to the cook, not the wish list. These picks come only from the verified listings on this site, each with its snapshot price and a link to its source.</p>
+<div class="toc"><strong>On this page:</strong> <a href="#for-couples">For couples &amp; side-dish cooks</a> - <a href="#for-crowds">For crowds &amp; weekend roasts</a> - <a href="#for-small-kitchens">For small kitchens</a> - <a href="#for-thermometer-gifts">Thermometer stocking stuffers</a> - <a href="#faq">Questions</a></div>
+<h2 id="for-couples">For couples and side-dish cooks: Chefman 6QT dual-basket</h2>
+<p>Two independent 3-quart baskets with Sync Finish, so two dishes can finish at the same time - good for a main and a side together. Listing shows dual-zone cooking, viewing windows, and dishwasher-safe baskets. Depth 13.38 inches (34.0 cm). Price snapshot {VERIFIED}: $79.93 (list $99.99).</p>
+<p><a class="btn" href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">See Chefman 6QT listing - sponsored</a></p>
+<h2 id="for-crowds">For crowds and weekend roasts: Emeril 26QT French-door oven</h2>
+<p>The listing describes 26-quart capacity for 4-6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza. Deepest of the three at 16.9 inches (42.9 cm) - it needs real counter depth. Price snapshot {VERIFIED}: $149.99 (list $209.99). Preset count differs between title (24) and bullets (25) - see <a href="flagged.html">Flagged FLG-002</a>.</p>
+<p><a class="btn" href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">See Emeril 26QT listing - sponsored</a></p>
+<h2 id="for-small-kitchens">For small kitchens: Chefman 8QT single basket</h2>
+<p>Shallowest of the three at 12.75 inches (32.4 cm) deep, with an 8-quart single basket, 450F Hi-Fry option, and a top-rack dishwasher-safe basket and tray. Price snapshot {VERIFIED}: $69.99 (list $119.99).</p>
+<p><a class="btn" href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">See Chefman 8QT listing - sponsored</a></p>
+<h2 id="for-thermometer-gifts">Thermometer stocking stuffers</h2>
+<p>ThermoMaven instant-read: 1-second read, +/-0.5F accuracy with NIST &amp; NSF certification claimed, IP67 waterproof, includes a calibration certificate. Best for quick checks, grilling, candy, everyday meals. Price snapshot {VERIFIED}: $16.99 (list $22.99). Rating snapshot {VERIFIED}: 4.6 (3,499). Dimensions not yet captured - see <a href="flagged.html">Flagged FLG-004</a>. <a class="btn" href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See ThermoMaven listing - sponsored</a></p>
+<p>CHEF iQ Sense wireless: 3 ultra-thin probes plus hub, WiFi app monitoring, 1000F heat-safe probes claimed, up to 50 hours per charge claimed, flip reminders and rest timers. Listing bullets describe 4 internal + 1 ambient sensors (title says 5); no +/-F accuracy figure captured - do not assume it matches the instant-read. Price snapshot {VERIFIED}: $119.99 (list $219.99, 3-probe). Rating snapshot {VERIFIED}: 4.2 (2,178). <a class="btn" href="{aff(PRODS['P5'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See CHEF iQ listing - sponsored</a></p>
+<p class="small">Snapshot prices and ratings are from Amazon.com on {VERIFIED} and will change. Confirm price, variant and fit on the listing before buying. No hands-on testing - these are spec-based suggestions, not recommendations of use.</p>
+<h2 id="faq">Questions</h2>
+<details><summary>Which air fryer makes the best gift?</summary><p>The one that fits the recipient's counter and cooking: dual-basket for two dishes at once, oven-style for crowds and roasts, single basket for compact counters. Match counter depth first.</p></details>
+<details><summary>Are these gift picks hands-on tested?</summary><p>No. We have not cooked with any of these units. Picks are based only on verified listing specs and snapshot prices.</p></details>
+<details><summary>Do the prices include shipping?</summary><p>Prices shown are the listing's new-item snapshot; shipping depends on the buyer's location and Prime status at checkout. Confirm on Amazon before buying.</p></details>
+"""
+j6 = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which air fryer makes the best gift?","acceptedAnswer":{"@type":"Answer","text":"The one that fits the recipient's counter and cooking: dual-basket for two dishes at once, oven-style for crowds and roasts, single basket for compact counters. Match counter depth first."}},{"@type":"Question","name":"Are these gift picks hands-on tested?","acceptedAnswer":{"@type":"Answer","text":"No. We have not cooked with any of these units. Picks are based only on verified listing specs and snapshot prices."}}]}
+open("guide-holiday-gifts.html","w").write(page("Holiday Air Fryer Gifts: What to Buy for Every Kind of Cook | The Countertop Guide","Spec-based holiday gift picks drawn from verified Amazon listings: Chefman 6QT dual-basket, Emeril 26QT oven, Chefman 8QT basket, plus thermometer stocking stuffers.",g6_body,jsonld(j6)))
+# ---------- GUIDE 7: small kitchen ----------
+g7_body = f"""<p class="eyebrow">Seasonal guide - Small kitchens</p>
+<h1>Small kitchen, big appetite: which air fryer fits under 34 cm of counter depth?</h1>
+<p class="meta">By The Countertop Guide editorial team - Spec-based guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
+<p class="lede">Measure before you buy. This guide compares the three verified fryers by counter depth and footprint, with the derived capacity-per-centimetre math shown and its limits stated.</p>
+<div class="toc"><strong>On this page:</strong> <a href="#measure">Measure your counter</a> - <a href="#depth-table">Depth and footprint table</a> - <a href="#capacity-per-cm">Capacity per centimetre of depth</a> - <a href="#faq">Questions</a></div>
+<h2 id="measure">Measure your counter first</h2>
+<p>Depth decides whether it fits under cabinets; width decides whether it crowds the sink. From listing dimensions:</p>
+<ul>
+<li>Chefman 8QT basket: 12.75D x 13.5W in - shallowest at 32.4 cm depth, 172.1 sq in footprint.</li>
+<li>Chefman 6QT dual: 13.38D x 11.81W in - narrowest at 34.0 cm depth, 158.0 sq in footprint.</li>
+<li>Emeril 26QT oven: 16.9D x 15.8W in - deepest at 42.9 cm depth, 267.0 sq in footprint.</li>
+</ul>
+<p class="small">Dimensions as shown on each Amazon listing on {VERIFIED}. Footprint = width x depth; derived by us, not a manufacturer claim. Method and limits in <a href="guide-cleanup-counter-space.html">cleanup &amp; counter-space guide</a>.</p>
+<h2 id="depth-table">Depth and footprint table (verified fields only)</h2>
+<div class="table-scroll"><table>
+<tr><th>Air fryer (ASIN)</th><th>Depth</th><th>Width</th><th>Height</th><th>Footprint</th><th>Capacity (title)</th><th>Price snapshot {VERIFIED}</th></tr>
+<tr><td><a href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">Chefman 8QT single basket - sponsored</a> B08DKYBTPH</td><td>12.75 in (32.4 cm)</td><td>13.5 in</td><td>10 in</td><td>172.1 sq in</td><td>8 quarts</td><td>$69.99 (list $119.99)</td></tr>
+<tr><td><a href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">Chefman 6QT dual-basket - sponsored</a> B0CDY277D3</td><td>13.38 in (34.0 cm)</td><td>11.81 in</td><td>10.63 in</td><td>158.0 sq in</td><td>6 Quart (2 x 3 Qt)</td><td>$79.93 (list $99.99)</td></tr>
+<tr><td><a href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">Emeril 26QT French-door oven - sponsored</a> B09B7SB46R</td><td>16.9 in (42.9 cm)</td><td>15.8 in</td><td>14.8 in</td><td>267.0 sq in</td><td>26QT</td><td>$149.99 (list $209.99)</td></tr>
+</table></div>
+<h2 id="capacity-per-cm">Capacity per centimetre of counter depth (derived)</h2>
+<p>Emeril 0.61 qt/cm, Chefman 8QT 0.25 qt/cm, Chefman 6QT dual 0.18 qt/cm. The oven gives the most capacity per centimetre of depth - if you have the depth to spare. Not a manufacturer claim; derived from listing dimensions and title capacity.</p>
+<h2 id="faq">Questions</h2>
+<details><summary>Which air fryer fits the smallest counter?</summary><p>By depth, the Chefman 8QT (32.4 cm). By footprint, the Chefman 6QT dual-basket (158.0 sq in). Measure both depth and width before buying.</p></details>
+<details><summary>Is capacity per centimetre a manufacturer claim?</summary><p>No. It is derived by us from listing dimensions (inches x 2.54 = cm) and title capacity. Treat it as a planning aid, verify fit on the listing.</p></details>
+"""
+j7 = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which air fryer fits the smallest counter?","acceptedAnswer":{"@type":"Answer","text":"By depth, the Chefman 8QT (32.4 cm). By footprint, the Chefman 6QT dual-basket (158.0 sq in). Measure both depth and width before buying."}},{"@type":"Question","name":"Is capacity per centimetre a manufacturer claim?","acceptedAnswer":{"@type":"Answer","text":"No. It is derived by us from listing dimensions and title capacity. Treat it as a planning aid, verify fit on the listing."}}]}
+open("guide-small-kitchen.html","w").write(page("Small Kitchen Air Fryers: Which Fits Under 34 cm of Counter Depth? | The Countertop Guide","Counter depth and footprint compared for 3 verified air fryers, with derived capacity-per-centimetre math and measure-first advice.",g7_body,jsonld(j7)))
+# ---------- GUIDE 8: holiday roast thermometers ----------
+g8_body = f"""<p class="eyebrow">Seasonal guide - Holiday roasts</p>
+<h1>Roast like a pro: instant-read or wireless thermometer for holiday roasts?</h1>
+<p class="meta">By The Countertop Guide editorial team - Spec-based guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
+<p class="lede">A roast is only as good as knowing when it's done. This guide reads the accuracy claims on two verified thermometers - what each claim does and does not prove - so you can choose before the holiday.</p>
+<div class="toc"><strong>On this page:</strong> <a href="#instant-read">Instant-read: ThermoMaven</a> - <a href="#wireless">Wireless: CHEF iQ Sense</a> - <a href="#reading-accuracy">How to read accuracy claims</a> - <a href="#faq">Questions</a></div>
+<h2 id="instant-read">Instant-read: ThermoMaven 1-Second</h2>
+<p>Listing claims +/-0.5F accuracy with NIST &amp; NSF certification, 1-second thermocouple read, IP67 waterproof, auto-rotating LED, includes a calibration certificate. Best for: quick checks, grilling, candy, everyday meals. Price snapshot {VERIFIED}: $16.99 (list $22.99). Rating snapshot {VERIFIED}: 4.6 (3,499).</p>
+<p><a class="btn" href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See ThermoMaven listing - sponsored</a></p>
+<h2 id="wireless">Wireless: CHEF iQ Sense (3 probes)</h2>
+<p>Three ultra-thin probes plus hub, WiFi unlimited range with app, 1000F heat-safe probes claimed, up to 50 hours per charge claimed, flip reminders and rest timers. Listing bullets describe 4 internal + 1 ambient sensors (title says 5). No +/-F accuracy figure was captured - do not assume it matches the instant-read. Price snapshot {VERIFIED}: $119.99 (list $219.99, 3-probe). Rating snapshot {VERIFIED}: 4.2 (2,178).</p>
+<p><a class="btn" href="{aff(PRODS['P5'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See CHEF iQ listing - sponsored</a></p>
+<h2 id="reading-accuracy">How to read accuracy claims</h2>
+<ul>
+<li>Ask for the +/- figure <em>and</em> the certification name. "NIST certified" without a figure is incomplete.</li>
+<li>Ask what the sensor count means. CHEF iQ's 5 = 4 internal + 1 ambient (per bullets).</li>
+<li>"Unlimited" WiFi range means app monitoring over your network - you still need WiFi and the app.</li>
+<li>We have not calibrated either unit. Certification claims are the seller's; verify the certificate on the listing.</li>
+</ul>
+<p class="small">Accuracy figures and ratings are listing snapshots from {VERIFIED} and will change. We have not cooked with or calibrated either thermometer. Confirm claims on the listing before buying.</p>
+<h2 id="faq">Questions</h2>
+<details><summary>Instant-read or wireless for a holiday roast?</summary><p>Instant-read for a fast answer in your hand (ThermoMaven, 1-second). Wireless for monitoring from another room across a long cook (CHEF iQ Sense, 3 probes). Match the tool to how you cook.</p></details>
+<details><summary>Are the accuracy claims verified by the site?</summary><p>No. Claims are quoted from the listings with the certification named. We have not calibrated either unit; verify certificates on the listing.</p></details>
+"""
+j8 = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Instant-read or wireless for a holiday roast?","acceptedAnswer":{"@type":"Answer","text":"Instant-read for a fast answer in your hand (ThermoMaven, 1-second). Wireless for monitoring from another room across a long cook (CHEF iQ Sense, 3 probes). Match the tool to how you cook."}},{"@type":"Question","name":"Are the accuracy claims verified by the site?","acceptedAnswer":{"@type":"Answer","text":"No. Claims are quoted from the listings with the certification named. We have not calibrated either unit; verify certificates on the listing."}}]}
+open("guide-holiday-roast.html","w").write(page("Roast Like a Pro: Instant-Read or Wireless Thermometer for Holiday Roasts? | The Countertop Guide","Reading meat thermometer accuracy claims on 2 verified listings - instant-read vs wireless - with snapshot prices and ratings.",g8_body,jsonld(j8)))
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <section class="doc-hero">
@@ -719,7 +800,7 @@ sg_rows = (
         ["Approve", "Reject", "Defer", "Needs more info"], "Proposed") +
  sg_row("SG-19", "Unify the site's brand (root site vs the Counter &amp; Crumb docs/articles pages)",
         "One brand on one domain is easier to index, remember and trust", "Owner review of both editorial sets", "Medium",
-        ["Approve", "Reject", "Defer", "Needs more info"], "Flagged for owner decision - see FLG-023")
+        ["Approve", "Reject", "Defer", "Needs more info"], "Flagged for owner decision - see FLG-025")
 )
 
 def q_row(qid, question, know, lack, discover, blocked, options=("Open", "Answered", "Blocked - owner needed")):
@@ -902,7 +983,9 @@ flag_body = f"""
 <tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in that pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
 <tr><td>FLG-021</td><td>Accessory count discrepancy (Emeril)</td><td>Listing title says "Six Cooking Accessories Included"; the listing's item details say "Air Fryer Toaster Oven Combo with 24 Functions and 7 Accessories"; the included-components list names 6 items (Rack, Bake Pan, Drip Tray, Crisper Basket, Rotisserie Spit, Fetch Tool). All three values are listing-internal and disagree. We show the title value and flag it; no count is inferred. Observed 2026-11-19.</td><td>Ask seller / read product manual; show title value with flag until resolved</td></tr>
 <tr><td>FLG-022</td><td>Wattage discrepancy (Chefman 8QT)</td><td>Chefman 8QT listing bullets state "1000 Watts/120 Volts - RJ38-SQSS-8T" while the listing's Product information table lists Output Wattage 1700 watts, 120 volts. Both values are listing-internal and disagree. We show the bullets value with attribution and flag it; no wattage is inferred. Observed 2026-11-19.</td><td>Ask seller / read user manual; resolve before any circuit-load claim</td></tr>
-<tr><td>FLG-023</td><td>Two editorial brands on one domain</td><td>The root site (The Countertop Guide) and the docs/ + articles/ set (Counter &amp; Crumb) ship under different brand names on the same GitHub Pages domain. Both carry disclosures and sponsored-link marks; the brand split is an owner decision, not a compliance failure.</td><td>Owner decision (SG-11)</td></tr>
+<tr><td>FLG-023</td><td>Intended ASIN inconsistency</td><td>data/products.json sets the intended ASIN equal to the verified/observed ASIN. FLG-013 states intended ASIN fields stay blank pending submitter confirmation, and the brief requires intended and observed targets to remain separate.</td><td>Owner confirms each intended ASIN or blanks the field (R-02, Q-03)</td></tr>
+<tr><td>FLG-024</td><td>Rating-count snapshot drift</td><td>Re-read of listings 2026-11-19 shows P2 rating count 18,375 (recorded 18,371) and P3 16,892 (recorded 16,890). Ratings, like prices, are snapshots that change.</td><td>Re-snapshot ratings on cadence; treat recorded counts as unverified until re-confirmed</td></tr>
+<tr><td>FLG-025</td><td>Two editorial brands on one domain</td><td>The root site (The Countertop Guide) and the docs/ + articles/ set (Counter &amp; Crumb) ship under different brand names on the same GitHub Pages domain. Both carry disclosures and sponsored-link marks; the brand split is an owner decision, not a compliance failure.</td><td>Owner decision (SG-19)</td></tr>
 </table></div>
 </article>
 """
