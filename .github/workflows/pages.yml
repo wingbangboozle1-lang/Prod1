@@ -18,13 +18,74 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Publishing gate (disclosure, sponsored links, internal links, titles, claims)
+
+      # The repository's HTML is generated. A hand-edited page is a bug: it will be
+      # overwritten by the next build, so CI refuses to deploy a drifted checkout.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the one build dependency
+        run: python -m pip install --quiet Pillow
+
+      - name: Rebuild the site and the social card
+        run: |
+          python build_site.py
+          python scripts/make_og.py
+
+      # assets/og-image.png is deliberately left out of the comparison: the drawing is
+      # deterministic for a given Pillow build, and a different Pillow on the runner can
+      # re-encode the same pixels to different bytes. Content drift in the HTML is what
+      # must never happen, so that is what this step protects.
+      - name: Fail if generated files are out of date
+        run: |
+          if ! git diff --exit-code -- '*.html' sitemap.xml feed.xml robots.txt data/search-index.json; then
+            echo "::error file=build_site.py::Generated output differs from the committed HTML. Run 'python3 build_site.py && python3 scripts/make_og.py' and commit the result."
+            git status --short
+            git diff --stat -- '*.html' sitemap.xml feed.xml robots.txt data/search-index.json
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Two independent gates on purpose: check_site.mjs (written by another session,
+      # scans every HTML file in the repo) and check_meta.mjs (this site's metadata,
+      # voice and price-policy rules). With the Pages source set to GitHub Actions either
+      # one blocks the publish; in legacy mode they gate the commit, and a failure is the
+      # red X on main that tells the owner the branch is not shippable.
+      - name: Publishing gate - repository-wide checks
         run: node scripts/check_site.mjs
+      - name: Publishing gate - metadata, voice and price policy
+        run: node scripts/check_meta.mjs
+
+      # Pages here is published from the `main` branch (the repository's Pages build
+      # source is "legacy"), which is why the root of this repo IS the site. In that mode
+      # actions/deploy-pages always fails ("please use GitHub Actions as the build source"),
+      # so the publish steps are skipped unless the owner switches Settings -> Pages -> Build
+      # source to "GitHub Actions", at which point this workflow becomes the publisher and
+      # a gate failure blocks the deploy outright.
+      - name: Read the Pages build source
+        id: pagesrc
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bt=$(gh api repos/$GITHUB_REPOSITORY/pages --jq .build_type 2>/dev/null || echo legacy)
+          echo "build_type=$bt" >> "$GITHUB_OUTPUT"
+          echo "Pages build source: $bt"
+
       - uses: actions/configure-pages@v5
-      - name: Publishing gate
-        run: node scripts/check_site.mjs
+        if: steps.pagesrc.outputs.build_type == 'workflow'
       - uses: actions/upload-pages-artifact@v3
+        if: steps.pagesrc.outputs.build_type == 'workflow'
         with:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+        if: steps.pagesrc.outputs.build_type == 'workflow'
+
+      - name: Remind how the site is published in legacy mode
+        if: steps.pagesrc.outputs.build_type != 'workflow'
+        run: |
+          echo "::notice title=Pages publishes from the main branch::The build source is '${{ steps.pagesrc.outputs.build_type }}', so GitHub is serving the committed root of this branch. Everything above still gates the push: a drifted or gate-breaking commit fails this workflow and shows up as a red X on main."
+          echo "To make a gate failure block the publish itself, set Settings -> Pages -> Build source to GitHub Actions."
