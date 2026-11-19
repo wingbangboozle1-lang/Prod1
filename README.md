@@ -3,20 +3,21 @@
 Spec-backed affiliate publication for air fryers & meat thermometers. Static GitHub Pages site. No build step: edit `data/products.json`, run `python3 build_site.py`, commit.
 
 ## Live site
-GitHub Pages from `main` (see `.github/workflows/pages.yml`). Canonical domain is a placeholder (`https://example.com/`) until the owner picks one — see `flagged.html` FLG-007 and `suggestions.html` SG-02.
+GitHub Pages from `main` (see `.github/workflows/pages.yml`). Canonical is the GitHub Pages URL (`https://wingbangboozle1-lang.github.io/Prod1/`) on every page — a custom domain remains an owner decision (see `flagged.html` FLG-007 and `suggestions.html` SG-02).
 
 ## Structure
-- `index.html` — publication front page (hero, categories, products, chooser, guides)
+- `index.html` — publication front page (hero, product line-up, categories, chooser, guides)
+- `dashboard.html` — single hub for every dashboard surface (verification, flagged, compliance, method, summary, suggestions)
 - `air-fryers.html`, `thermometers.html` — category pages with comparison tables
 - `compare.html` — all five side by side + 3-question chooser + counter-space math
 - `guide-*.html` — question-shaped guides (basket vs oven, capacity, cleanup/space, multi-function, thermometer accuracy)
 - `executive-summary.html` — what is verified / not verified / next gates
-- `suggestions.html` — suggestions board (SG-01..SG-10) + Q/I/A decision log (Q-01..Q-08)
+- `suggestions.html` — suggestions board (SG-01..SG-18) + design inputs (D-1..D-8) + Q/I/A decision log (Q-01..Q-13)
 - `verification.html` — line-by-line source register + product-intent confirmation record
-- `flagged.html` — irregularities & unverified items (FLG-001..FLG-012)
+- `flagged.html` — irregularities & unverified items (FLG-001..FLG-020)
 - `compliance.html` — disclosure + Amazon/FTC policy checklist
 - `methodology.html` — evidence rules, 5 analytics events, empty campaign ledger
-- `data/products.json` — single source of truth (verified 2026-11-19)
+- `data/products.json` — single source of truth (verified 2026-11-19, second pass same day)
 - `assets/style.css`, `assets/app.js` — design + chooser/search/analytics (local-only)
 - `sitemap.xml`, `robots.txt`, `feed.xml` — findability
 
