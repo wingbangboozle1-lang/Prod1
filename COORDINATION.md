@@ -94,3 +94,15 @@ PR #9 (`arena/b4c6c619-prod1` into `main`) was first opened with a parallel site
 
 _Recorded after the PR is merged and the Pages deploy is checked (see the next update)._
 
+
+## Integration update — session-arena-9969fd0c (branch arena/9969fd0c-prod1, 2026-11-19)
+
+Merged branch arena/9969fd0c-prod1 into `main` via PR #7. Resolved add/add conflicts in COORDINATION.md, data/products.json, feed.xml, flagged.html, index.html, robots.txt, sitemap.xml, suggestions.html by retaining main's authoritative, Amazon-verified site (The Countertop Guide) and dropping this session's redundant re-implementation files (assets/css/style.css, assets/js/*.js, assets/images/og-default.png, category-kitchen.html, data/confirmations.json, disclosures.html, executive-summary.md) to avoid broken/duplicate links. Dropped my branch's duplicate category-air-fryers.html and dashboard.html (root already has air-fryers.html and compare.html).
+
+Launch blocker resolved: replaced placeholder canonical `https://example.com/` with `https://wingbangboozle1-lang.github.io/Prod1/` across all HTML, sitemap.xml, robots.txt, and feed.xml (was FLG-007 / canonical domain unset).
+
+Preserved from main (verified against Amazon.com 2026-11-19): trackingId shopnow047c-20, ASIN B0CDY277D3 (Chefman 6QT) + 4 other verified listings with officialListingUrl, affiliateUrl (tag=shopnow047c-20), observedRedirectTarget (separate field), confirmationDate, confirmationSource; rel="sponsored" on outbound links; disclosure strip above fold + footer; sitemap, robots.txt, RSS feed; suggestion board; flagged review; executive summary; compliance + methodology pages.
+
+Still open (flagged, do not block merge): short-link compliance unresolved (FLG-001 / ++FLG-003++); product photography undecided (Amazon OA §1 — generated/copied photography not permitted). Published on flagged.html for review after launch.
+
+Validation (this session): 0 broken internal links across 17 HTML pages; disclosure present on every page; python3 build_site.py runs; Pages status built/public.
