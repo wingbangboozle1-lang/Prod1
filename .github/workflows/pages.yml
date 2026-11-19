@@ -51,15 +51,41 @@ jobs:
 
       # Two independent gates on purpose: check_site.mjs (written by another session,
       # scans every HTML file in the repo) and check_meta.mjs (this site's metadata,
-      # voice and price-policy rules). Either one failing blocks the deploy.
+      # voice and price-policy rules). With the Pages source set to GitHub Actions either
+      # one blocks the publish; in legacy mode they gate the commit, and a failure is the
+      # red X on main that tells the owner the branch is not shippable.
       - name: Publishing gate - repository-wide checks
         run: node scripts/check_site.mjs
       - name: Publishing gate - metadata, voice and price policy
         run: node scripts/check_meta.mjs
 
+      # Pages here is published from the `main` branch (the repository's Pages build
+      # source is "legacy"), which is why the root of this repo IS the site. In that mode
+      # actions/deploy-pages always fails ("please use GitHub Actions as the build source"),
+      # so the publish steps are skipped unless the owner switches Settings -> Pages -> Build
+      # source to "GitHub Actions", at which point this workflow becomes the publisher and
+      # a gate failure blocks the deploy outright.
+      - name: Read the Pages build source
+        id: pagesrc
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bt=$(gh api repos/$GITHUB_REPOSITORY/pages --jq .build_type 2>/dev/null || echo legacy)
+          echo "build_type=$bt" >> "$GITHUB_OUTPUT"
+          echo "Pages build source: $bt"
+
       - uses: actions/configure-pages@v5
+        if: steps.pagesrc.outputs.build_type == 'workflow'
       - uses: actions/upload-pages-artifact@v3
+        if: steps.pagesrc.outputs.build_type == 'workflow'
         with:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+        if: steps.pagesrc.outputs.build_type == 'workflow'
+
+      - name: Remind how the site is published in legacy mode
+        if: steps.pagesrc.outputs.build_type != 'workflow'
+        run: |
+          echo "::notice title=Pages publishes from the main branch::The build source is '${{ steps.pagesrc.outputs.build_type }}', so GitHub is serving the committed root of this branch. Everything above still gates the push: a drifted or gate-breaking commit fails this workflow and shows up as a red X on main."
+          echo "To make a gate failure block the publish itself, set Settings -> Pages -> Build source to GitHub Actions."
