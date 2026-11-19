@@ -67,19 +67,25 @@ def main():
         s, wdt = fit(d, line, "serifr", 42, RIGHT - M)
         d.text((M, y), line, font=font("serifr", s), fill=PAPER)
         y += s + 12
-    s, _ = fit(d, "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", "sans", 22, RIGHT - M)
-    d.text((M, y + 12), "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", font=font("sans", s), fill=MUTED)
-    d.text((M, y + 42), "so no page pretends otherwise. No stale prices either - the button is the price.", font=font("sans", s), fill=MUTED)
+    # One line, not a paragraph: at 1200x630 a second line collided with the diagram
+    # caption once the serif lines grew. Every element below is placed from the flowed y,
+    # so a longer headline cannot walk into it the way fixed offsets did.
+    tag = "Every spec links to its Amazon listing, dated. No stale prices - the button is the price."
+    s, _ = fit(d, tag, "sans", 22, RIGHT - M)
+    d.text((M, y + 16), tag, font=font("sans", s), fill=MUTED)
+    y += s + 16
 
     # our own diagram, from the dimensions the listings state
-    bars, y0, scale, bw, gap = [], 516, 7.5, 236, 26
+    bars, y0, scale, bw, gap = [], 506, 6.2, 236, 26
     for pid in ("P3", "P1", "P2"):
         v = depth_of(pid)
         if v:
             nm = PRODS[pid]["shortName"]
             nm = nm.replace(PRODS[pid]["brand"], "").strip() or PRODS[pid]["shortName"]
             bars.append((PRODS[pid]["brand"] + " " + nm, v))
-    d.text((M, 344), "COUNTER DEPTH AS THE LISTINGS STATE IT - OUR DIAGRAM", font=font("sansb", 16), fill=MUTED)
+    cap_y = y + 30                      # flowed: never lands on the copy above it
+    d.text((M, cap_y), "COUNTER DEPTH AS THE LISTINGS STATE IT - OUR DIAGRAM", font=font("sansb", 16), fill=MUTED)
+    assert cap_y + 16 < y0 - int(max(v for _, v in bars) * scale), "caption would collide with the tallest bar"
     x = M
     for name, depth in bars:
         hgt = int(depth * scale)
