@@ -137,4 +137,11 @@ Validation (this session): 0 broken internal links across 17 HTML pages; disclos
 | T6 Publication overhaul: editorial design system, topic calendar, decision desk, executive summary | in progress | arena/bb3ae11b-prod1 | `build_site.py`, `styles.css`, `assets/app.js`, generated root `*.html`, `topics.html` | Editorial system already shipped in `styles.css` (used by `docs/`); Amazon OA §5 wording (disclosure) linked from compliance.html | FLG-021 (fixed), FLG-022 (new, open) |
 | T7 Verification & integration: rebuild, gates, PR, merge, Pages | in progress | arena/bb3ae11b-prod1 | `scripts/check_site.mjs` run (read-only), `COORDINATION.md` | See verification section below | FLG-021, FLG-022 |
 
+**Verification performed in this session (2026-11-19).**
+- **Data-to-data (owner brief vs register):** the five submitted short links (`link.amazon/B04G1MEwY`, `B02NbDxp3`, `B00hJ57DV`, `B0c8moW59`, `B0f3GKalj`) match `data/products.json` exactly; all five intended ASINs, official listing URLs, `tag=shopnow047c-20` affiliate URLs, confirmation dates/sources and per-field source URLs verified by script — **ALL CHECKS PASS** (output recorded in the session log). Intended ASIN and observed redirect target remain separate fields on all five records.
+- **Intentionally blank (flagged, not inferred):** P2 wattage, P4/P5 dimensions — left blank per the verification rule.
+- **Build & gates:** `python3 build_site.py` runs clean (pages written, sponsored post-step done); `node scripts/check_site.mjs` → **CHECK PASSED, 43 HTML files** (disclosure, sponsored links, internal links, unique titles/descriptions, claim wording). The only remaining warning is in `counter-check/site/questions.html` (another session's file). `git diff --check` clean.
+- **Canonicals:** generator now emits 18 distinct per-page canonical URLs on the live GitHub Pages address (previously a placeholder that a rebuild reverted, and a single shared canonical after hand-patching — FLG-021, resolved).
+- **Not re-verified (recorded, not hidden):** Amazon listing values were not re-fetched this session because the sandbox cannot reach Amazon.com or link.amazon — see FLG-022. No product value was changed.
+
 **Publication record.** Filled in after the PR is merged and the Pages deploy is confirmed (see the merge-record update at the end of this section).
