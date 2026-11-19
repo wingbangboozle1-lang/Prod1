@@ -1,0 +1,343 @@
+{
+  "updated": "2026-11-19",
+  "note": "Flagged for Review. Items here do not block publication. Each item says what was checked, what was not, and the source link for manual review.",
+  "items": [
+    {
+      "id": "FL-01",
+      "type": "Irregularity",
+      "severity": "High",
+      "title": "Submitted link codes are not the ASINs the pages resolve to",
+      "detail": "Each submitted link.amazon URL carries a 9-character code after the slash (e.g. B04G1MEwY). Each one resolved to a different Amazon listing (ASINs B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z). The codes in the submitted links were therefore NOT used as the intended ASIN. The observed ASIN is stored in its own field.",
+      "checked": "fetch_page on all five submitted links (final URL and page title read).",
+      "not_checked": "Whether the link.amazon short-link service maps these codes to the listed ASIN by design.",
+      "sources": [
+        {
+          "label": "Submitted link 1 (resolved)",
+          "url": "https://www.amazon.com/dp/B0CDY277D3"
+        },
+        {
+          "label": "Submitted link 2 (resolved)",
+          "url": "https://www.amazon.com/dp/B09B7SB46R"
+        },
+        {
+          "label": "Submitted link 3 (resolved)",
+          "url": "https://www.amazon.com/dp/B08DKYBTPH"
+        },
+        {
+          "label": "Submitted link 4 (resolved)",
+          "url": "https://www.amazon.com/dp/B0DHZTCNR5"
+        },
+        {
+          "label": "Submitted link 5 (resolved)",
+          "url": "https://www.amazon.com/dp/B0DZFD6R9Z"
+        }
+      ]
+    },
+    {
+      "id": "FL-02",
+      "type": "Unverified",
+      "severity": "High",
+      "title": "Intended ASIN cannot be confirmed for any of the five rows",
+      "detail": "Because the intended ASIN is not confirmed by the submitter, the field is blank for all five products. The observed redirect ASIN is shown separately and is not treated as confirmation.",
+      "checked": "Field kept blank per the verification rule.",
+      "not_checked": "The submitter's intended product for each link.",
+      "sources": [
+        {
+          "label": "Observed listings (see FL-01)",
+          "url": "https://www.amazon.com/dp/B0CDY277D3"
+        }
+      ]
+    },
+    {
+      "id": "FL-03",
+      "type": "Unverified",
+      "severity": "Medium",
+      "title": "The 10-character ASIN format rule comes only from third-party sites",
+      "detail": "The brief says Amazon's ASIN definition gives a checkable identifier. The format 'ten characters, usually starting B0' was found only on third-party blogs, not on an Amazon page retrieved in this session. It is used here only to flag the 9-character submitted codes, not as a verified Amazon definition.",
+      "checked": "Searched for the ASIN definition; read three third-party pages that agree on 10 characters.",
+      "not_checked": "An official Amazon help page defining the ASIN (not retrieved).",
+      "sources": [
+        {
+          "label": "Third-party: eva.guru ASIN guide (not official)",
+          "url": "https://eva.guru/blog/what-is-amazon-asin-a-full-guide-to-create/"
+        },
+        {
+          "label": "Third-party: ecombrainly ASIN guide (not official)",
+          "url": "https://ecombrainly.com/what-is-an-asin/"
+        }
+      ]
+    },
+    {
+      "id": "FL-04",
+      "type": "Irregularity",
+      "severity": "High",
+      "title": "Selected tracking ID not observed in any redirect target",
+      "detail": "The selected tracking ID shopnow047c-20 does not appear as a tag= parameter in any of the five observed redirect URLs. Attribution of the supplied links to this tracking ID therefore cannot be confirmed from these fetches.",
+      "checked": "Read the final URL of each fetch for a tag= parameter.",
+      "not_checked": "Amazon Associates tracking report (requires a logged-in Associates session; manual).",
+      "sources": [
+        {
+          "label": "Operating Agreement §1 (Special Links must use the tagged formats Amazon provides)",
+          "url": "https://affiliate-program.amazon.com/help/operating/agreement"
+        }
+      ]
+    },
+    {
+      "id": "FL-05",
+      "type": "Pending manual step",
+      "severity": "High",
+      "title": "Supplied short links have not been validated as Special Links",
+      "detail": "The Operating Agreement says links must use the special 'tagged' formats Amazon provides (defined as Special Links). The supplied link.amazon URLs have not been tested in the enrolled Associates workflow. This session makes NO claim that they are invalid; their compliance status is unresolved (see FLG-003 link in the brief). The Special Link test needs a logged-in Associates account and is a manual step.",
+      "checked": "Operating Agreement text read (section 1).",
+      "not_checked": "Associates dashboard Special Link generation and tracking-report test.",
+      "sources": [
+        {
+          "label": "Associates Operating Agreement (official)",
+          "url": "https://affiliate-program.amazon.com/help/operating/agreement"
+        },
+        {
+          "label": "Brief reference: FLG-003 (external register, not reviewed here)",
+          "url": "https://kanlerxz87-cyber.github.io/Zone3/flagged.html#FLG-003"
+        }
+      ]
+    },
+    {
+      "id": "FL-06",
+      "type": "Unverified",
+      "severity": "Medium",
+      "title": "Price and rating of each main product were not confirmed",
+      "detail": "The fetched text for each listing did not include the main product's price or star rating in a form that can be attributed to that ASIN. Those fields are blank. Prices and ratings shown in carousels on the same pages belong to other products and were not used.",
+      "checked": "Fetched listing text read for price and rating.",
+      "not_checked": "Live price (price must be shown only from an official, time-stamped source per the Associates rules; not confirmed here).",
+      "sources": [
+        {
+          "label": "Observed listing P01",
+          "url": "https://www.amazon.com/dp/B0CDY277D3"
+        },
+        {
+          "label": "Observed listing P04",
+          "url": "https://www.amazon.com/dp/B0DHZTCNR5"
+        }
+      ]
+    },
+    {
+      "id": "FL-07",
+      "type": "Irregularity",
+      "severity": "Medium",
+      "title": "Listing pages contain widget and carousel data for other ASINs",
+      "detail": "The fetched Amazon pages include 'Product summary' header links and 'Customers who viewed' carousels with prices and ratings for other ASINs (for example, the same pricing link pointing to a different product). These were not added as rows and were not used as data for the five products.",
+      "checked": "Read the page content for the five listing pages.",
+      "not_checked": "Each carousel item (out of scope; only the five submitted links are in the table).",
+      "sources": [
+        {
+          "label": "Observed listing P03",
+          "url": "https://www.amazon.com/dp/B08DKYBTPH"
+        }
+      ]
+    },
+    {
+      "id": "FL-08",
+      "type": "Unverified",
+      "severity": "Medium",
+      "title": "Dimensions, weight and capacity beyond the title are not verified",
+      "detail": "Only capacity or count values that appear in the listing title are recorded (e.g. 6 Quart, 26QT, 8 Qt, 3 Ultra-Thin Probes). Item dimensions were not confirmed in the fetched text, so no counter-space or capacity-per-centimetre figures are calculated (see Analysis).",
+      "checked": "Title and breadcrumb text read.",
+      "not_checked": "Product details tables (dimensions, weight, material).",
+      "sources": [
+        {
+          "label": "Observed listing P02",
+          "url": "https://www.amazon.com/dp/B09B7SB46R"
+        }
+      ]
+    },
+    {
+      "id": "FL-09",
+      "type": "Scope note",
+      "severity": "Low",
+      "title": "Related products were not added",
+      "detail": "The table covers the five submitted links only. Related products from carousels were not added or verified.",
+      "checked": "Scope check against the brief.",
+      "not_checked": "Related products.",
+      "sources": [
+        {
+          "label": "Observed listing P05",
+          "url": "https://www.amazon.com/dp/B0DZFD6R9Z"
+        }
+      ]
+    },
+    {
+      "id": "FL-10",
+      "type": "Reviewer decision",
+      "severity": "Medium",
+      "title": "FTC guidance read; applicability to this site needs a reviewer decision",
+      "detail": "The FTC 'Disclosures 101 for Social Media Influencers' brochure (November 2019 text) was read. It says a disclosure should be hard to miss, placed with the endorsement itself, use simple words such as 'sponsored', and not appear only on a profile page or at the end of a post. It is written for social-media influencers. Whether and how it applies to affiliate links on a website is a reviewer decision. The full Endorsement Guides PDF was not read.",
+      "checked": "FTC Disclosures 101 page and brochure text read.",
+      "not_checked": "Endorsement Guides (PDF); 'The FTC's Endorsement Guides: What People Are Asking'.",
+      "sources": [
+        {
+          "label": "FTC: Disclosures 101 for Social Media Influencers (read)",
+          "url": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers"
+        },
+        {
+          "label": "FTC: Endorsements, influencers and reviews",
+          "url": "https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews"
+        }
+      ]
+    },
+    {
+      "id": "FL-11",
+      "type": "Unverified",
+      "severity": "Medium",
+      "title": "Associates Participation Requirements 6(v) and 6(w) were not retrieved",
+      "detail": "The brief cites Participation Requirements 6(v) and 6(w) for link transparency. The Operating Agreement and the opening part of the Program Policies (updated April 14, 2026) were read. Clauses 6(v) and 6(w) were not located in the part read.",
+      "checked": "Operating Agreement section 1 and 5; Program Policies opening (Commission Income Statement, section 1: 89-day order window and 180-day ship/pay window for Qualifying Purchases).",
+      "not_checked": "Participation Requirements clauses 6(v) and 6(w); remainder of the Program Policies (11 chunks, first read).",
+      "sources": [
+        {
+          "label": "Program Policies (official)",
+          "url": "https://affiliate-program.amazon.com/help/operating/policies"
+        }
+      ]
+    },
+    {
+      "id": "FL-12",
+      "type": "Irregularity",
+      "severity": "Medium",
+      "title": "External source register: partly reachable, not reconciled with this brief",
+      "detail": "The brief refers to S-04 to S-25, D-04 to D-27 and F-11 to F-46 in kanlerxz87-cyber/Zone3 and Zone4. The first part of the Zone4 decision log is reachable. It lists 12 open decisions. Its decision D-13 says 'the three supplied links', but this brief supplies five. Its statuses (e.g. 'Implemented') are NOT carried into this site as facts. The rest of the register was not reviewed.",
+      "checked": "Zone4 decision log, first of 12 chunks.",
+      "not_checked": "Remaining decision-log chunks, Zone3 register, flagged-items pages.",
+      "sources": [
+        {
+          "label": "Zone4 decisions (referenced in brief)",
+          "url": "https://kanlerxz87-cyber.github.io/Zone4/docs/decisions.html"
+        }
+      ]
+    },
+    {
+      "id": "FL-13",
+      "type": "Pending decision",
+      "severity": "Medium",
+      "title": "The five reader-facing 'defined events' were not defined in the brief",
+      "detail": "The brief asks for 'the five defined events' without listing them. This site uses a PROPOSED set (page_view, outbound_click, category_open, guide_view, flagged_view). Needs confirmation.",
+      "checked": "Brief text.",
+      "not_checked": "Any external event definitions.",
+      "sources": []
+    },
+    {
+      "id": "FL-14",
+      "type": "Pending decision",
+      "severity": "Medium",
+      "title": "Brand name and byline are not decided",
+      "detail": "The brief asks for an authorship and brand decision but does not name one. The site uses the working name 'Countertop Check' and a byline of 'Editorial team'. No person is named.",
+      "checked": "Brief text.",
+      "not_checked": "Trademark or name availability (not checked).",
+      "sources": []
+    },
+    {
+      "id": "FL-15",
+      "type": "Pending decision",
+      "severity": "Medium",
+      "title": "Product photography: no images used",
+      "detail": "No product photos are used. Amazon's Program Content includes images, but using them has not been decided. Decorative graphics are typographic only.",
+      "checked": "Operating Agreement section 1 (Program Content includes data, images and text).",
+      "not_checked": "Image licensing terms beyond the Operating Agreement.",
+      "sources": [
+        {
+          "label": "Operating Agreement section 1 (official)",
+          "url": "https://affiliate-program.amazon.com/help/operating/agreement"
+        }
+      ]
+    },
+    {
+      "id": "FL-16",
+      "type": "Unverified",
+      "severity": "High",
+      "title": "Commission rates and commission potential are not stated",
+      "detail": "No commission rate was retrieved from an official Associates page, so commission potential is not calculated or implied anywhere on the site.",
+      "checked": "None.",
+      "not_checked": "Associates commission rate schedule.",
+      "sources": [
+        {
+          "label": "Associates Program Policies (official)",
+          "url": "https://affiliate-program.amazon.com/help/operating/policies"
+        }
+      ]
+    },
+    {
+      "id": "FL-17",
+      "type": "Pending manual step",
+      "severity": "Medium",
+      "title": "Analytics endpoint and Search Console are not live",
+      "detail": "GitHub Pages is static hosting and cannot run the self-hosted analytics endpoint. The click counter is wired and sends nothing until an endpoint URL is set. Search Console verification needs a logged-in Google account (manual).",
+      "checked": "Pages host capability (static only).",
+      "not_checked": "Live endpoint.",
+      "sources": [
+        {
+          "label": "Google: rel=\"sponsored\" for paid links (official)",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links"
+        }
+      ]
+    },
+    {
+      "id": "FL-18",
+      "type": "Verified",
+      "severity": "Info",
+      "title": "rel=\"sponsored\" applied to every outbound product link",
+      "detail": "Google's official documentation says paid or affiliate links should use rel=\"sponsored\". Every outbound product link on this site carries rel=\"sponsored noopener noreferrer\", and the build check enforces it.",
+      "checked": "Google documentation read; build check.",
+      "not_checked": "Search ranking effects (not claimed).",
+      "sources": [
+        {
+          "label": "Google: qualify outbound links (official)",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links"
+        }
+      ]
+    },
+    {
+      "id": "FL-19",
+      "type": "Verified",
+      "severity": "Info",
+      "title": "Associates disclosure statement is the official wording",
+      "detail": "Operating Agreement section 5 requires the statement 'As an Amazon Associate I earn from qualifying purchases' (or substantially similar). It appears under the masthead and in the footer of every page.",
+      "checked": "Operating Agreement section 5 text (official page).",
+      "not_checked": "Placement rules beyond section 5.",
+      "sources": [
+        {
+          "label": "Operating Agreement section 5 (official)",
+          "url": "https://affiliate-program.amazon.com/help/operating/agreement"
+        }
+      ]
+    },
+    {
+      "id": "FL-20",
+      "type": "Unverified",
+      "severity": "Medium",
+      "title": "Possible Amazon content notice (proposed by external register, not verified)",
+      "detail": "The Zone4 decision log shows an 'Amazon content notice' ('certain content that appears on this site comes from Amazon ... provided as is ... subject to change or removal') citing the IP License section 2(k). This site displays Amazon-sourced titles and breadcrumbs. The notice is included on the Disclosure page as a proposal until section 2(k) is read and a reviewer decides.",
+      "checked": "Notice text as shown on the Zone4 decision log.",
+      "not_checked": "IP License section 2(k) text.",
+      "sources": [
+        {
+          "label": "Associates Program Policies (IP License section, official)",
+          "url": "https://affiliate-program.amazon.com/help/operating/policies"
+        }
+      ]
+    },
+    {
+      "id": "FL-21",
+      "type": "Unverified",
+      "severity": "Low",
+      "title": "Creators API suggested for prices and ratings (not verified)",
+      "detail": "The Zone4 decision log suggests the Creators API so that prices and ratings could be published. Its prerequisites were not read here. No price or rating from that API is used on this site.",
+      "checked": "Zone4 decision log wording only.",
+      "not_checked": "Creators API introduction and prerequisites.",
+      "sources": [
+        {
+          "label": "Amazon Creators API introduction (official)",
+          "url": "https://affiliate-program.amazon.com/creatorsapi/docs/en-us/introduction"
+        }
+      ]
+    }
+  ]
+}

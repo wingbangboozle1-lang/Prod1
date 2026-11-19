@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for Review · Countertop Check</title>
+<meta name="description" content="Irregularities, unverified items and pending decisions from the repository review, each with its source link for manual review.">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/flagged/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Countertop Check">
+<meta property="og:title" content="Flagged for Review">
+<meta property="og:description" content="Irregularities, unverified items and pending decisions from the repository review, each with its source link for manual review.">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/flagged/">
+<meta name="twitter:card" content="summary">
+<meta name="analytics-endpoint" content="">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="alternate" type="application/rss+xml" title="Countertop Check guides" href="https://wingbangboozle1-lang.github.io/Prod1/rss.xml">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="wrap mast-inner">
+    <a class="brand" href="../">Countertop Check</a>
+    <p class="tagline">Air fryers and meat thermometers, read from their Amazon listings</p>
+  </div>
+  <nav class="nav" aria-label="Main">
+    <div class="wrap"><a href="../products/">Products</a><a href="../categories/air-fryers/">Air fryers</a><a href="../categories/meat-thermometers/">Meat thermometers</a><a href="../guides/">Guides</a><a href="../about/">About</a></div>
+  </nav>
+</header>
+<div class="disclosure" role="note">
+  <div class="wrap"><strong>Disclosure:</strong> As an Amazon Associate I earn from qualifying purchases. Some links on this site are affiliate links, marked “sponsored”.</div>
+</div>
+<main id="main" class="wrap">
+
+<h1>Flagged for Review</h1>
+<p class="lede">Items here do not block publication. Each one says what was checked, what was not, and where to look. Request changes against these IDs.</p>
+<p class="small">Counts: 21 items · 5 high severity.</p>
+<article class="flag" id="FL-01">
+<header><span class="flag-id">FL-01</span> <span class="pill pill-high">High</span> <span class="pill">Irregularity</span></header>
+<h2>Submitted link codes are not the ASINs the pages resolve to</h2>
+<p>Each submitted link.amazon URL carries a 9-character code after the slash (e.g. B04G1MEwY). Each one resolved to a different Amazon listing (ASINs B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z). The codes in the submitted links were therefore NOT used as the intended ASIN. The observed ASIN is stored in its own field.</p>
+<dl class="small">
+<dt>Checked</dt><dd>fetch_page on all five submitted links (final URL and page title read).</dd>
+<dt>Not checked</dt><dd>Whether the link.amazon short-link service maps these codes to the listed ASIN by design.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.amazon.com/dp/B0CDY277D3" target="_blank" rel="sponsored noopener noreferrer">Submitted link 1 (resolved)</a> · <a href="https://www.amazon.com/dp/B09B7SB46R" target="_blank" rel="sponsored noopener noreferrer">Submitted link 2 (resolved)</a> · <a href="https://www.amazon.com/dp/B08DKYBTPH" target="_blank" rel="sponsored noopener noreferrer">Submitted link 3 (resolved)</a> · <a href="https://www.amazon.com/dp/B0DHZTCNR5" target="_blank" rel="sponsored noopener noreferrer">Submitted link 4 (resolved)</a> · <a href="https://www.amazon.com/dp/B0DZFD6R9Z" target="_blank" rel="sponsored noopener noreferrer">Submitted link 5 (resolved)</a></p>
+</article><article class="flag" id="FL-02">
+<header><span class="flag-id">FL-02</span> <span class="pill pill-high">High</span> <span class="pill">Unverified</span></header>
+<h2>Intended ASIN cannot be confirmed for any of the five rows</h2>
+<p>Because the intended ASIN is not confirmed by the submitter, the field is blank for all five products. The observed redirect ASIN is shown separately and is not treated as confirmation.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Field kept blank per the verification rule.</dd>
+<dt>Not checked</dt><dd>The submitter&#39;s intended product for each link.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.amazon.com/dp/B0CDY277D3" target="_blank" rel="sponsored noopener noreferrer">Observed listings (see FL-01)</a></p>
+</article><article class="flag" id="FL-03">
+<header><span class="flag-id">FL-03</span> <span class="pill pill-medium">Medium</span> <span class="pill">Unverified</span></header>
+<h2>The 10-character ASIN format rule comes only from third-party sites</h2>
+<p>The brief says Amazon&#39;s ASIN definition gives a checkable identifier. The format &#39;ten characters, usually starting B0&#39; was found only on third-party blogs, not on an Amazon page retrieved in this session. It is used here only to flag the 9-character submitted codes, not as a verified Amazon definition.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Searched for the ASIN definition; read three third-party pages that agree on 10 characters.</dd>
+<dt>Not checked</dt><dd>An official Amazon help page defining the ASIN (not retrieved).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://eva.guru/blog/what-is-amazon-asin-a-full-guide-to-create/" rel="noopener" target="_blank">Third-party: eva.guru ASIN guide (not official)</a> · <a href="https://ecombrainly.com/what-is-an-asin/" rel="noopener" target="_blank">Third-party: ecombrainly ASIN guide (not official)</a></p>
+</article><article class="flag" id="FL-04">
+<header><span class="flag-id">FL-04</span> <span class="pill pill-high">High</span> <span class="pill">Irregularity</span></header>
+<h2>Selected tracking ID not observed in any redirect target</h2>
+<p>The selected tracking ID shopnow047c-20 does not appear as a tag= parameter in any of the five observed redirect URLs. Attribution of the supplied links to this tracking ID therefore cannot be confirmed from these fetches.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Read the final URL of each fetch for a tag= parameter.</dd>
+<dt>Not checked</dt><dd>Amazon Associates tracking report (requires a logged-in Associates session; manual).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/agreement" rel="noopener" target="_blank">Operating Agreement §1 (Special Links must use the tagged formats Amazon provides)</a></p>
+</article><article class="flag" id="FL-05">
+<header><span class="flag-id">FL-05</span> <span class="pill pill-high">High</span> <span class="pill">Pending manual step</span></header>
+<h2>Supplied short links have not been validated as Special Links</h2>
+<p>The Operating Agreement says links must use the special &#39;tagged&#39; formats Amazon provides (defined as Special Links). The supplied link.amazon URLs have not been tested in the enrolled Associates workflow. This session makes NO claim that they are invalid; their compliance status is unresolved (see FLG-003 link in the brief). The Special Link test needs a logged-in Associates account and is a manual step.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Operating Agreement text read (section 1).</dd>
+<dt>Not checked</dt><dd>Associates dashboard Special Link generation and tracking-report test.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/agreement" rel="noopener" target="_blank">Associates Operating Agreement (official)</a> · <a href="https://kanlerxz87-cyber.github.io/Zone3/flagged.html#FLG-003" rel="noopener" target="_blank">Brief reference: FLG-003 (external register, not reviewed here)</a></p>
+</article><article class="flag" id="FL-06">
+<header><span class="flag-id">FL-06</span> <span class="pill pill-medium">Medium</span> <span class="pill">Unverified</span></header>
+<h2>Price and rating of each main product were not confirmed</h2>
+<p>The fetched text for each listing did not include the main product&#39;s price or star rating in a form that can be attributed to that ASIN. Those fields are blank. Prices and ratings shown in carousels on the same pages belong to other products and were not used.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Fetched listing text read for price and rating.</dd>
+<dt>Not checked</dt><dd>Live price (price must be shown only from an official, time-stamped source per the Associates rules; not confirmed here).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.amazon.com/dp/B0CDY277D3" target="_blank" rel="sponsored noopener noreferrer">Observed listing P01</a> · <a href="https://www.amazon.com/dp/B0DHZTCNR5" target="_blank" rel="sponsored noopener noreferrer">Observed listing P04</a></p>
+</article><article class="flag" id="FL-07">
+<header><span class="flag-id">FL-07</span> <span class="pill pill-medium">Medium</span> <span class="pill">Irregularity</span></header>
+<h2>Listing pages contain widget and carousel data for other ASINs</h2>
+<p>The fetched Amazon pages include &#39;Product summary&#39; header links and &#39;Customers who viewed&#39; carousels with prices and ratings for other ASINs (for example, the same pricing link pointing to a different product). These were not added as rows and were not used as data for the five products.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Read the page content for the five listing pages.</dd>
+<dt>Not checked</dt><dd>Each carousel item (out of scope; only the five submitted links are in the table).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.amazon.com/dp/B08DKYBTPH" target="_blank" rel="sponsored noopener noreferrer">Observed listing P03</a></p>
+</article><article class="flag" id="FL-08">
+<header><span class="flag-id">FL-08</span> <span class="pill pill-medium">Medium</span> <span class="pill">Unverified</span></header>
+<h2>Dimensions, weight and capacity beyond the title are not verified</h2>
+<p>Only capacity or count values that appear in the listing title are recorded (e.g. 6 Quart, 26QT, 8 Qt, 3 Ultra-Thin Probes). Item dimensions were not confirmed in the fetched text, so no counter-space or capacity-per-centimetre figures are calculated (see Analysis).</p>
+<dl class="small">
+<dt>Checked</dt><dd>Title and breadcrumb text read.</dd>
+<dt>Not checked</dt><dd>Product details tables (dimensions, weight, material).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.amazon.com/dp/B09B7SB46R" target="_blank" rel="sponsored noopener noreferrer">Observed listing P02</a></p>
+</article><article class="flag" id="FL-09">
+<header><span class="flag-id">FL-09</span> <span class="pill pill-low">Low</span> <span class="pill">Scope note</span></header>
+<h2>Related products were not added</h2>
+<p>The table covers the five submitted links only. Related products from carousels were not added or verified.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Scope check against the brief.</dd>
+<dt>Not checked</dt><dd>Related products.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.amazon.com/dp/B0DZFD6R9Z" target="_blank" rel="sponsored noopener noreferrer">Observed listing P05</a></p>
+</article><article class="flag" id="FL-10">
+<header><span class="flag-id">FL-10</span> <span class="pill pill-medium">Medium</span> <span class="pill">Reviewer decision</span></header>
+<h2>FTC guidance read; applicability to this site needs a reviewer decision</h2>
+<p>The FTC &#39;Disclosures 101 for Social Media Influencers&#39; brochure (November 2019 text) was read. It says a disclosure should be hard to miss, placed with the endorsement itself, use simple words such as &#39;sponsored&#39;, and not appear only on a profile page or at the end of a post. It is written for social-media influencers. Whether and how it applies to affiliate links on a website is a reviewer decision. The full Endorsement Guides PDF was not read.</p>
+<dl class="small">
+<dt>Checked</dt><dd>FTC Disclosures 101 page and brochure text read.</dd>
+<dt>Not checked</dt><dd>Endorsement Guides (PDF); &#39;The FTC&#39;s Endorsement Guides: What People Are Asking&#39;.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers" rel="noopener" target="_blank">FTC: Disclosures 101 for Social Media Influencers (read)</a> · <a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews" rel="noopener" target="_blank">FTC: Endorsements, influencers and reviews</a></p>
+</article><article class="flag" id="FL-11">
+<header><span class="flag-id">FL-11</span> <span class="pill pill-medium">Medium</span> <span class="pill">Unverified</span></header>
+<h2>Associates Participation Requirements 6(v) and 6(w) were not retrieved</h2>
+<p>The brief cites Participation Requirements 6(v) and 6(w) for link transparency. The Operating Agreement and the opening part of the Program Policies (updated April 14, 2026) were read. Clauses 6(v) and 6(w) were not located in the part read.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Operating Agreement section 1 and 5; Program Policies opening (Commission Income Statement, section 1: 89-day order window and 180-day ship/pay window for Qualifying Purchases).</dd>
+<dt>Not checked</dt><dd>Participation Requirements clauses 6(v) and 6(w); remainder of the Program Policies (11 chunks, first read).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/policies" rel="noopener" target="_blank">Program Policies (official)</a></p>
+</article><article class="flag" id="FL-12">
+<header><span class="flag-id">FL-12</span> <span class="pill pill-medium">Medium</span> <span class="pill">Irregularity</span></header>
+<h2>External source register: partly reachable, not reconciled with this brief</h2>
+<p>The brief refers to S-04 to S-25, D-04 to D-27 and F-11 to F-46 in kanlerxz87-cyber/Zone3 and Zone4. The first part of the Zone4 decision log is reachable. It lists 12 open decisions. Its decision D-13 says &#39;the three supplied links&#39;, but this brief supplies five. Its statuses (e.g. &#39;Implemented&#39;) are NOT carried into this site as facts. The rest of the register was not reviewed.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Zone4 decision log, first of 12 chunks.</dd>
+<dt>Not checked</dt><dd>Remaining decision-log chunks, Zone3 register, flagged-items pages.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://kanlerxz87-cyber.github.io/Zone4/docs/decisions.html" rel="noopener" target="_blank">Zone4 decisions (referenced in brief)</a></p>
+</article><article class="flag" id="FL-13">
+<header><span class="flag-id">FL-13</span> <span class="pill pill-medium">Medium</span> <span class="pill">Pending decision</span></header>
+<h2>The five reader-facing &#39;defined events&#39; were not defined in the brief</h2>
+<p>The brief asks for &#39;the five defined events&#39; without listing them. This site uses a PROPOSED set (page_view, outbound_click, category_open, guide_view, flagged_view). Needs confirmation.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Brief text.</dd>
+<dt>Not checked</dt><dd>Any external event definitions.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> none in this session.</p>
+</article><article class="flag" id="FL-14">
+<header><span class="flag-id">FL-14</span> <span class="pill pill-medium">Medium</span> <span class="pill">Pending decision</span></header>
+<h2>Brand name and byline are not decided</h2>
+<p>The brief asks for an authorship and brand decision but does not name one. The site uses the working name &#39;Countertop Check&#39; and a byline of &#39;Editorial team&#39;. No person is named.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Brief text.</dd>
+<dt>Not checked</dt><dd>Trademark or name availability (not checked).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> none in this session.</p>
+</article><article class="flag" id="FL-15">
+<header><span class="flag-id">FL-15</span> <span class="pill pill-medium">Medium</span> <span class="pill">Pending decision</span></header>
+<h2>Product photography: no images used</h2>
+<p>No product photos are used. Amazon&#39;s Program Content includes images, but using them has not been decided. Decorative graphics are typographic only.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Operating Agreement section 1 (Program Content includes data, images and text).</dd>
+<dt>Not checked</dt><dd>Image licensing terms beyond the Operating Agreement.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/agreement" rel="noopener" target="_blank">Operating Agreement section 1 (official)</a></p>
+</article><article class="flag" id="FL-16">
+<header><span class="flag-id">FL-16</span> <span class="pill pill-high">High</span> <span class="pill">Unverified</span></header>
+<h2>Commission rates and commission potential are not stated</h2>
+<p>No commission rate was retrieved from an official Associates page, so commission potential is not calculated or implied anywhere on the site.</p>
+<dl class="small">
+<dt>Checked</dt><dd>None.</dd>
+<dt>Not checked</dt><dd>Associates commission rate schedule.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/policies" rel="noopener" target="_blank">Associates Program Policies (official)</a></p>
+</article><article class="flag" id="FL-17">
+<header><span class="flag-id">FL-17</span> <span class="pill pill-medium">Medium</span> <span class="pill">Pending manual step</span></header>
+<h2>Analytics endpoint and Search Console are not live</h2>
+<p>GitHub Pages is static hosting and cannot run the self-hosted analytics endpoint. The click counter is wired and sends nothing until an endpoint URL is set. Search Console verification needs a logged-in Google account (manual).</p>
+<dl class="small">
+<dt>Checked</dt><dd>Pages host capability (static only).</dd>
+<dt>Not checked</dt><dd>Live endpoint.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links" rel="noopener" target="_blank">Google: rel=&quot;sponsored&quot; for paid links (official)</a></p>
+</article><article class="flag" id="FL-18">
+<header><span class="flag-id">FL-18</span> <span class="pill pill-info">Info</span> <span class="pill">Verified</span></header>
+<h2>rel=&quot;sponsored&quot; applied to every outbound product link</h2>
+<p>Google&#39;s official documentation says paid or affiliate links should use rel=&quot;sponsored&quot;. Every outbound product link on this site carries rel=&quot;sponsored noopener noreferrer&quot;, and the build check enforces it.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Google documentation read; build check.</dd>
+<dt>Not checked</dt><dd>Search ranking effects (not claimed).</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links" rel="noopener" target="_blank">Google: qualify outbound links (official)</a></p>
+</article><article class="flag" id="FL-19">
+<header><span class="flag-id">FL-19</span> <span class="pill pill-info">Info</span> <span class="pill">Verified</span></header>
+<h2>Associates disclosure statement is the official wording</h2>
+<p>Operating Agreement section 5 requires the statement &#39;As an Amazon Associate I earn from qualifying purchases&#39; (or substantially similar). It appears under the masthead and in the footer of every page.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Operating Agreement section 5 text (official page).</dd>
+<dt>Not checked</dt><dd>Placement rules beyond section 5.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/agreement" rel="noopener" target="_blank">Operating Agreement section 5 (official)</a></p>
+</article><article class="flag" id="FL-20">
+<header><span class="flag-id">FL-20</span> <span class="pill pill-medium">Medium</span> <span class="pill">Unverified</span></header>
+<h2>Possible Amazon content notice (proposed by external register, not verified)</h2>
+<p>The Zone4 decision log shows an &#39;Amazon content notice&#39; (&#39;certain content that appears on this site comes from Amazon ... provided as is ... subject to change or removal&#39;) citing the IP License section 2(k). This site displays Amazon-sourced titles and breadcrumbs. The notice is included on the Disclosure page as a proposal until section 2(k) is read and a reviewer decides.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Notice text as shown on the Zone4 decision log.</dd>
+<dt>Not checked</dt><dd>IP License section 2(k) text.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/help/operating/policies" rel="noopener" target="_blank">Associates Program Policies (IP License section, official)</a></p>
+</article><article class="flag" id="FL-21">
+<header><span class="flag-id">FL-21</span> <span class="pill pill-low">Low</span> <span class="pill">Unverified</span></header>
+<h2>Creators API suggested for prices and ratings (not verified)</h2>
+<p>The Zone4 decision log suggests the Creators API so that prices and ratings could be published. Its prerequisites were not read here. No price or rating from that API is used on this site.</p>
+<dl class="small">
+<dt>Checked</dt><dd>Zone4 decision log wording only.</dd>
+<dt>Not checked</dt><dd>Creators API introduction and prerequisites.</dd>
+</dl>
+<p class="small"><strong>Sources:</strong> <a href="https://affiliate-program.amazon.com/creatorsapi/docs/en-us/introduction" rel="noopener" target="_blank">Amazon Creators API introduction (official)</a></p>
+</article>
+<p class="small">Updated 2026-11-19. Flagged for Review. Items here do not block publication. Each item says what was checked, what was not, and the source link for manual review.</p>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="disclosure-foot"><strong>Disclosure:</strong> As an Amazon Associate I earn from qualifying purchases. Links marked “sponsored” go to Amazon and may earn us a commission.</div>
+    <div class="foot-grid">
+      <div>
+        <h2>Dashboards</h2>
+        <ul class="foot-list"><li><a href="../products/">All products table</a></li><li><a href="../analysis/">Analysis</a></li><li><a href="../verification/">Verification</a></li><li><a href="../campaigns/">Campaign ledger</a></li><li><a href="../measurement/">Measurement</a></li><li><a href="../suggestions/">Suggestions</a></li><li><a href="../open-questions/">Open questions</a></li><li><a href="../flagged/">Flagged for Review</a></li><li><a href="../executive-summary/">Executive summary</a></li><li><a href="../disclosure/">Disclosure &amp; policy</a></li></ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul class="foot-list">
+          <li><a href="../guides/">Guides</a></li>
+          <li><a href="../about/">About</a></li>
+          <li><a href="https://wingbangboozle1-lang.github.io/Prod1/rss.xml">RSS feed</a></li>
+          <li><a href="https://wingbangboozle1-lang.github.io/Prod1/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="small">Data last checked 2026-11-19. Values not confirmed from an official source are left blank and marked unverified. Amazon and other product names are trademarks of their owners; this site is not affiliated with them.</p>
+  </div>
+</footer>
+<script src="../assets/analytics.js" defer></script>
+</body>
+</html>
