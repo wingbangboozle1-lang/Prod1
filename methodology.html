@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide</title>
+<meta name="description" content="Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/">
+<meta property="og:title" content="Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide">
+<meta property="og:description" content="Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
+
+</head>
+<body data-verified-date="2026-11-19" data-analytics-endpoint="" class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead"><div class="masthead-inner">
+<a class="brand" href="index.html">The Countertop <span>Guide</span></a>
+<nav class="nav" aria-label="Main">
+  <a href="index.html">Home</a>
+  <a href="air-fryers.html">Air Fryers</a>
+  <a href="thermometers.html">Thermometers</a>
+  <a href="compare.html">Compare</a>
+  <a href="guides.html">Guides</a>
+  <a href="suggestions.html">Suggestions</a>
+</nav>
+<form class="searchbox" id="site-search-form" role="search">
+  <label class="skip" for="site-search-input">Search the site</label>
+  <input id="site-search-input" type="search" placeholder="Search guides &amp; products" aria-label="Search the site">
+  <button class="btn small secondary" type="submit">Search</button>
+</form>
+</div></header>
+<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+<main id="main" class="wrap">
+
+<p class="eyebrow">Method</p>
+<h1>How we verify, measure, and decide - without hallucinating</h1>
+<p class="lede">Automate what can be automated; put a gate in front of what cannot. This page is the machinery: evidence rules, analytics events, and the empty campaign ledger.</p>
+<h2>Evidence rule</h2>
+<ul>
+<li>Every product fact links to its Amazon listing and <a href="verification.html">verification record</a>. Missing = blank + flagged.</li>
+<li>"Trending" / popularity claims require a dated snapshot from an official category page. We make none.</li>
+<li>Seller claims are attributed ("per listing"). Derived math shows its method. Prices always carry a snapshot date.</li>
+<li>Hands-on testing claims require a published protocol and photos. We make none.</li>
+</ul>
+<h2>Analytics: five defined events (privacy-preserving)</h2>
+<div class="table-scroll"><table>
+<tr><th>Event</th><th>When it fires</th><th>Data kept</th></tr>
+<tr><td>page_view</td><td>Page load</td><td>Path + timestamp (local only until endpoint deployed)</td></tr>
+<tr><td>outbound_click</td><td>Sponsored Amazon click</td><td>ASIN + destination (no personal data)</td></tr>
+<tr><td>search</td><td>Site search submitted</td><td>Query string</td></tr>
+<tr><td>chooser_complete</td><td>3-question chooser finished</td><td>Answers (q1/q2/q3)</td></tr>
+<tr><td>guide_read</td><td>Guide scrolled 75%</td><td>Guide path</td></tr>
+</table></div>
+<p>Implementation: <code>assets/app.js</code> counts locally in <code>localStorage</code> and beacons to a configurable endpoint (<code>data-analytics-endpoint</code>, currently empty). No third-party trackers. Deploying the endpoint is SG-03; until then, counts are device-local and the ledger stays empty.</p>
+<h2>Campaign ledger (empty by design)</h2>
+<div class="table-scroll"><table>
+<tr><th>Date</th><th>Source</th><th>Channel</th><th>Eligible sessions</th><th>Clicks</th><th>Reported orders</th><th>Provenance</th></tr>
+<tr><td colspan="7"><em>No rows yet. Add timestamp, source, channel, eligible sessions, clicks and reported orders only when obtained from authorized first-party reports (Associates Central). No conversion score or revenue forecast is presented.</em></td></tr>
+</table></div>
+<h2>Publishing cadence</h2>
+<p>New guides are added to <code>sitemap.xml</code> and <code>feed.xml</code> at publish. Next topic is chosen from measured Search Console queries (after SG-02), not instinct. RSS feed: <a href="feed.xml">feed.xml</a>. Sitemap: <a href="sitemap.xml">sitemap.xml</a>.</p>
+
+</main>
+
+<footer>
+  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="footer-inner">
+    <div>
+      <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
+      <p class="small">Prices are snapshots from 2026-11-19 and change. Always confirm price, variant and fit on Amazon before buying.</p>
+    </div>
+    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a></p></nav>
+    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a></p></nav>
+    <nav aria-label="Trust"><p><strong>Trust &amp; data</strong></p><p><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a><br><a href="executive-summary.html">Executive summary</a><br><a href="suggestions.html">Suggestions board</a></p></nav>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

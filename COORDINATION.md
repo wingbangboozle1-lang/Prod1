@@ -1,46 +1,34 @@
-# Coordination Board — Prod1 (arena/9969fd0c-prod1)
+# Coordination — Prod1 Amazon Affiliate Platform
 
-**Session branch:** `arena/9969fd0c-prod1` (fixed; this session does not create or switch branches)
-**Session ID:** `session-arena-9969fd0c`
-**Base commit:** `86bb372dc76781a50966966c39481c5b242a9ea4` (main)
-**Remote:** `https://github.com/wingbangboozle1-lang/Prod1.git`
+Shared task board. Claim before editing. Small frequent commits. `git pull --rebase` before every push.
 
-## How to read this board
-- `unclaimed` — available for any session to claim
-- `in progress` — claimed by a session; do not touch its files
-- `needs review` — published on the Flagged for Review page; does not block other work
-- `done` — completed, committed, sources recorded
-- Claim a task by writing your session ID + file scope, commit and push the claim immediately.
-- Never start a task another session has claimed. Keep scopes non-overlapping.
-- Shared outputs (table data, index, navigation) are changed only by the final integration session.
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T1 Verify 5 submitted links → ASIN + official listing | done | arena/ab9cbcdc-prod1 | data/products.json, verification.html, flagged.html | Amazon.com listing pages fetched 2026-11-19 (see verification.html) | Short-link compliance unresolved; see FLG-001 |
+| T2 Build GitHub Pages site (landing + categories + guides + tables) | in progress | arena/ab9cbcdc-prod1 | index.html, *.html, assets/, sitemap.xml, robots.txt, feed.xml | Amazon Associates Operating Agreement (upd. 2025-10-15), Policies (upd. 2026-04-14), FTC Disclosures 101 | Canonical domain unset; photography undecided |
+| T3 Suggestions board + Q/I/A decision log | in progress | arena/ab9cbcdc-prod1 | suggestions.html | — | Decisions pending owner review |
+| T4 Executive summary + compliance gate + campaign ledger | in progress | arena/ab9cbcdc-prod1 | executive-summary.html, compliance.html, methodology.html | FTC + Amazon policy pages above | Analytics endpoint not deployed (stub only) |
+| T5 Integration: build check, link check, PR to main, merge, Pages deploy | done | arena/ab9cbcdc-prod1 | .github/workflows/pages.yml | Link/disclosure/sponsored checks passed; Pages built | PR #1 merged 2026-11-19 (37b336f); live https://wingbangboozle1-lang.github.io/Prod1/ |
 
-## Tasks
+Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other sessions active at claim time.
 
-| ID | Task | Status | Owner | File scope | Sources / verification | Irregularities |
-|----|------|--------|-------|------------|------------------------|----------------|
-| T-01 | Create COORDINATION.md task board | done | session-arena-9969fd0c | COORDINATION.md | — | — |
-| T-02 | Build site structure + publication landing page (leads with products) | done | session-arena-9969fd0c | index.html, assets/css/style.css, assets/js/main.js | S-04, S-17, D-21 | IR-01, IR-02 |
-| T-03 | Category subpages (air fryers, kitchen) | done | session-arena-9969fd0c | category-air-fryers.html, category-kitchen.html | S-04, S-24 | IR-02 |
-| T-04 | Dashboard/table page: entries + findings table | done | session-arena-9969fd0c | dashboard.html | Verification rule | IR-01 |
-| T-05 | Disclosure strip above the fold + in footer on every page | done | session-arena-9969fd0c | all HTML | S-05, FTC S-07/S-24 | — |
-| T-06 | rel="sponsored" on every outbound affiliate link | done | session-arena-9969fd0c | all HTML | S-05, Google qualify-outbound | — |
-| T-07 | SEO: unique title + meta description per page, sitemap.xml, robots.txt | done | session-arena-9969fd0c | sitemap.xml, robots.txt, each HTML | S-04, Google snippets | — |
-| T-08 | Structured data + social preview image (OG/Twitter) | done | session-arena-9969fd0c | each HTML, assets/images/og-default.png | S-09, S-18 (photo decision needed) | S-18 needs decision |
-| T-09 | Click + conversion measurement: outbound-click counter, self-hosted analytics endpoint, 5 events | done | session-arena-9969fd0c | assets/js/analytics.js | Privacy-preserving | endpoint gate pending backend |
-| T-10 | Product-intent confirmation record (ASIN, listing URL, confirmation date, source; redirect separate) | done | session-arena-9969fd0c | data/confirmations.json | Amazon ASIN definition | IR-01 (9-char ASINs) |
-| T-11 | Suggestions section (review-before-implement) | done | session-arena-9969fd0c | suggestions.html | — | — |
-| T-12 | Executive summary | done | session-arena-9969fd0c | executive-summary.md | — | — |
-| T-13 | Line-by-line verification against official sources | done | session-arena-9969fd0c | all data files | Official sources only | IR-01, IR-02 |
-| T-14 | GitHub Pages: build, no broken links, deploy live | in progress | session-arena-9969fd0c | GitHub Pages settings | — | — |
-| T-15 | PR to main + merge + record result | unclaimed | — | GitHub PR | — | — |
+## Integration update — arena/71354f04-prod1 (2026-11-19)
 
-## Irregularities / flagged items
+The upstream `main` advanced after this task began and contains an independently completed publication build. The merge was resolved by retaining the upstream implementation as authoritative (including its sourced product register) and adding complementary, clearly labeled review materials under `docs/` and `articles/`; links to those pages were added to the home footer and sitemap. This avoids overwriting the upstream product data and publication.
 
-| ID | Description | Source | Status |
-|----|-------------|--------|--------|
-| IR-01 | Supplied `link.amazon/…` short links embed 9-character tokens (B04G1MEwY, B02NbDxp3, B00hJ57DV, B0c8moW59, B0f3GKalj). Amazon ASINs are exactly 10 alphanumeric characters. Cannot verify against Amazon.com (host not in allowed outbound set). Treated as unverified; do not infer or fill values. | Amazon ASIN definition (affiliate help) | open |
-| IR-02 | S-18 real product photography: Amazon Operating Agreement §1 treats images as Program Content; generated/copied photography not permitted. No photo source available yet. Needs a decision before publishing product images. | Amazon OA §1 | open — needs decision |
+Added pages include a separate product-intent schema with intended ASIN/listing/date/source and observed redirect fields separated (blank unless verified in this session), a Q/I/A suggestion desk, flagged review notes, disclosure/method page, empty campaign ledger, and three question-led guides. They state clearly that no new official listing verification was performed in this session. Official policy references are linked inline. Static HTML local-link and disclosure checks are required in the Pages workflow.
 
-## Claims log
-- session-arena-9969fd0c claimed T-01 (COORDINATION.md) at branch arena/9969fd0c-prod1 — committed.
-- session-arena-9969fd0c completed T-02..T-13 on branch arena/9969fd0c-prod1 — committed. T-14 (GitHub Pages) in progress.
+- Validation: ran `python3 build_site.py` successfully ("pages written", "sponsored post-step done"); then validated local links and disclosure across 27 HTML files and `git diff --check`.
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/2 — merged to `main` on 2026-11-19.
+- Deployment: GitHub Pages API reports `status: built`, `public: true`, URL `https://wingbangboozle1-lang.github.io/Prod1/`. The Actions workflow run 44526411369 failed at deploy-pages with “No artifacts named github-pages”; a concurrent Pages deployment run completed successfully and the Pages API reports the site built. Treat the API state, rather than the failed concurrent run, as deployment confirmation; continue monitoring on future pushes.
+- Merge note: origin/main had advanced and a clean merge was not possible initially. Resolved by retaining the upstream site's implementation and product evidence, adding our review pages as supplementary pages, then validated and merged the integration.
+
+## Integration update — session-arena-9969fd0c (branch arena/9969fd0c-prod1, 2026-11-19)
+
+Merged branch arena/9969fd0c-prod1 into `main` via PR #7. Resolved add/add conflicts in COORDINATION.md, data/products.json, feed.xml, flagged.html, index.html, robots.txt, sitemap.xml, suggestions.html by retaining main's authoritative, Amazon-verified site (The Countertop Guide) and dropping this session's redundant re-implementation files (assets/css/style.css, assets/js/*.js, assets/images/og-default.png, category-kitchen.html, data/confirmations.json, disclosures.html, executive-summary.md) to avoid broken/duplicate links.
+
+Launch blocker resolved: replaced placeholder canonical `https://example.com/` with `https://wingbangboozle1-lang.github.io/Prod1/` across all HTML, sitemap.xml, robots.txt, and feed.xml (was FLG-007 / "canonical domain unset; set before launch").
+
+Preserved from main (verified against Amazon.com 2026-11-19): trackingId shopnow047c-20, ASIN B0CDY277D3 (Chefman 6QT) + 4 other verified listings with officialListingUrl, affiliateUrl (tag=shopnow047c-20), observedRedirectTarget (separate field), confirmationDate, confirmationSource; rel="sponsored" on outbound links; disclosure strip above fold + footer; sitemap, robots.txt, RSS feed; suggestion board; flagged review; executive summary; compliance + methodology pages.
+
+Still open (flagged, do not block merge): short-link compliance unresolved (FLG-001 / ++FLG-003++); product photography undecided (Amazon OA §1 — generated/copied photography not permitted). These are published on flagged.html for review after launch.

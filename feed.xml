@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>ShopNow Buying Guides</title>
-    <link>https://wingbangboozle1-lang.github.io/Prod1/</link>
-    <description>Buyer-first kitchen appliance guides. Working titles &mdash; not claims about popularity, search volume, or product superiority. New guides are added to this feed and the sitemap on the publishing cadence.</description>
-    <lastBuildDate>Wed, 19 Nov 2026 00:00:00 GMT</lastBuildDate>
-    <ttl>60</ttl>
-    <atom:link href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml" rel="self" type="application/rss+xml"/>
-    <item>
-      <title>Air fryers — capacity, counter depth, and what to compare</title>
-      <link>https://wingbangboozle1-lang.github.io/Prod1/category-air-fryers.html</link>
-      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/category-air-fryers.html</guid>
-      <pubDate>Wed, 19 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Basket vs. oven-style air fryers, capacity per centimetre of counter depth, cleanup trade-offs. Working title &mdash; S-07 hypothesis.</description>
-      <category>Air fryers</category>
-    </item>
-    <item>
-      <title>Kitchen appliances — multi-function buying guide</title>
-      <link>https://wingbangboozle1-lang.github.io/Prod1/category-kitchen.html</link>
-      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/category-kitchen.html</guid>
-      <pubDate>Wed, 19 Nov 2026 00:00:00 GMT</pubDate>
-      <description>Questions to ask before buying a multi-function kitchen appliance. Working title &mdash; S-07 hypothesis.</description>
-      <category>Kitchen</category>
-    </item>
-  </channel>
+<channel>
+<title>The Countertop Guide</title>
+<link>https://wingbangboozle1-lang.github.io/Prod1/index.html</link>
+<description>Spec-backed air fryer and thermometer comparisons from verified Amazon listings. No hype, no fake testing.</description>
+<atom:link href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml" rel="self" type="application/rss+xml"/>
+<item><title>Basket or oven-style air fryer: what should you compare?</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-basket-vs-oven.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-basket-vs-oven.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth.</description></item>
+<item><title>A no-hype checklist for comparing air fryer capacity</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-capacity-checklist.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-capacity-checklist.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims.</description></item>
+<item><title>How to assess cleanup and counter-space trade-offs</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-cleanup-counter-space.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-cleanup-counter-space.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth.</description></item>
+<item><title>Questions to ask before buying a multi-function kitchen appliance</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-multifunction-questions.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-multifunction-questions.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Presets, accessories, wattage, warranty and fit checklist.</description></item>
+<item><title>Instant-read or wireless? How to read accuracy claims</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-thermometer-accuracy.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-thermometer-accuracy.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range.</description></item>
+</channel>
 </rss>
