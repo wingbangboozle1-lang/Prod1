@@ -1,0 +1,125 @@
+{
+  "note": "Working-title guides. Titles are editorial hypotheses, not claims about popularity, search volume, or product quality. Product facts come only from the listing titles in data/products.json.",
+  "guides": [
+    {
+      "slug": "basket-or-oven-style-air-fryer",
+      "title": "Basket or oven-style air fryer: what should you compare?",
+      "dek": "The listings we track include two basket-style air fryers and one French-door oven. Here is what to compare, and what this guide does not claim.",
+      "date": "2026-11-19",
+      "sections": [
+        {
+          "heading": "Two shapes, one job",
+          "paras": [
+            "The shape changes how you load food and how you reach it while it cooks.",
+            "The three air fryers in our table: the Chefman 6 Quart dual-basket air fryer oven (its title lists 2 independent 3Qt baskets), the Chefman 8 Qt TurboFry 4-in-1 air fryer, and the Emeril Lagasse 26QT French-door air fryer toaster oven. The first and last carry the word 'Oven' in their titles; the middle one does not."
+          ]
+        },
+        {
+          "heading": "Questions to ask",
+          "list": [
+            "How much food do you cook per batch? Work this out from your own meals before you look at any number.",
+            "Do you need two foods cooked at once? The 6 Quart listing's title describes two baskets. Check the listing for whether settings are shared.",
+            "How many functions will you use each week? Count the functions the listing names. The 26QT title says '24 One-Touch Preset Options'; the 8 Qt title says '4-in-1'.",
+            "Will it fit where it will live? Measure your counter and the listing's dimensions. Dimensions are blank in our table because we did not capture them from an official field yet.",
+            "How will you clean it? Check the exact cleaning wording in the listing. Titles say the 6 Quart baskets are 'Dishwasher Safe' and the 8 Qt basket is 'Dishwasher-Safe'."
+          ]
+        },
+        {
+          "heading": "What this guide does not say",
+          "paras": [
+            "No product is ranked or recommended over another. No price, rating, review count, or popularity is stated. Listings change, so check the live listing before you buy."
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "air-fryer-capacity-checklist",
+      "title": "A no-hype checklist for comparing air fryer capacity",
+      "dek": "Capacity numbers look simple until you compare them. Units, basket counts, and size variants can all change the answer.",
+      "date": "2026-11-19",
+      "sections": [
+        {
+          "heading": "Check the unit first",
+          "paras": [
+            "The listing titles in our table use 'Quart' (6 Quart, 8 Qt) and 'QT' (26QT). Those are not the same as litres. Convert both values to the same unit yourself before you compare them. This site does not convert units."
+          ]
+        },
+        {
+          "heading": "Checklist",
+          "list": [
+            "Is the figure per basket or for the whole appliance? The 6 Quart listing's title gives both a 6 Quart figure and 3Qt per basket. Read which one the listing means.",
+            "Does the link open the size you mean? Our 8 Qt short link resolves to a listing page with a variation parameter (th=1). Other size options were not checked. Confirm the size on the page before you buy.",
+            "Match capacity to a typical meal, not to the largest number on the page.",
+            "Write the capacity you need in your own units, then compare listings against that note.",
+            "Record the date you checked. Listings change."
+          ]
+        },
+        {
+          "heading": "What this guide does not say",
+          "paras": [
+            "This checklist does not say which capacity is best. The right size depends on your cooking."
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "counter-space-and-cleanup-trade-offs",
+      "title": "How to assess cleanup and counter-space trade-offs",
+      "dek": "Cleanup and footprint are the two things a product photo rarely answers. Here is how to check them from the listing itself.",
+      "date": "2026-11-19",
+      "sections": [
+        {
+          "heading": "Cleanup",
+          "paras": [
+            "Read the cleaning claims as written. Our tracked titles mention dishwasher-safe baskets for the Chefman 6 Quart (Dishwasher Safe Frying Baskets) and the Chefman 8 Qt (XL Nonstick Dishwasher-Safe Basket). The Emeril title does not mention dishwasher use, so do not assume it either way; check the listing's own text."
+          ]
+        },
+        {
+          "heading": "Counter space",
+          "paras": [
+            "Footprint depends on the appliance's stated dimensions and on how much clearance you need around it. Our table leaves dimensions blank until they are taken from an official listing field. Measure your own counter and compare it with the listing's figures."
+          ]
+        },
+        {
+          "heading": "Trade-offs to write down",
+          "list": [
+            "Write down each model's listed dimensions in the same units before you compare footprints.",
+            "Check whether the listed dimensions include the door or the handle swing, and allow for it.",
+            "Count the parts you will wash, not just the ones the listing says are dishwasher-safe.",
+            "Note any wash step that cannot go in a dishwasher, and how often you will do it."
+          ]
+        },
+        {
+          "heading": "What this guide does not say",
+          "paras": [
+            "No footprint, cleaning time, or ease-of-use rating is stated for any product."
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "questions-before-a-multi-function-kitchen-appliance",
+      "title": "Questions to ask before buying a multi-function kitchen appliance",
+      "dek": "Multi-function appliances list many features. Work out which ones you would actually use before you pay for them.",
+      "date": "2026-11-19",
+      "sections": [
+        {
+          "heading": "Questions to ask",
+          "list": [
+            "Which two or three functions will you use every week? Ignore the rest for now.",
+            "Do presets replace knowing the temperature and time, or only start them? Read how the listing describes them.",
+            "Which accessories come in the box? The 26QT listing's title says 'Six Cooking Accessories Included'. Check the list itself before you count on them.",
+            "What does the listing say about warranty and protection plans? Those are the seller's terms; read them in full.",
+            "Check the certifying organization's own records before you rely on the claim."
+          ]
+        },
+        {
+          "heading": "What this guide does not say",
+          "paras": [
+            "No appliance is recommended for any function. Features are reported as the listings state them, without testing."
+          ]
+        }
+      ]
+    }
+  ]
+}

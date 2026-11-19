@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disclosure and policy gate | Counter Check</title>
+<meta name="description" content="Required disclosure, the gate checks applied before publication, and what is not yet verified.">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/policy.html">
+<link rel="alternate" type="application/rss+xml" title="Counter Check feed" href="feed.xml">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="wrap masthead-row">
+    <a class="brand" href="index.html">Counter Check</a>
+    <span class="tagline">Air fryers and meat thermometers, shown as the listings state them</span>
+  </div>
+  <nav class="primary" aria-label="Primary">
+    <div class="wrap"><ul><li><a href="shop/air-fryers.html">Air fryers</a></li><li><a href="shop/kitchen-thermometers.html">Thermometers</a></li><li><a href="guides/index.html">Guides</a></li><li><a href="summary.html">Executive summary</a></li></ul></div>
+  </nav>
+</header>
+<div class="disclosure-strip" role="note">
+  <div class="wrap"><strong>Disclosure:</strong> As an Amazon Associate I earn from qualifying purchases. Some links on this site go to Amazon with our Associates tag. This site is not endorsed by or affiliated with Amazon.</div>
+</div>
+<main id="main" class="wrap">
+
+<p class="crumb"><a href="index.html">Home</a> &rsaquo; Disclosure and policy gate</p>
+<h1>Disclosure and policy gate</h1>
+<p class="dek">The checks applied to every page before publication, and the policy text they rely on.</p>
+<section class="panel">
+<h2>Required disclosure (verbatim)</h2>
+<blockquote>“As an Amazon Associate I earn from qualifying purchases.”</blockquote>
+<p class="small">Source: <a class="cite" href="https://affiliate-program.amazon.com/help/operating/agreement" rel="sponsored noopener" target="_blank">S1</a>, section 5. The site shows it under the masthead of every page and again in the footer.</p>
+</section>
+<section>
+<h2>Gate checks</h2>
+<div class="table-wrap"><table class="data">
+<thead><tr><th>Check</th><th>Rule and source</th><th>How it is enforced</th></tr></thead>
+<tbody>
+<tr><td>Disclosure above the fold</td><td>Section 5 “clearly and prominently” (S1). FTC: hard to miss, placed with the endorsement (S4).</td><td>tools/check_site.py fails the build if the disclosure is not under the masthead of any page.</td></tr>
+<tr><td>Tag in every product link</td><td>Participation Requirements 2(b): Associates ID as a URL parameter (S2).</td><td>Build checks every amazon.com product link has <code>tag=shopnow047c-20</code>.</td></tr>
+<tr><td>Sponsored attribute</td><td>Google: rel="sponsored" for paid links (S3).</td><td>Build checks every Amazon link has rel containing "sponsored".</td></tr>
+<tr><td>No prices or ratings</td><td>Participation Requirements 2(b) (S2).</td><td>Build fails if a currency amount appears on a product or guide page.</td></tr>
+<tr><td>Every table row sourced</td><td>Brief: every row needs an official source link.</td><td>Build checks each product row links to an amazon.com listing.</td></tr>
+<tr><td>No broken internal links</td><td>Brief: no broken links before publish.</td><td>Build checks every relative link resolves to a generated file.</td></tr>
+</tbody></table></div>
+</section>
+<section class="panel">
+<h2>Citations to Amazon</h2>
+<p>Links to Amazon listings that appear in source columns are citations to the official listing, not buy links. They are marked sponsored too, and no untagged Amazon URL is offered as a buy link.</p>
+</section>
+<section class="panel">
+<h2>Not yet verified</h2>
+<p>The Amazon IP License notice wording and Participation Requirements 6(t) were not re-read this session. Until they are, no notice text is published and no rating is shown (flags P-05, P-09).</p>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="disclosure-footer"><strong>Disclosure:</strong> As an Amazon Associate I earn from qualifying purchases. This site is not endorsed by or affiliated with Amazon. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates. Product titles are quoted as listed on Amazon; no Amazon images are reproduced.</p>
+    <nav aria-label="Site sections"><ul class="footer-nav"><li><a href="index.html">Home</a></li><li><a href="shop/air-fryers.html">Air fryers</a></li><li><a href="shop/kitchen-thermometers.html">Kitchen thermometers</a></li><li><a href="guides/index.html">Guides</a></li><li><a href="summary.html">Executive summary</a></li><li><a href="analysis.html">Analysis and findings</a></li><li><a href="verification.html">Verification and sources</a></li><li><a href="flagged.html">Flagged for Review</a></li><li><a href="suggestions.html">Suggestions for decision</a></li><li><a href="questions.html">Questions and information gaps</a></li><li><a href="measurement.html">Measurement</a></li><li><a href="policy.html">Disclosure and policy gate</a></li><li><a href="feed.xml">RSS feed</a></li><li><a href="sitemap.xml">Sitemap</a></li></ul></nav>
+    <p class="small">Last built 2026-11-19. Prices and availability are not shown on this site; see the listing. Working-title guides make no popularity claims. Items marked <span class="pill unv">Unverified</span> are blank by design.</p>
+  </div>
+</footer>
+</body>
+</html>
