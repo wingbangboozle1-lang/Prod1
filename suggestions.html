@@ -4,81 +4,137 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suggestions Board &amp; Decision Log: Review Before Building | The Countertop Guide</title>
-<meta name="description" content="Suggestions board and Q/I/A decision log for The Countertop Guide: what to build next, what evidence each needs, and which decisions are blocked until answers arrive.">
-<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/">
+<meta name="description" content="Suggestions board and decision desk for The Countertop Guide: design and content suggestions, operational suggestions, and the Q/I/A list of questions, information and answers needed before any decision.">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/suggestions.html">
 <meta property="og:title" content="Suggestions Board &amp; Decision Log: Review Before Building | The Countertop Guide">
-<meta property="og:description" content="Suggestions board and Q/I/A decision log for The Countertop Guide: what to build next, what evidence each needs, and which decisions are blocked until answers arrive.">
+<meta property="og:description" content="Suggestions board and decision desk for The Countertop Guide: design and content suggestions, operational suggestions, and the Q/I/A list of questions, information and answers needed before any decision.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/suggestions.html">
 <meta property="og:image" content="assets/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="styles.css">
 <link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
 
 </head>
 <body data-verified-date="2026-11-19" data-analytics-endpoint="" class="">
 <a class="skip" href="#main">Skip to content</a>
-<header class="masthead"><div class="masthead-inner">
-<a class="brand" href="index.html">The Countertop <span>Guide</span></a>
+<header class="masthead wrap">
+<a class="brand" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
 <nav class="nav" aria-label="Main">
   <a href="index.html">Home</a>
   <a href="air-fryers.html">Air Fryers</a>
   <a href="thermometers.html">Thermometers</a>
   <a href="compare.html">Compare</a>
   <a href="guides.html">Guides</a>
+  <a href="topics.html">Topics</a>
   <a href="suggestions.html">Suggestions</a>
 </nav>
 <form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
   <input id="site-search-input" type="search" placeholder="Search guides &amp; products" aria-label="Search the site">
-  <button class="btn small secondary" type="submit">Search</button>
+  <button class="btn small" type="submit">Search</button>
 </form>
-</div></header>
-<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+</header>
+<div class="disclosure" role="note">As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 
-<p class="eyebrow">Suggestions board</p>
+<section class="doc-hero">
+<p class="eyebrow">Suggestions board &middot; Decision desk</p>
 <h1>Suggestions &amp; decision log - review before anything is built</h1>
-<p class="lede">Nothing on this board is implemented until a reviewer picks a path. Each suggestion states the evidence it needs, the effort, and what decision it blocks. Add your pick in the review; we implement only approved items.</p>
+<p>Nothing on this board is implemented until a reviewer picks a path. Each suggestion states the evidence it needs, the effort, and what decision it blocks. Pick a path below; the pick stays in your browser and you can export a review sheet to hand over. We implement only approved items.</p>
+</section>
+<article class="doc-main" id="suggestion-board">
+<div class="callout"><b>How to use this desk</b>
+<p>Use the select on each row to choose a path (Approve / Reject / Defer / Needs more info). Picks are stored in your browser only - nothing is sent anywhere. Export a JSON review sheet when you are done; approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
+<div class="review-panel">
+  <button class="btn" id="sg-export" type="button">Export review sheet (JSON)</button>
+  <button class="btn secondary" id="sg-print" type="button">Print this page</button>
+  <button class="btn secondary" id="sg-reset" type="button">Clear my picks</button>
+</div></div>
+<h2>Design &amp; content suggestions (this build)</h2>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Your pick</th></tr>
+
+<tr><td>DES-01</td><td>Editorial typography and palette: Playfair Display + DM Sans on a warm paper background</td><td>Reads like a publication, not a template; the design system already shipped in styles.css</td><td>Design review by owner</td><td>Done in this build</td>
+<td><select data-pick="DES-01" aria-label="Pick a path for DES-01"><option value="Approve">Approve</option><option value="Approve with changes">Approve with changes</option><option value="Reject">Reject</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>DES-02</td><td>Front page as a publication: hero art, ticker, story cards, topic band, product panel, RSS band</td><td>Leads with products and stories; keeps every dashboard surface reachable from the footer</td><td>Owner visual review</td><td>Done in this build</td>
+<td><select data-pick="DES-02" aria-label="Pick a path for DES-02"><option value="Approve">Approve</option><option value="Approve with changes">Approve with changes</option><option value="Reject">Reject</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>DES-03</td><td>Topic calendar page with eight spec-backed working titles</td><td>Gives readers and search engines a reason to return; titles are hypotheses, not demand claims</td><td>Owner review of the eight titles</td><td>Done in this build</td>
+<td><select data-pick="DES-03" aria-label="Pick a path for DES-03"><option value="Approve">Approve</option><option value="Approve with changes">Approve with changes</option><option value="Reject">Reject</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>DES-04</td><td>Interactive decision desk: pick a path per suggestion and export a review sheet</td><td>Decisions get made deliberately, with evidence, before anything is implemented</td><td>Usability check of the export</td><td>Done in this build</td>
+<td><select data-pick="DES-04" aria-label="Pick a path for DES-04"><option value="Approve">Approve</option><option value="Approve with changes">Approve with changes</option><option value="Reject">Reject</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+</table></div>
 <h2>Suggestions for review</h2>
-<div class="table-scroll"><table>
-<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
-<tr><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td><td><span class="badge-warn">Needs decision - gate</span></td></tr>
-<tr><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-05</td><td>Holiday gift guides (air fryer gifts, grill gifts) with dated price snapshots</td><td>Seasonal organic traffic; gift intent converts</td><td>Gift-angle verification per listing</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-06</td><td>"Which one is for you" chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-07</td><td>Reader capture (email signup) with explicit consent</td><td>Owns audience beyond search</td><td>Provider + consent copy + FTC review</td><td>Medium</td><td>Proposed</td></tr>
-<tr><td>SG-08</td><td>Newer-model watch (Chefman B0CNY1YVDD, ThermoMaven B0GL7Z4KP4)</td><td>Decide whether to promote newer variants or keep current ASINs</td><td>Variant comparison + margin check</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-09</td><td>Hands-on testing programme (buy, cook, photograph, publish)</td><td>Unlocks "lived-with" content competitors cannot copy</td><td>Budget, protocol, disclosure of free vs bought units</td><td>High</td><td>Proposed - do not claim until done</td></tr>
-<tr><td>SG-10</td><td>Expand categories (second air fryer brand, second thermometer brand)</td><td>More comparison depth; better internal linking</td><td>New ASIN verification pass</td><td>Medium</td><td>Proposed</td></tr>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Your pick</th></tr>
+
+<tr><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td>
+<td><select data-pick="SG-01" aria-label="Pick a path for SG-01"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Gate - do not scale outbound links without it</div></td></tr>
+<tr><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td>
+<td><select data-pick="SG-02" aria-label="Pick a path for SG-02"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td>
+<td><select data-pick="SG-03" aria-label="Pick a path for SG-03"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td>
+<td><select data-pick="SG-04" aria-label="Pick a path for SG-04"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>SG-05</td><td>Holiday gift guides (air fryer gifts, grill gifts) with dated price snapshots</td><td>Seasonal intent; gift guides convert when the gift angle is verified per listing</td><td>Gift-angle verification per listing</td><td>Low</td>
+<td><select data-pick="SG-05" aria-label="Pick a path for SG-05"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Queue behind the topic calendar</div></td></tr>
+<tr><td>SG-06</td><td>"Which one is for you" chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td>
+<td><select data-pick="SG-06" aria-label="Pick a path for SG-06"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>SG-07</td><td>Reader capture (email signup) with explicit consent</td><td>Owns audience beyond search</td><td>Provider + consent copy + FTC review</td><td>Medium</td>
+<td><select data-pick="SG-07" aria-label="Pick a path for SG-07"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">RSS feed ships first; email stays off until approved</div></td></tr>
+<tr><td>SG-08</td><td>Newer-model watch (Chefman B0CNY1YVDD, ThermoMaven B0GL7Z4KP4)</td><td>Decide whether to promote newer variants or keep current ASINs</td><td>Variant comparison + margin check</td><td>Low</td>
+<td><select data-pick="SG-08" aria-label="Pick a path for SG-08"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>SG-09</td><td>Hands-on testing programme (buy, cook, photograph, publish)</td><td>Unlocks "lived-with" content competitors cannot copy</td><td>Budget, protocol, disclosure of free vs bought units</td><td>High</td>
+<td><select data-pick="SG-09" aria-label="Pick a path for SG-09"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Do not claim until done</div></td></tr>
+<tr><td>SG-10</td><td>Expand categories (second air fryer brand, second thermometer brand)</td><td>More comparison depth; better internal linking</td><td>New ASIN verification pass</td><td>Medium</td>
+<td><select data-pick="SG-10" aria-label="Pick a path for SG-10"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>SG-11</td><td>Unify the site's brand (root site vs the Counter &amp; Crumb docs/articles pages)</td><td>One brand on one domain is easier to index, remember and trust</td><td>Owner review of both editorial sets</td><td>Medium</td>
+<td><select data-pick="SG-11" aria-label="Pick a path for SG-11"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Flagged for owner decision - see FLG-023</div></td></tr>
+<tr><td>SG-12</td><td>Execute the topic calendar on a measured cadence (one checked guide per slot)</td><td>Cadence plus measured queries choose the next topic instead of instinct</td><td>Search Console data after launch</td><td>Low ongoing</td>
+<td><select data-pick="SG-12" aria-label="Pick a path for SG-12"><option value="Approve">Approve</option><option value="Reject">Reject</option><option value="Defer">Defer</option><option value="Needs more info">Needs more info</option></select><div class="pick-status small">Not picked yet</div></td></tr>
 </table></div>
 <h2>Questions, information &amp; answers needed before a reasonable decision</h2>
-<div class="table-scroll"><table>
-<tr><th>#</th><th>Question</th><th>What we know</th><th>What we do not know</th><th>How to discover it</th><th>Decision blocked</th></tr>
-<tr><td>Q-01</td><td>Are the supplied short links compliant Special Links?</td><td>They resolve to the ASINs in the register (observed 2026-11-19)</td><td>Exact compliance status is unresolved</td><td>Test in Associates Central; read Operating Agreement + Policies</td><td>Scaling outbound links</td></tr>
-<tr><td>Q-02</td><td>What is the canonical domain?</td><td>Site builds as static GitHub Pages; canonical currently placeholder</td><td>Final domain / custom domain</td><td>Owner picks domain; set canonical + Search Console</td><td>SEO launch, og:image, sitemap</td></tr>
-<tr><td>Q-03</td><td>What are thermometer dimensions &amp; Emeril wattage?</td><td>Air fryer dims verified; thermometer dims + Emeril wattage not captured</td><td>Missing fields (blank in tables)</td><td>Re-fetch listing product-details sections; record date</td><td>Counter-space table for thermometers; circuit advice</td></tr>
-<tr><td>Q-04</td><td>Should we promote newer models instead?</td><td>Listings show newer variants (see Flagged)</td><td>Margin, rating trajectory, variant fit</td><td>Compare variant listings; check Associates reports</td><td>Product lineup</td></tr>
-<tr><td>Q-05</td><td>What commission rates apply?</td><td>Tracking ID shopnow047c-20; session rules in Policies</td><td>Category rates (not published here)</td><td>Associates Central commission statement (authorized report only)</td><td>Revenue forecasting (not done)</td></tr>
-<tr><td>Q-06</td><td>Is there search demand for these topics?</td><td>Guides are question-shaped hypotheses, not volume claims</td><td>Measured queries (no analytics yet)</td><td>Search Console after launch; choose next topics from data</td><td>Publishing cadence</td></tr>
-<tr><td>Q-07</td><td>Can we use product photos?</td><td>No Amazon images used; SVG/CSS only</td><td>Licence / permission status</td><td>Manufacturer permission or own photography</td><td>Visual overhaul</td></tr>
-<tr><td>Q-08</td><td>Where does analytics data live?</td><td>Local-only counter; endpoint stub documented</td><td>Hosting, retention, consent</td><td>Pick host; publish retention policy</td><td>Measurement &amp; optimisation</td></tr>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Question</th><th>What we know</th><th>What we do not know</th><th>How to discover it</th><th>Decision blocked</th><th>Status</th></tr>
+
+<tr><td>Q-01</td><td>Are the supplied short links compliant Special Links?</td><td>They resolve to the ASINs in the register (observed 2026-11-19)</td><td>Exact compliance status is unresolved</td><td>Test in Associates Central; read Operating Agreement + Policies</td><td>Scaling outbound links</td>
+<td><select data-pick="Q-01" aria-label="Pick a path for Q-01"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-02</td><td>What is the canonical domain?</td><td>Site builds as static GitHub Pages; generator now emits per-page canonicals on the live pages URL</td><td>Final domain / custom domain</td><td>Owner picks domain; set canonical + Search Console</td><td>SEO launch, og:image, sitemap</td>
+<td><select data-pick="Q-02" aria-label="Pick a path for Q-02"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-03</td><td>What are thermometer dimensions &amp; Emeril wattage?</td><td>Air fryer dims verified; thermometer dims + Emeril wattage not captured</td><td>Missing fields (blank in tables)</td><td>Re-fetch listing product-details sections; record date</td><td>Counter-space table for thermometers; circuit advice</td>
+<td><select data-pick="Q-03" aria-label="Pick a path for Q-03"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-04</td><td>Should we promote newer models instead?</td><td>Listings show newer variants (see Flagged)</td><td>Margin, rating trajectory, variant fit</td><td>Compare variant listings; check Associates reports</td><td>Product lineup</td>
+<td><select data-pick="Q-04" aria-label="Pick a path for Q-04"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-05</td><td>What commission rates apply?</td><td>Tracking ID shopnow047c-20; session rules in Policies</td><td>Category rates (not published here)</td><td>Associates Central commission statement (authorized report only)</td><td>Revenue forecasting (not done)</td>
+<td><select data-pick="Q-05" aria-label="Pick a path for Q-05"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-06</td><td>Is there search demand for these topics?</td><td>Guides are question-shaped hypotheses, not volume claims</td><td>Measured queries (no analytics yet)</td><td>Search Console after launch; choose next topics from data</td><td>Publishing cadence</td>
+<td><select data-pick="Q-06" aria-label="Pick a path for Q-06"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-07</td><td>Can we use product photos?</td><td>No Amazon images used; SVG/CSS only</td><td>Licence / permission status</td><td>Manufacturer permission or own photography</td><td>Visual overhaul (SG-04)</td>
+<td><select data-pick="Q-07" aria-label="Pick a path for Q-07"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-08</td><td>Where does analytics data live?</td><td>Local-only counter; endpoint stub documented</td><td>Hosting, retention, consent</td><td>Pick host; publish retention policy</td><td>Measurement &amp; optimisation (SG-03)</td>
+<td><select data-pick="Q-08" aria-label="Pick a path for Q-08"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-09</td><td>Which brand should the whole site use?</td><td>Two editorial sets ship on one domain: The Countertop Guide (root) and Counter &amp; Crumb (docs/articles)</td><td>Owner choice of one brand, or a decision to keep the docs set clearly internal</td><td>Owner review of both sets; then update nav, footer and metadata once</td><td>Brand unification (SG-11)</td>
+<td><select data-pick="Q-09" aria-label="Pick a path for Q-09"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
+<tr><td>Q-10</td><td>Can the 2026-11-19 listing values be re-confirmed?</td><td>Register with per-field sources and confirmation dates is recorded in verification.html</td><td>Fresh fetch of listing product-details (this session's sandbox could not reach Amazon.com or link.amazon)</td><td>Owner re-fetch of each listing, or an authorized channel per the Operating Agreement; record the date</td><td>Price/rating freshness; FLG-004, FLG-005, FLG-020</td>
+<td><select data-pick="Q-10" aria-label="Pick a path for Q-10"><option value="Open">Open</option><option value="Answered">Answered</option><option value="Blocked - owner needed">Blocked - owner needed</option></select><div class="pick-status small">Not picked yet</div></td></tr>
 </table></div>
-<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
+<p class="small">Reviewer: mark each item with a pick and a date. Approved items move to COORDINATION.md as claimed tasks. Missing information is surfaced as a question above - never filled in by assumption.</p>
+</article>
 
 </main>
 
 <footer>
-  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
-  <div class="footer-inner">
-    <div>
-      <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
-      <p class="small">Prices are snapshots from 2026-11-19 and change. Always confirm price, variant and fit on Amazon before buying.</p>
+  <div class="wrap">
+  <div class="footer-top">
+    <a class="brand brand-footer" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
+    <div class="footer-links">
+      <div><b>SHOP</b><a href="air-fryers.html">Air Fryers</a><a href="thermometers.html">Thermometers</a><a href="compare.html">Compare all five</a></div>
+      <div><b>READ</b><a href="guides.html">All guides</a><a href="topics.html">Topic calendar</a><a href="feed.xml">RSS feed</a></div>
+      <div><b>TRUST &amp; DATA</b><a href="verification.html">Verification register</a><a href="flagged.html">Flagged for review</a><a href="compliance.html">Compliance</a><a href="methodology.html">Method &amp; campaign ledger</a><a href="executive-summary.html">Executive summary</a><a href="suggestions.html">Suggestions board</a><a href="docs/products.html">Product-intent register</a></div>
     </div>
-    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a></p></nav>
-    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a></p></nav>
-    <nav aria-label="Trust"><p><strong>Trust &amp; data</strong></p><p><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a><br><a href="executive-summary.html">Executive summary</a><br><a href="suggestions.html">Suggestions board</a></p></nav>
+  </div>
+  <div class="footer-disclosure">As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 and change - always confirm on Amazon. <a href="compliance.html">How we disclose</a></div>
+  <div class="footer-bottom"><span>&copy; 2026 The Countertop Guide - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done.</span><span>Some links are sponsored; they may earn a commission at no extra cost to you.</span></div>
   </div>
 </footer>
 <script src="assets/app.js"></script>

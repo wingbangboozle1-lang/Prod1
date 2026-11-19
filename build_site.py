@@ -4,8 +4,13 @@ SITE = D["site"]
 PRODS = {p["id"]: p for p in D["products"]}
 VERIFIED = SITE["verifiedDate"]
 TAG = SITE["trackingId"]
+SITE_URL = "https://wingbangboozle1-lang.github.io/Prod1/"
+DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
+
 def esc(s): return html.escape(str(s), quote=True)
 def aff(p): return f"https://www.amazon.com/dp/{p['asin']}?tag={TAG}"
+def canon(fname): return SITE_URL if fname == "index.html" else SITE_URL + fname
+
 def product_card(pid, bullets_n=3):
     p = PRODS[pid]
     bl = "".join(f"<li>{esc(b)}</li>" for b in p["bullets"][:bullets_n])
@@ -25,33 +30,49 @@ def product_card(pid, bullets_n=3):
   <p><a class="btn" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{p['asin']}">Check price on Amazon - sponsored</a></p>
   <p class="sponsored-note">Sponsored link - Opens amazon.com - ASIN {p['asin']} - <a href="verification.html#{pid}">Verify this listing</a></p>
 </article>"""
+
+def story_card(href, kicker, section, title, deck, read, img, art):
+    return f"""
+<a class="story-card" href="{href}">
+  <div class="story-image {img}"><span class="image-tag">{esc(kicker)}</span>{art}</div>
+  <div class="card-meta"><span>{esc(section)}</span><span>GUIDE</span></div>
+  <h3>{esc(title)}</h3>
+  <p>{esc(deck)}</p>
+  <span class="read-link">{esc(read)}</span>
+</a>"""
+
 NAV = """<nav class="nav" aria-label="Main">
   <a href="index.html">Home</a>
   <a href="air-fryers.html">Air Fryers</a>
   <a href="thermometers.html">Thermometers</a>
   <a href="compare.html">Compare</a>
   <a href="guides.html">Guides</a>
+  <a href="topics.html">Topics</a>
   <a href="suggestions.html">Suggestions</a>
 </nav>
 <form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
   <input id="site-search-input" type="search" placeholder="Search guides &amp; products" aria-label="Search the site">
-  <button class="btn small secondary" type="submit">Search</button>
+  <button class="btn small" type="submit">Search</button>
 </form>"""
+
 FOOTER = f"""
 <footer>
-  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
-  <div class="footer-inner">
-    <div>
-      <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
-      <p class="small">Prices are snapshots from {VERIFIED} and change. Always confirm price, variant and fit on Amazon before buying.</p>
+  <div class="wrap">
+  <div class="footer-top">
+    <a class="brand brand-footer" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
+    <div class="footer-links">
+      <div><b>SHOP</b><a href="air-fryers.html">Air Fryers</a><a href="thermometers.html">Thermometers</a><a href="compare.html">Compare all five</a></div>
+      <div><b>READ</b><a href="guides.html">All guides</a><a href="topics.html">Topic calendar</a><a href="feed.xml">RSS feed</a></div>
+      <div><b>TRUST &amp; DATA</b><a href="verification.html">Verification register</a><a href="flagged.html">Flagged for review</a><a href="compliance.html">Compliance</a><a href="methodology.html">Method &amp; campaign ledger</a><a href="executive-summary.html">Executive summary</a><a href="suggestions.html">Suggestions board</a><a href="docs/products.html">Product-intent register</a></div>
     </div>
-    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a></p></nav>
-    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a></p></nav>
-    <nav aria-label="Trust"><p><strong>Trust &amp; data</strong></p><p><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a><br><a href="executive-summary.html">Executive summary</a><br><a href="suggestions.html">Suggestions board</a></p></nav>
+  </div>
+  <div class="footer-disclosure">{DISCLOSURE} Prices are snapshots from {VERIFIED} and change - always confirm on Amazon. <a href="compliance.html">How we disclose</a></div>
+  <div class="footer-bottom"><span>&copy; 2026 The Countertop Guide - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done.</span><span>Some links are sponsored; they may earn a commission at no extra cost to you.</span></div>
   </div>
 </footer>"""
-def page(title, desc, body, extra_head="", body_class=""):
+
+def page(fname, title, desc, body, extra_head="", body_class=""):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,23 +80,24 @@ def page(title, desc, body, extra_head="", body_class=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-<link rel="canonical" href="https://example.com/">
+<link rel="canonical" href="{canon(fname)}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
+<meta property="og:url" content="{canon(fname)}">
 <meta property="og:image" content="assets/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="styles.css">
 <link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
 {extra_head}
 </head>
 <body data-verified-date="{VERIFIED}" data-analytics-endpoint="" class="{body_class}">
 <a class="skip" href="#main">Skip to content</a>
-<header class="masthead"><div class="masthead-inner">
-<a class="brand" href="index.html">The Countertop <span>Guide</span></a>
+<header class="masthead wrap">
+<a class="brand" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
 {NAV}
-</div></header>
-<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from {VERIFIED} - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+</header>
+<div class="disclosure" role="note">{DISCLOSURE} Prices are snapshots from {VERIFIED} - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 {body}
 </main>
@@ -84,29 +106,29 @@ def page(title, desc, body, extra_head="", body_class=""):
 </body>
 </html>
 """
+
 def jsonld(obj):
     return f'<script type="application/ld+json">{json.dumps(obj)}</script>'
-def guide_shell(kicker, h1, intro, sections_html, faqs):
-    faq_json = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faqs]}
-    faq_html = "".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q,a in faqs)
-    body = f"""
-<p class="eyebrow">{esc(kicker)}</p>
-<h1>{esc(h1)}</h1>
-<p class="meta">By The Countertop Guide editorial team - Spec-based guide (not hands-on tested) - Verified data {VERIFIED} - 4 min read</p>
-<p class="lede">{intro}</p>
-<div class="toc"><strong>On this page:</strong> <a href="#shortlist">Shortlist from verified listings</a> - <a href="#compare-link">Full comparison</a> - <a href="#faq">Questions</a></div>
-{sections_html}
-<h2 id="shortlist">Shortlist from verified listings</h2>
-<div class="grid cols-2">{product_card('P1',2)}{product_card('P2',2)}{product_card('P3',2)}</div>
-<p id="compare-link"><a class="btn secondary" href="compare.html">See the full side-by-side comparison</a></p>
-<h2 id="faq">Questions</h2>
-{faq_html}
-<p class="small">Every product fact above comes from the Amazon listing linked on each card. If a fact is missing, we say so - see <a href="flagged.html">Flagged for review</a>. Prices are snapshots; confirm on Amazon before buying.</p>
-"""
-    return body, jsonld(faq_json)
-# ---------- INDEX ----------
+
+# ---------- shared blocks ----------
+HERO_ART = """<div class="hero-art">
+<div class="sun"></div><div class="shelf"></div>
+<div class="plant"><i></i><i></i><i></i><b></b></div>
+<div class="counter"></div>
+<div class="appliance">
+  <div class="appliance-top"></div>
+  <div class="appliance-window"><span></span></div>
+  <div class="knob"></div>
+  <div class="appliance-foot"></div>
+</div>
+<div class="art-caption">SPEC-BACKED &middot; SOURCED &middot; NO FAKE TESTING</div>
+</div>"""
+
+TICK_ITEM = f"<span>VERIFIED {VERIFIED}</span><span>SOURCED FROM AMAZON LISTINGS</span><span>NO FAKE TESTING</span><span>SPONSORED LINKS LABELED</span><span>EVERY NUMBER HAS A SOURCE</span>"
+TICKER = '<div class="ticker"><div>' + TICK_ITEM * 5 + '</div></div>'
+
 CHOOSER = """
-<form id="chooser-form" class="chooser card">
+<form id="chooser-form" class="chooser">
   <fieldset><legend>1. What are you cooking most?</legend>
     <label><input type="radio" name="q1" value="snacks"> Crispy snacks &amp; weeknight sides</label>
     <label><input type="radio" name="q1" value="family"> Whole meals for a crowd</label>
@@ -125,42 +147,140 @@ CHOOSER = """
   <button class="btn" type="submit">Show my shortlist</button>
   <div id="chooser-result" aria-live="polite"></div>
 </form>"""
+
+# Topic calendar (shared by the front page band and topics.html)
+TOPICS = [
+    {"n": "01", "title": "Basket or oven-style air fryer: what should you compare?", "cat": "Air fryers - Form",
+     "status": "Published", "href": "guide-basket-vs-oven.html",
+     "angle": "Form factor first: dual-basket vs French-door oven vs single basket, with the three fryers as worked examples.",
+     "hooks": "Listing form fields (P1 dual basket, P2 French door, P3 single basket); listing dimensions",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "02", "title": "A no-hype checklist for comparing air fryer capacity", "cat": "Air fryers - Capacity",
+     "status": "Published", "href": "guide-capacity-checklist.html",
+     "angle": "Quarts vs litres, single vs dual baskets, and how to read a 'feeds 4-6' claim without being misled.",
+     "hooks": "Capacity title/field as listed (P1, P2, P3); listing bullets; capacity-per-footprint math",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "03", "title": "How to assess cleanup and counter-space trade-offs", "cat": "Air fryers - Space",
+     "status": "Published", "href": "guide-cleanup-counter-space.html",
+     "angle": "Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.",
+     "hooks": "Listing dimensions (P1-P3); dishwasher-safe bullets; derived footprint and capacity-per-cm math",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "04", "title": "Questions to ask before buying a multi-function kitchen appliance", "cat": "Multi-function",
+     "status": "Published", "href": "guide-multifunction-questions.html",
+     "angle": "Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.",
+     "hooks": "Emeril preset count and functions (P2 listing); Chefman warranty bullets (P1, P3)",
+     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "05", "title": "Instant-read or wireless? How to read accuracy claims", "cat": "Thermometers",
+     "status": "Published", "href": "guide-thermometer-accuracy.html",
+     "angle": "Plus-minus 0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.",
+     "hooks": "ThermoMaven accuracy/certification claims (P4); CHEF iQ sensor count and range (P5)",
+     "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
+    {"n": "06", "title": "Can a 26-quart oven actually fit on your counter? The depth math, in inches", "cat": "Air fryers - Space",
+     "status": "Planned", "href": "topics.html#t06",
+     "angle": "A tape-measure walkthrough: depth, width, footprint and the capacity you get per centimetre of counter - using only listed dimensions.",
+     "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
+     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
+    {"n": "07", "title": "Two baskets or one: what dual-zone cooking actually changes", "cat": "Air fryers - Form",
+     "status": "Planned", "href": "topics.html#t07",
+     "angle": "When two independent baskets earn their extra depth - and when a single large basket is the simpler buy.",
+     "hooks": "P1 dual-basket listing claims (Sync Finish, 2 x 3 Qt); P3 single-basket listing claims",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "08", "title": "How to read the badges on a listing - without overreading them", "cat": "Trust",
+     "status": "Planned", "href": "topics.html#t08",
+     "angle": "What an 'Amazon's Choice' badge and a rating snapshot can and cannot tell a buyer, with the snapshot date kept visible.",
+     "hooks": "Badge and rating fields as shown on listings (P1, P3, P4); dated-snapshot rule",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
+]
+
+def topic_band():
+    rows = "".join(
+        f'<a href="{t["href"]}"><span>{t["n"]}</span>{esc(t["title"])}<b class="{"status-published" if t["status"]=="Published" else "status-planned"}">{t["status"]}</b></a>'
+        for t in TOPICS)
+    return f"""
+<div class="topic-band">
+  <div class="wrap topic-inner">
+    <div>
+      <h2>The topic calendar</h2>
+      <p>Eight question-shaped topics, five published and three queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
+    </div>
+    <div class="topic-list">{rows}</div>
+  </div>
+</div>"""
+
+# ---------- INDEX ----------
+index_stories = "".join([
+    story_card("guide-basket-vs-oven.html", "Form", "Latest stories", "Basket or oven-style air fryer: what should you compare?",
+               "Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity and counter depth.", "Read the guide", "image-one", '<span class="shape shape-a"></span>'),
+    story_card("guide-capacity-checklist.html", "Capacity", "Latest stories", "A no-hype checklist for comparing air fryer capacity",
+               "Quarts vs litres, single vs dual baskets, and the 'feeds 4-6' claim - how to read it without being misled.", "Read the guide", "image-two", '<span class="plate"></span>'),
+    story_card("guide-cleanup-counter-space.html", "Space", "Latest stories", "How to assess cleanup and counter-space trade-offs",
+               "Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.", "Read the guide", "image-three", '<span class="spark">&#10022;</span>'),
+    story_card("guide-multifunction-questions.html", "Multi-function", "Latest stories", "Questions to ask before buying a multi-function kitchen appliance",
+               "Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.", "Read the guide", "image-one", '<span class="shape shape-b"></span>'),
+    story_card("guide-thermometer-accuracy.html", "Thermometers", "Latest stories", "Instant-read or wireless? How to read accuracy claims",
+               "Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range - what each claim does and does not prove.", "Read the guide", "image-two", '<span class="plate"></span>'),
+])
+
 index_body = f"""
 <section class="hero">
-<p class="eyebrow">Air fryers &amp; thermometers - compared from the listing</p>
+<p class="eyebrow">The Countertop Guide &middot; compared from the listing</p>
 <h1>Basket or oven-style air fryer: what should you compare?</h1>
-<p class="lede">Five real products, two categories, zero hype. We compare capacity, counter footprint, cleanup and price <em>exactly as listed on Amazon</em> - and we show the source for every number. No fake "we tested it" claims. No "trending" without a dated snapshot.</p>
+<p class="hero-text">Five real products, two categories, zero hype. We compare capacity, counter footprint, cleanup and price <em>exactly as listed on Amazon</em> - and we show the source for every number. No fake "we tested it" claims. No popularity claims without a dated snapshot.</p>
 <p><a class="btn" href="compare.html">Compare all five</a> <a class="btn secondary" href="guides.html">Read the guides</a></p>
 <p class="small"><span class="badge-ok">Verified {VERIFIED}</span> <span class="badge-ok">Sponsored links labeled</span> <span class="badge-warn">Prices are snapshots - check Amazon</span></p>
+{HERO_ART}
 </section>
-<h2>Shop by category</h2>
-<div class="grid cols-2">
-  <article class="card"><span class="tag">Air Fryers - 3 products</span><h3>Air fryers: dual-basket, oven-style &amp; single-basket</h3><p>From a 6QT dual-basket to a 26QT French-door oven. Compare depth, footprint and capacity per centimetre of counter.</p><p><a class="btn small" href="air-fryers.html">Shop air fryers</a></p></article>
-  <article class="card"><span class="tag">Thermometers - 2 products</span><h3>Thermometers: instant-read vs wireless</h3><p>One-second instant reads vs WiFi probes you can watch from the next room. Accuracy claims are quoted from the listing, with the certification named.</p><p><a class="btn small" href="thermometers.html">Shop thermometers</a></p></article>
-</div>
-<h2>Featured products - verified {VERIFIED}</h2>
-<div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
-<div class="grid cols-2" style="margin-top:1rem">{product_card('P4')}{product_card('P5')}</div>
-<h2>Not sure where to start? Answer three questions</h2>
-<p>Our chooser uses only verified specs (form, depth, price snapshot). It does not replace reading the listing - but it gets you to a shortlist in 20 seconds.</p>
+{TICKER}
+<section class="section">
+  <div class="section-head">
+    <div><p class="eyebrow">The desk</p><h2>Latest stories</h2></div>
+    <p>Question-shaped guides, answered from verified listings. Each one says plainly what the listing does not tell you.</p>
+  </div>
+  <div class="cards">{index_stories}</div>
+  <p><a href="guides.html">All guides</a> &middot; <a href="topics.html">The topic calendar</a></p>
+</section>
+{topic_band()}
+<section class="section">
+  <div class="section-head">
+    <div><p class="eyebrow">The shop</p><h2>The five verified picks</h2></div>
+    <p>Every fact below links to its Amazon listing. Missing values are blank and flagged - never inferred.</p>
+  </div>
+  <div class="cards">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
+  <div class="cards" style="margin-top:1.1rem">{product_card('P4')}{product_card('P5')}</div>
+</section>
+<section class="section">
+  <div class="section-head">
+    <div><p class="eyebrow">Not sure</p><h2>Answer three questions, get a shortlist</h2></div>
+    <p>The chooser uses only verified specs (form, depth, price snapshot). It does not replace reading the listing - but it gets you to a shortlist in 20 seconds.</p>
+  </div>
 {CHOOSER}
-<h2>Latest guides</h2>
-<div class="grid cols-3">
-  <article class="card"><span class="tag">Guide</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Form factor first: baskets vs French-door ovens, with the three fryers on this site as worked examples.</p><p><a href="guide-basket-vs-oven.html">Read</a></p></article>
-  <article class="card"><span class="tag">Guide</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, single vs dual baskets, and the "feeds 4-6" claim - how to read it without being misled.</p><p><a href="guide-capacity-checklist.html">Read</a></p></article>
-  <article class="card"><span class="tag">Guide</span><h3>How to assess cleanup and counter-space trade-offs</h3><p>Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.</p><p><a href="guide-cleanup-counter-space.html">Read</a></p></article>
+</section>
+<div class="newsletter">
+  <div class="wrap newsletter-inner">
+    <div>
+      <p class="eyebrow">New guides, in your feed</p>
+      <h2>Follow the topic calendar via RSS</h2>
+      <p>Each new guide is added to the feed and the sitemap at publish. No email capture yet - email signup is proposed on the decision desk (SG-07) and stays off until a provider, consent copy and FTC review are approved.</p>
+    </div>
+    <a class="button-light" href="feed.xml"><span>&#9654;</span> Subscribe via RSS</a>
+  </div>
 </div>
-<p><a href="guides.html">All guides</a> - <a href="suggestions.html">Suggest a topic</a></p>
 """
-open("index.html","w").write(page("Air Fryers & Thermometers Compared From the Listing | The Countertop Guide","Compare 3 air fryers and 2 thermometers from verified Amazon listings: capacity, footprint, cleanup and price snapshots. No fake testing, sponsored links labeled.",index_body,jsonld({"@context":"https://schema.org","@type":"WebSite","name":"The Countertop Guide","url":"https://example.com/"})))
+open("index.html","w").write(page("index.html","Air Fryers & Thermometers Compared From the Listing | The Countertop Guide","Compare 3 air fryers and 2 thermometers from verified Amazon listings: capacity, footprint, cleanup and price snapshots. No fake testing, sponsored links labeled.",index_body,
+    jsonld({"@context":"https://schema.org","@type":"WebSite","name":"The Countertop Guide","url":SITE_URL})))
+
 # ---------- AIR FRYERS ----------
 af_body = f"""
-<p class="eyebrow">Category - Air Fryers</p>
+<section class="doc-hero">
+<p class="eyebrow">Category &middot; Air Fryers</p>
 <h1>Air fryers: dual-basket, oven-style &amp; single-basket</h1>
-<p class="lede">Three verified fryers, three different jobs. The dual-basket cooks two dishes at once; the French-door oven is built for crowds and rotisserie; the single basket is the compact weeknight workhorse. Start with form, then capacity, then footprint.</p>
-<div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
+<p>Three verified fryers, three different jobs. The dual-basket cooks two dishes at once; the French-door oven is built for crowds and rotisserie; the single basket is the compact weeknight workhorse. Start with form, then capacity, then footprint.</p>
+</section>
+<article class="doc-main">
+<div class="cards" style="grid-template-columns:repeat(3,1fr)">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
 <h2>Air fryer comparison (verified fields only)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Field</th><th>Chefman 6QT Dual-Basket<br>B0CDY277D3</th><th>Emeril 26QT French-Door<br>B09B7SB46R</th><th>Chefman 8QT TurboFry<br>B08DKYBTPH</th></tr>
 <tr><td>Form</td><td>Dual basket (2 x 3 Qt)</td><td>Oven-style, French door</td><td>Single basket</td></tr>
 <tr><td>Capacity (title)</td><td>6 Quart</td><td>26QT</td><td>8 quarts</td></tr>
@@ -184,16 +304,21 @@ af_body = f"""
 <li><a href="guide-multifunction-questions.html">Questions to ask before buying a multi-function kitchen appliance</a></li>
 </ul>
 <p><a class="btn secondary" href="compare.html">Compare with thermometers</a></p>
+</article>
 """
-open("air-fryers.html","w").write(page("Air Fryers Compared: Dual-Basket, Oven-Style & Single-Basket | The Countertop Guide","Compare Chefman 6QT dual-basket, Emeril 26QT French-door oven and Chefman 8QT TurboFry from verified Amazon listings: capacity, footprint, cleanup, price snapshots.",af_body))
+open("air-fryers.html","w").write(page("air-fryers.html","Air Fryers Compared: Dual-Basket, Oven-Style & Single-Basket | The Countertop Guide","Compare Chefman 6QT dual-basket, Emeril 26QT French-door oven and Chefman 8QT TurboFry from verified Amazon listings: capacity, footprint, cleanup, price snapshots.",af_body))
+
 # ---------- THERMOMETERS ----------
 th_body = f"""
-<p class="eyebrow">Category - Thermometers</p>
+<section class="doc-hero">
+<p class="eyebrow">Category &middot; Thermometers</p>
 <h1>Thermometers: instant-read vs wireless</h1>
-<p class="lede">Two different tools for the same job - knowing when meat is done. The instant-read gives a 1-second answer in your hand. The wireless system watches three probes from your phone. Accuracy claims below are quoted from the listing with the certification named; we have not independently calibrated either unit.</p>
-<div class="grid cols-2">{product_card('P4')}{product_card('P5')}</div>
+<p>Two different tools for the same job - knowing when meat is done. The instant-read gives a 1-second answer in your hand. The wireless system watches three probes from your phone. Accuracy claims below are quoted from the listing with the certification named; we have not independently calibrated either unit.</p>
+</section>
+<article class="doc-main">
+<div class="cards" style="grid-template-columns:repeat(2,1fr)">{product_card('P4')}{product_card('P5')}</div>
 <h2>Thermometer comparison (verified fields only)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Field</th><th>ThermoMaven Instant-Read<br>B0DHZTCNR5</th><th>CHEF iQ Sense Wireless<br>B0DZFD6R9Z</th></tr>
 <tr><td>Type</td><td>Handheld instant-read</td><td>Wireless probes + hub + app</td></tr>
 <tr><td>Accuracy claim (listing)</td><td>+/-0.5F, NIST &amp; NSF certified</td><td>4 internal + 1 ambient sensor (listing bullets); no +/-F figure captured</td></tr>
@@ -210,17 +335,22 @@ th_body = f"""
 <h2>Guide</h2>
 <ul><li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims without being misled</a></li></ul>
 <p><a class="btn secondary" href="compare.html">Compare with air fryers</a></p>
+</article>
 """
-open("thermometers.html","w").write(page("Meat Thermometers Compared: Instant-Read vs Wireless | The Countertop Guide","ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe system, compared from verified Amazon listings: accuracy claims, range, probes and price snapshots.",th_body))
+open("thermometers.html","w").write(page("thermometers.html","Meat Thermometers Compared: Instant-Read vs Wireless | The Countertop Guide","ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe system, compared from verified Amazon listings: accuracy claims, range, probes and price snapshots.",th_body))
+
 # ---------- COMPARE ----------
 compare_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Comparison</p>
 <h1>All five products, side by side</h1>
-<p class="lede">Every cell is either quoted from the Amazon listing (with link) or marked missing. Derived rows (footprint, capacity per square inch) show their method. Prices are {VERIFIED} snapshots - the live price on Amazon is the only price that matters.</p>
+<p>Every cell is either quoted from the Amazon listing (with link) or marked missing. Derived rows (footprint, capacity per square inch) show their method. Prices are {VERIFIED} snapshots - the live price on Amazon is the only price that matters.</p>
+</section>
+<article class="doc-main">
 <h2>Three-question chooser</h2>
 {CHOOSER}
 <h2>Full table</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Field</th><th>P1 Chefman 6QT Dual<br>B0CDY277D3</th><th>P2 Emeril 26QT Oven<br>B09B7SB46R</th><th>P3 Chefman 8QT Basket<br>B08DKYBTPH</th><th>P4 ThermoMaven Instant<br>B0DHZTCNR5</th><th>P5 CHEF iQ Wireless<br>B0DZFD6R9Z</th></tr>
 <tr><td>Category / form</td><td>Air Fryers - Dual basket</td><td>Air Fryers - Oven-style</td><td>Air Fryers - Single basket</td><td>Thermometers - Instant-read</td><td>Thermometers - Wireless</td></tr>
 <tr><td>Capacity</td><td>6 Quart (title) / 6 liters (field)</td><td>26QT (title) / 24.6 liters (field)</td><td>8 quarts</td><td>-</td><td>-</td></tr>
@@ -239,34 +369,112 @@ compare_body = f"""
 </table></div>
 <p class="small">All outbound links are sponsored (rel="sponsored") and open amazon.com. Ratings and prices are {VERIFIED} snapshots and will change. See <a href="verification.html">verification register</a> for line-by-line sources.</p>
 <h2>Counter-space analysis (air fryers only)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Air fryer</th><th>Depth</th><th>Footprint</th><th>Capacity</th><th>Capacity per cm depth*</th><th>Capacity per sq in*</th></tr>
 <tr><td>Chefman 6QT Dual (B0CDY277D3)</td><td>34.0 cm</td><td>158.0 sq in</td><td>6 qt</td><td>0.18 qt/cm</td><td>0.038 qt/sq in</td></tr>
 <tr><td>Emeril 26QT Oven (B09B7SB46R)</td><td>42.9 cm</td><td>267.0 sq in</td><td>26 qt</td><td>0.61 qt/cm</td><td>0.097 qt/sq in</td></tr>
 <tr><td>Chefman 8QT Basket (B08DKYBTPH)</td><td>32.4 cm</td><td>172.1 sq in</td><td>8 qt</td><td>0.25 qt/cm</td><td>0.046 qt/sq in</td></tr>
 </table></div>
 <p class="small">* Derived by us: depth in cm = inches x 2.54; footprint = width x depth; ratios use title capacity. Thermometers excluded (dimensions not captured). Method and limits in <a href="guide-cleanup-counter-space.html">cleanup &amp; counter-space guide</a>.</p>
+<div class="sticky-bar" id="sticky-bar">
+  <span>Compare all five &middot; prices are {VERIFIED} snapshots &middot; sponsored links labeled</span>
+  <a href="#full-table">Back to the table</a>
+</div>
+</article>
 """
-open("compare.html","w").write(page("Compare 5 Air Fryers & Thermometers Side by Side | The Countertop Guide","Side-by-side comparison of 5 verified products: capacity, dimensions, footprint, ratings and price snapshots, plus a 3-question chooser and counter-space math.",compare_body))
+open("compare.html","w").write(page("compare.html","Compare 5 Air Fryers & Thermometers Side by Side | The Countertop Guide","Side-by-side comparison of 5 verified products: capacity, dimensions, footprint, ratings and price snapshots, plus a 3-question chooser and counter-space math.",compare_body))
+
 # ---------- GUIDES INDEX ----------
-guides_body = """
+guides_stories = "".join([
+    story_card("guide-basket-vs-oven.html", "Form", "Guides", "Basket or oven-style air fryer: what should you compare?",
+               "Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.", "Read guide", "image-one", '<span class="shape shape-a"></span>'),
+    story_card("guide-capacity-checklist.html", "Capacity", "Guides", "A no-hype checklist for comparing air fryer capacity",
+               "Quarts vs litres, single vs dual baskets, and the 'feeds 4-6' claim - how to read capacity without being misled.", "Read guide", "image-two", '<span class="plate"></span>'),
+    story_card("guide-cleanup-counter-space.html", "Space", "Guides", "How to assess cleanup and counter-space trade-offs",
+               "Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.", "Read guide", "image-three", '<span class="spark">&#10022;</span>'),
+    story_card("guide-multifunction-questions.html", "Multi-function", "Guides", "Questions to ask before buying a multi-function kitchen appliance",
+               "Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.", "Read guide", "image-one", '<span class="shape shape-b"></span>'),
+    story_card("guide-thermometer-accuracy.html", "Accuracy", "Guides", "Instant-read or wireless? How to read accuracy claims",
+               "Plus-minus 0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.", "Read guide", "image-two", '<span class="plate"></span>'),
+    story_card("topics.html", "Calendar", "Guides", "The topic calendar: what we publish next",
+               "Eight spec-backed working titles, five published and three queued - with the fields each one is built from.", "Open calendar", "image-three", '<span class="shape shape-a"></span>'),
+])
+guides_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Guides</p>
 <h1>Question-shaped guides, answered from the listing</h1>
-<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or "trending" claims without a dated snapshot.</p>
-<div class="grid cols-2">
-<article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
-<article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
-<article class="card"><span class="tag">Air fryers - Space &amp; cleanup</span><h3>How to assess cleanup and counter-space trade-offs</h3><p>Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.</p><p><a class="btn small" href="guide-cleanup-counter-space.html">Read guide</a></p></article>
-<article class="card"><span class="tag">Multi-function</span><h3>Questions to ask before buying a multi-function kitchen appliance</h3><p>Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.</p><p><a class="btn small" href="guide-multifunction-questions.html">Read guide</a></p></article>
-<article class="card"><span class="tag">Thermometers - Accuracy</span><h3>Instant-read or wireless? How to read accuracy claims</h3><p>+/-0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.</p><p><a class="btn small" href="guide-thermometer-accuracy.html">Read guide</a></p></article>
-<article class="card"><span class="tag">Seasonal</span><h3>Holiday &amp; gift guides (coming next)</h3><p>Gift-ready picks by budget and cook type. We publish only after the gift angle is verified against the listing - see Suggestions board for the calendar.</p><p><a href="suggestions.html">See publishing plan</a></p></article>
-</div>
+<p>Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity claims without a dated snapshot.</p>
+</section>
+<article class="doc-main">
+<div class="cards">{guides_stories}</div>
+<p class="small">New guides join the <a href="feed.xml">RSS feed</a> and the <a href="sitemap.xml">sitemap</a> at publish. Topics are chosen from measured queries after launch (SG-02), not instinct.</p>
+</article>
 """
-open("guides.html","w").write(page("Buyer Guides: Air Fryers & Thermometers | The Countertop Guide","Question-shaped buying guides answered from verified Amazon listings: basket vs oven, capacity, cleanup and counter space, multi-function checklists, thermometer accuracy.",guides_body))
+open("guides.html","w").write(page("guides.html","Buyer Guides: Air Fryers & Thermometers | The Countertop Guide","Question-shaped buying guides answered from verified Amazon listings: basket vs oven, capacity, cleanup and counter space, multi-function checklists, thermometer accuracy.",guides_body))
+
+# ---------- TOPICS (topic calendar) ----------
+topic_rows = ""
+for t in TOPICS:
+    src = " &middot; ".join(f'<a href="{u}">{esc(l)}</a>' for l, u in t["sources"])
+    status = f'<span class="status-published">{t["status"]}</span>' if t["status"] == "Published" else f'<span class="status-planned">{t["status"]} - editorial hypothesis</span>'
+    title_cell = f'<a href="{t["href"]}">{esc(t["title"])}</a>' if t["status"] == "Published" else esc(t["title"])
+    topic_rows += f"""
+<tr id="t{t['n'].replace('0','')}"><td>{t['n']}</td><td>{title_cell}</td><td>{esc(t['cat'])}</td><td>{status}</td><td>{esc(t['angle'])}</td><td>{esc(t['hooks'])}</td><td>{src}</td></tr>"""
+
+topics_body = f"""
+<section class="doc-hero">
+<p class="eyebrow">The desk &middot; Topic calendar</p>
+<h1>The topic calendar: eight questions, eight spec-backed answers</h1>
+<p>Five guides are published; three are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
+</section>
+<article class="doc-main">
+<div class="callout"><b>How this calendar works</b>
+<p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
+<h2>The calendar</h2>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Working title</th><th>Category</th><th>Status</th><th>What it answers</th><th>Verified fields it uses</th><th>Sources</th></tr>
+{topic_rows}
+</table></div>
+<h2>Publishing cadence</h2>
+<p>One thoroughly checked guide per publishing slot, with a reassessment after the first batch of measured data. This is an operational plan, not a traffic promise. Every new guide is added to <a href="sitemap.xml">sitemap.xml</a> and <a href="feed.xml">feed.xml</a> at publish time.</p>
+<p class="small">No topic here is a claim that the subject is popular or in demand. If a popularity claim is ever made, it carries a dated snapshot from an official source (see <a href="methodology.html">Method</a>).</p>
+</article>
+"""
+open("topics.html","w").write(page("topics.html","Topic Calendar: Eight Spec-Backed Buyer Questions | The Countertop Guide","The Countertop Guide topic calendar: eight question-shaped, spec-backed article working titles - five published, three queued - with the verified fields and sources each is built from.",topics_body))
+
+# ---------- GUIDE SHELL ----------
+def guide_shell(kicker, h1, intro, sections_html, faqs, desc):
+    faq_json = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faqs]}
+    article_json = {"@context":"https://schema.org","@type":"Article","headline":h1,"description":desc,"datePublished":"2026-11-19","author":{"@type":"Organization","name":"The Countertop Guide editorial team"},"publisher":{"@type":"Organization","name":"The Countertop Guide"}}
+    faq_html = "".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q,a in faqs)
+    body = f"""
+<section class="doc-hero">
+<p class="eyebrow">{esc(kicker)}</p>
+<h1>{esc(h1)}</h1>
+<p class="meta">By The Countertop Guide editorial team &middot; Spec-based guide (not hands-on tested) &middot; Verified data {VERIFIED} &middot; 4 min read</p>
+<p class="lede">{intro}</p>
+<div class="toc"><strong>On this page:</strong> <a href="#shortlist">Shortlist from verified listings</a> &middot; <a href="#compare-link">Full comparison</a> &middot; <a href="#faq">Questions</a></div>
+</section>
+<article class="doc-main article-body">
+{sections_html}
+<h2 id="shortlist">Shortlist from verified listings</h2>
+<div class="cards" style="grid-template-columns:repeat(2,1fr)">{product_card('P1',2)}{product_card('P2',2)}{product_card('P3',2)}</div>
+<p id="compare-link"><a class="btn secondary" href="compare.html">See the full side-by-side comparison</a></p>
+<h2 id="faq">Questions</h2>
+{faq_html}
+<p class="small">Every product fact above comes from the Amazon listing linked on each card. If a fact is missing, we say so - see <a href="flagged.html">Flagged for review</a>. Prices are snapshots; confirm on Amazon before buying.</p>
+<div class="sticky-bar" id="sticky-bar">
+  <span>Spec-based guide &middot; verified {VERIFIED} &middot; no hands-on testing claimed</span>
+  <a href="compare.html">Compare all five</a>
+</div>
+</article>
+"""
+    return body, jsonld(faq_json) + jsonld(article_json)
+
 # ---------- GUIDE 1 ----------
-b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
+b1, j1 = guide_shell("Guide &middot; Air fryers", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
- """
+ f"""
 <h2>Start with the job, not the brand</h2>
 <p><strong>Dual-basket (Chefman 6QT, B0CDY277D3).</strong> Two independent 3-quart baskets with Sync Finish, so two dishes can finish together. The listing describes dual-zone cooking for different dishes simultaneously. Depth is 13.38 inches (34.0 cm) - the middle of the three.</p>
 <p><strong>Oven-style French-door (Emeril 26QT, B09B7SB46R).</strong> Built for volume: the listing describes 26-quart capacity for 4-6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza. It is also the deepest at 16.9 inches (42.9 cm) and the largest footprint (267.0 sq in). French doors open with a single pull.</p>
@@ -282,12 +490,14 @@ b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what
 """,
  [("Which is better, basket or oven-style air fryer?","Neither - they do different jobs. Dual-basket for two dishes at once, oven-style for crowds, rotisserie and pizza, single-basket for compact one-dish cooking. Use the three questions above."),
   ("How deep is the Emeril 26QT oven?","16.9 inches (42.9 cm) deep, per the Amazon listing dimensions (16.9D x 15.8W x 14.8H in). Measure your counter before buying."),
-  ("Can the Chefman 6QT cook two dishes at once?","Yes, per the listing: two independent 3-quart baskets with Sync Finish so both can finish at the same time.")])
-open("guide-basket-vs-oven.html","w").write(page("Basket or Oven-Style Air Fryer: What Should You Compare? | The Countertop Guide","Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth and cleanup, compared from verified Amazon listings.",b1,j1,"guide-page"))
+  ("Can the Chefman 6QT cook two dishes at once?","Yes, per the listing: two independent 3-quart baskets with Sync Finish so both can finish at the same time.")],
+ "Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth and cleanup, compared from verified Amazon listings.")
+open("guide-basket-vs-oven.html","w").write(page("guide-basket-vs-oven.html","Basket or Oven-Style Air Fryer: What Should You Compare? | The Countertop Guide","Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth and cleanup, compared from verified Amazon listings.",b1,j1,"guide-page"))
+
 # ---------- GUIDE 2 ----------
-b2, j2 = guide_shell("Guide - Capacity", "A no-hype checklist for comparing air fryer capacity",
+b2, j2 = guide_shell("Guide &middot; Capacity", "A no-hype checklist for comparing air fryer capacity",
  "Capacity numbers are the easiest place to be misled. Quarts vs litres, single vs dual baskets, and 'feeds 4-6' all mean different things. Use this checklist on any listing - we apply it to the three fryers here.",
- """
+ f"""
 <h2>The checklist</h2>
 <ol>
 <li><strong>Which number is the title, which is the field?</strong> Chefman 6QT title vs "6 liters" field; Emeril 26QT title vs "24.6 liters" field. Note both; do not silently convert. See <a href="flagged.html">Flagged FLG-002</a>.</li>
@@ -301,12 +511,14 @@ b2, j2 = guide_shell("Guide - Capacity", "A no-hype checklist for comparing air 
 """,
  [("Is 6 quarts the same as 6 litres?","No. The Chefman 6QT listing title says 6 Quart while its capacity field says 6 liters. We report both exactly as shown and flag the difference rather than converting silently."),
   ("How many people does the Emeril 26QT feed?","The listing bullets describe it as suitable for 4-6 people. That is the seller's description, not our tested serving count."),
-  ("What does capacity per square inch mean?","Title capacity divided by footprint (width x depth from listing dimensions). It shows how much capacity you get per unit of counter. Derived by us; see compare page for method.")])
-open("guide-capacity-checklist.html","w").write(page("A No-Hype Checklist for Comparing Air Fryer Capacity | The Countertop Guide","Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims: a checklist for reading air fryer capacity honestly, applied to 3 verified listings.",b2,j2,"guide-page"))
+  ("What does capacity per square inch mean?","Title capacity divided by footprint (width x depth from listing dimensions). It shows how much capacity you get per unit of counter. Derived by us; see compare page for method.")],
+ "Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims: a checklist for reading air fryer capacity honestly, applied to 3 verified listings.")
+open("guide-capacity-checklist.html","w").write(page("guide-capacity-checklist.html","A No-Hype Checklist for Comparing Air Fryer Capacity | The Countertop Guide","Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims: a checklist for reading air fryer capacity honestly, applied to 3 verified listings.",b2,j2,"guide-page"))
+
 # ---------- GUIDE 3 ----------
-b3, j3 = guide_shell("Guide - Space & cleanup", "How to assess cleanup and counter-space trade-offs",
+b3, j3 = guide_shell("Guide &middot; Space &amp; cleanup", "How to assess cleanup and counter-space trade-offs",
  "The best air fryer is the one that fits your counter and that you will actually wash. Here is the footprint math and the cleanup facts as listed - nothing more.",
- """
+ f"""
 <h2>Measure twice</h2>
 <p>Depth decides fit under cabinets; width decides whether it crowds the sink. From listing dimensions:</p>
 <ul>
@@ -325,12 +537,14 @@ b3, j3 = guide_shell("Guide - Space & cleanup", "How to assess cleanup and count
 """,
  [("Which air fryer takes the least counter space?","By footprint, the Chefman 6QT dual-basket (158.0 sq in). By depth, the Chefman 8QT (32.4 cm). Measure both depth and width."),
   ("Are the baskets dishwasher safe?","Chefman 6QT: baskets dishwasher safe per bullets. Chefman 8QT: basket and tray top-rack dishwasher safe per bullets. Confirm on the listing."),
-  ("How is capacity per cm calculated?","Title capacity (quarts) divided by depth in centimetres (inches x 2.54). Derived by us from listing dimensions; not a manufacturer claim.")])
-open("guide-cleanup-counter-space.html","w").write(page("How to Assess Cleanup and Counter-Space Trade-Offs | The Countertop Guide","Dishwasher-safe baskets, footprint math and capacity per centimetre of counter depth for 3 verified air fryers. Measure your counter, then compare.",b3,j3,"guide-page"))
+  ("How is capacity per cm calculated?","Title capacity (quarts) divided by depth in centimetres (inches x 2.54). Derived by us from listing dimensions; not a manufacturer claim.")],
+ "Dishwasher-safe baskets, footprint math and capacity per centimetre of counter depth for 3 verified air fryers. Measure your counter, then compare.")
+open("guide-cleanup-counter-space.html","w").write(page("guide-cleanup-counter-space.html","How to Assess Cleanup and Counter-Space Trade-Offs | The Countertop Guide","Dishwasher-safe baskets, footprint math and capacity per centimetre of counter depth for 3 verified air fryers. Measure your counter, then compare.",b3,j3,"guide-page"))
+
 # ---------- GUIDE 4 ----------
-b4, j4 = guide_shell("Guide - Multi-function", "Questions to ask before buying a multi-function kitchen appliance",
+b4, j4 = guide_shell("Guide &middot; Multi-function", "Questions to ask before buying a multi-function kitchen appliance",
  "Multi-function ovens promise everything. Before you pay for presets you will never use, ask these questions. We apply them to the Emeril 26QT French-door oven.",
- """
+ f"""
 <h2>The pre-purchase questions</h2>
 <ol>
 <li><strong>How many presets, and do you recognise them?</strong> Emeril title says 24 One-Touch presets; bullets say 25 cooking pre-sets. That discrepancy is flagged - count on the listing, not the headline. Functions shown: Air Fry, Convection Bake, Rotisserie, Toast, Grill, Dehydrate, Roast, Slow Cook, Broil.</li>
@@ -343,12 +557,14 @@ b4, j4 = guide_shell("Guide - Multi-function", "Questions to ask before buying a
 """,
  [("How many presets does the Emeril 26QT have?","The title says 24 One-Touch presets while the bullets say 25 cooking pre-sets. We flag the discrepancy and recommend verifying on the listing."),
   ("What accessories come with the Emeril oven?","The title says six cooking accessories are included. Check the listing for the exact list before buying."),
-  ("What is the Emeril wattage?","Not captured in our verification pass. See the listing's product details section before buying.")])
-open("guide-multifunction-questions.html","w").write(page("Questions to Ask Before Buying a Multi-Function Kitchen Appliance | The Countertop Guide","Presets, accessories, wattage, warranty and fit: the pre-purchase checklist for multi-function ovens, applied to the Emeril 26QT from its verified listing.",b4,j4,"guide-page"))
+  ("What is the Emeril wattage?","Not captured in our verification pass. See the listing's product details section before buying.")],
+ "Presets, accessories, wattage, warranty and fit: the pre-purchase checklist for multi-function ovens, applied to the Emeril 26QT from its verified listing.")
+open("guide-multifunction-questions.html","w").write(page("guide-multifunction-questions.html","Questions to Ask Before Buying a Multi-Function Kitchen Appliance | The Countertop Guide","Presets, accessories, wattage, warranty and fit: the pre-purchase checklist for multi-function ovens, applied to the Emeril 26QT from its verified listing.",b4,j4,"guide-page"))
+
 # ---------- GUIDE 5 ----------
-b5, j5 = guide_shell("Guide - Thermometers", "Instant-read or wireless? How to read accuracy claims",
+b5, j5 = guide_shell("Guide &middot; Thermometers", "Instant-read or wireless? How to read accuracy claims",
  "One tool answers in one second in your hand; the other watches from your phone. The right choice depends on how you cook - and on reading accuracy claims carefully.",
- """
+ f"""
 <h2>Instant-read: ThermoMaven (B0DHZTCNR5)</h2>
 <p>Listing claims +/-0.5F accuracy with NIST &amp; NSF certification, 1-second thermocouple read, IP67 waterproof, auto-rotating LED. Includes a calibration certificate. Price snapshot $16.99. Best for: quick checks, grilling, candy, everyday meals.</p>
 <h2>Wireless: CHEF iQ Sense (B0DZFD6R9Z)</h2>
@@ -363,15 +579,20 @@ b5, j5 = guide_shell("Guide - Thermometers", "Instant-read or wireless? How to r
 """,
  [("Which thermometer is more accurate?","The ThermoMaven listing states +/-0.5F with NIST & NSF certification. No +/-F figure was captured for the CHEF iQ, so we do not rank them on accuracy."),
   ("What does 5 sensors mean on the CHEF iQ?","Per the listing bullets: 4 internal temperature sensors plus 1 ambient sensor that tracks cooking-environment temperature."),
-  ("Do I need WiFi for the CHEF iQ?","WiFi enables unlimited-range app monitoring per the listing; Bluetooth is also listed in connectivity. You need the CHEF iQ app for remote monitoring.")])
-open("guide-thermometer-accuracy.html","w").write(page("Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.",b5,j5,"guide-page"))
+  ("Do I need WiFi for the CHEF iQ?","WiFi enables unlimited-range app monitoring per the listing; Bluetooth is also listed in connectivity. You need the CHEF iQ app for remote monitoring.")],
+ "Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.")
+open("guide-thermometer-accuracy.html","w").write(page("guide-thermometer-accuracy.html","Instant-Read or Wireless? How to Read Thermometer Accuracy Claims | The Countertop Guide","Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range: how to read meat thermometer accuracy claims honestly, comparing 2 verified listings.",b5,j5,"guide-page"))
+
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Executive summary</p>
 <h1>What this site is, what is verified, and what happens next</h1>
-<p class="lede">The Countertop Guide is a spec-backed affiliate publication for two kitchen categories - air fryers and meat thermometers - built from five Amazon listings verified on {VERIFIED}. It leads with products and buyer questions, not with process. Every number links to its source.</p>
+<p>The Countertop Guide is a spec-backed affiliate publication for two kitchen categories - air fryers and meat thermometers - built from five Amazon listings verified on {VERIFIED}. It leads with products and buyer questions, not with process. Every number links to its source.</p>
+</section>
+<article class="doc-main">
 <h2>The five products</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Price snapshot</th><th>Rating snapshot</th></tr>
 <tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air Fryers</td><td>$79.93</td><td>4.2 (4,876)</td></tr>
 <tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air Fryers</td><td>$149.99</td><td>4.3 (18,371)</td></tr>
@@ -383,54 +604,170 @@ exec_body = f"""
 <ul>
 <li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target).</li>
 <li>Titles, ratings, price snapshots, dimensions (air fryers), capacity, special features and bullets as shown on Amazon.com on {VERIFIED}.</li>
-<li>Compliance posture: disclosure above the fold on every page and in the footer; every outbound product link is rel="sponsored" and labeled; no "trending" or popularity claims without a dated snapshot; no hands-on testing claims.</li>
+<li>Compliance posture: disclosure above the fold on every page and in the footer (Operating Agreement Section 5 wording); every outbound product link is rel="sponsored" and labeled; no popularity claims without a dated snapshot; no hands-on testing claims.</li>
 </ul>
 <h2>What is not verified (and therefore not claimed)</h2>
 <ul>
 <li>Thermometer dimensions, Emeril wattage/warranty, CHEF iQ +/-F accuracy figure - blank and flagged.</li>
 <li>Short-link compliance status (unresolved), Special Link test in Associates Central (manual gate), commission rates (not published here), search volume / popularity (not claimed).</li>
-<li>Product photography (no Amazon images used; real photography needs a licence decision).</li>
+<li>Product photography (no Amazon images used; real photography needs a licence decision - SG-04).</li>
 </ul>
 <h2>How money and measurement work</h2>
-<p>Outbound links use tracking ID <code>{TAG}</code> and are marked sponsored. Click and conversion measurement is defined (five events) with a privacy-preserving local counter; the self-hosted endpoint is a documented stub, not yet deployed. The campaign ledger starts empty - orders and revenue are recorded only from authorized first-party reports. See <a href="methodology.html">Method &amp; campaign ledger</a>.</p>
+<p>Outbound links use tracking ID <code>{TAG}</code> and are marked sponsored. Click and conversion measurement is defined (five events) with a privacy-preserving local counter; the self-hosted endpoint is a documented stub, not yet deployed (SG-03). The campaign ledger starts empty - orders and revenue are recorded only from authorized first-party reports. See <a href="methodology.html">Method &amp; campaign ledger</a>.</p>
+<h2>What changed in this build (2026-11-19)</h2>
+<ul>
+<li>Front page rebuilt as a publication front page: hero, ticker, story cards, topic band, product panel, chooser and an RSS band.</li>
+<li>New <a href="topics.html">topic calendar</a>: eight spec-backed working titles, five published and three queued, each with its verified fields and sources.</li>
+<li><a href="suggestions.html">Suggestions page</a> rebuilt as an interactive decision desk: pick a path per suggestion, export a review sheet.</li>
+<li>Generator now emits per-page canonical URLs on the live GitHub Pages address (it previously emitted a placeholder that a rebuild reverted - see <a href="flagged.html">FLG-021</a>, resolved).</li>
+<li>Disclosure wording is now the exact Operating Agreement Section 5 sentence (see <a href="compliance.html">Compliance</a>).</li>
+<li>No product values were changed in this build.</li>
+</ul>
 <h2>Next gates (owner decisions)</h2>
-<p>Canonical domain, Special Link validation, photography licence, analytics endpoint, and the Suggestions board priorities. Nothing scales until those gates pass. See <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
+<p>Special Link validation (SG-01), canonical/Search Console (SG-02), analytics endpoint hosting (SG-03), photography licence (SG-04), brand unification (SG-11) and the topic-calendar cadence (SG-12). Nothing scales until those gates pass. See <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
+</article>
 """
-open("executive-summary.html","w").write(page("Executive Summary: Products, Verification & Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: 5 verified products in 2 categories, what is and is not verified, compliance posture, measurement plan and decision gates.",exec_body))
-# ---------- SUGGESTIONS ----------
-sugg_body = """
-<p class="eyebrow">Suggestions board</p>
+open("executive-summary.html","w").write(page("executive-summary.html","Executive Summary: Products, Verification & Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: 5 verified products in 2 categories, what is and is not verified, compliance posture, measurement plan and decision gates.",exec_body))
+
+# ---------- SUGGESTIONS (decision desk) ----------
+def pick_select(pid, options):
+    opts = "".join(f'<option value="{esc(o)}">{esc(o)}</option>' for o in options)
+    return f'<select data-pick="{pid}" aria-label="Pick a path for {esc(pid)}">{opts}</select>'
+
+def sg_row(sid, suggestion, why, evidence, effort, options, note=""):
+    return f"""
+<tr><td>{sid}</td><td>{suggestion}</td><td>{why}</td><td>{evidence}</td><td>{effort}</td>
+<td>{pick_select(sid, options)}<div class="pick-status small">{note or "Not picked yet"}</div></td></tr>"""
+
+des_rows = (
+ sg_row("DES-01", "Editorial typography and palette: Playfair Display + DM Sans on a warm paper background",
+        "Reads like a publication, not a template; the design system already shipped in styles.css",
+        "Design review by owner", "Done in this build", ["Approve", "Approve with changes", "Reject"]) +
+ sg_row("DES-02", "Front page as a publication: hero art, ticker, story cards, topic band, product panel, RSS band",
+        "Leads with products and stories; keeps every dashboard surface reachable from the footer",
+        "Owner visual review", "Done in this build", ["Approve", "Approve with changes", "Reject"]) +
+ sg_row("DES-03", "Topic calendar page with eight spec-backed working titles",
+        "Gives readers and search engines a reason to return; titles are hypotheses, not demand claims",
+        "Owner review of the eight titles", "Done in this build", ["Approve", "Approve with changes", "Reject"]) +
+ sg_row("DES-04", "Interactive decision desk: pick a path per suggestion and export a review sheet",
+        "Decisions get made deliberately, with evidence, before anything is implemented",
+        "Usability check of the export", "Done in this build", ["Approve", "Approve with changes", "Reject"])
+)
+
+sg_rows = (
+ sg_row("SG-01", "Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report",
+        "Proves outbound links earn correctly before scaling", "Associates Central test clicks + report screenshots", "Low (manual)",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Gate - do not scale outbound links without it") +
+ sg_row("SG-02", "Set canonical domain + Search Console + sitemap submission",
+        "One site to index; measured queries drive next topics", "Domain choice; Search Console property", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"]) +
+ sg_row("SG-03", "Deploy self-hosted analytics endpoint (5 events) + weekly ledger review",
+        "Turns clicks into decisions without third-party trackers", "Hosting choice; retention policy", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"]) +
+ sg_row("SG-04", "Licensed product photography (own photos or manufacturer permission)",
+        "Real photos convert; copied Amazon images risk IP breach", "Licence / permission letters", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"]) +
+ sg_row("SG-05", "Holiday gift guides (air fryer gifts, grill gifts) with dated price snapshots",
+        "Seasonal intent; gift guides convert when the gift angle is verified per listing", "Gift-angle verification per listing", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Queue behind the topic calendar") +
+ sg_row("SG-06", "\"Which one is for you\" chooser expansion (budget slider, counter-depth input)",
+        "Better decision support without fake testing", "Usability feedback", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"]) +
+ sg_row("SG-07", "Reader capture (email signup) with explicit consent",
+        "Owns audience beyond search", "Provider + consent copy + FTC review", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "RSS feed ships first; email stays off until approved") +
+ sg_row("SG-08", "Newer-model watch (Chefman B0CNY1YVDD, ThermoMaven B0GL7Z4KP4)",
+        "Decide whether to promote newer variants or keep current ASINs", "Variant comparison + margin check", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"]) +
+ sg_row("SG-09", "Hands-on testing programme (buy, cook, photograph, publish)",
+        "Unlocks \"lived-with\" content competitors cannot copy", "Budget, protocol, disclosure of free vs bought units", "High",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Do not claim until done") +
+ sg_row("SG-10", "Expand categories (second air fryer brand, second thermometer brand)",
+        "More comparison depth; better internal linking", "New ASIN verification pass", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"]) +
+ sg_row("SG-11", "Unify the site's brand (root site vs the Counter &amp; Crumb docs/articles pages)",
+        "One brand on one domain is easier to index, remember and trust", "Owner review of both editorial sets", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Flagged for owner decision - see FLG-023") +
+ sg_row("SG-12", "Execute the topic calendar on a measured cadence (one checked guide per slot)",
+        "Cadence plus measured queries choose the next topic instead of instinct", "Search Console data after launch", "Low ongoing",
+        ["Approve", "Reject", "Defer", "Needs more info"])
+)
+
+def q_row(qid, question, know, lack, discover, blocked, options=("Open", "Answered", "Blocked - owner needed")):
+    return f"""
+<tr><td>{qid}</td><td>{question}</td><td>{know}</td><td>{lack}</td><td>{discover}</td><td>{blocked}</td>
+<td>{pick_select(qid, options)}<div class="pick-status small">Not picked yet</div></td></tr>"""
+
+q_rows = (
+ q_row("Q-01", "Are the supplied short links compliant Special Links?",
+       "They resolve to the ASINs in the register (observed 2026-11-19)", "Exact compliance status is unresolved",
+       "Test in Associates Central; read Operating Agreement + Policies", "Scaling outbound links") +
+ q_row("Q-02", "What is the canonical domain?",
+       "Site builds as static GitHub Pages; generator now emits per-page canonicals on the live pages URL", "Final domain / custom domain",
+       "Owner picks domain; set canonical + Search Console", "SEO launch, og:image, sitemap") +
+ q_row("Q-03", "What are thermometer dimensions &amp; Emeril wattage?",
+       "Air fryer dims verified; thermometer dims + Emeril wattage not captured", "Missing fields (blank in tables)",
+       "Re-fetch listing product-details sections; record date", "Counter-space table for thermometers; circuit advice") +
+ q_row("Q-04", "Should we promote newer models instead?",
+       "Listings show newer variants (see Flagged)", "Margin, rating trajectory, variant fit",
+       "Compare variant listings; check Associates reports", "Product lineup") +
+ q_row("Q-05", "What commission rates apply?",
+       "Tracking ID shopnow047c-20; session rules in Policies", "Category rates (not published here)",
+       "Associates Central commission statement (authorized report only)", "Revenue forecasting (not done)") +
+ q_row("Q-06", "Is there search demand for these topics?",
+       "Guides are question-shaped hypotheses, not volume claims", "Measured queries (no analytics yet)",
+       "Search Console after launch; choose next topics from data", "Publishing cadence") +
+ q_row("Q-07", "Can we use product photos?",
+       "No Amazon images used; SVG/CSS only", "Licence / permission status",
+       "Manufacturer permission or own photography", "Visual overhaul (SG-04)") +
+ q_row("Q-08", "Where does analytics data live?",
+       "Local-only counter; endpoint stub documented", "Hosting, retention, consent",
+       "Pick host; publish retention policy", "Measurement &amp; optimisation (SG-03)") +
+ q_row("Q-09", "Which brand should the whole site use?",
+       "Two editorial sets ship on one domain: The Countertop Guide (root) and Counter &amp; Crumb (docs/articles)",
+       "Owner choice of one brand, or a decision to keep the docs set clearly internal",
+       "Owner review of both sets; then update nav, footer and metadata once", "Brand unification (SG-11)") +
+ q_row("Q-10", "Can the 2026-11-19 listing values be re-confirmed?",
+       "Register with per-field sources and confirmation dates is recorded in verification.html",
+       "Fresh fetch of listing product-details (this session's sandbox could not reach Amazon.com or link.amazon)",
+       "Owner re-fetch of each listing, or an authorized channel per the Operating Agreement; record the date",
+       "Price/rating freshness; FLG-004, FLG-005, FLG-020")
+)
+
+sugg_body = f"""
+<section class="doc-hero">
+<p class="eyebrow">Suggestions board &middot; Decision desk</p>
 <h1>Suggestions &amp; decision log - review before anything is built</h1>
-<p class="lede">Nothing on this board is implemented until a reviewer picks a path. Each suggestion states the evidence it needs, the effort, and what decision it blocks. Add your pick in the review; we implement only approved items.</p>
+<p>Nothing on this board is implemented until a reviewer picks a path. Each suggestion states the evidence it needs, the effort, and what decision it blocks. Pick a path below; the pick stays in your browser and you can export a review sheet to hand over. We implement only approved items.</p>
+</section>
+<article class="doc-main" id="suggestion-board">
+<div class="callout"><b>How to use this desk</b>
+<p>Use the select on each row to choose a path (Approve / Reject / Defer / Needs more info). Picks are stored in your browser only - nothing is sent anywhere. Export a JSON review sheet when you are done; approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
+<div class="review-panel">
+  <button class="btn" id="sg-export" type="button">Export review sheet (JSON)</button>
+  <button class="btn secondary" id="sg-print" type="button">Print this page</button>
+  <button class="btn secondary" id="sg-reset" type="button">Clear my picks</button>
+</div></div>
+<h2>Design &amp; content suggestions (this build)</h2>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Your pick</th></tr>
+{des_rows}
+</table></div>
 <h2>Suggestions for review</h2>
-<div class="table-scroll"><table>
-<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
-<tr><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td><td><span class="badge-warn">Needs decision - gate</span></td></tr>
-<tr><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-05</td><td>Holiday gift guides (air fryer gifts, grill gifts) with dated price snapshots</td><td>Seasonal organic traffic; gift intent converts</td><td>Gift-angle verification per listing</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-06</td><td>"Which one is for you" chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-07</td><td>Reader capture (email signup) with explicit consent</td><td>Owns audience beyond search</td><td>Provider + consent copy + FTC review</td><td>Medium</td><td>Proposed</td></tr>
-<tr><td>SG-08</td><td>Newer-model watch (Chefman B0CNY1YVDD, ThermoMaven B0GL7Z4KP4)</td><td>Decide whether to promote newer variants or keep current ASINs</td><td>Variant comparison + margin check</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-09</td><td>Hands-on testing programme (buy, cook, photograph, publish)</td><td>Unlocks "lived-with" content competitors cannot copy</td><td>Budget, protocol, disclosure of free vs bought units</td><td>High</td><td>Proposed - do not claim until done</td></tr>
-<tr><td>SG-10</td><td>Expand categories (second air fryer brand, second thermometer brand)</td><td>More comparison depth; better internal linking</td><td>New ASIN verification pass</td><td>Medium</td><td>Proposed</td></tr>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Your pick</th></tr>
+{sg_rows}
 </table></div>
 <h2>Questions, information &amp; answers needed before a reasonable decision</h2>
-<div class="table-scroll"><table>
-<tr><th>#</th><th>Question</th><th>What we know</th><th>What we do not know</th><th>How to discover it</th><th>Decision blocked</th></tr>
-<tr><td>Q-01</td><td>Are the supplied short links compliant Special Links?</td><td>They resolve to the ASINs in the register (observed 2026-11-19)</td><td>Exact compliance status is unresolved</td><td>Test in Associates Central; read Operating Agreement + Policies</td><td>Scaling outbound links</td></tr>
-<tr><td>Q-02</td><td>What is the canonical domain?</td><td>Site builds as static GitHub Pages; canonical currently placeholder</td><td>Final domain / custom domain</td><td>Owner picks domain; set canonical + Search Console</td><td>SEO launch, og:image, sitemap</td></tr>
-<tr><td>Q-03</td><td>What are thermometer dimensions &amp; Emeril wattage?</td><td>Air fryer dims verified; thermometer dims + Emeril wattage not captured</td><td>Missing fields (blank in tables)</td><td>Re-fetch listing product-details sections; record date</td><td>Counter-space table for thermometers; circuit advice</td></tr>
-<tr><td>Q-04</td><td>Should we promote newer models instead?</td><td>Listings show newer variants (see Flagged)</td><td>Margin, rating trajectory, variant fit</td><td>Compare variant listings; check Associates reports</td><td>Product lineup</td></tr>
-<tr><td>Q-05</td><td>What commission rates apply?</td><td>Tracking ID shopnow047c-20; session rules in Policies</td><td>Category rates (not published here)</td><td>Associates Central commission statement (authorized report only)</td><td>Revenue forecasting (not done)</td></tr>
-<tr><td>Q-06</td><td>Is there search demand for these topics?</td><td>Guides are question-shaped hypotheses, not volume claims</td><td>Measured queries (no analytics yet)</td><td>Search Console after launch; choose next topics from data</td><td>Publishing cadence</td></tr>
-<tr><td>Q-07</td><td>Can we use product photos?</td><td>No Amazon images used; SVG/CSS only</td><td>Licence / permission status</td><td>Manufacturer permission or own photography</td><td>Visual overhaul</td></tr>
-<tr><td>Q-08</td><td>Where does analytics data live?</td><td>Local-only counter; endpoint stub documented</td><td>Hosting, retention, consent</td><td>Pick host; publish retention policy</td><td>Measurement &amp; optimisation</td></tr>
+<div class="table-wrap"><table class="data-table">
+<tr><th>#</th><th>Question</th><th>What we know</th><th>What we do not know</th><th>How to discover it</th><th>Decision blocked</th><th>Status</th></tr>
+{q_rows}
 </table></div>
-<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
+<p class="small">Reviewer: mark each item with a pick and a date. Approved items move to COORDINATION.md as claimed tasks. Missing information is surfaced as a question above - never filled in by assumption.</p>
+</article>
 """
-open("suggestions.html","w").write(page("Suggestions Board & Decision Log: Review Before Building | The Countertop Guide","Suggestions board and Q/I/A decision log for The Countertop Guide: what to build next, what evidence each needs, and which decisions are blocked until answers arrive.",sugg_body))
+open("suggestions.html","w").write(page("suggestions.html","Suggestions Board & Decision Log: Review Before Building | The Countertop Guide","Suggestions board and decision desk for The Countertop Guide: design and content suggestions, operational suggestions, and the Q/I/A list of questions, information and answers needed before any decision.",sugg_body))
+
 # ---------- VERIFICATION ----------
 ver_rows = ""
 for pid in ["P1","P2","P3","P4","P5"]:
@@ -439,7 +776,7 @@ for pid in ["P1","P2","P3","P4","P5"]:
     ver_rows += f"""
 <article class="card" id="{pid}">
 <h3>{pid} - {esc(p['shortName'])} (ASIN {p['asin']})</h3>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Field</th><th>Value</th><th>Source</th></tr>
 <tr><td>Submitted short link (as supplied)</td><td>{esc(p['submittedShortLink'])}</td><td>Owner brief</td></tr>
 <tr><td>Intended ASIN</td><td>{p['asin']}</td><td><a href="{p['officialListingUrl']}">Official listing</a></td></tr>
@@ -457,28 +794,38 @@ for pid in ["P1","P2","P3","P4","P5"]:
 <p class="small">{esc(p['sourceNote'])}</p>
 </article>"""
 ver_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Verification register</p>
 <h1>Line-by-line verification: every fact, its source</h1>
-<p class="lede">Rule: every table row has a source link to an official site. If a value cannot be confirmed, it is left blank and flagged - never inferred. Intended ASIN and observed redirect target are stored in separate fields and never merged.</p>
+<p>Rule: every table row has a source link to an official site. If a value cannot be confirmed, it is left blank and flagged - never inferred. Intended ASIN and observed redirect target are stored in separate fields and never merged.</p>
+</section>
+<article class="doc-main">
 <h2>Product-intent confirmation record</h2>
 {ver_rows}
 <h2>Policy sources (official)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Source</th><th>What it governs</th><th>Link</th></tr>
-<tr><td>Amazon Associates Operating Agreement (updated 2025-10-15)</td><td>Special Links must properly use tagged link formats; Program Content definition</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement</a></td></tr>
+<tr><td>Amazon Associates Operating Agreement (updated 2025-10-15)</td><td>Special Links must properly use tagged link formats; Program Content definition; Section 5 disclosure statement</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement</a></td></tr>
 <tr><td>Amazon Associates Program Policies (updated 2026-04-14)</td><td>Commission session rules; participation requirements</td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a></td></tr>
 <tr><td>FTC Disclosures 101 for Social Media Influencers (Nov 2019)</td><td>Material-connection disclosure: hard to miss, simple clear language</td><td><a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">FTC Disclosures 101</a></td></tr>
 <tr><td>FTC Endorsements, Influencers &amp; Reviews guidance</td><td>Endorsement context and review integrity</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td></tr>
 </table></div>
-<p class="small">Verification performed 2026-11-19 by fetching each Amazon listing and policy page. Prices/ratings are snapshots and will change. Manual Special Link test in Associates Central remains a gate (see <a href="flagged.html">Flagged</a>).</p>
+<p class="small">Verification performed 2026-11-19 by fetching each Amazon listing and policy page; values are snapshots and will change. Manual Special Link test in Associates Central remains a gate (see <a href="flagged.html">Flagged</a>).</p>
+<div class="callout"><b>Re-verification note (session arena/bb3ae11b-prod1, 2026-11-19)</b>
+<p>This session's sandbox could not reach Amazon.com or link.amazon (outbound network allowlist), so the listing values above were not re-fetched and were not changed. The five submitted short links and their ASIN mapping were re-checked against <code>data/products.json</code> and the generator, and the register's internal consistency was confirmed. See <a href="flagged.html">FLG-022</a>.</p></div>
+</article>
 """
-open("verification.html","w").write(page("Verification Register: Line-by-Line Sources for Every Fact | The Countertop Guide","Verification register for 5 products: intended ASIN, official listing URL, confirmation date and source per product, plus official Amazon and FTC policy sources.",ver_body))
+open("verification.html","w").write(page("verification.html","Verification Register: Line-by-Line Sources for Every Fact | The Countertop Guide","Verification register for 5 products: intended ASIN, official listing URL, confirmation date and source per product, plus official Amazon and FTC policy sources.",ver_body))
+
 # ---------- FLAGGED ----------
 flag_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Flagged for review</p>
 <h1>Flagged for review - irregularities &amp; unverified items</h1>
-<p class="lede">Flagged items do not block publishing, but they block claims. Nothing below is presented as fact on product pages. Review after launch and request changes.</p>
-<div class="table-scroll"><table>
+<p>Flagged items do not block publishing, but they block claims. Nothing below is presented as fact on product pages. Review after launch and request changes.</p>
+</section>
+<article class="doc-main">
+<div class="table-wrap"><table class="data-table">
 <tr><th>ID</th><th>Item</th><th>Detail</th><th>Action</th></tr>
 <tr><td>FLG-001</td><td>Short-link compliance unresolved</td><td>Supplied link.amazon short links resolve to the ASINs, but their exact compliance status as Special Links is unresolved. We do not claim they are invalid. Site outbound buttons use official listing URLs + tag instead.</td><td>Manual test in Associates Central (SG-01)</td></tr>
 <tr><td>FLG-002</td><td>Preset &amp; capacity discrepancies</td><td>Emeril: title 24 presets vs bullets 25; title 26QT vs field 24.6 liters. Chefman 6QT: title 6 Quart vs field 6 liters. Both values shown; no silent conversion.</td><td>Verify on listing; ask seller if needed</td></tr>
@@ -486,30 +833,39 @@ flag_body = f"""
 <tr><td>FLG-004</td><td>Missing dimensions (thermometers)</td><td>ThermoMaven B0DHZTCNR5 and CHEF iQ B0DZFD6R9Z dimensions not in captured fields. Left blank in tables.</td><td>Re-fetch product-details; record date</td></tr>
 <tr><td>FLG-005</td><td>Missing wattage/warranty (Emeril)</td><td>Emeril wattage and warranty not captured. Left blank.</td><td>Check listing product details</td></tr>
 <tr><td>FLG-006</td><td>Price volatility</td><td>All prices are {VERIFIED} snapshots (Black Friday period). Live price on Amazon governs.</td><td>Re-snapshot on cadence; date every price</td></tr>
-<tr><td>FLG-007</td><td>Canonical domain unset</td><td>Canonical/og URLs use placeholder until owner picks domain. SEO cannot fully launch without it.</td><td>Pick domain (SG-02)</td></tr>
+<tr><td>FLG-007</td><td>Canonical domain - resolved</td><td>Canonical/og URLs previously used a placeholder; the generator now emits per-page canonical URLs on the live GitHub Pages address. A custom domain is still an owner decision (SG-02).</td><td>Resolved 2026-11-19; custom domain remains SG-02</td></tr>
 <tr><td>FLG-008</td><td>Analytics endpoint not deployed</td><td>Five events defined; local counter only. No server endpoint yet.</td><td>Deploy endpoint (SG-03)</td></tr>
 <tr><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
-<tr><td>FLG-012</td><td>No trending / popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We do not claim trending.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
-<tr><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link (Q-03)</td></tr>
+<tr><td>FLG-012</td><td>No popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. The evidence rule is: dated snapshot from an official source, or no claim.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
+<tr><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link</td></tr>
 <tr><td>FLG-014</td><td>ASIN 10-character rule: third-party sources only</td><td>The 10-character ASIN format was found on third-party guides, not on an Amazon page read in this session. The format is used only to flag the 9-character codes.</td><td>Find an official Amazon help page for the ASIN definition</td></tr>
 <tr><td>FLG-015</td><td>Redirect targets carry no tag=</td><td>The final URLs of the five supplied links (read 2026-11-19) contain no tag= parameter. Attribution to shopnow047c-20 is therefore not observed on the redirect path. Site buttons use tagged listing URLs (FLG-001).</td><td>Associates tracking-report test per product (SG-01)</td></tr>
 <tr><td>FLG-016</td><td>Listing pages carry widget data for other ASINs</td><td>Listing pages include Product summary links and Customers who viewed carousels with prices and ratings for other products. These are not used as data for the five products.</td><td>Use only each product's own fields; re-check on publication</td></tr>
 <tr><td>FLG-017</td><td>External register: three links vs five</td><td>The external Zone4 decision log (D-13) refers to the three supplied links; this brief supplies five. Its statuses are not carried into this site. Only the first part of that log was read.</td><td>Reconcile the external register with the five links</td></tr>
 <tr><td>FLG-018</td><td>Proposed Amazon content notice (not verified)</td><td>The external Zone4 decision log proposes an Amazon content notice citing IP License section 2(k). The IP License was not read, and the notice is not yet on the pages.</td><td>Read IP License 2(k); decide under SG-04</td></tr>
 <tr><td>FLG-019</td><td>Creators API prerequisites not read</td><td>The external Zone4 decision log suggests the Creators API for prices and ratings. Its prerequisites were not read, and no API data is used on this site.</td><td>Read prerequisites before any price or rating source change</td></tr>
-<tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in this pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
+<tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in that pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
+<tr><td>FLG-021</td><td>Generator canonical mismatch - resolved</td><td>build_site.py emitted canonical https://example.com/ while the committed pages had been hand-patched to the live URL; a plain rebuild reverted all 17 generated pages (confirmed by test rebuild 2026-11-19). The hand-patch also produced one shared canonical (the homepage URL) for every root page. Fixed: the generator now emits a per-page canonical on the live GitHub Pages URL.</td><td>Resolved 2026-11-19 (session arena/bb3ae11b-prod1); no further action</td></tr>
+<tr><td>FLG-022</td><td>Listing values not re-fetched this session</td><td>Session arena/bb3ae11b-prod1's sandbox cannot reach Amazon.com or link.amazon (outbound allowlist), so the 2026-11-19 register was not re-verified live and no value was changed. Fresh confirmation requires an owner fetch of each listing's product-details (or an authorized channel), recorded with a date.</td><td>Re-fetch each listing; record date (also covers FLG-004, FLG-005, FLG-020)</td></tr>
+<tr><td>FLG-023</td><td>Two editorial brands on one domain</td><td>The root site (The Countertop Guide) and the docs/ + articles/ set (Counter &amp; Crumb) ship under different brand names on the same GitHub Pages domain. Both carry disclosures and sponsored-link marks; the brand split is an owner decision, not a compliance failure.</td><td>Owner decision (SG-11)</td></tr>
 </table></div>
+</article>
 """
-open("flagged.html","w").write(page("Flagged for Review: Irregularities & Unverified Items | The Countertop Guide","Flagged irregularities for The Countertop Guide: short-link compliance, preset/capacity discrepancies, newer models, missing fields, price volatility and launch gates.",flag_body))
+open("flagged.html","w").write(page("flagged.html","Flagged for Review: Irregularities & Unverified Items | The Countertop Guide","Flagged irregularities for The Countertop Guide: short-link compliance, preset/capacity discrepancies, newer models, missing fields, price volatility and launch gates.",flag_body))
+
 # ---------- COMPLIANCE ----------
 comp_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Compliance gate</p>
 <h1>Disclosures &amp; policy checks in the publishing workflow</h1>
-<p class="lede">Disclosure above the fold on every page (and repeated in the footer). Every outbound product link is marked sponsored. Endorsement context is reviewed against the Operating Agreement and FTC guidance before publishing.</p>
+<p>Disclosure above the fold on every page (and repeated in the footer). Every outbound product link is marked sponsored. Endorsement context is reviewed against the Operating Agreement and FTC guidance before publishing.</p>
+</section>
+<article class="doc-main">
 <h2>Our disclosure (verbatim, every page)</h2>
-<blockquote>As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change - always check the price on Amazon before you buy.</blockquote>
+<blockquote>{DISCLOSURE} Prices and availability are snapshots from Amazon.com on the verification date and can change - always check the price on Amazon before you buy.</blockquote>
+<p class="small">Wording decision (2026-11-19): the site now uses the exact Operating Agreement Section 5 sentence, which also clears the publishing gate's variant-wording warning. Source: <a href="https://affiliate-program.amazon.com/help/operating/agreement">Amazon Associates Operating Agreement, Section 5</a>.</p>
 <h2>How each outbound link is marked</h2>
 <ul>
 <li>URL format: <code>https://www.amazon.com/dp/ASIN?tag={TAG}</code> (official listing URL + tracking ID).</li>
@@ -517,31 +873,36 @@ comp_body = f"""
 <li>Short links are recorded in the <a href="verification.html">verification register</a> as submitted links with observed redirect targets in a separate field. They are not used as outbound buttons.</li>
 </ul>
 <h2>Policy checklist (reviewed 2026-11-19)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Check</th><th>Source</th><th>Our practice</th></tr>
 <tr><td>Use proper tagged Special Link formats</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement S1</a></td><td>Official URL + tag; manual SiteStripe test is a gate (FLG-001)</td></tr>
 <tr><td>Do not obscure link destination</td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a></td><td>Button text + ASIN + "Opens amazon.com" on every card</td></tr>
 <tr><td>Disclose material connection, hard to miss</td><td><a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">FTC Disclosures 101</a></td><td>Strip under masthead on every page + footer; simple language ("earns from qualifying purchases")</td></tr>
-<tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/trending claims; seller claims attributed ("per listing")</td></tr>
+<tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/popularity claims; seller claims attributed ("per listing")</td></tr>
 <tr><td>Program Content / images</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement S1</a></td><td>No Amazon images copied; SVG/CSS only until licence decided</td></tr>
 </table></div>
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
+</article>
 """
-open("compliance.html","w").write(page("Compliance: Disclosures & Amazon/FTC Policy Checks | The Countertop Guide","Compliance gate for The Countertop Guide: disclosure wording, sponsored-link marking, and Amazon Associates + FTC policy checklist reviewed before publishing.",comp_body))
+open("compliance.html","w").write(page("compliance.html","Compliance: Disclosures & Amazon/FTC Policy Checks | The Countertop Guide","Compliance gate for The Countertop Guide: disclosure wording, sponsored-link marking, and Amazon Associates + FTC policy checklist reviewed before publishing.",comp_body))
+
 # ---------- METHODOLOGY ----------
 meth_body = f"""
+<section class="doc-hero">
 <p class="eyebrow">Method</p>
 <h1>How we verify, measure, and decide - without hallucinating</h1>
-<p class="lede">Automate what can be automated; put a gate in front of what cannot. This page is the machinery: evidence rules, analytics events, and the empty campaign ledger.</p>
+<p>Automate what can be automated; put a gate in front of what cannot. This page is the machinery: evidence rules, analytics events, and the empty campaign ledger.</p>
+</section>
+<article class="doc-main">
 <h2>Evidence rule</h2>
 <ul>
 <li>Every product fact links to its Amazon listing and <a href="verification.html">verification record</a>. Missing = blank + flagged.</li>
-<li>"Trending" / popularity claims require a dated snapshot from an official category page. We make none.</li>
+<li>Popularity claims require a dated snapshot from an official source. We make none.</li>
 <li>Seller claims are attributed ("per listing"). Derived math shows its method. Prices always carry a snapshot date.</li>
 <li>Hands-on testing claims require a published protocol and photos. We make none.</li>
 </ul>
 <h2>Analytics: five defined events (privacy-preserving)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Event</th><th>When it fires</th><th>Data kept</th></tr>
 <tr><td>page_view</td><td>Page load</td><td>Path + timestamp (local only until endpoint deployed)</td></tr>
 <tr><td>outbound_click</td><td>Sponsored Amazon click</td><td>ASIN + destination (no personal data)</td></tr>
@@ -551,38 +912,47 @@ meth_body = f"""
 </table></div>
 <p>Implementation: <code>assets/app.js</code> counts locally in <code>localStorage</code> and beacons to a configurable endpoint (<code>data-analytics-endpoint</code>, currently empty). No third-party trackers. Deploying the endpoint is SG-03; until then, counts are device-local and the ledger stays empty.</p>
 <h2>Campaign ledger (empty by design)</h2>
-<div class="table-scroll"><table>
+<div class="table-wrap"><table class="data-table">
 <tr><th>Date</th><th>Source</th><th>Channel</th><th>Eligible sessions</th><th>Clicks</th><th>Reported orders</th><th>Provenance</th></tr>
 <tr><td colspan="7"><em>No rows yet. Add timestamp, source, channel, eligible sessions, clicks and reported orders only when obtained from authorized first-party reports (Associates Central). No conversion score or revenue forecast is presented.</em></td></tr>
 </table></div>
 <h2>Publishing cadence</h2>
-<p>New guides are added to <code>sitemap.xml</code> and <code>feed.xml</code> at publish. Next topic is chosen from measured Search Console queries (after SG-02), not instinct. RSS feed: <a href="feed.xml">feed.xml</a>. Sitemap: <a href="sitemap.xml">sitemap.xml</a>.</p>
+<p>New guides are added to <a href="sitemap.xml">sitemap.xml</a> and <a href="feed.xml">feed.xml</a> at publish. The <a href="topics.html">topic calendar</a> lists the eight working titles; the next topic is chosen from measured Search Console queries (after SG-02), not instinct.</p>
+</article>
 """
-open("methodology.html","w").write(page("Method: Verification, Analytics Events & Campaign Ledger | The Countertop Guide","Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.",meth_body))
+open("methodology.html","w").write(page("methodology.html","Method: Verification, Analytics Events & Campaign Ledger | The Countertop Guide","Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.",meth_body))
+
 # ---------- SEARCH ----------
 search_body = """
+<section class="doc-hero">
 <p class="eyebrow">Search</p>
 <h1>Search the site</h1>
+<p>Search guides, products and decision pages. Results come from a local index - no query leaves your browser.</p>
+</section>
+<article class="doc-main">
 <form id="search-page-form" role="search">
   <label for="search-input">Search guides &amp; products</label>
   <input id="search-input" type="search" placeholder="Try capacity or thermometer">
   <button class="btn" type="submit">Search</button>
 </form>
 <div id="search-results" aria-live="polite"></div>
-<p><a href="search.html">Browse all</a> - <a href="guides.html">Guides</a> - <a href="compare.html">Compare</a></p>
+<p><a href="guides.html">Browse all guides</a> &middot; <a href="topics.html">Topic calendar</a> &middot; <a href="compare.html">Compare</a></p>
+</article>
 """
-open("search.html","w").write(page("Search Guides & Products | The Countertop Guide","Search The Countertop Guide guides and product comparisons: air fryers, thermometers, capacity, cleanup, counter space and accuracy.",search_body))
+open("search.html","w").write(page("search.html","Search Guides & Products | The Countertop Guide","Search The Countertop Guide guides and product comparisons: air fryers, thermometers, capacity, cleanup, counter space and accuracy.",search_body))
+
 idx = [
  {"title":"Air fryers category","url":"air-fryers.html","text":"Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, cleanup, price snapshots."},
  {"title":"Thermometers category","url":"thermometers.html","text":"ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe. Accuracy claims, range, probes."},
  {"title":"Compare all five","url":"compare.html","text":"Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth."},
+ {"title":"Topic calendar","url":"topics.html","text":"Eight spec-backed buyer questions: five published guides and three queued working titles with sources."},
  {"title":"Basket or oven-style air fryer: what should you compare?","url":"guide-basket-vs-oven.html","text":"Dual-basket vs French-door oven vs single basket. Two-dish cooking, crowd capacity, counter depth."},
  {"title":"A no-hype checklist for comparing air fryer capacity","url":"guide-capacity-checklist.html","text":"Quarts vs litres, single vs dual baskets, feeds 4-6, rotisserie and pizza claims."},
  {"title":"How to assess cleanup and counter-space trade-offs","url":"guide-cleanup-counter-space.html","text":"Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth."},
  {"title":"Questions to ask before buying a multi-function kitchen appliance","url":"guide-multifunction-questions.html","text":"Presets, accessories, wattage, warranty and fit checklist for multi-function ovens."},
  {"title":"Instant-read or wireless? How to read accuracy claims","url":"guide-thermometer-accuracy.html","text":"Plus-minus 0.5F, NIST NSF, sensor counts, WiFi range. How to read thermometer claims."},
  {"title":"Executive summary","url":"executive-summary.html","text":"What the site is, what is verified, compliance posture, measurement plan, decision gates."},
- {"title":"Suggestions board and decision log","url":"suggestions.html","text":"Suggestions SG-01 to SG-10, questions Q-01 to Q-08, evidence needed, decisions blocked."},
+ {"title":"Suggestions board and decision desk","url":"suggestions.html","text":"Design and content suggestions, operational suggestions SG-01 to SG-12, questions Q-01 to Q-10, review picks."},
  {"title":"Verification register","url":"verification.html","text":"Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, policy sources."},
  {"title":"Flagged for review","url":"flagged.html","text":"Irregularities: short-link compliance, discrepancies, newer models, missing fields, launch gates."},
  {"title":"Compliance","url":"compliance.html","text":"Disclosure wording, sponsored-link marking, Amazon and FTC policy checklist."},

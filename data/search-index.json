@@ -15,6 +15,11 @@
     "text": "Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth."
   },
   {
+    "title": "Topic calendar",
+    "url": "topics.html",
+    "text": "Eight spec-backed buyer questions: five published guides and three queued working titles with sources."
+  },
+  {
     "title": "Basket or oven-style air fryer: what should you compare?",
     "url": "guide-basket-vs-oven.html",
     "text": "Dual-basket vs French-door oven vs single basket. Two-dish cooking, crowd capacity, counter depth."
@@ -45,9 +50,9 @@
     "text": "What the site is, what is verified, compliance posture, measurement plan, decision gates."
   },
   {
-    "title": "Suggestions board and decision log",
+    "title": "Suggestions board and decision desk",
     "url": "suggestions.html",
-    "text": "Suggestions SG-01 to SG-10, questions Q-01 to Q-08, evidence needed, decisions blocked."
+    "text": "Design and content suggestions, operational suggestions SG-01 to SG-12, questions Q-01 to Q-10, review picks."
   },
   {
     "title": "Verification register",
