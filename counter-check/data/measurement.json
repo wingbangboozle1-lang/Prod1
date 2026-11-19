@@ -1,0 +1,12 @@
+{
+  "status": "Not live. No analytics or click counter is deployed (P-10).",
+  "proposed_events": [
+    {"id": "E1", "name": "outbound_click", "fires_when": "A reader clicks a tagged product link.", "destination": "Pending SG-03"},
+    {"id": "E2", "name": "category_view", "fires_when": "A reader opens a category page.", "destination": "Pending SG-03"},
+    {"id": "E3", "name": "guide_view", "fires_when": "A reader opens a guide.", "destination": "Pending SG-03"},
+    {"id": "E4", "name": "guide_to_product_click", "fires_when": "A reader clicks a product link from a guide.", "destination": "Pending SG-03"},
+    {"id": "E5", "name": "search_query_observed", "fires_when": "A search query on the site is submitted (no personal data).", "destination": "Pending SG-03"}
+  ],
+  "ledger_columns": ["timestamp_utc", "source", "channel", "eligible_sessions", "clicks", "reported_orders", "provenance_note"],
+  "ledger_rule": "A value is added only from an authorized first-party report, with a dated provenance note. No conversion score or revenue forecast is shown."
+}
