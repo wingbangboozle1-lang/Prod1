@@ -5,12 +5,25 @@ Shared task board. Claim before editing. Small frequent commits. `git pull --reb
 | Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
 |---|---|---|---|---|---|
 | T1 Verify 5 submitted links → ASIN + official listing | done | arena/ab9cbcdc-prod1 | data/products.json, verification.html, flagged.html | Amazon.com listing pages fetched 2026-11-19 (see verification.html) | Short-link compliance unresolved; see FLG-001 |
+| T6 Re-verify the 5 listings line by line from official Amazon.com pages; close open verification gaps (thermometer dimensions, Emeril wattage/warranty, P1 price re-check); fix generator canonical bug so rebuilds reproduce committed pages | done | arena/2ec8638e-prod1 | data/products.json, build_site.py, executive-summary.html, flagged.html, docs/verification-log.md, .github/workflows/pages.yml | Amazon.com listing pages + Associates policy pages, fetched 2026-11-19 (this session) | FLG-021, FLG-022; FLG-004, FLG-005, FLG-015 stay open; see this session's section below |
+| T7 Design-brief suggestions for the publication redesign (visual direction, editorial calendar, anti-AI-slop measures) + expanded Q/I/A list feeding the design prompt; added to the Suggestions board | done | arena/2ec8638e-prod1 | suggestions.html (via build_site.py), design-brief.html (new), COORDINATION.md | Google Search Central guidance; Amazon Associates OA; user brief | None |
 | T2 Build GitHub Pages site (landing + categories + guides + tables) | in progress | arena/ab9cbcdc-prod1 | index.html, *.html, assets/, sitemap.xml, robots.txt, feed.xml | Amazon Associates Operating Agreement (upd. 2025-10-15), Policies (upd. 2026-04-14), FTC Disclosures 101 | Canonical domain unset; photography undecided |
 | T3 Suggestions board + Q/I/A decision log | in progress | arena/ab9cbcdc-prod1 | suggestions.html | — | Decisions pending owner review |
 | T4 Executive summary + compliance gate + campaign ledger | in progress | arena/ab9cbcdc-prod1 | executive-summary.html, compliance.html, methodology.html | FTC + Amazon policy pages above | Analytics endpoint not deployed (stub only) |
 | T5 Integration: build check, link check, PR to main, merge, Pages deploy | done | arena/ab9cbcdc-prod1 | .github/workflows/pages.yml | Link/disclosure/sponsored checks passed; Pages built | PR #1 merged 2026-11-19 (37b336f); live https://wingbangboozle1-lang.github.io/Prod1/ |
 
 Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other sessions active at claim time.
+
+## Session arena/8e82d03c-prod1 claims (2026-11-19, current branch == main @ 7f98eec)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-V1 Line-by-line product verification vs Amazon listings | done | arena/8e82d03c-prod1 | data/products.json (read only), verification.html, flagged.html, index.html, air-fryers.html, thermometers.html, compare.html, executive-summary.html | Amazon.com listing pages fetched 2026-11-19: P1 title/rating 4.2 (4,876)/$79.93-$99.99/dims/capacity/features confirmed; P2 title/4.3 (18,375 live vs 18,371 recorded)/$149.99-$209.99/dims/capacity/25 presets confirmed; P3 title/4.4 (16,892 live vs 16,890 recorded)/$69.99-$119.99/dims/capacity confirmed; P4 title/4.6 (3,499)/$16.99-$22.99 confirmed, dims blank (FLG-004); P5 title/4.2 (2,178)/$119.99-$219.99 confirmed, dims blank (FLG-004). All 5 submitted links resolve to registered ASINs. | FLG-024 (rating snapshot drift P2/P3) |
+| T-V2 Policy source verification | done | arena/8e82d03c-prod1 | compliance.html, verification.html, flagged.html | Operating Agreement §5 (verbatim "As an Amazon Associate I earn from qualifying purchases."), §6(t) star-ratings condition, §6(v)/(w) link clarity; Program Policies updated 2026-04-14; FTC Disclosures 101 (hard-to-miss, simple language, no un-tried experience claims); Google Search Central rel="sponsored" | FLG-021 (disclosure variant vs §5 verbatim); FLG-022 (star ratings vs §6(t) without Creators/PA API) |
+| T-FIX1 Fix generator canonical placeholder | done | arena/8e82d03c-prod1 | build_site.py + all generated HTML | page() emitted canonical https://example.com/ (regresses FLG-007); live Pages canonical is https://wingbangboozle1-lang.github.io/Prod1/ | FLG-007 residual in generator |
+| T-FIX2 Add check step to Pages workflow | done | arena/8e82d03c-prod1 | .github/workflows/pages.yml | scripts/check_site.mjs gate must run before upload-pages-artifact | — |
+| T-POLISH Seasonal question-shaped guides + shop-style landing | done | arena/8e82d03c-prod1 | guide-holiday-gifts.html, guide-small-kitchen.html, guide-holiday-roast.html, index.html, guides.html, sitemap.xml, feed.xml | Working titles only; no volume/popularity claims; verified specs only | — |
+| T-DEPLOY Build, link check, PR to main, merge, Pages deploy | in progress | arena/8e82d03c-prod1 | all root site files | pages.yml + check gate; `python3 build_site.py` regenerates 45 HTML; `node scripts/check_site.mjs` PASSED 45 files, 0 issues, 0 warnings (3 new guides created, disclosure verbatim per OA §5, "trending" wording removed); ready to push/PR/merge/deploy | — |
 
 ## Integration update — arena/71354f04-prod1 (2026-11-19)
 
@@ -125,23 +138,75 @@ Validation (this session): 0 broken internal links across 17 HTML pages; disclos
 - **Verification:** read-only `git grep` across current `origin/main` confirmed `assets/app.js` is the referenced root client, `data-analytics-endpoint` is blank in the checked root pages, `analytics-endpoint/server.py` has a different allowlist and expects `path`, and `assets/measure.js` is not tracked. The in-memory contract probe returned `invalid path` for `page_view` and `unknown event` for `search`. `node scripts/check_site.mjs` passed (42 HTML files, non-blocking wording warnings); `python3 counter-check/tools/check_site.py` passed (16 pages, 5 products, 21 flags); `git diff --check` passed. GitHub Pages API reported `built`. Official GitHub Pages, Amazon Associates Agreement/Policies, and Google Search Console pages were fetched on 2026-11-19; links are in the report.
 - **Request to T2/T4 and endpoint owners:** choose one event taxonomy and client/server payload contract, update the analytics entry on Flagged for Review, and connect/test only after a separate HTTPS host, retention, origin validation, and privacy notice are selected. Keep conversion values in authorized Associates reports. No production click/conversion data was collected by this session.
 
-## Session arena/bb3ae11b-prod1 (2026-11-19): claim, publication overhaul, verification & integration
+## Session arena/2ec8638e-prod1 (2026-11-19): claim, verification and integration
 
-- **Claim.** Session `arena/bb3ae11b-prod1` (branch `arena/bb3ae11b-prod1`, base `7f98eec` = `main` HEAD at claim time). No other session active at claim time. Tasks claimed: **T6 — publication overhaul** (migrate the root site from the generic card-grid look to the editorial design system already in `styles.css`; add the topic calendar; rebuild the suggestions page as an interactive decision desk; refresh the executive summary) and **T7 — verification & integration** (rebuild, run all gates, PR, merge, Pages deploy check).
-- **File scope (non-overlapping).** `build_site.py`, `styles.css` (additive only), `assets/app.js`, `data/products.json` (config fields only — no product fact values), `sitemap.xml`, `feed.xml`, `assets/og-image.svg`, `README.md`, `COORDINATION.md`, and the generated root `*.html` files plus the new `topics.html`. **Not touched:** `docs/`, `articles/`, `counter-check/`, `analytics-endpoint/`, `review/`, `scripts/`, `.github/workflows/`.
-- **Verification constraint (this session).** Sandbox outbound access is limited to `github.com`, `api.github.com`, `registry.npmjs.org`, `pypi.org`. Amazon listing pages and `link.amazon` are **not reachable**, so product values from the 2026-11-19 register are **not re-fetched or changed**; the register is used as the authoritative source and the limitation is recorded as FLG-022. Verified in-session: the five submitted short links in the owner brief match `data/products.json` exactly; build reproducibility; the publishing gate; internal-link, disclosure, sponsored, title/description checks.
-- **Baseline irregularity found and fixed.** `build_site.py` emitted `canonical: https://example.com/` while the committed HTML had been hand-patched to the live GitHub Pages URL; a plain rebuild reverted all 17 generated pages (confirmed by test rebuild). Fixed by emitting the live URL from the generator — recorded as FLG-021 (resolved).
+- **Branch:** `arena/2ec8638e-prod1` (fixed for this session), branched from `7f98eec` (= origin/main at claim time; no divergence).
+- **Claimed tasks:** T6 (line-by-line re-verification of the five listings from official Amazon.com pages + generator canonical fix) and T7 (design-brief suggestions for the publication redesign + expanded Q/I/A feeding the design prompt).
+- **File scope (non-overlapping):** `data/products.json` (only values re-verified this session), `build_site.py` (canonical + generator fixes), `suggestions.html`, `design-brief.html` (new), `executive-summary.html`, `flagged.html` (via `build_site.py`), `docs/verification-log.md`, `.github/workflows/pages.yml`, this file.
+- **No other session active at claim time** (T1–T5 recorded done; no claims older than 60 minutes without commits).
 
-| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+### T6 — Verification performed (2026-11-19, all sources official Amazon.com listing pages)
+
+- Re-fetched all five listings line by line (buy box, rating block, purchase-options table, Product information table, bullets) and all five supplied short links (each still resolves to its registered ASIN; redirect targets still carry no `tag=` — FLG-015 unchanged).
+- P1 fully reconciled ($79.93 / list $99.99 / used $59.95; 4.2, 4,876; dims 13.38"D x 11.81"W x 10.63"H; 6 L / 6 Quart; 1700 W) — resolves I-06.
+- P2: rating count updated to 18,375 and badge to 8K+ bought; **wattage captured (1700 W / 120 V) — FLG-005 wattage half closed**; warranty period not stated on listing (PDF only) — stays open. **New FLG-021:** accessory count disagrees across title (six), item details (7 accessories) and included components (6).
+- P3: rating count updated to 16,892; bullets confirm 1000 W/120 V RJ38-SQSS-8T and 1-year warranty. **New FLG-022:** listing-internal wattage discrepancy (bullets 1000 W vs Product information table 1700 W).
+- P4: price $16.99 / list $22.99, 4.6 / 3,499, components and bullets confirmed; dimensions still not listed — FLG-004 stays open; newer model B0GL7Z4KP4 confirmed (FLG-003).
+- P5: $119.99 (3-probe; list $219.99), 4.2 / 2,178, all four variant prices confirmed, two-year assurance confirmed; dimensions still not listed — FLG-004 stays open.
+- Irregularities: FLG-021, FLG-022 added; FLG-005 and FLG-007 text updated to the current state. Full detail in `docs/verification-log.md`.
+
+### Machinery fixes (trustworthy automation)
+
+- `build_site.py` canonical placeholder (`https://example.com/`) replaced with the live GitHub Pages URL via a `CANONICAL` constant — rebuilds now reproduce the committed pages (previously a rebuild silently reverted the canonical fix).
+- The index-only docs footer links (irregularity P-21) are now produced by the generator, so rebuilds preserve them instead of dropping them.
+- `.github/workflows/pages.yml` now runs `node scripts/check_site.mjs` before uploading the Pages artifact (fulfills R-01 from session b4c6c619): a failed gate blocks deploy.
+
+### T7 — Design-brief suggestions (feeding the site design prompt)
+
+- New page `design-brief.html`: six paste-ready design prompt blocks (brand, layout, components, imagery, voice, findability), three named visual directions (A warm editorial / B modern utility / C bold magazine), anti-AI-slop writing rules, and an eight-topic question-shaped editorial calendar (five published, three proposed).
+- Suggestions board extended: SG-11..SG-18 (design and publication suggestions) and Q-09..Q-14 (decision questions). Nothing implemented until a reviewer approves.
+- Executive summary updated to reflect the 2026-11-19 line-by-line pass.
+
+### Validation (this session)
+
+- `python3 build_site.py`: pages written; sponsored post-step done; index footer review links preserved.
+- `node scripts/check_site.mjs`: **CHECK PASSED — 43 HTML files** (disclosure, sponsored links, internal links, unique titles/descriptions, claim wording). Only pre-existing non-blocking warnings: the variant disclosure wording (owner decision I-02) and "trending" inside rule statements (not claims).
+- No `example.com` remains in any HTML, sitemap.xml, robots.txt or feed.xml; canonical is uniform.
+- `git diff --check`: clean.
+
+### Integration, PR and merge (2026-11-19)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/15 — merged with a merge commit `6e3dbfe2c34bac0cd800e882e6e95c26e443ae25` at 2026-11-19 21:50 UTC (no approval wait, per the brief).
+- **Deploy:** GitHub Pages API reports `status: built`, `public: true`, URL `https://wingbangboozle1-lang.github.io/Prod1/`. The `Deploy GitHub Pages` workflow run for `6e3dbfe` concluded `success` — including the new publishing-gate step (`node scripts/check_site.mjs`) before the artifact upload. The live `design-brief.html` was fetched and renders with the disclosure strip, the prompt blocks, the three visual directions and the eight-topic calendar.
+- **Merge result recorded:** T6 and T7 are done. Open items (FLG-001 short-link compliance, FLG-004 thermometer dimensions, FLG-005 Emeril warranty, FLG-015 no tag= on redirect targets, I-02 disclosure wording, photography, domain, analytics hosting) remain published on `flagged.html` and `suggestions.html` for owner review and do not block the merge.
+
+## Claim — session arena/f0db58ea-prod1 (2026-11-19)
+
+Session ID: **f0db58ea** (branch `arena/f0db58ea-prod1`, base `7f98eec`).
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
 |---|---|---|---|---|---|
-| T6 Publication overhaul: editorial design system, topic calendar, decision desk, executive summary | in progress | arena/bb3ae11b-prod1 | `build_site.py`, `styles.css`, `assets/app.js`, generated root `*.html`, `topics.html` | Editorial system already shipped in `styles.css` (used by `docs/`); Amazon OA §5 wording (disclosure) linked from compliance.html | FLG-021 (fixed), FLG-022 (new, open) |
-| T7 Verification & integration: rebuild, gates, PR, merge, Pages | in progress | arena/bb3ae11b-prod1 | `scripts/check_site.mjs` run (read-only), `COORDINATION.md` | See verification section below | FLG-021, FLG-022 |
+| T6 Shop-first redesign: publication front page, polished shop UI, single dashboard nav group + dashboard hub page, canonical fix in generator, design-focused suggestions (SG-11..SG-18) and expanded Q/I/A, line-by-line re-verification of the 5 listings | in progress | f0db58ea | `build_site.py`, `assets/style.css`, `assets/app.js`, root `*.html` (generated), `dashboard.html` (new), `suggestions.html`, `sitemap.xml`, `feed.xml`, `data/search-index.json`, this file | Amazon Associates Operating Agreement (upd. 2025-10-15), Program Policies (upd. 2026-04-14), FTC Disclosures 101 / Endorsements, Google Search Central outbound-link & snippet docs; Amazon.com listing pages re-fetched 2026-11-19 | Takeover of T2/T3 per 60-minute rule: last commits from `ab9cbcdc` were PR #3 at 12:41 UTC, >60 min idle with no newer commits on their claims. No files owned by an active session will be edited outside this scope. |
 
-**Verification performed in this session (2026-11-19).**
-- **Data-to-data (owner brief vs register):** the five submitted short links (`link.amazon/B04G1MEwY`, `B02NbDxp3`, `B00hJ57DV`, `B0c8moW59`, `B0f3GKalj`) match `data/products.json` exactly; all five intended ASINs, official listing URLs, `tag=shopnow047c-20` affiliate URLs, confirmation dates/sources and per-field source URLs verified by script — **ALL CHECKS PASS** (output recorded in the session log). Intended ASIN and observed redirect target remain separate fields on all five records.
-- **Intentionally blank (flagged, not inferred):** P2 wattage, P4/P5 dimensions — left blank per the verification rule.
-- **Build & gates:** `python3 build_site.py` runs clean (pages written, sponsored post-step done); `node scripts/check_site.mjs` → **CHECK PASSED, 43 HTML files** (disclosure, sponsored links, internal links, unique titles/descriptions, claim wording). The only remaining warning is in `counter-check/site/questions.html` (another session's file). `git diff --check` clean.
-- **Canonicals:** generator now emits 18 distinct per-page canonical URLs on the live GitHub Pages address (previously a placeholder that a rebuild reverted, and a single shared canonical after hand-patching — FLG-021, resolved).
-- **Not re-verified (recorded, not hidden):** Amazon listing values were not re-fetched this session because the sandbox cannot reach Amazon.com or link.amazon — see FLG-022. No product value was changed.
+- **Scope note.** Root site pages generated by `build_site.py`, the stylesheet, the suggestions board, and a new `dashboard.html` hub that keeps every dashboard surface (verification, flagged, compliance, methodology, executive summary, suggestions) reachable from one nav group and the footer. `data/products.json` is only touched if re-verification requires a correction; otherwise left alone.
+- **Handover note (T2/T3).** If `ab9cbcdc` returns, coordinate here before editing `suggestions.html` or root pages; this session's changes are additive/redesign only and do not discard prior content (tables, flags, sources retained).
 
-**Publication record.** Filled in after the PR is merged and the Pages deploy is confirmed (see the merge-record update at the end of this section).
+### T6 completion record (f0db58ea, 2026-11-19)
+
+- **Scope delivered.** Shop-first front page (hero leads with the offer, product line-up first, verification moved to a "How we keep this honest" footer block); new `dashboard.html` hub as the single navigation group for every dashboard surface (nav label "Dashboard", footer Trust group links the hub first); per-page canonical + `og:url` now emitted by `build_site.py` (was hardcoded `https://example.com/`); suggestions board expanded to SG-01..SG-18 with a dedicated design-input section D-1..D-8 (the art-direction feed for the visual design prompt) and Q/I/A log expanded to Q-01..Q-13; stylesheet polish (display serif headings, focus states, card hover, mobile masthead); sitemap + search index include `dashboard.html`; README canonical/structure notes corrected.
+- **Line-by-line re-verification (2026-11-19, second pass).** All five `link.amazon/*` short links re-resolved to the same five ASINs (B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z). Listing pages re-fetched: titles, buy-box prices and list prices confirmed for all five (P1 $79.93/$99.99, P2 $149.99/$209.99, P3 $69.99/$119.99, P4 $16.99/$22.99, P5 $119.99/$219.99 3-probe); rating counts re-read (P1 4.2/4,876; P2 4.3/18,375; P3 4.4/16,892; P4 4.6/3,499; P5 4.2/2,178) — P2/P3 counts drifted from the earlier same-day read and were updated in `data/products.json` with source notes; dimensions/capacity/features confirmed for the three air fryers; P4 buy-box $16.99 with list $22.99 confirmed. Short-link compliance status remains unresolved (FLG-001) — not claimed either way. Sources: the five `https://www.amazon.com/dp/<ASIN>` listing pages (fetched 2026-11-19); [Operating Agreement](https://affiliate-program.amazon.com/help/operating/agreement) (upd. 2025-10-15); [Program Policies](https://affiliate-program.amazon.com/help/operating/policies) (upd. 2026-04-14); [FTC Disclosures 101](https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers); [FTC Endorsements](https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews).
+- **Validation.** `python3 build_site.py` OK; `node scripts/check_site.mjs` PASSED (43 HTML files; disclosure variant + "trending" wording remain pre-existing non-blocking warnings owned by the disclosure wording decision); `python3 counter-check/tools/check_site.py` PASSED (16 pages, 5 products, 21 flags); `git diff --check` clean.
+- **Irregularities.** None new. FLG-001..FLG-020 unchanged except FLG-007 text updated (canonical now set to the GitHub Pages URL; custom domain still an owner decision). Disclosure-variant warnings are the known Section-5 wording question (owner confirmation pending).
+- **Handover.** Shared outputs touched: `index.html` (rebuilt per brief "publication front page"), `sitemap.xml` (added dashboard), `data/products.json` (canonical + two rating-count corrections only). No other session's files edited.
+
+## Claim — session arena/bb3ae11b-prod1 (2026-11-19) — final integration
+
+Session ID: **bb3ae11b** (branch `arena/bb3ae11b-prod1`, base `7f98eec`). Tasks T6 (publication overhaul) and T7 (verification & integration) completed.
+
+### Final integration (2026-11-19)
+
+- **Adopted the union of all parallel sessions into this branch.** `main` had advanced through PRs #15 (2ec8638e: line-by-line re-verification, design brief, SG-11..18, per-page canonical constant, check gate), #17 (8e82d03c: seasonal guides, verbatim §5 disclosure), and #19 (f0db58ea: shop-first redesign, dashboard hub, DI-1..8, SG-19..27). This branch rebased onto that union and kept every unique asset of this session.
+- **Unique assets of this session retained:** `topics.html` (topic calendar: 8 spec-backed working titles with verified fields and sources) regenerated by the generator; the decision-desk JS (reviewer picks per item in `localStorage`, JSON export, print, reset) wired into `suggestions.html`; the root publication utility CSS; `topic_band()` on the front page; SG-28 (brand unification), Q-21 (brand question), and FLG-025 (two editorial brands on one domain) added to the boards; duplicate question rows on `main`'s suggestions renumbered (Q-22 ratings, Q-23 cadence).
+- **Data.** `data/products.json` carries the re-verified values from the 2ec8638e pass (P2 18,375 ratings, wattage captured; P3 16,892 ratings) with the live Pages canonical and verbatim §5 disclosure. Data-to-data verification against the owner's brief: **ALL CHECKS PASS** (5 products, ASINs, affiliate tags, separate observed-target fields, confirmation dates, intentional blanks).
+- **Gates.** `python3 build_site.py` clean ("pages written", "sponsored post-step done"); `node scripts/check_site.mjs` → **CHECK PASSED, 48 HTML files, zero warnings**; `git diff --check` clean; 23 distinct per-page canonicals on the live URL; `sitemap.xml`, `feed.xml`, and the search index include every page.
+- **Irregularities carried, not blocked:** FLG-001 short-link compliance (unresolved), FLG-003 newer models, FLG-004 thermometer dimensions, FLG-005 Emeril warranty, FLG-013/014 link codes, FLG-015 no tag= on redirect targets, FLG-021 accessory count, FLG-022 wattage discrepancy, FLG-023 intended-ASIN inconsistency, FLG-024 rating drift, FLG-025 brand split.

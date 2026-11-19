@@ -6,45 +6,41 @@
 <title>Flagged for Review: Irregularities &amp; Unverified Items | The Countertop Guide</title>
 <meta name="description" content="Flagged irregularities for The Countertop Guide: short-link compliance, preset/capacity discrepancies, newer models, missing fields, price volatility and launch gates.">
 <link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/flagged.html">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/flagged.html">
 <meta property="og:title" content="Flagged for Review: Irregularities &amp; Unverified Items | The Countertop Guide">
 <meta property="og:description" content="Flagged irregularities for The Countertop Guide: short-link compliance, preset/capacity discrepancies, newer models, missing fields, price volatility and launch gates.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/flagged.html">
 <meta property="og:image" content="assets/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/style.css">
 <link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
 
 </head>
 <body data-verified-date="2026-11-19" data-analytics-endpoint="" class="">
 <a class="skip" href="#main">Skip to content</a>
-<header class="masthead wrap">
-<a class="brand" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
+<header class="masthead"><div class="masthead-inner">
+<a class="brand" href="index.html">The Countertop <span>Guide</span></a>
 <nav class="nav" aria-label="Main">
   <a href="index.html">Home</a>
   <a href="air-fryers.html">Air Fryers</a>
   <a href="thermometers.html">Thermometers</a>
   <a href="compare.html">Compare</a>
   <a href="guides.html">Guides</a>
-  <a href="topics.html">Topics</a>
-  <a href="suggestions.html">Suggestions</a>
+  <a href="dashboard.html">Dashboard</a>
 </nav>
 <form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
   <input id="site-search-input" type="search" placeholder="Search guides &amp; products" aria-label="Search the site">
-  <button class="btn small" type="submit">Search</button>
+  <button class="btn small secondary" type="submit">Search</button>
 </form>
-</header>
-<div class="disclosure" role="note">As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+</div></header>
+<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 
-<section class="doc-hero">
 <p class="eyebrow">Flagged for review</p>
 <h1>Flagged for review - irregularities &amp; unverified items</h1>
-<p>Flagged items do not block publishing, but they block claims. Nothing below is presented as fact on product pages. Review after launch and request changes.</p>
-</section>
-<article class="doc-main">
-<div class="table-wrap"><table class="data-table">
+<p class="lede">Flagged items do not block publishing, but they block claims. Nothing below is presented as fact on product pages. Review after launch and request changes.</p>
+<div class="table-scroll"><table>
 <tr><th>ID</th><th>Item</th><th>Detail</th><th>Action</th></tr>
 <tr><td>FLG-001</td><td>Short-link compliance unresolved</td><td>Supplied link.amazon short links resolve to the ASINs, but their exact compliance status as Special Links is unresolved. We do not claim they are invalid. Site outbound buttons use official listing URLs + tag instead.</td><td>Manual test in Associates Central (SG-01)</td></tr>
 <tr><td>FLG-002</td><td>Preset &amp; capacity discrepancies</td><td>Emeril: title 24 presets vs bullets 25; title 26QT vs field 24.6 liters. Chefman 6QT: title 6 Quart vs field 6 liters. Both values shown; no silent conversion.</td><td>Verify on listing; ask seller if needed</td></tr>
@@ -52,42 +48,39 @@
 <tr><td>FLG-004</td><td>Missing dimensions (thermometers)</td><td>ThermoMaven B0DHZTCNR5 and CHEF iQ B0DZFD6R9Z dimensions not in captured fields. Left blank in tables.</td><td>Re-fetch product-details; record date</td></tr>
 <tr><td>FLG-005</td><td>Missing warranty (Emeril)</td><td>Emeril wattage captured 2026-11-19 (1700 watts / 120 volts per the listing's Product information table). Warranty period is not stated on the listing page; the listing links a warranty PDF only. Left blank.</td><td>Read warranty PDF if the term is needed</td></tr>
 <tr><td>FLG-006</td><td>Price volatility</td><td>All prices are 2026-11-19 snapshots (Black Friday period). Live price on Amazon governs.</td><td>Re-snapshot on cadence; date every price</td></tr>
-<tr><td>FLG-007</td><td>Canonical is the GitHub Pages URL, not a custom domain</td><td>Canonical/og URLs now point to https://wingbangboozle1-lang.github.io/Prod1/ (session 9969fd0c). A custom domain is still unset, and the generator previously wrote a placeholder - fixed in build_site.py 2026-11-19 so rebuilds reproduce the committed pages; session arena/bb3ae11b-prod1 made canonicals per-page (one per page, not one shared URL).</td><td>Pick domain (SG-02)</td></tr>
+<tr><td>FLG-007</td><td>Canonical is the GitHub Pages URL, not a custom domain</td><td>Canonical/og URLs now point to https://wingbangboozle1-lang.github.io/Prod1/ on every page (set 2026-11-19; generator fixed so rebuilds reproduce it). A custom domain is still an owner decision, and Search Console is not yet connected.</td><td>Owner confirms the GitHub Pages URL is final, or picks a custom domain (SG-02)</td></tr>
 <tr><td>FLG-008</td><td>Analytics endpoint not deployed</td><td>Five events defined; local counter only. No server endpoint yet.</td><td>Deploy endpoint (SG-03)</td></tr>
 <tr><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
-<tr><td>FLG-012</td><td>No popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. The evidence rule is: dated snapshot from an official source, or no claim.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
-<tr><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link</td></tr>
+<tr><td>FLG-012</td><td>No unverified popularity claims</td><td>"Bought in past month" badges are listing snapshots, not our ranking. We make no popularity claims.</td><td>Evidence rule: dated snapshot or no claim</td></tr>
+<tr><td>FLG-013</td><td>Submitted link codes are 9 characters</td><td>Each submitted link.amazon path code (e.g. B04G1MEwY) is 9 characters. Each code resolves to a listing whose ASIN differs from the code, so the code is not used as an intended ASIN. Intended ASIN fields stay blank pending submitter confirmation (session 9b748801, 2026-11-19).</td><td>Submitter confirms intended ASIN per link (Q-03)</td></tr>
 <tr><td>FLG-014</td><td>ASIN 10-character rule: third-party sources only</td><td>The 10-character ASIN format was found on third-party guides, not on an Amazon page read in this session. The format is used only to flag the 9-character codes.</td><td>Find an official Amazon help page for the ASIN definition</td></tr>
 <tr><td>FLG-015</td><td>Redirect targets carry no tag=</td><td>The final URLs of the five supplied links (read 2026-11-19) contain no tag= parameter. Attribution to shopnow047c-20 is therefore not observed on the redirect path. Site buttons use tagged listing URLs (FLG-001).</td><td>Associates tracking-report test per product (SG-01)</td></tr>
 <tr><td>FLG-016</td><td>Listing pages carry widget data for other ASINs</td><td>Listing pages include Product summary links and Customers who viewed carousels with prices and ratings for other products. These are not used as data for the five products.</td><td>Use only each product's own fields; re-check on publication</td></tr>
 <tr><td>FLG-017</td><td>External register: three links vs five</td><td>The external Zone4 decision log (D-13) refers to the three supplied links; this brief supplies five. Its statuses are not carried into this site. Only the first part of that log was read.</td><td>Reconcile the external register with the five links</td></tr>
 <tr><td>FLG-018</td><td>Proposed Amazon content notice (not verified)</td><td>The external Zone4 decision log proposes an Amazon content notice citing IP License section 2(k). The IP License was not read, and the notice is not yet on the pages.</td><td>Read IP License 2(k); decide under SG-04</td></tr>
 <tr><td>FLG-019</td><td>Creators API prerequisites not read</td><td>The external Zone4 decision log suggests the Creators API for prices and ratings. Its prerequisites were not read, and no API data is used on this site.</td><td>Read prerequisites before any price or rating source change</td></tr>
-<tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in that pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
-<tr><td>FLG-021</td><td>Accessory count discrepancy (Emeril)</td><td>Listing title says "Six Cooking Accessories Included"; the listing's item details say "Air Fryer Toaster Oven Combo with 24 Functions and 7 Accessories"; the included-components list names 6 items (Rack, Bake Pan, Drip Tray, Crisper Basket, Rotisserie Spit, Fetch Tool). All three values are listing-internal and disagree. We show the title value and flag it; no count is inferred. Observed 2026-11-19.</td><td>Ask seller / read product manual; show title value with flag until resolved</td></tr>
-<tr><td>FLG-022</td><td>Wattage discrepancy (Chefman 8QT)</td><td>Chefman 8QT listing bullets state "1000 Watts/120 Volts - RJ38-SQSS-8T" while the listing's Product information table lists Output Wattage 1700 watts, 120 volts. Both values are listing-internal and disagree. We show the bullets value with attribution and flag it; no wattage is inferred. Observed 2026-11-19.</td><td>Ask seller / read user manual; resolve before any circuit-load claim</td></tr>
-<tr><td>FLG-023</td><td>Intended ASIN inconsistency</td><td>data/products.json sets the intended ASIN equal to the verified/observed ASIN. FLG-013 states intended ASIN fields stay blank pending submitter confirmation, and the brief requires intended and observed targets to remain separate.</td><td>Owner confirms each intended ASIN or blanks the field (R-02, Q-03)</td></tr>
+<tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in this pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
+<tr><td>FLG-021</td><td>Disclosure wording variant vs Operating Agreement §5</td><td>Operating Agreement Section 5 requires the disclosure in its verbatim form (the sentence naming "I") or any substantially similar statement previously allowed under the Agreement. The site strip previously named the site instead of "I"; whether that variant is "substantially similar" was an owner compliance decision.</td><td>Resolved 2026-11-19: verbatim §5 wording adopted on all pages (SG-11 closed).</td></tr>
+<tr><td>FLG-022</td><td>Star ratings displayed without Creators API / PA API</td><td>Participation Requirement 6(t) conditions display of customer reviews or star ratings on obtaining them via Creators API or PA API. The site shows rating snapshots without those APIs.</td><td>Remove ratings or source via Creators/PA API; decision needed (SG-12)</td></tr>
+<tr><td>FLG-023</td><td>Intended ASIN inconsistency</td><td>data/products.json sets the intended ASIN equal to the verified/observed ASIN. FLG-013 states intended ASIN fields stay blank pending submitter confirmation, and the brief requires intended and observed fields stay separate and unmerged.</td><td>Owner confirms each intended ASIN or blanks the field (R-02, Q-03)</td></tr>
 <tr><td>FLG-024</td><td>Rating-count snapshot drift</td><td>Re-read of listings 2026-11-19 shows P2 rating count 18,375 (recorded 18,371) and P3 16,892 (recorded 16,890). Ratings, like prices, are snapshots that change.</td><td>Re-snapshot ratings on cadence; treat recorded counts as unverified until re-confirmed</td></tr>
-<tr><td>FLG-025</td><td>Two editorial brands on one domain</td><td>The root site (The Countertop Guide) and the docs/ + articles/ set (Counter &amp; Crumb) ship under different brand names on the same GitHub Pages domain. Both carry disclosures and sponsored-link marks; the brand split is an owner decision, not a compliance failure.</td><td>Owner decision (SG-19)</td></tr>
+<tr><td>FLG-025</td><td>Two editorial brands on one domain</td><td>The root site (The Countertop Guide) and the docs/ + articles/ set (Counter &amp; Crumb) ship under different brand names on the same GitHub Pages domain. Both carry disclosures and sponsored-link marks; the brand split is an owner decision, not a compliance failure.</td><td>Owner decision (SG-28)</td></tr>
 </table></div>
-</article>
 
 </main>
 
 <footer>
-  <div class="wrap">
-  <div class="footer-top">
-    <a class="brand brand-footer" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
-    <div class="footer-links">
-      <div><b>SHOP</b><a href="air-fryers.html">Air Fryers</a><a href="thermometers.html">Thermometers</a><a href="compare.html">Compare all five</a></div>
-      <div><b>READ</b><a href="guides.html">All guides</a><a href="topics.html">Topic calendar</a><a href="feed.xml">RSS feed</a></div>
-      <div><b>TRUST &amp; DATA</b><a href="verification.html">Verification register</a><a href="flagged.html">Flagged for review</a><a href="compliance.html">Compliance</a><a href="methodology.html">Method &amp; campaign ledger</a><a href="executive-summary.html">Executive summary</a><a href="design-brief.html">Design brief</a><a href="suggestions.html">Suggestions board</a><a href="docs/products.html">Product-intent register</a></div>
+  <div class="disclosure-strip">Disclosure: As an Amazon Associate I earn from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="footer-inner">
+    <div>
+      <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
+      <p class="small">Prices are snapshots from 2026-11-19 and change. Always confirm price, variant and fit on Amazon before buying.</p>
     </div>
-  </div>
-  <div class="footer-disclosure">As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 and change - always confirm on Amazon. <a href="compliance.html">How we disclose</a></div>
-  <div class="footer-bottom"><span>&copy; 2026 The Countertop Guide - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done.</span><span>Some links are sponsored; they may earn a commission at no extra cost to you.</span></div>
+    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a></p></nav>
+    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a></p></nav>
+    <nav aria-label="Trust"><p><strong>Trust &amp; data</strong></p><p><a href="dashboard.html">Dashboard hub</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a><br><a href="executive-summary.html">Executive summary</a><br><a href="design-brief.html">Design brief</a><br><a href="suggestions.html">Suggestions board</a><br><a href="topics.html">Topic calendar</a></p></nav>
   </div>
 </footer>
 <script src="assets/app.js"></script>

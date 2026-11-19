@@ -6,53 +6,49 @@
 <title>Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide</title>
 <meta name="description" content="Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.">
 <link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/methodology.html">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/methodology.html">
 <meta property="og:title" content="Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide">
 <meta property="og:description" content="Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/methodology.html">
 <meta property="og:image" content="assets/og-image.svg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/style.css">
 <link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
 
 </head>
 <body data-verified-date="2026-11-19" data-analytics-endpoint="" class="">
 <a class="skip" href="#main">Skip to content</a>
-<header class="masthead wrap">
-<a class="brand" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
+<header class="masthead"><div class="masthead-inner">
+<a class="brand" href="index.html">The Countertop <span>Guide</span></a>
 <nav class="nav" aria-label="Main">
   <a href="index.html">Home</a>
   <a href="air-fryers.html">Air Fryers</a>
   <a href="thermometers.html">Thermometers</a>
   <a href="compare.html">Compare</a>
   <a href="guides.html">Guides</a>
-  <a href="topics.html">Topics</a>
-  <a href="suggestions.html">Suggestions</a>
+  <a href="dashboard.html">Dashboard</a>
 </nav>
 <form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
   <input id="site-search-input" type="search" placeholder="Search guides &amp; products" aria-label="Search the site">
-  <button class="btn small" type="submit">Search</button>
+  <button class="btn small secondary" type="submit">Search</button>
 </form>
-</header>
-<div class="disclosure" role="note">As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+</div></header>
+<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 
-<section class="doc-hero">
 <p class="eyebrow">Method</p>
 <h1>How we verify, measure, and decide - without hallucinating</h1>
-<p>Automate what can be automated; put a gate in front of what cannot. This page is the machinery: evidence rules, analytics events, and the empty campaign ledger.</p>
-</section>
-<article class="doc-main">
+<p class="lede">Automate what can be automated; put a gate in front of what cannot. This page is the machinery: evidence rules, analytics events, and the empty campaign ledger.</p>
 <h2>Evidence rule</h2>
 <ul>
 <li>Every product fact links to its Amazon listing and <a href="verification.html">verification record</a>. Missing = blank + flagged.</li>
-<li>Popularity claims require a dated snapshot from an official source. We make none.</li>
+<li>"Trending" / popularity claims require a dated snapshot from an official category page. We make none.</li>
 <li>Seller claims are attributed ("per listing"). Derived math shows its method. Prices always carry a snapshot date.</li>
 <li>Hands-on testing claims require a published protocol and photos. We make none.</li>
 </ul>
 <h2>Analytics: five defined events (privacy-preserving)</h2>
-<div class="table-wrap"><table class="data-table">
+<div class="table-scroll"><table>
 <tr><th>Event</th><th>When it fires</th><th>Data kept</th></tr>
 <tr><td>page_view</td><td>Page load</td><td>Path + timestamp (local only until endpoint deployed)</td></tr>
 <tr><td>outbound_click</td><td>Sponsored Amazon click</td><td>ASIN + destination (no personal data)</td></tr>
@@ -62,28 +58,25 @@
 </table></div>
 <p>Implementation: <code>assets/app.js</code> counts locally in <code>localStorage</code> and beacons to a configurable endpoint (<code>data-analytics-endpoint</code>, currently empty). No third-party trackers. Deploying the endpoint is SG-03; until then, counts are device-local and the ledger stays empty.</p>
 <h2>Campaign ledger (empty by design)</h2>
-<div class="table-wrap"><table class="data-table">
+<div class="table-scroll"><table>
 <tr><th>Date</th><th>Source</th><th>Channel</th><th>Eligible sessions</th><th>Clicks</th><th>Reported orders</th><th>Provenance</th></tr>
 <tr><td colspan="7"><em>No rows yet. Add timestamp, source, channel, eligible sessions, clicks and reported orders only when obtained from authorized first-party reports (Associates Central). No conversion score or revenue forecast is presented.</em></td></tr>
 </table></div>
 <h2>Publishing cadence</h2>
-<p>New guides are added to <a href="sitemap.xml">sitemap.xml</a> and <a href="feed.xml">feed.xml</a> at publish. The <a href="topics.html">topic calendar</a> lists the eight working titles; the next topic is chosen from measured Search Console queries (after SG-02), not instinct.</p>
-</article>
+<p>New guides are added to <code>sitemap.xml</code> and <code>feed.xml</code> at publish. Next topic is chosen from measured Search Console queries (after SG-02), not instinct. RSS feed: <a href="feed.xml">feed.xml</a>. Sitemap: <a href="sitemap.xml">sitemap.xml</a>.</p>
 
 </main>
 
 <footer>
-  <div class="wrap">
-  <div class="footer-top">
-    <a class="brand brand-footer" href="index.html"><span class="brand-mark">T<span>G</span></span><span>The Countertop <b>Guide</b><small>KITCHEN BUYER&apos;S DESK</small></span></a>
-    <div class="footer-links">
-      <div><b>SHOP</b><a href="air-fryers.html">Air Fryers</a><a href="thermometers.html">Thermometers</a><a href="compare.html">Compare all five</a></div>
-      <div><b>READ</b><a href="guides.html">All guides</a><a href="topics.html">Topic calendar</a><a href="feed.xml">RSS feed</a></div>
-      <div><b>TRUST &amp; DATA</b><a href="verification.html">Verification register</a><a href="flagged.html">Flagged for review</a><a href="compliance.html">Compliance</a><a href="methodology.html">Method &amp; campaign ledger</a><a href="executive-summary.html">Executive summary</a><a href="design-brief.html">Design brief</a><a href="suggestions.html">Suggestions board</a><a href="docs/products.html">Product-intent register</a></div>
+  <div class="disclosure-strip">Disclosure: As an Amazon Associate I earn from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="footer-inner">
+    <div>
+      <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
+      <p class="small">Prices are snapshots from 2026-11-19 and change. Always confirm price, variant and fit on Amazon before buying.</p>
     </div>
-  </div>
-  <div class="footer-disclosure">As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 and change - always confirm on Amazon. <a href="compliance.html">How we disclose</a></div>
-  <div class="footer-bottom"><span>&copy; 2026 The Countertop Guide - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done.</span><span>Some links are sponsored; they may earn a commission at no extra cost to you.</span></div>
+    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a></p></nav>
+    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a></p></nav>
+    <nav aria-label="Trust"><p><strong>Trust &amp; data</strong></p><p><a href="dashboard.html">Dashboard hub</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a><br><a href="executive-summary.html">Executive summary</a><br><a href="design-brief.html">Design brief</a><br><a href="suggestions.html">Suggestions board</a><br><a href="topics.html">Topic calendar</a></p></nav>
   </div>
 </footer>
 <script src="assets/app.js"></script>

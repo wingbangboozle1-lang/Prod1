@@ -1,5 +1,10 @@
 [
   {
+    "title": "Dashboard hub",
+    "url": "dashboard.html",
+    "text": "Every dashboard surface in one place: verification register, flagged for review, compliance, method and campaign ledger, executive summary, suggestions board."
+  },
+  {
     "title": "Air fryers category",
     "url": "air-fryers.html",
     "text": "Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, cleanup, price snapshots."
@@ -13,11 +18,6 @@
     "title": "Compare all five",
     "url": "compare.html",
     "text": "Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth."
-  },
-  {
-    "title": "Topic calendar",
-    "url": "topics.html",
-    "text": "Eight spec-backed buyer questions: five published guides and three queued working titles with sources."
   },
   {
     "title": "Basket or oven-style air fryer: what should you compare?",
@@ -50,9 +50,9 @@
     "text": "What the site is, what is verified, compliance posture, measurement plan, decision gates."
   },
   {
-    "title": "Suggestions board and decision desk",
+    "title": "Suggestions board and decision log",
     "url": "suggestions.html",
-    "text": "Design and content suggestions, operational suggestions SG-01 to SG-12, questions Q-01 to Q-10, review picks."
+    "text": "Suggestions SG-01 to SG-10, questions Q-01 to Q-08, evidence needed, decisions blocked."
   },
   {
     "title": "Verification register",
@@ -75,8 +75,8 @@
     "text": "Evidence rules, five analytics events, empty campaign ledger, publishing cadence."
   },
   {
-    "title": "Design brief",
-    "url": "design-brief.html",
-    "text": "Design prompt blocks, three visual directions, anti-AI-slop rules, eight-topic editorial calendar, decision gates."
+    "title": "Topic calendar",
+    "url": "topics.html",
+    "text": "Eight question-shaped, spec-backed article working titles: five published, three queued, with verified fields and sources."
   }
 ]
