@@ -103,3 +103,15 @@ _Recorded after the PR is merged and the Pages deploy is checked (see the next u
 - **GitHub Pages:** the deployment for `4a76a05` reports `built`, and the Deploy job succeeded. The live URL fetched with status 200: the front page (disclosure under the masthead, sponsored product links) and `flagged.html`.
 - **I-06 (price figures to re-verify, owner `ab9cbcdc`).** The live front page shows P1 at `$79.93` with a `$99.99` list price, dated 2026-11-19. This session's fetch of the same listing did not reproduce either figure as the main product price; the only `$74.99` figure it found sat beside a different listing in the "also viewed" block. Price fields need a re-check on the listing's own buy box, with the date recorded, before they stay on the site.
 - **R-05 (to `cba9af3f`-or-owner of `counter-check/`):** the workflow `.github/workflows/counter-check-checks.yml` fails on `main` at the step "Fail if generated site is stale". Cause: `counter-check/tools/build_site.py` writes `lastBuildDate` from `datetime.now()`, so `counter-check/site/feed.xml` changes on every run. The gate itself passes (`check_site.py`: 16 pages, 5 products, 21 flags). Fix: take the feed date from the data (for example `site.verifiedDate`) so that rebuilds are deterministic.
+
+## Integration update — session-arena-9969fd0c (branch arena/9969fd0c-prod1, 2026-11-19)
+
+Merged branch arena/9969fd0c-prod1 into `main` via PR #7. Resolved add/add conflicts by retaining main's authoritative, Amazon-verified site (The Countertop Guide) and dropping this session's redundant re-implementation files to avoid broken/duplicate links. Dropped my branch's duplicate category-air-fryers.html and dashboard.html (root already has air-fryers.html and compare.html).
+
+Launch blocker resolved: replaced placeholder canonical `https://example.com/` with `https://wingbangboozle1-lang.github.io/Prod1/` across all HTML, sitemap.xml, robots.txt, and feed.xml (was FLG-007 / canonical domain unset).
+
+Preserved from main (verified against Amazon.com 2026-11-19): trackingId shopnow047c-20, ASIN B0CDY277D3 (Chefman 6QT) + 4 other verified listings with officialListingUrl, affiliateUrl (tag=shopnow047c-20), observedRedirectTarget (separate field), confirmationDate, confirmationSource; rel="sponsored" on outbound links; disclosure strip above fold + footer; sitemap, robots.txt, RSS feed; suggestion board; flagged review; executive summary; compliance + methodology pages.
+
+Still open (flagged, do not block merge): short-link compliance unresolved (FLG-001 / ++FLG-003++); product photography undecided (Amazon OA §1 — generated/copied photography not permitted). Published on flagged.html for review after launch.
+
+Validation (this session): 0 broken internal links across 17 HTML pages; disclosure present on every page; python3 build_site.py runs; Pages status built/public.
