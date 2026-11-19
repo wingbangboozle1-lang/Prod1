@@ -74,7 +74,7 @@
       "priceNew": "$149.99",
       "priceList": "$209.99",
       "priceUsed": "—",
-      "wattage": "",
+      "wattage": "1700 watts / 120 volts (per listing Product information table)",
       "warranty": "",
       "bullets": [
         "French doors open with a single pull; interior light to monitor food",
@@ -84,7 +84,7 @@
         "Six cooking accessories included (per title)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing on 2026-11-19. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Wattage not captured — see FLG-005. Rating count and bought-in-month re-read2026-11-19 (18,375 ratings; 8K+ bought)."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, wattage and bullets as shown on the Amazon.com listing on 2026-11-19. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs between title (six), item details (24 Functions and 7 Accessories) and included components (6) — see FLG-021. Wattage re-checked 2026-11-19."
     },
     {
       "id": "P3",
@@ -113,7 +113,7 @@
       "priceNew": "$69.99",
       "priceList": "$119.99",
       "priceUsed": "$45.49",
-      "wattage": "1000 Watts / 120 Volts (model RJ38-SQSS-8T, per listing bullets)",
+      "wattage": "1000 Watts/120 Volts - RJ38-SQSS-8T (per listing bullets); listing Product information table lists Output Wattage 1700 watts - see flagged FLG-022",
       "warranty": "1-year warranty provided by Chefman (per listing bullets); cETL approved (per listing bullets)",
       "bullets": [
         "TurboFry 4-in-1: Air Fry, Bake, Dehydrate, Frozen (per title); four presets for French fries, chicken, meat and fish (per bullets)",
@@ -123,7 +123,7 @@
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003. Rating count re-read 2026-11-19 (16,892)."
+      "sourceNote": "Title, rating, price, dimensions, capacity, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Wattage internal discrepancy: bullets state 1000 Watts/120 Volts - RJ38-SQSS-8T while the Product information table lists Output Wattage 1700 watts — see flagged.html FLG-022. Listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003."
     },
     {
       "id": "P4",

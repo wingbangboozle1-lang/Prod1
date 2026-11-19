@@ -12,9 +12,10 @@ GitHub Pages from `main` (see `.github/workflows/pages.yml`). Canonical is the G
 - `compare.html` — all five side by side + 3-question chooser + counter-space math
 - `guide-*.html` — question-shaped guides (basket vs oven, capacity, cleanup/space, multi-function, thermometer accuracy)
 - `executive-summary.html` — what is verified / not verified / next gates
-- `suggestions.html` — suggestions board (SG-01..SG-18) + design inputs (D-1..D-8) + Q/I/A decision log (Q-01..Q-13)
+- `suggestions.html` — suggestions board (SG-01..SG-26) + design inputs (DI-1..DI-8) + Q/I/A decision log (Q-01..Q-19)
+- `design-brief.html` — paste-ready design prompt blocks, three visual directions, anti-AI-slop rules, editorial calendar
 - `verification.html` — line-by-line source register + product-intent confirmation record
-- `flagged.html` — irregularities & unverified items (FLG-001..FLG-020)
+- `flagged.html` — irregularities & unverified items (FLG-001..FLG-022)
 - `compliance.html` — disclosure + Amazon/FTC policy checklist
 - `methodology.html` — evidence rules, 5 analytics events, empty campaign ledger
 - `data/products.json` — single source of truth (verified 2026-11-19, second pass same day)
