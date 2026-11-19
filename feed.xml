@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>The Countertop Guide</title>
+<link>https://example.com/index.html</link>
+<description>Spec-backed air fryer and thermometer comparisons from verified Amazon listings. No hype, no fake testing.</description>
+<atom:link href="https://example.com/feed.xml" rel="self" type="application/rss+xml"/>
+<item><title>Basket or oven-style air fryer: what should you compare?</title><link>https://example.com/guide-basket-vs-oven.html</link><guid>https://example.com/guide-basket-vs-oven.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth.</description></item>
+<item><title>A no-hype checklist for comparing air fryer capacity</title><link>https://example.com/guide-capacity-checklist.html</link><guid>https://example.com/guide-capacity-checklist.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims.</description></item>
+<item><title>How to assess cleanup and counter-space trade-offs</title><link>https://example.com/guide-cleanup-counter-space.html</link><guid>https://example.com/guide-cleanup-counter-space.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth.</description></item>
+<item><title>Questions to ask before buying a multi-function kitchen appliance</title><link>https://example.com/guide-multifunction-questions.html</link><guid>https://example.com/guide-multifunction-questions.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Presets, accessories, wattage, warranty and fit checklist.</description></item>
+<item><title>Instant-read or wireless? How to read accuracy claims</title><link>https://example.com/guide-thermometer-accuracy.html</link><guid>https://example.com/guide-thermometer-accuracy.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range.</description></item>
+</channel>
+</rss>
