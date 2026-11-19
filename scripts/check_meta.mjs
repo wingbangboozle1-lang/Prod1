@@ -27,6 +27,8 @@ const SHOP_PAGES = ["index.html", "air-fryers.html", "thermometers.html", "compa
 const READER_PAGES = [...SHOP_PAGES, ...readdirSync(ROOT).filter((f) => /^guide[-a-z]*\.html$/.test(f))];
 
 let fails = [], warns = [], checkedPages = [];
+/* slug -> canonical, for pages that consolidate into another page */
+const CONSOLIDATED = new Map();
 
 const read = (f) => readFileSync(join(ROOT, f), "utf8");
 const stripTags = (h) => h.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<style[\s\S]*?<\/style>/g, " ")
@@ -66,8 +68,26 @@ for (const p of pages) {
   const canon = (h.match(/rel="canonical" href="([^"]+)"/) || [])[1] || "";
   const want = p === "index.html" ? BASE + "/" : `${BASE}/${p}`;
   if (!canon) fail(`${p}: no canonical link`);
-  else if (canon !== want) fail(`${p}: canonical is ${canon}, expected ${want} (self-referential, absolute)`);
-  else if (/example\.com/.test(canon)) fail(`${p}: placeholder canonical`);
+  else if (canon === want) { if (/example\.com/.test(canon)) fail(`${p}: placeholder canonical`); }
+  else {
+    /* A canonical that points elsewhere is allowed only as a deliberate consolidation of two
+       near-duplicate pages (see FLG-047). Enforcing the shape here means it cannot be used by
+       accident, and cannot be "fixed" later by hand-editing one page: Google's guidance is one
+       canonical signal per page, so the target must be in the sitemap and this page must not be. */
+    CONSOLIDATED.set(p, canon);
+    const target = canon.replace(BASE + "/", "").replace(/\/$/, "index.html") || "index.html";
+    if (!existsSync(join(ROOT, target))) fail(`${p}: canonical points at ${canon}, which this build does not write`);
+    else {
+      const th = read(target);
+      const tCanon = (th.match(/rel="canonical" href="([^"]+)"/) || [])[1] || "";
+      if (tCanon !== canon) fail(`${p}: canonicalises to ${target}, which canonicalises to ${tCanon || "nothing"} - a consolidation must point at a self-canonical page`);
+      if (!/<h1[^>]*>[^<]*<\/h1>/.test(th)) fail(`${p}: consolidation target ${target} has no <h1>`);
+    }
+    const targetHref = target === "index.html" ? "index.html" : target;
+    if (!h.includes(`href="${targetHref}"`)) fail(`${p}: a consolidated page must link to ${targetHref} in its own body, not only declare it in the head`);
+    const ogu = (h.match(/property="og:url" content="([^"]*)"/) || [])[1] || "";
+    if (ogu !== canon) fail(`${p}: og:url ${ogu || "(none)"} should match the consolidation canonical ${canon}`);
+  }
 
   for (const prop of ["og:title", "og:description", "og:url", "og:image"]) {
     const v = (h.match(new RegExp(`property="${prop}" content="([^"]*)"`)) || [])[1] || "";
@@ -176,8 +196,13 @@ for (const loc of locs) {
 }
 for (const p of pages.filter((x) => x !== "404.html")) {
   const url = p === "index.html" ? BASE + "/" : `${BASE}/${p}`;
+  if (CONSOLIDATED.has(p)) {
+    if (locs.includes(url)) fail(`${p} canonicalises to ${CONSOLIDATED.get(p)} but is still listed in the sitemap - list one URL per answer`);
+    continue;
+  }
   if (!locs.includes(url)) fail(`${p} is missing from sitemap.xml - a published page that is not in the sitemap is a findability bug`);
 }
+for (const [p, canon] of CONSOLIDATED) if (!locs.includes(canon)) fail(`${p} canonicalises to ${canon}, which the sitemap does not list`);
 if (!/Sitemap:\s/.test(read("robots.txt"))) fail("robots.txt does not declare the sitemap");
 if (new RegExp(`${BASE}/sitemap\\.xml`).test(read("robots.txt")) === false) warn("robots.txt sitemap line does not point at the deployed base URL");
 
@@ -211,7 +236,7 @@ if ([...seenEvents].some((e) => !EDIT.events.five.some((x) => x.name === e))) fa
 /* ---------- report ---------- */
 const label = (f) => basename(f, ".html");
 if (!QUIET) {
-  console.log(`\nChecked ${pages.length} pages, ${locs.length} sitemap URLs, ${titles.size} unique titles.`);
+  console.log(`\nChecked ${pages.length} pages (${CONSOLIDATED.size} consolidated into others), ${locs.length} sitemap URLs, ${titles.size} unique titles.`);
   console.log(`Reader pages under voice rules: ${READER_PAGES.map(label).join(", ")}`);
 }
 for (const w of warns) console.log(`  warn  ${w}`);

@@ -130,8 +130,13 @@ def crumbs(slug, title):
     if slug != "index.html":
         items.append({"@type": "ListItem", "position": 2, "name": title.split(" | ")[0], "item": abs_url(slug)})
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items}
-def page(slug, title, desc, body, extra_head="", body_class=""):
+def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
     kind = "Article" if body_class == "guide-page" else "webpage"
+    # A consolidated page declares another URL as canonical, so it must not also be in the
+    # sitemap; Google's canonicalisation guidance is one signal per page, not two.
+    canon = abs_url(canonical) if canonical else abs_url(slug)
+    if canonical:
+        kind = "merged"
     ld = [LD_ORG, crumbs(slug, title)]
     if kind == "Article":
         ld.append({"@context": "https://schema.org", "@type": "Article", "headline": title.split(" | ")[0],
@@ -151,7 +156,7 @@ def page(slug, title, desc, body, extra_head="", body_class=""):
                "url": abs_url(slug), "inLanguage": "en-US", "description": desc})
     ldscripts = "".join(jsonld(x) for x in ld)
     ogimg = BASE + "/assets/og-image.png"
-    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind})
+    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon})
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -159,12 +164,12 @@ def page(slug, title, desc, body, extra_head="", body_class=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-<link rel="canonical" href="{esc(abs_url(slug))}">
+<link rel="canonical" href="{esc(canon)}">
 <meta name="theme-color" content="#1F2937">
 <meta property="og:site_name" content="{esc(BRAND)}">
 <meta property="og:title" content="{esc(title.split(' | ')[0])}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:url" content="{esc(abs_url(slug))}">
+<meta property="og:url" content="{esc(canon)}">
 <meta property="og:type" content="{'article' if kind == 'Article' else 'website'}">
 <meta property="og:image" content="{esc(ogimg)}">
 <meta property="og:image:width" content="1200">
@@ -406,6 +411,8 @@ guides_body = """
 <article class="card"><span class="tag">Thermometers - Accuracy</span><h3>Instant-read or wireless? How to read accuracy claims</h3><p>+/-0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.</p><p><a class="btn small" href="guide-thermometer-accuracy.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that works without a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a class="btn small" href="guide-gift-picks.html">Read guide</a></p></article>
 </div>
+<h2>Consolidated URLs</h2>
+<p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
 """
 page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Six question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup and counter space, presets, accuracy claims and gift picks.",guides_body)
 # ---------- GUIDE 1 ----------
@@ -885,6 +892,12 @@ flag_body = f"""
 <tr id="FLG-040"><td>FLG-040</td><td>Snapshot dates are already ageing</td><td>Every field on this site carries the date {VERIFIED}. Amazon listing content changes without notice, so the honest shelf life of a manual snapshot is days, not months. There is no scheduled re-read in the repository - only the rule that a figure must never be presented as current.</td><td>Adopt a re-read cadence (weekly while small, per publish for the pages touched) and record each pass on the register</td></tr>
 <tr id="FLG-041"><td>FLG-041</td><td>The only image on the site is brand art</td><td><code>assets/og-image.png</code> is a generated typographic card for link previews. No product image, food photograph or AI-generated product visual is used anywhere, in line with the Program Content read in FLG-032.</td><td>Replace or extend imagery only under an approved licence (SG-04), and keep drawings labelled as ours</td></tr>
 <tr id="FLG-042"><td>FLG-042</td><td>Disclosure wording changed to the Agreement&rsquo;s exact sentence</td><td>Pages previously read &quot;As an Amazon Associate, The Countertop Guide earns from qualifying purchases.&quot; Section 5 of the Operating Agreement requires the statement &quot;As an Amazon Associate I earn from qualifying purchases.&quot; or a substantially similar statement previously allowed under the Agreement; whether a reworded variant qualifies is not ours to decide, and Section 6 treats a Section 5 violation as a material breach. The strip and footer now carry the required sentence verbatim, with a plain-language explanation beside it. Source: <a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement Section 5</a>, read in-session.</td><td>Closed by this pass (answers request I-02 from session b4c6c619); revisit only with written comfort on an alternative wording</td></tr>
+<tr id="FLG-043"><td>FLG-043</td><td>Disclosure wording variant vs Operating Agreement section 5</td><td>Raised by session <code>8e82d03c</code> in PR #17: the strip used to name the site (&quot;As an Amazon Associate, The Countertop Guide earns&hellip;&quot;) instead of the Agreement&rsquo;s first-person sentence. Whether the variant was substantially similar was an owner call; the register&rsquo;s <code>site.disclosure</code> now carries the verbatim sentence and every page renders it from that field. Same item this pass filed as <a href="#FLG-042">FLG-042</a> - kept as two rows because two sessions found it independently, and each has a different action trail.</td><td>Nothing further; the compliance page quotes the register value</td></tr>
+<tr id="FLG-044"><td>FLG-044</td><td>Star ratings shown without the Creators API or Product Advertising API</td><td>Raised by session <code>8e82d03c</code>: a Program Policy conditions display of customer reviews and star ratings on obtaining them through the Creators API or PA API. This build cannot call either API (<a href="#FLG-037">FLG-037</a>), so a displayed rating figure would be unsupported. That session read the clause; this session has not re-read it and does not assert its numbering.</td><td>Implemented as far as it can be without the API: no rating figure appears on any shop or guide page, and the dated counts live only in <a href="verification.html">the verification register</a>. Owner: confirm with Associates support before a rating figure is added anywhere else</td></tr>
+<tr id="FLG-045"><td>FLG-045</td><td>Intended ASIN and observed ASIN held in one field</td><td>Raised by session <code>8e82d03c</code>: the brief requires the intended ASIN (what was submitted) and the observed redirect target (what the link resolved to) to stay separate, and <a href="#FLG-013">FLG-013</a> keeps the intended value blank until the submitter confirms it. The register does separate them now - <code>submittedShortLink</code>, <code>observedRedirectTarget</code>, <code>asin</code> - so the structure is answered; what stays open is that the submitted codes are nine characters long and cannot be validated as ASINs from the outside.</td><td>Owner: confirm the five intended ASINs in Associates Central, then <code>asin</code> can be marked intended-and-observed rather than observed-only</td></tr>
+<tr id="FLG-046"><td>FLG-046</td><td>Rating counts drifted between two verification passes on the same day</td><td>Raised by session <code>8e82d03c</code>: their re-read found 18,375 for the Emeril oven and 16,892 for the Chefman 8QT where the register held 18,371 and 16,890 earlier that day. The register now carries the newer figures. The point is not the four extra ratings - it is that a figure copied from a listing ages in hours, which is why this site does not publish them.</td><td>Re-read on cadence; until then treat every recorded count as dated, not current</td></tr>
+<tr id="FLG-047"><td>FLG-047</td><td>A second parallel pass published three more seasonal guides whose topics the site already covers</td><td>Session <code>8e82d03c</code> added <code>guide-holiday-gifts.html</code>, <code>guide-small-kitchen.html</code> and <code>guide-holiday-roast.html</code> (merged in PR #17) at the same time as this pass published <code>guide-gift-picks.html</code>, <code>guide-cleanup-counter-space.html</code> and <code>guide-thermometer-accuracy.html</code>. The pairs answer the same questions; the newer three also carried dated price and rating figures, which this build does not publish anywhere outside the verification register. Rather than delete live URLs, the three now return the same content as a short canonical page pointing at the surviving guide, and the build excludes them from the sitemap so one question has one canonical answer. The other session&rsquo;s full drafts remain in the repository history at <code>9e4b359</code>.</td><td>Owner decision: keep the consolidation, or restore the three as standalone pages after stripping the dated figures (one edit in <code>MERGED</code> in <code>build_site.py</code> plus the price lines)</td></tr>
+<tr id="FLG-048"><td>FLG-048</td><td>Third-party register values reached this build through a merge, not through this session&rsquo;s own reading</td><td>The wattage, rating-count and accessory figures adopted in this merge come from <code>data/products.json</code>, re-read on 2026-11-19 by sessions <code>2ec8638e</code> and <code>8e82d03c</code>. This session verified them against the page text in the register but did not re-open the Amazon listings a third time, so they are attributed rather than independently confirmed here.</td><td>Re-read the five listings before the next publishing cadence tick; the register row for each field carries the date it was last confirmed</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
@@ -894,7 +907,8 @@ comp_body = f"""
 <h1>Disclosures &amp; policy checks in the publishing workflow</h1>
 <p class="lede">Disclosure above the fold on every page, in the Agreement&rsquo;s own words, and repeated in the footer. Every outbound product link - static or script-built - is marked sponsored and labelled. Volatile Program Content is not displayed at all, because a static build cannot refresh it inside 24 hours. Endorsement context is reviewed against the Operating Agreement and FTC guidance before publishing.</p>
 <h2>Our disclosure (verbatim, every page)</h2>
-<blockquote>As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change - always check the price on Amazon before you buy.</blockquote>
+<blockquote>{esc(SITE["disclosure"])}</blockquote>
+<p class="fine">Rendered from <code>data/products.json</code> &rarr; <code>site.disclosure</code>, the same field the strip and the footer read, so this page cannot drift from what the site actually says. The sentence up to the first full stop is the one Operating Agreement section 5 requires.</p>
 <h2>How each outbound link is marked</h2>
 <ul>
 <li>URL format: <code>https://www.amazon.com/dp/ASIN?tag={TAG}</code> (official listing URL + tracking ID).</li>
@@ -1152,10 +1166,46 @@ db_body = """
 <p class="small">Nothing here is implemented until approved. Irregularities and unverified items stay on <a href="flagged.html">Flagged for review</a>. The decision questions this brief answers are listed on <a href="suggestions.html">the Suggestions board</a> (Q-09 to Q-14).</p>
 """
 page_to("design-brief.html","Design brief: pick a visual direction | Countertop Guide","Prompt blocks, three visual directions, anti-slop writing rules and an eight-topic calendar, written as a parallel brief for the owner to choose between.",db_body)
+# ---------- CONSOLIDATED URLS (see FLG-047) ----------
+# A parallel session published three seasonal guides at these URLs. They restate, at shorter
+# length and with dated price figures, topics this site already covers. Two near-identical
+# pages competing for one question helps neither, so the extra URLs are kept alive and
+# canonicalised to the surviving page instead of being deleted or 404-ed: any link or bookmark
+# still lands somewhere useful, and the duplicate signal is consolidated rather than split.
+MERGED = [
+ ("guide-holiday-gifts.html", "guide-gift-picks.html",
+  "Holiday air fryer gifts: how to choose one that gets used",
+  "Holiday gifts guide (consolidated) | Countertop Guide",
+  "This URL now points at the site's gift guide: five questions that predict whether a gifted air fryer stays on the counter, answered from verified listings.",
+  "Holiday air fryer gifts"),
+ ("guide-small-kitchen.html", "guide-cleanup-counter-space.html",
+  "How to assess cleanup and counter-space trade-offs",
+  "Small-kitchen fit guide (consolidated) | Countertop Guide",
+  "This URL now points at the counter-space guide: counter depth, footprint arithmetic and cleanup, taken from the listings rather than estimated.",
+  "Small kitchen, big appetite"),
+ ("guide-holiday-roast.html", "guide-thermometer-accuracy.html",
+  "Instant-read or wireless? How to read accuracy claims",
+  "Roast-thermometer guide (consolidated) | Countertop Guide",
+  "This URL now points at the thermometer accuracy guide: what a stated tolerance, a named certification and a sensor count each do and do not prove.",
+  "Roast like a pro"),
+]
+for slug, target, dest, title, desc, h1 in MERGED:
+    merged_body = f"""<p class="eyebrow">Consolidated</p>
+<h1>{h1}</h1>
+<p class="lede">This page moved. Its subject is covered in full on <a href="{target}">{dest}</a>, and keeping one answer per question is why.</p>
+<div class="callout"><p>This URL was published earlier today as a separate guide by a parallel pass. Two pages answering the same question, at different lengths, is the classic way a small site starts to read like a content farm - and the earlier draft published dated price figures, which this site no longer does anywhere outside the <a href="verification.html">verification register</a> (see <a href="flagged.html#FLG-032">FLG-032</a>). So the shorter page was folded into the longer one rather than kept beside it.</p>
+<p class="fine"><strong>What the destination covers:</strong> the same product facts, each linked to its Amazon listing and dated {VERIFIED}, with the arithmetic for the derived figures shown so you can repeat it.</p></div>
+<p><a class="btn" href="{target}">Read the guide</a></p>
+<p class="small">If the owner would rather this URL stay a standalone article, the earlier draft is in the repository history at <code>guide-holiday-gifts.html</code>, <code>guide-small-kitchen.html</code> or <code>guide-holiday-roast.html</code> as of <code>9e4b359</code>; restoring it is a one-line change plus removing the dated figures. Recorded as <a href="flagged.html#FLG-047">FLG-047</a>.</p>
+"""
+    page_to(slug, title, desc, merged_body, canonical=target)
+print("consolidated pages wired:", len(MERGED))
 # ---------- sitemap / feed / robots / search index ----------
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for pg in PAGES:
+    if pg["kind"] == "merged":
+        continue
     sm.append(f"<url><loc>{esc(abs_url(pg['slug']))}</loc><lastmod>{VERIFIED}</lastmod></url>")
 sm.append("</urlset>")
 open("sitemap.xml","w").write("\n".join(sm) + "\n")
@@ -1181,9 +1231,11 @@ for slug, t, d in GUIDES:
 fd += ['</channel>','</rss>']
 open("feed.xml","w").write("\n".join(fd) + "\n")
 open("robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
-idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] != "admin"]
+idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] not in ("admin", "merged")]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
-print(f"pages: {len(PAGES)} | search index: {len(idx)} | sitemap: {len(PAGES)} urls")
+SM_URLS = open("sitemap.xml").read().count("<url>")
+MERGED_N = sum(1 for pg in PAGES if pg["kind"] == "merged")
+print(f"pages: {len(PAGES)} | search index: {len(idx)} | sitemap: {SM_URLS} urls | consolidated (deliberately out of the sitemap): {MERGED_N}")
 
 
 # Post-step: mark every amazon.com citation link as sponsored (consistency: every outbound product link sponsored)
