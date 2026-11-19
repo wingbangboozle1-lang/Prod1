@@ -43,9 +43,11 @@ Session ID: **bac417a2**. Branch: `arena/bac417a2-prod1` (fixed for this session
 **Pull request and merge.** Pull request: see the publication record below. The merge is the last step of this session and is recorded there.
 
 ### Publication record (bac417a2)
-- Pull request: _recorded below after creation_
-- Merge result: _recorded below after merge_
-- Pages deploy: _recorded below after deploy_
+- Pull request #6 (`arena/bac417a2-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/6 — first attempt blocked by a conflict with PRs #2–#4; resolved by moving the build into `counter-check/`. Merged as `e02d47b` (merge commit, 2026-11-19 12:45 UTC).
+- Pull request #11 (CI fix: reproducible feed date, valid workflow YAML): https://github.com/wingbangboozle1-lang/Prod1/pull/11 — the first version of the workflow failed to parse (an unquoted `: ` inside a `run:` line) and the feed date changed each build. Merged as `86140bd` (2026-11-19 12:48 UTC). Its `counter-check-checks` run passed on the fixed commit.
+- Pages deploy: the `Deploy GitHub Pages` workflow succeeded for `e02d47b` and for later commits on `main`. Pages API reports `status: built`. Live URLs, fetched 2026-11-19: `https://wingbangboozle1-lang.github.io/Prod1/counter-check/site/` and `…/counter-check/site/shop/air-fryers.html` (both render with the sponsored tagged links and the per-row source table).
+- Root site (other session): unchanged by this session; `https://wingbangboozle1-lang.github.io/Prod1/` builds.
+- Irregularities carried forward: P-01 to P-21 in `counter-check/data/flags.json`, published at `counter-check/site/flagged.html`. P-20 (root site shows prices and star ratings) and P-21 (root footer links not produced by the generator) are open for the owner.
 
 ## Session b4c6c619 (2026-11-19): integration record and requests
 
