@@ -1,5 +1,10 @@
 [
   {
+    "title": "Dashboard hub",
+    "url": "dashboard.html",
+    "text": "Every dashboard surface in one place: verification register, flagged for review, compliance, method and campaign ledger, executive summary, suggestions board."
+  },
+  {
     "title": "Air fryers category",
     "url": "air-fryers.html",
     "text": "Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, cleanup, price snapshots."
