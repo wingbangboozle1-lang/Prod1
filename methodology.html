@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide</title>
 <meta name="description" content="Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.">
-<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/methodology.html">
 <meta property="og:title" content="Method: Verification, Analytics Events &amp; Campaign Ledger | The Countertop Guide">
 <meta property="og:description" content="Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.">
 <meta property="og:type" content="website">
@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="assets/style.css">
 <link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
 
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/methodology.html">
+<meta name="robots" content="noindex,follow">
 </head>
 <body data-verified-date="2026-11-19" data-analytics-endpoint="" class="">
 <a class="skip" href="#main">Skip to content</a>
@@ -33,7 +35,7 @@
   <button class="btn small secondary" type="submit">Search</button>
 </form>
 </div></header>
-<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+<div class="disclosure-strip" role="note">As an Amazon Associate I earn from qualifying purchases. Prices shown are recorded snapshots from 2026-11-19; check Amazon for the live price. <a href="compliance.html">Disclosure details</a></div>
 <main id="main" class="wrap">
 
 <p class="eyebrow">Method</p>
@@ -42,32 +44,33 @@
 <h2>Evidence rule</h2>
 <ul>
 <li>Every product fact links to its Amazon listing and <a href="verification.html">verification record</a>. Missing = blank + flagged.</li>
-<li>"Trending" / popularity claims require a dated snapshot from an official category page. We make none.</li>
+<li>Popularity or ranking claims require a dated, relevant source. We make none.</li>
 <li>Seller claims are attributed ("per listing"). Derived math shows its method. Prices always carry a snapshot date.</li>
 <li>Hands-on testing claims require a published protocol and photos. We make none.</li>
 </ul>
-<h2>Analytics: five defined events (privacy-preserving)</h2>
+<h2>Analytics: five defined events</h2>
 <div class="table-scroll"><table>
-<tr><th>Event</th><th>When it fires</th><th>Data kept</th></tr>
-<tr><td>page_view</td><td>Page load</td><td>Path + timestamp (local only until endpoint deployed)</td></tr>
-<tr><td>outbound_click</td><td>Sponsored Amazon click</td><td>ASIN + destination (no personal data)</td></tr>
-<tr><td>search</td><td>Site search submitted</td><td>Query string</td></tr>
-<tr><td>chooser_complete</td><td>3-question chooser finished</td><td>Answers (q1/q2/q3)</td></tr>
-<tr><td>guide_read</td><td>Guide scrolled 75%</td><td>Guide path</td></tr>
+<tr><th>Event</th><th>When it fires</th><th>Payload / aggregate retained</th></tr>
+<tr><td>page_view</td><td>Page load</td><td>Path only; daily count</td></tr>
+<tr><td>outbound_click</td><td>Sponsored Amazon click</td><td>Path + observed product ASIN; daily count by path and ASIN</td></tr>
+<tr><td>search</td><td>Site search submitted</td><td>Path only; no query text</td></tr>
+<tr><td>chooser_complete</td><td>3-question chooser finished</td><td>Path only; no selected answers</td></tr>
+<tr><td>guide_read</td><td>Guide scrolled 75%</td><td>Path only; daily count</td></tr>
 </table></div>
-<p>Implementation: <code>assets/app.js</code> counts locally in <code>localStorage</code> and beacons to a configurable endpoint (<code>data-analytics-endpoint</code>, currently empty). No third-party trackers. Deploying the endpoint is SG-03; until then, counts are device-local and the ledger stays empty.</p>
+<p>The event payload excludes search terms, full outbound URLs, chooser answers, referrers, cookies, user agents, and client timestamps. The browser keeps device-local daily counts for up to 30 days; the self-hosted endpoint, when deployed, keeps aggregate daily counts for 90 days and does not log request details. Hosting-provider logging remains a hosting decision.</p>
+<p>Implementation: <code>assets/app.js</code> and <code>analytics-endpoint/server.py</code> share the same five-event contract. The endpoint URL is blank in the published pages, so only device-local counters run today; no site-wide click totals are collected. GitHub Pages is static and cannot run this Python service. The host decision and deployment status are recorded under <a href="flagged.html#FLG-008">FLG-008</a>. Affiliate orders/conversions are not browser events; use only authorized Associates reports.</p>
 <h2>Campaign ledger (empty by design)</h2>
 <div class="table-scroll"><table>
 <tr><th>Date</th><th>Source</th><th>Channel</th><th>Eligible sessions</th><th>Clicks</th><th>Reported orders</th><th>Provenance</th></tr>
 <tr><td colspan="7"><em>No rows yet. Add timestamp, source, channel, eligible sessions, clicks and reported orders only when obtained from authorized first-party reports (Associates Central). No conversion score or revenue forecast is presented.</em></td></tr>
 </table></div>
 <h2>Publishing cadence</h2>
-<p>New guides are added to <code>sitemap.xml</code> and <code>feed.xml</code> at publish. Next topic is chosen from measured Search Console queries (after SG-02), not instinct. RSS feed: <a href="feed.xml">feed.xml</a>. Sitemap: <a href="sitemap.xml">sitemap.xml</a>.</p>
+<p>Editorial pilot: one sourced, question-led guide per week for four weeks, then a monthly topic review. This is a proposed operating cadence, not a claim that future articles are already commissioned. Until Search Console is verified and query data is available, article titles remain buyer-question hypotheses, not search-volume claims. Add each published guide to <code>data/guides.json</code>; the build generates the root sitemap and RSS feed from that manifest. RSS: <a href="feed.xml">feed.xml</a>. Sitemap: <a href="sitemap.xml">sitemap.xml</a>.</p>
 
 </main>
 
 <footer>
-  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="disclosure-strip">As an Amazon Associate I earn from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
   <div class="footer-inner">
     <div>
       <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>

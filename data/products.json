@@ -4,19 +4,14 @@
     "tagline": "Air fryers & thermometers, compared from the listing — no hype, no fake testing.",
     "trackingId": "shopnow047c-20",
     "verifiedDate": "2026-11-19",
-    "canonical": "UNSET — set before launch (see flagged.html FLG-007)",
-    "disclosure": "As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change — always check the price on Amazon before you buy."
+    "canonical": "https://wingbangboozle1-lang.github.io/Prod1/",
+    "disclosure": "As an Amazon Associate I earn from qualifying purchases."
   },
   "products": [
     {
       "id": "P1",
       "submittedShortLink": "https://link.amazon/B04G1MEwY",
-      "asin": "B0CDY277D3",
-      "officialListingUrl": "https://www.amazon.com/dp/B0CDY277D3",
-      "affiliateUrl": "https://www.amazon.com/dp/B0CDY277D3?tag=shopnow047c-20",
       "observedRedirectTarget": "https://www.amazon.com/dp/B0CDY277D3 (via link.amazon/B04G1MEwY, observed 2026-11-19)",
-      "confirmationDate": "2026-11-19",
-      "confirmationSource": "Amazon.com product page for ASIN B0CDY277D3",
       "brand": "Chefman",
       "title": "CHEFMAN 6 Quart Dual Basket Air Fryer Oven with Easy View Windows, Sync Finish, Hi-Fry, Auto Shutoff, 2 Independent 3Qt Nonstick Dishwasher Safe Frying Baskets, Digital Double Air Fryer - Black",
       "shortName": "Chefman 6QT Dual-Basket Air Fryer Oven",
@@ -44,18 +39,24 @@
         "Removable non-stick baskets are dishwasher safe",
         "Touchscreen presets for chicken, vegetables, pizza, French fries, frozen foods and leftovers"
       ],
-      "sourceUrl": "https://www.amazon.com/dp/B0CDY277D3",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Price is a snapshot and will change."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Price is a snapshot and will change.",
+      "observedAsin": "B0CDY277D3",
+      "observedListingUrl": "https://www.amazon.com/dp/B0CDY277D3",
+      "observedRedirectUrl": "https://www.amazon.com/dp/B0CDY277D3",
+      "observedRedirectDate": "2026-11-19",
+      "observedRedirectSource": "Previously recorded repository observation; this integration did not re-follow the short link.",
+      "productIntent": {
+        "intendedAsin": "",
+        "officialListingUrl": "",
+        "confirmationDate": "",
+        "source": ""
+      },
+      "candidateAffiliateUrl": "https://www.amazon.com/dp/B0CDY277D3?tag=shopnow047c-20"
     },
     {
       "id": "P2",
       "submittedShortLink": "https://link.amazon/B02NbDxp3",
-      "asin": "B09B7SB46R",
-      "officialListingUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "affiliateUrl": "https://www.amazon.com/dp/B09B7SB46R?tag=shopnow047c-20",
       "observedRedirectTarget": "https://www.amazon.com/dp/B09B7SB46R (via link.amazon/B02NbDxp3, observed 2026-11-19)",
-      "confirmationDate": "2026-11-19",
-      "confirmationSource": "Amazon.com product page for ASIN B09B7SB46R",
       "brand": "Emeril Lagasse",
       "title": "Emeril Lagasse 26QT French Door Multi-Function Air Fryer Toaster Oven | Countertop Convection Cooker, 24 One-Touch Preset Options, Extra Large Interior, Six Cooking Accessories Included",
       "shortName": "Emeril Lagasse 26QT French-Door Air Fryer Toaster Oven",
@@ -83,18 +84,24 @@
         "Toast function turns off automatically when the countdown timer ends",
         "Six cooking accessories included (per title)"
       ],
-      "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing on 2026-11-19. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Wattage not captured — see FLG-005."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing on 2026-11-19. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Wattage not captured — see FLG-005.",
+      "observedAsin": "B09B7SB46R",
+      "observedListingUrl": "https://www.amazon.com/dp/B09B7SB46R",
+      "observedRedirectUrl": "https://www.amazon.com/dp/B09B7SB46R",
+      "observedRedirectDate": "2026-11-19",
+      "observedRedirectSource": "Previously recorded repository observation; this integration did not re-follow the short link.",
+      "productIntent": {
+        "intendedAsin": "",
+        "officialListingUrl": "",
+        "confirmationDate": "",
+        "source": ""
+      },
+      "candidateAffiliateUrl": "https://www.amazon.com/dp/B09B7SB46R?tag=shopnow047c-20"
     },
     {
       "id": "P3",
       "submittedShortLink": "https://link.amazon/B00hJ57DV",
-      "asin": "B08DKYBTPH",
-      "officialListingUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "affiliateUrl": "https://www.amazon.com/dp/B08DKYBTPH?tag=shopnow047c-20",
       "observedRedirectTarget": "https://www.amazon.com/dp/B08DKYBTPH (via link.amazon/B00hJ57DV, observed 2026-11-19)",
-      "confirmationDate": "2026-11-19",
-      "confirmationSource": "Amazon.com product page for ASIN B08DKYBTPH",
       "brand": "Chefman",
       "title": "Chefman Air Fryer 8 Qt | TurboFry 4-in-1 with 450°F Hi-Fry Option for Crispier Results | Bake, Dehydrate, Frozen | XL Nonstick Dishwasher-Safe Basket | Stainless Steel",
       "shortName": "Chefman 8QT TurboFry Basket Air Fryer",
@@ -122,18 +129,24 @@
         "LED shake reminder and digital display (per bullets and special-features field)",
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
-      "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003."
+      "sourceNote": "Title, rating, price, dimensions, capacity, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003.",
+      "observedAsin": "B08DKYBTPH",
+      "observedListingUrl": "https://www.amazon.com/dp/B08DKYBTPH",
+      "observedRedirectUrl": "https://www.amazon.com/dp/B08DKYBTPH",
+      "observedRedirectDate": "2026-11-19",
+      "observedRedirectSource": "Previously recorded repository observation; this integration did not re-follow the short link.",
+      "productIntent": {
+        "intendedAsin": "",
+        "officialListingUrl": "",
+        "confirmationDate": "",
+        "source": ""
+      },
+      "candidateAffiliateUrl": "https://www.amazon.com/dp/B08DKYBTPH?tag=shopnow047c-20"
     },
     {
       "id": "P4",
       "submittedShortLink": "https://link.amazon/B0c8moW59",
-      "asin": "B0DHZTCNR5",
-      "officialListingUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
-      "affiliateUrl": "https://www.amazon.com/dp/B0DHZTCNR5?tag=shopnow047c-20",
       "observedRedirectTarget": "https://www.amazon.com/dp/B0DHZTCNR5 (via link.amazon/B0c8moW59, observed 2026-11-19)",
-      "confirmationDate": "2026-11-19",
-      "confirmationSource": "Amazon.com product page for ASIN B0DHZTCNR5",
       "brand": "ThermoMaven",
       "title": "ThermoMaven 1 Sec Professional Digital Meat Thermometer, ±0.5°F Accuracy | NIST&NSF Certified, Auto-Rotate Bright LED Screen, IP67 Waterproof for Grill BBQ, Stocking Stuffers Gifts for Men, Black",
       "shortName": "ThermoMaven 1-Second Instant-Read Thermometer",
@@ -161,18 +174,24 @@
         "IP67 waterproof; can be rinsed under water (per title and bullets)",
         "Motion-activated wake and sleep (per bullets)"
       ],
-      "sourceUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
-      "sourceNote": "Title, rating, price, special features, included components and bullets as shown on the Amazon.com listing on 2026-11-19. Product dimensions were not in the captured fields — left blank, see flagged.html FLG-004."
+      "sourceNote": "Title, rating, price, special features, included components and bullets as shown on the Amazon.com listing on 2026-11-19. Product dimensions were not in the captured fields — left blank, see flagged.html FLG-004.",
+      "observedAsin": "B0DHZTCNR5",
+      "observedListingUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
+      "observedRedirectUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
+      "observedRedirectDate": "2026-11-19",
+      "observedRedirectSource": "Previously recorded repository observation; this integration did not re-follow the short link.",
+      "productIntent": {
+        "intendedAsin": "",
+        "officialListingUrl": "",
+        "confirmationDate": "",
+        "source": ""
+      },
+      "candidateAffiliateUrl": "https://www.amazon.com/dp/B0DHZTCNR5?tag=shopnow047c-20"
     },
     {
       "id": "P5",
       "submittedShortLink": "https://link.amazon/B0f3GKalj",
-      "asin": "B0DZFD6R9Z",
-      "officialListingUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "affiliateUrl": "https://www.amazon.com/dp/B0DZFD6R9Z?tag=shopnow047c-20",
       "observedRedirectTarget": "https://www.amazon.com/dp/B0DZFD6R9Z (via link.amazon/B0f3GKalj, observed 2026-11-19)",
-      "confirmationDate": "2026-11-19",
-      "confirmationSource": "Amazon.com product page for ASIN B0DZFD6R9Z",
       "brand": "CHEF iQ",
       "title": "CHEF iQ Sense | Smart Wireless Meat Thermometer | 3 Ultra-Thin Probes | WiFi Unlimited Range | 1000°F Heat Safe | 5 Sensors | BBQ, Grill, Oven, Smoker, Air Fryer | Gen3",
       "shortName": "CHEF iQ Sense Wireless Thermometer (3 probes)",
@@ -200,8 +219,19 @@
         "Rated to 1000°F heat (per title and bullets); up to 50 hours per charge (per bullets)",
         "Flip reminders, rest timers, estimated cooking times and Guided Cooking recipes in the app (per bullets)"
       ],
-      "sourceUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "sourceNote": "Title, rating, variant prices, special features, included components and bullets as shown on the Amazon.com listing on 2026-11-19. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Product dimensions not captured — left blank, see flagged.html FLG-004."
+      "sourceNote": "Title, rating, variant prices, special features, included components and bullets as shown on the Amazon.com listing on 2026-11-19. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Product dimensions not captured — left blank, see flagged.html FLG-004.",
+      "observedAsin": "B0DZFD6R9Z",
+      "observedListingUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
+      "observedRedirectUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
+      "observedRedirectDate": "2026-11-19",
+      "observedRedirectSource": "Previously recorded repository observation; this integration did not re-follow the short link.",
+      "productIntent": {
+        "intendedAsin": "",
+        "officialListingUrl": "",
+        "confirmationDate": "",
+        "source": ""
+      },
+      "candidateAffiliateUrl": "https://www.amazon.com/dp/B0DZFD6R9Z?tag=shopnow047c-20"
     }
   ]
 }

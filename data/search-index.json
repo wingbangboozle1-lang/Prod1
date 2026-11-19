@@ -2,71 +2,71 @@
   {
     "title": "Air fryers category",
     "url": "air-fryers.html",
-    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, cleanup, price snapshots."
+    "text": "Compare three historical air fryer listing profiles: dual basket, French-door oven, and single basket. Capacity labels, dimensions, footprint, cleanup claims, and dated prices."
   },
   {
-    "title": "Thermometers category",
+    "title": "Meat thermometers category",
     "url": "thermometers.html",
-    "text": "ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe. Accuracy claims, range, probes."
+    "text": "Compare historical instant-read and wireless thermometer listing claims, probe count, sensor details, connectivity, and missing dimensions."
   },
   {
-    "title": "Compare all five",
+    "title": "Compare five candidate listings",
     "url": "compare.html",
-    "text": "Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth."
+    "text": "Source-linked comparison of five historical candidate listings, with recorded dimensions, prices, ratings, a three-question spec-based shortlist, and calculated footprint."
   },
   {
     "title": "Basket or oven-style air fryer: what should you compare?",
     "url": "guide-basket-vs-oven.html",
-    "text": "Dual-basket vs French-door oven vs single basket. Two-dish cooking, crowd capacity, counter depth."
+    "text": "Compare air fryer layouts, listing capacity wording, exterior dimensions, food examples, cleaning questions, and unknown hands-on performance."
   },
   {
     "title": "A no-hype checklist for comparing air fryer capacity",
     "url": "guide-capacity-checklist.html",
-    "text": "Quarts vs litres, single vs dual baskets, feeds 4-6, rotisserie and pizza claims."
+    "text": "Separate title capacity from product fields, split baskets, seller serving examples, outside dimensions, and missing details."
   },
   {
     "title": "How to assess cleanup and counter-space trade-offs",
     "url": "guide-cleanup-counter-space.html",
-    "text": "Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth."
+    "text": "Measure width and depth, compare calculated footprints, check listed dishwasher-care claims, and consult the current manual."
   },
   {
     "title": "Questions to ask before buying a multi-function kitchen appliance",
     "url": "guide-multifunction-questions.html",
-    "text": "Presets, accessories, wattage, warranty and fit checklist for multi-function ovens."
+    "text": "A checklist for presets, accessories, fit, electrical details, and information that was not captured from the product listing."
   },
   {
     "title": "Instant-read or wireless? How to read accuracy claims",
     "url": "guide-thermometer-accuracy.html",
-    "text": "Plus-minus 0.5F, NIST NSF, sensor counts, WiFi range. How to read thermometer claims."
+    "text": "Compare listing claims about thermometer accuracy, reading speed, sensor counts, connectivity, and what remains untested."
   },
   {
     "title": "Executive summary",
     "url": "executive-summary.html",
-    "text": "What the site is, what is verified, compliance posture, measurement plan, decision gates."
+    "text": "Publication overview, historical candidate listings, product-intent fields awaiting confirmation, account-dependent launch gates, and measurement limits."
   },
   {
     "title": "Suggestions board and decision log",
     "url": "suggestions.html",
-    "text": "Suggestions SG-01 to SG-10, questions Q-01 to Q-08, evidence needed, decisions blocked."
+    "text": "Reviewable editorial suggestions, local-only approve/defer/reject choices, knowns, unknowns, evidence gaps, and ways to discover missing information."
   },
   {
     "title": "Verification register",
     "url": "verification.html",
-    "text": "Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, policy sources."
+    "text": "Separate intended products from historical observed redirect destinations; see listing sources, blank confirmations, and the unresolved Special Link test."
   },
   {
     "title": "Flagged for review",
     "url": "flagged.html",
-    "text": "Irregularities: short-link compliance, discrepancies, newer models, missing fields, launch gates."
+    "text": "Open product-record discrepancies, missing fields, unconfirmed intent, historical price data, account gates, and the unhosted analytics endpoint."
   },
   {
     "title": "Compliance",
     "url": "compliance.html",
-    "text": "Disclosure wording, sponsored-link marking, Amazon and FTC policy checklist."
+    "text": "Disclosure placement, sponsored-link marking, candidate tracking status, and links to Amazon Associates and FTC review material."
   },
   {
     "title": "Method and campaign ledger",
     "url": "methodology.html",
-    "text": "Evidence rules, five analytics events, empty campaign ledger, publishing cadence."
+    "text": "Evidence rules, five event names and payload limits, local and endpoint retention, an empty campaign ledger, and the proposed editorial cadence."
   }
 ]

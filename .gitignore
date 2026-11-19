@@ -1,0 +1,8 @@
+# Curated GitHub Pages artifact and local endpoint output
+_site/
+analytics-endpoint/counts.json
+analytics-endpoint/.counts-*
+
+# Local Python/runtime files
+__pycache__/
+*.py[cod]

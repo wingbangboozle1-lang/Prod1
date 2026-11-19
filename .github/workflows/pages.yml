@@ -19,8 +19,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build the single root publication
+        run: python3 scripts/build_publication.py
+      - name: Check client syntax and local UI controls
+        run: |
+          node --check assets/app.js
+          node scripts/test_app.mjs
+      - name: Test analytics endpoint contract
+        run: python3 -m unittest discover -s analytics-endpoint -p 'test_*.py' -v
+      - name: Validate curated publication artifact
+        run: |
+          python3 scripts/check_publication.py --root _site
+          node scripts/check_site.mjs --root _site
+      - name: Verify generated root files are current
+        run: |
+          git diff --check
+          git diff --exit-code -- index.html air-fryers.html thermometers.html compare.html guides.html guide-basket-vs-oven.html guide-capacity-checklist.html guide-cleanup-counter-space.html guide-multifunction-questions.html guide-thermometer-accuracy.html executive-summary.html suggestions.html verification.html flagged.html compliance.html methodology.html search.html sitemap.xml feed.xml robots.txt data/search-index.json
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

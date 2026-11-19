@@ -1,0 +1,41 @@
+{
+  "site": "The Countertop Guide",
+  "publicationDate": "2026-11-19",
+  "cadence": {
+    "pilot": "One sourced, question-led guide per week for four weeks",
+    "review": "Review Search Console query data monthly after property verification",
+    "status": "proposed"
+  },
+  "guides": [
+    {
+      "path": "guide-basket-vs-oven.html",
+      "title": "Basket or oven-style air fryer: what should you compare?",
+      "description": "Compare air fryer layout, listed capacity wording, exterior dimensions, and care questions without assuming one format is best.",
+      "published": "2026-11-19"
+    },
+    {
+      "path": "guide-capacity-checklist.html",
+      "title": "A no-hype checklist for comparing air fryer capacity",
+      "description": "A careful guide to air fryer capacity labels, split baskets, seller serving examples, exterior dimensions, and missing fields.",
+      "published": "2026-11-19"
+    },
+    {
+      "path": "guide-cleanup-counter-space.html",
+      "title": "How to assess cleanup and counter-space trade-offs",
+      "description": "A practical checklist for measuring appliance width and depth, comparing calculated footprints, and checking listed care instructions.",
+      "published": "2026-11-19"
+    },
+    {
+      "path": "guide-multifunction-questions.html",
+      "title": "Questions to ask before buying a multi-function kitchen appliance",
+      "description": "A pre-purchase checklist for multi-function appliance presets, accessories, fit, electrical details, and information not captured in a product listing.",
+      "published": "2026-11-19"
+    },
+    {
+      "path": "guide-thermometer-accuracy.html",
+      "title": "Instant-read or wireless? How to read accuracy claims",
+      "description": "Compare historical listing claims about meat thermometer accuracy, reading speed, sensor counts, connectivity, and what still needs hands-on testing.",
+      "published": "2026-11-19"
+    }
+  ]
+}
