@@ -28,6 +28,13 @@ The live GitHub Pages site has no production analytics endpoint configured. More
 - Keep the campaign ledger empty until authorized first-party Associates reports supply dated source/channel, eligible-session, click, and order values. A local outbound-click event is not an Amazon report click or conversion.
 - Request to the owners of the root pages and endpoint: update the existing Flagged for Review entry (analytics is already flagged) with the client/server schema mismatch and stale README reference. Do not activate either parallel tracker until the chosen contract is wired and tested.
 
+## Validation performed
+
+- `node scripts/check_site.mjs` passed for 42 HTML files, with non-blocking warnings on the brand-substituted disclosure wording and the word “trending” on several pages.
+- `python3 counter-check/tools/check_site.py` passed for 16 pages, 5 products, and 21 flags.
+- A direct in-memory contract probe returned `invalid path` for the current root `page_view` payload and `unknown event` for the root `search` event; `assets/measure.js` is absent from the tracked tree.
+- `git diff --check` passed. GitHub Pages API reported `status: built` and the project URL `https://wingbangboozle1-lang.github.io/Prod1/`.
+
 ## Official references checked
 
 - [GitHub Pages — What is GitHub Pages?](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages): static hosting and GitHub's documented security logging for Pages visits.
