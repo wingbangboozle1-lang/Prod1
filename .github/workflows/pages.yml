@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Publishing gate (disclosure, sponsored links, internal links, titles, claims)
+        run: node scripts/check_site.mjs
       - uses: actions/configure-pages@v5
       - name: Publishing gate
         run: node scripts/check_site.mjs
