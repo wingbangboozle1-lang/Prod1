@@ -8,6 +8,7 @@ GitHub Pages from `main` (see `.github/workflows/pages.yml`). Canonical URLs are
 ## Structure
 - `index.html` — publication front page (hero, ticker, stories, topic band, products, chooser, RSS band)
 - `topics.html` — topic calendar: eight spec-backed working titles (5 published, 3 queued) with sources
+- `design-brief.html` — design-prompt suggestions for the redesign (visual directions, anti-AI-slop rules, editorial calendar)
 - `air-fryers.html`, `thermometers.html` — category pages with comparison tables
 - `compare.html` — all five side by side + 3-question chooser + counter-space math
 - `guide-*.html` — question-shaped guides (basket vs oven, capacity, cleanup/space, multi-function, thermometer accuracy)

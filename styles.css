@@ -47,3 +47,8 @@
 .status-planned{color:#8a5a2b;font-weight:700}
 .doc-main .data-table{font-size:12px}
 .doc-main .data-table th{font-size:11px}
+.table-scroll{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:3px;background:var(--white)}
+.table-scroll table{width:100%;border-collapse:collapse;font-size:12px}
+.table-scroll th{text-align:left;background:#e7e4da;color:#45564c;padding:12px;font-size:11px}
+.table-scroll td{vertical-align:top;border-bottom:1px solid var(--line);padding:13px;line-height:1.65}
+.table-scroll a{word-break:break-word}

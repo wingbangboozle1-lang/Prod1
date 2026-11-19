@@ -64,7 +64,7 @@ FOOTER = f"""
     <div class="footer-links">
       <div><b>SHOP</b><a href="air-fryers.html">Air Fryers</a><a href="thermometers.html">Thermometers</a><a href="compare.html">Compare all five</a></div>
       <div><b>READ</b><a href="guides.html">All guides</a><a href="topics.html">Topic calendar</a><a href="feed.xml">RSS feed</a></div>
-      <div><b>TRUST &amp; DATA</b><a href="verification.html">Verification register</a><a href="flagged.html">Flagged for review</a><a href="compliance.html">Compliance</a><a href="methodology.html">Method &amp; campaign ledger</a><a href="executive-summary.html">Executive summary</a><a href="suggestions.html">Suggestions board</a><a href="docs/products.html">Product-intent register</a></div>
+      <div><b>TRUST &amp; DATA</b><a href="verification.html">Verification register</a><a href="flagged.html">Flagged for review</a><a href="compliance.html">Compliance</a><a href="methodology.html">Method &amp; campaign ledger</a><a href="executive-summary.html">Executive summary</a><a href="design-brief.html">Design brief</a><a href="suggestions.html">Suggestions board</a><a href="docs/products.html">Product-intent register</a></div>
     </div>
   </div>
   <div class="footer-disclosure">{DISCLOSURE} Prices are snapshots from {VERIFIED} and change - always confirm on Amazon. <a href="compliance.html">How we disclose</a></div>
@@ -594,21 +594,21 @@ exec_body = f"""
 <h2>The five products</h2>
 <div class="table-wrap"><table class="data-table">
 <tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Price snapshot</th><th>Rating snapshot</th></tr>
-<tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air Fryers</td><td>$79.93</td><td>4.2 (4,876)</td></tr>
-<tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air Fryers</td><td>$149.99</td><td>4.3 (18,371)</td></tr>
-<tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air Fryers</td><td>$69.99</td><td>4.4 (16,890)</td></tr>
-<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>$16.99</td><td>4.6 (3,499)</td></tr>
-<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>$119.99</td><td>4.2 (2,178)</td></tr>
+<tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air Fryers</td><td>$79.93</td><td>4.2 ({PRODS['P1']['ratingCount']})</td></tr>
+<tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air Fryers</td><td>$149.99</td><td>4.3 ({PRODS['P2']['ratingCount']})</td></tr>
+<tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air Fryers</td><td>$69.99</td><td>4.4 ({PRODS['P3']['ratingCount']})</td></tr>
+<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>$16.99</td><td>4.6 ({PRODS['P4']['ratingCount']})</td></tr>
+<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>$119.99</td><td>4.2 ({PRODS['P5']['ratingCount']})</td></tr>
 </table></div>
 <h2>What is verified</h2>
 <ul>
-<li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target).</li>
-<li>Titles, ratings, price snapshots, dimensions (air fryers), capacity, special features and bullets as shown on Amazon.com on {VERIFIED}.</li>
+<li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target). All five links re-checked 2026-11-19.</li>
+<li>A full line-by-line re-read of all five Amazon.com listings on {VERIFIED}: titles, ratings, price snapshots, dimensions (air fryers), capacity, wattage, special features and bullets. Emeril wattage was captured on this pass (1700 watts per the listing's Product information table).</li>
 <li>Compliance posture: disclosure above the fold on every page and in the footer (Operating Agreement Section 5 wording); every outbound product link is rel="sponsored" and labeled; no popularity claims without a dated snapshot; no hands-on testing claims.</li>
 </ul>
 <h2>What is not verified (and therefore not claimed)</h2>
 <ul>
-<li>Thermometer dimensions, Emeril wattage/warranty, CHEF iQ +/-F accuracy figure - blank and flagged.</li>
+<li>Thermometer dimensions (not listed on their listing pages), Emeril warranty period (listing links a PDF only), and the Chefman 8QT wattage (listing bullets and spec table disagree) - blank or attributed and flagged.</li>
 <li>Short-link compliance status (unresolved), Special Link test in Associates Central (manual gate), commission rates (not published here), search volume / popularity (not claimed).</li>
 <li>Product photography (no Amazon images used; real photography needs a licence decision - SG-04).</li>
 </ul>
@@ -619,12 +619,12 @@ exec_body = f"""
 <li>Front page rebuilt as a publication front page: hero, ticker, story cards, topic band, product panel, chooser and an RSS band.</li>
 <li>New <a href="topics.html">topic calendar</a>: eight spec-backed working titles, five published and three queued, each with its verified fields and sources.</li>
 <li><a href="suggestions.html">Suggestions page</a> rebuilt as an interactive decision desk: pick a path per suggestion, export a review sheet.</li>
-<li>Generator now emits per-page canonical URLs on the live GitHub Pages address (it previously emitted a placeholder that a rebuild reverted - see <a href="flagged.html">FLG-021</a>, resolved).</li>
+<li>Generator now emits per-page canonical URLs on the live GitHub Pages address (the earlier placeholder bug is fixed - see <a href="flagged.html">FLG-007</a>).</li>
 <li>Disclosure wording is now the exact Operating Agreement Section 5 sentence (see <a href="compliance.html">Compliance</a>).</li>
 <li>No product values were changed in this build.</li>
 </ul>
 <h2>Next gates (owner decisions)</h2>
-<p>Special Link validation (SG-01), canonical/Search Console (SG-02), analytics endpoint hosting (SG-03), photography licence (SG-04), brand unification (SG-11) and the topic-calendar cadence (SG-12). Nothing scales until those gates pass. See <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
+<p>Special Link validation (SG-01), canonical/Search Console (SG-02), analytics endpoint hosting (SG-03), photography licence (SG-04), the design-brief direction (SG-11), the editorial calendar (SG-12) and brand unification (SG-19). Nothing scales until those gates pass. See <a href="design-brief.html">Design brief</a>, <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
 </article>
 """
 open("executive-summary.html","w").write(page("executive-summary.html","Executive Summary: Products, Verification & Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: 5 verified products in 2 categories, what is and is not verified, compliance posture, measurement plan and decision gates.",exec_body))
@@ -685,12 +685,41 @@ sg_rows = (
  sg_row("SG-10", "Expand categories (second air fryer brand, second thermometer brand)",
         "More comparison depth; better internal linking", "New ASIN verification pass", "Medium",
         ["Approve", "Reject", "Defer", "Needs more info"]) +
- sg_row("SG-11", "Unify the site's brand (root site vs the Counter &amp; Crumb docs/articles pages)",
+ sg_row("SG-11", "Run the design brief (design-brief.html) as the brief for the visual overhaul: warm editorial brand, product-first hero, category tiles, sticky comparison bar",
+        "Turns the site from a register into a publication a buyer can act on; cuts the generated-template feel",
+        "Owner picks the visual direction from the brief's options; photography decision (SG-04) gates imagery", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Needs decision") +
+ sg_row("SG-12", "Adopt the eight-topic editorial calendar in the design brief as the publishing cadence (question-shaped titles tied to the verified products)",
+        "Catchy, spec-backed topics feed organic search; every title is a question a buyer types",
+        "Owner approves titles; each topic needs the same line-by-line verification before publishing", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Needs decision") +
+ sg_row("SG-13", "Anti-AI-slop writing rules in the CMS checklist: no filler transitions, no \"in conclusion\", varied sentence length, one idea per paragraph",
+        "Readers and reviewers can tell template text; signal-rich writing ranks and converts better",
+        "Style guide decision; editor review on every page", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Needs decision") +
+ sg_row("SG-14", "Editorial voice decision: who is \"we\" (The Countertop Guide editorial team) and what we will never claim (no testing, no popularity, no superlatives)",
+        "A defined voice is the strongest anti-slop lever and keeps FTC honesty intact",
+        "Owner sign-off on voice statement", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Needs decision") +
+ sg_row("SG-15", "Reader-facing seasonal clusters (holiday gift, New Year cooking reset) built from the verified products with dated price snapshots",
+        "Seasonal intent searches; reuses verified data instead of new claims",
+        "Season calendar decision; re-snapshot prices at publish", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Proposed") +
+ sg_row("SG-16", "Comparison-first homepage: lead with the side-by-side table and the three-question chooser above the fold, verification below",
+        "Buyers act on comparisons; the verification register moves below the products",
+        "Layout decision in the design brief", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Proposed") +
+ sg_row("SG-17", "Add author bylines and an \"updated\" date to every article and comparison",
+        "Authorship and freshness signals; reads like a publication, not a template",
+        "Author name/bio decision; date source from verification log", "Low",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Proposed") +
+ sg_row("SG-18", "Internal-link cluster pages: one pillar per category linking every guide to the comparison and buying guide",
+        "Cluster structure helps search engines and keeps readers on-site longer",
+        "Topic approval (SG-12); link audit at publish", "Medium",
+        ["Approve", "Reject", "Defer", "Needs more info"], "Proposed") +
+ sg_row("SG-19", "Unify the site's brand (root site vs the Counter &amp; Crumb docs/articles pages)",
         "One brand on one domain is easier to index, remember and trust", "Owner review of both editorial sets", "Medium",
-        ["Approve", "Reject", "Defer", "Needs more info"], "Flagged for owner decision - see FLG-023") +
- sg_row("SG-12", "Execute the topic calendar on a measured cadence (one checked guide per slot)",
-        "Cadence plus measured queries choose the next topic instead of instinct", "Search Console data after launch", "Low ongoing",
-        ["Approve", "Reject", "Defer", "Needs more info"])
+        ["Approve", "Reject", "Defer", "Needs more info"], "Flagged for owner decision - see FLG-023")
 )
 
 def q_row(qid, question, know, lack, discover, blocked, options=("Open", "Answered", "Blocked - owner needed")):
@@ -723,11 +752,35 @@ q_rows = (
  q_row("Q-08", "Where does analytics data live?",
        "Local-only counter; endpoint stub documented", "Hosting, retention, consent",
        "Pick host; publish retention policy", "Measurement &amp; optimisation (SG-03)") +
- q_row("Q-09", "Which brand should the whole site use?",
+ q_row("Q-09", "Which visual direction from the design brief do we adopt?",
+       "Brief offers a warm editorial direction with three named options and anti-slop rules",
+       "Owner's pick; photography decision (Q-07) gates imagery",
+       "Review design-brief.html; choose one direction", "Visual overhaul (SG-11)") +
+ q_row("Q-10", "Do we approve the eight-topic editorial calendar?",
+       "Titles are working hypotheses tied to verified products; none is a popularity claim",
+       "Owner approval; per-topic verification still required",
+       "Review calendar on design-brief.html", "Publishing cadence (SG-12)") +
+ q_row("Q-11", "What is the site's editorial voice, and what will it never claim?",
+       "No testing / popularity / superlative claims today; voice statement is proposed",
+       "Owner sign-off on the voice statement",
+       "Review voice rules on design-brief.html", "All content (SG-13, SG-14)") +
+ q_row("Q-12", "Should the homepage lead with the comparison and chooser?",
+       "Current homepage leads with categories then data",
+       "Layout preference; impact on conversion vs. trust",
+       "Review homepage layout option in the brief", "Homepage redesign (SG-16)") +
+ q_row("Q-13", "Who are the named authors, and what bios go with them?",
+       "Guides currently say \"The Countertop Guide editorial team\"",
+       "Author identity and bio wording",
+       "Owner provides names/bios or keeps the team credit", "Authorship (SG-17)") +
+ q_row("Q-14", "What is the review SLA for this suggestions board?",
+       "19 suggestions and 16 questions wait on owner choices",
+       "Review cadence and who approves",
+       "Owner sets a review rhythm; approved items become tasks", "All pending suggestions") +
+ q_row("Q-15", "Which brand should the whole site use?",
        "Two editorial sets ship on one domain: The Countertop Guide (root) and Counter &amp; Crumb (docs/articles)",
        "Owner choice of one brand, or a decision to keep the docs set clearly internal",
-       "Owner review of both sets; then update nav, footer and metadata once", "Brand unification (SG-11)") +
- q_row("Q-10", "Can the 2026-11-19 listing values be re-confirmed?",
+       "Owner review of both sets; then update nav, footer and metadata once", "Brand unification (SG-19)") +
+ q_row("Q-16", "Can the 2026-11-19 listing values be re-confirmed?",
        "Register with per-field sources and confirmation dates is recorded in verification.html",
        "Fresh fetch of listing product-details (this session's sandbox could not reach Amazon.com or link.amazon)",
        "Owner re-fetch of each listing, or an authorized channel per the Operating Agreement; record the date",
@@ -812,7 +865,7 @@ ver_body = f"""
 </table></div>
 <p class="small">Verification performed 2026-11-19 by fetching each Amazon listing and policy page; values are snapshots and will change. Manual Special Link test in Associates Central remains a gate (see <a href="flagged.html">Flagged</a>).</p>
 <div class="callout"><b>Re-verification note (session arena/bb3ae11b-prod1, 2026-11-19)</b>
-<p>This session's sandbox could not reach Amazon.com or link.amazon (outbound network allowlist), so the listing values above were not re-fetched and were not changed. The five submitted short links and their ASIN mapping were re-checked against <code>data/products.json</code> and the generator, and the register's internal consistency was confirmed. See <a href="flagged.html">FLG-022</a>.</p></div>
+<p>This session's sandbox could not reach Amazon.com or link.amazon (outbound network allowlist), so the listing values above were not re-fetched again here and no value was changed. The values reflect the full line-by-line re-verification of 2026-11-19 by session arena/2ec8638e-prod1 (see <a href="docs/verification-log.md">docs/verification-log.md</a>). The five submitted short links and their ASIN mapping were re-checked against <code>data/products.json</code> and the generator, and the register's internal consistency was confirmed.</p></div>
 </article>
 """
 open("verification.html","w").write(page("verification.html","Verification Register: Line-by-Line Sources for Every Fact | The Countertop Guide","Verification register for 5 products: intended ASIN, official listing URL, confirmation date and source per product, plus official Amazon and FTC policy sources.",ver_body))
@@ -831,9 +884,9 @@ flag_body = f"""
 <tr><td>FLG-002</td><td>Preset &amp; capacity discrepancies</td><td>Emeril: title 24 presets vs bullets 25; title 26QT vs field 24.6 liters. Chefman 6QT: title 6 Quart vs field 6 liters. Both values shown; no silent conversion.</td><td>Verify on listing; ask seller if needed</td></tr>
 <tr><td>FLG-003</td><td>Newer models shown on listings</td><td>Chefman 8QT page shows newer 6QT B0CNY1YVDD ($59.99, 4.6/7,602); ThermoMaven page shows newer Orange B0GL7Z4KP4 ($16.99, 4.7/144). We promote the submitted ASINs only.</td><td>Decide lineup (SG-08)</td></tr>
 <tr><td>FLG-004</td><td>Missing dimensions (thermometers)</td><td>ThermoMaven B0DHZTCNR5 and CHEF iQ B0DZFD6R9Z dimensions not in captured fields. Left blank in tables.</td><td>Re-fetch product-details; record date</td></tr>
-<tr><td>FLG-005</td><td>Missing wattage/warranty (Emeril)</td><td>Emeril wattage and warranty not captured. Left blank.</td><td>Check listing product details</td></tr>
+<tr><td>FLG-005</td><td>Missing warranty (Emeril)</td><td>Emeril wattage captured 2026-11-19 (1700 watts / 120 volts per the listing's Product information table). Warranty period is not stated on the listing page; the listing links a warranty PDF only. Left blank.</td><td>Read warranty PDF if the term is needed</td></tr>
 <tr><td>FLG-006</td><td>Price volatility</td><td>All prices are {VERIFIED} snapshots (Black Friday period). Live price on Amazon governs.</td><td>Re-snapshot on cadence; date every price</td></tr>
-<tr><td>FLG-007</td><td>Canonical domain - resolved</td><td>Canonical/og URLs previously used a placeholder; the generator now emits per-page canonical URLs on the live GitHub Pages address. A custom domain is still an owner decision (SG-02).</td><td>Resolved 2026-11-19; custom domain remains SG-02</td></tr>
+<tr><td>FLG-007</td><td>Canonical is the GitHub Pages URL, not a custom domain</td><td>Canonical/og URLs now point to https://wingbangboozle1-lang.github.io/Prod1/ (session 9969fd0c). A custom domain is still unset, and the generator previously wrote a placeholder - fixed in build_site.py 2026-11-19 so rebuilds reproduce the committed pages; session arena/bb3ae11b-prod1 made canonicals per-page (one per page, not one shared URL).</td><td>Pick domain (SG-02)</td></tr>
 <tr><td>FLG-008</td><td>Analytics endpoint not deployed</td><td>Five events defined; local counter only. No server endpoint yet.</td><td>Deploy endpoint (SG-03)</td></tr>
 <tr><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
@@ -847,8 +900,8 @@ flag_body = f"""
 <tr><td>FLG-018</td><td>Proposed Amazon content notice (not verified)</td><td>The external Zone4 decision log proposes an Amazon content notice citing IP License section 2(k). The IP License was not read, and the notice is not yet on the pages.</td><td>Read IP License 2(k); decide under SG-04</td></tr>
 <tr><td>FLG-019</td><td>Creators API prerequisites not read</td><td>The external Zone4 decision log suggests the Creators API for prices and ratings. Its prerequisites were not read, and no API data is used on this site.</td><td>Read prerequisites before any price or rating source change</td></tr>
 <tr><td>FLG-020</td><td>Main-product values not fully re-read in integration</td><td>The integration check confirmed the five ASINs and the ThermoMaven price ($16.99) against the listing pages. Other prices, ratings and dimensions in data/products.json were not re-read in full in that pass.</td><td>Full re-read of each listing's product details before publishing price claims</td></tr>
-<tr><td>FLG-021</td><td>Generator canonical mismatch - resolved</td><td>build_site.py emitted canonical https://example.com/ while the committed pages had been hand-patched to the live URL; a plain rebuild reverted all 17 generated pages (confirmed by test rebuild 2026-11-19). The hand-patch also produced one shared canonical (the homepage URL) for every root page. Fixed: the generator now emits a per-page canonical on the live GitHub Pages URL.</td><td>Resolved 2026-11-19 (session arena/bb3ae11b-prod1); no further action</td></tr>
-<tr><td>FLG-022</td><td>Listing values not re-fetched this session</td><td>Session arena/bb3ae11b-prod1's sandbox cannot reach Amazon.com or link.amazon (outbound allowlist), so the 2026-11-19 register was not re-verified live and no value was changed. Fresh confirmation requires an owner fetch of each listing's product-details (or an authorized channel), recorded with a date.</td><td>Re-fetch each listing; record date (also covers FLG-004, FLG-005, FLG-020)</td></tr>
+<tr><td>FLG-021</td><td>Accessory count discrepancy (Emeril)</td><td>Listing title says "Six Cooking Accessories Included"; the listing's item details say "Air Fryer Toaster Oven Combo with 24 Functions and 7 Accessories"; the included-components list names 6 items (Rack, Bake Pan, Drip Tray, Crisper Basket, Rotisserie Spit, Fetch Tool). All three values are listing-internal and disagree. We show the title value and flag it; no count is inferred. Observed 2026-11-19.</td><td>Ask seller / read product manual; show title value with flag until resolved</td></tr>
+<tr><td>FLG-022</td><td>Wattage discrepancy (Chefman 8QT)</td><td>Chefman 8QT listing bullets state "1000 Watts/120 Volts - RJ38-SQSS-8T" while the listing's Product information table lists Output Wattage 1700 watts, 120 volts. Both values are listing-internal and disagree. We show the bullets value with attribution and flag it; no wattage is inferred. Observed 2026-11-19.</td><td>Ask seller / read user manual; resolve before any circuit-load claim</td></tr>
 <tr><td>FLG-023</td><td>Two editorial brands on one domain</td><td>The root site (The Countertop Guide) and the docs/ + articles/ set (Counter &amp; Crumb) ship under different brand names on the same GitHub Pages domain. Both carry disclosures and sponsored-link marks; the brand split is an owner decision, not a compliance failure.</td><td>Owner decision (SG-11)</td></tr>
 </table></div>
 </article>
@@ -922,6 +975,60 @@ meth_body = f"""
 """
 open("methodology.html","w").write(page("methodology.html","Method: Verification, Analytics Events & Campaign Ledger | The Countertop Guide","Method page for The Countertop Guide: evidence rules, five privacy-preserving analytics events, empty campaign ledger with provenance rules, and publishing cadence.",meth_body))
 
+# ---------- DESIGN BRIEF ----------
+db_body = """
+<p class="eyebrow">Design brief</p>
+<h1>Design brief: suggestions for the publication redesign</h1>
+<p class="lede">Everything on this page is a suggestion for the design prompt, not a decision. A reviewer picks a direction, and only approved items are implemented. The brief is written so it can be fed to a design tool as-is; each block states what it changes, what it needs, and what decision it blocks.</p>
+<h2>1. Design prompt blocks (use verbatim in the design prompt)</h2>
+<p class="small">Each block is drafted to be pasted into the design prompt. Edit only with owner approval.</p>
+<div class="table-scroll"><table>
+<tr><th>Block</th><th>Suggested prompt text</th><th>What it changes</th><th>Decision needed</th></tr>
+<tr><td>Brand</td><td>Build a warm, editorial kitchen-publication brand called The Countertop Guide: deep charcoal text, warm cream background, a single confident accent (burnt orange or herb green). Typography: a sturdy serif for headings, a clean grotesque for body. It must read like a magazine a cook trusts, never like a dashboard or a template.</td><td>Visual identity across all pages</td><td>Accent colour pick (SG-11)</td></tr>
+<tr><td>Layout</td><td>Lead every page with the product: comparison table or product cards first, verification and methodology below the fold. On the homepage: hero headline answering the buyer's question, then featured guides, then category tiles, then the data. Put the disclosure strip under the masthead on every page and repeat it in the footer.</td><td>Page structure and reading order</td><td>Homepage layout pick (Q-12)</td></tr>
+<tr><td>Components</td><td>Design a sticky comparison bar on comparison and category pages, a three-question \"which one is for you\" chooser above the comparison table, category tiles with one-line spec summaries, and product cards that show capacity, footprint and price snapshot first. Every buy button is labelled \"Check price on Amazon - sponsored\" and opens amazon.com.</td><td>Reusable components</td><td>Component scope approval (SG-11)</td></tr>
+<tr><td>Imagery</td><td>Use SVG/CSS illustration and typography only. Never copy Amazon product images and never generate fake product photographs; if real photography is added later it must be owned or licensed (Amazon Associates Program Content rules).</td><td>All imagery</td><td>Photography decision (Q-07)</td></tr>
+<tr><td>Voice</td><td>Write like a knowledgeable friend comparing specs: short varied sentences, one idea per paragraph, concrete numbers with their source, no filler transitions, no \"in conclusion\", no superlatives. We never claim hands-on testing, popularity status or rankings we cannot show.</td><td>All copy</td><td>Voice sign-off (Q-11)</td></tr>
+<tr><td>Findability</td><td>Give every page one unique, question-shaped title and meta description. Keep one canonical domain, an XML sitemap and a valid RSS feed, and submit the sitemap to Search Console once the domain is set.</td><td>SEO foundations</td><td>Domain pick (Q-02)</td></tr>
+</table></div>
+<h2>2. Visual direction options (pick one)</h2>
+<div class="table-scroll"><table>
+<tr><th>Option</th><th>Direction</th><th>Why it suits a buyer-action site</th><th>Risk</th></tr>
+<tr><td>A</td><td>Warm editorial - cream paper, charcoal serif headings, burnt-orange accent, generous whitespace</td><td>Reads like a trusted publication; product cards feel hand-picked</td><td>Needs disciplined typography to avoid looking flat</td></tr>
+<tr><td>B</td><td>Modern utility - light neutral canvas, indigo accent, tight data-friendly tables</td><td>Comparison tables and specs read as precise and scannable</td><td>Can drift toward dashboard feel; needs editorial warmth</td></tr>
+<tr><td>C</td><td>Bold magazine - high-contrast black/white with a strong accent, large type, editorial photography placeholders</td><td>Strongest brand presence; stands out in search results</td><td>Highest design effort; photography decision gates it</td></tr>
+</table></div>
+<h2>3. Anti-AI-slop writing rules (apply to every page)</h2>
+<ul>
+<li>No filler openers (\"In today's fast-paced world\"), no \"in conclusion\", no em-dash chains of three.</li>
+<li>One idea per paragraph; vary sentence length; prefer the specific number over the adjective.</li>
+<li>Every product claim links to its Amazon listing; missing data is left blank and flagged, never filled with a guess.</li>
+<li>Seller claims are attributed (\"per listing\"); our own words stay first-person and honest about what we have and have not tested.</li>
+<li>No superlatives, no \"best\", \"top-rated\" or \"#1\" claims; popularity badges appear only as dated listing snapshots.</li>
+</ul>
+<h2>4. Editorial calendar: eight question-shaped topics</h2>
+<p class="small">Working titles, not claims about popularity or search volume. Five are published; three are proposed. Every topic follows the same verification rules before publishing.</p>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Working title</th><th>Angle (from verified data)</th><th>Status</th></tr>
+<tr><td>1</td><td>Basket or oven-style air fryer: what should you compare?</td><td>Dual-basket vs French-door vs single basket, from the three verified fryer listings</td><td>Published</td></tr>
+<tr><td>2</td><td>A no-hype checklist for comparing air fryer capacity</td><td>6 qt vs 8 qt vs 26 qt capacity figures as listed</td><td>Published</td></tr>
+<tr><td>3</td><td>How to assess cleanup and counter-space trade-offs</td><td>Dishwasher-safe baskets plus verified footprints</td><td>Published</td></tr>
+<tr><td>4</td><td>Questions to ask before buying a multi-function kitchen appliance</td><td>Presets, accessories, wattage and warranty from the Emeril listing</td><td>Published</td></tr>
+<tr><td>5</td><td>Instant-read or wireless? How to read thermometer accuracy claims</td><td>±0.5F, NIST/NSF and sensor counts from the two verified thermometers</td><td>Published</td></tr>
+<tr><td>6</td><td>Two baskets or one: what a dual-basket air fryer actually changes</td><td>Sync Finish and dual-zone cooking from the Chefman 6QT listing</td><td>Proposed</td></tr>
+<tr><td>7</td><td>How much counter space does a 26-quart air fryer really need?</td><td>Verified 16.9in x 15.8in footprint of the Emeril 26QT</td><td>Proposed</td></tr>
+<tr><td>8</td><td>What \"dishwasher-safe\" really means for air fryer cleanup</td><td>Dishwasher-safe baskets and probes as stated in the three listings' bullets</td><td>Proposed</td></tr>
+</table></div>
+<h2>5. Improvements for decision-making</h2>
+<ul>
+<li>Keep this suggestions board as the single review surface: every change starts as an SG item, a reviewer approves, then it is implemented and re-verified.</li>
+<li>Keep the verification register and flagged page linked from the footer so readers and reviewers can audit any claim.</li>
+<li>Measure before optimising: once analytics is live (SG-03), choose the next topic from measured queries, not instinct.</li>
+<li>Gate the manual parts: Special Link testing, photography licensing and domain choice stay owner decisions, recorded here.</li>
+</ul>
+<p class="small">Nothing here is implemented until approved. Irregularities and unverified items stay on <a href="flagged.html">Flagged for review</a>. The decision questions this brief answers are listed on <a href="suggestions.html">the Suggestions board</a> (Q-09 to Q-14).</p>
+"""
+open("design-brief.html","w").write(page("design-brief.html","Design Brief: Suggestions for the Publication Redesign | The Countertop Guide","Design brief suggestions for The Countertop Guide redesign: design prompt blocks, three visual directions, anti-AI-slop rules, an eight-topic editorial calendar, and decision gates for review.",db_body))
 # ---------- SEARCH ----------
 search_body = """
 <section class="doc-hero">
@@ -957,6 +1064,7 @@ idx = [
  {"title":"Flagged for review","url":"flagged.html","text":"Irregularities: short-link compliance, discrepancies, newer models, missing fields, launch gates."},
  {"title":"Compliance","url":"compliance.html","text":"Disclosure wording, sponsored-link marking, Amazon and FTC policy checklist."},
  {"title":"Method and campaign ledger","url":"methodology.html","text":"Evidence rules, five analytics events, empty campaign ledger, publishing cadence."},
+ {"title":"Design brief","url":"design-brief.html","text":"Design prompt blocks, three visual directions, anti-AI-slop rules, eight-topic editorial calendar, decision gates."},
 ]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
 print("pages written")
