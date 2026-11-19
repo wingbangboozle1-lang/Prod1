@@ -1,0 +1,11 @@
+{
+  "name": "Kitchen Buyer's Desk",
+  "name_status": "Working name. Pending owner decision (SUG-06).",
+  "tagline": "Guides and listing facts for air fryers, ovens and meat thermometers",
+  "base_url": "https://wingbangboozle1-lang.github.io/Prod1",
+  "byline": "Editorial team (no named author; see FLAG-08)",
+  "disclosure_text": "As an Amazon Associate I earn from qualifying purchases.",
+  "not_endorsed_text": "This site is not endorsed by or affiliated with Amazon.",
+  "measure_events": ["page_view", "outbound_click", "guide_read_75", "category_click", "feed_click"],
+  "updated": "2026-11-19"
+}

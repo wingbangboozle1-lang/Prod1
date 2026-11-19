@@ -20,12 +20,19 @@ Rule: claim by committing and pushing your session ID and file scope before star
 | T-04 Click and conversion measurement (five events, browser-local; self-hosted endpoint code) | done in code; endpoint not hosted (see FLAG-06) | `b4c6c619` | `docs/assets/measure.js`, `analytics-endpoint/**` |
 | T-05 Disclosure and sponsored-link compliance gate in the build | done | `b4c6c619` | `scripts/build.mjs` |
 | T-06 Guides (question-shaped working titles) + feed + sitemap | done | `b4c6c619` | `data/guides.json`, `docs/guides/**`, `docs/feed.xml`, `docs/sitemap.xml` |
-| T-07 Integration: build, link check, PR to main, merge, Pages deploy | in progress | `b4c6c619` | `docs/**`, `COORDINATION.md` |
+| T-07 Integration: build, link check, PR to main, merge, Pages deploy | in progress (see LOG-03 for the PR and deploy record) | `b4c6c619` | `docs/**`, `COORDINATION.md` |
 | T-08 Google Search Console verification and sitemap submission | needs review (requires the owner's Google account) | unclaimed | none |
 | T-09 Real product photography (S-18) | needs review (decision D-22 open) | unclaimed | none |
 | T-10 Hosted analytics endpoint | needs review (decision D-43 open) | unclaimed | none |
 
 ## Logs
+
+### LOG-03: completion record for T-01 to T-06 (2026-11-19)
+- Sources checked: Operating Agreement (Section 5 line by line), Program Policies (existence and date only), FTC Disclosures 101 (read in full), Google `rel="sponsored"` (read in full), five short links and five Amazon product pages (fetch tool). Full list: `data/sources.json`, `docs/sources.html`.
+- Verification performed: each product row has an official Amazon source link; blank fields are shown as Unverified; the build's publishing gate passed (disclosure above main and in footer, sponsored Amazon links, internal links, unique titles and descriptions, banned claim words, product table, sitemap and feed). Gate failure cases were tested in a scratch copy and fail as expected.
+- Endpoint test: `analytics-endpoint/server.py` accepted a valid outbound_click, rejected an unknown event and a malformed ASIN, and wrote daily counts only.
+- Irregularities: FLAG-01 to FLAG-12 in `data/flags.json`, published at `docs/flagged.html`.
+- Not done, and why: intended ASINs, confirmation dates, prices and ratings (no official, attributable value; see FLAG-02 and FLAG-04); Search Console (needs owner account; FLAG-07); hosted endpoint (FLAG-06); named author (FLAG-08); product photography (FLAG-09).
 
 ### LOG-01: claim by `b4c6c619` (2026-11-19)
 Claimed T-01 to T-07 on `arena/b4c6c619-prod1`. Scope is limited to the files listed above.

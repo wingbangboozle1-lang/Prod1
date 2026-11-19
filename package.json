@@ -1,0 +1,10 @@
+{
+  "name": "prod1-affiliate-site",
+  "private": true,
+  "description": "Static affiliate site generator with publishing gates (disclosure, sponsored links, links, titles, claim wording, product table, sitemap, feed).",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/build.mjs"
+  },
+  "engines": { "node": ">=18" }
+}

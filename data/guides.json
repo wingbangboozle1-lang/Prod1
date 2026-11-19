@@ -1,0 +1,76 @@
+{
+  "guides": [
+    {
+      "slug": "basket-or-oven-style-air-fryer-what-to-compare",
+      "title": "Basket or oven-style air fryer: what should you compare?",
+      "dek": "Two shapes, two different kitchens. Start with the cooking you do most and the space you have.",
+      "date": "2026-11-19",
+      "category": "air-fryers",
+      "working_title": true,
+      "products": ["P1", "P2", "P3"],
+      "sections": [
+        {"h": "Start with what you cook", "paras": ["Basket-style machines cook in a drawer, usually with one or two baskets. Oven-style machines are countertop boxes with racks or trays, and they often also toast or bake. Which one suits you depends on the food you cook most and whether you want one appliance to do more than air frying."], "list": []},
+        {"h": "Questions to ask about the basket style", "paras": [], "list": ["How many people usually eat from one batch?", "Do you need two baskets so two foods can finish at different settings or times?", "Will the basket fit the door of your cupboard or the shelf you have in mind?"]},
+        {"h": "Questions to ask about the oven style", "paras": [], "list": ["Do you want to bake, toast or roast in the same machine?", "Is there room for the box and for the door to open fully?", "Will you use the rack positions the listing shows, or only one?"]},
+        {"h": "Check the listing, then the title", "paras": ["Titles often name the features that matter: for example, a dual-basket machine, or an oven with a stated number of presets. Read the capacity, the basket count and the number of presets as written on the listing, and note the date you read them."], "list": []}
+      ]
+    },
+    {
+      "slug": "air-fryer-capacity-checklist",
+      "title": "A no-hype checklist for comparing air fryer capacity",
+      "dek": "Capacity is printed in several units. Compare them the same way before you decide.",
+      "date": "2026-11-19",
+      "category": "air-fryers",
+      "working_title": true,
+      "products": ["P1", "P2", "P3"],
+      "sections": [
+        {"h": "Units are not the same", "paras": ["Listings give capacity in quarts, in litres, or per basket. A figure for the whole machine is not the same as a figure per basket. Write each figure down with its unit before you compare two machines."], "list": []},
+        {"h": "The checklist", "paras": [], "list": ["Is the capacity for the whole machine or for each basket?", "Does the listing state the unit, or do you need to convert?", "How many portions of your usual food fit in one batch?", "Does the figure in the title match the figure in the specifications?", "Did you record the figure and the date you read it?"]},
+        {"h": "Where capacity figures come from", "paras": ["Use the official listing page as the source for the figure, and record the date you read it. If two places disagree, the listing page is the reference for this site until the manufacturer's own documents are checked."], "list": []}
+      ]
+    },
+    {
+      "slug": "counter-space-and-cleanup-tradeoffs",
+      "title": "How to assess cleanup and counter-space trade-offs",
+      "dek": "Every appliance takes up space and needs cleaning. Measure both before you pay.",
+      "date": "2026-11-19",
+      "category": "air-fryers",
+      "working_title": true,
+      "products": ["P1", "P2", "P3"],
+      "sections": [
+        {"h": "Measure before you shop", "paras": ["Write down the free width, depth and height where the appliance will sit, including room for the lid, door or drawer to open and for the cord to reach a socket. Compare those figures with the dimensions printed on the listing."], "list": []},
+        {"h": "Questions about cleanup", "paras": [], "list": ["Are the baskets, trays or racks dishwasher-safe, as the listing states?", "Does the interior have corners or crevices that need a brush?", "Where will you wash the parts, and does the sink or dishwasher have room?"]},
+        {"h": "Questions about counter space", "paras": [], "list": ["Will you leave it out, or store it in a cupboard after each use?", "Is there clearance above the unit for venting?", "Can you lift and move it safely with one hand?"]},
+        {"h": "Write the trade-off down", "paras": ["Two columns, one for cleanup and one for space, and a row for each product. The question is which trade-off you can live with, not which product wins on paper."], "list": []}
+      ]
+    },
+    {
+      "slug": "questions-before-a-multi-function-kitchen-appliance",
+      "title": "Questions to ask before buying a multi-function kitchen appliance",
+      "dek": "One box that air fries, bakes, toasts and dehydrates can replace several. It can also replace none of them well.",
+      "date": "2026-11-19",
+      "category": "air-fryers",
+      "working_title": true,
+      "products": ["P2", "P3"],
+      "sections": [
+        {"h": "List the jobs first", "paras": ["Write down the five things you cook most often. A multi-function appliance is worth a closer look only if it covers most of those jobs."], "list": []},
+        {"h": "Questions to ask", "paras": [], "list": ["Which functions are on the listing, and which are only in the title?", "How many preset options does the listing state, and how many would you use?", "What accessories are included, and what would you have to buy separately?", "Does the listing state a maximum temperature, and is it in the unit you use?", "What does the warranty cover, and where is it written?"]},
+        {"h": "Read the title and the specifications together", "paras": ["A long title can list many features. Check each one against the specification section before you count it."], "list": []}
+      ]
+    },
+    {
+      "slug": "meat-thermometer-questions-before-you-buy",
+      "title": "Which questions matter before you buy a digital meat thermometer?",
+      "dek": "Accuracy, response time, probes and waterproofing are printed in different places. Find each one before you compare.",
+      "date": "2026-11-19",
+      "category": "thermometers",
+      "working_title": true,
+      "products": ["P4", "P5"],
+      "sections": [
+        {"h": "Instant-read or wireless?", "paras": ["An instant-read thermometer is a handheld probe you check at the end of cooking. A wireless thermometer leaves one or more probes in the food and sends readings to a base or an app. Decide which way you cook before you compare the rest."], "list": []},
+        {"h": "Questions to ask", "paras": [], "list": ["What accuracy does the listing state, and in which unit?", "How long does the listing say a reading takes?", "How many probes come in the box, and how long are the cables?", "Is the body rated for water, and to what standard, as the listing states?", "Does a wireless model need an app, and does the listing say which phones and platforms it supports?"]},
+        {"h": "Record the source", "paras": ["For each figure, record the listing and the date you read it. Do not carry a figure from one product's page to another."], "list": []}
+      ]
+    }
+  ]
+}

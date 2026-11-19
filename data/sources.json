@@ -1,0 +1,99 @@
+{
+  "checked_on": "2026-11-19",
+  "note": "Only official or primary sources are listed as verified. The sister register is listed for reference and is not an official source.",
+  "sources": [
+    {
+      "id": "S-A1",
+      "title": "Associates Program Operating Agreement",
+      "publisher": "Amazon Associates",
+      "url": "https://affiliate-program.amazon.com/help/operating/agreement",
+      "page_date": "Updated: October 15, 2025 (as shown on the page)",
+      "verified_items": "Section 5 disclosure wording: \"As an Amazon Associate I earn from qualifying purchases.\" Must be stated clearly and prominently.",
+      "verification": "Read line by line for Section 5. Other sections were read in part only."
+    },
+    {
+      "id": "S-A2",
+      "title": "Associates Program Policies",
+      "publisher": "Amazon Associates",
+      "url": "https://affiliate-program.amazon.com/help/operating/policies",
+      "page_date": "Updated: April 14, 2026 (as shown on the page)",
+      "verified_items": "Page exists and lists the Commission Income Statement, Participation Requirements, Products Statement, IP License and others. Special Link definitions are cross-referenced from the Operating Agreement Section 1.",
+      "verification": "Participation Requirements (including 6(v) and 6(w)) were NOT verified line by line in this pass. See FLAG-05."
+    },
+    {
+      "id": "S-F1",
+      "title": "Disclosures 101 for Social Media Influencers",
+      "publisher": "U.S. Federal Trade Commission",
+      "url": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers",
+      "page_date": "November 2019 (as shown on the page)",
+      "verified_items": "Disclosure should be placed so it is hard to miss, and should not appear only on an About page or behind a \"click MORE\" link. Plain terms such as \"ad\" or \"sponsored\" are suggested; vague terms such as \"sp\" or \"collab\" are not.",
+      "verification": "Read in full."
+    },
+    {
+      "id": "S-G1",
+      "title": "Qualify your outbound links to Google",
+      "publisher": "Google Search Central",
+      "url": "https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links",
+      "page_date": "Last updated 2025-12-10 UTC (as shown on the page)",
+      "verified_items": "rel=\"sponsored\" marks links that are advertisements or paid placements.",
+      "verification": "Read in full."
+    },
+    {
+      "id": "S-L1",
+      "title": "Observed redirect target: B04G1MEwY (submitted short link)",
+      "publisher": "Amazon.com (observed)",
+      "url": "https://link.amazon/B04G1MEwY",
+      "page_date": "Observed 2026-11-19",
+      "verified_items": "Redirect target recorded in products.json (P1).",
+      "verification": "Fetched; final URL and page title recorded. Not an Amazon-issued statement about this link."
+    },
+    {
+      "id": "S-L2",
+      "title": "Observed redirect target: B02NbDxp3 (submitted short link)",
+      "publisher": "Amazon.com (observed)",
+      "url": "https://link.amazon/B02NbDxp3",
+      "page_date": "Observed 2026-11-19",
+      "verified_items": "Redirect target recorded in products.json (P2).",
+      "verification": "Fetched; final URL and page title recorded."
+    },
+    {
+      "id": "S-L3",
+      "title": "Observed redirect target: B00hJ57DV (submitted short link)",
+      "publisher": "Amazon.com (observed)",
+      "url": "https://link.amazon/B00hJ57DV",
+      "page_date": "Observed 2026-11-19",
+      "verified_items": "Redirect target recorded in products.json (P3).",
+      "verification": "Fetched; final URL and page title recorded."
+    },
+    {
+      "id": "S-L4",
+      "title": "Observed redirect target: B0c8moW59 (submitted short link)",
+      "publisher": "Amazon.com (observed)",
+      "url": "https://link.amazon/B0c8moW59",
+      "page_date": "Observed 2026-11-19",
+      "verified_items": "Redirect target recorded in products.json (P4).",
+      "verification": "Fetched; final URL and page title recorded."
+    },
+    {
+      "id": "S-L5",
+      "title": "Observed redirect target: B0f3GKalj (submitted short link)",
+      "publisher": "Amazon.com (observed)",
+      "url": "https://link.amazon/B0f3GKalj",
+      "page_date": "Observed 2026-11-19",
+      "verified_items": "Redirect target recorded in products.json (P5).",
+      "verification": "Fetched; final URL and page title recorded."
+    }
+  ],
+  "reference_not_verified": [
+    {
+      "title": "Sister register: Zone4 decision log (public GitHub Pages site)",
+      "url": "https://kanlerxz87-cyber.github.io/Zone4/docs/decisions.html",
+      "status": "Reference only. Not an official source. Its S-rows and 'Implemented' labels were not re-verified in this pass."
+    },
+    {
+      "title": "Sister register: Zone4 tracker and endpoint source (GitHub)",
+      "url": "https://github.com/kanlerxz87-cyber/Zone4/tree/main/docs",
+      "status": "Reference only. Used to confirm the five event names used by this site's measurement layer."
+    }
+  ]
+}

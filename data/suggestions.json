@@ -1,0 +1,95 @@
+{
+  "note": "Suggestions for you to review. Nothing here has been decided. Each item lists the options; the 'Default in this build' is what the site does now, and it is reversible.",
+  "suggestions": [
+    {
+      "id": "SUG-01",
+      "topic": "Publishing cadence",
+      "question": "How often should a new guide be published?",
+      "options": [
+        {"id": "a", "label": "One guide every two weeks", "argument": "Enough to build a feed history; slow enough to check each guide against sources."},
+        {"id": "b", "label": "One guide per month", "argument": "Lowest maintenance; the feed will look sparse early on."},
+        {"id": "c", "label": "One guide per week", "argument": "Fastest feed growth; highest verification load per week."}
+      ],
+      "default_in_build": "Five guides published on 2026-11-19. No further cadence set.",
+      "decision": "Pending owner choice",
+      "unlocks": "Calendar for the next topics; feed rhythm."
+    },
+    {
+      "id": "SUG-02",
+      "topic": "Outbound links",
+      "question": "Which link format should product buttons use?",
+      "options": [
+        {"id": "a", "label": "Keep the supplied short links, marked sponsored", "argument": "Matches what was supplied. Credit to shopnow047c-20 is unconfirmed (FLAG-01)."},
+        {"id": "b", "label": "Replace with Special Links after an Associates test", "argument": "Follows the Operating Agreement's Special Link definition. Needs one test per product in the Associates workflow first."},
+        {"id": "c", "label": "Use amazon.com/dp links with the tag after ASINs are confirmed", "argument": "Clear destination once FLAG-02 is closed. Needs the owner's confirmation of each ASIN."}
+      ],
+      "default_in_build": "Option a. Links unchanged, rel=\"sponsored\" on every one.",
+      "decision": "Pending owner choice",
+      "unlocks": "Attribution; tracking report checks."
+    },
+    {
+      "id": "SUG-03",
+      "topic": "Where measurement runs",
+      "question": "Where should the analytics endpoint run, if anywhere?",
+      "options": [
+        {"id": "a", "label": "Browser-only counts (current)", "argument": "No data leaves the browser. Gives no site-wide totals."},
+        {"id": "b", "label": "Self-host analytics-endpoint/server.py", "argument": "Site-wide counts by event and path. Needs a server you control and a privacy review."},
+        {"id": "c", "label": "Use a third-party privacy analytics product", "argument": "Less setup. Needs its own data-processing and consent review."}
+      ],
+      "default_in_build": "Option a. Five events recorded in the visitor's browser only.",
+      "decision": "Pending owner choice",
+      "unlocks": "Measured queries and click totals; the campaign ledger."
+    },
+    {
+      "id": "SUG-04",
+      "topic": "Product scope",
+      "question": "Which categories should the site cover?",
+      "options": [
+        {"id": "a", "label": "Air fryers and ovens, plus meat thermometers", "argument": "Matches the five supplied links (FLAG-03)."},
+        {"id": "b", "label": "Air fryers and ovens only", "argument": "Matches the air-fryer register; drops P4 and P5 from the public site."},
+        {"id": "c", "label": "Keep both, but publish the thermometer category later", "argument": "Holds P4 and P5 back until scope is confirmed."}
+      ],
+      "default_in_build": "Option a.",
+      "decision": "Pending owner choice",
+      "unlocks": "Guide topics and category pages."
+    },
+    {
+      "id": "SUG-05",
+      "topic": "Product photography",
+      "question": "Where should product images come from?",
+      "options": [
+        {"id": "a", "label": "No photography until a source is chosen", "argument": "Zero licensing risk. Pages stay text-led."},
+        {"id": "b", "label": "Amazon listing images, after checking Program Content terms", "argument": "Recognisable products. Terms are in the Operating Agreement (FLAG-09) and must be checked first."},
+        {"id": "c", "label": "Owner-taken photos", "argument": "Original images. Needs the owner to take them."}
+      ],
+      "default_in_build": "Option a. No images.",
+      "decision": "Pending owner choice",
+      "unlocks": "Product cards with images."
+    },
+    {
+      "id": "SUG-06",
+      "topic": "Brand and byline",
+      "question": "What is the site's name, and who signs the guides?",
+      "options": [
+        {"id": "a", "label": "Working name 'Kitchen Buyer's Desk', byline 'Editorial team'", "argument": "Neutral. Replace freely."},
+        {"id": "b", "label": "Owner's name or pen name, with a short bio", "argument": "Adds a person to the work. Needs the details and a bio."}
+      ],
+      "default_in_build": "Option a, labelled as a working name.",
+      "decision": "Pending owner choice",
+      "unlocks": "Author pages and the About page."
+    },
+    {
+      "id": "SUG-07",
+      "topic": "Next guide topic",
+      "question": "Which guide should come next, and on what evidence?",
+      "options": [
+        {"id": "a", "label": "Choose from Search Console queries after they accrue", "argument": "Grounded in real queries (once FLAG-07 is closed)."},
+        {"id": "b", "label": "Choose from the register's open questions", "argument": "Answers questions readers would ask about the five products now."},
+        {"id": "c", "label": "Choose from the owner's own list", "argument": "The owner knows the audience best."}
+      ],
+      "default_in_build": "Option b, using the five guides already published.",
+      "decision": "Pending owner choice",
+      "unlocks": "The next guide."
+    }
+  ]
+}

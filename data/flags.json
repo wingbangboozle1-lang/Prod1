@@ -1,0 +1,101 @@
+{
+  "checked_on": "2026-11-19",
+  "flags": [
+    {
+      "id": "FLAG-01",
+      "severity": "High",
+      "title": "Supplied short links do not visibly carry the tracking ID shopnow047c-20",
+      "detail": "The redirect target for each of the five short links has no tag= parameter. The parameters present are Amazon share-tracking values (lv, btn_type, btn_ref, channelId and similar). Commission crediting to shopnow047c-20 therefore cannot be confirmed from these URLs. The site links to the supplied short links unchanged and marks them sponsored; it does not add its own tag.",
+      "action": "Test one link per product in the enrolled Associates workflow and confirm destination and tracking report before scaling (see Operating Agreement Section 1 on Special Links).",
+      "sources": ["https://affiliate-program.amazon.com/help/operating/agreement", "https://www.amazon.com/dp/B0CDY277D3", "https://www.amazon.com/dp/B09B7SB46R", "https://www.amazon.com/dp/B08DKYBTPH", "https://www.amazon.com/dp/B0DHZTCNR5", "https://www.amazon.com/dp/B0DZFD6R9Z"]
+    },
+    {
+      "id": "FLAG-02",
+      "severity": "High",
+      "title": "No intended ASIN was supplied; path segments are not ASIN-format",
+      "detail": "Each short-link path segment (for example B04G1MEwY) is 9 characters and contains lowercase letters. The observed product URLs use 10-character ASINs (for example B0CDY277D3). The intended ASIN field is therefore blank for all five products. The observed ASIN is shown separately and is not used as the intended ASIN.",
+      "action": "Owner to confirm the intended ASIN for each product, or confirm the observed product is the intended one.",
+      "sources": ["https://link.amazon/B04G1MEwY", "https://www.amazon.com/dp/B0CDY277D3"]
+    },
+    {
+      "id": "FLAG-03",
+      "severity": "Medium",
+      "title": "Two of five supplied products are meat thermometers, not air fryers",
+      "detail": "The sister register covers air-fryer buying guides. Products P4 and P5 are digital meat thermometers. The site therefore has two categories. Scope is not confirmed by the owner.",
+      "action": "Owner to confirm whether the site stays multi-category or is limited to air fryers and ovens.",
+      "sources": ["https://www.amazon.com/dp/B0DHZTCNR5", "https://www.amazon.com/dp/B0DZFD6R9Z"]
+    },
+    {
+      "id": "FLAG-04",
+      "severity": "Medium",
+      "title": "Prices and ratings are not recorded",
+      "detail": "On each fetched listing, other products' prices and star ratings appear beside the main listing, and the fetched text does not attribute them reliably. Price and rating cells are therefore left blank. No price or rating is inferred.",
+      "action": "Check current price and rating on the official listing, record the date and source, then fill the fields.",
+      "sources": ["https://www.amazon.com/dp/B0CDY277D3", "https://www.amazon.com/dp/B09B7SB46R", "https://www.amazon.com/dp/B08DKYBTPH", "https://www.amazon.com/dp/B0DHZTCNR5", "https://www.amazon.com/dp/B0DZFD6R9Z"]
+    },
+    {
+      "id": "FLAG-05",
+      "severity": "Medium",
+      "title": "Program Policies not verified line by line",
+      "detail": "The Associates Program Policies page was confirmed to exist and to show an update date of April 14, 2026. Its Participation Requirements text (including 6(v) and 6(w) cited in the register) was not read line by line in this pass.",
+      "action": "Read the Participation Requirements and confirm the site's link-obscuring and disclosure practice before scaling.",
+      "sources": ["https://affiliate-program.amazon.com/help/operating/policies"]
+    },
+    {
+      "id": "FLAG-06",
+      "severity": "High",
+      "title": "Analytics endpoint is code only; nothing is hosted",
+      "detail": "GitHub Pages serves static files only. The site's measurement records five events in the visitor's own browser (localStorage) and sends nothing over the network. The self-hosted endpoint in analytics-endpoint/ is ready to run but is not deployed. Click and conversion totals are therefore not available. The campaign ledger is empty by design.",
+      "action": "Decide where the endpoint runs (decision D-43 in the sister register), then point the site at it and review the privacy and consent implications.",
+      "sources": ["https://affiliate-program.amazon.com/help/operating/policies"]
+    },
+    {
+      "id": "FLAG-07",
+      "severity": "Medium",
+      "title": "Search Console not verified; no sitemap submitted",
+      "detail": "Google Search Console verification needs the owner's Google account. A sitemap (docs/sitemap.xml) and feed (docs/feed.xml) are published, but nothing has been submitted to Search Console.",
+      "action": "Owner verifies the site in Search Console and submits the sitemap.",
+      "sources": ["https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links"]
+    },
+    {
+      "id": "FLAG-08",
+      "severity": "Medium",
+      "title": "No named author; byline is the editorial team",
+      "detail": "No person's name, credentials or biography has been supplied, so none is published. Authorship and author pages need an owner decision.",
+      "action": "Owner supplies author identity and bio, or confirms the editorial-team byline.",
+      "sources": []
+    },
+    {
+      "id": "FLAG-09",
+      "severity": "Medium",
+      "title": "No product photography",
+      "detail": "No images are used. Amazon product images are not copied, pending a decision on Program Content use. Operating Agreement Section 1 defines Program Content, which includes images. Use terms for those images have not been checked in this pass.",
+      "action": "Decide the photography source (sister register decision D-22). Do not copy listing images until the terms are checked.",
+      "sources": ["https://affiliate-program.amazon.com/help/operating/agreement"]
+    },
+    {
+      "id": "FLAG-10",
+      "severity": "Low",
+      "title": "Repository review found no existing product data",
+      "detail": "At the start of the session the repository contained only a seven-byte README.md. No product data, site, tests or analytics existed. Everything in data/ and docs/ was written in this session. The sister register (Zone4) holds the earlier research and was used only for the event names and decision references.",
+      "action": "None required. Reference only.",
+      "sources": ["https://kanlerxz87-cyber.github.io/Zone4/docs/decisions.html"]
+    },
+    {
+      "id": "FLAG-11",
+      "severity": "Low",
+      "title": "Parallel branch covers the same task",
+      "detail": "Branch arena/cba9af3f-prod1 claims the same publication-site task with root-level files. It was not merged or edited by this session. Logged in COORDINATION.md as LOG-02.",
+      "action": "Decide which site output is published. This session publishes from docs/ on main.",
+      "sources": []
+    },
+    {
+      "id": "FLAG-12",
+      "severity": "Low",
+      "title": "Guide titles are working titles; no popularity claim is made",
+      "detail": "The question-shaped guide titles were supplied as working titles. They are not based on search volume, trend data or product comparisons, and the site makes no such claims.",
+      "action": "Choose the next topic from measured queries once Search Console and analytics are live.",
+      "sources": []
+    }
+  ]
+}
