@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Counterwise — The Kitchen Decision Journal</title>
+    <link>https://wingbangboozle1-lang.github.io/Prod1/</link>
+    <description>Question-led, evidence-conscious kitchen appliance buying guides.</description>
+    <language>en-us</language>
+    <atom:link href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 19 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Basket or oven-style air fryer: what should you compare?</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guides/basket-or-oven.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guides/basket-or-oven.html</guid>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Compare formats by recurring cooking jobs, access, capacity, cleanup, and footprint. No submitted product is identified or ranked.</description>
+    </item>
+    <item>
+      <title>A no-hype checklist for comparing air-fryer capacity</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guides/capacity-checklist.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guides/capacity-checklist.html</guid>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Questions for checking capacity definitions, portions, usable area, and batch workflow against official model documentation.</description>
+    </item>
+    <item>
+      <title>How to assess cleanup and counter-space trade-offs</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guides/counter-space.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guides/counter-space.html</guid>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A practical measurement and cleanup checklist for comparing kitchen appliances.</description>
+    </item>
+    <item>
+      <title>Questions to ask before buying a multi-function kitchen appliance</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guides/multifunction.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guides/multifunction.html</guid>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Separate useful documented functions from feature counts, and assess workflow, cleanup, and space.</description>
+    </item>
+  </channel>
+</rss>
