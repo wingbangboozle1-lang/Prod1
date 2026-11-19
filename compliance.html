@@ -73,7 +73,12 @@
 <tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/trending claims; seller claims attributed ("per listing")</td></tr>
 <tr><td>Program Content / images</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement &sect;1</a></td><td>No Amazon images copied; SVG/CSS graphics only until a licence decision (SG-04)</td></tr>
 <tr><td>Publishing gate in the deploy workflow</td><td><code>scripts/check_site.mjs</code></td><td>Disclosure, sponsored links, internal links, unique titles/descriptions, claim wording &mdash; runs before Pages upload</td></tr>
+<tr><td><strong>Price &amp; rating display must come from Amazon-served links or the Creators/PA API</strong></td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Participation Requirements &sect;2</a></td><td><span class="badge-flag">Open &mdash; FLG-023</span> currently dated manual snapshots; owner decision required (API application or removal)</td></tr>
+<tr><td><strong>Customer reviews / star ratings only via Creators/PA API</strong></td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Participation Requirements &sect;6(t)</a></td><td><span class="badge-flag">Open &mdash; FLG-023</span> same decision as above</td></tr>
+<tr><td>No price tracking or price-alerting functionality</td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Participation Requirements &sect;6(y)</a></td><td>Checked &mdash; none present (FLG-024)</td></tr>
 </table></div>
+<h2>API policy check (run 2026-11-19)</h2>
+<p>The Program Policies condition price and star-rating display on Amazon-served links or Creators/PA API data. This site's snapshots were read manually from the listings, so that condition is <strong>not</strong> met as written &mdash; recorded as <a href="flagged.html">FLG-023</a> with the verbatim text and three remediation options at the <a href="suggestions.html">review desk</a>. Until it is resolved, do not scale traffic to the site.</p>
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
 
 </main>

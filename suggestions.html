@@ -58,11 +58,12 @@
 <h2>Recommended path (if you only read one block)</h2>
 <div class="table-scroll"><table>
 <tr><th>Order</th><th>Decision</th><th>Recommended path</th><th>Effort</th><th>What it unblocks</th></tr>
-<tr><td>1</td><td>Outbound link validation (SG-01)</td><td>Test one Special Link per product in Associates Central; confirm destination + tracking report before scaling</td><td>Low (manual, ~30 min)</td><td>Confirms revenue attribution; closes FLG-001/FLG-015</td></tr>
-<tr><td>2</td><td>Measurement activation (SG-03)</td><td>Deploy <code>analytics-endpoint/server.py</code> on any HTTPS host; set <code>data-analytics-endpoint</code>; publish retention policy</td><td>Medium</td><td>Real clicks/queries data; data-driven topic picks; fills the ledger</td></tr>
-<tr><td>3</td><td>Search Console (SG-02)</td><td>Verify the github.io property, submit <code>sitemap.xml</code>, review queries weekly</td><td>Low</td><td>Measured queries for the topic calendar; SEO baseline</td></tr>
-<tr><td>4</td><td>Photography (SG-04)</td><td>Owner-shot photography or manufacturer permission; never copied/generated product images (S-18)</td><td>Medium</td><td>Visual conversion lift without IP exposure</td></tr>
-<tr><td>5</td><td>Seasonal calendar (SG-05)</td><td>Keep shipping one question-shaped guide per week through the holiday window; each goes to sitemap + feed at publish</td><td>Low</td><td>Seasonal organic traffic while intent is high</td></tr>
+<tr><td>1 <span class="badge-flag">P0</span></td><td>Price &amp; star-rating display vs API policy (FLG-023)</td><td>Apply for Creators/PA API and serve prices + ratings through it; until approved, either remove displayed prices/ratings (option B) or accept the documented risk (option C)</td><td>Low&ndash;Medium</td><td>Account-level compliance; unblocks scaling traffic</td></tr>
+<tr><td>2</td><td>Outbound link validation (SG-01)</td><td>Test one Special Link per product in Associates Central; confirm destination + tracking report before scaling</td><td>Low (manual, ~30 min)</td><td>Confirms revenue attribution; closes FLG-001/FLG-015</td></tr>
+<tr><td>3</td><td>Measurement activation (SG-03)</td><td>Deploy <code>analytics-endpoint/server.py</code> on any HTTPS host; set <code>data-analytics-endpoint</code>; publish retention policy</td><td>Medium</td><td>Real clicks/queries data; data-driven topic picks; fills the ledger</td></tr>
+<tr><td>4</td><td>Search Console (SG-02)</td><td>Verify the github.io property, submit <code>sitemap.xml</code>, review queries weekly</td><td>Low</td><td>Measured queries for the topic calendar; SEO baseline</td></tr>
+<tr><td>5</td><td>Photography (SG-04)</td><td>Owner-shot photography or manufacturer permission; never copied/generated product images (S-18)</td><td>Medium</td><td>Visual conversion lift without IP exposure</td></tr>
+<tr><td>6</td><td>Seasonal calendar (SG-05)</td><td>Keep shipping one question-shaped guide per week through the holiday window; each goes to sitemap + feed at publish</td><td>Low</td><td>Seasonal organic traffic while intent is high</td></tr>
 </table></div>
 
 <h2>Full suggestions board</h2>
@@ -83,6 +84,7 @@
 <tr><td>SG-13</td><td>Custom domain</td><td>Stay on github.io until traffic proves the concept</td><td>Buy a domain now + set canonical</td><td>Domain purchase</td><td>Low</td><td>Proposed</td></tr>
 <tr><td>SG-14</td><td>Newsletter/seasonal gift guide refresh in December</td><td>Update gift tiers with fresh snapshots Dec 1 and Dec 15</td><td>One December refresh</td><td>Price snapshots</td><td>Low</td><td>Proposed</td></tr>
 <tr><td>SG-15</td><td>Accessibility + performance pass (fonts, CLS, contrast)</td><td>Audit after photography lands; keep text-first layout meanwhile</td><td>Do it now (premature before design settles)</td><td>Lighthouse run</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-17 <span class="badge-flag">P0</span></td><td>Resolve price/star-rating display vs API policy (FLG-023)</td><td>Apply for Creators/PA API; source prices + ratings through it (or Amazon-served links)</td><td>Remove displayed prices/ratings, keep "Check price on Amazon" CTAs</td><td>API approval (or owner risk acceptance)</td><td>Low</td><td><span class="badge-flag">Needs decision &mdash; compliance gate</span></td></tr>
 <tr><td>SG-16</td><td>Campaign ledger review ritual</td><td>Weekly 15-minute review of <a href="methodology.html">the ledger</a> once reports exist</td><td>Monthly</td><td>First Associates report</td><td>Low</td><td>Proposed</td></tr>
 </table></div>
 

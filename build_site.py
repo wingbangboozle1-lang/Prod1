@@ -187,8 +187,11 @@ index_body = f"""
   <article class="card"><span class="tag">Seasonal &middot; Air fryers</span><h3><a href="guide-holiday-hosting.html">The holiday hosting test: which air fryer actually feeds a crowd?</a></h3><p>Capacity claims, turkeys, sides and the one measurement that decides whether it fits your counter in December.</p><p class="meta">6 min read</p></article>
   <article class="card"><span class="tag">Seasonal &middot; Gifts</span><h3><a href="guide-gifts-by-budget.html">Kitchen gifts under $25, under $80 and under $150</a></h3><p>Verified-price gift tiers for cooks, grillers and hosts &mdash; with the listing's own gift claims quoted, not invented.</p><p class="meta">5 min read</p></article>
   <article class="card"><span class="tag">Air fryers &middot; Specs</span><h3><a href="guide-wattage-outlets.html">Will it trip the breaker? Wattage and outlet math for air fryers</a></h3><p>1000W or 1700W? One of our listings answers that question two different ways &mdash; here's how to check yours.</p><p class="meta">5 min read</p></article>
+  <article class="card"><span class="tag">Seasonal &middot; Gifts</span><h3><a href="guide-holiday-gifts.html">Holiday air fryer gifts: what to buy for every kind of cook</a></h3><p>Match the fryer to the cook &mdash; couples, crowds, small kitchens, stocking stuffers.</p><p class="meta">4 min read</p></article>
+  <article class="card"><span class="tag">Seasonal &middot; Roasts</span><h3><a href="guide-holiday-roast.html">Roast like a pro: instant-read or wireless for holiday roasts?</a></h3><p>Read the accuracy claims on both thermometers before the holiday cook.</p><p class="meta">4 min read</p></article>
+  <article class="card"><span class="tag">Air fryers &middot; Space</span><h3><a href="guide-small-kitchen.html">Small kitchen, big appetite: air fryers under 34 cm of depth</a></h3><p>Counter-depth math for tight kitchens, derived from listing dimensions.</p><p class="meta">4 min read</p></article>
 </div>
-<p><a class="btn secondary small" href="guides.html">All 8 buying guides</a></p>
+<p><a class="btn secondary small" href="guides.html">All 11 buying guides</a></p>
 
 <section class="chooser-block">
 <h2 class="section-head">Not sure where to start? Answer three questions.</h2>
@@ -331,7 +334,7 @@ open("compare.html","w").write(page(
 guides_body = f"""
 <p class="eyebrow">Guides</p>
 <h1>Buying guides that start from a real question</h1>
-<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts &mdash; and says plainly what the listing does not tell us. Eight guides, three clusters, one evidence rule: no popularity or "trending" claims without a dated snapshot.</p>
+<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts &mdash; and says plainly what the listing does not tell us. Eleven guides, three clusters, one evidence rule: no popularity or "trending" claims without a dated snapshot.</p>
 
 <h2 class="cluster-head">Cluster 1 &middot; Choosing an air fryer</h2>
 <div class="grid cols-2 guide-cards">
@@ -340,17 +343,20 @@ guides_body = f"""
 <article class="card"><span class="tag">Space &amp; cleanup</span><h3><a href="guide-cleanup-counter-space.html">How to assess cleanup and counter-space trade-offs</a></h3><p>Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.</p><p class="meta">4 min read</p></article>
 <article class="card"><span class="tag">Multi-function</span><h3><a href="guide-multifunction-questions.html">Questions to ask before buying a multi-function kitchen appliance</a></h3><p>Presets, accessories, wattage and warranty &mdash; the pre-purchase checklist, applied to the Emeril 26QT oven.</p><p class="meta">4 min read</p></article>
 <article class="card"><span class="tag">Wattage</span><h3><a href="guide-wattage-outlets.html">Will it trip the breaker? Wattage and outlet math for air fryers</a></h3><p>What 1000W vs 1700W means for your kitchen circuit &mdash; and why one listing on this site gives both numbers.</p><p class="meta">5 min read</p></article>
+<article class="card"><span class="tag">Space</span><h3><a href="guide-small-kitchen.html">Small kitchen, big appetite: which air fryer fits under 34 cm of counter depth?</a></h3><p>Depth, footprint and the derived capacity-per-centimetre math &mdash; for counters where every centimetre counts.</p><p class="meta">4 min read</p></article>
 </div>
 
 <h2 class="cluster-head">Cluster 2 &middot; Meat thermometers</h2>
 <div class="grid cols-2 guide-cards">
 <article class="card"><span class="tag">Accuracy</span><h3><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims</a></h3><p>&plusmn;0.5&deg;F, NIST/NSF, sensor counts and range &mdash; what each claim does and does not prove.</p><p class="meta">4 min read</p></article>
+<article class="card"><span class="tag">Seasonal</span><h3><a href="guide-holiday-roast.html">Roast like a pro: instant-read or wireless for holiday roasts?</a></h3><p>The accuracy claims on both thermometers, read before the holiday cook.</p><p class="meta">4 min read</p></article>
 </div>
 
 <h2 class="cluster-head">Cluster 3 &middot; Seasonal (holiday 2026)</h2>
 <div class="grid cols-2 guide-cards">
 <article class="card"><span class="tag">Hosting</span><h3><a href="guide-holiday-hosting.html">The holiday hosting test: which air fryer actually feeds a crowd?</a></h3><p>Capacity claims, a 6-lb rotisserie chicken, 12-inch pizzas &mdash; and the counter-depth number that decides fit in December.</p><p class="meta">6 min read</p></article>
 <article class="card"><span class="tag">Gifts</span><h3><a href="guide-gifts-by-budget.html">Kitchen gifts under $25, under $80 and under $150</a></h3><p>Verified-price gift tiers for cooks, grillers and hosts. The listing's own gift claims are quoted, not invented.</p><p class="meta">5 min read</p></article>
+<article class="card"><span class="tag">Gifts</span><h3><a href="guide-holiday-gifts.html">Holiday air fryer gifts: what to buy for every kind of cook</a></h3><p>Match the fryer to the cook: couples, crowds, small kitchens and stocking stuffers.</p><p class="meta">4 min read</p></article>
 </div>
 
 <h2 class="cluster-head">Pillar pages</h2>
@@ -543,6 +549,75 @@ b8, j8 = guide_shell("Guide &middot; Air fryers &middot; Specs", "Will it trip t
   ("Why do two sections of the same listing show different wattage?","Seller-entered data can disagree between bullets and the Product information table, exactly as on the Chefman 8QT (FLG-022). Treat the conflict as unresolved and verify on the box or manufacturer's spec sheet.")],
  readtime="5 min read")
 open("guide-wattage-outlets.html","w").write(page("Will It Trip the Breaker? Air Fryer Wattage and Outlet Math | The Countertop Guide","What 1000W vs 1700W means for a 120V kitchen circuit, the wattage-listing conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.",b8,j8,"guide-page"))
+# ---------- GUIDE 9 (merged from session arena/8e82d03c - recipient-angle gifts) ----------
+b9, j9 = guide_shell("Guide &middot; Seasonal &middot; Gifts", "Holiday air fryer gifts: what to buy for every kind of cook",
+ "Match the fryer to the cook, not the wish list. These picks come only from the verified listings on this site, each with its snapshot price and a link to its source. (Shopping by budget instead? See <a href=\"guide-gifts-by-budget.html\">gifts under $25, $80 and $150</a>.)",
+ f"""
+<h2>For couples and side-dish cooks: Chefman 6QT dual-basket</h2>
+<p>Two independent 3-quart baskets with Sync Finish, so two dishes can finish at the same time - good for a main and a side together. Listing shows dual-zone cooking, viewing windows, and dishwasher-safe baskets. Depth 13.38 inches (34.0 cm). Price snapshot 2026-11-19: $79.93 (list $99.99). <a href="https://www.amazon.com/dp/B0CDY277D3?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">See Chefman 6QT listing &middot; sponsored</a></p>
+<h2>For crowds and weekend roasts: Emeril 26QT French-door oven</h2>
+<p>The listing describes 26-quart capacity for 4-6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza. Deepest of the three at 16.9 inches (42.9 cm) - it needs real counter depth. Price snapshot 2026-11-19: $149.99 (list $209.99). Preset count differs between title (24) and bullets (25) - see Flagged FLG-002. <a href="https://www.amazon.com/dp/B09B7SB46R?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">See Emeril 26QT listing &middot; sponsored</a></p>
+<h2>For small kitchens: Chefman 8QT single basket</h2>
+<p>Shallowest of the three at 12.75 inches (32.4 cm) deep, with an 8-quart single basket, 450&deg;F Hi-Fry option, and a top-rack dishwasher-safe basket and tray. Price snapshot 2026-11-19: $69.99 (list $119.99). <a href="https://www.amazon.com/dp/B08DKYBTPH?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">See Chefman 8QT listing &middot; sponsored</a></p>
+<h2>Thermometer stocking stuffers</h2>
+<ul>
+<li><strong>ThermoMaven instant-read:</strong> 1-second read, &plusmn;0.5&deg;F accuracy with NIST &amp; NSF certification claimed, IP67 waterproof, includes a calibration certificate. Price snapshot 2026-11-19: $16.99 (list $22.99). Rating snapshot: 4.6 (3,499). Dimensions not captured - see Flagged FLG-004. <a href="https://www.amazon.com/dp/B0DHZTCNR5?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See ThermoMaven listing &middot; sponsored</a></li>
+<li><strong>CHEF iQ Sense wireless:</strong> 3 ultra-thin probes plus hub, WiFi app monitoring, 1000&deg;F heat-safe probes claimed, up to 50 hours per charge claimed. Bullets describe 4 internal + 1 ambient sensors (title says 5); no &plusmn;&deg;F accuracy figure captured. Price snapshot 2026-11-19: $119.99 (list $219.99, 3-probe). Rating snapshot: 4.2 (2,178). <a href="https://www.amazon.com/dp/B0DZFD6R9Z?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See CHEF iQ listing &middot; sponsored</a></li>
+</ul>
+<p class="small">Snapshot prices and ratings are from Amazon.com on 2026-11-19 and will change. Confirm price, variant and fit on the listing before buying. No hands-on testing - these are spec-based suggestions, not recommendations of use.</p>
+""",
+ [("Which air fryer makes the best gift?","The one that fits the recipient's counter and cooking: dual-basket for two dishes at once, oven-style for crowds and roasts, single basket for compact counters. Match counter depth first."),
+  ("Are these gift picks hands-on tested?","No. We have not cooked with any of these units. Picks are based only on verified listing specs and snapshot prices."),
+  ("Do the prices include shipping?","Prices shown are the listing's new-item snapshot; shipping depends on the buyer's location and Prime status at checkout. Confirm on Amazon before buying.")],
+ readtime="4 min read")
+open("guide-holiday-gifts.html","w").write(page("Holiday Air Fryer Gifts: What to Buy for Every Kind of Cook | The Countertop Guide","Spec-based holiday gift picks matched to the cook: dual-basket for couples, French-door oven for crowds, single basket for small kitchens, thermometer stocking stuffers. Verified snapshots only.",b9,j9,"guide-page"))
+# ---------- GUIDE 10 (merged from session arena/8e82d03c - holiday roasts) ----------
+b10, j10 = guide_shell("Guide &middot; Seasonal &middot; Thermometers", "Roast like a pro: instant-read or wireless thermometer for holiday roasts?",
+ "A roast is only as good as knowing when it's done. This guide reads the accuracy claims on two verified thermometers - what each claim does and does not prove - so you can choose before the holiday.",
+ f"""
+<h2>Instant-read: ThermoMaven 1-Second</h2>
+<p>Listing claims &plusmn;0.5&deg;F accuracy with NIST &amp; NSF certification, 1-second thermocouple read, IP67 waterproof, auto-rotating LED, includes a calibration certificate. Best for: quick checks, grilling, candy, everyday meals. Price snapshot 2026-11-19: $16.99 (list $22.99). Rating snapshot: 4.6 (3,499). <a href="https://www.amazon.com/dp/B0DHZTCNR5?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See ThermoMaven listing &middot; sponsored</a></p>
+<h2>Wireless: CHEF iQ Sense (3 probes)</h2>
+<p>Three ultra-thin probes plus hub, WiFi unlimited range with app, 1000&deg;F heat-safe probes claimed, up to 50 hours per charge claimed, flip reminders and rest timers. Listing bullets describe 4 internal + 1 ambient sensors (title says 5). No &plusmn;&deg;F accuracy figure was captured - do not assume it matches the instant-read. Price snapshot 2026-11-19: $119.99 (list $219.99, 3-probe). Rating snapshot: 4.2 (2,178). <a href="https://www.amazon.com/dp/B0DZFD6R9Z?tag={TAG}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See CHEF iQ listing &middot; sponsored</a></p>
+<h2>How to read accuracy claims</h2>
+<ul>
+<li>Ask for the &plusmn; figure and the certification name. "NIST certified" without a figure is incomplete.</li>
+<li>Ask what the sensor count means. CHEF iQ's 5 = 4 internal + 1 ambient (per bullets).</li>
+<li>"Unlimited" WiFi range means app monitoring over your network - you still need WiFi and the app.</li>
+<li>We have not calibrated either unit. Certification claims are the seller's; verify the certificate on the listing.</li>
+</ul>
+<p class="small">Accuracy figures and ratings are listing snapshots from 2026-11-19 and will change. We have not cooked with or calibrated either thermometer. Confirm claims on the listing before buying.</p>
+""",
+ [("Instant-read or wireless for a holiday roast?","Instant-read for a fast answer in your hand (ThermoMaven, 1-second). Wireless for monitoring from another room across a long cook (CHEF iQ Sense, 3 probes). Match the tool to how you cook."),
+  ("Are the accuracy claims verified by the site?","No. Claims are quoted from the listings with the certification named. We have not calibrated either unit; verify certificates on the listing.")],
+ readtime="4 min read")
+open("guide-holiday-roast.html","w").write(page("Instant-Read or Wireless for Holiday Roasts? | The Countertop Guide","Thermometer accuracy claims read before the holiday: ThermoMaven instant-read vs CHEF iQ wireless for roasts, with certification claims quoted from verified listings.",b10,j10,"guide-page"))
+# ---------- GUIDE 11 (merged from session arena/8e82d03c - small kitchens) ----------
+b11, j11 = guide_shell("Guide &middot; Air fryers &middot; Space", "Small kitchen, big appetite: which air fryer fits under 34 cm of counter depth?",
+ "Measure before you buy. This guide compares the three verified fryers by counter depth and footprint, with the derived capacity-per-centimetre math shown and its limits stated.",
+ f"""
+<h2>Measure your counter first</h2>
+<p>Depth decides whether it fits under cabinets; width decides whether it crowds the sink. From listing dimensions:</p>
+<ul>
+<li>Chefman 8QT basket: 12.75D x 13.5W in - shallowest at 32.4 cm depth, 172.1 sq in footprint.</li>
+<li>Chefman 6QT dual: 13.38D x 11.81W in - narrowest at 34.0 cm depth, 158.0 sq in footprint.</li>
+<li>Emeril 26QT oven: 16.9D x 15.8W in - deepest at 42.9 cm depth, 267.0 sq in footprint.</li>
+</ul>
+<p class="small">Dimensions as shown on each Amazon listing on 2026-11-19. Footprint = width x depth; derived by us, not a manufacturer claim. Method and limits in the <a href="guide-cleanup-counter-space.html">cleanup &amp; counter-space guide</a>.</p>
+<h2>Depth and footprint table (verified fields only)</h2>
+<div class="table-scroll"><table>
+<tr><th>Air fryer (ASIN)</th><th>Depth</th><th>Width</th><th>Height</th><th>Footprint</th><th>Capacity (title)</th><th>Price snapshot</th></tr>
+<tr><td>Chefman 8QT single basket <span class="meta">B08DKYBTPH</span></td><td>12.75 in (32.4 cm)</td><td>13.5 in</td><td>10 in</td><td>172.1 sq in</td><td>8 quarts</td><td>$69.99 (list $119.99)</td></tr>
+<tr><td>Chefman 6QT dual-basket <span class="meta">B0CDY277D3</span></td><td>13.38 in (34.0 cm)</td><td>11.81 in</td><td>10.63 in</td><td>158.0 sq in</td><td>6 Quart (2 x 3 Qt)</td><td>$79.93 (list $99.99)</td></tr>
+<tr><td>Emeril 26QT French-door oven <span class="meta">B09B7SB46R</span></td><td>16.9 in (42.9 cm)</td><td>15.8 in</td><td>14.8 in</td><td>267.0 sq in</td><td>26QT</td><td>$149.99 (list $209.99)</td></tr>
+</table></div>
+<h2>Capacity per centimetre of counter depth (derived)</h2>
+<p>Emeril 0.61 qt/cm, Chefman 8QT 0.25 qt/cm, Chefman 6QT dual 0.18 qt/cm. The oven gives the most capacity per centimetre of depth - if you have the depth to spare. Not a manufacturer claim; derived from listing dimensions and title capacity.</p>
+""",
+ [("Which air fryer fits the smallest counter?","By depth, the Chefman 8QT (32.4 cm). By footprint, the Chefman 6QT dual-basket (158.0 sq in). Measure both depth and width before buying."),
+  ("Is capacity per centimetre a manufacturer claim?","No. It is derived by us from listing dimensions (inches x 2.54 = cm) and title capacity. Treat it as a planning aid, verify fit on the listing.")],
+ readtime="4 min read")
+open("guide-small-kitchen.html","w").write(page("Small Kitchen, Big Appetite: Air Fryers Under 34 cm of Depth | The Countertop Guide","Counter-depth comparison of three verified air fryers: depth, footprint and derived capacity-per-centimetre math with its limits stated. Measure before you buy.",b11,j11,"guide-page"))
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
@@ -574,7 +649,7 @@ exec_body = f"""
 <h2>How money and measurement work</h2>
 <p>Outbound links use tracking ID <code>{TAG}</code> and are marked sponsored. Click and conversion measurement is defined (five events: page_view, outbound_click, search, chooser_complete, guide_read) with a privacy-preserving local counter; the self-hosted endpoint ships as code in <code>analytics-endpoint/</code> and needs a hosting decision before data flows. The campaign ledger starts empty - orders and revenue are recorded only from authorized first-party reports. See <a href="methodology.html">Method &amp; campaign ledger</a>.</p>
 <h2>Next gates (owner decisions at the review desk)</h2>
-<p>Special Link validation, analytics hosting, photography licence, Search Console verification, and the ranked suggestions. Nothing scales until those gates pass. Start at the <a href="suggestions.html">review desk</a>; the design direction is captured in <a href="https://github.com/wingbangboozle1-lang/Prod1/blob/main/DESIGN_PROMPT.md">DESIGN_PROMPT.md</a>; open items live on <a href="flagged.html">Flagged for review</a>.</p>
+<p><strong>First: the price and star-rating display condition (FLG-023).</strong> The Program Policies require prices and ratings to come from Amazon-served links or the Creators/PA API; our dated manual snapshots do not meet that condition as written. Three remediation options are laid out at the review desk &mdash; do not scale traffic until one is chosen. Then: Special Link validation, analytics hosting, photography licence, Search Console verification, and the ranked suggestions. Nothing scales until those gates pass. Start at the <a href="suggestions.html">review desk</a>; the design direction is captured in <a href="https://github.com/wingbangboozle1-lang/Prod1/blob/main/DESIGN_PROMPT.md">DESIGN_PROMPT.md</a>; open items live on <a href="flagged.html">Flagged for review</a>.</p>
 """
 open("executive-summary.html","w").write(page("Executive Summary: Products, Verification &amp; Next Gates | The Countertop Guide","Executive summary for The Countertop Guide: five re-verified products in two categories, compliance posture, measurement plan and the ranked decisions at the review desk.",exec_body))
 # ---------- SUGGESTIONS (review desk) ----------
@@ -586,11 +661,12 @@ sugg_body = f"""
 <h2>Recommended path (if you only read one block)</h2>
 <div class="table-scroll"><table>
 <tr><th>Order</th><th>Decision</th><th>Recommended path</th><th>Effort</th><th>What it unblocks</th></tr>
-<tr><td>1</td><td>Outbound link validation (SG-01)</td><td>Test one Special Link per product in Associates Central; confirm destination + tracking report before scaling</td><td>Low (manual, ~30 min)</td><td>Confirms revenue attribution; closes FLG-001/FLG-015</td></tr>
-<tr><td>2</td><td>Measurement activation (SG-03)</td><td>Deploy <code>analytics-endpoint/server.py</code> on any HTTPS host; set <code>data-analytics-endpoint</code>; publish retention policy</td><td>Medium</td><td>Real clicks/queries data; data-driven topic picks; fills the ledger</td></tr>
-<tr><td>3</td><td>Search Console (SG-02)</td><td>Verify the github.io property, submit <code>sitemap.xml</code>, review queries weekly</td><td>Low</td><td>Measured queries for the topic calendar; SEO baseline</td></tr>
-<tr><td>4</td><td>Photography (SG-04)</td><td>Owner-shot photography or manufacturer permission; never copied/generated product images (S-18)</td><td>Medium</td><td>Visual conversion lift without IP exposure</td></tr>
-<tr><td>5</td><td>Seasonal calendar (SG-05)</td><td>Keep shipping one question-shaped guide per week through the holiday window; each goes to sitemap + feed at publish</td><td>Low</td><td>Seasonal organic traffic while intent is high</td></tr>
+<tr><td>1 <span class="badge-flag">P0</span></td><td>Price &amp; star-rating display vs API policy (FLG-023)</td><td>Apply for Creators/PA API and serve prices + ratings through it; until approved, either remove displayed prices/ratings (option B) or accept the documented risk (option C)</td><td>Low&ndash;Medium</td><td>Account-level compliance; unblocks scaling traffic</td></tr>
+<tr><td>2</td><td>Outbound link validation (SG-01)</td><td>Test one Special Link per product in Associates Central; confirm destination + tracking report before scaling</td><td>Low (manual, ~30 min)</td><td>Confirms revenue attribution; closes FLG-001/FLG-015</td></tr>
+<tr><td>3</td><td>Measurement activation (SG-03)</td><td>Deploy <code>analytics-endpoint/server.py</code> on any HTTPS host; set <code>data-analytics-endpoint</code>; publish retention policy</td><td>Medium</td><td>Real clicks/queries data; data-driven topic picks; fills the ledger</td></tr>
+<tr><td>4</td><td>Search Console (SG-02)</td><td>Verify the github.io property, submit <code>sitemap.xml</code>, review queries weekly</td><td>Low</td><td>Measured queries for the topic calendar; SEO baseline</td></tr>
+<tr><td>5</td><td>Photography (SG-04)</td><td>Owner-shot photography or manufacturer permission; never copied/generated product images (S-18)</td><td>Medium</td><td>Visual conversion lift without IP exposure</td></tr>
+<tr><td>6</td><td>Seasonal calendar (SG-05)</td><td>Keep shipping one question-shaped guide per week through the holiday window; each goes to sitemap + feed at publish</td><td>Low</td><td>Seasonal organic traffic while intent is high</td></tr>
 </table></div>
 
 <h2>Full suggestions board</h2>
@@ -611,6 +687,7 @@ sugg_body = f"""
 <tr><td>SG-13</td><td>Custom domain</td><td>Stay on github.io until traffic proves the concept</td><td>Buy a domain now + set canonical</td><td>Domain purchase</td><td>Low</td><td>Proposed</td></tr>
 <tr><td>SG-14</td><td>Newsletter/seasonal gift guide refresh in December</td><td>Update gift tiers with fresh snapshots Dec 1 and Dec 15</td><td>One December refresh</td><td>Price snapshots</td><td>Low</td><td>Proposed</td></tr>
 <tr><td>SG-15</td><td>Accessibility + performance pass (fonts, CLS, contrast)</td><td>Audit after photography lands; keep text-first layout meanwhile</td><td>Do it now (premature before design settles)</td><td>Lighthouse run</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-17 <span class="badge-flag">P0</span></td><td>Resolve price/star-rating display vs API policy (FLG-023)</td><td>Apply for Creators/PA API; source prices + ratings through it (or Amazon-served links)</td><td>Remove displayed prices/ratings, keep "Check price on Amazon" CTAs</td><td>API approval (or owner risk acceptance)</td><td>Low</td><td><span class="badge-flag">Needs decision &mdash; compliance gate</span></td></tr>
 <tr><td>SG-16</td><td>Campaign ledger review ritual</td><td>Weekly 15-minute review of <a href="methodology.html">the ledger</a> once reports exist</td><td>Monthly</td><td>First Associates report</td><td>Low</td><td>Proposed</td></tr>
 </table></div>
 
@@ -720,6 +797,9 @@ flag_body = f"""
 <tr><td>FLG-020</td><td>Main-product values re-read &mdash; resolved {VERIFIED}</td><td>The integration pass re-read all five listings: buy boxes, list prices, ratings, dimensions, capacity fields, wattage and bullets. Two rating counts drifted (P2 18,371&rarr;18,375; P3 16,890&rarr;16,892) and were updated with the date. P1's previously doubted price ($79.93/$99.99) reproduced twice.</td><td>Close; keep weekly cadence (SG-12)</td></tr>
 <tr><td>FLG-021</td><td>Emeril accessory count conflict (new {VERIFIED})</td><td>The B09B7SB46R listing says "Six Cooking Accessories Included" (title) and lists six in item details (rack, bake pan, drip tray, crisper basket, rotisserie spit, fetch tool), but its product description says "7 premium accessories" and configuration says "7 Accessories".</td><td>Ask seller; show six with the conflict noted</td></tr>
 <tr><td>FLG-022</td><td>Chefman 8QT wattage conflict (new {VERIFIED})</td><td>The B08DKYBTPH listing bullets say "1000 Watts/120 Volts - RJ38-SQSS-8T" while the same page's Product information table says 1700 watts. Both values are published side by side; neither is silently dropped.</td><td>Confirm with manufacturer (SG-11)</td></tr>
+<tr><td>FLG-023 <span class="badge-flag">P0</span></td><td>Price and star-rating display vs API policy (new {VERIFIED} - read verbatim in the Program Policies)</td><td>Participation Requirements &sect;2: "your Site may only show prices and availability if: (a) we serve the link in which that price and availability data are displayed, or (b) you obtain Product pricing and availability data via Creators API or PA API". &sect;6(t): "You will not display or otherwise use any of our customer reviews or star ratings ... unless you have obtained a link to that customer review or star rating through Creators API or PA API". This site currently shows dated manual snapshots of prices and ratings - neither Amazon-served nor API-sourced. The brief's evidence rule (dated snapshots, sourced rows) is satisfied, but the Program Policies condition is NOT satisfied as written. Remediation options: (1) apply for Creators/PA API and source prices+ratings through it (recommended); (2) remove displayed prices and star ratings and keep only "Check price on Amazon" CTAs; (3) owner accepts the risk while the application is pending. Owner decision - see Review desk.</td><td>Owner picks 1-3 (SG-17); do not scale traffic until resolved</td></tr>
+<tr><td>FLG-024</td><td>Price-tracking functionality check (&sect;6(y))</td><td>Participation Requirements &sect;6(y): "your Site must not have price tracking and/or price alerting functionality" (unless otherwise agreed). Checked {VERIFIED}: the site has no user-facing price tracking or alerting; dated snapshots are static editorial records. No action needed unless a tracker/alert feature is ever added.</td><td>Keep under review at each publish</td></tr>
+<tr><td>FLG-025</td><td>Flag numbering note (merge with session 8e82d03c)</td><td>Session 8e82d03c's register used different numbers for different items: its FLG-021 = disclosure variant (now closed - exact &sect;5 sentence on every page), its FLG-022 = price/star display vs API policy (carried here as FLG-023 with the verbatim text read {VERIFIED}), its FLG-024 = rating snapshot drift (covered by FLG-020). This register's FLG-021 = accessory-count conflict, FLG-022 = wattage conflict. Numbers are unique within this register only.</td><td>Reference note</td></tr>
 </table></div>
 """
 open("flagged.html","w").write(page("Flagged for Review: Irregularities &amp; Unverified Items | The Countertop Guide","Flagged irregularities: short-link compliance, listing discrepancies (presets, accessories, wattage), newer models, missing fields, and launch gates - updated after line-by-line re-verification.",flag_body))
@@ -747,7 +827,12 @@ comp_body = f"""
 <tr><td>Endorsement honesty; no unsubstantiated claims</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td><td>No testing/trending claims; seller claims attributed ("per listing")</td></tr>
 <tr><td>Program Content / images</td><td><a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement &sect;1</a></td><td>No Amazon images copied; SVG/CSS graphics only until a licence decision (SG-04)</td></tr>
 <tr><td>Publishing gate in the deploy workflow</td><td><code>scripts/check_site.mjs</code></td><td>Disclosure, sponsored links, internal links, unique titles/descriptions, claim wording &mdash; runs before Pages upload</td></tr>
+<tr><td><strong>Price &amp; rating display must come from Amazon-served links or the Creators/PA API</strong></td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Participation Requirements &sect;2</a></td><td><span class="badge-flag">Open &mdash; FLG-023</span> currently dated manual snapshots; owner decision required (API application or removal)</td></tr>
+<tr><td><strong>Customer reviews / star ratings only via Creators/PA API</strong></td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Participation Requirements &sect;6(t)</a></td><td><span class="badge-flag">Open &mdash; FLG-023</span> same decision as above</td></tr>
+<tr><td>No price tracking or price-alerting functionality</td><td><a href="https://affiliate-program.amazon.com/help/operating/policies">Participation Requirements &sect;6(y)</a></td><td>Checked &mdash; none present (FLG-024)</td></tr>
 </table></div>
+<h2>API policy check (run {VERIFIED})</h2>
+<p>The Program Policies condition price and star-rating display on Amazon-served links or Creators/PA API data. This site's snapshots were read manually from the listings, so that condition is <strong>not</strong> met as written &mdash; recorded as <a href="flagged.html">FLG-023</a> with the verbatim text and three remediation options at the <a href="suggestions.html">review desk</a>. Until it is resolved, do not scale traffic to the site.</p>
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
 """
 open("compliance.html","w").write(page("Compliance: Disclosures &amp; Amazon/FTC Policy Checks | The Countertop Guide","Compliance gate: exact Section 5 disclosure wording, sponsored-link marking, and the Amazon Associates + FTC policy checklist reviewed before publishing.",comp_body))
@@ -811,7 +896,10 @@ idx = [
  {"title":"The holiday hosting test: which air fryer feeds a crowd?","url":"guide-holiday-hosting.html","text":"Holiday hosting, two dishes at once, rotisserie and pizza claims, counter-depth math, return windows."},
  {"title":"Kitchen gifts under $25, $80 and $150","url":"guide-gifts-by-budget.html","text":"Holiday gift tiers from verified price snapshots. Stocking stuffer to showstopper."},
  {"title":"Will it trip the breaker? Wattage and outlet math","url":"guide-wattage-outlets.html","text":"Air fryer wattage, 120V circuits, the Chefman 8QT wattage conflict, how to verify any listing."},
- {"title":"All buying guides","url":"guides.html","text":"Eight question-shaped guides in three clusters: air fryers, thermometers, seasonal."},
+ {"title":"Holiday air fryer gifts: what to buy for every kind of cook","url":"guide-holiday-gifts.html","text":"Gift picks matched to the cook: couples, crowds, small kitchens, thermometer stocking stuffers."},
+ {"title":"Roast like a pro: instant-read or wireless for holiday roasts?","url":"guide-holiday-roast.html","text":"Thermometer accuracy claims read before the holiday roast."},
+ {"title":"Small kitchen, big appetite: air fryers under 34 cm of counter depth","url":"guide-small-kitchen.html","text":"Depth and footprint comparison for tight counters, capacity per centimetre derived."},
+ {"title":"All buying guides","url":"guides.html","text":"Eleven question-shaped guides in three clusters: air fryers, thermometers, seasonal."},
  {"title":"Executive summary","url":"executive-summary.html","text":"What the site is, what is verified, compliance posture, measurement plan, decision gates."},
  {"title":"Review desk: suggestions and decisions","url":"suggestions.html","text":"Ranked suggestions SG-01 to SG-16 with recommended paths; Q-01 to Q-12 missing-information map."},
  {"title":"Verification register","url":"verification.html","text":"Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, integration re-verification."},
@@ -830,7 +918,7 @@ open("sitemap.xml","w").write(f"""<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 """)
 feed_items = ""
-for u in ["guide-holiday-hosting.html","guide-gifts-by-budget.html","guide-wattage-outlets.html","guide-basket-vs-oven.html","guide-capacity-checklist.html","guide-cleanup-counter-space.html","guide-multifunction-questions.html","guide-thermometer-accuracy.html"]:
+for u in ["guide-holiday-hosting.html","guide-gifts-by-budget.html","guide-holiday-gifts.html","guide-holiday-roast.html","guide-wattage-outlets.html","guide-small-kitchen.html","guide-basket-vs-oven.html","guide-capacity-checklist.html","guide-cleanup-counter-space.html","guide-multifunction-questions.html","guide-thermometer-accuracy.html"]:
     t = next(x["title"] for x in idx if x["url"] == u)
     dsc = next(x["text"] for x in idx if x["url"] == u)
     feed_items += f"""    <item>
