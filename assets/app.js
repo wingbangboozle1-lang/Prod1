@@ -98,3 +98,65 @@
     return [P.dual, P.basket];
   }
 })();
+
+// Suggestions decision desk — pick a path per item, keep it in this browser,
+// and export a review sheet. Static hosting only: nothing is sent anywhere.
+(function(){
+  "use strict";
+  var KEY = "ctg_suggestion_picks";
+  var board = document.getElementById("suggestion-board");
+  if(!board) return;
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY) || "{}"); }catch(e){ return {}; } }
+  function save(picks){ try{ localStorage.setItem(KEY, JSON.stringify(picks)); }catch(e){} }
+  function refreshStatus(){
+    board.querySelectorAll("select[data-pick]").forEach(function(sel){
+      var row = sel.closest("tr");
+      if(!row) return;
+      var note = row.querySelector(".pick-status");
+      if(note){ note.textContent = sel.value === "" ? "Not picked yet" : sel.value; }
+    });
+  }
+  board.querySelectorAll("select[data-pick]").forEach(function(sel){
+    var id = sel.getAttribute("data-pick");
+    var picks = load();
+    if(Object.prototype.hasOwnProperty.call(picks, id)) sel.value = picks[id];
+    sel.addEventListener("change", function(){
+      var p = load();
+      if(sel.value){ p[id] = sel.value; } else { delete p[id]; }
+      save(p);
+      refreshStatus();
+    });
+  });
+  refreshStatus();
+  var exp = document.getElementById("sg-export");
+  if(exp){
+    exp.addEventListener("click", function(){
+      var picks = load();
+      var sheet = {
+        exportedAt: new Date().toISOString(),
+        page: location.pathname,
+        note: "Reviewer picks for The Countertop Guide suggestion board. Approved items move to COORDINATION.md as claimed tasks.",
+        picks: picks
+      };
+      var blob = new Blob([JSON.stringify(sheet, null, 2)], {type:"application/json"});
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "countertop-guide-review-sheet.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    });
+  }
+  var pr = document.getElementById("sg-print");
+  if(pr){ pr.addEventListener("click", function(){ window.print(); }); }
+  var rs = document.getElementById("sg-reset");
+  if(rs){
+    rs.addEventListener("click", function(){
+      if(!window.confirm("Clear all picks on this page?")) return;
+      try{ localStorage.removeItem(KEY); }catch(e){}
+      board.querySelectorAll("select[data-pick]").forEach(function(sel){ sel.value = ""; });
+      refreshStatus();
+    });
+  }
+})();
