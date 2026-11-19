@@ -11,7 +11,7 @@ Tracking ID: `shopnow047c-20` · Outbound format: `https://www.amazon.com/dp/ASI
 ```
 python3 -m pip install pillow        # once: regenerates the social card
 # edit data/products.json (facts + sources) or data/editorial.json (voice, policy, cadence)
-python3 build_site.py                # writes all 20 pages, sitemap, feed, robots, search index
+python3 build_site.py                # writes all 21 pages, sitemap, feed, robots, search index
 python3 scripts/make_og.py           # writes assets/og-image.png + assets/favicon.svg
 node scripts/check_meta.mjs          # publishing gate (same one CI runs)
 ```
@@ -28,12 +28,12 @@ Reader-facing: `index.html` (front page: picks, products, chooser, guides) ·
 
 Review desk (internal surfaces, one nav group + footer): `review-desk.html` ·
 `verification.html` (line-by-line register, intended ASIN separate from observed redirect) ·
-`flagged.html` (FLG-001…FLG-031) · `suggestions.html` (SG board, Q/I/A register, design brief) ·
+`flagged.html` (FLG-001…FLG-042; 021/022 and 032…042 are two sessions' passes, see `COORDINATION.md`) · `suggestions.html` (SG board, Q/I/A register, design prompt) · `design-brief.html` (parallel brief, owner picks one) ·
 `methodology.html` (automation map, five events, empty campaign ledger) ·
 `compliance.html` (policy reads, quoted) · `executive-summary.html`.
 
 Also in this repository, owned by other sessions and *not* part of this publication:
-`counter-check/site/` and `docs/` + `articles/`. See `flagged.html#FLG-028` — three builds on
+`counter-check/site/` and `docs/` + `articles/`. See `flagged.html#FLG-039` — three builds on
 one host is a findability problem the owner has to settle.
 
 ## Rules the gate enforces

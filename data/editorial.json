@@ -4,7 +4,7 @@
     "name": "The Countertop Guide",
     "desk": "The Countertop Guide editorial desk",
     "type": "Organization",
-    "note": "No individual named author is asserted. A real byline with verifiable credentials is an owner decision - see suggestion SG-19 and question Q-11."
+    "note": "No individual named author is asserted. A real byline with verifiable credentials is an owner decision - see suggestion SG-26 and question Q-17."
   },
   "display": {
     "pricesOnShopPages": false,
@@ -20,7 +20,7 @@
         "url": "https://affiliate-program.amazon.com/help/operating/agreement"
       }
     ],
-    "unblock": "Turn on live figures only when a Creators API / PA API refresh exists in the publishing workflow (SG-12), or when the price is rendered inside an Amazon-served link."
+    "unblock": "Turn on live figures only when a Creators API / PA API refresh exists in the publishing workflow (SG-20), or when the price is rendered inside an Amazon-served link."
   },
   "events": {
     "status": "defined, local-only",

@@ -45,12 +45,16 @@ jobs:
             exit 1
           fi
 
-      # Publishing gate: disclosure, sponsored marking, metadata, links, feed, sitemap,
-      # the price/rating display policy and the voice rules. Blocking on purpose.
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Run the publishing gate
+
+      # Two independent gates on purpose: check_site.mjs (written by another session,
+      # scans every HTML file in the repo) and check_meta.mjs (this site's metadata,
+      # voice and price-policy rules). Either one failing blocks the deploy.
+      - name: Publishing gate - repository-wide checks
+        run: node scripts/check_site.mjs
+      - name: Publishing gate - metadata, voice and price policy
         run: node scripts/check_meta.mjs
 
       - uses: actions/configure-pages@v5
