@@ -12,6 +12,19 @@ Shared task board. Claim before editing. Small frequent commits. `git pull --reb
 
 Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other sessions active at claim time.
 
+## Session arena/2d5ebe5b-prod1 (2026-11-19) — claim
+
+Branch `arena/2d5ebe5b-prod1` (Arena session branch; work happens only here). Acting as the publication + final integration session for the brief's remaining asks: shop-first redesign ("read like a shop, not an audit"), suggestion desk with recommended paths, missing-information discovery (Q/I/A), 8 catchy spec-backed guides (S-13), mobile-first polish (S-20), deploy gate (I-05/R-01), canonical fix (FLG-007 regression in `build_site.py`), disclosure wording (I-02). No other session is active; all prior sessions are merged and recorded above.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-2D1 Publication redesign: front page as a publication front (hero, category tiles, featured guides, picks), reader nav + single dashboard group in footer | in progress | 2d5ebe5b | `build_site.py`, `assets/style.css`, root `*.html` (regenerated) | Existing verified data (`data/products.json`, verified 2026-11-19 by prior sessions); gate `scripts/check_site.mjs` | — |
+| T-2D2 Eight catchy spec-backed guides (S-13): keep 5 existing + 3 new seasonal/cluster guides, complete internal linking (S-24) | in progress | 2d5ebe5b | `build_site.py`, new `guide-*.html` | Facts only from `data/products.json` listings (snapshot 2026-11-19); no new claims | Photography stays SVG/CSS (S-18/SG-04 undecided) |
+| T-2D3 Review desk: suggestions with recommended paths + Q/I/A missing-information discovery plan | in progress | 2d5ebe5b | `suggestions.html`, `DESIGN_PROMPT.md` | — | Owner choice required for every recommendation |
+| T-2D4 Machinery: exact Section 5 disclosure wording (I-02), canonical in `build_site.py` + `data/products.json` (regressed FLG-007), deploy gate in `pages.yml` (I-05/R-01) | in progress | 2d5ebe5b | `build_site.py`, `data/products.json`, `.github/workflows/pages.yml` | Amazon OA §5 sentence (verbatim); `scripts/check_site.mjs` | — |
+| T-2D5 counter-check CI determinism fix (R-05) | in progress | 2d5ebe5b | `counter-check/tools/build_site.py` | Rebuild diff test | Owned by bac417a2 (finished); fixed by integration with log below |
+| T-2D6 Final integration: line-by-line re-verify, link check, PR to main, merge, Pages deploy | in progress | 2d5ebe5b | `COORDINATION.md` | Gate runs + Pages API | — |
+
 ## Integration update — arena/71354f04-prod1 (2026-11-19)
 
 The upstream `main` advanced after this task began and contains an independently completed publication build. The merge was resolved by retaining the upstream implementation as authoritative (including its sourced product register) and adding complementary, clearly labeled review materials under `docs/` and `articles/`; links to those pages were added to the home footer and sitemap. This avoids overwriting the upstream product data and publication.
