@@ -3,14 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Suggestions Board &amp; Decision Log: Review Before Building | The Countertop Guide</title>
-<meta name="description" content="Suggestions board and Q/I/A decision log for The Countertop Guide: what to build next, what evidence each needs, and which decisions are blocked until answers arrive.">
+<title>Review Desk: Suggestions, Recommended Paths &amp;amp; Open Questions | The Countertop Guide</title>
+<meta name="description" content="The review desk: ranked suggestions with recommended paths and alternatives, plus the Q/I/A map of what must be discovered before each decision.">
 <link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/">
-<meta property="og:title" content="Suggestions Board &amp; Decision Log: Review Before Building | The Countertop Guide">
-<meta property="og:description" content="Suggestions board and Q/I/A decision log for The Countertop Guide: what to build next, what evidence each needs, and which decisions are blocked until answers arrive.">
+<meta property="og:title" content="Review Desk: Suggestions, Recommended Paths &amp;amp; Open Questions | The Countertop Guide">
+<meta property="og:description" content="The review desk: ranked suggestions with recommended paths and alternatives, plus the Q/I/A map of what must be discovered before each decision.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/og-image.svg">
+<meta property="og:url" content="https://wingbangboozle1-lang.github.io/Prod1/">
+<meta property="og:image" content="https://wingbangboozle1-lang.github.io/Prod1/assets/og-image.svg">
+<meta property="og:site_name" content="The Countertop Guide">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="alternate" type="application/rss+xml" title="The Countertop Guide feed" href="feed.xml">
 
@@ -25,7 +30,17 @@
   <a href="thermometers.html">Thermometers</a>
   <a href="compare.html">Compare</a>
   <a href="guides.html">Guides</a>
-  <a href="suggestions.html">Suggestions</a>
+  <details class="desk"><summary>The desk</summary>
+    <div class="desk-panel">
+      <a href="suggestions.html">Suggestions &amp; decisions</a>
+      <a href="executive-summary.html">Executive summary</a>
+      <a href="verification.html">Verification register</a>
+      <a href="flagged.html">Flagged for review</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="methodology.html">Method &amp; ledger</a>
+      <a href="search.html">Search</a>
+    </div>
+  </details>
 </nav>
 <form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
@@ -33,52 +48,76 @@
   <button class="btn small secondary" type="submit">Search</button>
 </form>
 </div></header>
-<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. Prices are snapshots from 2026-11-19 - check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
+<div class="disclosure-strip" role="note">Disclosure: As an Amazon Associate I earn from qualifying purchases. Prices are snapshots from 2026-11-19 &mdash; check Amazon for the live price. <a href="compliance.html">Learn more</a></div>
 <main id="main" class="wrap">
 
-<p class="eyebrow">Suggestions board</p>
-<h1>Suggestions &amp; decision log - review before anything is built</h1>
-<p class="lede">Nothing on this board is implemented until a reviewer picks a path. Each suggestion states the evidence it needs, the effort, and what decision it blocks. Add your pick in the review; we implement only approved items.</p>
-<h2>Suggestions for review</h2>
+<p class="eyebrow">Review desk</p>
+<h1>Suggestions &amp; decisions &mdash; choose the path before anything is built</h1>
+<p class="lede">This is the site's decision room. Every suggestion below states the recommended path, the alternative, the evidence it needs and what it unblocks. Nothing is implemented until a reviewer marks it Approved. The visual direction these suggestions feed is written up in <a href="https://github.com/wingbangboozle1-lang/Prod1/blob/main/DESIGN_PROMPT.md">DESIGN_PROMPT.md</a>.</p>
+
+<h2>Recommended path (if you only read one block)</h2>
 <div class="table-scroll"><table>
-<tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
-<tr><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td><td><span class="badge-warn">Needs decision - gate</span></td></tr>
-<tr><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr><td>SG-05</td><td>Holiday gift guides (air fryer gifts, grill gifts) with dated price snapshots</td><td>Seasonal organic traffic; gift intent converts</td><td>Gift-angle verification per listing</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-06</td><td>"Which one is for you" chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-07</td><td>Reader capture (email signup) with explicit consent</td><td>Owns audience beyond search</td><td>Provider + consent copy + FTC review</td><td>Medium</td><td>Proposed</td></tr>
-<tr><td>SG-08</td><td>Newer-model watch (Chefman B0CNY1YVDD, ThermoMaven B0GL7Z4KP4)</td><td>Decide whether to promote newer variants or keep current ASINs</td><td>Variant comparison + margin check</td><td>Low</td><td>Proposed</td></tr>
-<tr><td>SG-09</td><td>Hands-on testing programme (buy, cook, photograph, publish)</td><td>Unlocks "lived-with" content competitors cannot copy</td><td>Budget, protocol, disclosure of free vs bought units</td><td>High</td><td>Proposed - do not claim until done</td></tr>
-<tr><td>SG-10</td><td>Expand categories (second air fryer brand, second thermometer brand)</td><td>More comparison depth; better internal linking</td><td>New ASIN verification pass</td><td>Medium</td><td>Proposed</td></tr>
+<tr><th>Order</th><th>Decision</th><th>Recommended path</th><th>Effort</th><th>What it unblocks</th></tr>
+<tr><td>1</td><td>Outbound link validation (SG-01)</td><td>Test one Special Link per product in Associates Central; confirm destination + tracking report before scaling</td><td>Low (manual, ~30 min)</td><td>Confirms revenue attribution; closes FLG-001/FLG-015</td></tr>
+<tr><td>2</td><td>Measurement activation (SG-03)</td><td>Deploy <code>analytics-endpoint/server.py</code> on any HTTPS host; set <code>data-analytics-endpoint</code>; publish retention policy</td><td>Medium</td><td>Real clicks/queries data; data-driven topic picks; fills the ledger</td></tr>
+<tr><td>3</td><td>Search Console (SG-02)</td><td>Verify the github.io property, submit <code>sitemap.xml</code>, review queries weekly</td><td>Low</td><td>Measured queries for the topic calendar; SEO baseline</td></tr>
+<tr><td>4</td><td>Photography (SG-04)</td><td>Owner-shot photography or manufacturer permission; never copied/generated product images (S-18)</td><td>Medium</td><td>Visual conversion lift without IP exposure</td></tr>
+<tr><td>5</td><td>Seasonal calendar (SG-05)</td><td>Keep shipping one question-shaped guide per week through the holiday window; each goes to sitemap + feed at publish</td><td>Low</td><td>Seasonal organic traffic while intent is high</td></tr>
 </table></div>
-<h2>Questions, information &amp; answers needed before a reasonable decision</h2>
+
+<h2>Full suggestions board</h2>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Suggestion</th><th>Recommended path</th><th>Alternative</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
+<tr><td>SG-01</td><td>Validate one Special Link per product in Associates Central and confirm destination + tracking report</td><td>SiteStripe/Tools test on all 5 ASINs with <code>shopnow047c-20</code>; screenshot the tracking report</td><td>Keep outbound buttons as-is but do not scale traffic until tested</td><td>Associates Central test clicks + report</td><td>Low</td><td><span class="badge-warn">Needs decision &mdash; gate</span></td></tr>
+<tr><td>SG-02</td><td>Search Console + sitemap submission</td><td>Verify the github.io property now; custom domain later if ever</td><td>Wait for a custom domain (delays all measurement)</td><td>Domain/property choice</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-03</td><td>Deploy the self-hosted analytics endpoint (5 events)</td><td>Any small HTTPS host + the shipped <code>analytics-endpoint/server.py</code>; 30-day retention, no IPs</td><td>Keep local-only counts (device-local, no aggregation)</td><td>Hosting choice; retention policy text</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-04</td><td>Real product photography (owner-shot or licensed)</td><td>Shoot the five products yourself; store in <code>assets/photos/</code></td><td>Manufacturer written permission for press images</td><td>Licence/permission record</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-05</td><td>Weekly question-shaped guide cadence through the holidays</td><td>Ship from the approved topic list; publish to sitemap + feed same day</td><td>Pause until measurement runs (loses seasonal window)</td><td>Editorial time</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-06</td><td>Chooser expansion (budget slider, counter-depth input in cm/in)</td><td>Add depth input + unit toggle to the 3-question chooser</td><td>Keep 3-question version</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-07</td><td>Reader capture (email of new guides)</td><td>Double-opt-in form, privacy notice, no tracking pixels</td><td>RSS-only (already shipped)</td><td>Provider + consent copy + FTC review</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-08</td><td>Newer-model watch (B0CNY1YVDD, B0GL7Z4KP4 seen on listings)</td><td>Keep promoting submitted ASINs; compare variants before any switch</td><td>Add variants to comparison as "also consider" rows</td><td>Variant comparison + margin check</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-09</td><td>Hands-on testing programme</td><td>Buy units, publish a protocol first, disclose bought-vs-free per FTC</td><td>Stay spec-only (current honest posture)</td><td>Budget, protocol, photo workflow</td><td>High</td><td>Proposed &mdash; do not claim until done</td></tr>
+<tr><td>SG-10</td><td>Expand categories (more brands per category)</td><td>Add 2-3 ASINs per category via a fresh verification pass</td><td>Deepen existing five with the new guides</td><td>New ASIN verification</td><td>Medium</td><td>Proposed</td></tr>
+<tr><td>SG-11</td><td>Resolve the Chefman 8QT wattage conflict (FLG-022)</td><td>Ask the seller/support which figure is right; update data + guides</td><td>Keep both values + flag (current state)</td><td>Manufacturer confirmation</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr><td>SG-12</td><td>Price-snapshot cadence (weekly during holidays)</td><td>Re-run the verification pass weekly; every price carries its date</td><td>Snapshot monthly</td><td>Editorial time</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-13</td><td>Custom domain</td><td>Stay on github.io until traffic proves the concept</td><td>Buy a domain now + set canonical</td><td>Domain purchase</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-14</td><td>Newsletter/seasonal gift guide refresh in December</td><td>Update gift tiers with fresh snapshots Dec 1 and Dec 15</td><td>One December refresh</td><td>Price snapshots</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-15</td><td>Accessibility + performance pass (fonts, CLS, contrast)</td><td>Audit after photography lands; keep text-first layout meanwhile</td><td>Do it now (premature before design settles)</td><td>Lighthouse run</td><td>Low</td><td>Proposed</td></tr>
+<tr><td>SG-16</td><td>Campaign ledger review ritual</td><td>Weekly 15-minute review of <a href="methodology.html">the ledger</a> once reports exist</td><td>Monthly</td><td>First Associates report</td><td>Low</td><td>Proposed</td></tr>
+</table></div>
+
+<h2>Questions, information &amp; answers &mdash; what must be known before a reasonable decision</h2>
+<p class="lede small">Each row: the question, what we know (with source), what is missing, exactly how to discover it, and which decision it blocks. This is the missing-information map.</p>
 <div class="table-scroll"><table>
 <tr><th>#</th><th>Question</th><th>What we know</th><th>What we do not know</th><th>How to discover it</th><th>Decision blocked</th></tr>
-<tr><td>Q-01</td><td>Are the supplied short links compliant Special Links?</td><td>They resolve to the ASINs in the register (observed 2026-11-19)</td><td>Exact compliance status is unresolved</td><td>Test in Associates Central; read Operating Agreement + Policies</td><td>Scaling outbound links</td></tr>
-<tr><td>Q-02</td><td>What is the canonical domain?</td><td>Site builds as static GitHub Pages; canonical currently placeholder</td><td>Final domain / custom domain</td><td>Owner picks domain; set canonical + Search Console</td><td>SEO launch, og:image, sitemap</td></tr>
-<tr><td>Q-03</td><td>What are thermometer dimensions &amp; Emeril wattage?</td><td>Air fryer dims verified; thermometer dims + Emeril wattage not captured</td><td>Missing fields (blank in tables)</td><td>Re-fetch listing product-details sections; record date</td><td>Counter-space table for thermometers; circuit advice</td></tr>
-<tr><td>Q-04</td><td>Should we promote newer models instead?</td><td>Listings show newer variants (see Flagged)</td><td>Margin, rating trajectory, variant fit</td><td>Compare variant listings; check Associates reports</td><td>Product lineup</td></tr>
-<tr><td>Q-05</td><td>What commission rates apply?</td><td>Tracking ID shopnow047c-20; session rules in Policies</td><td>Category rates (not published here)</td><td>Associates Central commission statement (authorized report only)</td><td>Revenue forecasting (not done)</td></tr>
-<tr><td>Q-06</td><td>Is there search demand for these topics?</td><td>Guides are question-shaped hypotheses, not volume claims</td><td>Measured queries (no analytics yet)</td><td>Search Console after launch; choose next topics from data</td><td>Publishing cadence</td></tr>
-<tr><td>Q-07</td><td>Can we use product photos?</td><td>No Amazon images used; SVG/CSS only</td><td>Licence / permission status</td><td>Manufacturer permission or own photography</td><td>Visual overhaul</td></tr>
-<tr><td>Q-08</td><td>Where does analytics data live?</td><td>Local-only counter; endpoint stub documented</td><td>Hosting, retention, consent</td><td>Pick host; publish retention policy</td><td>Measurement &amp; optimisation</td></tr>
+<tr><td>Q-01</td><td>Are the supplied short links compliant Special Links?</td><td>They resolve to the ASINs in the register (observed 2026-11-19); their redirect targets carry no tag= parameter (FLG-015)</td><td>Exact compliance status is unresolved &mdash; we do not claim they are invalid</td><td>Test in Associates Central; read <a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a> Participation Requirements</td><td>Scaling outbound links (SG-01)</td></tr>
+<tr><td>Q-02</td><td>Is the tracking ID earning correctly?</td><td>Outbound URLs use <code>shopnow047c-20</code>; constructed from official listing URLs</td><td>No clicks/orders attributed yet (no reports read)</td><td>Associates Central Earnings Report after the SG-01 test</td><td>Any revenue claim; campaign ledger rows</td></tr>
+<tr><td>Q-03</td><td>What are thermometer dimensions &amp; remaining spec gaps?</td><td>Air fryer dims verified on all three listings; thermometer fields captured do not include dimensions (FLG-004)</td><td>Thermometer dimensions; any field behind "See more"</td><td>Re-fetch listing product-details sections; record date</td><td>Counter-space rows for thermometers</td></tr>
+<tr><td>Q-04</td><td>Which wattage is right for the Chefman 8QT?</td><td>Listing bullets: 1000W (model RJ38-SQSS-8T). Listing Product information: 1700W (FLG-022)</td><td>Which figure is authoritative</td><td>Manufacturer spec sheet or seller support; check the box label</td><td>Wattage-based advice; SG-11</td></tr>
+<tr><td>Q-05</td><td>Should we promote newer models instead?</td><td>Listings show newer variants (B0CNY1YVDD $59.99 4.6/7,602; B0GL7Z4KP4 $16.99 4.7/144 &mdash; snapshots 2026-11-19, FLG-003)</td><td>Margin, trajectory, whether the submitted ASINs stay available</td><td>Compare variant listings; Associates reports by ASIN</td><td>Product lineup (SG-08)</td></tr>
+<tr><td>Q-06</td><td>What commission rates apply?</td><td>Tracking ID registered; session rules in <a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a></td><td>Category rates (not published here)</td><td>Associates Central Commission Income Statement (authorized report only)</td><td>Revenue forecasting (not done by design)</td></tr>
+<tr><td>Q-07</td><td>Is there search demand for these topics?</td><td>Eight guides are question-shaped hypotheses; no volume claims made</td><td>Measured queries (Search Console not yet verified)</td><td>Verify property + submit sitemap (SG-02); then choose topics from queries</td><td>Publishing cadence priorities</td></tr>
+<tr><td>Q-08</td><td>Can we use product photos?</td><td>No Amazon images used; SVG/CSS graphics only; Operating Agreement treats Program Content (incl. images) as licensed, not owned</td><td>Whether owner-shot or manufacturer-permitted photos are feasible</td><td>SG-04 decision; read <a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement</a> Program Content definition</td><td>Visual conversion work (SG-04)</td></tr>
+<tr><td>Q-09</td><td>Where does analytics data live?</td><td>Client ships 5 events with local-only counts; endpoint code ready in <code>analytics-endpoint/</code></td><td>Hosting, retention window, privacy notice wording</td><td>Pick host (SG-03); publish retention policy on the compliance page</td><td>Measurement &amp; optimization loop</td></tr>
+<tr><td>Q-10</td><td>How volatile are these prices?</td><td>Five snapshots on 2026-11-19 (Black Friday window) reproduced against live buy boxes in the integration pass</td><td>Price history beyond snapshot dates</td><td>Weekly snapshots (SG-12); Associates SiteStripe price display</td><td>Any "deal" framing beyond dated snapshots</td></tr>
+<tr><td>Q-11</td><td>What converts visitors into buyers?</td><td>Design + content hypotheses only (DESIGN_PROMPT.md); zero measured behavior</td><td>Click-through and conversion by page/pick</td><td>Endpoint + ledger (SG-03, SG-16); Associates reports</td><td>Any optimization claim; layout prioritization</td></tr>
+<tr><td>Q-12</td><td>Is the disclosure wording compliant?</td><td>Site now uses the exact Section 5 sentence (verified against the Operating Agreement 2026-11-19)</td><td>Nothing outstanding &mdash; keep it under review at each publish</td><td>Re-read Section 5 at each publish (compliance gate)</td><td>None currently</td></tr>
 </table></div>
-<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue.</p>
+<p class="small">Reviewer: mark each SG item Approved / Rejected / Deferred with a date. Approved items move to COORDINATION.md as claimed tasks. Nothing here is a promise of traffic, ranking, or revenue. Irregularities found in the data are not fixed silently &mdash; they are listed on <a href="flagged.html">Flagged for review</a>.</p>
 
 </main>
 
 <footer>
-  <div class="disclosure-strip">Disclosure: As an Amazon Associate, The Countertop Guide earns from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
+  <div class="disclosure-strip">Disclosure: As an Amazon Associate I earn from qualifying purchases. <a href="compliance.html">How we disclose</a></div>
   <div class="footer-inner">
     <div>
-      <p><strong>The Countertop Guide</strong> - spec-backed comparisons from Amazon listings. We do not claim hands-on testing we have not done. Every product fact links to its Amazon listing and verification record.</p>
+      <p class="footer-brand">The Countertop <span>Guide</span></p>
+      <p>Spec-backed comparisons from Amazon listings for air fryers and meat thermometers. We show the source for every number and we say plainly what we have not verified. No fake testing.</p>
       <p class="small">Prices are snapshots from 2026-11-19 and change. Always confirm price, variant and fit on Amazon before buying.</p>
     </div>
-    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a></p></nav>
-    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a></p></nav>
-    <nav aria-label="Trust"><p><strong>Trust &amp; data</strong></p><p><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a><br><a href="executive-summary.html">Executive summary</a><br><a href="suggestions.html">Suggestions board</a></p></nav>
+    <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air Fryers</a><br><a href="thermometers.html">Thermometers</a><br><a href="compare.html">Compare all five</a><br><a href="search.html">Search</a></p></nav>
+    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity checklist</a><br><a href="guide-holiday-hosting.html">Holiday hosting</a><br><a href="guide-gifts-by-budget.html">Gifts by budget</a></p></nav>
+    <nav aria-label="Review desk"><p><strong>Review desk</strong></p><p><a href="suggestions.html">Suggestions &amp; decisions</a><br><a href="executive-summary.html">Executive summary</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="compliance.html">Compliance</a><br><a href="methodology.html">Method &amp; campaign ledger</a></p></nav>
   </div>
 </footer>
 <script src="assets/app.js"></script>

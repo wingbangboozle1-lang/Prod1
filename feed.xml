@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<title>The Countertop Guide</title>
-<link>https://wingbangboozle1-lang.github.io/Prod1/index.html</link>
-<description>Spec-backed air fryer and thermometer comparisons from verified Amazon listings. No hype, no fake testing.</description>
-<atom:link href="https://wingbangboozle1-lang.github.io/Prod1/feed.xml" rel="self" type="application/rss+xml"/>
-<item><title>Basket or oven-style air fryer: what should you compare?</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-basket-vs-oven.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-basket-vs-oven.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Dual-basket vs French-door oven vs single basket: two-dish cooking, crowd capacity, counter depth.</description></item>
-<item><title>A no-hype checklist for comparing air fryer capacity</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-capacity-checklist.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-capacity-checklist.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Quarts vs litres, single vs dual baskets, feeds 4-6 and pizza claims.</description></item>
-<item><title>How to assess cleanup and counter-space trade-offs</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-cleanup-counter-space.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-cleanup-counter-space.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth.</description></item>
-<item><title>Questions to ask before buying a multi-function kitchen appliance</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-multifunction-questions.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-multifunction-questions.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Presets, accessories, wattage, warranty and fit checklist.</description></item>
-<item><title>Instant-read or wireless? How to read accuracy claims</title><link>https://wingbangboozle1-lang.github.io/Prod1/guide-thermometer-accuracy.html</link><guid>https://wingbangboozle1-lang.github.io/Prod1/guide-thermometer-accuracy.html</guid><pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate><description>Plus-minus 0.5F, NIST/NSF, sensor counts and WiFi range.</description></item>
-</channel>
+<rss version="2.0">
+  <channel>
+    <title>The Countertop Guide</title>
+    <link>https://wingbangboozle1-lang.github.io/Prod1/</link>
+    <description>Spec-backed comparisons from Amazon listings: air fryers and meat thermometers. Sponsored links labeled; snapshots dated.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>The holiday hosting test: which air fryer feeds a crowd?</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-holiday-hosting.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-holiday-hosting.html</guid>
+      <description>Holiday hosting, two dishes at once, rotisserie and pizza claims, counter-depth math, return windows.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Kitchen gifts under $25, $80 and $150</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-gifts-by-budget.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-gifts-by-budget.html</guid>
+      <description>Holiday gift tiers from verified price snapshots. Stocking stuffer to showstopper.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Will it trip the breaker? Wattage and outlet math</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-wattage-outlets.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-wattage-outlets.html</guid>
+      <description>Air fryer wattage, 120V circuits, the Chefman 8QT wattage conflict, how to verify any listing.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Basket or oven-style air fryer: what should you compare?</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-basket-vs-oven.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-basket-vs-oven.html</guid>
+      <description>Dual-basket vs French-door oven vs single basket. Two-dish cooking, crowd capacity, counter depth.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>A no-hype checklist for comparing air fryer capacity</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-capacity-checklist.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-capacity-checklist.html</guid>
+      <description>Quarts vs litres, single vs dual baskets, feeds 4-6, rotisserie and pizza claims.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>How to assess cleanup and counter-space trade-offs</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-cleanup-counter-space.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-cleanup-counter-space.html</guid>
+      <description>Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Questions to ask before buying a multi-function kitchen appliance</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-multifunction-questions.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-multifunction-questions.html</guid>
+      <description>Presets, accessories, wattage, warranty and fit checklist for multi-function ovens.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Instant-read or wireless? How to read accuracy claims</title>
+      <link>https://wingbangboozle1-lang.github.io/Prod1/guide-thermometer-accuracy.html</link>
+      <guid isPermaLink="true">https://wingbangboozle1-lang.github.io/Prod1/guide-thermometer-accuracy.html</guid>
+      <description>Plus-minus 0.5F, NIST NSF, sensor counts, WiFi range. How to read thermometer claims.</description>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
 </rss>

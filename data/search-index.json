@@ -1,18 +1,23 @@
 [
   {
+    "title": "Home: air fryers & thermometers compared",
+    "url": "index.html",
+    "text": "Five verified products, two categories, sourced numbers, dated price snapshots. Compare all five, read the guides, use the chooser."
+  },
+  {
     "title": "Air fryers category",
     "url": "air-fryers.html",
-    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, cleanup, price snapshots."
+    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, wattage, cleanup, price snapshots."
   },
   {
     "title": "Thermometers category",
     "url": "thermometers.html",
-    "text": "ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe. Accuracy claims, range, probes."
+    "text": "ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe. Accuracy claims, NIST NSF, range, probes."
   },
   {
     "title": "Compare all five",
     "url": "compare.html",
-    "text": "Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth."
+    "text": "Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth, sticky price bar."
   },
   {
     "title": "Basket or oven-style air fryer: what should you compare?",
@@ -40,33 +45,53 @@
     "text": "Plus-minus 0.5F, NIST NSF, sensor counts, WiFi range. How to read thermometer claims."
   },
   {
+    "title": "The holiday hosting test: which air fryer feeds a crowd?",
+    "url": "guide-holiday-hosting.html",
+    "text": "Holiday hosting, two dishes at once, rotisserie and pizza claims, counter-depth math, return windows."
+  },
+  {
+    "title": "Kitchen gifts under $25, $80 and $150",
+    "url": "guide-gifts-by-budget.html",
+    "text": "Holiday gift tiers from verified price snapshots. Stocking stuffer to showstopper."
+  },
+  {
+    "title": "Will it trip the breaker? Wattage and outlet math",
+    "url": "guide-wattage-outlets.html",
+    "text": "Air fryer wattage, 120V circuits, the Chefman 8QT wattage conflict, how to verify any listing."
+  },
+  {
+    "title": "All buying guides",
+    "url": "guides.html",
+    "text": "Eight question-shaped guides in three clusters: air fryers, thermometers, seasonal."
+  },
+  {
     "title": "Executive summary",
     "url": "executive-summary.html",
     "text": "What the site is, what is verified, compliance posture, measurement plan, decision gates."
   },
   {
-    "title": "Suggestions board and decision log",
+    "title": "Review desk: suggestions and decisions",
     "url": "suggestions.html",
-    "text": "Suggestions SG-01 to SG-10, questions Q-01 to Q-08, evidence needed, decisions blocked."
+    "text": "Ranked suggestions SG-01 to SG-16 with recommended paths; Q-01 to Q-12 missing-information map."
   },
   {
     "title": "Verification register",
     "url": "verification.html",
-    "text": "Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, policy sources."
+    "text": "Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, integration re-verification."
   },
   {
     "title": "Flagged for review",
     "url": "flagged.html",
-    "text": "Irregularities: short-link compliance, discrepancies, newer models, missing fields, launch gates."
+    "text": "Irregularities FLG-001 to FLG-022: short-link compliance, listing conflicts, missing fields, launch gates."
   },
   {
     "title": "Compliance",
     "url": "compliance.html",
-    "text": "Disclosure wording, sponsored-link marking, Amazon and FTC policy checklist."
+    "text": "Exact Section 5 disclosure, sponsored-link marking, Amazon and FTC policy checklist."
   },
   {
     "title": "Method and campaign ledger",
     "url": "methodology.html",
-    "text": "Evidence rules, five analytics events, empty campaign ledger, publishing cadence."
+    "text": "Evidence rules, five analytics events, empty campaign ledger, publishing cadence, publishing gate."
   }
 ]
