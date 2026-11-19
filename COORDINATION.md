@@ -163,6 +163,8 @@ Validation (this session): 0 broken internal links across 17 HTML pages; disclos
 - No `example.com` remains in any HTML, sitemap.xml, robots.txt or feed.xml; canonical is uniform.
 - `git diff --check`: clean.
 
-### Integration, PR and merge (recorded after the PR merges)
+### Integration, PR and merge (2026-11-19)
 
-_Recorded below once the merge and Pages deploy are confirmed._
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/15 — merged with a merge commit `6e3dbfe2c34bac0cd800e882e6e95c26e443ae25` at 2026-11-19 21:50 UTC (no approval wait, per the brief).
+- **Deploy:** GitHub Pages API reports `status: built`, `public: true`, URL `https://wingbangboozle1-lang.github.io/Prod1/`. The `Deploy GitHub Pages` workflow run for `6e3dbfe` concluded `success` — including the new publishing-gate step (`node scripts/check_site.mjs`) before the artifact upload. The live `design-brief.html` was fetched and renders with the disclosure strip, the prompt blocks, the three visual directions and the eight-topic calendar.
+- **Merge result recorded:** T6 and T7 are done. Open items (FLG-001 short-link compliance, FLG-004 thermometer dimensions, FLG-005 Emeril warranty, FLG-015 no tag= on redirect targets, I-02 disclosure wording, photography, domain, analytics hosting) remain published on `flagged.html` and `suggestions.html` for owner review and do not block the merge.
