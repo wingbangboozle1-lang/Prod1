@@ -25,6 +25,19 @@ Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other session
 | T-POLISH Seasonal question-shaped guides + shop-style landing | done | arena/8e82d03c-prod1 | guide-holiday-gifts.html, guide-small-kitchen.html, guide-holiday-roast.html, index.html, guides.html, sitemap.xml, feed.xml | Working titles only; no volume/popularity claims; verified specs only | — |
 | T-DEPLOY Build, link check, PR to main, merge, Pages deploy | in progress | arena/8e82d03c-prod1 | all root site files | pages.yml + check gate; `python3 build_site.py` regenerates 45 HTML; `node scripts/check_site.mjs` PASSED 45 files, 0 issues, 0 warnings (3 new guides created, disclosure verbatim per OA §5, "trending" wording removed); ready to push/PR/merge/deploy | — |
 
+## Session arena/2d5ebe5b-prod1 (2026-11-19) — claim
+
+Branch `arena/2d5ebe5b-prod1` (Arena session branch; work happens only here). Acting as the publication + final integration session for the brief's remaining asks: shop-first redesign ("read like a shop, not an audit"), suggestion desk with recommended paths, missing-information discovery (Q/I/A), catchy spec-backed guides (S-13, ended at 11 after merging 8e82d03c's three), mobile-first polish (S-20), deploy gate (I-05/R-01), canonical fix (FLG-007 regression in `build_site.py`), disclosure wording (I-02). No other session is active; all prior sessions are merged and recorded above.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-2D1 Publication redesign: front page as a publication front (hero, category tiles, featured guides, picks), reader nav + single dashboard group in footer | done | 2d5ebe5b | `build_site.py`, `assets/style.css`, root `*.html` (regenerated) | Existing verified data (`data/products.json`, re-verified 2026-11-19 in this session); gate `scripts/check_site.mjs` PASSED (45 files) | — |
+| T-2D2 Eight catchy spec-backed guides (S-13): kept 5 + 3 new (holiday hosting, gifts by budget, wattage & outlets); 8e82d03c's 3 (holiday gifts, holiday roast, small kitchen) ported into the generator at merge, complete internal linking (S-24) | done | 2d5ebe5b | `build_site.py`, new `guide-holiday-hosting.html`, `guide-gifts-by-budget.html`, `guide-wattage-outlets.html` | Facts only from `data/products.json` listings (re-read 2026-11-19); gate PASSED | Photography stays SVG/CSS (S-18/SG-04 undecided, FLG-009) |
+| T-2D3 Review desk: suggestions with recommended paths + Q/I/A missing-information discovery plan | done | 2d5ebe5b | `suggestions.html`, `DESIGN_PROMPT.md` | — | Owner choice required for every recommendation (SG-01..SG-17) |
+| T-2D4 Machinery: exact Section 5 disclosure wording (I-02), canonical in `build_site.py` + `data/products.json` (FLG-007 regression), deploy gate in `pages.yml` (I-05/R-01) | done | 2d5ebe5b | `build_site.py`, `data/products.json`, `.github/workflows/pages.yml` | OA §5 verbatim (fetched 2026-11-19); gate reports 0 disclosure warnings | — |
+| T-2D5 counter-check CI determinism (R-05) | done (verified already fixed) | 2d5ebe5b | — | `counter-check/tools/build_site.py` uses fixed `BUILD_DATE`; rebuild diff = empty; gate PASSED | R-05 closed |
+| T-2D6 Final integration: line-by-line re-verify, link check, PR to main, merge, Pages deploy | done | 2d5ebe5b | `COORDINATION.md`, `review/2d5ebe5b/VERIFICATION.md`, `README.md` | See publication record below | FLG-021/022/023/024/025 added; I-06 closed; FLG-023 = price/star display vs API policy (P0) |
+
 ## Integration update — arena/71354f04-prod1 (2026-11-19)
 
 The upstream `main` advanced after this task began and contains an independently completed publication build. The merge was resolved by retaining the upstream implementation as authoritative (including its sourced product register) and adding complementary, clearly labeled review materials under `docs/` and `articles/`; links to those pages were added to the home footer and sitemap. This avoids overwriting the upstream product data and publication.
@@ -315,3 +328,55 @@ Session ID: **bb3ae11b**. Tasks T6 (publication overhaul) and T7 (verification &
 - **Data.** `data/products.json` carries the re-verified values (P2 18,375 ratings / wattage captured; P3 16,892 ratings) with the live Pages canonical and verbatim §5 disclosure. Data-to-data verification against the owner's brief: **ALL CHECKS PASS** (5 products, ASINs, affiliate tags, separate observed-target fields, confirmation dates, intentional blanks).
 - **Gates (all green).** `python3 build_site.py` clean; `node scripts/check_site.mjs` → **CHECK PASSED, 51 HTML files, zero warnings**; `node scripts/check_meta.mjs` → **Gate passed, 0 warnings**; `git diff --check` clean; 26 pages built (4 consolidated by design), 22 sitemap URLs.
 - **Irregularities carried, not blocking:** FLG-001 short-link compliance (unresolved), FLG-003 newer models, FLG-004 thermometer dimensions, FLG-005 Emeril warranty, FLG-015 no tag= on redirect targets, FLG-021 accessory count, FLG-022 wattage discrepancy, FLG-032 price/rating display, FLG-039 three builds on one host, FLG-051 Pages build source. Flagged/unverified items do not block the merge per the brief.
+
+## Session 2d5ebe5b — integration & verification record (2026-11-19)
+
+**Line-by-line re-verification.** This session fetched every official source page directly (five Amazon listings + the Associates Operating Agreement) and re-read each published value. Full log with per-field evidence and manual-review links: `review/2d5ebe5b/VERIFICATION.md`. Notable results:
+- **I-06 closed:** P1 buy box $79.93 / List $99.99 reproduced twice against the live listing (the earlier doubt traced to a $74.99 widget for a *different* ASIN — FLG-016).
+- **FLG-005 partially resolved:** P2 wattage found on the listing (1700 W / 120 V, Product information) and filled; P2 warranty precisely recorded (warranty PDF linked, no term in listing text).
+- **FLG-021 added:** Emeril listing conflicts with itself on accessory count (title/item-details 6 vs description 7).
+- **FLG-022 added:** Chefman 8QT listing conflicts with itself on wattage (bullets 1000 W vs Product information 1700 W). Both values published side by side; neither dropped.
+- Rating-count snapshot drift updated with date: P2 18,371→18,375; P3 16,890→16,892. P2 "7K+ bought"→"8K+".
+- **I-02 closed:** disclosure strip and footer now use the exact Operating Agreement §5 sentence (verified verbatim against the fetched agreement); publishing gate reports zero disclosure warnings.
+- **FLG-007 closed at the source:** `build_site.py` no longer emits the `example.com` placeholder (it regressed the earlier HTML patch on every rebuild); canonical is read from `data/products.json` = the Pages URL.
+
+**Publication redesign (shop-first).** Front page rebuilt as a publication front (hero, category tiles, product picks, fresh guides, chooser, trust strip); reader nav (Home/Shop/Compare/Guides) plus one dashboard nav group ("The desk") and full footer columns. New CSS design system (Fraunces/Inter, warm editorial palette, mobile-first, sticky compare bar) in `assets/style.css`. Visual direction captured in `DESIGN_PROMPT.md`. Eleven question-shaped guides now published in three clusters (S-13/S-24): my 3 new guides plus 8e82d03c's 3 guides ported into the generator at merge with content preserved, with sitemap + RSS generated deterministically by the build.
+
+**Review desk.** `suggestions.html` carries SG-01..SG-17 with recommended paths/alternatives/effort and a Q-01..Q-12 missing-information map (what is known, what is missing, how to discover it, what it blocks). All recommendations await owner approval; none is presented as decided.
+
+**Checks run (all passing).** `python3 build_site.py`; `node scripts/check_site.mjs` (45 HTML files; 3 warnings for the word "trending" inside rule/disclaimer text, not claims); `python3 counter-check/tools/check_site.py` (16 pages, 5 products, 21 flags); `python3 counter-check/tools/build_site.py` rebuild diff empty (R-05 closed); `git diff --check` clean.
+
+**Open items carried forward (non-blocking, published on flagged.html):** FLG-001/FLG-015 (Special Link test + untagged redirect targets — manual gate SG-01), FLG-004 (thermometer dimensions absent from listing fields), FLG-008/SG-03 (analytics endpoint hosting), FLG-009/SG-04 (photography licence), FLG-021 (accessory count), FLG-022 (wattage conflict).
+
+**API policy check (this session, verbatim from Program Policies fetched 2026-11-19).** Participation Requirements §2: prices/availability may only be shown if Amazon serves the link or the data comes via Creators/PA API. §6(t): customer reviews/star ratings likewise only via Creators/PA API links. §6(y): no price tracking/alerting. The site's dated manual snapshots of prices and ratings do NOT meet §2/§6(t) as written → **FLG-023 (P0)** with three remediation options on the review desk (apply for API / remove displayed prices+ratings / owner accepts documented risk). §6(y) checked: no tracking/alerting feature present (FLG-024). This subsumes session 8e82d03c's FLG-022 (numbering note: FLG-025).
+
+**Pull request and merge.** Recorded in the publication record below.
+
+## Merge resolution note — session 2d5ebe5b (2026-11-19)
+
+`main` advanced with PRs #15–#17 (sessions arena/2ec8638e-prod1 and arena/8e82d03c-prod1) while this session was working. Conflicts resolved WITHOUT discarding either side:
+- **Their three seasonal guides** (`guide-holiday-gifts.html`, `guide-holiday-roast.html`, `guide-small-kitchen.html`) were ported into `build_site.py` (content preserved, same URLs) and are now generated alongside mine — the site carries all eleven guides in three clusters.
+- **Their standalone artifacts kept:** `design-brief.html` (its disclosure variant updated to the exact §5 sentence), `docs/verification-log.md`, `.gitignore`, counter-check tweak.
+- **Data convergence corroborates both sessions:** independent re-reads found the same values (P2 18,375 / 8K+ / 1700 W; P3 16,892; FLG-021 accessories; FLG-022 wattage; exact §5 disclosure). My `data/products.json` (clean canonical URL + full sourceNotes) is the merged source of truth.
+- **Generated HTML/sitemap/feed** regenerated from the merged generator; both sessions' `pages.yml` gate step kept (one step, combined name).
+- **Their API-policy flag verified against the primary source** and carried as FLG-023 (P0) with verbatim §2/§6(t) text — see above.
+
+## Merge resolution note 2 — session 2d5ebe5b (2026-11-19)
+
+`main` advanced again mid-merge with PRs #19–#21 (session arena/f0db58ea-prod1's shop-first redesign, dashboard hub, per-page canonical, SG-11..27/DI-1..8/Q-01..20 boards). Resolved again WITHOUT discarding either side:
+- **Their per-page canonical + og:url adopted** in the shared generator (`write_page` + slug): each page now canonicalizes itself; the home page canonicalizes the bare root. This supersedes the sitewide-root canonical this session shipped earlier and closes their FLG-007 note properly.
+- **Their `dashboard.html` hub ported into the generator** (all dashboard surfaces in one place) and linked first in the footer "The desk" group.
+- **Their suggestion board kept verbatim** on `suggestions.html` as "Merged suggestion log from upstream sessions" — SG-11..27, DI-1..8 and Q-01..20 exactly as their sessions wrote them (IDs keep working for design-brief.html cross-references); the recommended-path review desk (SG-01..17) remains the decision surface.
+- **data/products.json**: my field set kept (clean canonical + read-dated wattage/warranty + P2/P3 fixes), their inline flag pointers added to P2/P3/P5 sourceNotes.
+- **counter-check Q-12 wording fix** propagated to `counter-check/data/questions.json` so the audit build reproduces their hand fix deterministically.
+- Gates re-run after the merge: 50 HTML files PASS (disclosure, sponsored, internal links, titles, claim wording); counter-check gate PASS; rebuild deterministic; `git diff --check` clean.
+
+
+## Merge resolution note 3 — session 2d5ebe5b (2026-11-19): generator adoption
+
+`main` advanced a third time mid-merge with PRs #20/#22 (session arena/b49d8595-prod1: storefront pass, editorial.json price/rating policy, check_meta.mjs + make_og.py + drift-gated Pages workflow, FLG-001..047 register, review-desk.html, about.html, guide-gift-picks.html). Their generator implements the compliance machinery this session's FLG-023 asked for (volatile figures removed from non-register pages per Participation Requirements §2 and §6(t), tracked in data/editorial.json with the API unblock path). Resolution decision: **adopt their generator (build_site.py) as the merged generator** — it produces every page of the merged site and passes both publishing gates — and **port this session's three unique guides into it** (guide-holiday-hosting, guide-gifts-by-budget, guide-wattage-outlets, figure policy applied, guide cross-links kept). Also merged here: `assets/style.css` takes their storefront design (my publication design is documented in `DESIGN_PROMPT.md` and preserved in git history at `3fb06f4`); generated pages rebuilt deterministically; `page_to` rstrips lines for clean diffs. Their consolidation scheme (FLG-047: the three 8e82d03c seasonal pages live as canonical stubs) is preserved unchanged. Gates after the merge: check_site.mjs PASSED (53 HTML files), check_meta.mjs PASSED (5 warnings, 0 blocking), counter-check gate PASSED, rebuild deterministic. My register findings (accessory count FLG-021, wattage FLG-022, price/API policy FLG-023) map onto their register at the same or adjacent IDs (their FLG-021/022 identical, policy = FLG-032/033/044).
+
+
+## Merge resolution note 4 — session 2d5ebe5b (2026-11-19)
+
+Fourth merge round: `main` advanced with PRs #23-#24 (session arena/bb3ae11b-prod1's topics.html topic calendar, decision-desk JS and review panel). Clean auto-merge this time - both sides now build on the same generator lineage. This session's three ported guides (guide-holiday-hosting, guide-gifts-by-budget, guide-wattage-outlets) and the adopted editorial-policy machinery are preserved; their topics.html and decision-desk layer merge in on top. Output regenerated from the merged generator before commit; both publishing gates re-run green.

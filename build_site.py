@@ -202,7 +202,8 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 </html>
 """
 def page_to(slug, *a, **kw):
-    open(slug, "w").write(page(slug, *a, **kw))
+    html_out = "\n".join(line.rstrip() for line in page(slug, *a, **kw).split("\n"))
+    open(slug, "w").write(html_out)
     print("wrote", slug)
 def guide_shell(kicker, h1, intro, sections_html, faqs, picks=("P1", "P2", "P3")):
     faq_json = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]}
@@ -472,11 +473,14 @@ guides_body = """
 <article class="card"><span class="tag">Multi-function</span><h3>Questions to ask before buying a multi-function kitchen appliance</h3><p>Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.</p><p><a class="btn small" href="guide-multifunction-questions.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Thermometers - Accuracy</span><h3>Instant-read or wireless? How to read accuracy claims</h3><p>+/-0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.</p><p><a class="btn small" href="guide-thermometer-accuracy.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that works without a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a class="btn small" href="guide-gift-picks.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Hosting</span><h3>The holiday hosting test: which air fryer actually feeds a crowd?</h3><p>Capacity claims, a 6-lb rotisserie chicken, 12-inch pizzas - and the counter-depth number that decides fit in December.</p><p><a class="btn small" href="guide-holiday-hosting.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Budget</span><h3>Kitchen gifts under $25, under $80 and under $150</h3><p>Budget bands mapped to the five verified picks, with each listing's own gift claims quoted, not invented.</p><p><a class="btn small" href="guide-gifts-by-budget.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Specs</span><h3>Will it trip the breaker? Wattage and outlet math for air fryers</h3><p>1000W or 1700W? One of our listings answers that question two different ways - here is how to check yours.</p><p><a class="btn small" href="guide-wattage-outlets.html">Read guide</a></p></article>
 </div>
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
 """
-page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Six question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup and counter space, presets, accuracy claims and gift picks.",guides_body)
+page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting, budget bands and wattage.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
@@ -1194,6 +1198,88 @@ about_body = f"""
 """
 page_to("about.html","About us: how this site earns | Countertop Guide","Who writes here, how Amazon Associates money works, why no prices are quoted, what has not been tested and how corrections are handled.",about_body)
 
+# ---------- GUIDES 7-9 (ported from session arena/2d5ebe5b, figure policy applied) ----------
+b7, j7 = guide_shell("Guide - Seasonal - Holiday 2026", "The holiday hosting test: which air fryer actually feeds a crowd?",
+ f"Thanksgiving week, Hanukkah, game day, the office cookie swap - December asks more of a countertop appliance than a Tuesday does. Here is how our three verified fryers answer the hosting questions that actually decide the meal: how much fits, how many dishes run at once, and whether it fits the counter when the mixer is already there.",
+ f"""
+<h2>The three hosting questions</h2>
+<ol>
+<li><strong>How much actually fits?</strong> The Emeril 26QT listing claims a 6-lb rotisserie chicken and a 12-inch pizza, and describes serving 4-6 people (seller claim, per bullets). The Chefman 6QT splits into two 3-quart baskets - two side dishes at once with Sync Finish. The Chefman 8QT is one 8-quart cavity for a single big dish.</li>
+<li><strong>How many dishes can run at once?</strong> Only the dual-basket cooks two different foods on independent settings. The oven wins on volume per dish; the dual-basket wins on dish count.</li>
+<li><strong>Will it still fit when the counter is full?</strong> December counters host pie boxes and cutting boards. Depth is the binding constraint: 32.4 cm (Chefman 8QT), 34.0 cm (Chefman 6QT dual), 42.9 cm (Emeril oven). Measure before the guests arrive.</li>
+</ol>
+<h2>Holiday math from the listing data</h2>
+<div class="table-scroll"><table>
+<tr><th>Hosting job</th><th>Best fit (from verified specs)</th><th>Why</th></tr>
+<tr><td>Two sides at once (beans + potatoes)</td><td>Chefman 6QT Dual <span class="meta">B0CDY277D3</span></td><td>Two 3 Qt baskets, Sync Finish, narrowest footprint (158.0 sq in)</td></tr>
+<tr><td>Rotisserie chicken / 12&quot; pizza</td><td>Emeril 26QT Oven <span class="meta">B09B7SB46R</span></td><td>Only unit whose listing claims rotisserie + 12-inch pizza (per bullets)</td></tr>
+<tr><td>Big single dish in a small kitchen</td><td>Chefman 8QT Basket <span class="meta">B08DKYBTPH</span></td><td>8 qt single cavity, shallowest depth (32.4 cm)</td></tr>
+</table></div>
+<p class="small">Food-fit claims ("6-lb chicken", "4-6 people") are quoted from the seller's listing text. We have not cooked a holiday meal in any unit - portion math is yours to sanity-check.</p>
+<h2>Holiday price reality</h2>
+<p>We do not quote prices on this page: they move, and the buy button goes to the live listing for a reason. The dated snapshots this desk read on {VERIFIED} sit in the <a href="verification.html">verification register</a>. Listings read that day showed deal badges across the board (a dated observation, not a claim about today) and a holiday return window running to January 31, 2027 for purchases made November 1 - December 31, 2026. Confirm both on the listing before you buy.</p>
+""",
+ [("Which air fryer is best for Thanksgiving?","Whichever fits your counter and your dish count. For two sides at once, the Chefman 6QT dual-basket (2 x 3 Qt with Sync Finish). For a rotisserie chicken or 12-inch pizza, the Emeril 26QT (claims per its listing). Measure counter depth first: the Emeril needs 42.9 cm."),
+  ("Do these make good holiday gifts?","The ThermoMaven listing itself positions the thermometer as a stocking stuffer and Secret Santa gift (seller claim). Our gift-by-budget guide maps the five products into budget bands."),
+  ("Are the holiday prices final?","We do not quote prices on the site - snapshots go stale within days. Check the live listing price before buying; the register keeps what each listing showed on the check date.")],
+ picks=("P1", "P2", "P3"))
+page_to("guide-holiday-hosting.html", "The holiday hosting test: which air fryer feeds a crowd? | Countertop Guide", "Holiday hosting questions answered from verified Amazon listings: two dishes at once, rotisserie and pizza claims, counter-depth math and dated holiday-return observations.", b7, j7, "guide-page")
+
+b8, j8 = guide_shell("Guide - Seasonal - Gifts", "Kitchen gifts under $25, under $80 and under $150",
+ f"Gift guides usually invent prices. This one maps the five listings we verify into budget bands and quotes each product's own gift positioning where the seller makes one. Bands are a starting map, not a price promise: every product's dated price snapshot lives in the <a href=\"verification.html\">verification register</a>.",
+ f"""
+<h2>The bands (listing data checked {VERIFIED})</h2>
+<div class="table-scroll"><table>
+<tr><th>Budget band</th><th>Pick</th><th>Who it's for</th><th>Listing's own gift claim</th></tr>
+<tr><td>Under $25</td><td>ThermoMaven 1-Second Instant-Read <span class="meta">B0DHZTCNR5</span></td><td>Grillers, candy makers, anyone who cuts into chicken to "check"</td><td>Bullets call it a stocking stuffer and Secret Santa pick (seller claim) - and it includes a calibration certificate</td></tr>
+<tr><td>Under $80</td><td>Chefman 8QT TurboFry <span class="meta">B08DKYBTPH</span></td><td>Family kitchens, dorms, first apartments</td><td>Listing positions the square shape for small counters (seller claim)</td></tr>
+<tr><td>Under $80</td><td>Chefman 6QT Dual-Basket <span class="meta">B0CDY277D3</span></td><td>Meal preppers who cook mains and sides together</td><td>Viewing windows and Sync Finish are the headline features</td></tr>
+<tr><td>Under $150</td><td>Emeril 26QT French-Door Oven <span class="meta">B09B7SB46R</span></td><td>Hosts, bakers, rotisserie-curious cooks</td><td>Six (or seven - see <a href="flagged.html#FLG-021">FLG-021</a>) accessories included</td></tr>
+<tr><td>Under $150</td><td>CHEF iQ Sense Wireless (3 probes) <span class="meta">B0DZFD6R9Z</span></td><td>Smokers, brisket people, tech-forward cooks</td><td>Three probes = three proteins at once (seller claim)</td></tr>
+</table></div>
+<p class="small">Budget bands are editorial frames, not price claims. Whether a product currently sits inside a band is a live-listing question - check the dated snapshot in the register and the live price on Amazon.</p>
+<h2>Gift-giver's checklist</h2>
+<ol>
+<li><strong>Check the return window.</strong> The listings we read on {VERIFIED} showed a holiday return window to January 31, 2027 for purchases November 1 - December 31, 2026. Confirm on the listing before gifting.</li>
+<li><strong>Match the cook, not the logo.</strong> A wireless probe set delights a smoker owner and confuses a scrambled-eggs person. More angles in our <a href="guide-gift-picks.html">gift-picks checklist</a>.</li>
+<li><strong>Mind the counter.</strong> You are gifting counter space as much as an appliance - the depth table in our <a href="guide-cleanup-counter-space.html">counter-space guide</a> applies to gifts too.</li>
+<li><strong>Prices move.</strong> We deliberately do not quote them here. Check the live listing price before you buy.</li>
+</ol>
+<p class="small">We have not tested any of these as gifts (or as anything else). Claims quoted as "seller claims" come from the listing text, linked in the <a href="verification.html">source record</a>.</p>
+""",
+ [("What is a good kitchen gift under $25?","The ThermoMaven instant-read thermometer. Its own listing calls it a stocking stuffer and Secret Santa pick, and it includes a calibration certificate. Its dated price snapshot sits in the verification register."),
+  ("Is the Chefman dual-basket a good mid-band gift?","Its buy-box snapshot on the check date sat inside the band against a higher list price shown on the listing (both in the register). Prices are snapshots and move - confirm on Amazon."),
+  ("Should I gift an air fryer to someone with a small kitchen?","Measure their counter depth first. The Chefman 8QT is the shallowest of the three fryers here at 12.75 in (32.4 cm); the Emeril oven needs 16.9 in (42.9 cm).")],
+ picks=("P4", "P3", "P2"))
+page_to("guide-gifts-by-budget.html", "Kitchen gifts under $25, $80 and $150: budget bands | Countertop Guide", "Holiday gift bands from five verified Amazon listings: who each pick is for, the listings' own gift claims quoted, and a gift-giver's checklist.", b8, j8, "guide-page")
+
+b9, j9 = guide_shell("Guide - Air fryers - Specs", "Will it trip the breaker? Wattage and outlet math for air fryers",
+ "Air fryers are high-wattage appliances, and wattage is the spec listings are most likely to get inconsistent. We found exactly that on one of our own products. Here is what wattage means for your kitchen circuit, and how to check any listing for the same trap.",
+ f"""
+<h2>What the listings say (read {VERIFIED})</h2>
+<ul>
+<li><strong>Chefman 6QT Dual (B0CDY277D3):</strong> "120 Volts/1700 Watts" in the listing bullets. One number, consistent.</li>
+<li><strong>Emeril 26QT (B09B7SB46R):</strong> Product information table lists 1700 watts / 120 volts.</li>
+<li><strong>Chefman 8QT (B08DKYBTPH):</strong> the bullets say "1000 Watts/120 Volts - RJ38-SQSS-8T" while the Product information table on the same page says 1700 watts. Both values are on the same listing. We show both and flag it (<a href="flagged.html#FLG-022">FLG-022</a>).</li>
+</ul>
+<h2>The kitchen math</h2>
+<p>A standard US kitchen circuit is 120 volts, typically 15 amps (1,800 watts of capacity) or 20 amps (2,400 watts). The rule of thumb electricians use: keep a continuous load under about 80% of the circuit. That puts the safe continuous budget around 1,440 W on a 15-amp circuit.</p>
+<p>At 1,700 watts, an air fryer is already above that 15-amp continuous budget on its own - which is why the manuals say "dedicated outlet". At 1,000 watts, there is usually room for a kettle or toaster on the same circuit. The difference matters most in older kitchens and dorms.</p>
+<h2>How to check any listing for the wattage trap</h2>
+<ol>
+<li>Read the "About this item" bullets and note any wattage figure.</li>
+<li>Open the "Product information" table (it is below the description) and compare.</li>
+<li>If the two disagree, treat wattage as unresolved. Check the box or the manufacturer's spec sheet before you plan your circuit around it.</li>
+<li>When in doubt, assume the higher number for safety planning.</li>
+</ol>
+<p class="small">This is general electrical guidance, not a certified electrician's advice. We derived the circuit math from standard US 120V/15A and 20A ratings; the wattage figures are quoted from the listings. We have not measured any unit's draw.</p>
+""",
+ [("How many watts does an air fryer use?","The fryers on this site are listed between 1000 and 1700 watts. The Chefman 8QT listing gives both 1000W (bullets) and 1700W (Product information) - we show both and flag the conflict. Check your unit's label before planning outlets."),
+  ("Can I run an air fryer and a microwave on the same circuit?","Not safely if the air fryer draws 1700W: that alone approaches the capacity of a 15-amp, 120-volt kitchen circuit. Use separate outlets on separate circuits for two high-wattage appliances."),
+  ("Why do two sections of the same listing show different wattage?","Seller-entered data can disagree between bullets and the Product information table, exactly as on the Chefman 8QT (FLG-022). Treat the conflict as unresolved and verify on the box or manufacturer's spec sheet.")],
+ picks=("P3", "P1", "P2"))
+page_to("guide-wattage-outlets.html", "Will it trip the breaker? Air fryer wattage and outlet math | Countertop Guide", "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.", b9, j9, "guide-page")
+
 # ---------- GIFT GUIDE ----------
 b6, j6 = guide_shell("Guide - Seasonal", "Holiday air fryer gifts: how to choose one that gets used",
  "A gift air fryer fails in two ways: it does not fit where they cook, or it is complicated enough that they never learn it. Neither is about price. Here is the checklist we use for a gift pick, applied to the three fryers on this site.",
@@ -1369,6 +1455,9 @@ GUIDES = [
  ("guide-multifunction-questions.html","Questions to ask before buying a multi-function kitchen appliance","Presets, accessories, wattage, warranty and fit - applied to the 26QT French-door oven."),
  ("guide-thermometer-accuracy.html","Instant-read or wireless? How to read accuracy claims","The stated tolerance, the named certification, sensor counts and what 'unlimited range' means."),
  ("guide-gift-picks.html","Holiday air fryer gifts: how to choose one that gets used","Five questions that predict whether a gifted air fryer stays on the counter: depth, household size, cleanup, panel, returns."),
+ ("guide-holiday-hosting.html","The holiday hosting test: which air fryer actually feeds a crowd?","Capacity claims, two-dish cooking and counter-depth math for December counters, from the listings."),
+ ("guide-gifts-by-budget.html","Kitchen gifts under $25, under $80 and under $150","Budget bands mapped to five verified picks, each listing's own gift claims quoted."),
+ ("guide-wattage-outlets.html","Will it trip the breaker? Wattage and outlet math for air fryers","1000W vs 1700W on a 120V circuit, the Chefman 8QT wattage conflict, and a listing checklist."),
 ]
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',

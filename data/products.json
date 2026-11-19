@@ -5,7 +5,7 @@
     "trackingId": "shopnow047c-20",
     "verifiedDate": "2026-11-19",
     "canonical": "https://wingbangboozle1-lang.github.io/Prod1/",
-    "disclosure": "As an Amazon Associate I earn from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change — always check the price on Amazon before you buy."
+    "disclosure": "As an Amazon Associate I earn from qualifying purchases. Prices and availability are snapshots from Amazon.com on the verification date and can change - always check the price on Amazon before you buy."
   },
   "products": [
     {
@@ -45,7 +45,7 @@
         "Touchscreen presets for chicken, vegetables, pizza, French fries, frozen foods and leftovers"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0CDY277D3",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Price is a snapshot and will change."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read twice 2026-11-19 (integration pass confirmed buy box $79.93 and List Price $99.99). Price is a snapshot and will change."
     },
     {
       "id": "P2",
@@ -74,8 +74,8 @@
       "priceNew": "$149.99",
       "priceList": "$209.99",
       "priceUsed": "—",
-      "wattage": "1700 watts / 120 volts (per listing Product information table)",
-      "warranty": "",
+      "wattage": "1700 watts / 120 volts (Product information table on listing, read 2026-11-19)",
+      "warranty": "Warranty PDF linked from listing (no warranty term stated in listing text, read 2026-11-19)",
       "bullets": [
         "French doors open with a single pull; interior light to monitor food",
         "Listing bullets describe 26-quart capacity for 4–6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza",
@@ -84,7 +84,7 @@
         "Six cooking accessories included (per title)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, wattage and bullets as shown on the Amazon.com listing on 2026-11-19. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs between title (six), item details (24 Functions and 7 Accessories) and included components (6) — see FLG-021. Wattage re-checked 2026-11-19."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021."
     },
     {
       "id": "P3",
@@ -113,7 +113,7 @@
       "priceNew": "$69.99",
       "priceList": "$119.99",
       "priceUsed": "$45.49",
-      "wattage": "1000 Watts/120 Volts - RJ38-SQSS-8T (per listing bullets); listing Product information table lists Output Wattage 1700 watts - see flagged FLG-022",
+      "wattage": "1000 Watts / 120 Volts (model RJ38-SQSS-8T, per listing bullets); listing Product information table says 1700 watts - discrepancy flagged FLG-022, both values shown",
       "warranty": "1-year warranty provided by Chefman (per listing bullets); cETL approved (per listing bullets)",
       "bullets": [
         "TurboFry 4-in-1: Air Fry, Bake, Dehydrate, Frozen (per title); four presets for French fries, chicken, meat and fish (per bullets)",
@@ -123,7 +123,7 @@
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity, special features, bullets and wattage as shown on the Amazon.com listing on 2026-11-19. Wattage internal discrepancy: bullets state 1000 Watts/120 Volts - RJ38-SQSS-8T while the Product information table lists Output Wattage 1700 watts — see flagged.html FLG-022. Listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003."
     },
     {
       "id": "P4",
@@ -162,7 +162,7 @@
         "Motion-activated wake and sleep (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
-      "sourceNote": "Title, rating, price, special features, included components and bullets as shown on the Amazon.com listing on 2026-11-19. Product dimensions were not in the captured fields — left blank, see flagged.html FLG-004."
+      "sourceNote": "Title, rating, price (buy box and List Price), special features, specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change."
     },
     {
       "id": "P5",
@@ -201,7 +201,7 @@
         "Flip reminders, rest timers, estimated cooking times and Guided Cooking recipes in the app (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "sourceNote": "Title, rating, variant prices, special features, included components and bullets as shown on the Amazon.com listing on 2026-11-19. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Product dimensions not captured — left blank, see flagged.html FLG-004."
+      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49."
     }
   ]
 }

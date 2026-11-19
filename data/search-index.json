@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "Six question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup and counter space, presets, accuracy claims and gift picks."
+    "text": "Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting, budget bands and wattage."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -93,6 +93,21 @@
     "title": "About us: how this site earns",
     "url": "about.html",
     "text": "Who writes here, how Amazon Associates money works, why no prices are quoted, what has not been tested and how corrections are handled."
+  },
+  {
+    "title": "The holiday hosting test: which air fryer feeds a crowd?",
+    "url": "guide-holiday-hosting.html",
+    "text": "Holiday hosting questions answered from verified Amazon listings: two dishes at once, rotisserie and pizza claims, counter-depth math and dated holiday-return observations."
+  },
+  {
+    "title": "Kitchen gifts under $25, $80 and $150: budget bands",
+    "url": "guide-gifts-by-budget.html",
+    "text": "Holiday gift bands from five verified Amazon listings: who each pick is for, the listings' own gift claims quoted, and a gift-giver's checklist."
+  },
+  {
+    "title": "Will it trip the breaker? Air fryer wattage and outlet math",
+    "url": "guide-wattage-outlets.html",
+    "text": "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing."
   },
   {
     "title": "Air fryer gifts that get used",
