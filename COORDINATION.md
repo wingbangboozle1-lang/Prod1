@@ -51,4 +51,7 @@ See the site's **Flagged for Review** page (`docs/flagged/`) for the full list w
 
 ## Merge and deploy record
 
-Pending. Filled in after the pull request is opened and merged (see the bottom of this file once recorded).
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/10 (`arena/a17ba53c-prod1` into `main`).
+- Integration check before merge: `python3 tools/build.py && python3 tools/check.py` passed on the branch; no broken internal links; disclosure present on all 21 pages.
+- Merge: `gh pr merge 10 --merge` run by this session without waiting for approval. Result is confirmed with `gh pr view 10 --json state,mergedAt`.
+- Pages: enable from `main` `/docs` after the merge; deploy status recorded on the PR thread.
