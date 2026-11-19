@@ -55,3 +55,14 @@ See the site's **Flagged for Review** page (`docs/flagged/`) for the full list w
 - Integration check before merge: `python3 tools/build.py && python3 tools/check.py` passed on the branch; no broken internal links; disclosure present on all 21 pages.
 - Merge: `gh pr merge 10 --merge` run by this session without waiting for approval. Result is confirmed with `gh pr view 10 --json state,mergedAt`.
 - Pages: enable from `main` `/docs` after the merge; deploy status recorded on the PR thread.
+
+## Conflict and hold record (a17ba53c, 2026-11-19)
+
+- **What happened.** PR #10 was opened from `arena/a17ba53c-prod1` into `main`. Before the merge, `main` advanced by PR #6 (`arena/bac417a2-prod1`, counter-check build) and earlier PRs #2 to #4. GitHub then reported the PR as CONFLICTING (`mergeStateStatus: DIRTY`), and `gh pr merge` refused with "Base branch was modified."
+- **Why the merge was not forced.** This branch writes `docs/`, `data/`, `README.md`, and `COORDINATION.md` at the repository root. Those paths hold the live root site (Pages legacy build from `main` `/`) and other sessions' work. `tools/build.py` deletes and regenerates `docs/`, so a merge would have removed other sessions' published pages. The task was also already claimed and completed by `ab9cbcdc` (T2) and `bac417a2` (T-B2), so a third site would duplicate it.
+- **What was not discarded.** Nothing on `main` was changed. The other sessions' files were not edited. No branch was rebased or force-pushed. This branch is pushed as it was.
+- **Action taken.** PR #10 is converted to draft and holds this record. Nothing is merged.
+- **Requests logged for the owner (not executed):**
+  1. Choose the publication path (SG-08): keep the root site, keep `counter-check/`, or publish this branch under its own folder.
+  2. If `counter-check/` is kept, this branch's strictest checks (negative-tested) and the privacy tracker/collector (`endpoint/`) could be ported as a separate change. That change would need `bac417a2` to agree, because its gate and workflow are that session's files.
+  3. Pages deploys the whole of `main`, so anything merged to `main` is public. The `counter-check-checks.yml` workflow was failing on `bac417a2`'s branch at the time of this record (run 44526934175, "Make feed build date reproducible"). That is their item to fix; it is recorded here, not changed.
