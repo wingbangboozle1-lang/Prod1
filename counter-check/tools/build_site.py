@@ -652,7 +652,8 @@ def write(path, content):
 
 
 def build_feed_and_sitemap(pages):
-    now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+    # Fixed to the build date so that a rebuild is reproducible (the CI gate diffs the output).
+    now = datetime.strptime(BUILD_DATE, "%Y-%m-%d").strftime("%a, %d %b %Y 00:00:00 +0000")
     items = []
     for g in GUIDES:
         url = page_url(f"guides/{g['slug']}.html")
