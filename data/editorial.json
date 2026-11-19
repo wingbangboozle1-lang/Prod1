@@ -1,0 +1,84 @@
+{
+  "baseUrl": "https://wingbangboozle1-lang.github.io/Prod1",
+  "publisher": {
+    "name": "The Countertop Guide",
+    "desk": "The Countertop Guide editorial desk",
+    "type": "Organization",
+    "note": "No individual named author is asserted. A real byline with verifiable credentials is an owner decision - see suggestion SG-26 and question Q-17."
+  },
+  "display": {
+    "pricesOnShopPages": false,
+    "ratingsOnShopPages": false,
+    "reason": "Associates Program Policies permit a Site to show price and availability only when Amazon serves the link carrying that data, or when the data comes from the Creators/PA API under the License; images and other Product Advertising Content may be stored or cached for no more than 24 hours. This site is a static build with no API refresh, so volatile figures (price, rating, rating count, badges, 'bought in past month') are not displayed on shop pages. They remain in the verification register as dated observations of what the listing showed on the check date.",
+    "sources": [
+      {
+        "label": "Amazon Associates Program Policies - Participation Requirements (prices and availability) and IP License and Usage Requirements (h) (caching of Product Advertising Content)",
+        "url": "https://affiliate-program.amazon.com/help/operating/policies"
+      },
+      {
+        "label": "Amazon Associates Operating Agreement Section 5 (disclosure wording) and Section 7 (Program Content includes data, images and text)",
+        "url": "https://affiliate-program.amazon.com/help/operating/agreement"
+      }
+    ],
+    "unblock": "Turn on live figures only when a Creators API / PA API refresh exists in the publishing workflow (SG-20), or when the price is rendered inside an Amazon-served link."
+  },
+  "events": {
+    "status": "defined, local-only",
+    "endpoint": "",
+    "client": "assets/app.js",
+    "privacy": "No cookies, no identifiers, no network transmission while the endpoint is unset. Counts stay in this browser.",
+    "five": [
+      { "name": "page_view", "fires": "page load, once per page", "keeps": "path + date", "feeds": "which pages get traffic at all" },
+      { "name": "outbound_click", "fires": "any link marked data-ctg-outbound (a sponsored Amazon link)", "keeps": "ASIN + page path", "feeds": "which product cards and pages earn clicks" },
+      { "name": "search", "fires": "site search submitted", "keeps": "query string", "feeds": "questions the site has not answered yet" },
+      { "name": "chooser_complete", "fires": "3-question chooser finished", "keeps": "the three answers", "feeds": "whether the decision aid is used and what people need" },
+      { "name": "guide_read", "fires": "a guide scrolled to 75%", "keeps": "guide path", "feeds": "which guides hold readers" }
+    ],
+    "gate": "Conversion and order values are never measured client-side. They come only from authorized first-party Associates reports into the campaign ledger."
+  },
+  "cadence": {
+    "rule": "One guide per week, published Tuesday. Each guide is added to data/editorial-driven sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
+    "measure": "After Search Console has 28 days of queries (SG-02), the next four topics are chosen from arriving queries that our pages do not answer, not from instinct. Until then the calendar below is a stated plan, not a demand claim.",
+    "queue": [
+      { "week": "2026-11-24", "title": "Holiday air fryer gifts: how to choose one that gets used", "status": "published", "page": "guide-gift-picks.html" },
+      { "week": "2026-12-01", "title": "What fits under the cabinet? Checking counter height before you order", "status": "queued", "page": "" },
+      { "week": "2026-12-08", "title": "Air fryer accessories: which ones the listing actually includes", "status": "queued", "page": "" },
+      { "week": "2026-12-15", "title": "Instant-read thermometer care: waterproof, rinse-safe and what those words cover", "status": "queued", "page": "" },
+      { "week": "2026-12-22", "title": "Dual baskets vs one big basket: what changes at dinner time", "status": "queued", "page": "" },
+      { "week": "2027-01-05", "title": "Wattage, circuits and shared outlets: what the listing does and does not say", "status": "blocked", "page": "" }
+    ]
+  },
+  "voice": {
+    "name": "Plain-spoken buying desk",
+    "rules": [
+      "Second person, active voice, one idea per sentence.",
+      "Every claim names its source in the same breath, or it is not written.",
+      "No 'we tested', 'we loved', 'game-changer', 'must-have', 'best-in-class' - we have not used any of these products.",
+      "No invented scarcity, countdowns, or 'everyone is buying' lines.",
+      "Numbers beat adjectives: '34.0 cm deep' instead of 'compact'.",
+      "Where a spec is missing, the page says so in the sentence where the reader wanted it.",
+      "Headlines are questions a buyer types, not promises about outcomes.",
+      "Short paragraphs, real headings, a next step at the end of every page."
+    ],
+    "bannedPhrases": [
+      "we tested",
+      "we tried",
+      "we loved",
+      "hands down",
+      "game changer",
+      "game-changer",
+      "must-have",
+      "best in class",
+      "best-in-class",
+      "editor's choice",
+      "top rated",
+      "trending now",
+      "viral",
+      "#1",
+      "guaranteed",
+      "act now",
+      "only a few left",
+      "don't miss out"
+    ]
+  }
+}
