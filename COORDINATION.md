@@ -8,6 +8,6 @@ Shared task board. Claim before editing. Small frequent commits. `git pull --reb
 | T2 Build GitHub Pages site (landing + categories + guides + tables) | in progress | arena/ab9cbcdc-prod1 | index.html, *.html, assets/, sitemap.xml, robots.txt, feed.xml | Amazon Associates Operating Agreement (upd. 2025-10-15), Policies (upd. 2026-04-14), FTC Disclosures 101 | Canonical domain unset; photography undecided |
 | T3 Suggestions board + Q/I/A decision log | in progress | arena/ab9cbcdc-prod1 | suggestions.html | — | Decisions pending owner review |
 | T4 Executive summary + compliance gate + campaign ledger | in progress | arena/ab9cbcdc-prod1 | executive-summary.html, compliance.html, methodology.html | FTC + Amazon policy pages above | Analytics endpoint not deployed (stub only) |
-| T5 Integration: build check, link check, PR to main, merge, Pages deploy | unclaimed | — | .github/workflows/pages.yml | — | — |
+| T5 Integration: build check, link check, PR to main, merge, Pages deploy | done | arena/ab9cbcdc-prod1 | .github/workflows/pages.yml | Link/disclosure/sponsored checks passed; Pages built | PR #1 merged 2026-11-19 (37b336f); live https://wingbangboozle1-lang.github.io/Prod1/ |
 
 Session ID: arena/ab9cbcdc-prod1 (branch arena/ab9cbcdc-prod1). No other sessions active at claim time.
