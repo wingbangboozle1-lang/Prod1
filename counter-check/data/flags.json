@@ -1,0 +1,212 @@
+{
+  "note": "Flagged for review. Irregularities and unverified items. They do not block publication; they are published on the Flagged for Review page for the owner to review.",
+  "flags": [
+    {
+      "id": "P-01",
+      "severity": "High",
+      "issue": "Tracking ID supplied but not confirmed active",
+      "detail": "The owner supplied shopnow047c-20. Participation Requirements section 2(b) requires the Associates ID as a parameter in each link. No Associates Central access was used in this session, so the ID's status as the enrolled Partner Tag is unconfirmed.",
+      "sources": [
+        "S2",
+        "S1"
+      ],
+      "action": "Owner: confirm in Associates Central that shopnow047c-20 is the enrolled Partner Tag."
+    },
+    {
+      "id": "P-02",
+      "severity": "High",
+      "issue": "Special Links not generated or tested in Associates Central",
+      "detail": "The outbound links are listing URLs with the tag parameter appended (/dp/ASIN?tag=shopnow047c-20). The brief asked for one link per product to be tested in the enrolled Associates workflow, with destination and tracking report confirmed, before scaling. That test needs the owner's account and was not performed.",
+      "sources": [
+        "S1",
+        "S2"
+      ],
+      "action": "Owner: generate one Special Link per product, click it, and confirm destination and tracking report. Scale only after that."
+    },
+    {
+      "id": "P-03",
+      "severity": "Medium",
+      "issue": "Intended ASINs taken from resolved links, not confirmed by owner",
+      "detail": "The short-link codes (B04G1MEwY, B02NbDxp3, B00hJ57DV, B0c8moW59, B0f3GKalj) are not ASINs. Each intended ASIN was read from the listing URL its short link resolves to. Owner intent is not confirmed.",
+      "sources": [
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "action": "Owner: confirm each ASIN is the intended product."
+    },
+    {
+      "id": "P-04",
+      "severity": "Medium",
+      "issue": "Observed redirect targets carry no tag parameter",
+      "detail": "None of the five short links resolved to a URL containing a tag= parameter. Observed targets are recorded in their own field, kept separate from the intended ASIN.",
+      "sources": [
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "action": "Owner: review. The site's outbound links use the tagged /dp/ format (see P-02)."
+    },
+    {
+      "id": "P-05",
+      "severity": "High",
+      "issue": "Prices, availability and ratings withheld",
+      "detail": "Participation Requirements section 2(b) allows prices and availability on a site only if Amazon serves the link or the data comes from Creators API or PA-API. The site shows neither, so no price, availability, or rating fields appear anywhere.",
+      "sources": [
+        "S2"
+      ],
+      "action": "Owner decision: apply for Creators API / PA-API access (its license terms were not reviewed here), or accept price-free listings."
+    },
+    {
+      "id": "P-06",
+      "severity": "Medium",
+      "issue": "No per-ASIN commission category or earnings figure",
+      "detail": "The Commission Income Statement sets rates by category, but the category assigned to each ASIN was not confirmed. No commission rate or earnings estimate is shown.",
+      "sources": [
+        "S2"
+      ],
+      "action": "Owner: confirm each ASIN's commission category in Associates Central before any rate or earnings figure is shown."
+    },
+    {
+      "id": "P-07",
+      "severity": "Low",
+      "issue": "Dimensions left blank",
+      "detail": "Dimensions and specification-table values were not captured from official listing fields in this pass. Blank by design; not inferred.",
+      "sources": [
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9"
+      ],
+      "action": "Capture from the official listing specification table, with a dated source, then fill in."
+    },
+    {
+      "id": "P-08",
+      "severity": "Medium",
+      "issue": "8 Qt short link opens a size variant",
+      "detail": "Short link 3 resolves to ASIN B08DKYBTPH with a variation parameter (th=1). The other size options on that listing were not checked in this session.",
+      "sources": [
+        "S12",
+        "S7"
+      ],
+      "action": "Owner: confirm the intended size variant."
+    },
+    {
+      "id": "P-09",
+      "severity": "Medium",
+      "issue": "Amazon content notice wording not verified",
+      "detail": "The site quotes Amazon listing titles as listed and reproduces no Amazon images. The exact notice wording required under the Associates IP License was not re-read in this session, so no notice text is published.",
+      "sources": [
+        "S2"
+      ],
+      "action": "Verify the IP License notice wording before adding any notice text."
+    },
+    {
+      "id": "P-10",
+      "severity": "High",
+      "issue": "Self-hosted analytics endpoint cannot run on GitHub Pages",
+      "detail": "GitHub Pages serves static files only and cannot host the click-counter endpoint requested in the brief. Outbound clicks and conversions are therefore not measured by this site yet.",
+      "sources": [],
+      "action": "Owner decision: choose a hosted privacy-preserving analytics tool, or a server host for an endpoint (see suggestions)."
+    },
+    {
+      "id": "P-11",
+      "severity": "Medium",
+      "issue": "The 'five defined events' are not defined in the brief",
+      "detail": "The brief asks for five defined events but does not list them. The measurement page proposes five for approval. None is instrumented.",
+      "sources": [],
+      "action": "Owner: approve or replace the proposed event list."
+    },
+    {
+      "id": "P-12",
+      "severity": "Low",
+      "issue": "Brand name is a placeholder",
+      "detail": "'Counter Check' was chosen as a provisional name. No trademark or domain search was run.",
+      "sources": [],
+      "action": "Owner: choose the brand; run a trademark search before publishing under it."
+    },
+    {
+      "id": "P-13",
+      "severity": "Low",
+      "issue": "No named author",
+      "detail": "The byline reads 'Editorial team'. No author name, credentials, or bio was invented.",
+      "sources": [],
+      "action": "Owner: supply author details if the byline should name a person."
+    },
+    {
+      "id": "P-14",
+      "severity": "Medium",
+      "issue": "No product photography",
+      "detail": "No photos were added. Amazon images fall under Program Content in Operating Agreement section 1. Whether they may be used on this site is an open decision (Zone4 S-18 context).",
+      "sources": [
+        "S1"
+      ],
+      "action": "Owner decision on imagery (see suggestions)."
+    },
+    {
+      "id": "P-15",
+      "severity": "Medium",
+      "issue": "Search Console not set up",
+      "detail": "Domain verification, sitemap submission and search reporting require the owner's Google account.",
+      "sources": [],
+      "action": "Owner: verify the GitHub Pages property in Search Console and submit sitemap.xml."
+    },
+    {
+      "id": "P-16",
+      "severity": "Low",
+      "issue": "No social preview image",
+      "detail": "No og:image is set on pages because no image was created or approved.",
+      "sources": [],
+      "action": "Owner decision on a preview image."
+    },
+    {
+      "id": "P-17",
+      "severity": "Low",
+      "issue": "Zone4 flagged items cited as context only",
+      "detail": "The Zone4 flagged page (F-02, F-03, F-04 and others) was read on 2026-11-19. Its items were not re-verified in full. They are cited only where this site's findings match them.",
+      "sources": [
+        "S15"
+      ],
+      "action": "Owner: review Zone4 flags against this site if both are kept."
+    },
+    {
+      "id": "P-18",
+      "severity": "Low",
+      "issue": "Site placed in a subfolder of the live repository",
+      "detail": "The repository root already serves a live site (The Countertop Guide, pages.yml, path: .). This site is built into counter-check/site/ so neither site overwrites the other. Pages source is unchanged.",
+      "sources": [],
+      "action": "Owner: choose whether the two sites should be merged into one or kept separate."
+    },
+    {
+      "id": "P-19",
+      "severity": "Medium",
+      "issue": "Guide titles are working titles; traffic and popularity are unmeasured",
+      "detail": "The guide titles are editorial hypotheses. No popularity, search volume, trend, or product-superiority claim is made. The brief asks that the next topic be chosen from measured queries, which do not exist yet.",
+      "sources": [],
+      "action": "Measure traffic after publication, then choose the next guide."
+    },
+    {
+      "id": "P-20",
+      "severity": "High",
+      "issue": "Root site (other session) shows prices and star ratings",
+      "detail": "The root site (The Countertop Guide, built by root build_site.py) displays list and sale prices and star ratings with snapshot dates (for example $79.93, 4.2 stars). Participation Requirements 2(b) allows prices and availability on a site only if Amazon serves the link or via Creators API / PA-API. Section 6(t), which governs ratings, was not re-read in this session. Flagged for review; not changed by this session.",
+      "sources": [
+        "S2"
+      ],
+      "action": "Owner decision: confirm the basis for displayed prices and ratings, or remove them, before the root site is treated as compliant."
+    },
+    {
+      "id": "P-21",
+      "severity": "Medium",
+      "issue": "Root index.html footer edits are not produced by the root build script",
+      "detail": "On main, the committed root index.html links to docs/products.html, docs/flagged.html and docs/campaign-ledger.html in its footer. Running the root build_site.py regenerates index.html without those links, so the committed file and the generator disagree. Not changed by this session.",
+      "sources": [],
+      "action": "Owner or root-site session: add these links to the generator, or remove them from the committed file, so that a rebuild does not drop them."
+    }
+  ]
+}
