@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the static site in docs/ from the data/ files.
+"""Build the static site in counter-check/site/ from the data/ files.
 
 Every page is generated from data/*.json so the tables, flags and sources
 stay in step. Run:  python3 tools/build_site.py
@@ -13,9 +13,9 @@ from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
-OUT = os.path.join(ROOT, "docs")
+OUT = os.path.join(ROOT, "site")
 
-BASE = "https://wingbangboozle1-lang.github.io/Prod1/"
+BASE = "https://wingbangboozle1-lang.github.io/Prod1/counter-check/site/"
 SITE = "Counter Check"  # provisional brand, see flag P-12
 TAG = "shopnow047c-20"
 DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
@@ -775,7 +775,7 @@ def main():
     for path, content in pages.items():
         write(path, content)
     build_feed_and_sitemap(list(pages.keys()))
-    print(f"Built {len(pages)} HTML pages, feed, sitemap and robots.txt into docs/")
+    print(f"Built {len(pages)} HTML pages, feed, sitemap and robots.txt into site/")
 
 
 if __name__ == "__main__":

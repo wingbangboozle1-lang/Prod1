@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Disclosure and policy gate | Counter Check</title>
-<meta name="description" content="Required disclosure, the gate checks applied before publication, and what is not yet verified.">
-<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/policy.html">
+<title>Measurement | Counter Check</title>
+<meta name="description" content="Proposed analytics events and the campaign ledger, with the rule for adding data.">
+<link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/counter-check/site/measurement.html">
 <link rel="alternate" type="application/rss+xml" title="Counter Check feed" href="feed.xml">
 <link rel="stylesheet" href="styles.css">
 
@@ -26,34 +26,18 @@
 </div>
 <main id="main" class="wrap">
 
-<p class="crumb"><a href="index.html">Home</a> &rsaquo; Disclosure and policy gate</p>
-<h1>Disclosure and policy gate</h1>
-<p class="dek">The checks applied to every page before publication, and the policy text they rely on.</p>
+<p class="crumb"><a href="index.html">Home</a> &rsaquo; Measurement</p>
+<h1>Measurement</h1>
+<p class="dek">Not live. No analytics or click counter is deployed (P-10). This page holds the proposed events, the campaign ledger, and the rule for adding data.</p>
 <section class="panel">
-<h2>Required disclosure (verbatim)</h2>
-<blockquote>“As an Amazon Associate I earn from qualifying purchases.”</blockquote>
-<p class="small">Source: <a class="cite" href="https://affiliate-program.amazon.com/help/operating/agreement" rel="sponsored noopener" target="_blank">S1</a>, section 5. The site shows it under the masthead of every page and again in the footer.</p>
+<h2>Proposed events</h2>
+<p class="small">The brief asks for five defined events but does not list them, so this list is a proposal awaiting approval (flag P-11, suggestion SG-04).</p>
+<div class="table-wrap"><table class="data"><thead><tr><th>ID</th><th>Event</th><th>Fires when</th><th>Destination</th></tr></thead><tbody><tr><td>E1</td><td><code>outbound_click</code></td><td>A reader clicks a tagged product link.</td><td>Pending SG-03</td></tr><tr><td>E2</td><td><code>category_view</code></td><td>A reader opens a category page.</td><td>Pending SG-03</td></tr><tr><td>E3</td><td><code>guide_view</code></td><td>A reader opens a guide.</td><td>Pending SG-03</td></tr><tr><td>E4</td><td><code>guide_to_product_click</code></td><td>A reader clicks a product link from a guide.</td><td>Pending SG-03</td></tr><tr><td>E5</td><td><code>search_query_observed</code></td><td>A search query on the site is submitted (no personal data).</td><td>Pending SG-03</td></tr></tbody></table></div>
 </section>
 <section>
-<h2>Gate checks</h2>
-<div class="table-wrap"><table class="data">
-<thead><tr><th>Check</th><th>Rule and source</th><th>How it is enforced</th></tr></thead>
-<tbody>
-<tr><td>Disclosure above the fold</td><td>Section 5 “clearly and prominently” (S1). FTC: hard to miss, placed with the endorsement (S4).</td><td>tools/check_site.py fails the build if the disclosure is not under the masthead of any page.</td></tr>
-<tr><td>Tag in every product link</td><td>Participation Requirements 2(b): Associates ID as a URL parameter (S2).</td><td>Build checks every amazon.com product link has <code>tag=shopnow047c-20</code>.</td></tr>
-<tr><td>Sponsored attribute</td><td>Google: rel="sponsored" for paid links (S3).</td><td>Build checks every Amazon link has rel containing "sponsored".</td></tr>
-<tr><td>No prices or ratings</td><td>Participation Requirements 2(b) (S2).</td><td>Build fails if a currency amount appears on a product or guide page.</td></tr>
-<tr><td>Every table row sourced</td><td>Brief: every row needs an official source link.</td><td>Build checks each product row links to an amazon.com listing.</td></tr>
-<tr><td>No broken internal links</td><td>Brief: no broken links before publish.</td><td>Build checks every relative link resolves to a generated file.</td></tr>
-</tbody></table></div>
-</section>
-<section class="panel">
-<h2>Citations to Amazon</h2>
-<p>Links to Amazon listings that appear in source columns are citations to the official listing, not buy links. They are marked sponsored too, and no untagged Amazon URL is offered as a buy link.</p>
-</section>
-<section class="panel">
-<h2>Not yet verified</h2>
-<p>The Amazon IP License notice wording and Participation Requirements 6(t) were not re-read this session. Until they are, no notice text is published and no rating is shown (flags P-05, P-09).</p>
+<h2>Campaign ledger</h2>
+<p>A value is added only from an authorized first-party report, with a dated provenance note. No conversion score or revenue forecast is shown.</p>
+<div class="table-wrap"><table class="data"><thead><tr><th>timestamp_utc</th><th>source</th><th>channel</th><th>eligible_sessions</th><th>clicks</th><th>reported_orders</th><th>provenance_note</th></tr></thead><tbody><tr><td colspan="7">No rows yet. Rows are added only from authorized first-party reports.</td></tr></tbody></table></div>
 </section>
 
 </main>

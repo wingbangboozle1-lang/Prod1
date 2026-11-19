@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publishing gate for docs/. Exits non-zero if any check fails.
+"""Publishing gate for counter-check/site/. Exits non-zero if any check fails.
 
 Checks:
   1. Disclosure strip under the masthead and repeated in the footer, on every page.
@@ -20,9 +20,9 @@ from html.parser import HTMLParser
 from urllib.parse import urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DOCS = os.path.join(ROOT, "docs")
+DOCS = os.path.join(ROOT, "site")
 DATA = os.path.join(ROOT, "data")
-BASE = "https://wingbangboozle1-lang.github.io/Prod1/"
+BASE = "https://wingbangboozle1-lang.github.io/Prod1/counter-check/site/"
 TAG = "shopnow047c-20"
 DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
 BUY_PAGES = {"index.html", "shop/air-fryers.html", "shop/kitchen-thermometers.html"}

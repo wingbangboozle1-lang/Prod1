@@ -16,7 +16,7 @@ Only this session has touched files in this branch. Other sessions must not edit
 |----|------|--------|-------|---------------|-------|
 | T-01 | Repo review; source register | done | bac417a2 | `data/sources.json` | Sources read 2026-11-19 are listed with their status. Zone4 flagged page read for context only. |
 | T-02 | Product-intent confirmation records | done | bac417a2 | `data/products.json` | Intended ASIN, official listing URL, confirmation date and source are stored. Observed redirect target is a separate field. Owner confirmation pending (P-03). |
-| T-03 | Site build (landing, category, guides, summary, analysis, verification, flagged, suggestions, questions, measurement, policy) | done | bac417a2 | `tools/build_site.py`, `docs/`, `data/guides.json`, `data/questions.json`, `data/suggestions.json`, `data/measurement.json`, `data/ledger.csv` | 16 HTML pages, RSS feed, sitemap, robots.txt. |
+| T-03 | Site build (landing, category, guides, summary, analysis, verification, flagged, suggestions, questions, measurement, policy) | done | bac417a2 | `tools/build_site.py`, `counter-check/site/`, `counter-check/data/guides.json`, `data/questions.json`, `data/suggestions.json`, `data/measurement.json`, `data/ledger.csv` | 16 HTML pages, RSS feed, sitemap, robots.txt. |
 | T-04 | Disclosure, sponsored links, policy gate | done | bac417a2 | `tools/check_site.py` | Gate passes. Runs in CI on pull requests. |
 | T-05 | Question-shaped guides (four working titles) | done | bac417a2 | `data/guides.json` | Working titles only. No popularity claims. |
 | T-06 | Analytics, click counter, measurement | needs review | bac417a2 | `data/measurement.json`, `data/ledger.csv` | No endpoint deployed. GitHub Pages cannot host one (P-10). Five events proposed, not defined in the brief (P-11). |
@@ -33,7 +33,7 @@ Only this session has touched files in this branch. Other sessions must not edit
 
 ## Irregularities
 
-Full list with source links and requested actions: `data/flags.json`, published at `docs/flagged.html`. Highlights:
+Full list with source links and requested actions: `data/flags.json`, published at `counter-check/site/flagged.html`. Highlights:
 
 - P-01 Tracking ID supplied but not confirmed active in Associates Central.
 - P-02 Special Link test not run; links use the tagged listing format.
