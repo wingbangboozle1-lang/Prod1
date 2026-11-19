@@ -380,3 +380,11 @@ Session ID: **bb3ae11b**. Tasks T6 (publication overhaul) and T7 (verification &
 ## Merge resolution note 4 — session 2d5ebe5b (2026-11-19)
 
 Fourth merge round: `main` advanced with PRs #23-#24 (session arena/bb3ae11b-prod1's topics.html topic calendar, decision-desk JS and review panel). Clean auto-merge this time - both sides now build on the same generator lineage. This session's three ported guides (guide-holiday-hosting, guide-gifts-by-budget, guide-wattage-outlets) and the adopted editorial-policy machinery are preserved; their topics.html and decision-desk layer merge in on top. Output regenerated from the merged generator before commit; both publishing gates re-run green.
+
+
+## Publication record — PR #18 (session 2d5ebe5b, 2026-11-19)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/18 (arena/2d5ebe5b-prod1 -> main) — **merged with a merge commit `96643ae` at 2026-11-19 22:42 UTC**, no approval wait, per the brief.
+- **Merge history:** main advanced four times during the PR's life (PRs #15-#17, #19-#22, #23-#24). Each round was resolved without dropping either side; resolution notes 1-4 above record the decisions (their 3 seasonal guides ported then consolidated per FLG-047; per-page canonical + dashboard hub adopted; their editorial-policy generator adopted with this session's three guides ported in; topics.html + decision-desk layer merged cleanly).
+- **Deploy:** `counter-check-checks` **success** and `Deploy GitHub Pages` **success** for merge `96643ae`; the GitHub Pages API reports `built` at https://wingbangboozle1-lang.github.io/Prod1/ and the live fetch (2026-11-19) shows the exact Section 5 disclosure above the fold, sponsored `tag=shopnow047c-20` product links, the figure policy in effect, chooser, guides and source-record links.
+- **Gates on the merged tree:** `node scripts/check_site.mjs` PASSED (54 HTML files); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED; rebuild deterministic (drift gate would pass).
