@@ -16,5 +16,11 @@ This checkout is the active Arena branch `arena/cba9af3f-prod1` (base `86bb372dc
 
 ## Irregularities / needs review
 
-- All five submitted short links have unresolved destinations, listing URLs, intended ASINs, source/confirmation evidence, and tracking status. See the site's Flagged for Review register.
-- GitHub Pages is configured on `main` as a legacy branch-root deployment; its post-merge build must still be checked. There is no analytics backend/database, custom domain, or Search Console verification.
+- All five submitted short links have unresolved destinations, listing URLs, intended ASINs, source/confirmation evidence, and tracking status in this standalone prototype. See its Flagged for Review register.
+- GitHub Pages is configured on `main` as a legacy branch-root deployment. No analytics backend/database, custom domain, or Search Console verification was supplied.
+
+## Parallel integration handoff (2026-11-19)
+
+- During this task, `origin/main` advanced from the branch base and an independently integrated publication was merged via [PR #4](https://github.com/wingbangboozle1-lang/Prod1/pull/4). GitHub Pages API now reports `status: built`, public URL `https://wingbangboozle1-lang.github.io/Prod1/`; latest `Deploy GitHub Pages` run `44526557992` completed successfully.
+- This branch's [PR #5](https://github.com/wingbangboozle1-lang/Prod1/pull/5) conflicted with the newer publication and duplicated its homepage, guides, disclosure, review desk, sitemap, and feed. To preserve the already integrated product/source register and avoid publishing a competing brand/site, PR #5 was closed without merge. Its standalone preview and structural checks passed; none of its files were deployed to `main`.
+- Follow-up observations on upstream `main`: `COORDINATION.md` still lists the site build and suggestions tasks in progress; the main canonical/feed URLs include `example.com` placeholders while the live Pages URL is GitHub Pages; one site-check workflow run failed (`44526565292`) while the latest main deploy succeeded. These belong to the existing integration scope and were not edited from this duplicate branch.
