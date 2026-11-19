@@ -1,72 +1,102 @@
 [
   {
-    "title": "Air fryers category",
+    "title": "Air fryers & thermometers, compared",
+    "url": "index.html",
+    "text": "Five appliances compared on capacity, counter depth, cleanup and what the listing does not say. Every spec links to the Amazon page it came from."
+  },
+  {
+    "title": "Dual-basket vs oven-style air fryers",
     "url": "air-fryers.html",
-    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door oven, Chefman 8QT TurboFry. Capacity, footprint, cleanup, price snapshots."
+    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry: capacity, depth and cleanup, each row linked to its listing."
   },
   {
-    "title": "Thermometers category",
+    "title": "Instant-read vs wireless thermometers",
     "url": "thermometers.html",
-    "text": "ThermoMaven 1-second instant-read vs CHEF iQ Sense wireless 3-probe. Accuracy claims, range, probes."
+    "text": "ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as listed, probes, range and care."
   },
   {
-    "title": "Compare all five",
+    "title": "Compare 5 air fryers & thermometers",
     "url": "compare.html",
-    "text": "Side-by-side table, 3-question chooser, counter-space analysis, capacity per cm depth."
+    "text": "Capacity, dimensions, footprint, cleanup and accuracy claims side by side, quoted from each listing, with a three-question chooser and the maths shown."
   },
   {
-    "title": "Basket or oven-style air fryer: what should you compare?",
+    "title": "Buying guides for air fryers & probes",
+    "url": "guides.html",
+    "text": "Six question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup and counter space, presets, accuracy claims and gift picks."
+  },
+  {
+    "title": "Basket or oven-style air fryer?",
     "url": "guide-basket-vs-oven.html",
-    "text": "Dual-basket vs French-door oven vs single basket. Two-dish cooking, crowd capacity, counter depth."
+    "text": "Dual-basket for two dishes at once, French-door for a crowd, single basket for a shallow counter - decided on listing facts, not on testing we have not done."
   },
   {
-    "title": "A no-hype checklist for comparing air fryer capacity",
+    "title": "Air fryer capacity, read honestly",
     "url": "guide-capacity-checklist.html",
-    "text": "Quarts vs litres, single vs dual baskets, feeds 4-6, rotisserie and pizza claims."
+    "text": "Quarts versus litres, split baskets and what a 'feeds 4-6' claim actually claims: a checklist you can run on any listing in five minutes."
   },
   {
-    "title": "How to assess cleanup and counter-space trade-offs",
+    "title": "Cleanup & counter space trade-offs",
     "url": "guide-cleanup-counter-space.html",
-    "text": "Dishwasher-safe baskets, footprint math, capacity per centimetre of counter depth."
+    "text": "Dishwasher-safe parts as listed, footprint arithmetic and capacity per centimetre of counter depth for three verified air fryers."
   },
   {
-    "title": "Questions to ask before buying a multi-function kitchen appliance",
+    "title": "Before a multi-function appliance",
     "url": "guide-multifunction-questions.html",
-    "text": "Presets, accessories, wattage, warranty and fit checklist for multi-function ovens."
+    "text": "Presets, accessories, wattage, warranty and fit: the questions to ask a multi-function oven listing before paying for functions you will not use."
   },
   {
-    "title": "Instant-read or wireless? How to read accuracy claims",
+    "title": "Reading thermometer accuracy claims",
     "url": "guide-thermometer-accuracy.html",
-    "text": "Plus-minus 0.5F, NIST NSF, sensor counts, WiFi range. How to read thermometer claims."
+    "text": "What a stated tolerance, a named certification, a sensor count and 'unlimited range' do and do not prove - for a handheld and a wireless probe set."
   },
   {
-    "title": "Executive summary",
+    "title": "Executive summary for the owner",
     "url": "executive-summary.html",
-    "text": "What the site is, what is verified, compliance posture, measurement plan, decision gates."
+    "text": "What is live, what is verified, what is blocked, which decisions wait on an owner, and what the latest pass changed across the site."
   },
   {
-    "title": "Suggestions board and decision log",
+    "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "Suggestions SG-01 to SG-10, questions Q-01 to Q-08, evidence needed, decisions blocked."
+    "text": "Twenty-five ranked suggestions with options and trade-offs, a copy-paste design brief, and fourteen questions whose answers gate the next build."
   },
   {
-    "title": "Verification register",
+    "title": "Verification register, line by line",
     "url": "verification.html",
-    "text": "Line-by-line sources, intended ASIN vs observed redirect, confirmation dates, policy sources."
+    "text": "For all five products: submitted short link, intended ASIN, official listing URL, confirmation date and source, and the observed redirect in its own field."
   },
   {
-    "title": "Flagged for review",
+    "title": "Flagged for review: open items",
     "url": "flagged.html",
-    "text": "Irregularities: short-link compliance, discrepancies, newer models, missing fields, launch gates."
+    "text": "Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing."
   },
   {
-    "title": "Compliance",
+    "title": "Compliance: disclosure & policy",
     "url": "compliance.html",
-    "text": "Disclosure wording, sponsored-link marking, Amazon and FTC policy checklist."
+    "text": "How the disclosure, the sponsored marking, price display and imagery are handled, with the Amazon and FTC rules quoted and linked."
   },
   {
-    "title": "Method and campaign ledger",
+    "title": "Method, events & campaign ledger",
     "url": "methodology.html",
-    "text": "Evidence rules, five analytics events, empty campaign ledger, publishing cadence."
+    "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
+  },
+  {
+    "title": "Search the guides and products",
+    "url": "search.html",
+    "text": "Search this site's buying guides and product comparisons for air fryers and meat thermometers."
+  },
+  {
+    "title": "About us: how this site earns",
+    "url": "about.html",
+    "text": "Who writes here, how Amazon Associates money works, why no prices are quoted, what has not been tested and how corrections are handled."
+  },
+  {
+    "title": "Air fryer gifts that get used",
+    "url": "guide-gift-picks.html",
+    "text": "The gift check that needs no price tag: counter depth, household size, dishwasher-safe parts and a panel the recipient will actually learn."
+  },
+  {
+    "title": "Review desk: register & open items",
+    "url": "review-desk.html",
+    "text": "The internal side of this publication: verification register, flagged items, the decision desk, the compliance gate, method and executive summary."
   }
 ]

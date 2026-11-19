@@ -142,3 +142,40 @@ Session ID: **b49d8595**. Branch: `arena/b49d8595-prod1`, branched from `7f98eec
 **Out of scope (other owners, not edited here):** `data/products.json`, `docs/**`, `articles/**` (`71354f04`, and `data/products.json` is also inside open draft PR #10), `counter-check/**` (`bac417a2`/`cba9af3f`), `analytics-endpoint/**` and `scripts/check_site.mjs` (`b4c6c619`), `review/**` (`9b748801`, `f34979f7`).
 
 **Requests logged instead of edited.** To draft PR #10 owner (`a17ba53c`): it adds a second site under `docs/` and its own `data/products.json`; if merged it would create two indexable sites and a path conflict on `data/products.json` — needs owner review before merge (this session changed neither).
+
+### b49d8595 record — sources read, verification, and requests (2026-11-19)
+
+**Official sources read line by line in this session** (all fetched 2026-11-19; quoted on the site):
+
+| Ref | Source | What it settled |
+|---|---|---|
+| S-A | [Amazon Associates Operating Agreement](https://affiliate-program.amazon.com/help/operating/agreement) §5 | The disclosure must state, verbatim or substantially similar: "As an Amazon Associate I earn from qualifying purchases." Pages now carry that sentence exactly (FLG-031). |
+| S-B | same, §6 | A violation of §5 is a material breach. Reason the wording change was treated as a launch item, not a nicety. |
+| S-C | same, §7 | Service Offerings include "data, images, text" — supports the no-copied-imagery rule (FLG-030). |
+| S-D | [Associates Program Policies](https://affiliate-program.amazon.com/help/operating/policies), Participation Requirements | A Site may show price and availability only when Amazon serves the link carrying that data, or via Creators/PA API under the License. Drove the link-only pricing decision (FLG-021). |
+| S-E | same, IP License and Usage Requirements (h) | No storing/caching an image as Product Advertising Content; a link to it may be stored up to 24 hours; other content up to 24 hours then must be refreshed. Reinforces S-D for ratings/badges. |
+| S-F | same, Participation Requirements (y) | No price tracking or price-alerting functionality on the Site. Recorded so nobody "helpfully" adds one. |
+| S-G | [Google — canonicalisation](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls) | "Do include a rel="canonical" link on the canonical page itself"; "Don't specify different URLs as canonical for the same page using different canonicalisation techniques". Drove the self-canonical + sitemap-consistency fix (FLG-024). |
+| S-H | [Google — sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap) | "Google ignores <priority> and <changefreq>"; lastmod is used only if verifiably accurate; the sitemap should list the canonical URLs. Sitemap now omits priority, lists exactly what the build writes, and uses the content date for lastmod. |
+
+**Verification performed on this session's own output**
+
+- `python3 build_site.py` twice → byte-identical HTML, sitemap, feed, robots, search index (no `datetime.now()` anywhere in the generator). The CI drift step enforces it.
+- `node scripts/check_meta.mjs` → pass, 20 pages, 20 sitemap URLs, 20 unique titles/descriptions, 0 warnings.
+- Negative test of the gate: eight planted defects (missing `rel="sponsored"`, placeholder canonical, disclosure moved below `</main>`, a `$79.99` figure on a shop page, a banned phrase inside `meta description`, a broken internal link, a page missing from the sitemap, stray `example.com`) → all eight blocked. This is how the blind spot in attribute text was found and closed.
+- Structural parse of all 20 generated pages (HTMLParser, tag balance) → 0 problems.
+- Endpoint contract probed by importing `analytics-endpoint/server.py` and running its own `validate()` against the payload this site emits: `page_view` and `outbound_click` valid; `search`, `chooser_complete`, `guide_read` return "unknown event". Nothing was transmitted; no host is configured.
+- Derived figures recomputed by hand: 13.38 in = 33.99 cm (shown 34.0), 16.9 in = 42.93 (42.9), 12.75 in = 32.39 (32.4); footprints 158.0 / 267.0 / 172.1 sq in; ratios 0.038 / 0.097 / 0.046 qt per sq in and 0.18 / 0.61 / 0.25 qt per cm. Matches every table.
+- Other sessions' gates re-run, unmodified: `scripts/check_site.mjs` PASSED (45 HTML files, warnings only about the word "trending" inside rule text) and `python3 counter-check/tools/check_site.py` PASSED (16 pages).
+- Self-check during copywriting: one invented figure was caught and removed — "2 cm clearance behind it for the vent" on the Chefman card. No listing states a clearance figure; the sentence now tells the reader to check the manual. Recorded here because "no hallucinations" is the rule, and this is the kind of thing that slips in through a plausible sentence.
+
+**What is now blank, flagged, or unverified** (all published on `flagged.html`, none of it presented as fact): FLG-021 price/rating suppression (owner ratification), FLG-022 dated price figures still in the register, FLG-025 FAQPage rich-result status, FLG-026 Creators API eligibility (third-party claim only), FLG-027 SiteStripe image options (third-party claim only), FLG-028 three builds on one host under two brands, FLG-029 snapshot ageing with no scheduled re-read, FLG-030 brand art only. FLG-023, FLG-024 and FLG-031 record fixes made in this pass. The four blank spec cells (thermometer dimensions ×2, Emeril wattage, Emeril warranty) stay blank — not re-read in this session, see FLG-004/FLG-005 and `suggestions.html#SG-22`.
+
+**Requests to other owners (logged, not edited)**
+- **R-06 → `analytics-endpoint/**` owner (b4c6c619):** adopt this site's five documented event names (`page_view`, `outbound_click`, `search`, `chooser_complete`, `guide_read`) or publish your own five as the site-wide contract and change the client; the client payload here already validates against your `validate()`. Also worth settling: origin allowlist default is `https://wingbangboozle1-lang.github.io` while the site is served under a `/Prod1` path — fine for a same-origin POST, but note it in the README when a host exists.
+- **R-07 → `assets/js/analytics.js` owner:** that file is unreferenced by any page and uses a third event vocabulary (`affiliate_redirect`, `conversion_signal`, `guide_view`). Delete it or point it at a site; leaving three taxonomies in one repo is how mismatched trackers happen.
+- **R-08 → draft PR #10 owner (`a17ba53c`):** PR #10 adds a second site under `docs/` **and** its own `data/products.json`, which now conflicts with the register the root publication is built from. If it merges as-is there will be two brands, two registers and three indexable builds. Please rebase it onto the current `main` and either drop the data-file change or become the owner of one shared register.
+- **R-01 (from b4c6c619) — closed:** the Pages workflow now runs the build, the drift check and a gate step before `upload-pages-artifact`.
+- **R-05 (from b4c6c619) — check:** `counter-check`'s feed date was made deterministic in PR #11 and its CI gate passes here, so this looks resolved; the owning session should confirm on the next push.
+
+**Publication record (b49d8595)** — pull request and merge: recorded in the next section once the PR is open. Branch `arena/b49d8595-prod1`. Live site: https://wingbangboozle1-lang.github.io/Prod1/ .

@@ -18,6 +18,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # The repository's HTML is generated. A hand-edited page is a bug: it will be
+      # overwritten by the next build, so CI refuses to deploy a drifted checkout.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the one build dependency
+        run: python -m pip install --quiet Pillow
+
+      - name: Rebuild the site and the social card
+        run: |
+          python build_site.py
+          python scripts/make_og.py
+
+      # assets/og-image.png is deliberately left out of the comparison: the drawing is
+      # deterministic for a given Pillow build, and a different Pillow on the runner can
+      # re-encode the same pixels to different bytes. Content drift in the HTML is what
+      # must never happen, so that is what this step protects.
+      - name: Fail if generated files are out of date
+        run: |
+          if ! git diff --exit-code -- '*.html' sitemap.xml feed.xml robots.txt data/search-index.json; then
+            echo "::error file=build_site.py::Generated output differs from the committed HTML. Run 'python3 build_site.py && python3 scripts/make_og.py' and commit the result."
+            git status --short
+            git diff --stat -- '*.html' sitemap.xml feed.xml robots.txt data/search-index.json
+            exit 1
+          fi
+
+      # Publishing gate: disclosure, sponsored marking, metadata, links, feed, sitemap,
+      # the price/rating display policy and the voice rules. Blocking on purpose.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run the publishing gate
+        run: node scripts/check_meta.mjs
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
