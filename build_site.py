@@ -69,20 +69,32 @@ def art(pid, cls="prod-art", alt_override=None):
 POSITION = {
     "P1": {"good": "two different dishes finishing at the same time (2 independent 3-quart baskets, Sync Finish - per listing)",
            "check": "34.0 cm of counter depth (13.38 in, as listed) - measure your own space, and check the clearance the manual asks for",
-           "headline": "The two-basket one"},
+           "headline": "The two-basket one",
+           "label": "Two dishes at once",
+           "short": "Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide."},
     "P2": {"good": "cooking for four to six, rotisserie and a 12-inch pizza in one cavity (per listing)",
            "check": "42.9 cm of depth - the largest here - plus room for the doors to swing; the warranty period is not stated on the listing",
-           "headline": "The family-size oven"},
+           "headline": "The family-size oven",
+           "label": "Feeding four to six",
+           "short": "The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order."},
     "P3": {"good": "one big batch in the shallowest box here - 12.75 in deep - with a top-rack dishwasher-safe basket and tray (per listing; its floor area is still the middle of the three, so judge it on depth, not on footprint)",
            "check": "one cavity, so two dishes means staggering; 450F Hi-Fry appears in the title while the bullets give 200-400F",
-           "headline": "The weeknight workhorse"},
+           "headline": "The weeknight workhorse",
+           "label": "Shallowest of the fryers",
+           "short": "One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets."},
     "P4": {"good": "a one-second reading in your hand, with a +/-0.5F and NIST/NSF claim on the listing",
            "check": "it is handheld - it will not watch the roast from another room; its dimensions are not in the fields we captured",
-           "headline": "The pocket read"},
+           "headline": "The pocket read",
+           "label": "For the grill and the pan",
+           "short": "A one-second thermocouple read, and the listing names a &plusmn;0.5&deg;F tolerance with NIST and NSF certification."},
     "P5": {"good": "three probes and app alerts while you are away from the oven",
            "check": "no +/-F accuracy figure appears in the fields we captured, and it needs WiFi, the hub and the app to earn its place",
-           "headline": "The phone-watched setup"},
+           "headline": "The phone-watched setup",
+           "label": "For the long cook",
+           "short": "Three ultra-thin probes and app alerts, so a long roast is watched from the other end of the house."},
 }
+SHELF_PAGE = {"P1": "air-fryers.html", "P2": "air-fryers.html", "P3": "air-fryers.html",
+              "P4": "thermometers.html", "P5": "thermometers.html"}
 # Re-read of 2026-11-20, performed by session arena/42e09357-prod1. Deliberately narrow: this
 # session confirmed that each listing page is reachable, that its title still matches the register,
 # and the one buy-box price it could attribute to the product itself. It did NOT re-read every
@@ -241,6 +253,22 @@ def capacity_row(p):
     kind = "handheld thermometer" if "handheld" in p.get("form", "").lower() else "wireless probe set"
     return f"<div><dt>Capacity</dt><dd>Not applicable &mdash; a {kind} has no cooking cavity</dd></div>"
 
+def shelf_spec_row(p):
+    """The one spec that decides the purchase for this kind of product, stated only from a
+    register field. For a fryer that is the capacity the listing titles; for a thermometer it is
+    a spec the listing states (read speed or probe count), quoted from the register's bullets,
+    never upgraded into a capability claim."""
+    cap = p.get("capacityTitle")
+    if cap not in ("", "\u2014", None):
+        return f"<div><dt>Capacity, as titled</dt><dd>{esc(cap)}</dd></div>"
+    bullets = " ".join(p.get("bullets") or [])
+    if "handheld" in p.get("form", "").lower():
+        m = re.search(r"(\d+)[- ]second read", bullets, re.I)
+        val = f"{m.group(1)}-second read (per bullets)" if m else "read speed not stated in the fields we captured"
+        return f"<div><dt>Read speed</dt><dd>{esc(val)}</dd></div>"
+    val = "Three probes plus a hub (per bullets)" if "three ultra-thin probes" in bullets.lower() else "probe count not stated in the fields we captured"
+    return f"<div><dt>What you get</dt><dd>{esc(val)}</dd></div>"
+
 def cta_note(p):
     return (f'Sponsored link &middot; Amazon price and stock govern &middot; '
             f'specs read from this listing {VERIFIED} &middot; '
@@ -284,6 +312,67 @@ def product_card(pid, bullets_n=3, detailed=False, level=3):
   <p class="cta-row"><a class="btn" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{p['asin']}">{('See today&rsquo;s price on Amazon' if not SHOW_PRICE else 'Buy at Amazon')}</a>
      <a class="link-quiet" href="compare.html#{pid}">See how it compares</a></p>
   <p class="fine">{cta_note(p)}</p>
+</article>"""
+def shelf_fit_row(p):
+    """The second shelf figure. For an appliance that has to fit on a counter it is the counter
+    depth, because depth ends more returns than any other listed number. A thermometer has no
+    footprint, so printing "depth not stated" there would answer a question nobody asked; it gets
+    the listing's own tolerance or heat rating instead. Both are read out of the register's
+    bullets with a regex, so a changed register changes the card, and neither is inferred."""
+    dm = dims_of(p)
+    if dm:
+        return ('<div><dt>Counter depth</dt><dd><span class="shelf-fit">'
+                f'{dm["depth_in"]} in<span class="shelf-fit-cm">{dm["depth_cm"]} cm</span></span></dd></div>')
+    bullets = " ".join(p.get("bullets") or [])
+    m = re.search(r"\u00b1\s*([0-9.]+)\s*\u00b0F", bullets)
+    if m:
+        return ('<div><dt>Tolerance as listed</dt><dd><span class="shelf-fit">'
+                f'&plusmn;{esc(m.group(1))} &deg;F<span class="shelf-fit-cm">per listing bullets</span></span></dd></div>')
+    m = re.search(r"Rated to ([0-9,]+)\u00b0F", bullets)
+    if m:
+        return ('<div><dt>Heat rating as listed</dt><dd><span class="shelf-fit">'
+                f'{esc(m.group(1))} &deg;F<span class="shelf-fit-cm">probes, per bullets</span></span></dd></div>')
+    return ('<div><dt>Footprint</dt><dd><span class="shelf-fit shelf-gap">not stated'
+            '<span class="shelf-fit-cm">dimensions missing</span></span></dd></div>')
+
+def shelf_card(pid, level=4, bullets_n=2):
+    """The shop shelf card: the same verified facts as `product_card`, laid out so a buyer can
+    compare three cards by eye in one screen instead of reading a spec sheet per product.
+
+    Why this exists: the front page was stacking a full dossier for each of five products, so the
+    page read as a register a reader scrolls past rather than a shelf a buyer picks from. This
+    card carries one line of position, one labelled reason to want it, the one number that most
+    often decides the purchase (capacity for a fryer, what you actually get for a thermometer),
+    the one number that most often causes a return (counter depth), the honest gap, then the buy
+    button. Every figure is the same register field the register page prints, with the same date.
+
+    Price, rating and rating count are deliberately absent: the Program Policies bar a static
+    page from displaying them (FLG-023 / FLG-032), so the button says "see today's price".
+    """
+    h = f"h{level}"
+    p = PRODS[pid]; pos = POSITION[pid]; dm = dims_of(p)
+    bl = "".join(f"<li>{esc(b)}</li>" for b in p["bullets"][:bullets_n])
+    fit = shelf_fit_row(p)
+    return f"""
+<article class="shelf" id="shelf-{pid}">
+  <div class="shelf-media">{art(pid)}<span class="chip shelf-chip">{esc(pos['label'])}</span></div>
+  <div class="shelf-body">
+    <p class="shelf-kicker">{esc(pos['headline'])}</p>
+    <{h} class="shelf-name"><a href="{esc(SHELF_PAGE[pid])}#{pid}">{esc(p['shortName'])}</a></{h}>
+    <p class="shelf-pitch">{pos['short']}</p>
+    <dl class="shelf-facts">
+      {shelf_spec_row(p)}
+      {fit}
+    </dl>
+    <p class="best"><strong>Pick it if:</strong> {esc(pos['good'])}</p>
+    <p class="watch"><strong>Check first:</strong> {esc(pos['check'])}</p>
+    <ul class="bullets shelf-bullets">{bl}</ul>
+  </div>
+  <div class="shelf-buy">
+    <a class="btn" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{p['asin']}">See today&rsquo;s price on Amazon</a>
+    <p class="shelf-alt"><a class="link-quiet" href="compare.html#{pid}">Compare the specs</a></p>
+    <p class="fine sponsored-note">Sponsored link &middot; specs read from this listing {VERIFIED} &middot; <a href="verification.html#{p['id']}">source record</a></p>
+  </div>
 </article>"""
 def fit_svg(pid):
     """A to-scale footprint drawing, generated from the inches the listing states.
@@ -533,11 +622,6 @@ TOPICS = [
      "angle": "Plus-minus 0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.",
      "hooks": "ThermoMaven accuracy/certification claims (P4); CHEF iQ sensor count and range (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
-    {"n": "06", "title": "Can a 26-quart oven actually fit on your counter? The depth math, in inches", "cat": "Air fryers - Space",
-     "status": "Planned", "href": "topics.html#t06",
-     "angle": "A tape-measure walkthrough: depth, width, footprint and the capacity you get per centimetre of counter - using only listed dimensions.",
-     "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
-     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
     {"n": "07", "title": "Two baskets or one: what dual-zone cooking actually changes", "cat": "Air fryers - Form",
      "status": "Planned", "href": "topics.html#t07",
      "angle": "When two independent baskets earn their extra depth - and when a single large basket is the simpler buy.",
@@ -548,21 +632,11 @@ TOPICS = [
      "angle": "What an Amazon's Choice badge and a rating snapshot can and cannot tell a buyer, with the snapshot date kept visible.",
      "hooks": "Badge and rating fields as shown on listings (P1, P3, P4); dated-snapshot rule",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
-    {"n": "09", "title": "Air fryer basket vs oven: which one actually fits your counter?", "cat": "Air fryers - Form",
-     "status": "Planned", "href": "topics.html#t09",
-     "angle": "Dual-basket, French-door oven and single basket side by side: depth, footprint and what each shape is genuinely good for.",
-     "hooks": "Listing form fields and dimensions (P1, P2, P3); derived footprint math",
-     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
     {"n": "10", "title": "Instant-read vs wireless thermometer: do you need both?", "cat": "Thermometers",
      "status": "Published", "href": "guide-instant-read-vs-wireless.html",
      "angle": "One-second handheld reads versus app-monitored probes: when each type earns its place, and what the accuracy claims do and do not prove.",
      "hooks": "ThermoMaven tolerance and certification (P4); CHEF iQ sensor count, range and probe count (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
-    {"n": "11", "title": "Counter space math: will a 26-quart oven fit your kitchen?", "cat": "Air fryers - Space",
-     "status": "Planned", "href": "topics.html#t11",
-     "angle": "Depth, width, footprint and capacity per centimetre of counter - a tape-measure guide built only from listed dimensions.",
-     "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
-     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
     {"n": "12", "title": "Holiday air fryer gifts: what to buy without the guesswork", "cat": "Seasonal - Gifts",
      "status": "Published", "href": "guide-gift-picks.html",
      "angle": "Depth, household size, dishwasher-safe parts and control-panel learnability - the gift checklist that needs no price tag.",
@@ -609,11 +683,11 @@ index_body = f"""
 <section class="hero">
   <div class="hero-copy">
     <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
-    <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
+    <h1>Cook better this week, starting with the right box on the counter.</h1>
+    <p class="lede">Five kitchen machines, each read from its own Amazon listing, every figure dated. We give you the four things that decide it &mdash; how much food actually fits, how much counter it eats, how much of it goes in the dishwasher, and what the listing leaves out &mdash; then one button to see today&rsquo;s price.</p>
+    <p class="hero-cta"><a class="btn" href="#shelf">Shop all five</a> <a class="btn ghost" href="compare.html#chooser">Answer three questions</a></p>
     <ul class="hero-facts">
-      <li><strong>5</strong> products, each read from its own listing</li>
+      <li><strong>5</strong> machines, each read from its own listing</li>
       <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
       <li><strong>1</strong> source link per fact</li>
     </ul>
@@ -629,23 +703,28 @@ index_body = f"""
   </aside>
 </section>
 
+<h2 id="shelf" class="shelf-title">The shelf: five machines, one decision each</h2>
+<p class="shelf-intro">Pick the job you actually have. Each card carries the listing&rsquo;s own capacity, the depth you have to find on your counter, the reason to want it, the thing to check before you order, and a sponsored link to today&rsquo;s price. The full spec table for every machine is one click away.</p>
+
+<div class="shelf-head"><h3>Air fryers</h3><p><a href="air-fryers.html">Three air fryers, three different jobs &rarr;</a></p></div>
+<div class="shelf-grid">
+  {shelf_card('P1')}
+  {shelf_card('P2')}
+  {shelf_card('P3')}
+</div>
+
+<div class="shelf-head"><h3>Meat thermometers</h3><p><a href="thermometers.html">Instant-read or wireless: it is a distance question &rarr;</a></p></div>
+<div class="shelf-grid shelf-grid-2">
+  {shelf_card('P4')}
+  {shelf_card('P5')}
+</div>
+
+<p class="section-more"><a class="btn secondary" href="compare.html">Open the full comparison table</a> <a class="link-quiet" href="verification.html">or check our sources first</a></p>
+
 <section class="season" aria-label="This week on the desk">
   <p class="eyebrow">Holiday window, 2026</p>
   <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. The retail days either side of it are the Friday and the Monday, which are not holidays in that law. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/">OPM schedule</a> on 2026-11-20.</p>
 </section>
-
-<h2>Quick picks, straight from the listings</h2>
-<div class="grid cols-3">
-  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
-</div>
-<p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
-
-<h2>All five, side by side</h2>
-<div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
-<div class="grid cols-2 grid-gap-top">{product_card('P4')}{product_card('P5')}</div>
-<p class="section-more"><a class="btn secondary" href="compare.html">Open the full comparison table</a> <a class="link-quiet" href="verification.html">or check our sources first</a></p>
 
 <h2>Not sure yet? Answer three questions</h2>
 <p>The chooser uses only what the listings state - form factor, depth and your budget. It gives you a shortlist, not a verdict, and it runs entirely in your browser.</p>
@@ -1711,7 +1790,12 @@ flag_body = f"""
 <tr id="FLG-078"><td>FLG-078</td><td>Three guides published into a window with no measured demand behind them</td><td>The brief asks for both seasonal, findable articles and topics chosen from measured queries. With no Search Console property there are no queries to choose from, so this pass published three holiday-window guides as labelled editorial hypotheses and recorded the cadence deviation in <code>data/editorial.json</code>. Nothing on the pages claims the topics are popular. Dated 2026-11-20.</td><td>Owner: connect Search Console (D-01/D-04), export queries after 28 days, then re-rank the queue; the three pages are the test, not the answer</td></tr>
 <tr id="FLG-079"><td>FLG-079</td><td>The footprint drawings are ours, and they do not settle the imagery question</td><td>Each product card now carries an SVG drawn to a shared scale from the dimensions on the listing, labelled as a drawing rather than a photograph. It is original artwork, so it needs no Amazon licence, and <a href="flagged.html#FLG-009">FLG-009</a> (no product photography) stays open: a drawing is not a photograph of the machine, and no page should imply that it is.</td><td>Owner: keep drawings as the house visual (D-06 option 1), or fund photography; do not fill the gap with scraped images either way</td></tr>
 <tr id="FLG-080"><td>FLG-080</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
-<tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr></table></div>
+<tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
+<tr id="FLG-082"><td>FLG-082</td><td>The topic calendar&rsquo;s own headline contradicted its own table</td><td>Found 2026-11-20 by reading the rendered page against the data. <code>topics.html</code> printed &ldquo;twelve buyer questions&rdquo; in the <code>&lt;title&gt;</code>, the <code>h1</code>, the meta description and the structured data, and the description added &ldquo;five published, seven queued&rdquo;, while the table below held fifteen rows: ten published and five queued. The three numbers were typed into the page template separately from the list they describe, so they drifted the moment a guide was published. The <code>h1</code>, <code>title</code> and description are now computed from <code>TOPICS</code> on every build, so they cannot disagree with the table again.</td><td>Closed in this pass. No claim changed, only the count of rows that already existed</td></tr>
+<tr id="FLG-083"><td>FLG-083</td><td>Three queued topics asked questions the site had already answered</td><td>Also found 2026-11-20 by reading the calendar as a reader would. Queued rows 06 (&ldquo;Can a 26-quart oven actually fit on your counter?&rdquo;), 09 (&ldquo;Air fryer basket vs oven: which one actually fits your counter?&rdquo;) and 11 (&ldquo;Counter space math: will a 26-quart oven fit your kitchen?&rdquo;) each restated <code>guide-cleanup-counter-space.html</code> or <code>guide-basket-vs-oven.html</code>, both already published. Two of them were near-verbatim the same question. Publishing either would have re-created the duplicate-page problem <a href="flagged.html#FLG-047">FLG-047</a> was about. The three rows were removed from <code>TOPICS</code>; no published page was deleted, and the removed titles are recoverable from git history.</td><td>Owner: re-add any of the three if a genuinely different angle is intended, otherwise the queue is ten published plus two queued</td></tr>
+<tr id="FLG-084"><td>FLG-084</td><td>The front page repeated every product&rsquo;s full spec block three times per screen</td><td>Found 2026-11-20 while checking whether the page read like a shop. <code>index.html</code> showed three &ldquo;quick pick&rdquo; cards for the air fryers, then the same three products again as full register cards with every spec row, footprint drawing and bullet list, then the comparison table link. A buyer met roughly 6,000 characters of register before a single buy button, and the two renderings of the same product disagreed in tone (a pick card has no depth figure; the card under it does). This pass replaced both blocks with one shelf component: one card per product, carrying the capacity, the counter depth, the reason to want it, the thing to check, two listing bullets and the buy button in the same place on every card. Every figure is the same register field, dated the same way. Nothing was added to <code>data/products.json</code>.</td><td>Closed in this pass. Price and rating remain off the shelf per FLG-023 / FLG-032; the owner&rsquo;s photography decision (SG-04) still governs the image area</td></tr>
+<tr id="FLG-085"><td>FLG-085</td><td>This session re-read titles and identity only, not every spec</td><td>Honest scope, 2026-11-20. Five <code>amazon.com/dp/</code> pages were fetched and the <code>&lt;title&gt;</code> of each compared with the register: all five matched their ASIN, including P2&rsquo;s &ldquo;24 One-Touch Preset Options / Six Cooking Accessories&rdquo; and P4&rsquo;s &plusmn;0.5&deg;F / NIST&amp;NSF wording. The P1 buy box still read $79.93 and the P4 buy box $16.99, both matching the dated register snapshot. Dimensions, bullets, wattage and the P2/P3/P5 buy boxes were <em>not</em> re-read in this pass, so <code>verifiedDate</code> stays 2026-11-20 as set by the register owner and no field was relabelled as freshly confirmed by this session. A carousel price seen on a listing page belongs to a different product and was not used.</td><td>None; the next cadence pass re-reads the fields it publishes. Recorded so this session&rsquo;s coverage is not read as a full re-verification</td></tr>
+</table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
 # ---------- COMPLIANCE ----------
@@ -1817,7 +1901,7 @@ for t in TOPICS:
 
 topics_body = f"""
 <p class="eyebrow">The desk &middot; Topic calendar</p>
-<h1>The topic calendar: twelve buyer questions, spec-backed answers</h1>
+<h1>The topic calendar: {NUMW[len(TOPICS)]} buyer questions, spec-backed answers</h1>
 <p>{NUMW[sum(1 for t in TOPICS if t["status"]=="Published")].capitalize()} guides are published; {NUMW[sum(1 for t in TOPICS if t["status"]!="Published")]} are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
 <div class="callout"><b>How this calendar works</b>
 <p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
@@ -1830,7 +1914,10 @@ topics_body = f"""
 <p>One thoroughly checked guide per publishing slot, with a reassessment after the first batch of measured data. This is an operational plan, not a traffic promise. Every new guide is added to <a href="sitemap.xml">sitemap.xml</a> and <a href="feed.xml">feed.xml</a> at publish time.</p>
 <p class="fine">No topic here is a claim that the subject is popular or in demand. If a popularity claim is ever made, it carries a dated snapshot from an official source (see <a href="methodology.html">Method</a>).</p>
 """
-page_to("topics.html","Topic calendar: twelve buyer questions | Countertop Guide","Twelve question-shaped, spec-backed article working titles - five published, seven queued - with the verified fields and sources each is built from.",topics_body)
+page_to("topics.html",
+    f"Topic calendar: {NUMW[len(TOPICS)]} buyer questions | Countertop Guide",
+    f"{NUMW[sum(1 for t in TOPICS if t['status']=='Published')].capitalize()} published and {NUMW[sum(1 for t in TOPICS if t['status']!='Published')]} queued question-shaped titles, each with the verified listing fields and sources it is built from.",
+    topics_body)
 
 
 # ---------- SEARCH ----------
