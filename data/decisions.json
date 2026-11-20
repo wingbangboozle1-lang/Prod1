@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "note": "The decision register behind decisions.html. Written by session 42e09357 on 2026-11-20 so that the 43 suggestions and 27 questions accumulated by ten parallel sessions become seven decisions with an order. Nothing here is approved; status says what it is. build_site.py refuses to write the page unless every SG-/Q- id on suggestions.html is classified in exactly one theme below, so a future session cannot add a row that nobody has triaged. Reclassified on 2026-11-20 after merge: the board grew to SG-53 and Q-37 in a parallel pass, and the triage check in build_site.py listed the twelve unclassified rows rather than letting them sit unowned. Classification note (session arena/fbfe1742-prod1, 2026-11-20): this session triaged the same eight rows first (SG-54/56/57 + Q-41 -> Editorial; SG-55 + Q-38 -> Findability; Q-39 -> Links and money; Q-40 -> Compliance); the integrated version on main places Q-38 and SG-56 under Measurement instead - both placements classify every row and neither is approved policy, so the integrated placement stands and this note keeps the alternative visible. SG-58 (duplicate-topic calendar row, session 0c26f71b 2026-11-20) classified into D-07.",
+=======
+  "note": "The decision register behind decisions.html. Written by session 42e09357 on 2026-11-20 so that the 43 suggestions and 27 questions accumulated by ten parallel sessions become seven decisions with an order. Nothing here is approved; status says what it is. build_site.py refuses to write the page unless every SG-/Q- id on suggestions.html is classified in exactly one theme below, so a future session cannot add a row that nobody has triaged. Reclassified on 2026-11-20 after merge: the board grew to SG-53 and Q-37 in a parallel pass, and the triage check in build_site.py listed the twelve unclassified rows rather than letting them sit unowned. Classification note (session arena/fbfe1742-prod1, 2026-11-20): this session triaged the same eight rows first (SG-54/56/57 + Q-41 -> Editorial; SG-55 + Q-38 -> Findability; Q-39 -> Links and money; Q-40 -> Compliance); the integrated version on main places Q-38 and SG-56 under Measurement instead - both placements classify every row and neither is approved policy, so the integrated placement stands and this note keeps the alternative visible.",
+>>>>>>> origin/main
   "updated": "2026-11-20",
   "answerFormat": "One line per decision, in COORDINATION.md or a message to a session: D-03 = option 2, 2026-11-20, evidence: <link or screenshot name>. The session that reads it moves the row from gates to answered, applies the change, and records who decided and when. No reply at all is also recorded: after 28 days an unanswered gate gets its recommended default applied and the row is marked 'default applied, reversible'.",
   "howThisWorks": [
@@ -436,8 +440,12 @@
         "Q-10",
         "Q-23",
         "the topic queue",
+<<<<<<< HEAD
         "the 'next topic' rule",
         "SG-58"
+=======
+        "the 'next topic' rule"
+>>>>>>> origin/main
       ],
       "effort": "One Search Console verification, then patience",
       "risk": "Low. Publishing is reversible by consolidating a page; an unindexed site is invisible, which is worse."
@@ -684,14 +692,28 @@
         "SG-38",
         "SG-44",
         "SG-45",
+<<<<<<< HEAD
         "SG-50"
+=======
+        "SG-50",
+        "SG-58",
+        "SG-59",
+        "SG-60"
+>>>>>>> origin/main
       ],
       "qs": [
         "Q-07",
         "Q-09",
         "Q-12",
         "Q-21",
+<<<<<<< HEAD
         "Q-22"
+=======
+        "Q-22",
+        "Q-42",
+        "Q-43",
+        "Q-44"
+>>>>>>> origin/main
       ],
       "gate": "D-06"
     },
@@ -742,4 +764,8 @@
     "proposed": "If a gate is unanswered 28 days after it is published here, the recommended option is applied, the row moves to answered with 'default applied' and the date, and the change stays reversible in one commit.",
     "status": "proposed by session 42e09357 on 2026-11-20; the owner has not approved it. Until approved, nothing in the gates column auto-applies."
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main
