@@ -484,3 +484,20 @@ Session ID: **1b65e5a1**. Branch: `arena/1b65e5a1-prod1` (fixed for this session
 - **Gates on the merged tree:** `check_site.mjs` PASS · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS · `counter-check` gate PASS · rebuild deterministic.
 - **Tasks closed:** T-VER, T-POLISH, T-REVIEW, T-INT all **done**. Four tasks, one PR.
 - **Carried forward for the owner (non-blocking, on `flagged.html`):** FLG-001 (Special Link test — only the owner can clear it), FLG-003 (newer models), FLG-004 (thermometer dimensions), FLG-005 (Emeril warranty), FLG-015 (short links carry no tag), FLG-021 (P2 accessory count), FLG-039 (three builds on one host), FLG-051 (Pages build source), FLG-058 (FTC read on per-card disclosure), SG-43 (switch Pages build source), SG-44 (visual QA), SG-45 (goal-based intent landings). None blocks the merge.
+
+## Claim — session arena/62786810-prod1 (2026-11-20)
+
+Session ID: **62786810** (branch `arena/62786810-prod1`, base `245bf52`, current `main`).
+At claim time there is one open pull request from an older session — **draft #10** (`arena/a17ba53c-prod1`), untouched since 2026-11-19 — and no other live branch claim newer than the merged PR #33 record above. Draft #10 is not merged here: it adds a second site under `docs/`, which conflicts with the single-indexable-site rule in FLG-039. That stays the owner's call.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-627-A **Publication polish / "stop looking generated"**: load the display + text faces the design system names but never ships, add brand-art illustration (never product photography), rebuild the front page hierarchy, tighten card and table readability | in progress | 62786810 | `assets/style.css`, `assets/fonts/`, `assets/art-*.svg`, `build_site.py`, regenerated root `*.html` | `scripts/check_style.mjs` + `check_meta.mjs` + `check_site.mjs` gates | Typography gap found in this pass (weight/style of Fraunces never loaded) — recorded as FLG-060 |
+| T-627-B **Publishing cadence**: publish the next queued topic from `data/editorial.json` (thermometers cluster), add it to the sitemap + feed through the existing generator | in progress | 62786810 | `build_site.py`, `data/editorial.json`, `guides.html`, `feed.xml`, `sitemap.xml` | Listing fields already in `data/products.json` (P4, P5); no new claims | — |
+| T-627-C **Suggestion desk v3**: one clearly-labelled section per decision still open, each with a recommended path, alternatives and what it unblocks; plus the discovery plan for information we do not have | in progress | 62786810 | `suggestions.html` via `build_site.py` | — | Owner choice required per row; nothing marked approved |
+| T-627-D **Q / I / A register v2**: questions, what we know, what is missing, how to discover it, what it blocks | in progress | 62786810 | `suggestions.html`, `review/62786810/QUESTIONS.md` | — | Several rows need owner credentials or a purchase decision |
+| T-627-E **Executive summary** refresh for a three-minute read | in progress | 62786810 | `executive-summary.html` via `build_site.py` | Figures quoted from the register | — |
+| T-627-F **Line-by-line source re-check** of what this pass publishes: five listings' identification fields, Associates Operating Agreement §5, Program Policies, FTC, Google | in progress | 62786810 | `review/62786810/VERIFICATION.md`, `verification.html`, `flagged.html` | Fetched 2026-11-20 (see the record) | Anything not re-read today stays labelled with its original date |
+| T-627-G **Integration**: rebuild, four gates, PR to `main`, merge, confirm Pages | in progress | 62786810 | this file | Pages API + Actions run | — |
+
+**Scope.** This session edits the root publication only: `build_site.py`, `assets/`, `data/`, `scripts/`, the generated root `*.html`, `COORDINATION.md`, `review/62786810/`. It does not touch `counter-check/`, `docs/`, `articles/`, or `review/<other-session>/`.
