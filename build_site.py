@@ -593,12 +593,12 @@ TOPICS = [
      "hooks": "ThermoMaven accuracy/certification claims (P4); CHEF iQ sensor count and range (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
     {"n": "06", "title": "Can a 26-quart oven actually fit on your counter? The depth math, in inches", "cat": "Air fryers - Space",
-     "status": "Planned", "href": "topics.html#t06",
+     "status": "Published", "href": "guide-counter-depth-fit.html",
      "angle": "A tape-measure walkthrough: depth, width, footprint and the capacity you get per centimetre of counter - using only listed dimensions.",
      "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
      "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
     {"n": "07", "title": "Two baskets or one: what dual-zone cooking actually changes", "cat": "Air fryers - Form",
-     "status": "Planned", "href": "topics.html#t07",
+     "status": "Published", "href": "guide-dual-vs-single-basket.html",
      "angle": "When two independent baskets earn their extra depth - and when a single large basket is the simpler buy.",
      "hooks": "P1 dual-basket listing claims (Sync Finish, 2 x 3 Qt); P3 single-basket listing claims",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
@@ -618,7 +618,7 @@ TOPICS = [
      "hooks": "ThermoMaven tolerance and certification (P4); CHEF iQ sensor count, range and probe count (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
     {"n": "11", "title": "Counter space math: will a 26-quart oven fit your kitchen?", "cat": "Air fryers - Space",
-     "status": "Planned", "href": "topics.html#t11",
+     "status": "Consolidated", "href": "guide-counter-depth-fit.html",
      "angle": "Depth, width, footprint and capacity per centimetre of counter - a tape-measure guide built only from listed dimensions.",
      "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
      "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
@@ -838,7 +838,7 @@ guides_body = """
 <p class="eyebrow">Guides</p>
 <h1>Question-shaped guides, answered from the listing</h1>
 <p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or trend claims without a dated snapshot.</p>
-<h2>Ten guides, three clusters</h2>
+<h2>Thirteen guides, three clusters</h2>
 <div class="grid cols-2">
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
@@ -853,6 +853,9 @@ guides_body = """
 <article class="card"><span class="tag">Seasonal - Gifting</span><h3>The gift receipt test: five checks before you wrap</h3><p>Variant, fit, cleanup, setup burden and the paperwork that turns a December problem into a form.</p><p><a class="btn small" href="guide-gift-return-window.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Thermometers - Buying</span><h3>Instant-read vs wireless thermometer: do you need both?</h3><p>Two tools, two jobs. What each listing states - and the one that states no accuracy figure at all.</p><p><a class="btn small" href="guide-instant-read-vs-wireless.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Specs</span><h3>Will it trip the breaker? Wattage and outlet math for air fryers</h3><p>1000W or 1700W? One of our listings answers that question two different ways - here is how to check yours.</p><p><a class="btn small" href="guide-wattage-outlets.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Space &amp; fit</span><h3>Will a 26-quart oven fit your counter? The depth and height math</h3><p>Depth, height and footprint arithmetic from the listed dimensions, converted to centimetres, step by step.</p><p><a class="btn small" href="guide-counter-depth-fit.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Form</span><h3>Two baskets or one: what dual-zone cooking actually changes</h3><p>Dual-basket, single-basket and oven-cavity cooking, decided on the listings' form and capacity facts.</p><p><a class="btn small" href="guide-dual-vs-single-basket.html">Read guide</a></p></article>
+<article class="card"><span class="tag">In the box</span><h3>What's actually in the box: accessories, per the listing</h3><p>Included parts for all five picks as each listing states them - including one count the listing gives two ways.</p><p><a class="btn small" href="guide-accessories-included.html">Read guide</a></p></article>
 </div>
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
@@ -961,6 +964,86 @@ b5, j5 = guide_shell("Guide - Thermometers", "Instant-read or wireless? How to r
   ("What does 5 sensors mean on the CHEF iQ?","Per the listing bullets: 4 internal temperature sensors plus 1 ambient sensor that tracks cooking-environment temperature."),
   ("Do I need WiFi for the CHEF iQ?","WiFi enables unlimited-range app monitoring per the listing; Bluetooth is also listed in connectivity. You need the CHEF iQ app for remote monitoring.")])
 page_to("guide-thermometer-accuracy.html","Reading thermometer accuracy claims | Countertop Guide","What a stated tolerance, a named certification, a sensor count and 'unlimited range' do and do not prove - for a handheld and a wireless probe set.",b5,j5,"guide-page")
+# ---------- GUIDE 6 (session 8bdadebf): counter-depth & height math ----------
+b11, j11 = guide_shell("Guide - Space & fit", "Will a 26-quart oven fit your counter? The depth and height math",
+ "Counter fit is two measurements, not one. Depth decides whether the appliance sits under the cabinet; height decides whether it clears the cabinet above. Both come from the listed dimensions - and here is the arithmetic, so you can run it on any listing.",
+ """
+<h2>Depth: the number that decides under-cabinet fit</h2>
+<p>From the listed dimensions (depth &times; width &times; height, inches):</p>
+<ul>
+<li>Chefman 8QT basket: 12.75D &times; 13.5W &times; 10H in &mdash; 32.4 cm deep.</li>
+<li>Chefman 6QT dual-basket: 13.38D &times; 11.81W &times; 10.63H in &mdash; 34.0 cm deep.</li>
+<li>Emeril 26QT oven: 16.9D &times; 15.8W &times; 14.8H in &mdash; 42.9 cm deep, and 37.6 cm tall.</li>
+</ul>
+<p>Inch to centimetre is a single multiply: depth in &times; 2.54 = depth in cm. The Emeril needs about 10 cm more depth than the Chefman 8QT. That gap, not the quarts, is what usually decides fit.</p>
+<h2>Height: the number people forget</h2>
+<p>Depth gets the appliance onto the counter; height decides whether it clears the cabinet above. The Emeril is 14.8 in (37.6 cm) tall, against 10.63 in (27.0 cm) for the Chefman 6QT and 10 in (25.4 cm) for the Chefman 8QT. If you have a wall cabinet or a window above, measure the clear space, not the counter.</p>
+<h2>Footprint: how much counter it owns</h2>
+<p>Footprint is depth &times; width, derived from the same listed dimensions: Emeril 267.0 sq in, Chefman 8QT 172.1 sq in, Chefman 6QT dual 158.0 sq in. It is arithmetic we do from the listing, not a manufacturer figure.</p>
+<h2>Run the math yourself</h2>
+<ol>
+<li>Measure your counter depth and the clear height above it, in inches.</li>
+<li>Compare both against the listed depth and height for the model you are considering.</li>
+<li>Add door-swing clearance for French-door models; the listing dimensions describe the box, not the door arc.</li>
+</ol>
+<h2>What the listing cannot tell you</h2>
+<p>The listed dimensions describe the appliance, not your kitchen. They do not include door swing, handle depth, the power cord, or the real usable cavity. We have not measured any of these units; the figures above are the listing's, converted and multiplied, with the method shown so you can repeat it.</p>
+""",
+ [("How deep is the Emeril 26QT oven?", "16.9 inches (42.9 cm) deep and 14.8 inches (37.6 cm) tall, per the Amazon listing dimensions (16.9D x 15.8W x 14.8H in). Measure your counter and the clearance above it before buying."),
+  ("Which of the three takes the least counter depth?", "The Chefman 8QT basket at 12.75 inches (32.4 cm) deep, per the listing. The Chefman 6QT dual is 13.38 inches (34.0 cm); the Emeril 26QT is 16.9 inches (42.9 cm)."),
+  ("Do the listed dimensions include door swing?", "No. Listed dimensions describe the appliance box. French-door models like the Emeril need extra clearance for the doors to open; measure that separately.")])
+page_to("guide-counter-depth-fit.html", "Will a 26-quart oven fit your counter? | Countertop Guide", "Counter fit as listing arithmetic: depth, height and footprint for three verified air fryers, converted to centimetres, step by step.", b11, j11, "guide-page")
+# ---------- GUIDE 7 (session 8bdadebf): dual-baskets vs single ----------
+b12, j12 = guide_shell("Guide - Air fryers - Form", "Two baskets or one: what dual-zone cooking actually changes",
+ "The same quart figure can mean two very different cooking setups. A dual-basket unit cooks two dishes at once; a single basket cooks one. Here is what each shape actually offers, exactly as the listings state it.",
+ """
+<h2>What each shape offers, as listed</h2>
+<p><strong>Dual-basket (Chefman 6QT, B0CDY277D3).</strong> Two independent 3-quart baskets with Sync Finish, so two dishes can finish together; the listing describes dual-zone cooking for different dishes at the same time.</p>
+<p><strong>Single basket (Chefman 8QT, B08DKYBTPH).</strong> One 8-quart basket with a 450&deg;F Hi-Fry option and a top-rack dishwasher-safe basket and tray.</p>
+<p><strong>Oven cavity (Emeril 26QT, B09B7SB46R).</strong> A single large cavity the listing describes as suitable for 4-6 people, a 6-lb rotisserie chicken and a 12-inch pizza.</p>
+<h2>When two baskets earn their depth</h2>
+<ul>
+<li>You cook two different dishes at once, at different temperatures or times.</li>
+<li>Sync Finish matters to you: the listing says the two baskets can finish at the same time.</li>
+<li>You want to air-fry a main and a side without waiting, and you have the counter depth (34.0 cm for the Chefman 6QT).</li>
+</ul>
+<h2>When one big basket is simpler</h2>
+<ul>
+<li>You cook one dish at a time and want the shallowest footprint (32.4 cm for the Chefman 8QT).</li>
+<li>Simpler cleanup: one basket and tray rather than two.</li>
+<li>You fry in large single batches - fries for the whole family - where one 8-quart cavity is the point.</li>
+</ul>
+<h2>What the listing cannot tell you</h2>
+<p>Whether two baskets actually save you time, or whether a single large basket crisps a big batch better, is a hands-on question. We have not cooked in any of these units, so we do not rank them on cooking performance - only on the listed form, capacity and care facts above.</p>
+""",
+ [("What is the difference between dual-basket and single-basket air fryers?", "A dual-basket unit cooks in two independent baskets that can run different dishes at once (the Chefman 6QT lists Sync Finish); a single-basket unit cooks in one cavity (the Chefman 8QT is 8 quarts)."),
+  ("Can the Chefman 6QT cook two dishes at different times?", "Yes, per the listing: two independent 3-quart baskets with dual-zone cooking, so different dishes can cook at the same time."),
+  ("Is a 26-quart oven the same as two baskets?", "No. The Emeril 26QT is one large oven cavity, not two baskets. The listing describes it for a whole chicken and pizza; it is a different cooking setup from a dual-basket fryer.")])
+page_to("guide-dual-vs-single-basket.html", "Two baskets or one: dual-zone cooking | Countertop Guide", "Dual-basket, single-basket and oven-cavity cooking, decided on the listings' own form, capacity and care facts.", b12, j12, "guide-page")
+# ---------- GUIDE 8 (session 8bdadebf): accessories in the box ----------
+b13, j13 = guide_shell("Guide - In the box", "What's actually in the box: accessories, per the listing",
+ "The accessory list decides what you can cook on day one and what you will need to replace. Here is what each verified listing includes, stated as listed - including one count the listing itself gives two ways.",
+ """
+<h2>Air fryers</h2>
+<ul>
+<li><strong>Chefman 6QT dual (B0CDY277D3):</strong> two 3-quart non-stick baskets, per the listing.</li>
+<li><strong>Chefman 8QT (B08DKYBTPH):</strong> an 8-quart non-stick basket and a flat frying tray, per the listing.</li>
+<li><strong>Emeril 26QT oven (B09B7SB46R):</strong> the title says six cooking accessories included; the listing's Item-details table lists seven. Both counts are the listing's and disagree - see <a href="flagged.html#FLG-021">FLG-021</a>. Count on the listing, not the headline.</li>
+</ul>
+<h2>Thermometers</h2>
+<ul>
+<li><strong>ThermoMaven instant-read (B0DHZTCNR5):</strong> includes a calibration certificate, per the listing's included-components field.</li>
+<li><strong>CHEF iQ Sense wireless (B0DZFD6R9Z):</strong> three ultra-thin probes plus a hub that charges all three at once, per the listing. Probe count is sold as variants - pick the count you need on the listing.</li>
+</ul>
+<h2>Why the count matters</h2>
+<p>Accessories are the parts that wear and the parts you replace. A title count and a table count that disagree is exactly the detail to resolve on the listing before you buy, because a missing tray or an extra probe changes what you can cook on day one.</p>
+<h2>What the listing cannot tell you</h2>
+<p>The listing states what is included, not how each accessory is cared for, whether replacements are stocked, or whether a given accessory fits other models. Check the care instructions and the replacement availability on the listing before relying on any one part.</p>
+""",
+ [("How many accessories come with the Emeril 26QT?", "The title says six cooking accessories; the listing's Item-details table lists seven. We publish both and flag the disagreement (FLG-021) rather than choosing one."),
+  ("What comes with the CHEF iQ Sense thermometer?", "Three ultra-thin probes plus a hub that charges all three at once, per the listing. Probe count is sold as variants, so confirm the count on the listing."),
+  ("Do the baskets count as accessories?", "Yes - the Chefman 6QT lists two 3-quart baskets and the Chefman 8QT lists a basket and a flat frying tray. They are the removable, replaceable parts of these appliances.")], picks=("P1", "P2", "P5"))
+page_to("guide-accessories-included.html", "Accessories in the box, per the listing | Countertop Guide", "Included parts for all five verified picks, as each listing states them - including one count the listing gives two ways.", b13, j13, "guide-page")
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
@@ -2480,6 +2563,9 @@ GUIDES = [
  ("guide-holiday-deal-check.html","A holiday price looks like a deal: the ten-minute listing check","Quarts per dollar, the variant trap, what badges are not, and listings that disagree with themselves."),
  ("guide-gift-return-window.html","The gift receipt test: five checks before you wrap an appliance","Variant, counter fit, cleanup, setup burden and the paperwork that makes an exchange a form."),
  ("guide-instant-read-vs-wireless.html","Instant-read vs wireless thermometer: do you need both?","Two thermometers, two jobs: a one-second handheld read against three probes monitored from a phone, and the accuracy figure one listing never states."),
+ ("guide-counter-depth-fit.html","Will a 26-quart oven fit your counter? The depth and height math","Depth, height and footprint arithmetic from the listed dimensions, converted to centimetres and repeated step by step."),
+ ("guide-dual-vs-single-basket.html","Two baskets or one: what dual-zone cooking actually changes","Dual-basket versus single-basket versus oven-cavity cooking, decided on the listings' own form, capacity and care facts."),
+ ("guide-accessories-included.html","What's actually in the box: accessories, per the listing","Included parts for the five verified picks, stated exactly as each listing shows them, including the count the listing gives two ways."),
 ]
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',
