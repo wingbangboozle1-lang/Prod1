@@ -534,12 +534,12 @@ TOPICS = [
      "hooks": "ThermoMaven accuracy/certification claims (P4); CHEF iQ sensor count and range (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
     {"n": "06", "title": "Can a 26-quart oven actually fit on your counter? The depth math, in inches", "cat": "Air fryers - Space",
-     "status": "Planned", "href": "topics.html#t06",
+     "status": "Published", "href": "guide-counter-depth-fit.html",
      "angle": "A tape-measure walkthrough: depth, width, footprint and the capacity you get per centimetre of counter - using only listed dimensions.",
      "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
      "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
     {"n": "07", "title": "Two baskets or one: what dual-zone cooking actually changes", "cat": "Air fryers - Form",
-     "status": "Planned", "href": "topics.html#t07",
+     "status": "Published", "href": "guide-dual-vs-single-basket.html",
      "angle": "When two independent baskets earn their extra depth - and when a single large basket is the simpler buy.",
      "hooks": "P1 dual-basket listing claims (Sync Finish, 2 x 3 Qt); P3 single-basket listing claims",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
@@ -559,7 +559,7 @@ TOPICS = [
      "hooks": "ThermoMaven tolerance and certification (P4); CHEF iQ sensor count, range and probe count (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
     {"n": "11", "title": "Counter space math: will a 26-quart oven fit your kitchen?", "cat": "Air fryers - Space",
-     "status": "Planned", "href": "topics.html#t11",
+     "status": "Consolidated", "href": "guide-counter-depth-fit.html",
      "angle": "Depth, width, footprint and capacity per centimetre of counter - a tape-measure guide built only from listed dimensions.",
      "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
      "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
@@ -605,40 +605,88 @@ def topic_band():
 </div>"""
 
 
+
+# ---------- FRONT PAGE: the shelf (buyer-first, generated from the register) ----------
+# Why this exists: the brief asks for a shop. A shopper's first question is "which one, and what
+# does it cost me in counter space" - not "how was this verified". Every row below is a field the
+# register already carries, or an explicit statement that the field was not captured. Nothing is
+# computed here except the centimetre conversion the rest of the site already prints.
+SHELF_ORDER = ["P1", "P2", "P3", "P4", "P5"]
+SHELF_PICK = {
+    "P1": "Two dishes landing at the same time, without a second appliance",
+    "P2": "Cooking for four to six, with rotisserie and a 12-inch pizza",
+    "P3": "One big batch on a shallow counter",
+    "P4": "A fast reading in your hand at the grill",
+    "P5": "Walking away from the oven and watching from your phone",
+}
+SHELF_CHECK = {
+    "P1": "Clearance the manual asks for is not stated on the listing - measure the gap under your cabinet",
+    "P2": "The doors need room to swing, and the warranty period is not stated on the listing",
+    "P3": "The listing gives two wattages (1000 W in the bullets, 1700 W in its spec table) - <a href=\"flagged.html#FLG-022\">FLG-022</a>",
+    "P4": "Dimensions and item weight are not in the fields we captured - <a href=\"flagged.html#FLG-004\">FLG-004</a>",
+    "P5": "No +/-F accuracy figure appears in the fields we captured; it needs WiFi and the app",
+}
+
+def shelf_table():
+    rows = []
+    for pid in SHELF_ORDER:
+        p = PRODS[pid]; dm = dims_of(p)
+        depth = f"{dm['depth_in']} in ({dm['depth_cm']} cm)" if dm else '<span class="fine">not stated in our fields</span>'
+        cap = p.get("capacityTitle")
+        cap = esc(cap) if cap not in ("", "\u2014", None) else '<span class="fine">no cavity</span>'
+        rows.append(
+            f'<tr><td><a href="#{pid}"><strong>{esc(p["shortName"])}</strong></a><br>'
+            f'<span class="fine">{esc(p["category"])} &middot; {esc(p["form"])}</span></td>'
+            f'<td>{esc(SHELF_PICK[pid])}</td><td>{cap}</td><td>{depth}</td>'
+            f'<td class="fine">{SHELF_CHECK[pid]}</td>'
+            f'<td><a class="btn small" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" '
+            f'data-ctg-outbound data-asin="{p["asin"]}">Check price</a></td></tr>')
+    return f"""<div class="table-wrap"><table>
+<tr><th>Product</th><th>Pick it if</th><th>Capacity, as titled</th><th>Counter depth</th><th>Before you order</th><th>Amazon</th></tr>
+{"".join(rows)}
+</table></div>
+<p class="small">Depth is the listing's own dimension, converted at 2.54 cm per inch - not a manufacturer claim. Every &ldquo;Check price&rdquo; button carries our Associates tag and is marked sponsored; Amazon shows the live price and stock. Specs re-read {VERIFIED}.</p>"""
+
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
-    <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
+    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; specs re-read {VERIFIED}</p>
+    <h1>Five countertop appliances, priced in the space they take.</h1>
+    <p class="lede">Air fryers and meat thermometers are bought on one number most pages hide: how much counter they take. Here is that number for all five, in inches and centimetres, next to the job each one is built for &mdash; and a plain note on what to check before you order.</p>
+    <p class="hero-cta"><a class="btn" href="#shelf">See all five at a glance</a> <a class="btn ghost" href="compare.html#chooser">Or answer three questions</a></p>
     <ul class="hero-facts">
-      <li><strong>5</strong> products, each read from its own listing</li>
-      <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
-      <li><strong>1</strong> source link per fact</li>
+      <li><strong>5</strong> products, each read from its own Amazon listing</li>
+      <li><strong>1</strong> table that decides it: depth, capacity, what to check</li>
+      <li><strong>0</strong> claims that anyone here cooked in these machines</li>
     </ul>
   </div>
-  <aside class="hero-side" aria-label="Start here">
-    <p class="side-title">Two minutes, three decisions</p>
+  <aside class="hero-side" aria-label="Three picks by job">
+    <p class="side-title">Three jobs, three machines</p>
     <ol>
-      <li><a href="guide-basket-vs-oven.html">Basket or oven-style?</a> <span>Form factor first - it decides everything else.</span></li>
-      <li><a href="guide-capacity-checklist.html">How much capacity is real?</a> <span>Quarts, litres and &ldquo;feeds 4-6&rdquo; read honestly.</span></li>
-      <li><a href="guide-cleanup-counter-space.html">Will it fit, and will you wash it?</a> <span>Depth, cabinet clearance, dishwasher parts.</span></li>
+      <li><a href="air-fryers.html#P1">Two dishes at once &rarr; Chefman 6QT dual</a> <span>13.38 in deep &middot; 11.81 in wide &middot; two 3-quart baskets</span></li>
+      <li><a href="air-fryers.html#P2">Feed four to six &rarr; Emeril 26QT oven</a> <span>16.9 in deep &middot; rotisserie and a 12-inch pizza, per listing</span></li>
+      <li><a href="air-fryers.html#P3">One big batch &rarr; Chefman 8QT basket</a> <span>12.75 in deep &middot; the shallowest of the three</span></li>
     </ol>
-    <p class="fine">Listing data checked {VERIFIED}. Prices and ratings live on Amazon and move - we link to them rather than quote a stale figure.</p>
+    <p class="hero-side-cta"><a class="btn small" href="#shelf">Compare all five side by side</a></p>
+    <p class="fine">Prices and ratings live on Amazon and move, so we link to them instead of quoting a stale figure. Specs re-read {VERIFIED}.</p>
   </aside>
 </section>
+
+<h2 id="shelf">All five at a glance</h2>
+<p>The table a shopper needs first: what each machine is for, how much counter it takes, and the one thing the listing will not tell you. Click a name for the full card with the source link; click <em>Check price</em> for the live figure on Amazon.</p>
+{shelf_table()}
 
 <section class="season" aria-label="This week on the desk">
   <p class="eyebrow">Holiday window, 2026</p>
   <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. The retail days either side of it are the Friday and the Monday, which are not holidays in that law. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/">OPM schedule</a> on 2026-11-20.</p>
 </section>
 
-<h2>Quick picks, straight from the listings</h2>
+<h2>If you want a shortcut, start with these three</h2>
+<p>Each pick names the job it wins on. It is a reading of the listing&rsquo;s own fields, not a test result.</p>
 <div class="grid cols-3">
-  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
+  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P1']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P1">Full card</a></p></article>
+  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P2']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P2">Full card</a></p></article>
+  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P3']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P3">Full card</a></p></article>
 </div>
 <p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 
@@ -779,7 +827,7 @@ guides_body = """
 <p class="eyebrow">Guides</p>
 <h1>Question-shaped guides, answered from the listing</h1>
 <p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or trend claims without a dated snapshot.</p>
-<h2>Ten guides, three clusters</h2>
+<h2>Thirteen guides, three clusters</h2>
 <div class="grid cols-2">
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
@@ -794,6 +842,9 @@ guides_body = """
 <article class="card"><span class="tag">Seasonal - Gifting</span><h3>The gift receipt test: five checks before you wrap</h3><p>Variant, fit, cleanup, setup burden and the paperwork that turns a December problem into a form.</p><p><a class="btn small" href="guide-gift-return-window.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Thermometers - Buying</span><h3>Instant-read vs wireless thermometer: do you need both?</h3><p>Two tools, two jobs. What each listing states - and the one that states no accuracy figure at all.</p><p><a class="btn small" href="guide-instant-read-vs-wireless.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Specs</span><h3>Will it trip the breaker? Wattage and outlet math for air fryers</h3><p>1000W or 1700W? One of our listings answers that question two different ways - here is how to check yours.</p><p><a class="btn small" href="guide-wattage-outlets.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Space &amp; fit</span><h3>Will a 26-quart oven fit your counter? The depth and height math</h3><p>Depth, height and footprint arithmetic from the listed dimensions, converted to centimetres, step by step.</p><p><a class="btn small" href="guide-counter-depth-fit.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Form</span><h3>Two baskets or one: what dual-zone cooking actually changes</h3><p>Dual-basket, single-basket and oven-cavity cooking, decided on the listings' form and capacity facts.</p><p><a class="btn small" href="guide-dual-vs-single-basket.html">Read guide</a></p></article>
+<article class="card"><span class="tag">In the box</span><h3>What's actually in the box: accessories, per the listing</h3><p>Included parts for all five picks as each listing states them - including one count the listing gives two ways.</p><p><a class="btn small" href="guide-accessories-included.html">Read guide</a></p></article>
 </div>
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
@@ -902,6 +953,86 @@ b5, j5 = guide_shell("Guide - Thermometers", "Instant-read or wireless? How to r
   ("What does 5 sensors mean on the CHEF iQ?","Per the listing bullets: 4 internal temperature sensors plus 1 ambient sensor that tracks cooking-environment temperature."),
   ("Do I need WiFi for the CHEF iQ?","WiFi enables unlimited-range app monitoring per the listing; Bluetooth is also listed in connectivity. You need the CHEF iQ app for remote monitoring.")])
 page_to("guide-thermometer-accuracy.html","Reading thermometer accuracy claims | Countertop Guide","What a stated tolerance, a named certification, a sensor count and 'unlimited range' do and do not prove - for a handheld and a wireless probe set.",b5,j5,"guide-page")
+# ---------- GUIDE 6 (session 8bdadebf): counter-depth & height math ----------
+b11, j11 = guide_shell("Guide - Space & fit", "Will a 26-quart oven fit your counter? The depth and height math",
+ "Counter fit is two measurements, not one. Depth decides whether the appliance sits under the cabinet; height decides whether it clears the cabinet above. Both come from the listed dimensions - and here is the arithmetic, so you can run it on any listing.",
+ """
+<h2>Depth: the number that decides under-cabinet fit</h2>
+<p>From the listed dimensions (depth &times; width &times; height, inches):</p>
+<ul>
+<li>Chefman 8QT basket: 12.75D &times; 13.5W &times; 10H in &mdash; 32.4 cm deep.</li>
+<li>Chefman 6QT dual-basket: 13.38D &times; 11.81W &times; 10.63H in &mdash; 34.0 cm deep.</li>
+<li>Emeril 26QT oven: 16.9D &times; 15.8W &times; 14.8H in &mdash; 42.9 cm deep, and 37.6 cm tall.</li>
+</ul>
+<p>Inch to centimetre is a single multiply: depth in &times; 2.54 = depth in cm. The Emeril needs about 10 cm more depth than the Chefman 8QT. That gap, not the quarts, is what usually decides fit.</p>
+<h2>Height: the number people forget</h2>
+<p>Depth gets the appliance onto the counter; height decides whether it clears the cabinet above. The Emeril is 14.8 in (37.6 cm) tall, against 10.63 in (27.0 cm) for the Chefman 6QT and 10 in (25.4 cm) for the Chefman 8QT. If you have a wall cabinet or a window above, measure the clear space, not the counter.</p>
+<h2>Footprint: how much counter it owns</h2>
+<p>Footprint is depth &times; width, derived from the same listed dimensions: Emeril 267.0 sq in, Chefman 8QT 172.1 sq in, Chefman 6QT dual 158.0 sq in. It is arithmetic we do from the listing, not a manufacturer figure.</p>
+<h2>Run the math yourself</h2>
+<ol>
+<li>Measure your counter depth and the clear height above it, in inches.</li>
+<li>Compare both against the listed depth and height for the model you are considering.</li>
+<li>Add door-swing clearance for French-door models; the listing dimensions describe the box, not the door arc.</li>
+</ol>
+<h2>What the listing cannot tell you</h2>
+<p>The listed dimensions describe the appliance, not your kitchen. They do not include door swing, handle depth, the power cord, or the real usable cavity. We have not measured any of these units; the figures above are the listing's, converted and multiplied, with the method shown so you can repeat it.</p>
+""",
+ [("How deep is the Emeril 26QT oven?", "16.9 inches (42.9 cm) deep and 14.8 inches (37.6 cm) tall, per the Amazon listing dimensions (16.9D x 15.8W x 14.8H in). Measure your counter and the clearance above it before buying."),
+  ("Which of the three takes the least counter depth?", "The Chefman 8QT basket at 12.75 inches (32.4 cm) deep, per the listing. The Chefman 6QT dual is 13.38 inches (34.0 cm); the Emeril 26QT is 16.9 inches (42.9 cm)."),
+  ("Do the listed dimensions include door swing?", "No. Listed dimensions describe the appliance box. French-door models like the Emeril need extra clearance for the doors to open; measure that separately.")])
+page_to("guide-counter-depth-fit.html", "Will a 26-quart oven fit your counter? | Countertop Guide", "Counter fit as listing arithmetic: depth, height and footprint for three verified air fryers, converted to centimetres, step by step.", b11, j11, "guide-page")
+# ---------- GUIDE 7 (session 8bdadebf): dual-baskets vs single ----------
+b12, j12 = guide_shell("Guide - Air fryers - Form", "Two baskets or one: what dual-zone cooking actually changes",
+ "The same quart figure can mean two very different cooking setups. A dual-basket unit cooks two dishes at once; a single basket cooks one. Here is what each shape actually offers, exactly as the listings state it.",
+ """
+<h2>What each shape offers, as listed</h2>
+<p><strong>Dual-basket (Chefman 6QT, B0CDY277D3).</strong> Two independent 3-quart baskets with Sync Finish, so two dishes can finish together; the listing describes dual-zone cooking for different dishes at the same time.</p>
+<p><strong>Single basket (Chefman 8QT, B08DKYBTPH).</strong> One 8-quart basket with a 450&deg;F Hi-Fry option and a top-rack dishwasher-safe basket and tray.</p>
+<p><strong>Oven cavity (Emeril 26QT, B09B7SB46R).</strong> A single large cavity the listing describes as suitable for 4-6 people, a 6-lb rotisserie chicken and a 12-inch pizza.</p>
+<h2>When two baskets earn their depth</h2>
+<ul>
+<li>You cook two different dishes at once, at different temperatures or times.</li>
+<li>Sync Finish matters to you: the listing says the two baskets can finish at the same time.</li>
+<li>You want to air-fry a main and a side without waiting, and you have the counter depth (34.0 cm for the Chefman 6QT).</li>
+</ul>
+<h2>When one big basket is simpler</h2>
+<ul>
+<li>You cook one dish at a time and want the shallowest footprint (32.4 cm for the Chefman 8QT).</li>
+<li>Simpler cleanup: one basket and tray rather than two.</li>
+<li>You fry in large single batches - fries for the whole family - where one 8-quart cavity is the point.</li>
+</ul>
+<h2>What the listing cannot tell you</h2>
+<p>Whether two baskets actually save you time, or whether a single large basket crisps a big batch better, is a hands-on question. We have not cooked in any of these units, so we do not rank them on cooking performance - only on the listed form, capacity and care facts above.</p>
+""",
+ [("What is the difference between dual-basket and single-basket air fryers?", "A dual-basket unit cooks in two independent baskets that can run different dishes at once (the Chefman 6QT lists Sync Finish); a single-basket unit cooks in one cavity (the Chefman 8QT is 8 quarts)."),
+  ("Can the Chefman 6QT cook two dishes at different times?", "Yes, per the listing: two independent 3-quart baskets with dual-zone cooking, so different dishes can cook at the same time."),
+  ("Is a 26-quart oven the same as two baskets?", "No. The Emeril 26QT is one large oven cavity, not two baskets. The listing describes it for a whole chicken and pizza; it is a different cooking setup from a dual-basket fryer.")])
+page_to("guide-dual-vs-single-basket.html", "Two baskets or one: dual-zone cooking | Countertop Guide", "Dual-basket, single-basket and oven-cavity cooking, decided on the listings' own form, capacity and care facts.", b12, j12, "guide-page")
+# ---------- GUIDE 8 (session 8bdadebf): accessories in the box ----------
+b13, j13 = guide_shell("Guide - In the box", "What's actually in the box: accessories, per the listing",
+ "The accessory list decides what you can cook on day one and what you will need to replace. Here is what each verified listing includes, stated as listed - including one count the listing itself gives two ways.",
+ """
+<h2>Air fryers</h2>
+<ul>
+<li><strong>Chefman 6QT dual (B0CDY277D3):</strong> two 3-quart non-stick baskets, per the listing.</li>
+<li><strong>Chefman 8QT (B08DKYBTPH):</strong> an 8-quart non-stick basket and a flat frying tray, per the listing.</li>
+<li><strong>Emeril 26QT oven (B09B7SB46R):</strong> the title says six cooking accessories included; the listing's Item-details table lists seven. Both counts are the listing's and disagree - see <a href="flagged.html#FLG-021">FLG-021</a>. Count on the listing, not the headline.</li>
+</ul>
+<h2>Thermometers</h2>
+<ul>
+<li><strong>ThermoMaven instant-read (B0DHZTCNR5):</strong> includes a calibration certificate, per the listing's included-components field.</li>
+<li><strong>CHEF iQ Sense wireless (B0DZFD6R9Z):</strong> three ultra-thin probes plus a hub that charges all three at once, per the listing. Probe count is sold as variants - pick the count you need on the listing.</li>
+</ul>
+<h2>Why the count matters</h2>
+<p>Accessories are the parts that wear and the parts you replace. A title count and a table count that disagree is exactly the detail to resolve on the listing before you buy, because a missing tray or an extra probe changes what you can cook on day one.</p>
+<h2>What the listing cannot tell you</h2>
+<p>The listing states what is included, not how each accessory is cared for, whether replacements are stocked, or whether a given accessory fits other models. Check the care instructions and the replacement availability on the listing before relying on any one part.</p>
+""",
+ [("How many accessories come with the Emeril 26QT?", "The title says six cooking accessories; the listing's Item-details table lists seven. We publish both and flag the disagreement (FLG-021) rather than choosing one."),
+  ("What comes with the CHEF iQ Sense thermometer?", "Three ultra-thin probes plus a hub that charges all three at once, per the listing. Probe count is sold as variants, so confirm the count on the listing."),
+  ("Do the baskets count as accessories?", "Yes - the Chefman 6QT lists two 3-quart baskets and the Chefman 8QT lists a basket and a flat frying tray. They are the removable, replaceable parts of these appliances.")], picks=("P1", "P2", "P5"))
+page_to("guide-accessories-included.html", "Accessories in the box, per the listing | Countertop Guide", "Included parts for all five verified picks, as each listing states them - including one count the listing gives two ways.", b13, j13, "guide-page")
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
@@ -930,7 +1061,7 @@ exec_body = f"""
 <ul>
 <li><strong>Product facts</strong> come from each product&rsquo;s own listing, read on {VERIFIED}, with the URL recorded per field in the <a href="verification.html">verification register</a>. Where a listing contradicts itself, both values are published and flagged rather than silently resolved (<a href="flagged.html#FLG-002">FLG-002</a>, <a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-022">FLG-022</a>).</li>
 <li><strong>Policy text</strong> was read from the official pages and quoted, not summarised from memory: Operating Agreement &sect;5 (disclosure), Program Policies (price and availability, ratings), Google Search Central (outbound link qualification), FTC (disclosure placement). Sources are listed on <a href="compliance.html">the compliance page</a> with the read date.</li>
-<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy and that every CSS class has a style, and the build itself refuses to write a comparative sentence (the narrowest, the deepest, the biggest) that data/products.json no longer supports. See the <a href="verification.html#claim-audit">claim audit</a>. A page that fails cannot merge.</li>
+<li><strong>Mechanical checks</strong> run on every main-branch push: five automated publishing gates collectively check disclosures, sponsored links, internal links, metadata, voice rules, price policy, CSS coverage, page structure and the five-event contract; the build also refuses to write comparative claims that the product register no longer supports. See the <a href="verification.html#claim-audit">claim audit</a>. The current Pages source is the legacy branch builder: a failed gate turns the workflow red, but this repository has not verified branch protection that would block a merge, and the Actions workflow does not itself publish the Pages artifact in this mode (<a href="flagged.html#FLG-051">FLG-051</a>).</li>
 </ul>
 
 <h2>What is not claimed, and why</h2>
@@ -945,6 +1076,9 @@ exec_body = f"""
 <h2>How money and measurement work</h2>
 <p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because the self-hosted endpoint - code-complete with a CI-tested five-event contract - is not hosted yet. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
 <p class="fine">See <a href="methodology.html">Method &amp; campaign ledger</a> for the event contract, the endpoint self-test and the ledger rules.</p>
+
+<h2>Automation boundary</h2>
+<p>This is a static affiliate publication, not a live AI research or campaign-optimization service. The build automates page generation and compliance checks; the event names and endpoint are implemented and tested locally, but the endpoint is not hosted, no conversion reports are connected, and no AI agent is currently sourcing products, scoring commissions, publishing automatically, or optimizing campaigns. Those capabilities require documented data access, policy review and an operating host before they can be represented as live. The open questions and recommended discovery steps are on the <a href="suggestions.html">suggestions desk</a> and <a href="decisions.html">decision register</a>.</p>
 
 <h2>What the 2026-11-20 pass changed</h2>
 <ul>
@@ -1390,7 +1524,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <p><strong>Path B:</strong> keep the queued title as a distinct counter-fit angle and accept two basket-vs-oven pages, with one canonicalised to the other. More work, weaker for search.</p>
 <p><strong>Path C:</strong> leave the calendar as printed. The row then stays a duplicated promise that <a href="flagged.html#FLG-075">FLG-075</a> already flags in part.</p>
 </div>
-<p class="fine"><strong>Effort:</strong> S - one change in <code>data/editorial.json</code>. <strong>Evidence needed:</strong> none beyond the register; the overlap is between two titles on one board. <strong>Blocks:</strong> the 2026-12-01 publishing slot. <strong>Status:</strong> <span class="badge-warn">Needs owner decision</span> - recorded 2026-11-20 after the second listing read; nothing in the calendar was changed.</p></article>
+<p class="fine"><strong>Effort:</strong> S - one change in <code>data/editorial.json</code>. <strong>Evidence needed:</strong> none beyond the register; the overlap is between two titles on one board. <strong>Blocks:</strong> the 2026-12-01 publishing slot. <strong>Status:</strong> <span class="badge-warn">Needs owner confirmation</span> - recorded 2026-11-20 after the second listing read. Update from the same-day merge: a parallel session has since applied Path A on <code>main</code> - the 2026-12-01 row now points at the existing guide as published. The row stands as the confirmation record; reverting either way is one line in <code>data/editorial.json</code>.</p></article>
 
 
 
@@ -1746,6 +1880,8 @@ flag_body = f"""
 <tr id="FLG-080"><td>FLG-080</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
 <tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
 <tr id="FLG-082"><td>FLG-082</td><td>A build gate this session wrote could block the whole deploy, and did</td><td>The decision register shipped with a hard rule: any board row not triaged into a theme stopped the build. The suggestions board is append-only and every session adds rows to it, so within hours an unrelated session&rsquo;s new idea (Q-33..Q-37, SG-44..53, later SG-54..57) failed the Pages workflow for the entire site over an editorial to-do item. On 2026-11-20 the rule became a build warning plus a &ldquo;Nobody has taken these yet&rdquo; table on <a href="decisions.html#map">the register</a>, so an unowned row is visible to whoever must triage it instead of removing the site from readers. A gate that cannot be satisfied by the person who is blocked is not a gate, it is a hostage.</td><td>Owner: set the triage expectation (Q-14 asks for a review SLA); until then the register lists unowned rows on every build</td></tr>
+<tr id="FLG-083"><td>FLG-083</td><td>A 2026-11-20 re-read of all five listings: displayed specs still match; three volatile figures moved; P5's size selector showed a different headline price</td><td>Session <code>84799c33</code> fetched all five listing pages on 2026-11-20 and re-read title, rating, rating count, buy-box price, list price, Product-information table and bullets. Confirmed unchanged on the page: P1 title, rating 4.2 with 4,878 ratings (register 4,877 - drift of one), buy box $79.93, list $99.99, used $62.85; P2 title, rating 4.3 with 18,380 ratings, buy box $149.99, list $209.99, dimensions 16.9&quot;D x 15.8&quot;W x 14.8&quot;H and capacity 24.6 liters; P3 title, rating 4.4 with 16,894 ratings (register 16,892), buy box $69.99, list $119.99, dimensions 12.75&quot;D x 13.5&quot;W x 10&quot;H, capacity 8 quarts, the 1000 W/120 V bullet and the same page carrying a Black Friday deal label; P4 title, rating 4.6 with 3,499 ratings, buy box $16.99, Product-information table (Brand, Special Feature, Color, Included Components, Specification Met, Unit Count - again no dimensions row); P5 title, buy box $119.99 for the 3-probe variant, list $219.99, Item-details table including 3 Probes, Hub and the two-year CHEF iQ assurance bullet. <strong>Two things are recorded, not published.</strong> (1) P3's rating count moved 16,892 &rarr; 16,894 between passes; that is the normal drift the site already refuses to print. (2) P5's page shows a size selector in which the 3-probe variant reads $119.99 while the variant list also shows 1 Probe at $99.99 (list $129.99), 2 Probes at $99.99 (list $179.99) and 4 Probes at $142.49; the register's &ldquo;$119.99 (3-probe variant)&rdquo; remains correct for the ASIN's default variant, but a buyer on a small screen may land on a different variant's price, which is exactly why shop pages link to Amazon rather than print a figure. No value was edited on the strength of a carousel or a sponsored placement. Sources: <code>https://www.amazon.com/gp/aw/d/&lt;ASIN&gt;</code> for B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z, fetched 2026-11-20.</td><td>None blocking. Next cadence pass re-reads and re-dates; the register keeps dated observations, the shop pages keep linking instead of quoting</td></tr>
+<tr id="FLG-084"><td>FLG-084</td><td>The front page now leads with a decision table, so a wrong reading of one field would be the most expensive mistake on the site</td><td>The front page was rebuilt in this pass around one table (product, the job it wins, capacity as titled, counter depth in inches and centimetres, what to check before ordering). Every cell is read from <code>data/products.json</code>, and the table is generated by <code>shelf_table()</code> in <code>build_site.py</code>, so a value can only change if the register changes. The risk this records is editorial, not technical: the &ldquo;pick it if&rdquo; column is a reading of listing fields, not a test result, and it must stay worded as a job description. Two rows deliberately print a gap (P4 and P5 depth) rather than a number, because the listings' captured fields do not state dimensions - <a href="#FLG-004">FLG-004</a>.</td><td>Owner: read the five &ldquo;pick it if&rdquo; lines as a buyer and change any that reads like a ranking claim; the gate can prove the values match the register, not that the sentence is fair</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
@@ -2413,6 +2549,9 @@ GUIDES = [
  ("guide-holiday-deal-check.html","A holiday price looks like a deal: the ten-minute listing check","Quarts per dollar, the variant trap, what badges are not, and listings that disagree with themselves."),
  ("guide-gift-return-window.html","The gift receipt test: five checks before you wrap an appliance","Variant, counter fit, cleanup, setup burden and the paperwork that makes an exchange a form."),
  ("guide-instant-read-vs-wireless.html","Instant-read vs wireless thermometer: do you need both?","Two thermometers, two jobs: a one-second handheld read against three probes monitored from a phone, and the accuracy figure one listing never states."),
+ ("guide-counter-depth-fit.html","Will a 26-quart oven fit your counter? The depth and height math","Depth, height and footprint arithmetic from the listed dimensions, converted to centimetres and repeated step by step."),
+ ("guide-dual-vs-single-basket.html","Two baskets or one: what dual-zone cooking actually changes","Dual-basket versus single-basket versus oven-cavity cooking, decided on the listings' own form, capacity and care facts."),
+ ("guide-accessories-included.html","What's actually in the box: accessories, per the listing","Included parts for the five verified picks, stated exactly as each listing shows them, including the count the listing gives two ways."),
 ]
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',
