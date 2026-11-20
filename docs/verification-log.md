@@ -18,3 +18,12 @@
 - Machinery: fixed build_site.py canonical placeholder (was writing https://example.com/; now writes the live GitHub Pages URL) so rebuilds reproduce the committed pages; preserved the index-only docs footer links (P-21) in the generator; added the publishing gate to .github/workflows/pages.yml (R-01).
 - Verification sources: Amazon.com listing pages for all five ASINs (fetched 2026-11-19); Amazon Associates Operating Agreement and Program Policies; FTC guidance (links on verification.html and compliance.html).
 - Result: all five intended ASINs and every listed field reconcile with data/products.json except the three open items (thermometer dimensions, Emeril warranty, Chefman 8QT wattage discrepancy), which remain blank/attributed and flagged (FLG-004, FLG-005, FLG-021, FLG-022).
+
+## 2026-11-20 — Second line-by-line re-verification (session 1b65e5a1)
+- Re-fetched every official Amazon.com listing (B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z) on 2026-11-20 and re-read title, rating, rating count, buy-box price, list price, dimensions, capacity, features, wattage and bullets line by line. Full per-field evidence and source links: review/1b65e5a1/VERIFICATION.md.
+- Re-confirmed the Associates Operating Agreement §5 disclosure sentence against the official agreement page (fetched 2026-11-20); every page renders it verbatim.
+- Displayed fields all matched the register. Volatile snapshot figures drifted and were updated in data/products.json: P1 rating count 4,876→4,877 and used price $59.95→$62.85; P2 rating count 18,375→18,380. site.verifiedDate bumped to 2026-11-20; all five confirmationDate bumped to 2026-11-20.
+- P2 Item-details table re-confirmed the accessory-count discrepancy (configuration "24 Functions and 7 Accessories" vs title "Six Cooking Accessories") → FLG-021 stays open.
+- Scope notes (carried from the 2026-11-19 register, not re-captured this pass, recorded as attributed on FLG-060): P2 wattage (1700 W/120 V); P4 rating value and list price. P4 buy-box $16.99 and count 3,499, and all of P3 and P5, were re-confirmed in full.
+- Short-link redirect targets were not re-tested this pass (the direct /dp/<ASIN> pages were fetched); observedRedirectTarget stays "observed 2026-11-19" and FLG-001 (short-link compliance) remains unresolved.
+- New flag **FLG-060** records this pass and its drifts on flagged.html.
