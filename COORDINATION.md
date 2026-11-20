@@ -920,6 +920,13 @@ Session ID: **arena/5da138fb-prod1**. Branch `arena/5da138fb-prod1`, branched fr
 | T-5DA-I Integration: PR to main, merge, confirm Pages deploy | in progress | arena/5da138fb-prod1 | `COORDINATION.md`, `review/5da138fb/` | PR created from `arena/5da138fb-prod1` → `main`; merge and Pages deploy to be confirmed in this session | — |
 
 
+### Merge record — session arena/3ca58211-prod1 (2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/63 (`arena/3ca58211-prod1` → `main`) — **merged with a merge commit `d7a3c26` at 2026-11-20 ≈06:52 UTC**, no approval wait, per the standing brief. One conflict round during the PR's life (`main` advanced to `c08fd15`, PR #62); resolved by keeping both sessions' COORDINATION records in full; logged in the record above.
+- **CI:** `Deploy GitHub Pages` run 44690995063 for `d7a3c26` — **success** (rebuild drift check + all gates green on `main`; the legacy-source notice is expected).
+- **Pages:** the build covering `d7a3c26` reports `status: built` (build_type `legacy`; latest build at record time was for `7d10ac0`, created 2026-11-20 06:54:12Z, which has `d7a3c26` as an ancestor — verified with `git merge-base --is-ancestor`).
+- **Scope note:** PRs #65 and #66 merged after this one and are other sessions' work; this record covers only this session's content.
+
 ## Claim — session arena/84799c33-prod1 (2026-11-20)
 
 Branch `arena/84799c33-prod1`, rebased onto `main` @ `fdc7387` before claiming. No other session had an unexpired claim at this point; every prior session above is recorded as done/merged.
