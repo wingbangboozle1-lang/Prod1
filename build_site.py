@@ -33,6 +33,25 @@ def dims_of(p):
     if None in (d, w): return None
     return {"depth_in": d, "width_in": w, "height_in": h, "depth_cm": round(d * 2.54, 1),
             "height_cm": round(h * 2.54, 1) if h else None, "footprint_sqin": round(d * w, 1)}
+# Brand-art map. These are our own drawings of the appliance *type* - never a rendering of a
+# specific product, never a photograph, never Amazon's Program Content (FLG-041 / SG-04).
+# A drawing of a shape is not a claim about a unit's appearance, so it is not captioned as one.
+ART = {
+    "P1": ("air-fryer-dual", "Dual-basket air fryer, drawing"),
+    "P2": ("air-fryer-oven", "Countertop French-door oven, drawing"),
+    "P3": ("air-fryer-basket", "Single-basket air fryer, drawing"),
+    "P4": ("thermometer-instant", "Handheld instant-read thermometer, drawing"),
+    "P5": ("thermometer-wireless", "Wireless thermometer hub with probes, drawing"),
+}
+def art(pid, cls="prod-art", alt_override=None):
+    """Decorative by default: the card heading already names the product, so an alt string
+    that repeats it is noise for a screen reader. Pass alt_override only where the picture
+    carries information the text does not."""
+    name, label = ART[pid]
+    alt = esc(alt_override if alt_override is not None else "")
+    return (f'<div class="{cls}"><img src="{esc(BASE)}/assets/art/{name}.svg" alt="{alt}" '
+            f'width="320" height="240" loading="lazy" decoding="async"></div>')
+
 # Editorial reading of the listing. Every phrase below paraphrases a field on the linked
 # Amazon listing (attributed "per listing" in the copy) or says a figure is not shown there.
 POSITION = {
@@ -71,6 +90,7 @@ def product_card(pid, bullets_n=3, detailed=False):
     extra = f'<ul class="bullets">{bl}</ul>' if detailed else ""
     return f"""
 <article class="prod" id="{pid}">
+  {art(pid)}
   <div class="prod-head">
     <span class="chip">{esc(p['form'])}</span>
     <h3>{esc(p['shortName'])}</h3>
@@ -91,19 +111,32 @@ def product_card(pid, bullets_n=3, detailed=False):
   <p class="fine">{cta_note(p)}</p>
 </article>"""
 # ---------------------------------------------------------------- chrome
-NAV = f"""<nav class="nav" aria-label="Main">
-  <a href="air-fryers.html">Air fryers</a>
-  <a href="thermometers.html">Thermometers</a>
-  <a href="compare.html">Compare</a>
-  <a href="guides.html">Guides</a>
-  <a href="about.html">About</a>
-  <a href="review-desk.html" class="nav-desk">Review desk</a>
-</nav>
-<form class="searchbox" id="site-search-form" role="search">
+# --- navigation: one reader group; the active page is marked, not guessed by the reader
+NAV_LINKS = [
+    ("air-fryers.html", "Air fryers", ("air-fryers.html", "guide-basket-vs-oven.html", "guide-capacity-checklist.html")),
+    ("thermometers.html", "Thermometers", ("thermometers.html", "guide-thermometer-accuracy.html")),
+    ("compare.html", "Compare", ("compare.html",)),
+    ("guides.html", "Guides", ("guides.html",)),
+    ("about.html", "About", ("about.html",)),
+]
+def nav(slug, prefix=""):
+    """One reader group plus the desk link. `prefix` is the absolute base for in-page anchors
+    on consolidated pages, which are served from a build that does not share this nav state."""
+    out = ['<nav class="nav" aria-label="Main">']
+    for href, label, owns in NAV_LINKS:
+        cur = ' aria-current="page"' if slug in owns else ""
+        out.append(f'  <a href="{prefix}{href}"{cur}>{label}</a>')
+    cur = ' aria-current="page"' if slug in ("review-desk.html", "verification.html", "flagged.html",
+                                            "suggestions.html", "methodology.html", "compliance.html",
+                                            "executive-summary.html", "design-brief.html") else ""
+    out.append(f'  <a href="{prefix}review-desk.html" class="nav-desk"{cur}>Review desk</a>')
+    out.append('</nav>')
+    out.append(f'''<form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
   <input id="site-search-input" type="search" placeholder="Search specs, guides" aria-label="Search the site">
   <button class="btn small secondary" type="submit">Search</button>
-</form>"""
+</form>''')
+    return "\n".join(out)
 STRIP = (f'<div class="disclosure-strip" role="note"><span class="disclosure-req">{REQ_DISCLOSURE}</span> '
          f'&middot; We are paid when a reader buys after clicking, which is why the specs, not hype, are the point. '
          f'<a href="about.html#money">How this site works</a></div>')
@@ -191,7 +224,7 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <a class="skip" href="#main">Skip to content</a>
 <header class="masthead"><div class="masthead-inner">
 <a class="brand" href="{esc(BASE)}/index.html">{esc(BRAND).replace('Guide', '<span>Guide</span>')}</a>
-{NAV}
+{nav(slug)}
 </div></header>
 {STRIP}
 <main id="main" class="wrap">
@@ -356,9 +389,9 @@ index_body = f"""
 
 <h2>Quick picks, straight from the listings</h2>
 <div class="grid cols-3">
-  <article class="pick"><span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick"><span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick"><span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
+  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
+  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
+  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
 </div>
 <p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 

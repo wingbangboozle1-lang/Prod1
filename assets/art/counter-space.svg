@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Line drawing of a kitchen counter with a tape measure across the depth of an appliance">
+  <g fill="none" stroke="#8A2E1B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 190h284" />
+    <path d="M18 190v-14M302 190v-14"/>
+    <rect x="96" y="96" width="128" height="94" rx="8" fill="#F7EAD6"/>
+    <path d="M96 120h128"/>
+    <path d="M120 142h80"/>
+    <path d="M18 74h284" stroke-dasharray="2 10" opacity=".6"/>
+    <path d="M18 62v24M302 62v24"/>
+    <path d="M96 46v24M224 46v24" stroke-dasharray="6 6" opacity=".6"/>
+  </g>
+  <g fill="none" stroke="#B4432B" stroke-width="2" stroke-linecap="round" opacity=".8">
+    <path d="M26 40h268"/>
+    <path d="M40 34v12M60 34v12M80 34v12M100 34v12M120 34v12M140 34v12M160 34v12M180 34v12M200 34v12M220 34v12M240 34v12M260 34v12M280 34v12"/>
+  </g>
+</svg>
