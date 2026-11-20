@@ -85,17 +85,15 @@ everything the moment some of it was touched.
 
 Full text on `flagged.html`:
 
-- **FLG-085** — `topics.html` printed "twelve buyer questions" in its `<title>`, `h1` and
+- **FLG-087** — `topics.html` printed "twelve buyer questions" in its `<title>`, `h1` and
   description ("five published, seven queued") while the table below held fifteen rows
-  (twelve published, three queued). Counts are now computed from `TOPICS`. Fixed.
-- **FLG-086** — the front page rendered each of three products twice (quick-pick card, then
-  the full register card) before a single buy button. Replaced with one shelf card per
-  product. Fixed.
-- **FLG-087** — scope note: titles and buy boxes were re-read; every other spec field was
-  not, so `verifiedDate` is unchanged by this session.
-
-Two earlier rows from this session were dropped in the merge, not forgotten: it had removed
-three queued topics as duplicates of published guides, but another session published those
-three as full guides (`guide-counter-depth-fit.html`, `guide-dual-vs-single-basket.html`,
-`guide-accessories-included.html`) in the same window. Publishing them is the better answer
-than deleting the rows, so this branch adopts the published pages and keeps no deletion.
+  (twelve published, three queued). Title, `h1` and description are now computed from
+  `TOPICS` on every build. Fixed.
+- **FLG-088** — scope note: titles and two buy boxes were re-read; every other spec field
+  was not, so `verifiedDate` is unchanged by this session.
+- **FLG-089** — the front page still shows each product twice before the first buy button
+  (comparison table, then a three-card shortcut block, then the full register card for
+  every product). This session built a compact card as one candidate fix and withdrew it
+  from the merge when two other sessions rebuilt the same page in the same hour; the layout
+  choice is an owner decision, and a fourth competing variant would be the duplication the
+  flag describes.

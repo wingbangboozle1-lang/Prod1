@@ -1,750 +1,746 @@
 {
-  "note": "The decision register behind decisions.html. Written by session 42e09357 on 2026-11-20 so that the 43 suggestions and 27 questions accumulated by ten parallel sessions become seven decisions with an order. Nothing here is approved; status says what it is. build_site.py refuses to write the page unless every SG-/Q- id on suggestions.html is classified in exactly one theme below, so a future session cannot add a row that nobody has triaged. Reclassified on 2026-11-20 after merge: the board grew to SG-53 and Q-37 in a parallel pass, and the triage check in build_site.py listed the twelve unclassified rows rather than letting them sit unowned. Classification note (session arena/fbfe1742-prod1, 2026-11-20): this session triaged the same eight rows first (SG-54/56/57 + Q-41 -> Editorial; SG-55 + Q-38 -> Findability; Q-39 -> Links and money; Q-40 -> Compliance); the integrated version on main places Q-38 and SG-56 under Measurement instead - both placements classify every row and neither is approved policy, so the integrated placement stands and this note keeps the alternative visible.",
-  "updated": "2026-11-20",
-  "answerFormat": "One line per decision, in COORDINATION.md or a message to a session: D-03 = option 2, 2026-11-20, evidence: <link or screenshot name>. The session that reads it moves the row from gates to answered, applies the change, and records who decided and when. No reply at all is also recorded: after 28 days an unanswered gate gets its recommended default applied and the row is marked 'default applied, reversible'.",
-  "howThisWorks": [
-    "Seven gates. Each one has an answer we do not have, a way to get it, and a list of board rows that unblock when it is answered.",
-    "Every gate states what is already known, with the official page and the date it was read, so nobody re-answers a settled question.",
-    "Each 'missing' item says who can obtain it. Anything that needs a login in Associates Central or Search Console is an owner action; a session cannot do it from this repository and does not pretend to.",
-    "A recommendation is a recommendation. It is not a decision, and no page on this site presents it as one."
-  ],
-  "gates": [
+ "note": "The decision register behind decisions.html. Written by session 42e09357 on 2026-11-20 so that the 43 suggestions and 27 questions accumulated by ten parallel sessions become seven decisions with an order. Nothing here is approved; status says what it is. build_site.py refuses to write the page unless every SG-/Q- id on suggestions.html is classified in exactly one theme below, so a future session cannot add a row that nobody has triaged. Reclassified on 2026-11-20 after merge: the board grew to SG-53 and Q-37 in a parallel pass, and the triage check in build_site.py listed the twelve unclassified rows rather than letting them sit unowned. Classification note (session arena/fbfe1742-prod1, 2026-11-20): this session triaged the same eight rows first (SG-54/56/57 + Q-41 -> Editorial; SG-55 + Q-38 -> Findability; Q-39 -> Links and money; Q-40 -> Compliance); the integrated version on main places Q-38 and SG-56 under Measurement instead - both placements classify every row and neither is approved policy, so the integrated placement stands and this note keeps the alternative visible. On 2026-11-20 session arena/942dddd0-prod1 removed the four legacy double classifications (SG-33, SG-43, Q-02, Q-14), so every board row now sits in exactly one theme, and build_site.py fails the build if any row is unclassified, unknown or classified twice.",
+ "updated": "2026-11-20",
+ "answerFormat": "One line per decision, in COORDINATION.md or a message to a session: D-03 = option 2, 2026-11-20, evidence: <link or screenshot name>. The session that reads it moves the row from gates to answered, applies the change, and records who decided and when. No reply at all is also recorded: after 28 days an unanswered gate gets its recommended default applied and the row is marked 'default applied, reversible'.",
+ "howThisWorks": [
+  "Seven gates. Each one has an answer we do not have, a way to get it, and a list of board rows that unblock when it is answered.",
+  "Every gate states what is already known, with the official page and the date it was read, so nobody re-answers a settled question.",
+  "Each 'missing' item says who can obtain it. Anything that needs a login in Associates Central or Search Console is an owner action; a session cannot do it from this repository and does not pretend to.",
+  "A recommendation is a recommendation. It is not a decision, and no page on this site presents it as one."
+ ],
+ "gates": [
+  {
+   "id": "D-01",
+   "title": "Which build is the site, and on which address?",
+   "whyNow": "Three near-duplicate publications are reachable on one host under two brands (root, counter-check/site/, and the docs/ build in draft PR #10). Search engines split credit across them, and a reader who lands on the wrong one sees a different masthead. No findability work means anything until one address wins.",
+   "known": [
+    "The root build is the one the publishing gates, the editorial policy and the sitemap are wired to; it self-canonicalises every page to https://wingbangboozle1-lang.github.io/Prod1/. Source: build_site.py and scripts/check_meta.mjs in the repository, read 2026-11-20.",
+    "GitHub Pages for this repository is in legacy branch-build mode (source: main), so what is committed to main is what is served. Source: GET /repos/wingbangboozle1-lang/Prod1/pages, read 2026-11-19 by session b49d8595 and recorded in FLG-051.",
+    "Google's canonicalisation guidance: one signal per page, and do not use different techniques that disagree. Source: https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls, read 2026-11-19 by session b49d8595."
+   ],
+   "missing": "The owner's choice of the single indexable publication, and whether to buy a domain (which would move every canonical and the og URLs).",
+   "discovery": [
     {
-      "id": "D-01",
-      "title": "Which build is the site, and on which address?",
-      "whyNow": "Three near-duplicate publications are reachable on one host under two brands (root, counter-check/site/, and the docs/ build in draft PR #10). Search engines split credit across them, and a reader who lands on the wrong one sees a different masthead. No findability work means anything until one address wins.",
-      "known": [
-        "The root build is the one the publishing gates, the editorial policy and the sitemap are wired to; it self-canonicalises every page to https://wingbangboozle1-lang.github.io/Prod1/. Source: build_site.py and scripts/check_meta.mjs in the repository, read 2026-11-20.",
-        "GitHub Pages for this repository is in legacy branch-build mode (source: main), so what is committed to main is what is served. Source: GET /repos/wingbangboozle1-lang/Prod1/pages, read 2026-11-19 by session b49d8595 and recorded in FLG-051.",
-        "Google's canonicalisation guidance: one signal per page, and do not use different techniques that disagree. Source: https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls, read 2026-11-19 by session b49d8595."
-      ],
-      "missing": "The owner's choice of the single indexable publication, and whether to buy a domain (which would move every canonical and the og URLs).",
-      "discovery": [
-        {
-          "step": "Open all three front pages on a phone and pick the one you would show a friend.",
-          "where": "https://wingbangboozle1-lang.github.io/Prod1/ , /Prod1/counter-check/site/ , /Prod1/docs/",
-          "who": "Owner, 5 minutes",
-          "artifact": "A one-line answer in COORDINATION.md"
-        },
-        {
-          "step": "Decide domain: keep the github.io address or name one. If naming one, add it to data/editorial.json baseUrl and to the Pages settings; the build reads the base URL from the data file, so pages, sitemap, feed and canonicals all follow it.",
-          "where": "data/editorial.json (baseUrl), GitHub Settings - Pages",
-          "who": "Owner",
-          "artifact": "The new base URL, or 'keep github.io'"
-        }
-      ],
-      "options": [
-        {
-          "label": "Root is the site; the other two builds get a noindex and a banner naming the canonical (recommended)",
-          "effect": "One indexable site, review material stays readable, no history is deleted.",
-          "risk": "Two pages keep existing as unindexed review artifacts, which needs a line in the README so nobody 'fixes' it back."
-        },
-        {
-          "label": "Root is the site; delete the other builds at the next integration",
-          "effect": "Cleanest crawl, one brand.",
-          "risk": "Loses the independent counter-check audit unless it is moved under review/ first."
-        },
-        {
-          "label": "Leave all three indexable",
-          "effect": "Nothing to do.",
-          "risk": "Ongoing duplicate-content ambiguity and a split brand; the reason the board flagged this in the first place (FLG-039)."
-        }
-      ],
-      "recommendation": "Option 1 now, Option 2 at the next integration once the counter-check audit has been cited on the flagged page. Keep the github.io address until the site earns a reason for a domain; a domain changes every canonical and is not a ranking shortcut.",
-      "unblocks": [
-        "SG-02",
-        "SG-22",
-        "SG-23",
-        "Q-02",
-        "Q-18",
-        "FLG-007",
-        "FLG-039"
-      ],
-      "effort": "One decision, no build work beyond a settings change",
-      "risk": "Low. Reversible by editing data/editorial.json and rebuilding."
+     "step": "Open all three front pages on a phone and pick the one you would show a friend.",
+     "where": "https://wingbangboozle1-lang.github.io/Prod1/ , /Prod1/counter-check/site/ , /Prod1/docs/",
+     "who": "Owner, 5 minutes",
+     "artifact": "A one-line answer in COORDINATION.md"
     },
     {
-      "id": "D-02",
-      "title": "Does a click on this site get attributed to shopnow047c-20?",
-      "whyNow": "Every product page, guide and comparison already points at Amazon with the tracking tag, and five supplied short links are in the register. If the tag does not register, no amount of traffic produces revenue and no amount of content is a business. This is the cheapest gate to close and the one everything else leans on.",
-      "known": [
-        "The five submitted short links each resolve to one of the five registered ASINs, and the resolved URLs carry no tag= parameter. Source: verification.html register rows, observed 2026-11-19 and re-read 2026-11-20 by sessions 963ca90f and 1187e20d (review/1187e20d/VERIFICATION-2026-11-20.md).",
-        "The site's own buttons are built as https://www.amazon.com/dp/ASIN?tag=shopnow047c-20 with rel=\"sponsored nofollow noopener\". Source: build_site.py aff() and the post-step, verified by scripts/check_meta.mjs on 2026-11-20.",
-        "The Operating Agreement requires the disclosure sentence the site now carries verbatim. Source: https://affiliate-program.amazon.com/help/operating/agreement Section 5, re-read 2026-11-20 by session 1187e20d."
-      ],
-      "missing": "A dated test record per ASIN: clicked from a page on this site, landed on the right product, and a matching row the next day in the Associates reporting. Also: whether the supplied short links are compliant Special Links, which the register deliberately does not decide (FLG-001).",
-      "discovery": [
-        {
-          "step": "Open the live front page, click 'See today's price on Amazon' on one product, complete a $0 action (add to basket, or buy something small).",
-          "where": "https://wingbangboozle1-lang.github.io/Prod1/ - owner's browser",
-          "who": "Owner",
-          "artifact": "Screenshot of the destination URL showing tag=shopnow047c-20"
-        },
-        {
-          "step": "Next day, open Associates Central - Reports - Earned Commissions / Clicks and confirm the click appears with the tracking ID.",
-          "where": "Associates Central (login required)",
-          "who": "Owner only",
-          "artifact": "Report row with date; paste the date and count into COORDINATION.md"
-        },
-        {
-          "step": "Repeat for one product only if the first test works, then record 'tested 5 of 5' or 'tested 1 of 5, others presumed identical'. Do not write 'validated' from a single test.",
-          "where": "verification.html, one row per ASIN",
-          "who": "Owner decides, session records",
-          "artifact": "A dated Special Link test column"
-        },
-        {
-          "step": "Optional: ask Associates support in writing whether a link.amazon short link is an acceptable Special Link, and quote their answer. An unanswered question stays a question.",
-          "where": "Associates Central - Contact us",
-          "who": "Owner",
-          "artifact": "Support ticket number and the quoted answer"
-        }
-      ],
-      "options": [
-        {
-          "label": "Test one link, confirm click plus tracking, then keep the current button form everywhere (recommended)",
-          "effect": "The site keeps its official-listing-plus-tag links, which are the form the Agreement describes; one dated test becomes the evidence line on every page.",
-          "risk": "None known. Costs the owner fifteen minutes."
-        },
-        {
-          "label": "Switch to SiteStripe-generated Special Links per product",
-          "effect": "Uses Amazon's own generator, so format questions disappear.",
-          "risk": "Needs the console and one copy-paste per product; the short links in the brief are still not proven invalid, only unproven."
-        },
-        {
-          "label": "Keep publishing without the test",
-          "effect": "Nothing changes today.",
-          "risk": "Any revenue assumption is unmeasured; the ledger stays empty and Priority 4 (evidence-based iteration) cannot start."
-        }
-      ],
-      "recommendation": "Option 1, and record it as a dated test rather than a claim. Do not describe the supplied short links as invalid; the register's position (FLG-001) is that their compliance status is unresolved, and that is still the honest answer.",
-      "unblocks": [
-        "SG-01",
-        "SG-08",
-        "Q-01",
-        "Q-25",
-        "FLG-001",
-        "FLG-013",
-        "FLG-015",
-        "FLG-045",
-        "the campaign ledger"
-      ],
-      "effort": "15 minutes of owner clicks, then one table column",
-      "risk": "Low. If the test fails, the fix is a link-format change in one function of the generator."
-    },
-    {
-      "id": "D-03",
-      "title": "Do live price and rating figures ever appear on the site?",
-      "whyNow": "This is the single decision that decides whether the automation story is real. A static build cannot refresh Amazon data inside 24 hours, so today the site links to the price instead of quoting it. Either that stays the rule, or the API route gets funded and wired, or the owner accepts documented risk. Silence on the question leaves the shop pages looking empty to a shopper.",
-      "known": [
-        "Associates Program Policies: a Site may show price and availability only where Amazon serves the link carrying that data, or where it comes from the Creators/PA API under the License; Product Advertising Content may be stored for no more than 24 hours. Source: https://affiliate-program.amazon.com/help/operating/policies, read 2026-11-19 by session b49d8595, quoted on compliance.html.",
-        "The site therefore displays no price, rating, rating count, badge or 'bought in past month' figure on any shop or guide page; the dated observations live in the verification register. Source: data/editorial.json display block, enforced by scripts/check_meta.mjs rule 4.",
-        "The eligibility condition everyone repeats, three qualifying sales in 180 days, has not been read on an Amazon page by any session. Source: FLG-037, which says so plainly."
-      ],
-      "missing": "The account's real API eligibility, and the owner's tolerance for dated-but-static figures.",
-      "discovery": [
-        {
-          "step": "Associates Central - Tools - check whether Product Advertising / Creators API is offered to this account, and screenshot the notice with its date.",
-          "where": "Associates Central (login required)",
-          "who": "Owner only",
-          "artifact": "Screenshot; closes or re-scopes FLG-037 and Q-16"
-        },
-        {
-          "step": "If it is offered: record which API, which operations, and the rate limit; then a session can write the refresh job and a staleness gate that blocks publish when the timestamp is older than 24 hours.",
-          "where": "data/products.json plus a new scripts/refresh job",
-          "who": "Owner (access) then session (code)",
-          "artifact": "An eligibility note in docs/verification-log.md"
-        },
-        {
-          "step": "If it is not: decide whether the register keeps dated figures at all (FLG-033 asks exactly this) and reword the shop pages so 'price on Amazon' reads as a feature, not a gap.",
-          "where": "data/editorial.json display flags and copy",
-          "who": "Owner",
-          "artifact": "A one-line decision"
-        }
-      ],
-      "options": [
-        {
-          "label": "Link-only pricing, permanently, with the button as the price (recommended default)",
-          "effect": "Never stale, never non-compliant, and the site says so in one short line a shopper can act on.",
-          "risk": "Loses the price-anchored conversion that API sites get."
-        },
-        {
-          "label": "Pursue the API, then switch display.pricesOnShopPages on behind a 24-hour staleness gate",
-          "effect": "Real figures, real automation, and the build refuses to publish a stale file.",
-          "risk": "Blocked on eligibility the owner must confirm; costs a refresh job and a policy note."
-        },
-        {
-          "label": "Show dated snapshots now and accept the reading risk",
-          "effect": "Fuller cards today.",
-          "risk": "Directly against the clause quoted above; not recommended, and it would have to be recorded as an accepted risk with the owner's name on it."
-        }
-      ],
-      "recommendation": "Option 1 until the owner reports what the console shows. If the console offers the API, move to Option 2 and let the gate, not a promise, keep the figures fresh. Copy can already handle this: 'today's price is on Amazon' is a sentence a shopper trusts more than a stale number.",
-      "unblocks": [
-        "SG-19",
-        "SG-20",
-        "Q-15",
-        "Q-16",
-        "FLG-032",
-        "FLG-033",
-        "FLG-037",
-        "FLG-044",
-        "the card design on every shop page"
-      ],
-      "effort": "One console check; then either nothing or one refresh job",
-      "risk": "Medium. This is the decision with a policy edge, so the answer is recorded with a date and a source."
-    },
-    {
-      "id": "D-04",
-      "title": "Where do clicks and conversions get counted, and against what threshold?",
-      "whyNow": "Priority 4 of the brief is measure-before-optimising. Five events are defined, the client counts them in the browser, and nothing is transmitted because there is no host. Until one row lands in the ledger, every statement about what to write next is instinct wearing a data costume.",
-      "known": [
-        "The five events (page_view, outbound_click, search, chooser_complete, guide_read) and their payloads are defined in data/editorial.json and implemented in assets/app.js; no endpoint is configured (data-analytics-endpoint is empty on every page).",
-        "A privacy-preserving endpoint exists in code (analytics-endpoint/server.py) and was tested locally by session b4c6c619: valid event accepted, unknown event and malformed ASIN rejected, daily counts written, no request log.",
-        "GitHub Pages serves static files only, so the endpoint cannot live on the same host. Source: FLG-008 and the analytics-endpoint README.",
-        "Conversion and order values come only from authorized first-party Associates reports into the ledger; they are never measured client-side. Source: data/editorial.json events.gate."
-      ],
-      "missing": "A host the owner controls, a retention period, a privacy note, and the thresholds that decide when a topic gets re-ranked.",
-      "discovery": [
-        {
-          "step": "Pick any small HTTPS box the owner controls (a 5-dollar VPS, a Cloudflare Worker plus a KV namespace, or an existing server). Run analytics-endpoint/server.py there, set the site's data-analytics-endpoint, and send one test event.",
-          "where": "analytics-endpoint/README.md has the run and test commands",
-          "who": "Owner (host), session (config)",
-          "artifact": "A test event id in the endpoint log"
-        },
-        {
-          "step": "Write the one-paragraph retention note: what is stored, for how long, that no cookie or identifier is used, and how to ask for deletion. Put it in the footer link that already exists on the disclosure strip.",
-          "where": "about.html and compliance.html",
-          "who": "Owner approves wording",
-          "artifact": "A dated privacy note"
-        },
-        {
-          "step": "Set the thresholds in the same file the ledger reads, e.g. 're-rank the topic queue after 28 days or 100 outbound clicks, whichever comes first'. Without a threshold, 'data-driven' has no definition.",
-          "where": "data/editorial.json cadence",
-          "who": "Owner",
-          "artifact": "Two numbers"
-        }
-      ],
-      "options": [
-        {
-          "label": "Self-hosted endpoint plus local counters, privacy note, thresholds written down (recommended)",
-          "effect": "First-party measurement that matches the brief and stays honest about what it is not (no conversion values from the browser).",
-          "risk": "Owner must keep a box alive; a dead endpoint silently records nothing, so the build should show the endpoint state on the methodology page."
-        },
-        {
-          "label": "Search Console only for now; keep counters in the browser",
-          "effect": "Zero hosting, real query data, and it is the shortest path to choosing the next topic from arrivals.",
-          "risk": "No click-to-page attribution on our side; Amazon's report is the only click signal."
-        },
-        {
-          "label": "Third-party analytics",
-          "effect": "Dashboards for free.",
-          "risk": "Conflicts with the no-third-party-trackers promise the About page already makes; would need that sentence removed and a consent banner."
-        }
-      ],
-      "recommendation": "Option 2 for four weeks (Search Console is the smallest thing that can change what we write), then Option 1 once the owner has a box. Say which one is true on the methodology page instead of letting the page imply both.",
-      "unblocks": [
-        "SG-03",
-        "SG-32",
-        "Q-06",
-        "Q-08",
-        "Q-24",
-        "FLG-008",
-        "the empty campaign ledger",
-        "the cadence rule that picks the next topic"
-      ],
-      "effort": "One evening of setup, or one Search Console property",
-      "risk": "Low. Nothing published depends on it; the claim 'we measure' does."
-    },
-    {
-      "id": "D-05",
-      "title": "Who is the author, and who answers when a reader says we are wrong?",
-      "whyNow": "Reader trust, E-E-A-T and the FTC's endorsement rules all lean on accountability, and 'the editorial desk' is a placeholder that every guide prints in its byline. This is also the cheapest way to stop reading like generated text: a real name with a real limit on what it claims.",
-      "known": [
-        "Every guide byline currently reads 'By The Countertop Guide editorial desk', and data/editorial.json states that no individual named author is asserted and that a real byline is an owner decision (SG-26, Q-17).",
-        "FTC Disclosures 101 asks for clear and conspicuous disclosure of material connections; the site puts the Section 5 sentence above the fold on every page and repeats it in the footer.",
-        "The site's voice rules already forbid any implied hands-on use, so a byline cannot smuggle in 'we tried it'. Source: data/editorial.json voice.bannedPhrases, enforced by the gate."
-      ],
-      "missing": "A name or a stable desk identity, a one-line bio stating the limit of the author's experience, and a corrections address.",
-      "discovery": [
-        {
-          "step": "Owner chooses: a personal byline, a named desk with a role ('research desk, no kitchen testing'), or keep the desk line and state plainly why.",
-          "where": "data/editorial.json publisher",
-          "who": "Owner",
-          "artifact": "A byline string and one bio sentence"
-        },
-        {
-          "step": "Publish a corrections address (an email is enough) and a rule: corrections are dated, and the register row is amended rather than edited away.",
-          "where": "about.html",
-          "who": "Owner",
-          "artifact": "An address and a two-line policy"
-        }
-      ],
-      "options": [
-        {
-          "label": "Named desk plus an explicit limit ('compiled from the listing; nobody here cooked in these machines') (recommended)",
-          "effect": "Accountable, human, and consistent with everything the site already refuses to claim.",
-          "risk": "A named person is now on the hook for corrections."
-        },
-        {
-          "label": "Individual byline with credentials",
-          "effect": "Strongest trust signal.",
-          "risk": "Credentials must be true and verifiable; if they are not, do not do this."
-        },
-        {
-          "label": "Keep 'editorial desk' anonymous",
-          "effect": "Nothing to maintain.",
-          "risk": "Reads like every other generated affiliate site, which is the specific complaint the brief is trying to fix."
-        }
-      ],
-      "recommendation": "Option 1 today; Option 2 if a real specialist is willing to put a name on it. Either way, publish the corrections address, because an affiliate site that cannot be corrected has no business making claims.",
-      "unblocks": [
-        "SG-17",
-        "SG-26",
-        "Q-11",
-        "Q-13",
-        "Q-17",
-        "author schema on every article"
-      ],
-      "effort": "Two strings in one data file",
-      "risk": "Low, and reversible; the only hard rule is that the bio states what the author has not done."
-    },
-    {
-      "id": "D-06",
-      "title": "What does it look like, and what imagery may it legally ship?",
-      "whyNow": "The brief's central complaint is that the site reads like a generated audit. Half of the fix is copy, which a session can do; the other half is imagery, and imagery is blocked by a licence decision no session may make. Shipping borrowed Amazon photos to look like a real shop would be the fastest way to lose the account.",
-      "known": [
-        "No Amazon image is used anywhere. The only image on the site is a generated typographic share card (assets/og-image.png, produced by scripts/make_og.py). Source: FLG-009 and FLG-041.",
-        "The Program Content licence caps storing an image at a link held for up to 24 hours, and forbids keeping the asset. Source: Program Policies, IP License and Usage Requirements (h), read 2026-11-19 by session b49d8595.",
-        "The claim that SiteStripe no longer offers image links is second-hand and unverified (FLG-038), so the licence question is open, not settled.",
-        "The site now draws its own scale diagrams from the listing's stated inches (this pass), which are ours and need no licence."
-      ],
-      "missing": "Whether the owner will photograph the units, seek written manufacturer permission, commission illustration, or accept original data graphics as the visual language.",
-      "discovery": [
-        {
-          "step": "Decide the imagery route. If photography: budget for five units, a plain backdrop, one lens, and a day; then every photo is ours and dated.",
-          "where": "an owner decision; cost is the only blocker",
-          "who": "Owner",
-          "artifact": "A route name in COORDINATION.md"
-        },
-        {
-          "step": "Read the IP License section of the Program Policies in full and record whether any image-link use is permitted for a Site like this, with the date read.",
-          "where": "https://affiliate-program.amazon.com/help/operating/policies",
-          "who": "Owner or session (the page is public)",
-          "artifact": "A dated quote on compliance.html; closes FLG-018 and FLG-038"
-        },
-        {
-          "step": "Pick a visual direction from design-brief.html (A warm editorial, B modern utility, C bold magazine) and say whether the current warm editorial build is that direction or a fourth.",
-          "where": "design-brief.html",
-          "who": "Owner",
-          "artifact": "One letter"
-        }
-      ],
-      "options": [
-        {
-          "label": "Original data graphics as the house visual: scale diagrams, footprint comparisons, spec bars (recommended, shipping now)",
-          "effect": "Visual, ownable, and every pixel is derived from a sourced number, so it cannot go stale the way a photo of a price sticker does.",
-          "risk": "Plainer than a food photograph; conversion may be lower on the emotional axis."
-        },
-        {
-          "label": "Own photography of purchased units",
-          "effect": "The strongest affiliate asset, and it unlocks honest 'what it feels like on the counter' copy (still not performance claims).",
-          "risk": "Costs money and a day; and the units must be disclosed as purchased, not gifted."
-        },
-        {
-          "label": "Manufacturer or brand images",
-          "effect": "Free, on-brand.",
-          "risk": "Needs written permission on file; a verbal yes is not a licence."
-        },
-        {
-          "label": "Amazon-served images via the API",
-          "effect": "Compliant and current.",
-          "risk": "Blocked behind D-03 eligibility."
-        }
-      ],
-      "recommendation": "Ship Option 1 now (this pass added the first diagrams), keep Option 2 as the funded path, and treat 3 and 4 as blocked until paper or the console says otherwise. Never reach for a scraped product photo to fill white space.",
-      "unblocks": [
-        "SG-04",
-        "SG-11",
-        "SG-27",
-        "SG-31",
-        "SG-35",
-        "Q-07",
-        "Q-09",
-        "Q-21",
-        "Q-22",
-        "FLG-009",
-        "FLG-018",
-        "FLG-038",
-        "FLG-041"
-      ],
-      "effort": "One letter for the direction; money and time for photography",
-      "risk": "Low for diagrams, high for any image we do not own."
-    },
-    {
-      "id": "D-07",
-      "title": "Do we publish on cadence now, or wait for measured demand?",
-      "whyNow": "The brief asks for catchy, findable articles and for the next topic to be chosen from measured queries. Those two instructions conflict inside the first month: there is no query data yet. This pass published three seasonal guides without measured demand, so the conflict has to be an explicit decision rather than a quiet exception in the calendar.",
-      "known": [
-        "Cadence rule in data/editorial.json: one guide per week, published Tuesday, each guide added to the sitemap and feed by the build; the next four topics come from Search Console queries after 28 days, not from instinct.",
-        "The holiday window is fixed and verifiable: Thanksgiving Day 2026 is Thursday, 26 November, a federal holiday under 5 U.S.C. 6103; the Friday after (27 November) and the Monday after (30 November) are retail names for days that are not federal holidays, per the same OPM schedule. Source: https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/, read 2026-11-20 in this session.",
-        "Search Console is not connected, so no topic on this site has measured demand behind it yet. Source: SG-02 and Q-06 both say so."
-      ],
-      "missing": "Search Console access, and the owner's call on whether to buy or borrow a domain first (D-01) since a property is verified per host.",
-      "discovery": [
-        {
-          "step": "Verify the site in Search Console, submit sitemap.xml, and let 28 days pass. Export the query list as a CSV with its date.",
-          "where": "search.google.com/search-console - Domain or URL-prefix property",
-          "who": "Owner",
-          "artifact": "A dated CSV in data/, and a note on topics.html"
-        },
-        {
-          "step": "Re-rank the topic queue against queries the site does not answer; each accepted topic gets its own verification pass before it is written.",
-          "where": "data/editorial.json cadence.queue plus topics.html",
-          "who": "Session, on owner's export",
-          "artifact": "A dated re-rank row in the queue table"
-        },
-        {
-          "step": "Until the export exists, label the calendar honestly: proposed titles are editorial hypotheses. That label is already on topics.html and must not be dropped.",
-          "where": "topics.html",
-          "who": "Nobody; it is a rule",
-          "artifact": "none"
-        }
-      ],
-      "options": [
-        {
-          "label": "Publish on cadence, label every title a hypothesis, and re-rank after 28 days of queries (recommended, and what this pass did)",
-          "effect": "A live, indexed body of work exists when the data arrives; the queue is testable instead of theoretical.",
-          "risk": "Some guides will answer nothing anybody searched. The ledger will show which, which is the point."
-        },
-        {
-          "label": "Pause new guides until Search Console has data",
-          "effect": "Zero wasted effort on unmeasured topics.",
-          "risk": "Nothing new gets indexed in the one window of the year when the terms are being typed, and there is still no data to wait for."
-        },
-        {
-          "label": "Publish a burst of ten guides to 'cover the niche'",
-          "effect": "Looks substantial fast.",
-          "risk": "Thin, duplicative pages are the pattern search engines call spammy, and it is how the site earned the AI-slop complaint."
-        }
-      ],
-      "recommendation": "Option 1, with the deviation recorded: three holiday-window guides shipped together on 2026-11-20 because the window closes on 2026-11-30, then back to one per week. Every one of them is a hypothesis until a query export says otherwise, and the page says that out loud.",
-      "unblocks": [
-        "SG-12",
-        "SG-32",
-        "SG-40",
-        "Q-06",
-        "Q-10",
-        "Q-23",
-        "the topic queue",
-        "the 'next topic' rule"
-      ],
-      "effort": "One Search Console verification, then patience",
-      "risk": "Low. Publishing is reversible by consolidating a page; an unindexed site is invisible, which is worse."
+     "step": "Decide domain: keep the github.io address or name one. If naming one, add it to data/editorial.json baseUrl and to the Pages settings; the build reads the base URL from the data file, so pages, sitemap, feed and canonicals all follow it.",
+     "where": "data/editorial.json (baseUrl), GitHub Settings - Pages",
+     "who": "Owner",
+     "artifact": "The new base URL, or 'keep github.io'"
     }
-  ],
-  "answered": [
+   ],
+   "options": [
     {
-      "row": "D-06 (part)",
-      "question": "Disclosure wording on every page",
-      "answer": "The exact Operating Agreement Section 5 sentence, above the fold and in the footer, on every page.",
-      "date": "2026-11-19",
-      "source": "https://affiliate-program.amazon.com/help/operating/agreement",
-      "recordedIn": "compliance.html, scripts/check_meta.mjs rule 2, FLG-042/FLG-043"
+     "label": "Root is the site; the other two builds get a noindex and a banner naming the canonical (recommended)",
+     "effect": "One indexable site, review material stays readable, no history is deleted.",
+     "risk": "Two pages keep existing as unindexed review artifacts, which needs a line in the README so nobody 'fixes' it back."
     },
     {
-      "row": "D-03 (default)",
-      "question": "Price and rating figures on shop pages",
-      "answer": "Not displayed. The dated observations stay in the verification register; the button carries the shopper to the live figure.",
-      "date": "2026-11-19",
-      "source": "https://affiliate-program.amazon.com/help/operating/policies",
-      "recordedIn": "data/editorial.json display, FLG-032, FLG-033"
+     "label": "Root is the site; delete the other builds at the next integration",
+     "effect": "Cleanest crawl, one brand.",
+     "risk": "Loses the independent counter-check audit unless it is moved under review/ first."
     },
     {
-      "row": "D-01 (part)",
-      "question": "Canonical URL per page",
-      "answer": "Each page self-canonicalises to its GitHub Pages URL; the generator writes it, so a rebuild cannot revert it.",
-      "date": "2026-11-19",
-      "source": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
-      "recordedIn": "build_site.py, FLG-007, FLG-035"
-    },
-    {
-      "row": "D-02 (part)",
-      "question": "Outbound link marking",
-      "answer": "rel=\"sponsored nofollow noopener\" on every Amazon link, including the links the chooser builds in JavaScript.",
-      "date": "2026-11-19",
-      "source": "https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links",
-      "recordedIn": "FLG-034, scripts/check_meta.mjs rule 3"
-    },
-    {
-      "row": "accuracy fix",
-      "question": "Front-page label 'Smallest footprint' on the Chefman 8QT",
-      "answer": "Corrected to 'Shallowest of the fryers'. The listing gives the 8QT 12.75 in of depth against the 6QT's 13.38 in, but the 6QT has the smaller floor area (158.0 vs 172.1 sq in).",
-      "date": "2026-11-20",
-      "source": "data/products.json dimensions fields for P1 and P3",
-      "recordedIn": "build_site.py, index.html; session 1187e20d"
-    },
-    {
-      "row": "process",
-      "question": "Does a failed publishing gate stop the deploy?",
-      "answer": "The workflow runs both gates before the artifact upload; while Pages stays in legacy branch mode the run marks the commit shippable rather than publishing it. Owner action recorded, not silently worked around.",
-      "date": "2026-11-19",
-      "source": ".github/workflows/pages.yml",
-      "recordedIn": "FLG-051, SG-43, Q-27"
+     "label": "Leave all three indexable",
+     "effect": "Nothing to do.",
+     "risk": "Ongoing duplicate-content ambiguity and a split brand; the reason the board flagged this in the first place (FLG-039)."
     }
-  ],
-  "missing": [
+   ],
+   "recommendation": "Option 1 now, Option 2 at the next integration once the counter-check audit has been cited on the flagged page. Keep the github.io address until the site earns a reason for a domain; a domain changes every canonical and is not a ranking shortcut.",
+   "unblocks": [
+    "SG-02",
+    "SG-22",
+    "SG-23",
+    "Q-02",
+    "Q-18",
+    "FLG-007",
+    "FLG-039"
+   ],
+   "effort": "One decision, no build work beyond a settings change",
+   "risk": "Low. Reversible by editing data/editorial.json and rebuilding."
+  },
+  {
+   "id": "D-02",
+   "title": "Does a click on this site get attributed to shopnow047c-20?",
+   "whyNow": "Every product page, guide and comparison already points at Amazon with the tracking tag, and five supplied short links are in the register. If the tag does not register, no amount of traffic produces revenue and no amount of content is a business. This is the cheapest gate to close and the one everything else leans on.",
+   "known": [
+    "The five submitted short links each resolve to one of the five registered ASINs, and the resolved URLs carry no tag= parameter. Source: verification.html register rows, observed 2026-11-19 and re-read 2026-11-20 by sessions 963ca90f and 1187e20d (review/1187e20d/VERIFICATION-2026-11-20.md).",
+    "The site's own buttons are built as https://www.amazon.com/dp/ASIN?tag=shopnow047c-20 with rel=\"sponsored nofollow noopener\". Source: build_site.py aff() and the post-step, verified by scripts/check_meta.mjs on 2026-11-20.",
+    "The Operating Agreement requires the disclosure sentence the site now carries verbatim. Source: https://affiliate-program.amazon.com/help/operating/agreement Section 5, re-read 2026-11-20 by session 1187e20d."
+   ],
+   "missing": "A dated test record per ASIN: clicked from a page on this site, landed on the right product, and a matching row the next day in the Associates reporting. Also: whether the supplied short links are compliant Special Links, which the register deliberately does not decide (FLG-001).",
+   "discovery": [
     {
-      "what": "Commission rates for the kitchen categories",
-      "why": "Only visible in Associates Central; no page on this site states a rate.",
-      "how": "Associates Central - Reports - Earned Commissions, or the published rate card in the console",
-      "who": "Owner",
-      "status": "open (Q-05, FLG-011)"
+     "step": "Open the live front page, click 'See today's price on Amazon' on one product, complete a $0 action (add to basket, or buy something small).",
+     "where": "https://wingbangboozle1-lang.github.io/Prod1/ - owner's browser",
+     "who": "Owner",
+     "artifact": "Screenshot of the destination URL showing tag=shopnow047c-20"
     },
     {
-      "what": "Search demand for every topic we published",
-      "why": "Search Console is not connected, so no title on this site is chosen from measured queries.",
-      "how": "Verify a property, submit sitemap.xml, export queries after 28 days",
-      "who": "Owner",
-      "status": "open (Q-06, SG-32)"
+     "step": "Next day, open Associates Central - Reports - Earned Commissions / Clicks and confirm the click appears with the tracking ID.",
+     "where": "Associates Central (login required)",
+     "who": "Owner only",
+     "artifact": "Report row with date; paste the date and count into COORDINATION.md"
     },
     {
-      "what": "ThermoMaven and CHEF iQ dimensions",
-      "why": "Not present in the fields captured from either listing, and the brief forbids inferring them.",
-      "how": "Re-open both listings and read the Product information table; if still absent, ask the seller in writing",
-      "who": "Session can read; only the seller can supply",
-      "status": "open (Q-03, FLG-004)"
+     "step": "Repeat for one product only if the first test works, then record 'tested 5 of 5' or 'tested 1 of 5, others presumed identical'. Do not write 'validated' from a single test.",
+     "where": "verification.html, one row per ASIN",
+     "who": "Owner decides, session records",
+     "artifact": "A dated Special Link test column"
     },
     {
-      "what": "Emeril Lagasse warranty period",
-      "why": "The listing links a warranty PDF; no term appears in the listing text.",
-      "how": "Open the linked PDF on the listing and record the term with its date",
-      "who": "Session (public page)",
-      "status": "open (FLG-005)"
-    },
-    {
-      "what": "Creators/PA API eligibility",
-      "why": "Repeated third-hand; no session has read it on an Amazon page.",
-      "how": "Associates Central - Tools",
-      "who": "Owner",
-      "status": "open (Q-16, FLG-037)"
-    },
-    {
-      "what": "Whether the supplied short links are compliant Special Links",
-      "why": "The register resolves them and stops there; the brief says do not call them invalid.",
-      "how": "A written answer from Associates support, or move to console-generated links and retire the question",
-      "who": "Owner",
-      "status": "open (Q-01, FLG-001, FLG-015)"
-    },
-    {
-      "what": "Intended ASIN behind each nine-character submitted code",
-      "why": "The submitted codes are not valid ASIN length, so the intended product cannot be confirmed from them.",
-      "how": "Submitter or owner states the five intended ASINs; until then the register keeps intended and observed fields separate",
-      "who": "Owner (submitter)",
-      "status": "open (FLG-013, FLG-045)"
-    },
-    {
-      "what": "Analytics host, retention period and privacy note",
-      "why": "No endpoint is configured, so the five events are defined and unused.",
-      "how": "Owner picks a host; see D-04",
-      "who": "Owner",
-      "status": "open (Q-08, FLG-008)"
-    },
-    {
-      "what": "Photography licence and budget",
-      "why": "The visual half of the redesign has nothing to ship.",
-      "how": "See D-06",
-      "who": "Owner",
-      "status": "open (Q-07, Q-22, FLG-009)"
-    },
-    {
-      "what": "A named author or an accountable desk",
-      "why": "Anonymous bylines undercut both trust and the anti-slop goal.",
-      "how": "See D-05",
-      "who": "Owner",
-      "status": "open (Q-13, Q-17)"
-    },
-    {
-      "what": "A review cadence for this board",
-      "why": "Forty-three suggestions have been waiting since 2026-11-19; nobody has chosen a path.",
-      "how": "Owner sets a rhythm (e.g. 30 minutes weekly) and a default-applies rule; this register ships with a proposed 28-day default",
-      "who": "Owner",
-      "status": "open (Q-14)"
-    },
-    {
-      "what": "Whether Pages should publish from Actions or from the branch",
-      "why": "It decides whether the publishing gate is load-bearing or advisory.",
-      "how": "GitHub Settings - Pages - Build source",
-      "who": "Owner (the session token got 403)",
-      "status": "open (Q-27, SG-43, FLG-051)"
+     "step": "Optional: ask Associates support in writing whether a link.amazon short link is an acceptable Special Link, and quote their answer. An unanswered question stays a question.",
+     "where": "Associates Central - Contact us",
+     "who": "Owner",
+     "artifact": "Support ticket number and the quoted answer"
     }
-  ],
-  "themes": [
+   ],
+   "options": [
     {
-      "name": "Links, attribution and money",
-      "oneLine": "Nothing else matters if the click is not attributed and the ledger has no source.",
-      "sgs": [
-        "SG-01",
-        "SG-05",
-        "SG-08",
-        "SG-19",
-        "SG-20",
-        "SG-37",
-        "SG-42",
-        "SG-53"
-      ],
-      "qs": [
-        "Q-01",
-        "Q-04",
-        "Q-05",
-        "Q-15",
-        "Q-16",
-        "Q-25",
-        "Q-26",
-        "Q-35",
-        "Q-39"
-      ],
-      "gate": "D-02"
+     "label": "Test one link, confirm click plus tracking, then keep the current button form everywhere (recommended)",
+     "effect": "The site keeps its official-listing-plus-tag links, which are the form the Agreement describes; one dated test becomes the evidence line on every page.",
+     "risk": "None known. Costs the owner fifteen minutes."
     },
     {
-      "name": "Findability and one canonical site",
-      "oneLine": "One address, one sitemap, real query data before the next topic.",
-      "sgs": [
-        "SG-02",
-        "SG-22",
-        "SG-23",
-        "SG-32",
-        "SG-40",
-        "SG-43",
-        "SG-51",
-        "SG-55"
-      ],
-      "qs": [
-        "Q-02",
-        "Q-06",
-        "Q-18",
-        "Q-27",
-        "Q-34"
-      ],
-      "gate": "D-01"
+     "label": "Switch to SiteStripe-generated Special Links per product",
+     "effect": "Uses Amazon's own generator, so format questions disappear.",
+     "risk": "Needs the console and one copy-paste per product; the short links in the brief are still not proven invalid, only unproven."
     },
     {
-      "name": "Measurement and iteration",
-      "oneLine": "Events, endpoint, thresholds, and a ledger that only first-party reports may fill.",
-      "sgs": [
-        "SG-03",
-        "SG-06",
-        "SG-39",
-        "SG-52",
-        "SG-56"
-      ],
-      "qs": [
-        "Q-08",
-        "Q-24",
-        "Q-38"
-      ],
-      "gate": "D-04"
-    },
-    {
-      "name": "Compliance and evidence discipline",
-      "oneLine": "Disclosure placement, Program Content rules, and the rule that a claim without a source does not get written.",
-      "sgs": [
-        "SG-09",
-        "SG-10",
-        "SG-30",
-        "SG-33",
-        "SG-41"
-      ],
-      "qs": [
-        "Q-03",
-        "Q-19",
-        "Q-20",
-        "Q-36",
-        "Q-37",
-        "Q-40"
-      ],
-      "gate": "D-03"
-    },
-    {
-      "name": "Design, brand and the anti-slop pass",
-      "oneLine": "Make it read like a shop a person runs, with imagery we are allowed to ship.",
-      "sgs": [
-        "SG-04",
-        "SG-11",
-        "SG-16",
-        "SG-24",
-        "SG-25",
-        "SG-27",
-        "SG-28",
-        "SG-29",
-        "SG-31",
-        "SG-34",
-        "SG-35",
-        "SG-36",
-        "SG-38",
-        "SG-44",
-        "SG-45",
-        "SG-50",
-        "SG-58",
-        "SG-59",
-        "SG-60"
-      ],
-      "qs": [
-        "Q-07",
-        "Q-09",
-        "Q-12",
-        "Q-21",
-        "Q-22",
-        "Q-42",
-        "Q-43",
-        "Q-44"
-      ],
-      "gate": "D-06"
-    },
-    {
-      "name": "Editorial: voice, authors, cadence",
-      "oneLine": "Who writes, in what voice, how often, and what they are never allowed to claim.",
-      "sgs": [
-        "SG-07",
-        "SG-12",
-        "SG-13",
-        "SG-14",
-        "SG-15",
-        "SG-17",
-        "SG-18",
-        "SG-21",
-        "SG-26",
-        "SG-49",
-        "SG-54",
-        "SG-57"
-      ],
-      "qs": [
-        "Q-10",
-        "Q-11",
-        "Q-13",
-        "Q-14",
-        "Q-17",
-        "Q-23",
-        "Q-33",
-        "Q-41"
-      ],
-      "gate": "D-07"
-    },
-    {
-      "name": "Machinery and automation",
-      "oneLine": "Automate what can be automated; put a gate in front of everything that cannot.",
-      "sgs": [
-        "SG-33",
-        "SG-43"
-      ],
-      "qs": [
-        "Q-02",
-        "Q-14"
-      ],
-      "gate": "D-04"
+     "label": "Keep publishing without the test",
+     "effect": "Nothing changes today.",
+     "risk": "Any revenue assumption is unmeasured; the ledger stays empty and Priority 4 (evidence-based iteration) cannot start."
     }
-  ],
-  "defaultRule": {
-    "proposed": "If a gate is unanswered 28 days after it is published here, the recommended option is applied, the row moves to answered with 'default applied' and the date, and the change stays reversible in one commit.",
-    "status": "proposed by session 42e09357 on 2026-11-20; the owner has not approved it. Until approved, nothing in the gates column auto-applies."
+   ],
+   "recommendation": "Option 1, and record it as a dated test rather than a claim. Do not describe the supplied short links as invalid; the register's position (FLG-001) is that their compliance status is unresolved, and that is still the honest answer.",
+   "unblocks": [
+    "SG-01",
+    "SG-08",
+    "Q-01",
+    "Q-25",
+    "FLG-001",
+    "FLG-013",
+    "FLG-015",
+    "FLG-045",
+    "the campaign ledger"
+   ],
+   "effort": "15 minutes of owner clicks, then one table column",
+   "risk": "Low. If the test fails, the fix is a link-format change in one function of the generator."
+  },
+  {
+   "id": "D-03",
+   "title": "Do live price and rating figures ever appear on the site?",
+   "whyNow": "This is the single decision that decides whether the automation story is real. A static build cannot refresh Amazon data inside 24 hours, so today the site links to the price instead of quoting it. Either that stays the rule, or the API route gets funded and wired, or the owner accepts documented risk. Silence on the question leaves the shop pages looking empty to a shopper.",
+   "known": [
+    "Associates Program Policies: a Site may show price and availability only where Amazon serves the link carrying that data, or where it comes from the Creators/PA API under the License; Product Advertising Content may be stored for no more than 24 hours. Source: https://affiliate-program.amazon.com/help/operating/policies, read 2026-11-19 by session b49d8595, quoted on compliance.html.",
+    "The site therefore displays no price, rating, rating count, badge or 'bought in past month' figure on any shop or guide page; the dated observations live in the verification register. Source: data/editorial.json display block, enforced by scripts/check_meta.mjs rule 4.",
+    "The eligibility condition everyone repeats, three qualifying sales in 180 days, has not been read on an Amazon page by any session. Source: FLG-037, which says so plainly."
+   ],
+   "missing": "The account's real API eligibility, and the owner's tolerance for dated-but-static figures.",
+   "discovery": [
+    {
+     "step": "Associates Central - Tools - check whether Product Advertising / Creators API is offered to this account, and screenshot the notice with its date.",
+     "where": "Associates Central (login required)",
+     "who": "Owner only",
+     "artifact": "Screenshot; closes or re-scopes FLG-037 and Q-16"
+    },
+    {
+     "step": "If it is offered: record which API, which operations, and the rate limit; then a session can write the refresh job and a staleness gate that blocks publish when the timestamp is older than 24 hours.",
+     "where": "data/products.json plus a new scripts/refresh job",
+     "who": "Owner (access) then session (code)",
+     "artifact": "An eligibility note in docs/verification-log.md"
+    },
+    {
+     "step": "If it is not: decide whether the register keeps dated figures at all (FLG-033 asks exactly this) and reword the shop pages so 'price on Amazon' reads as a feature, not a gap.",
+     "where": "data/editorial.json display flags and copy",
+     "who": "Owner",
+     "artifact": "A one-line decision"
+    }
+   ],
+   "options": [
+    {
+     "label": "Link-only pricing, permanently, with the button as the price (recommended default)",
+     "effect": "Never stale, never non-compliant, and the site says so in one short line a shopper can act on.",
+     "risk": "Loses the price-anchored conversion that API sites get."
+    },
+    {
+     "label": "Pursue the API, then switch display.pricesOnShopPages on behind a 24-hour staleness gate",
+     "effect": "Real figures, real automation, and the build refuses to publish a stale file.",
+     "risk": "Blocked on eligibility the owner must confirm; costs a refresh job and a policy note."
+    },
+    {
+     "label": "Show dated snapshots now and accept the reading risk",
+     "effect": "Fuller cards today.",
+     "risk": "Directly against the clause quoted above; not recommended, and it would have to be recorded as an accepted risk with the owner's name on it."
+    }
+   ],
+   "recommendation": "Option 1 until the owner reports what the console shows. If the console offers the API, move to Option 2 and let the gate, not a promise, keep the figures fresh. Copy can already handle this: 'today's price is on Amazon' is a sentence a shopper trusts more than a stale number.",
+   "unblocks": [
+    "SG-19",
+    "SG-20",
+    "Q-15",
+    "Q-16",
+    "FLG-032",
+    "FLG-033",
+    "FLG-037",
+    "FLG-044",
+    "the card design on every shop page"
+   ],
+   "effort": "One console check; then either nothing or one refresh job",
+   "risk": "Medium. This is the decision with a policy edge, so the answer is recorded with a date and a source."
+  },
+  {
+   "id": "D-04",
+   "title": "Where do clicks and conversions get counted, and against what threshold?",
+   "whyNow": "Priority 4 of the brief is measure-before-optimising. Five events are defined, the client counts them in the browser, and nothing is transmitted because there is no host. Until one row lands in the ledger, every statement about what to write next is instinct wearing a data costume.",
+   "known": [
+    "The five events (page_view, outbound_click, search, chooser_complete, guide_read) and their payloads are defined in data/editorial.json and implemented in assets/app.js; no endpoint is configured (data-analytics-endpoint is empty on every page).",
+    "A privacy-preserving endpoint exists in code (analytics-endpoint/server.py) and was tested locally by session b4c6c619: valid event accepted, unknown event and malformed ASIN rejected, daily counts written, no request log.",
+    "GitHub Pages serves static files only, so the endpoint cannot live on the same host. Source: FLG-008 and the analytics-endpoint README.",
+    "Conversion and order values come only from authorized first-party Associates reports into the ledger; they are never measured client-side. Source: data/editorial.json events.gate."
+   ],
+   "missing": "A host the owner controls, a retention period, a privacy note, and the thresholds that decide when a topic gets re-ranked.",
+   "discovery": [
+    {
+     "step": "Pick any small HTTPS box the owner controls (a 5-dollar VPS, a Cloudflare Worker plus a KV namespace, or an existing server). Run analytics-endpoint/server.py there, set the site's data-analytics-endpoint, and send one test event.",
+     "where": "analytics-endpoint/README.md has the run and test commands",
+     "who": "Owner (host), session (config)",
+     "artifact": "A test event id in the endpoint log"
+    },
+    {
+     "step": "Write the one-paragraph retention note: what is stored, for how long, that no cookie or identifier is used, and how to ask for deletion. Put it in the footer link that already exists on the disclosure strip.",
+     "where": "about.html and compliance.html",
+     "who": "Owner approves wording",
+     "artifact": "A dated privacy note"
+    },
+    {
+     "step": "Set the thresholds in the same file the ledger reads, e.g. 're-rank the topic queue after 28 days or 100 outbound clicks, whichever comes first'. Without a threshold, 'data-driven' has no definition.",
+     "where": "data/editorial.json cadence",
+     "who": "Owner",
+     "artifact": "Two numbers"
+    }
+   ],
+   "options": [
+    {
+     "label": "Self-hosted endpoint plus local counters, privacy note, thresholds written down (recommended)",
+     "effect": "First-party measurement that matches the brief and stays honest about what it is not (no conversion values from the browser).",
+     "risk": "Owner must keep a box alive; a dead endpoint silently records nothing, so the build should show the endpoint state on the methodology page."
+    },
+    {
+     "label": "Search Console only for now; keep counters in the browser",
+     "effect": "Zero hosting, real query data, and it is the shortest path to choosing the next topic from arrivals.",
+     "risk": "No click-to-page attribution on our side; Amazon's report is the only click signal."
+    },
+    {
+     "label": "Third-party analytics",
+     "effect": "Dashboards for free.",
+     "risk": "Conflicts with the no-third-party-trackers promise the About page already makes; would need that sentence removed and a consent banner."
+    }
+   ],
+   "recommendation": "Option 2 for four weeks (Search Console is the smallest thing that can change what we write), then Option 1 once the owner has a box. Say which one is true on the methodology page instead of letting the page imply both.",
+   "unblocks": [
+    "SG-03",
+    "SG-32",
+    "Q-06",
+    "Q-08",
+    "Q-24",
+    "FLG-008",
+    "the empty campaign ledger",
+    "the cadence rule that picks the next topic"
+   ],
+   "effort": "One evening of setup, or one Search Console property",
+   "risk": "Low. Nothing published depends on it; the claim 'we measure' does."
+  },
+  {
+   "id": "D-05",
+   "title": "Who is the author, and who answers when a reader says we are wrong?",
+   "whyNow": "Reader trust, E-E-A-T and the FTC's endorsement rules all lean on accountability, and 'the editorial desk' is a placeholder that every guide prints in its byline. This is also the cheapest way to stop reading like generated text: a real name with a real limit on what it claims.",
+   "known": [
+    "Every guide byline currently reads 'By The Countertop Guide editorial desk', and data/editorial.json states that no individual named author is asserted and that a real byline is an owner decision (SG-26, Q-17).",
+    "FTC Disclosures 101 asks for clear and conspicuous disclosure of material connections; the site puts the Section 5 sentence above the fold on every page and repeats it in the footer.",
+    "The site's voice rules already forbid any implied hands-on use, so a byline cannot smuggle in 'we tried it'. Source: data/editorial.json voice.bannedPhrases, enforced by the gate."
+   ],
+   "missing": "A name or a stable desk identity, a one-line bio stating the limit of the author's experience, and a corrections address.",
+   "discovery": [
+    {
+     "step": "Owner chooses: a personal byline, a named desk with a role ('research desk, no kitchen testing'), or keep the desk line and state plainly why.",
+     "where": "data/editorial.json publisher",
+     "who": "Owner",
+     "artifact": "A byline string and one bio sentence"
+    },
+    {
+     "step": "Publish a corrections address (an email is enough) and a rule: corrections are dated, and the register row is amended rather than edited away.",
+     "where": "about.html",
+     "who": "Owner",
+     "artifact": "An address and a two-line policy"
+    }
+   ],
+   "options": [
+    {
+     "label": "Named desk plus an explicit limit ('compiled from the listing; nobody here cooked in these machines') (recommended)",
+     "effect": "Accountable, human, and consistent with everything the site already refuses to claim.",
+     "risk": "A named person is now on the hook for corrections."
+    },
+    {
+     "label": "Individual byline with credentials",
+     "effect": "Strongest trust signal.",
+     "risk": "Credentials must be true and verifiable; if they are not, do not do this."
+    },
+    {
+     "label": "Keep 'editorial desk' anonymous",
+     "effect": "Nothing to maintain.",
+     "risk": "Reads like every other generated affiliate site, which is the specific complaint the brief is trying to fix."
+    }
+   ],
+   "recommendation": "Option 1 today; Option 2 if a real specialist is willing to put a name on it. Either way, publish the corrections address, because an affiliate site that cannot be corrected has no business making claims.",
+   "unblocks": [
+    "SG-17",
+    "SG-26",
+    "Q-11",
+    "Q-13",
+    "Q-17",
+    "author schema on every article"
+   ],
+   "effort": "Two strings in one data file",
+   "risk": "Low, and reversible; the only hard rule is that the bio states what the author has not done."
+  },
+  {
+   "id": "D-06",
+   "title": "What does it look like, and what imagery may it legally ship?",
+   "whyNow": "The brief's central complaint is that the site reads like a generated audit. Half of the fix is copy, which a session can do; the other half is imagery, and imagery is blocked by a licence decision no session may make. Shipping borrowed Amazon photos to look like a real shop would be the fastest way to lose the account.",
+   "known": [
+    "No Amazon image is used anywhere. The only image on the site is a generated typographic share card (assets/og-image.png, produced by scripts/make_og.py). Source: FLG-009 and FLG-041.",
+    "The Program Content licence caps storing an image at a link held for up to 24 hours, and forbids keeping the asset. Source: Program Policies, IP License and Usage Requirements (h), read 2026-11-19 by session b49d8595.",
+    "The claim that SiteStripe no longer offers image links is second-hand and unverified (FLG-038), so the licence question is open, not settled.",
+    "The site now draws its own scale diagrams from the listing's stated inches (this pass), which are ours and need no licence."
+   ],
+   "missing": "Whether the owner will photograph the units, seek written manufacturer permission, commission illustration, or accept original data graphics as the visual language.",
+   "discovery": [
+    {
+     "step": "Decide the imagery route. If photography: budget for five units, a plain backdrop, one lens, and a day; then every photo is ours and dated.",
+     "where": "an owner decision; cost is the only blocker",
+     "who": "Owner",
+     "artifact": "A route name in COORDINATION.md"
+    },
+    {
+     "step": "Read the IP License section of the Program Policies in full and record whether any image-link use is permitted for a Site like this, with the date read.",
+     "where": "https://affiliate-program.amazon.com/help/operating/policies",
+     "who": "Owner or session (the page is public)",
+     "artifact": "A dated quote on compliance.html; closes FLG-018 and FLG-038"
+    },
+    {
+     "step": "Pick a visual direction from design-brief.html (A warm editorial, B modern utility, C bold magazine) and say whether the current warm editorial build is that direction or a fourth.",
+     "where": "design-brief.html",
+     "who": "Owner",
+     "artifact": "One letter"
+    }
+   ],
+   "options": [
+    {
+     "label": "Original data graphics as the house visual: scale diagrams, footprint comparisons, spec bars (recommended, shipping now)",
+     "effect": "Visual, ownable, and every pixel is derived from a sourced number, so it cannot go stale the way a photo of a price sticker does.",
+     "risk": "Plainer than a food photograph; conversion may be lower on the emotional axis."
+    },
+    {
+     "label": "Own photography of purchased units",
+     "effect": "The strongest affiliate asset, and it unlocks honest 'what it feels like on the counter' copy (still not performance claims).",
+     "risk": "Costs money and a day; and the units must be disclosed as purchased, not gifted."
+    },
+    {
+     "label": "Manufacturer or brand images",
+     "effect": "Free, on-brand.",
+     "risk": "Needs written permission on file; a verbal yes is not a licence."
+    },
+    {
+     "label": "Amazon-served images via the API",
+     "effect": "Compliant and current.",
+     "risk": "Blocked behind D-03 eligibility."
+    }
+   ],
+   "recommendation": "Ship Option 1 now (this pass added the first diagrams), keep Option 2 as the funded path, and treat 3 and 4 as blocked until paper or the console says otherwise. Never reach for a scraped product photo to fill white space.",
+   "unblocks": [
+    "SG-04",
+    "SG-11",
+    "SG-27",
+    "SG-31",
+    "SG-35",
+    "Q-07",
+    "Q-09",
+    "Q-21",
+    "Q-22",
+    "FLG-009",
+    "FLG-018",
+    "FLG-038",
+    "FLG-041"
+   ],
+   "effort": "One letter for the direction; money and time for photography",
+   "risk": "Low for diagrams, high for any image we do not own."
+  },
+  {
+   "id": "D-07",
+   "title": "Do we publish on cadence now, or wait for measured demand?",
+   "whyNow": "The brief asks for catchy, findable articles and for the next topic to be chosen from measured queries. Those two instructions conflict inside the first month: there is no query data yet. This pass published three seasonal guides without measured demand, so the conflict has to be an explicit decision rather than a quiet exception in the calendar.",
+   "known": [
+    "Cadence rule in data/editorial.json: one guide per week, published Tuesday, each guide added to the sitemap and feed by the build; the next four topics come from Search Console queries after 28 days, not from instinct.",
+    "The holiday window is fixed and verifiable: Thanksgiving Day 2026 is Thursday, 26 November, a federal holiday under 5 U.S.C. 6103; the Friday after (27 November) and the Monday after (30 November) are retail names for days that are not federal holidays, per the same OPM schedule. Source: https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/, read 2026-11-20 in this session.",
+    "Search Console is not connected, so no topic on this site has measured demand behind it yet. Source: SG-02 and Q-06 both say so."
+   ],
+   "missing": "Search Console access, and the owner's call on whether to buy or borrow a domain first (D-01) since a property is verified per host.",
+   "discovery": [
+    {
+     "step": "Verify the site in Search Console, submit sitemap.xml, and let 28 days pass. Export the query list as a CSV with its date.",
+     "where": "search.google.com/search-console - Domain or URL-prefix property",
+     "who": "Owner",
+     "artifact": "A dated CSV in data/, and a note on topics.html"
+    },
+    {
+     "step": "Re-rank the topic queue against queries the site does not answer; each accepted topic gets its own verification pass before it is written.",
+     "where": "data/editorial.json cadence.queue plus topics.html",
+     "who": "Session, on owner's export",
+     "artifact": "A dated re-rank row in the queue table"
+    },
+    {
+     "step": "Until the export exists, label the calendar honestly: proposed titles are editorial hypotheses. That label is already on topics.html and must not be dropped.",
+     "where": "topics.html",
+     "who": "Nobody; it is a rule",
+     "artifact": "none"
+    }
+   ],
+   "options": [
+    {
+     "label": "Publish on cadence, label every title a hypothesis, and re-rank after 28 days of queries (recommended, and what this pass did)",
+     "effect": "A live, indexed body of work exists when the data arrives; the queue is testable instead of theoretical.",
+     "risk": "Some guides will answer nothing anybody searched. The ledger will show which, which is the point."
+    },
+    {
+     "label": "Pause new guides until Search Console has data",
+     "effect": "Zero wasted effort on unmeasured topics.",
+     "risk": "Nothing new gets indexed in the one window of the year when the terms are being typed, and there is still no data to wait for."
+    },
+    {
+     "label": "Publish a burst of ten guides to 'cover the niche'",
+     "effect": "Looks substantial fast.",
+     "risk": "Thin, duplicative pages are the pattern search engines call spammy, and it is how the site earned the AI-slop complaint."
+    }
+   ],
+   "recommendation": "Option 1, with the deviation recorded: three holiday-window guides shipped together on 2026-11-20 because the window closes on 2026-11-30, then back to one per week. Every one of them is a hypothesis until a query export says otherwise, and the page says that out loud.",
+   "unblocks": [
+    "SG-12",
+    "SG-32",
+    "SG-40",
+    "Q-06",
+    "Q-10",
+    "Q-23",
+    "the topic queue",
+    "the 'next topic' rule"
+   ],
+   "effort": "One Search Console verification, then patience",
+   "risk": "Low. Publishing is reversible by consolidating a page; an unindexed site is invisible, which is worse."
   }
+ ],
+ "answered": [
+  {
+   "row": "D-06 (part)",
+   "question": "Disclosure wording on every page",
+   "answer": "The exact Operating Agreement Section 5 sentence, above the fold and in the footer, on every page.",
+   "date": "2026-11-19",
+   "source": "https://affiliate-program.amazon.com/help/operating/agreement",
+   "recordedIn": "compliance.html, scripts/check_meta.mjs rule 2, FLG-042/FLG-043"
+  },
+  {
+   "row": "D-03 (default)",
+   "question": "Price and rating figures on shop pages",
+   "answer": "Not displayed. The dated observations stay in the verification register; the button carries the shopper to the live figure.",
+   "date": "2026-11-19",
+   "source": "https://affiliate-program.amazon.com/help/operating/policies",
+   "recordedIn": "data/editorial.json display, FLG-032, FLG-033"
+  },
+  {
+   "row": "D-01 (part)",
+   "question": "Canonical URL per page",
+   "answer": "Each page self-canonicalises to its GitHub Pages URL; the generator writes it, so a rebuild cannot revert it.",
+   "date": "2026-11-19",
+   "source": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+   "recordedIn": "build_site.py, FLG-007, FLG-035"
+  },
+  {
+   "row": "D-02 (part)",
+   "question": "Outbound link marking",
+   "answer": "rel=\"sponsored nofollow noopener\" on every Amazon link, including the links the chooser builds in JavaScript.",
+   "date": "2026-11-19",
+   "source": "https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links",
+   "recordedIn": "FLG-034, scripts/check_meta.mjs rule 3"
+  },
+  {
+   "row": "accuracy fix",
+   "question": "Front-page label 'Smallest footprint' on the Chefman 8QT",
+   "answer": "Corrected to 'Shallowest of the fryers'. The listing gives the 8QT 12.75 in of depth against the 6QT's 13.38 in, but the 6QT has the smaller floor area (158.0 vs 172.1 sq in).",
+   "date": "2026-11-20",
+   "source": "data/products.json dimensions fields for P1 and P3",
+   "recordedIn": "build_site.py, index.html; session 1187e20d"
+  },
+  {
+   "row": "process",
+   "question": "Does a failed publishing gate stop the deploy?",
+   "answer": "The workflow runs both gates before the artifact upload; while Pages stays in legacy branch mode the run marks the commit shippable rather than publishing it. Owner action recorded, not silently worked around.",
+   "date": "2026-11-19",
+   "source": ".github/workflows/pages.yml",
+   "recordedIn": "FLG-051, SG-43, Q-27"
+  }
+ ],
+ "missing": [
+  {
+   "what": "Commission rates for the kitchen categories",
+   "why": "Only visible in Associates Central; no page on this site states a rate.",
+   "how": "Associates Central - Reports - Earned Commissions, or the published rate card in the console",
+   "who": "Owner",
+   "status": "open (Q-05, FLG-011)"
+  },
+  {
+   "what": "Search demand for every topic we published",
+   "why": "Search Console is not connected, so no title on this site is chosen from measured queries.",
+   "how": "Verify a property, submit sitemap.xml, export queries after 28 days",
+   "who": "Owner",
+   "status": "open (Q-06, SG-32)"
+  },
+  {
+   "what": "ThermoMaven and CHEF iQ dimensions",
+   "why": "Not present in the fields captured from either listing, and the brief forbids inferring them.",
+   "how": "Re-open both listings and read the Product information table; if still absent, ask the seller in writing",
+   "who": "Session can read; only the seller can supply",
+   "status": "open (Q-03, FLG-004)"
+  },
+  {
+   "what": "Emeril Lagasse warranty period",
+   "why": "The listing links a warranty PDF; no term appears in the listing text.",
+   "how": "Open the linked PDF on the listing and record the term with its date",
+   "who": "Session (public page)",
+   "status": "open (FLG-005)"
+  },
+  {
+   "what": "Creators/PA API eligibility",
+   "why": "Repeated third-hand; no session has read it on an Amazon page.",
+   "how": "Associates Central - Tools",
+   "who": "Owner",
+   "status": "open (Q-16, FLG-037)"
+  },
+  {
+   "what": "Whether the supplied short links are compliant Special Links",
+   "why": "The register resolves them and stops there; the brief says do not call them invalid.",
+   "how": "A written answer from Associates support, or move to console-generated links and retire the question",
+   "who": "Owner",
+   "status": "open (Q-01, FLG-001, FLG-015)"
+  },
+  {
+   "what": "Intended ASIN behind each nine-character submitted code",
+   "why": "The submitted codes are not valid ASIN length, so the intended product cannot be confirmed from them.",
+   "how": "Submitter or owner states the five intended ASINs; until then the register keeps intended and observed fields separate",
+   "who": "Owner (submitter)",
+   "status": "open (FLG-013, FLG-045)"
+  },
+  {
+   "what": "Analytics host, retention period and privacy note",
+   "why": "No endpoint is configured, so the five events are defined and unused.",
+   "how": "Owner picks a host; see D-04",
+   "who": "Owner",
+   "status": "open (Q-08, FLG-008)"
+  },
+  {
+   "what": "Photography licence and budget",
+   "why": "The visual half of the redesign has nothing to ship.",
+   "how": "See D-06",
+   "who": "Owner",
+   "status": "open (Q-07, Q-22, FLG-009)"
+  },
+  {
+   "what": "A named author or an accountable desk",
+   "why": "Anonymous bylines undercut both trust and the anti-slop goal.",
+   "how": "See D-05",
+   "who": "Owner",
+   "status": "open (Q-13, Q-17)"
+  },
+  {
+   "what": "A review cadence for this board",
+   "why": "Forty-three suggestions have been waiting since 2026-11-19; nobody has chosen a path.",
+   "how": "Owner sets a rhythm (e.g. 30 minutes weekly) and a default-applies rule; this register ships with a proposed 28-day default",
+   "who": "Owner",
+   "status": "open (Q-14)"
+  },
+  {
+   "what": "Whether Pages should publish from Actions or from the branch",
+   "why": "It decides whether the publishing gate is load-bearing or advisory.",
+   "how": "GitHub Settings - Pages - Build source",
+   "who": "Owner (the session token got 403)",
+   "status": "open (Q-27, SG-43, FLG-051)"
+  }
+ ],
+ "themes": [
+  {
+   "name": "Links, attribution and money",
+   "oneLine": "Nothing else matters if the click is not attributed and the ledger has no source.",
+   "sgs": [
+    "SG-01",
+    "SG-05",
+    "SG-08",
+    "SG-19",
+    "SG-20",
+    "SG-37",
+    "SG-42",
+    "SG-53"
+   ],
+   "qs": [
+    "Q-01",
+    "Q-04",
+    "Q-05",
+    "Q-15",
+    "Q-16",
+    "Q-25",
+    "Q-26",
+    "Q-35",
+    "Q-39"
+   ],
+   "gate": "D-02"
+  },
+  {
+   "name": "Findability and one canonical site",
+   "oneLine": "One address, one sitemap, real query data before the next topic.",
+   "sgs": [
+    "SG-02",
+    "SG-22",
+    "SG-23",
+    "SG-32",
+    "SG-40",
+    "SG-51",
+    "SG-55"
+   ],
+   "qs": [
+    "Q-02",
+    "Q-06",
+    "Q-18",
+    "Q-27",
+    "Q-34"
+   ],
+   "gate": "D-01"
+  },
+  {
+   "name": "Measurement and iteration",
+   "oneLine": "Events, endpoint, thresholds, and a ledger that only first-party reports may fill.",
+   "sgs": [
+    "SG-03",
+    "SG-06",
+    "SG-39",
+    "SG-52",
+    "SG-56"
+   ],
+   "qs": [
+    "Q-08",
+    "Q-24",
+    "Q-38"
+   ],
+   "gate": "D-04"
+  },
+  {
+   "name": "Compliance and evidence discipline",
+   "oneLine": "Disclosure placement, Program Content rules, and the rule that a claim without a source does not get written.",
+   "sgs": [
+    "SG-09",
+    "SG-10",
+    "SG-30",
+    "SG-33",
+    "SG-41"
+   ],
+   "qs": [
+    "Q-03",
+    "Q-19",
+    "Q-20",
+    "Q-36",
+    "Q-37",
+    "Q-40"
+   ],
+   "gate": "D-03"
+  },
+  {
+   "name": "Design, brand and the anti-slop pass",
+   "oneLine": "Make it read like a shop a person runs, with imagery we are allowed to ship.",
+   "sgs": [
+    "SG-04",
+    "SG-11",
+    "SG-16",
+    "SG-24",
+    "SG-25",
+    "SG-27",
+    "SG-28",
+    "SG-29",
+    "SG-31",
+    "SG-34",
+    "SG-35",
+    "SG-36",
+    "SG-38",
+    "SG-44",
+    "SG-45",
+    "SG-50",
+    "SG-58",
+    "SG-59",
+    "SG-60"
+   ],
+   "qs": [
+    "Q-07",
+    "Q-09",
+    "Q-12",
+    "Q-21",
+    "Q-22",
+    "Q-42",
+    "Q-43",
+    "Q-44"
+   ],
+   "gate": "D-06"
+  },
+  {
+   "name": "Editorial: voice, authors, cadence",
+   "oneLine": "Who writes, in what voice, how often, and what they are never allowed to claim.",
+   "sgs": [
+    "SG-07",
+    "SG-12",
+    "SG-13",
+    "SG-14",
+    "SG-15",
+    "SG-17",
+    "SG-18",
+    "SG-21",
+    "SG-26",
+    "SG-49",
+    "SG-54",
+    "SG-57"
+   ],
+   "qs": [
+    "Q-10",
+    "Q-11",
+    "Q-13",
+    "Q-14",
+    "Q-17",
+    "Q-23",
+    "Q-33",
+    "Q-41"
+   ],
+   "gate": "D-07"
+  },
+  {
+   "name": "Machinery and automation",
+   "oneLine": "Automate what can be automated; put a gate in front of everything that cannot.",
+   "sgs": [
+    "SG-43"
+   ],
+   "qs": [
+   ],
+   "gate": "D-04"
+  }
+ ],
+ "defaultRule": {
+  "proposed": "If a gate is unanswered 28 days after it is published here, the recommended option is applied, the row moves to answered with 'default applied' and the date, and the change stays reversible in one commit.",
+  "status": "proposed by session 42e09357 on 2026-11-20; the owner has not approved it. Until approved, nothing in the gates column auto-applies."
+ }
 }

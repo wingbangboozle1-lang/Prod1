@@ -179,12 +179,12 @@ These four gate revenue. Everything else in this file is polish compared with th
   reason it is off is a policy constraint, not a design preference — so this is the row with
   the largest revenue upside in the whole file.
 
-### C2. Which topics, chosen how? — `SG-32`, `FLG-078`, `FLG-085`
+### C2. Which topics, chosen how? — `SG-32`, `FLG-078`, `FLG-087`
 
 - **Question.** Keep publishing on editorial judgement, or wait for measured queries?
 - **What we know.** Fifteen question-shaped topics are on the calendar: twelve published, three
   queued. This pass made those counts derive from the data after they had drifted out of step
-  with the table that lists them (`FLG-085`). Nothing on the site claims any topic is popular
+  with the table that lists them (`FLG-087`). Nothing on the site claims any topic is popular
   or in demand.
 - **What we do not know.** Which questions people actually type. That requires A5.
 - **What would settle it.** Search Console queries after 28 days (A5), plus the analytics
@@ -306,11 +306,15 @@ low-cost instruments, in order of value per hour:
 
 For the record, so this worksheet is not mistaken for a plan that was executed:
 
-- Front page rebuilt as a **shelf**: one card per product, no duplicated spec dumps
-  (`FLG-086`).
-- Topic calendar counts derived from the data they describe (`FLG-085`), after they had
-  drifted to "twelve … five published" against a table of fifteen rows.
-- Five product titles re-read against Amazon and confirmed; scope of the re-read recorded
-  (`FLG-087`, and the verification record).
+- Five product `<title>`s re-read against Amazon.com and confirmed against their ASINs, with
+  the P1 and P4 buy boxes captured; the fields that were *not* re-read are listed as not read
+  (`FLG-088`, and the verification record beside this file).
+- `topics.html` title, `h1` and description derived from `TOPICS` after they had drifted to
+  "twelve … five published" against a table of fifteen rows (`FLG-087`).
+- This worksheet, linked from the review desk and the executive summary.
+- A compact front-page card was built and then **withdrawn** from the merge, because two
+  other sessions rebuilt the front page inside the same hour and a fourth competing layout
+  is the duplication `FLG-089` describes. The observation is filed; the decision is the
+  owner's.
 
 Nothing in sections A–D was implemented. Each needs the owner.

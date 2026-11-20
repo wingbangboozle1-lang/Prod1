@@ -143,8 +143,14 @@ p.next{border-top:1px solid var(--line);margin-top:1.6rem;padding-top:.8rem;font
 .gate{margin:1.4rem 0;padding:1.5rem 1.5rem 1.3rem}
 .gate h2{margin:.1em 0 .5em}
 .gate h3{margin:1.3em 0 .35em;font-size:1.02rem;text-transform:uppercase;letter-spacing:.09em;color:var(--teal);font-family:var(--sans)}
-.gate-grid{display:grid;gap:1rem;grid-template-columns:1.2fr 1fr 1fr}
-@media(max-width:900px){.gate-grid{grid-template-columns:1fr}}
+/* minmax(0,...) on every track: a bare "1fr" floors at the column's min-content width, so one
+   long unbreakable token (a URL quoted as plain text) widened the card to 423px inside a 324px
+   container and pushed decisions.html to a 456px document on a 390px phone. "overflow-wrap:
+   anywhere" - not break-word - is what removes a token's contribution to min-content width. */
+.gate-grid{display:grid;gap:1rem;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr)}
+.gate-grid > *{min-width:0}
+.gate-grid,.gate-grid > *{overflow-wrap:anywhere}
+@media(max-width:900px){.gate-grid{grid-template-columns:minmax(0,1fr)}}
 ul.tight{margin:.3rem 0;padding-left:1.15rem}
 ul.tight li{margin:.3rem 0}
 .risk-cell{color:var(--warn)}
@@ -650,7 +656,11 @@ details[open] summary::before { content: "−"; }
 .badge-ok, .badge-warn, .badge-flag {
   display: inline-block; padding: .18rem .58rem; border-radius: 999px;
   font-size: .76rem; font-weight: 700; line-height: 1.5;
-  border: 1px solid; white-space: nowrap;
+  border: 1px solid;
+  /* Status pills also carry full sentences ("Published 2026-11-19 (guide-gift-picks.html)").
+     nowrap made the longest one 801px wide, which forced the whole page to scroll
+     sideways on a 390px phone. Short pills still sit on one line; long ones wrap. */
+  white-space: normal; overflow-wrap: break-word; max-width: 100%;
 }
 .badge-ok { background: var(--teal-soft); color: var(--good); border-color: #BFE0CE; }
 .badge-warn { background: #FBF0D9; color: var(--warn); border-color: #EAD6A2; }
@@ -757,133 +767,56 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; }
 }
 
-/* Front page: the hero side column now sells three picks, so it needs a button and tighter rows. */
-.hero-side-cta { margin: .9rem 0 .4rem; }
-.hero-side ol li span { display: block; }
-
-/* ============================================================================
-   THE SHELF — the front-page buying surface (session arena/3c99f15c-prod1)
-   ----------------------------------------------------------------------------
-   Why: the front page rendered each air fryer twice, first as a "quick pick"
-   and again as the full register card with every spec row and drawing, so a
-   shopper met roughly six thousand characters of register before the first buy
-   button. One card per product replaces both. Every figure is the same dated
-   register field; no price or rating appears (FLG-023 / FLG-032).
-   ========================================================================== */
-.shelf-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
-  margin: 2rem 0 .2rem; padding-bottom: .55rem;
-  border-bottom: 2px solid var(--ink);
-}
-.shelf-head h3 { margin: 0; font-size: 1.28rem; letter-spacing: -.01em; }
-.shelf-head p { margin: 0; font-size: .86rem; }
-.shelf-head p a { color: var(--clay-ink); font-weight: 600; text-decoration: none; }
-.shelf-head p a:hover { text-decoration: underline; }
-
-.shelf-grid {
-  display: grid; gap: 1.4rem; margin: .9rem 0 2.4rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.shelf-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-.shelf {
-  display: grid; grid-template-rows: auto 1fr auto;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
-}
-.shelf:hover { box-shadow: var(--shadow); border-color: var(--line-strong); transform: translateY(-2px); }
-.shelf-media {
-  position: relative;
-  background: linear-gradient(160deg, var(--surface-2) 0%, var(--tint) 100%);
-  border-bottom: 1px solid var(--line);
-}
-.shelf-media .prod-art {
-  margin: 0; padding: .9rem .9rem .2rem;
-  background: none; border: 0; border-radius: 0;
-}
-.shelf-media .prod-art img { max-width: 100%; }
-.shelf-chip {
-  position: absolute; left: .75rem; top: .75rem;
-  background: var(--surface); color: var(--clay-ink);
-  border: 1px solid var(--line-strong); font-weight: 700;
-  box-shadow: var(--shadow-sm);
-}
-.shelf-form {
-  position: absolute; right: .75rem; top: .75rem;
-  background: rgba(255, 255, 255, .88); color: var(--ink-2);
-  border: 1px solid var(--line); box-shadow: none; font-weight: 700;
-}
-
-.shelf-body { padding: 1.05rem 1.15rem .2rem; }
-.shelf-kicker {
-  margin: 0 0 .18rem; font-size: .72rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: .09em; color: var(--gold-ink);
-}
-.shelf-name { margin: 0 0 .45rem; font-size: 1.16rem; line-height: 1.25; }
-.shelf-name a { color: var(--ink); text-decoration: none; }
-.shelf-name a:hover { color: var(--clay-ink); text-decoration: underline; }
-.shelf-pitch { margin: 0 0 .85rem; font-size: .92rem; line-height: 1.55; color: var(--ink-2); }
-
-.shelf-facts {
-  display: flex; flex-direction: column; gap: .1rem;
-  margin: 0 0 .85rem; padding: .55rem .7rem;
-  background: var(--surface-2); border-radius: var(--r-sm);
-}
-.shelf-facts > div {
-  display: flex; align-items: baseline; justify-content: space-between; gap: .6rem;
-  padding: .26rem 0; border-bottom: 1px dotted var(--line);
-}
-.shelf-facts > div:last-child { border-bottom: 0; }
-.shelf-facts dt {
-  flex: 0 1 auto; color: var(--muted); font-size: .72rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .05em;
-}
-.shelf-facts dd {
-  flex: 0 1 auto; margin: 0; text-align: right; font-size: .88rem; font-weight: 600;
-  color: var(--ink); font-variant-numeric: tabular-nums;
-}
-.shelf-fit { text-align: right; font-weight: 700; font-size: .88rem; color: var(--ink); }
-.shelf-fit-cm { display: block; font-size: .72rem; font-weight: 500; color: var(--muted); }
-.shelf-gap { color: var(--flag); }
-
-.shelf .best, .shelf .watch { font-size: .87rem; padding: .55rem .7rem; }
-
-.shelf-buy {
-  display: flex; flex-direction: column; gap: .45rem;
-  padding: 0 1.15rem 1.1rem; margin-top: .35rem;
-}
-.shelf-buy .btn { width: 100%; }
-.shelf-alt { margin: 0; text-align: center; font-size: .82rem; }
-.shelf-buy .sponsored-note { margin: 0; text-align: center; line-height: 1.5; }
-
-@media (max-width: 980px) {
-  .shelf-grid, .shelf-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
+/* ---------------------------------------------------------------- buying brief
+   Added 2026-11-20 (session ae5eeead). The category page now answers "which one is
+   for me" before it prints a spec table, so these are the rules for that first screen:
+   a wide table that keeps its header readable on a phone, a scale drawing built from
+   listed inches, and a short guide list that reads as a list rather than a paragraph. */
+.brief table { font-size: .92rem; }
+.brief th { position: sticky; top: 0; z-index: 1; }
+.brief td:first-child { font-weight: 600; color: var(--ink); }
+.brief td.num { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--clay-ink); }
 @media (max-width: 720px) {
-  .shelf-grid, .shelf-grid-2 { grid-template-columns: 1fr; }
-  .shelf-head { margin-top: 1.6rem; }
-  .shelf:hover { transform: none; }
+  .brief thead { display: none; }
+  .brief tr { display: block; padding: .6rem 0; border-bottom: 1px solid var(--line); }
+  .brief td { display: block; border: 0; padding: .12rem .9rem; }
+  .brief td:first-child::before { content: "Pick: "; color: var(--muted); font-weight: 500; }
 }
-/* A phone is where most affiliate traffic lands. `.btn` is inline-flex, so in a 1fr
-   grid column a long label ("See today's price on Amazon") sets the column's minimum
-   width and pushes the page sideways; the shelf button is a block instead. */
-@media (max-width: 760px) {
-  .shelf-buy .btn { display: flex; width: 100%; min-height: 48px; white-space: normal; text-align: center; }
-  .shelf-buy { padding: 0 1rem 1rem; }
-  .shelf-body { padding: .95rem 1rem .1rem; }
-  .shelf-facts > div { flex-wrap: wrap; gap: .1rem .5rem; }
-  .shelf-facts dd { text-align: left; }
-  .shelf-fit { text-align: left; }
-  .shelf-name { font-size: 1.08rem; }
-  .shelf-media .prod-art { padding: .5rem .5rem 0; }
-  .shelf-head h3 { font-size: 1.15rem; }
+
+.chart { margin: 1.6rem 0; padding: 1.1rem 1.2rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.chart figcaption { font-size: .92rem; color: var(--ink-2); line-height: 1.6; }
+.chart figcaption strong { color: var(--ink); }
+.bar-row { display: grid; grid-template-columns: minmax(8rem, 15rem) 1fr auto; align-items: center; gap: .7rem; margin: .7rem 0; }
+.bar-lab { font-size: .84rem; color: var(--ink-2); }
+.bar-val { font-size: .84rem; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.bar { width: 100%; height: 14px; border: 0; background: var(--tint); border-radius: 999px; appearance: none; }
+.bar::-webkit-meter-bar { background: var(--tint); border: 0; border-radius: 999px; height: 14px; }
+.bar::-webkit-meter-optimum-value { background: linear-gradient(90deg, var(--clay), var(--gold)); border-radius: 999px; }
+.bar::-moz-meter-bar { background: linear-gradient(90deg, var(--clay), var(--gold)); border-radius: 999px; }
+@media (max-width: 720px) {
+  .bar-row { grid-template-columns: 1fr auto; }
+  .bar { grid-column: 1 / -1; order: 3; }
 }
-@media (max-width: 420px) {
-  .shelf-chip, .shelf-form { position: static; display: inline-block; margin: .25rem .25rem 0 0; }
-  .shelf-media { padding-bottom: .5rem; }
-}
+
+.guide-list { list-style: none; padding: 0; margin: 1rem 0 1.6rem; display: grid; gap: .55rem; }
+.guide-list li { border-left: 3px solid var(--clay); padding: .45rem .9rem; background: var(--surface-2); border-radius: 0 var(--r-sm) var(--r-sm) 0; font-size: .93rem; }
+
+/* The chooser card that closes the front-page grid: it is an action, not a product, so it
+   reads as a quiet panel rather than a card with a picture. */
+.card.choose { display: flex; flex-direction: column; justify-content: center; background: var(--surface-2); border-style: dashed; border-color: var(--line-strong); }
+.card.choose h3 { margin-top: .4rem; }
+.card.choose .btn { margin-top: .8rem; }
+
+/* ---------------------------------------------------------------- decision desk
+   The board asks the owner for a one-line answer. This is the smallest honest form for
+   that: choose a path, type the evidence, get the line, copy it. Nothing is submitted. */
+.decide { margin: 1.1rem 0 .2rem; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--surface-2); padding: .7rem 1rem; }
+.decide summary { cursor: pointer; font-weight: 700; color: var(--clay-ink); font-family: var(--sans); font-size: .95rem; }
+.decide fieldset { border: 0; margin: .8rem 0 .2rem; padding: 0; }
+.decide legend { font-size: .82rem; text-transform: uppercase; letter-spacing: .07em; color: var(--teal); font-weight: 700; margin-bottom: .4rem; }
+.choice { display: flex; gap: .5rem; align-items: flex-start; font-size: .9rem; padding: .3rem 0; color: var(--ink-2); }
+.choice input { margin-top: .25rem; }
+.choice-note { display: block; font-size: .82rem; color: var(--muted); margin: .7rem 0 .3rem; }
+.decide input[type=text] { width: 100%; min-height: 44px; padding: .5rem .6rem; border: 1px solid var(--line-strong); border-radius: var(--r-sm); font-family: inherit; font-size: .9rem; background: var(--surface); }
+.decide .btn { margin-top: .6rem; }
+.decision-out { display: block; margin-top: .7rem; font-family: var(--mono); font-size: .82rem; line-height: 1.7; color: var(--ink); background: var(--surface); border-left: 3px solid var(--gold); padding: .6rem .8rem; border-radius: 0 var(--r-sm) var(--r-sm) 0; white-space: pre-wrap; }
