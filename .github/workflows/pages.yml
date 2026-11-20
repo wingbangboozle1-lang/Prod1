@@ -58,6 +58,11 @@ jobs:
         run: node scripts/check_site.mjs
       - name: Publishing gate - metadata, voice and price policy
         run: node scripts/check_meta.mjs
+      # Added 2026-11-20: the build had been emitting 44 classes with no CSS rule and 9
+      # undefined custom properties, which is why pages rendered unstyled. This gate makes
+      # a class without a rule, or a var() without a value, block the publish.
+      - name: Publishing gate - design system coverage
+        run: node scripts/check_style.mjs
 
       # Pages here is published from the `main` branch (the repository's Pages build
       # source is "legacy"), which is why the root of this repo IS the site. In that mode
