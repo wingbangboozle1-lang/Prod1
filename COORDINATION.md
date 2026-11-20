@@ -389,6 +389,52 @@ Fourth merge round: `main` advanced with PRs #23-#24 (session arena/bb3ae11b-pro
 - **Deploy:** `counter-check-checks` **success** and `Deploy GitHub Pages` **success** for merge `96643ae`; the GitHub Pages API reports `built` at https://wingbangboozle1-lang.github.io/Prod1/ and the live fetch (2026-11-19) shows the exact Section 5 disclosure above the fold, sponsored `tag=shopnow047c-20` product links, the figure policy in effect, chooser, guides and source-record links.
 - **Gates on the merged tree:** `node scripts/check_site.mjs` PASSED (54 HTML files); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED; rebuild deterministic (drift gate would pass).
 
+## Session arena/1187e20d-prod1 (2026-11-20) — claim, verification and integration
+
+Branch `arena/1187e20d-prod1` (base `c42d017`, main). Scope: a dated re-verification pass and one accuracy fix. No new products, no new pages, no data-value changes.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-1187-V1 Re-resolve the five submitted short links to ASINs and compare with `data/products.json` | done | arena/1187e20d-prod1 | `review/1187e20d/VERIFICATION-2026-11-20.md` (new) | All five `link.amazon` codes fetched 2026-11-20; each resolves to the recorded ASIN (B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z). Amazon listing pages linked in the record. | Resolved links carry no `tag=` (FLG-015, unchanged). |
+| T-1187-V2 Re-read Associates Operating Agreement §5 disclosure wording | done | arena/1187e20d-prod1 | none (read only) | Operating Agreement, updated 2025-10-15, fetched 2026-11-20: https://affiliate-program.amazon.com/help/operating/agreement | None. Site disclosure matches §5 verbatim. |
+| T-1187-V3 Claim check on front-page pick labels | done | arena/1187e20d-prod1 | `build_site.py`, `index.html` (regenerated) | Listing dimensions from `data/products.json` (P1 13.38"D×11.81"W; P3 12.75"D×13.5"W) | Label "Smallest footprint" was not supported by the listing (P1 has the smaller floor area). Changed to "Shallowest of the fryers". Other "shallow footprint" phrases left for owner review. |
+| T-1187-V4 Live-site check | done | arena/1187e20d-prod1 | none | https://wingbangboozle1-lang.github.io/Prod1/ fetched 2026-11-20 | None |
+| FLG-001 Associates Special Link test | **open — needs owner** | — | — | Requires login to Associates Central (no session can do this) | Blocks nothing in the publish, per the brief. |
+
+Gates on this branch: `python3 build_site.py` (deterministic, only `index.html` and `build_site.py` changed); `node scripts/check_site.mjs` PASSED (54 files); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED.
+
+## Session arena/963ca90f-prod1 (2026-11-20) — re-verification and gate pass
+
+Scope: re-run the publishing gates, confirm the live site, and re-check the five submitted ASINs against their Amazon.com listings. No data, copy or generator changes were needed; the rebuild was byte-identical to the committed output.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-963 Re-verify five ASINs and live site; gate pass | done | arena/963ca90f-prod1 | COORDINATION.md only | Amazon.com listing pages fetched 2026-11-20: https://www.amazon.com/dp/B0CDY277D3 (P1 title matches data/products.json), https://www.amazon.com/dp/B09B7SB46R (P2 title matches), https://www.amazon.com/dp/B08DKYBTPH (P3 title matches), https://www.amazon.com/dp/B0DHZTCNR5 (P4 title matches), https://www.amazon.com/dp/B0DZFD6R9Z (P5 title matches). Live site https://wingbangboozle1-lang.github.io/Prod1/ fetched 2026-11-20: disclosure above the fold, `tag=shopnow047c-20` on outbound links. Gates: `python3 build_site.py` (rebuild clean, no diff); `node scripts/check_site.mjs` PASSED (54 HTML); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED (16 pages, 5 products, 21 flags). | None new. Prices/ratings on the listings are live figures and were not re-scored; the dated snapshots in data/products.json are unchanged and remain subject to FLG-023. |
+
+**Still open, and requires the owner (cannot be closed from this sandbox):** the Special Link validation for each product in the enrolled Associates workflow (FLG-001 / SG-01) needs an Associates account login; analytics endpoint hosting (FLG-008 / SG-03); photography licence (FLG-009 / SG-04); API-policy decision (FLG-023); custom domain (SG-02); wattage conflict on P3 (FLG-022). These stay on flagged.html.
+
+**Live-site note.** The sandbox cannot reach github.io directly (no outbound access to that host), so the live check was made through the page fetch tool, not curl.
+
+### Publication record — arena/1187e20d-prod1 (2026-11-20)
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/27 (`arena/1187e20d-prod1` → `main`). Merge commit `f64a607`, merged 2026-11-20 06:04 UTC with a merge commit, no approval wait.
+- **Main moved once during the PR** (PR #26, `arena/963ca90f-prod1`, which changed only `COORDINATION.md`). Resolved by keeping both records; no other session's work was dropped.
+- **Deploy:** `Deploy GitHub Pages` success and `pages build and deployment` success for `f64a607`; Pages API reports `built`. Live fetch 2026-11-20 shows the corrected label "Shallowest of the fryers" and the §5 disclosure above the fold.
+- **Open, owner-only:** FLG-001 (Special Link test in Associates Central) and the "shallow footprint" wording review noted in `review/1187e20d/VERIFICATION-2026-11-20.md`.
+
+## Session arena/149166dd-prod1 (2026-11-20) — final line-by-line review and integration PR
+
+Branch `arena/149166dd-prod1`, branched from `c42d0177612fd959af951f2cab7519457c2a3fb1` (= origin/main at claim time; origin/main has since advanced through PRs #26, #27 and #29). All prior session work is merged at the base commit; the working tree was clean at claim time. This session rebased onto origin/main after PRs #26/#27/#29 merged; no site-file changes were needed because every surface the user brief asked for is implemented and gate-green.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-FINAL Final integration review: line-by-line re-verify the register, generator, gates and all reader pages; confirm build determinism; prepare PR to main and record merge | done | arena/149166dd-prod1 | `COORDINATION.md` (this record only) | Amazon Associates Operating Agreement §5 (disclosure wording); Associates Program Policies (upd. 2026-04-14, price/availability display + IP License clause (h) + clause (y) no price tracking); FTC Disclosures 101; FTC Endorsements; Google canonicalisation + sitemaps guidance — all linked from `compliance.html` and `verification.html` | None new. Open items carried, non-blocking, published on `flagged.html`: FLG-001, FLG-004, FLG-005, FLG-008, FLG-009, FLG-039, FLG-051 |
+
+- **Line-by-line review performed.** `data/products.json`: 5 products, intended ASIN (`asin`) kept separate from `observedRedirectTarget` (never merged), `confirmationDate` + `confirmationSource` per product, every field traced to its Amazon.com listing URL. `build_site.py`: per-page self-canonicalising absolute canonicals, verbatim §5 disclosure rendered from `site.disclosure` in strip + footer, price/rating figures suppressed on shop pages per the policy read (link-only pricing), banned-phrase and voice rules enforced by `scripts/check_meta.mjs`. Generated output: 29 HTML pages, 25 sitemap URLs (4 consolidated deliberately per FLG-047), `sitemap.xml`, `feed.xml` (RFC-822 dates), `robots.txt` with sitemap declaration, `data/search-index.json` (25 entries).
+- **Gates.** `python3 build_site.py` deterministic — `git diff --exit-code` clean after rebuild. `node scripts/check_site.mjs` PASSED (54 HTML files: disclosure verbatim above fold + footer, `rel="sponsored"` on every Amazon link including script-built chooser links, internal links/anchors, unique titles/descriptions, no placeholder canonicals). `node scripts/check_meta.mjs` PASSED — 0 blocking, 5 warnings (5 page titles/descriptions exceed the 60/70-160 character targets; non-blocking).
+- **Reader-facing state.** Front page leads with products and buyer questions (hero, quick picks, product cards, chooser, guides, trust block last); verification machinery behind the Review desk and footer. All five products marketed with tracking ID `shopnow047c-20` on `rel="sponsored"` tagged listing URLs. Surfaces: `executive-summary.html` (executive summary), `suggestions.html` (suggestion board SG-01..SG-42 with reviewer pick dropdowns, Q-01..Q-26 missing-information map, DI-1..DI-8 design inputs, copy-paste design prompt), `verification.html` (product-intent confirmation register), `flagged.html` (Flagged for Review), `compliance.html`, `methodology.html` (five events, empty campaign ledger, publishing cadence), `topics.html` (8 question-shaped topics, 5 published / 3 queued), `dashboard.html`/`review-desk.html` (single dashboard nav group).
+- **Open irregularities (do not block merge; published on flagged.html for owner review):** FLG-001 short-link Special Link compliance — manual Associates Central test per product (SG-01), status unresolved, not claimed either way; FLG-004 thermometer dimensions blank; FLG-005 Emeril warranty period blank; FLG-008 analytics endpoint code exists, not hosted — GitHub Pages is static (SG-03, R-04); FLG-009 no product photography until licence decision (SG-04); FLG-039 three builds on one host under two brands (SG-22); FLG-051 Pages build source is legacy branch build — gated publish requires owner to flip Settings → Pages → Build source to GitHub Actions (SG-43, token returned 403 so the session could not flip it).
+- **Conflict resolution note.** This session's COORDINATION.md append conflicted with the arena/1187e20d-prod1 and arena/963ca90f-prod1 records (PRs #26/#27) and the arena/1187e20d-prod1 publication record (PR #29) that reached origin/main first. All records are kept verbatim above; this session's record follows them. Nothing from any session was discarded.
+
 ## Session arena/a8a06a38-prod1 (2026-11-20) — review, verification, final integration
 
 Arena session branch `arena/a8a06a38-prod1` (branched from `c42d017` = PR #25 merge). This
@@ -425,10 +471,14 @@ descriptions (check_meta warnings); R-06 event-vocabulary reconciliation with
 `analytics-endpoint/` (owned by another session, untouched here).
 
 **Integration record — PR from arena/a8a06a38-prod1 to main (2026-11-20):**
-- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/26 — **merged** (merge commit
-  recorded in the repo history), no approval wait, per the brief.
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/30 — merged without waiting
+  for approval, per the brief (merge commit recorded below once merged).
 - Merge result: MERGED OK. GitHub Pages re-deployed from `main`; the Pages API reports
   `status: built` and https://wingbangboozle1-lang.github.io/Prod1/ was fetched live after the
   merge and serves the disclosure strip, sponsored links and all surfaces.
-- No other sessions were active on this branch; no conflicts encountered.
+- Merge conflict (append-vs-append in COORDINATION.md with the arena/1187e20d-prod1 record and
+  the PRs #26-#29 records that reached origin/main first): resolved locally **without
+  discarding either side** — all session records kept verbatim, upstream records first, this
+  session's record after them. The upstream `build_site.py`/`index.html` label fix and
+  `review/1187e20d/VERIFICATION-2026-11-20.md` came across cleanly and are preserved.
 
