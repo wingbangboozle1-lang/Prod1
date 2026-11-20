@@ -565,6 +565,14 @@ FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (pr
 policy), FLG-051/SG-43 (Pages build source), FLG-070 (three builds on one host), SG-02
 (custom domain). None blocks the merge.
 
+## Session arena/9d172dea-prod1 claims (2026-11-20, current branch == main @ bebe0827)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-9D1 Line-by-line repo review + verification gate pass | in progress | arena/9d172dea-prod1 | COORDINATION.md, data/products.json, verification.html, flagged.html, suggestions.html, executive-summary.html | Internal consistency of data/products.json checked (ASINs in URLs, confirmation fields separate from observed redirect, trackingId matches data-tag). All 4 gates PASS (check_site, check_meta, check_style, verify_structure). | **Cannot access amazon.com** — this session's sandbox allows github.com/npm/pypi only. Product listings, prices, ratings, dimensions, warranties were last read by prior sessions 2026-11-19/2026-11-20 and are NOT re-verified here. Flagged as unverified-by-this-session. |
+| T-9D2 Site improvements per brief (shop-first, suggestions desk, Q/I/A, executive summary) | in progress | arena/9d172dea-prod1 | suggestions.html, DESIGN_PROMPT.md, executive-summary.html | Existing design brief, suggestion board and Q/I/A register reviewed; no AI-slop phrases; shop-first landing confirmed. | Owner choices pending on SG-02 (domain), SG-03 (analytics host), SG-04 (photography) |
+| T-9D3 Build, deploy to GitHub Pages, PR to main, merge | unclaimed | arena/9d172dea-prod1 | build_site.py, .github/workflows/pages.yml, all generated HTML | Gates pass; build deterministic (no datetime.now()); Pages build type is legacy (serves committed main). | FLG-051/SG-43: Pages build source not set to GitHub Actions, so gate failures block the push but not the publish itself |
+
 ## Publication record — PR #35 (session arena/62786810-prod1, 2026-11-20)
 
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/35 (arena/62786810-prod1 → main) — **merged with a merge commit `6274786` at 2026-11-20 06:32 UTC**, no approval wait, per the brief.
