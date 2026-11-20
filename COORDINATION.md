@@ -631,6 +631,47 @@ Branch `arena/fe0774e7-prod1` (from `main` @ `bebe082`). Scope is deliberately n
 
 | Task | Status | Owner | Files touched (scope) | Notes |
 |---|---|---|---|---|
-| T-FE-A Reader-facing titles on the three consolidated guides (`guide-holiday-gifts`, `guide-holiday-roast`, `guide-small-kitchen`): drop the audit label "(consolidated)" from `<title>` only; canonicals and noindex unchanged | in progress | fe0774e7 | `build_site.py` (title strings in the `MERGED` table only), regenerated `guide-holiday-gifts.html`, `guide-holiday-roast.html`, `guide-small-kitchen.html` | Brief: "read like a shop, not an audit" |
-| T-FE-B Brief coverage audit: map each requirement in the brief to the page that satisfies it, the evidence, and the owner action still blocking it | in progress | fe0774e7 | this file only | Read-only; no new claims |
+| T-FE-A Reader-facing titles on the three consolidated guides (`guide-holiday-gifts`, `guide-holiday-roast`, `guide-small-kitchen`): drop the audit label "(consolidated)" from `<title>` only; canonicals and noindex unchanged | **done** | fe0774e7 | `build_site.py` (title strings in the `MERGED` table only), regenerated `guide-holiday-gifts.html`, `guide-holiday-roast.html`, `guide-small-kitchen.html` | Brief: "read like a shop, not an audit" |
+| T-FE-B Brief coverage audit: map each requirement in the brief to the page that satisfies it, the evidence, and the owner action still blocking it | **done** | fe0774e7 | this file only | Read-only; no new claims |
 | T-FE-C Integration: rebuild, four gates + CI drift check, PR to `main`, merge, confirm Pages | in progress | fe0774e7 | this file | Flagged items do not block the merge |
+
+### Completion record — session arena/fe0774e7-prod1 (2026-11-20)
+
+| Task | Status | Files touched | Verification performed | Irregularities |
+|---|---|---|---|---|
+| T-FE-A Reader-facing titles and copy on the three consolidated guides and the dashboard alias | **done** | `build_site.py` (`MERGED` table only), regenerated `guide-holiday-gifts.html`, `guide-small-kitchen.html`, `guide-holiday-roast.html`, `dashboard.html` | Titles no longer carry "(consolidated)"; the eyebrow and callout no longer describe the publishing history; canonicals, the body link to each target (required by `check_meta.mjs`) and the robots/sitemap exclusion are unchanged. All six gates pass; rebuild is byte-identical | Process history moved to FLG-047 (already recorded there) |
+| T-FE-B Brief coverage audit | **done** | this file only | Each brief item mapped to the page that carries it, with the open owner action. Checked on the built output, not from memory | See the table below and the register repair |
+| Register repair found during T-FE-B | **done** | `build_site.py` (flag rows FLG-023…031, FLG-056), regenerated `flagged.html` | `git show 6021a30:flagged.html` shows FLG-023…031 were published on `origin/main` on 2026-11-19; they were absent from the 2026-11-20 register, and FLG-056 said they had never been published. Restored verbatim with a restoration note on each row. FLG-025 gets a dated check against Google's official What's new index | The removal commit could not be isolated in the merge history; recorded as such in FLG-056 |
+
+**Brief coverage (what the built site carries, and what is still open)**
+
+| Brief item | Where it is | Still open and why |
+|---|---|---|
+| Disclosure above the fold and in footer, every page | every page; `check_site.mjs` | None. OA §5 sentence is verbatim |
+| Every outbound product link `rel=sponsored`, labelled | every page; `check_meta.mjs`, `verify_structure.mjs` | None |
+| Product-intent record: intended ASIN, official listing URL, confirmation date, source, observed redirect as a separate field | `verification.html` (five rows, separate fields) | Redirect field carries no `tag=` (FLG-015) |
+| Replace ambiguous links with validated Special Links; one test per product in Associates Central | FLG-001, Q-01, SG-01 | **Owner action.** Needs an Associates Central login. Not possible from this sandbox |
+| Tracking-report confirmation per product | Q-35, SG-53 | **Owner action.** No report can be read without the login |
+| Privacy-preserving click counter and self-hosted endpoint, five events | `methodology.html`; `data/editorial.json` (`events.endpoint` is empty, so nothing is sent); `check_measure.mjs` | **Owner action.** Endpoint hosting (SG-03 / FLG-008). GitHub Pages cannot host it |
+| Empty but defined campaign ledger | `methodology.html`; `counter-check/data/ledger.csv` (header only) | No first-party data yet, by design |
+| Question-shaped guides, added to sitemap and feed | ten reader guides in `guides.html`; 20 sitemap URLs; 10 feed items | Publishing cadence is a decision (SG list) |
+| Four suggested editorial hypotheses | `guide-basket-vs-oven.html`, `guide-capacity-checklist.html`, `guide-cleanup-counter-space.html`, `guide-multifunction-questions.html` | They use the site's own final titles, not the brief's wording. No popularity claim is made |
+| Executive summary | `executive-summary.html` | None |
+| Suggestions board with a recommended path per item, and a Q/I/A list | `suggestions.html` (SG-01…SG-53 in use, Q-01…Q-37) | Nothing is implemented until an owner approves a row |
+| Flagged for Review page with source links | `flagged.html` (67 rows after this repair) | FLG-074/075 are on PR #39, which has merged |
+| Search Console, reader capture, custom domain | SG-02, SG-27 to SG-30 | **Owner action.** Needs the owner's Search Console property and domain choice |
+| Photography | SG-04 / FLG-009 | **Owner action.** Licence decision. Nothing is licensed or invented in the meantime |
+| Creators/PA API eligibility | FLG-026 | Not read in this pass. The Program Policies page fetched today (updated 2026-04-14) does not address it. Still unverified |
+
+**Official sources read in this pass (2026-11-20):**
+- Google Search Central, What's new index: https://developers.google.com/search/updates#removing-faq-rich-result. The May 2026 list has "Deprecating the FAQ rich result feature"; the June 2026 list has "Removing documentation for the FAQ rich result feature". The exact days and the August 2023 restriction in FLG-025 were not read on the entry, so they stay unverified.
+- Associates Program Policies: https://affiliate-program.amazon.com/help/operating/policies. Header reads "Updated: April 14, 2026", which matches the register.
+
+**Irregularities for the owner's review (all also on the flagged page or in the rows above):**
+1. FLG-023…031 were published on main (6021a30) and later missing from the register. Restored in this pass (FLG-056 corrected).
+2. FLG-061…066 have no trace on any remote branch as of 2026-11-20. They remain unused numbers.
+3. FAQPage JSON-LD is still emitted on ten guide pages. Google's official What's new index lists "Deprecating the FAQ rich result feature" (May 2026) and "Removing documentation for the FAQ rich result feature" (June 2026). The site makes no SEO claim for it. Keep or remove is an owner decision (FLG-025).
+4. The Deploy GitHub Pages run for `bb30fe1` (merge of PR #40) failed because `pages.yml` held unresolved conflict markers. Fixed in `4f10857` by another session. The deploy run for `91cd1ef` (current `main`) completed with conclusion success (checked with `gh run list` in this pass).
+5. The owner-action items above are unchanged. None blocks the merge.
+
+**Scope.** Edited only: `build_site.py` (two blocks), the regenerated root HTML, and `COORDINATION.md`. Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other session>/`, `analytics-endpoint/`, `data/products.json`, `.github/workflows/`.
