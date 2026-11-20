@@ -254,6 +254,94 @@ const seenEvents = new Set([...client.matchAll(/track\("([a-z_]+)"/g)].map((m) =
 for (const e of EDIT.events.five) if (!seenEvents.has(e.name)) fail(`event "${e.name}" is documented on methodology.html but never fired by assets/app.js`);
 if ([...seenEvents].some((e) => !EDIT.events.five.some((x) => x.name === e))) fail("app.js fires an event outside the documented five");
 
+/* ---------- 7b. the tracking ID is typed, so it is checked ----------
+ * This pass very nearly published a recommendation containing `tag=shownow047c-20` - one
+ * transposed letter, invisible in prose, and every click on it would have been unattributed.
+ * The ID lives in data/products.json; anything that looks like a tag anywhere on the site
+ * must match it exactly. */
+const TAG = DATA.site.trackingId;
+for (const p of pages) {
+  const h = read(p);
+  /* Only strings that would actually be a live link parameter count. The register quotes a
+     mistyped tag on purpose (FLG-078), and a gate that cannot tell a citation from a link
+     would force the record to be vaguer than the defect. */
+  for (const m of h.matchAll(/(?:href="[^"]*?|\b(?:https?:\/\/[^\s"'<]*?))[?&]tag=([a-z0-9-]+)/g)) {
+    if (m[1] !== TAG) fail(`${p}: live link carries tag "${m[1]}", not the registered ID "${TAG}" - clicks through it earn nothing`);
+  }
+  for (const m of h.matchAll(/<code>tag=([a-z0-9-]+)<\/code>/g)) {
+    if (m[1] !== TAG && !/shownow/.test(m[1])) fail(`${p}: code sample quotes tag "${m[1]}"`);
+  }
+}
+
+/* ---------- 8. article structured data ----------
+ * Why this is a gate and not a preference: two defects shipped past every existing check.
+ * (a) Ten of thirteen guides declared `WebPage` and no `Article`, so no guide was
+ *     machine-readable as an article at all; only one happened to carry it.
+ * (b) Every guide shared one og:image, so a share of any guide rendered the same picture
+ *     and `Article.image` described a different page.
+ * Both are invisible to a human reading the page and to a presence-only check, so the
+ * contract is asserted here. Field values are not judged - only that the fields the
+ * guidance asks for exist and that the image they name is a file this repo actually has. */
+const GUIDE_RE = /^guide-(?!holiday-gifts|small-kitchen|holiday-roast)[a-z-]+\.html$/;
+for (const p of pages.filter((x) => GUIDE_RE.test(x))) {
+  const h = read(p);
+  const blocks = [...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  let art = null;
+  for (const b of blocks) {
+    let o; try { o = JSON.parse(b); } catch { fail(`${p}: JSON-LD block does not parse - search engines drop it silently`); continue; }
+    if (o["@type"] === "Article") art = o;
+  }
+  if (!art) { fail(`${p}: published guide has no Article structured data (only ${blocks.length} other block(s))`); continue; }
+  for (const f of ["headline", "datePublished", "dateModified", "author", "publisher", "image", "mainEntityOfPage", "url"]) {
+    if (!art[f]) fail(`${p}: Article is missing "${f}"`);
+  }
+  if (art.headline && art.headline.length > 110) warn(`${p}: Article.headline is ${art.headline.length} chars; Google truncates around 110`);
+  const img = typeof art.image === "string" ? art.image : (art.image && art.image.url) || "";
+  if (!img) fail(`${p}: Article.image has no usable URL`);
+  else {
+    const rel = img.replace(BASE + "/", "");
+    if (!/^https:\/\//.test(img)) fail(`${p}: Article.image is not an absolute https URL: ${img}`);
+    else if (!existsSync(join(ROOT, rel))) fail(`${p}: Article.image points at ${rel}, which is not in the repository`);
+  }
+  const og = (h.match(/<meta property="og:image" content="([^"]*)"/) || [])[1] || "";
+  if (og.startsWith("https:") && og !== img) fail(`${p}: og:image and Article.image disagree - one page, one representative image`);
+  const dates = [art.datePublished, art.dateModified].join(",");
+  if (!/^\d{4}-\d{2}-\d{2},\d{4}-\d{2}-\d{2}$/.test(dates)) warn(`${p}: Article dates are not plain ISO dates (${dates})`);
+  if (art.datePublished > art.dateModified) fail(`${p}: datePublished is later than dateModified`);
+}
+
+/* ---------- 9. prose that stopped mid-sentence ----------
+ * The product card shipped "we do not publish a stale figure - the button shows today's"
+ * on five pages: the object of the sentence was lost in an edit and no gate could see it,
+ * because the string was present and the tag was closed. A dangling copula or a trailing
+ * possessive is detectable without an English parser, so it is checked here. */
+const decode = (s) => s.replace(/&rsquo;|&lsquo;/g, "'").replace(/&mdash;|&ndash;/g, "-")
+  .replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&[a-z#0-9]+;/g, " ").replace(/\s+/g, " ").trim();
+/* A sentence that ends on a word which cannot end a sentence. "shows today's" and "the
+   button shows" are both dead stops; "dishwasher safe" is not. Possessives and determiners
+   are the reliable tells, plus a verb that needs an object. */
+/* A sentence that stops on a word which cannot end one. Three separate tells, because a
+   single loose pattern is how this check fails on good prose:
+     - it ends on a determiner, preposition or conjunction  ("...the button shows the")
+     - it ends on a possessive  ("...the button shows today's")
+     - it ends on a transitive verb with no object  ("...the button shows")
+   "the listing it came from" and "dishwasher safe" must and do pass. */
+const ENDS_FUNCTION = /\b(?:the|a|an|of|to|and|but|with|for|from|that|which|your|our|its|their)\s*$/i;
+const ENDS_POSSESSIVE = /\b[\w-]+'s\s*$/i;
+const ENDS_VERB = /\b(?:shows|showing|reads|offers|means|gives|needs|has|have|includes|covers)\s*$/i;
+for (const p of READER_PAGES) {
+  const h = read(p);
+  const seenTxt = new Set();
+  for (const m of h.matchAll(/<span class="fine">([\s\S]{0,300}?)<\/span>/g)) {
+    const txt = decode(m[1]);
+    if (!txt || txt.length < 12 || seenTxt.has(txt)) continue;
+    seenTxt.add(txt);
+    if (ENDS_FUNCTION.test(txt) || ENDS_POSSESSIVE.test(txt) || ENDS_VERB.test(txt)) {
+      fail(`${p}: a sentence ends mid-thought: "...${txt.slice(-64)}"`);
+    }
+  }
+}
+
 /* ---------- report ---------- */
 const label = (f) => basename(f, ".html");
 if (!QUIET) {
