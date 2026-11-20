@@ -69,6 +69,12 @@ jobs:
         run: node scripts/check_style.mjs
       - name: Publishing gate - measurement contract
         run: node scripts/check_measure.mjs
+      # Added 2026-11-20: the endpoint now enforces a payload contract (outbound clicks must
+      # carry a real ASIN, search queries are bounded and clean, chooser answers must come
+      # from the form's own set). This test imports the server module and the client source
+      # and fails if either side of that contract drifts. Standard library only, offline.
+      - name: Publishing gate - event payload contract
+        run: python3 scripts/test_event_contract.py
       # Added 2026-11-20: structural checks a browser would show and a regex gate cannot -
       # asset 404s, heading outline breaks, images with no alt decision, unclosed tags,
       # Amazon links missing rel=sponsored. Still not a visual review; see the script header.

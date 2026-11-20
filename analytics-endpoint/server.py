@@ -31,6 +31,10 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 EVENT_NAMES = frozenset({"page_view", "outbound_click", "search", "chooser_complete", "guide_read"})
+# Fields a payload must carry to be useful later, per event. Kept tiny on purpose: every
+# extra field is something a reader would have to trust us with.
+CHOOSERS = frozenset({"snacks", "family", "meat", "compact", "standard", "plenty", "budget", "mid", "premium"})
+MAX_Q = 80
 PATH_RE = re.compile(r"^/[A-Za-z0-9._~/\-]{0,200}$")   # a site path only: no query, no fragment, no spaces
 ASIN_RE = re.compile(r"^B[0-9A-Z]{9}$")                 # Amazon ASIN format
 MAX_BODY = 1024                                         # the client envelope; query text is never stored
@@ -41,7 +45,8 @@ _lock = threading.Lock()
 def validate(payload: object) -> tuple[bool, str]:
     if not isinstance(payload, dict):
         return False, "body must be a JSON object"
-    if payload.get("event") not in EVENT_NAMES:
+    event = payload.get("event")
+    if event not in EVENT_NAMES:
         return False, "unknown event"
     path = payload.get("path")
     if not isinstance(path, str) or not PATH_RE.match(path):
@@ -49,6 +54,23 @@ def validate(payload: object) -> tuple[bool, str]:
     asin = payload.get("asin", "")
     if asin not in ("", None) and (not isinstance(asin, str) or not ASIN_RE.match(asin)):
         return False, "invalid asin"
+    if event == "outbound_click" and not (isinstance(asin, str) and ASIN_RE.match(asin)):
+        # A click without an ASIN cannot ever be reconciled against an Associates report,
+        # so it is refused rather than stored as an unattributable count.
+        return False, "outbound_click requires a valid asin"
+    data = payload.get("data", {})
+    if data and not isinstance(data, dict):
+        return False, "data must be an object"
+    if event == "search":
+        q = data.get("q")
+        if not isinstance(q, str) or not 0 < len(q) <= MAX_Q:
+            return False, f"search needs q between 1 and {MAX_Q} characters"
+        if any(ord(ch) < 32 for ch in q):
+            return False, "search q contains control characters"
+    if event == "chooser_complete":
+        answers = [data.get(k) for k in ("q1", "q2", "q3")]
+        if any(a not in CHOOSERS for a in answers):
+            return False, "chooser_complete needs q1, q2 and q3 from the known answer set"
     return True, ""
 
 
