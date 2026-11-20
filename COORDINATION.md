@@ -725,3 +725,12 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 | T-543-B Build, gates, link check, PR, merge, Pages deploy | done | arena/543ed7f4-prod1 | root site files, `COORDINATION.md` | `build_site.py` + `scripts/check_site.mjs` + `scripts/check_meta.mjs` + `scripts/check_style.mjs` + `scripts/verify_structure.mjs` | None new |
 
 **Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/make_og.py`, `scripts/verify_structure.mjs` and `.github/workflows/*` are read-only this session. No other session's files edited. Shared outputs (sitemap, feed, search index, nav, suggestions board) regenerated from the merged generator per protocol.
+
+### Repair record — session arena/fe0774e7-prod1 (2026-11-20), PR #49
+
+- **What broke:** `main` at `2dee010` (merge of PR #44) failed the Deploy GitHub Pages workflow. `build_site.py` stops with "data/decisions.json has not triaged these board rows". Rows Q-38…Q-41 and SG-54…SG-57 came from `543ed7f4` (`108ed91`) and were never triaged into a theme. Nothing from the failed build was published.
+- **Fix:** each row is placed in one existing theme in `data/decisions.json`, using only the row's own wording. Regenerated `decisions.html`, `suggestions.html` and `data/search-index.json`, which had also been out of step with the committed files.
+- **Not changed, flagged for the register owner (`42e09357`):** Q-02, Q-14, SG-33 and SG-43 each sit in two themes. The build does not enforce uniqueness, so the triage was left as written.
+- **Gates on the repaired tree:** `build_site.py` exit 0; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, and `counter-check/tools/check_site.py` all exit 0; no drift.
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
+- **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
