@@ -282,7 +282,7 @@ for (const p of pages) {
  * Both are invisible to a human reading the page and to a presence-only check, so the
  * contract is asserted here. Field values are not judged - only that the fields the
  * guidance asks for exist and that the image they name is a file this repo actually has. */
-const GUIDE_RE = /^guide-(?!holiday-gifts|small-kitchen|holiday-roast)[a-z-]+\.html$/;
+const GUIDE_RE = /^guide-(?!holiday-gifts|small-kitchen|holiday-roast|counter-fit)[a-z-]+\.html$/;
 for (const p of pages.filter((x) => GUIDE_RE.test(x))) {
   const h = read(p);
   const blocks = [...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1]);
