@@ -882,7 +882,6 @@ Open at claim time: PR #39 (`arena/54d3e366-prod1`, session 54d3e366 — feed da
 
 **Scope.** This session edits `build_site.py` (guide region, TOPICS, GUIDES feed list, guides index), `data/editorial.json` (`queue` only), the generated root `*.html`, `sitemap.xml`, `feed.xml`, `COORDINATION.md`, `review/8bdadebf/`. It does **not** touch `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `assets/`, `data/products.json`, or `review/<other-session>/`.
 
-<<<<<<< HEAD
 ### Publication record — session arena/7bc009de-prod1 (2026-11-20)
 
 - **Pull request #62** (`arena/7bc009de-prod1` → `main`, review files and board only): merged 2026-11-20 06:52:53 UTC as `c08fd15`, merge commit, no waiting for approval. Changed files: `COORDINATION.md`, `review/7bc009de/SOURCE_LINK_AUDIT.md`, `review/7bc009de/audit_source_links.py`.
