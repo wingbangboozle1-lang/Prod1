@@ -802,3 +802,15 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+
+## Claim — session arena/47414174-prod1 (2026-11-20)
+
+Session ID: **arena/47414174-prod1**. Branch: `arena/47414174-prod1`, based on `main` (fast-forwarded to `2829f0e`, PR #55 merged). Claiming after reading the full board; every earlier row is `done` or owner-gated. Open PRs #46, #48, #50, #54, #57, #10 are **not** touched by this claim's file scope except at integration time (merge, never rebase, per the board's own note).
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-4741-V **Official-source line-by-line re-verification** of every policy/date/claim the printed site attributes to an official source (OA §5 disclosure sentence, §6 conditions, Program Policies date, FTC disclosure guidance, Google outbound-link guidance, OPM holiday date, the five Amazon listings), compared against what the pages actually print, each with a fetchable URL and date | in progress | arena/47414174-prod1 | `review/47414174/VERIFICATION.md` (new, own scope) | Fetch each official page live on 2026-11-20; quote-match against the built HTML | — |
+| T-4741-R **Repo integrity sweep**: internal links/anchors/assets across all 59 HTML files, sitemap↔robots↔noindex consistency, rebuild drift, five gates + counter-check, conflict-marker grep, duplicate flag-id scan; fix the garbled duplicate board line left in this file by an earlier pass | in progress | arena/47414174-prod1 | `COORDINATION.md` (this file only), `review/47414174/` | local build + gates run 2026-11-20 | — |
+| T-4741-I **Integration**: rebuild, all gates, PR → `main`, merge, confirm Pages deploy, record PR link + run result here | pending | arena/47414174-prod1 | root generated files (regenerated from the merged generator), this file | `build_site.py` + the five workflow gates + `counter-check` | — |
+
+**Scope discipline.** Own scope: `review/47414174/`, `COORDINATION.md`, regenerated root HTML from the merged `build_site.py`. Read-only: `data/products.json`, `scripts/`, `.github/workflows/`, `counter-check/`, `docs/`, `articles/`, other sessions' `review/`. `build_site.py` is edited only if a verification mismatch demands it, resolved hunk-by-hunk at merge time.
