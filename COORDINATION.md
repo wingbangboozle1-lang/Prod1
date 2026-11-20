@@ -905,3 +905,44 @@ Branch `arena/84799c33-prod1`, rebased onto `main` @ `fdc7387` before claiming. 
 | T-8479-3 Publication + integration: build, all gates, PR to `main`, merge, confirm Pages deploy, record PR link and live check | pending | arena/84799c33-prod1 | `COORDINATION.md` | `gh` + Pages API | — |
 
 **Scope discipline.** This session edits only `build_site.py`, `assets/style.css`, `data/products.json`, `COORDINATION.md` and the generated root pages. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `review/`, `.github/workflows/` and `data/decisions.json` are read-only here. Change requests for those files are logged, not made.
+
+### Session arena/84799c33-prod1 — verification and publication record (2026-11-20)
+
+**Rebase.** Branch rebased onto `main` @ `fdc7387` (after PR #58) before any edit. No other
+session had an unexpired claim at that point; every earlier section above is recorded done/merged.
+
+**T-8479-1 — line-by-line re-read of all five listings (done).**
+Fetched `https://www.amazon.com/gp/aw/d/<ASIN>` for all five ASINs on 2026-11-20 and read
+title, rating, rating count, buy box, list price, Product-information table, Item-details table
+and bullets.
+
+| ID | ASIN | Confirmed on the live page today | Drift / note |
+|---|---|---|---|
+| P1 | B0CDY277D3 | title exact; 4.2 (4,878); buy box $79.93; list $99.99; used $62.85; Amazon's Choice; 1K+ bought in past month | rating count 4,877 → 4,878 (register is right to keep it dated) |
+| P2 | B09B7SB46R | title exact (24 presets / six accessories); 4.3 (18,380); buy box $149.99; list $209.99; 16.9"D x 15.8"W x 14.8"H; capacity 24.6 liters | badge row absent today (register records "—") |
+| P3 | B08DKYBTPH | title exact incl. ®; 4.4 (16,894); buy box $69.99; list $119.99; 12.75"D x 13.5"W x 10"H; 8 quarts; "1000 Watts/120 Volts – RJ38-SQSS-8T" bullet | rating count 16,892 → 16,894 |
+| P4 | B0DHZTCNR5 | title exact; 4.6 (3,499); buy box $16.99; Product-information table again has **no** dimension/weight row | FLG-004 stays open |
+| P5 | B0DZFD6R9Z | title exact (Gen3, 5 Sensors); 3-probe variant $119.99, list $219.99; Item details: 3 Probes + Hub; two-year CHEF iQ assurance bullet | size selector also shows 1 probe $99.99 / 2 probes $99.99 / 4 probes $142.49 |
+
+Recorded as **FLG-083** on `flagged.html`. Nothing was edited on the strength of a carousel,
+a sponsored placement or a bundle price.
+
+**T-8479-2 — shop-first front page (done).** `build_site.py` gained `shelf_table()` and the
+front page was reordered: hero (number-led headline) → five-product decision table with a
+sponsored `Check price` per row → seasonal band → three picks by job → full cards → chooser →
+guides → topic calendar → trust strip. The review-desk cluster stays in the footer and in the
+single "The desk" nav group; the front page gained no audit furniture. Design record:
+`DESIGN_PROMPT.md` §10. Risk recorded as **FLG-084**.
+
+**T-8479-3 — gates and integration (done).** On the final tree: `python3 build_site.py` exit 0
+(34 pages, 24 sitemap URLs, 4 consolidated, deterministic - a second build produced no diff);
+`scripts/check_site.mjs` PASSED 59 files; `check_meta.mjs`, `check_style.mjs`,
+`verify_structure.mjs`, `check_measure.mjs` (incl. endpoint selftest) all **0 warnings, 0
+blocking**; `counter-check/tools/check_site.py` PASSED. Every outbound Amazon link on the new
+table carries `rel="sponsored nofollow noopener"`, `data-ctg-outbound` and the tag
+`shopnow047c-20`; the §5 sentence is above the fold and repeated in the footer.
+
+**Still open for the owner (unchanged, non-blocking):** FLG-001 / SG-01 (Special Link test in the
+enrolled Associates account), FLG-015 / Q-35 (tracking report), FLG-008 / SG-03 (analytics host),
+FLG-009 / SG-04 (photography licence), FLG-004 (thermometer dimensions), FLG-022 (P3 wattage
+conflict, both values published), SG-02 (custom domain), and the seven gates on `decisions.html`.
