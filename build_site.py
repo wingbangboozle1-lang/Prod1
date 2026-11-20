@@ -231,6 +231,16 @@ def verify_claims():
 CLAIM_ROWS = verify_claims()
 
 # ---------------------------------------------------------------- product card
+def capacity_row(p):
+    """A thermometer has no cavity, so "Capacity, as titled" followed by an em dash is a row
+    that tells the reader nothing. Say why the row is empty instead, in the reader's words.
+    This is the same placeholder problem as FLG-073, fixed at the point where it is read."""
+    cap = p.get("capacityTitle")
+    if cap not in ("", "\u2014", None):
+        return f"<div><dt>Capacity, as titled</dt><dd>{esc(cap)}</dd></div>"
+    kind = "handheld thermometer" if "handheld" in p.get("form", "").lower() else "wireless probe set"
+    return f"<div><dt>Capacity</dt><dd>Not applicable &mdash; a {kind} has no cooking cavity</dd></div>"
+
 def cta_note(p):
     return (f'Sponsored link &middot; Amazon price and stock govern &middot; '
             f'specs read from this listing {VERIFIED} &middot; '
@@ -262,8 +272,8 @@ def product_card(pid, bullets_n=3, detailed=False, level=3):
     {money}{rating}
   </div>
   <dl class="specs">
-    <div><dt>Capacity</dt><dd>{esc(p['capacityTitle'])}</dd></div>
-    <div><dt>Stated size (D x W x H)</dt><dd>{dims}</dd></div>
+    {capacity_row(p)}
+    <div><dt>Footprint on the listing</dt><dd>{dims}</dd></div>
     {footprint}{height}{power}
     <div><dt>Features the listing calls out</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
   </dl>
@@ -933,7 +943,8 @@ exec_body = f"""
 </table></div>
 
 <h2>How money and measurement work</h2>
-<p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because no endpoint is hosted. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
+<p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because the self-hosted endpoint - code-complete with a CI-tested five-event contract - is not hosted yet. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
+<p class="fine">See <a href="methodology.html">Method &amp; campaign ledger</a> for the event contract, the endpoint self-test and the ledger rules.</p>
 
 <h2>What the 2026-11-20 pass changed</h2>
 <ul>
@@ -1019,7 +1030,7 @@ sugg_body = f"""
 <tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
 <tr id="SG-01"><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td><td><span class="badge-warn">Needs decision - gate</span></td></tr>
 <tr id="SG-02"><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr id="SG-03"><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr id="SG-03"><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy (contract code-complete and CI-gated 2026-11-20: one five-event taxonomy across client, server and site, endpoint self-test green; only the host is missing)</td><td>Medium</td><td><span class="badge-warn">Partly done - hosting decision open</span></td></tr>
 <tr id="SG-04"><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
 <tr id="SG-05"><td>SG-05</td><td>Holiday gift guides built from verified specs, no dated price claims</td><td>Seasonal organic traffic; gift intent converts</td><td>Gift-angle verification per listing</td><td>Low</td><td><span class="badge-ok">Published 2026-11-19 (guide-gift-picks.html)</span></td></tr>
 <tr id="SG-06"><td>SG-06</td><td>Chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
@@ -1573,6 +1584,20 @@ derived arithmetic, and the audit says so rather than certifying them. This sect
 had caught - the gap was never the number, it was a sentence standing in for one.</p>""" % (
         "\n".join(rows), n_ok, len(CLAIM_ROWS), n_found, RECHECK_DATE)
 
+def check_spec_lists(files):
+    """A spec list must not repeat a label. Two passes each adding a row to the card is exactly how a
+    card ends up printing 'Capacity' twice with two different figures - a copy gate cannot see it and
+    a reader can. So the build compares the labels it just wrote, per card."""
+    bad = []
+    for fn in files:
+        txt = open(fn, encoding="utf-8").read()
+        for dl in re.findall(r'<dl class="specs">(.*?)</dl>', txt, re.S):
+            labels = [re.sub(r"<[^>]+>", "", x).strip() for x in re.findall(r"<dt>(.*?)</dt>", dl, re.S)]
+            for lab in sorted(set(labels)):
+                if labels.count(lab) > 1:
+                    bad.append("%s: '%s' printed %d times in one spec list" % (fn, lab, labels.count(lab)))
+    return bad
+
 NEEDLE_ROWS = check_printed_claims()
 
 ver_body = f"""
@@ -1608,7 +1633,7 @@ flag_body = f"""
 <tr id="FLG-005"><td>FLG-005</td><td>Missing warranty (Emeril)</td><td>Emeril wattage captured 2026-11-19 (1700 watts / 120 volts per the listing's Product information table). Warranty period is not stated on the listing page; the listing links a warranty PDF only. Left blank.</td><td>Read warranty PDF if the term is needed</td></tr>
 <tr id="FLG-006"><td>FLG-006</td><td>Price volatility</td><td>All prices are {VERIFIED} snapshots (Black Friday period). Live price on Amazon governs.</td><td>Re-snapshot on cadence; date every price</td></tr>
 <tr id="FLG-007"><td>FLG-007</td><td>Canonical is the GitHub Pages URL, not a custom domain</td><td>Canonical/og URLs now point to https://wingbangboozle1-lang.github.io/Prod1/ (session 9969fd0c). A custom domain is still unset, and the generator previously wrote a placeholder - fixed in build_site.py 2026-11-19 so rebuilds reproduce the committed pages.</td><td>Pick domain (SG-02)</td></tr>
-<tr id="FLG-008"><td>FLG-008</td><td>Analytics endpoint not deployed</td><td>Five events defined; local counter only. No server endpoint yet.</td><td>Deploy endpoint (SG-03)</td></tr>
+<tr id="FLG-008"><td>FLG-008</td><td>Analytics endpoint not hosted</td><td>Five events defined; local counter only. The endpoint code is complete and contract-tested (<code>analytics-endpoint/server.py</code> + <code>selftest.py</code>, wired into the deploy gate as <code>scripts/check_measure.mjs</code>, 2026-11-20) but no host is configured, so nothing is transmitted.</td><td>Owner picks a host and retention period (SG-03, Q-08), then sets <code>events.endpoint</code> in <code>data/editorial.json</code></td></tr>
 <tr id="FLG-009"><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr id="FLG-010"><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr id="FLG-011"><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
@@ -1630,7 +1655,7 @@ flag_body = f"""
 <tr id="FLG-036"><td>FLG-036</td><td>FAQPage structured data must not be sold as an SEO win</td><td>Each guide emits FAQPage JSON-LD. Secondary sources reporting on Google&rsquo;s documentation state that FAQ rich results were restricted to well-known government and health sites in August 2023 and stopped appearing for everyone on 7 May 2026, with the FAQ documentation removed on 15 June 2026. We did not read that notice on an official Google page in this session, so it is recorded here rather than asserted on a page; the markup itself is harmless and may still help machines read the answer. Source: <a href="https://developers.google.com/search/docs/appearance/structured-data">Google structured data overview</a> for what remains supported.</td><td>Confirm against Google Search Central, then keep the markup without claiming a rich-result benefit (affects S-09)</td></tr>
 <tr id="FLG-037"><td>FLG-037</td><td>Creators/PA API eligibility not verified from an official page</td><td>Third-party guides consistently state that API access follows three qualifying sales inside 180 days. No Amazon page was read in this session that states it. This matters because the whole automation plan (SG-20) and the price/image policy (FLG-032) rest on it.</td><td>Read the eligibility notice in Associates Central &rarr; Tools &rarr; Product Advertising / Creators API and record the wording and date</td></tr>
 <tr id="FLG-038"><td>FLG-038</td><td>SiteStripe image options: second-hand claim</td><td>Several third-party tutorials state that SiteStripe stopped offering Image and Text+Image link types in late 2023, leaving API access as the route to compliant product imagery. We have not verified that in the Associates console. It changes the photography plan (SG-04), so it is stated as unverified rather than as a constraint.</td><td>Open SiteStripe on any product page and record which link types exist, with the date</td></tr>
-<tr id="FLG-039"><td>FLG-039</td><td>Three builds are published on one host, under two brands</td><td>The root publication, <code>counter-check/site/</code> (Counter Check) and the <code>docs/</code> + <code>articles/</code> build (Counter &amp; Crumb, still open as draft PR #10) are all reachable and all indexable, and the root sitemap previously listed <code>docs/</code> and <code>articles/</code> URLs. That splits the domain across near-duplicate content and two mastheads. Nothing here is a policy breach - it is a findability and brand problem. The sitemap generated by this pass lists only the pages this build writes.</td><td>Owner picks one publication (SG-22); then noindex or remove the others and reconcile the two mastheads</td></tr>
+<tr id="FLG-039"><td>FLG-039</td><td>Three builds are published on one host, under two brands</td><td>The root publication, <code>counter-check/site/</code> (Counter Check) and the <code>docs/</code> + <code>articles/</code> build (Counter &amp; Crumb, still open as draft PR #10) are all reachable and all indexable, and the root sitemap previously listed <code>docs/</code> and <code>articles/</code> URLs. That splits the domain across near-duplicate content and two mastheads. Nothing here is a policy breach - it is a findability and brand problem. The sitemap generated by this pass lists only the pages this build writes. Update 2026-11-20: the generated <code>robots.txt</code> now disallows the secondary builds (<code>/counter-check/</code>, <code>/docs/</code>, <code>/articles/</code>, <code>/review/</code>, <code>/analytics-endpoint/</code>), so search engines are told to index the root publication only - one site to index, with nothing deleted.</td><td>Owner picks one publication (SG-22) and decides whether to delete or promote the secondary builds; until then keep the robots rules</td></tr>
 <tr id="FLG-040"><td>FLG-040</td><td>Snapshot dates are already ageing</td><td>Every field on this site carries the date {VERIFIED}. Amazon listing content changes without notice, so the honest shelf life of a manual snapshot is days, not months. There is no scheduled re-read in the repository - only the rule that a figure must never be presented as current.</td><td>Adopt a re-read cadence (weekly while small, per publish for the pages touched) and record each pass on the register</td></tr>
 <tr id="FLG-041"><td>FLG-041</td><td>The only image on the site is brand art</td><td><code>assets/og-image.png</code> is a generated typographic card for link previews. No product image, food photograph or AI-generated product visual is used anywhere, in line with the Program Content read in FLG-032.</td><td>Replace or extend imagery only under an approved licence (SG-04), and keep drawings labelled as ours</td></tr>
 <tr id="FLG-042"><td>FLG-042</td><td>Disclosure wording changed to the Agreement&rsquo;s exact sentence</td><td>Pages previously read &quot;As an Amazon Associate, The Countertop Guide earns from qualifying purchases.&quot; Section 5 of the Operating Agreement requires the statement &quot;As an Amazon Associate I earn from qualifying purchases.&quot; or a substantially similar statement previously allowed under the Agreement; whether a reworded variant qualifies is not ours to decide, and Section 6 treats a Section 5 violation as a material breach. The strip and footer now carry the required sentence verbatim, with a plain-language explanation beside it. Source: <a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement Section 5</a>, read in-session.</td><td>Closed by this pass (answers request I-02 from session b4c6c619); revisit only with written comfort on an alternative wording</td></tr>
@@ -1667,6 +1692,8 @@ flag_body = f"""
 <tr id="FLG-079"><td>FLG-079</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
 <tr id="FLG-073"><td>FLG-073</td><td>One placeholder was carrying two meanings</td><td>Thirteen fields in <code>data/products.json</code> hold the literal string <code>&mdash;</code>. The page correctly renders that as &ldquo;Blank &mdash; not captured&rdquo;, but the same character is also used where the field genuinely does not apply (a thermometer has no capacity). So the data cannot distinguish &ldquo;we looked and did not find it&rdquo; from &ldquo;this field is meaningless for this product&rdquo;. Publishing reads the dash as blank, which is the safe direction. A future session must not treat it as a recorded figure.</td><td>Owner of <code>data/products.json</code> to split the two into <code>null</code> and an explicit <code>notApplicable</code> reason</td></tr>
 
+<tr id="FLG-074"><td>FLG-074</td><td>Every feed item carries one date, and it is the listing re-read date</td><td>The RSS feed set <code>pubDate</code> from the listing verification date (<code>verifiedDate</code>) for all ten guides, so every item reads the same day. RSS 2.0 defines item <code>pubDate</code> as the publication date of the content (<a href="https://www.rssboard.org/rss-specification">RSS 2.0 spec, pubDate</a>). The generator now uses the page date (<code>contentDate</code>), as <code>data/editorial.json</code> already specifies. Today both values are 2026-11-20, so the feed output is unchanged. Per-guide publication dates are not recorded anywhere in the repo, and none is inferred here.</td><td>Owner of <code>data/editorial.json</code> to supply a publication date per guide (a <code>published</code> field) so each feed item can carry its own date</td></tr>
+<tr id="FLG-075"><td>FLG-075</td><td>Two guides are live before their cadence week</td><td>The cadence rule says one guide per week, published on Tuesday. The queue marks <code>guide-gift-picks.html</code> (week 2026-11-24) and <code>guide-instant-read-vs-wireless.html</code> (week 2026-12-08) as <code>published</code>, and both are live on 2026-11-20. The queue also has 2026-12-08 published before the queued 2026-12-01 topic. The status is read as "page exists", not "week reached". Nothing was hidden or re-dated in this pass.</td><td>Owner decision: keep both pages live now and reword the rule, or hold them until their Tuesday (sitemap and feed are generated from the build, so either path is a one-line change)</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
@@ -1732,8 +1759,8 @@ meth_body = f"""
 <tr><td>guide_read</td><td>Guide scrolled 75%</td><td>Guide path</td></tr>
 </table></div>
 <p>Implementation: one client, <code>assets/app.js</code>, and those five names only. It counts in <code>localStorage</code> and beacons to a configurable endpoint (<code>data-analytics-endpoint</code>) that is empty in this build, so nothing leaves the browser. No cookies, no identifiers, no third-party trackers.</p>
-<p class="fine">Contract notes settled in this pass: two other tracker scripts exist in the repository (<code>app.js</code> at the root, serving the <code>articles/</code> and <code>docs/</code> build, and <code>assets/js/analytics.js</code>, unreferenced). They use different event names and payloads from the server stub in <code>analytics-endpoint/</code>. This session did not edit those files - they belong to other sessions - and instead records the single taxonomy above as the one the root site uses. Unifying the rest is <a href="suggestions.html#SG-03">SG-03</a>; see also <a href="flagged.html">FLG-034</a> for the sponsored-marking fix in the chooser output.</p>
-<p class="fine">Endpoint status, stated exactly: no host is configured, so nothing is transmitted. The endpoint implementation in this repository (<code>analytics-endpoint/server.py</code>, owned by another session) accepts a payload carrying <code>event</code>, <code>path</code> and an optional <code>asin</code> and knows three of these five names (<code>page_view</code>, <code>outbound_click</code>, and its own <code>guide_read_75</code> for the 75% scroll event). The client here sends a payload that satisfies that validator today, and keeps the five names above as this site&rsquo;s contract. Checked by running the endpoint&rsquo;s own validator against our payload in this session: <code>page_view</code> and <code>outbound_click</code> return valid, the other three names return &ldquo;unknown event&rdquo;. Reconciling that vocabulary is request R-06 in <code>COORDINATION.md</code> - the endpoint is owned by another session, so it was not edited here.</p>
+<p class="fine">Contract notes settled 2026-11-20: the repository once carried three event vocabularies (this client, the endpoint stub, and two legacy trackers). They are now unified into the five names above, and that is a checked contract: <code>scripts/check_measure.mjs</code> runs in the deploy workflow and fails the build if <code>assets/app.js</code>, <code>analytics-endpoint/server.py</code>, <code>data/editorial.json</code> and this page ever disagree again. The legacy tracker <code>assets/js/analytics.js</code> was deleted rather than renamed (it invented client-side conversion events, which this site must not do - conversions belong to authorized first-party reports); the root <code>app.js</code> remains because it only counts locally for the supplementary review builds. Requests R-06 and R-07 in <code>COORDINATION.md</code> are closed by this pass.</p>
+<p class="fine">Endpoint status, stated exactly: no host is configured, so nothing is transmitted and the browser-local counts are all that exist. The endpoint implementation in this repository (<code>analytics-endpoint/server.py</code>) now accepts exactly these five names and the envelope this client sends; its self-test (<code>analytics-endpoint/selftest.py</code>, also run by the deploy gate) proves all five events record, the old vocabularies are rejected, and no query text or per-event timestamps are stored. Hosting is the one piece automation cannot supply: the owner picks an HTTPS host and a retention period (<a href="suggestions.html#SG-03">SG-03</a>, <a href="suggestions.html#Q-08">Q-08</a>) and sets <code>events.endpoint</code> in <code>data/editorial.json</code>; the gate in the client does the rest.</p>
 <h2>What your browser has recorded</h2>
 <div id="local-meter"><p class="fine">This section fills in with the counts stored on this device, if JavaScript is running. Nothing is sent anywhere and nothing is written to a server.</p></div>
 <h2>Campaign ledger (empty by design)</h2>
@@ -1746,7 +1773,7 @@ meth_body = f"""
 <tr><th>Step</th><th>State</th><th>How it works / what stops it</th></tr>
 <tr><td>Page rendering</td><td><span class="badge-ok">Automated</span></td><td><code>build_site.py</code> writes every page, the sitemap, the feed, robots and the search index from <code>data/products.json</code> + <code>data/editorial.json</code>. No page is hand-edited, and the build is deterministic: the same data produces the same files, so a CI diff catches a stale commit.</td></tr>
 <tr><td>Metadata, disclosure, sponsored marking, voice rules</td><td><span class="badge-ok">Automated + blocking</span></td><td><code>scripts/check_meta.mjs</code> runs in the deploy workflow after the build. A duplicate title, a missing canonical, an unlabelled Amazon link, a broken internal link, a banned phrase or a price figure on a shop page fails the deploy.</td></tr>
-<tr><td>Adding a guide to sitemap and feed</td><td><span class="badge-ok">Automated</span></td><td>The guide list and the page registry drive both files, so a new guide cannot be published and forgotten.</td></tr>
+<tr><td>Measurement contract (5 events)</td><td><span class="badge-ok">Automated + blocking</span></td><td><code>scripts/check_measure.mjs</code> runs in the deploy workflow with the endpoint&rsquo;s own self-test. If the client, the server, the data record and this page disagree on the event names - or a retired tracker reappears - the deploy fails. Conversions stay out of client events by design.</td></tr><tr><td>Adding a guide to sitemap and feed</td><td><span class="badge-ok">Automated</span></td><td>The guide list and the page registry drive both files, so a new guide cannot be published and forgotten.</td></tr>
 <tr><td>Product data refresh</td><td><span class="badge-flag">Gated</span></td><td>Manual re-read only. Creators/PA API access is the automated route and is not available to this build yet (<a href="flagged.html#FLG-037">FLG-037</a>).</td></tr>
 <tr><td>Publishing path</td><td><span class="badge-warn">Split today</span></td><td>The workflow builds, checks determinism and runs both gates on every push to <code>main</code>; the pages readers see are served by GitHub&rsquo;s branch build, because that is what the repository&rsquo;s Pages source is set to. A gate failure therefore marks the commit red instead of stopping a publish. Switching the build source to GitHub Actions would make the gate block the deploy (<a href="suggestions.html#SG-43">SG-43</a>, <a href="flagged.html#FLG-051">FLG-051</a>).</td></tr>
 <tr><td>Special Link validation</td><td><span class="badge-flag">Gated</span></td><td>A human must click a test link in the enrolled Associates workflow and confirm the destination and the tracking report (SG-01). No automation can substitute for it.</td></tr>
@@ -2343,10 +2370,22 @@ fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="h
       f'<lastBuildDate>{rfc(VERIFIED)}</lastBuildDate>']
 for slug, t, d in GUIDES:
     u = esc(abs_url(slug))
-    fd.append(f"<item><title>{esc(t)}</title><link>{u}</link><guid>{u}</guid><pubDate>{rfc(VERIFIED)}</pubDate><description>{esc(d)}</description></item>")
+    fd.append(f"<item><title>{esc(t)}</title><link>{u}</link><guid>{u}</guid><pubDate>{rfc(ISSUE)}</pubDate><description>{esc(d)}</description></item>")
 fd += ['</channel>','</rss>']
 open("feed.xml","w").write("\n".join(fd) + "\n")
-open("robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
+open("robots.txt","w").write(
+    "User-agent: *\n"
+    "Allow: /\n"
+    "# One site to index: the root publication only (see flagged.html FLG-039).\n"
+    "# The secondary builds on this host are review-only material, kept out of the\n"
+    "# search index. Remove a rule only if the owner promotes that build to its own site.\n"
+    "Disallow: /counter-check/\n"
+    "Disallow: /docs/\n"
+    "Disallow: /articles/\n"
+    "Disallow: /review/\n"
+    "Disallow: /analytics-endpoint/\n"
+    f"Sitemap: {BASE}/sitemap.xml\n"
+)
 idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] != "merged"]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
 SM_URLS = open("sitemap.xml").read().count("<url>")
@@ -2374,3 +2413,9 @@ for _f in _g.glob("*.html"):
     if _s2 != _s:
         open(_f, "w").write(_s2)
 print("sponsored post-step done")
+
+# Structural checks run last, once every page on disk was written by this build - checking earlier
+# would read stale files from a previous run and report a bug that this build already fixed.
+_SPEC_FAILS = check_spec_lists(sorted(__import__("glob").glob("*.html")))
+if _SPEC_FAILS:
+    raise SystemExit("spec-list gate failed - the same row is printed twice: " + "; ".join(_SPEC_FAILS))

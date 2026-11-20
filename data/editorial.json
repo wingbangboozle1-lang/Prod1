@@ -62,7 +62,7 @@
     "gate": "Conversion and order values are never measured client-side. They come only from authorized first-party Associates reports into the campaign ledger."
   },
   "cadence": {
-    "rule": "One guide per week, published Tuesday. Each guide is added to data/editorial-driven sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
+    "rule": "One guide per week, published Tuesday. Each guide is added to sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
     "measure": "After Search Console has 28 days of queries (SG-02), the next four topics are chosen from arriving queries that our pages do not answer, not from instinct. Until then the calendar below is a stated plan, not a demand claim.",
     "queue": [
       {
