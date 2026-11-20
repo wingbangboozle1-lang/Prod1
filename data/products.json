@@ -29,14 +29,14 @@
       "material": "Metal, Plastic",
       "specialFeatures": "+2Min Button, Automatic Shut-Off, Dual Zone Features, Hi-Fry, Mute",
       "rating": "4.2",
-      "ratingCount": "4,877",
+      "ratingCount": "4,878",
       "boughtPastMonth": "1K+ bought in past month",
       "badge": "Amazon's Choice (shown on listing)",
       "priceNew": "$79.93",
       "priceList": "$99.99",
       "priceUsed": "$62.85",
       "wattage": "120 Volts / 1700 Watts",
-      "warranty": "1-year assurance provided by Chefman (per listing bullets); cETL approved (per listing bullets)",
+      "warranty": "1-year assurance provided by Chefman and cETL approved (per listing bullets). Warranty & Support: the manufacturer's warranty can be requested from customer service - no term is stated.",
       "bullets": [
         "Two baskets, combined 6-quart capacity; dual-zone cooking so different dishes can cook at the same time",
         "Sync Finish: the two 3-quart baskets can finish at the same time",
@@ -45,7 +45,13 @@
         "Touchscreen presets for chicken, vegetables, pizza, French fries, frozen foods and leftovers"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0CDY277D3",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read twice 2026-11-19 (integration pass confirmed buy box $79.93 and List Price $99.99). Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count (updated 4,876 to 4,877), buy-box $79.93, list $99.99, used price (updated $59.95 to $62.85), dimensions, capacity, wattage and bullets all re-confirmed on the listing."
+      "sourceNote": "Title, rating, price (buy box $79.93 = 20 percent savings; $39.97 per count, Unit Count 2 Count), dimensions, item weight, capacity, wattage, temperature range, special features, bullets, included components and model number as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass) and read again line by line 2026-11-20. The 2026-11-20 read confirmed the buy box is a two-count unit, so the displayed price is a subtotal for two and the unit price is $39.97 (FLG-082); it also captured item weight (13.3 lb), the temperature range and the model number, and confirmed the seller is Amazon.com itself. Price is a snapshot and will change. List Price $99.99 confirmed 2026-11-20.",
+      "unitCount": "2 Count",
+      "pricePerCount": "$39.97 per count (new), $31.43 per count (used)",
+      "itemWeight": "13.3 pounds",
+      "tempRange": "93 °C to 450 °F",
+      "includedComponents": "User Guide",
+      "modelNumber": "RJ38-SQPF-3TDB-2W"
     },
     {
       "id": "P2",
@@ -75,7 +81,7 @@
       "priceList": "$209.99",
       "priceUsed": "—",
       "wattage": "1700 watts / 120 volts (Product information table on listing, read 2026-11-19)",
-      "warranty": "Warranty PDF linked from listing (no warranty term stated in listing text, read 2026-11-19)",
+      "warranty": "Warranty PDF linked from the listing (no warranty term stated in the listing text, read 2026-11-19 and 2026-11-20). A user manual PDF is linked as well.",
       "bullets": [
         "French doors open with a single pull; interior light to monitor food",
         "Listing bullets describe 26-quart capacity for 4–6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza",
@@ -84,7 +90,11 @@
         "Six cooking accessories included (per title)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021. Re-read line by line 2026-11-20: title, rating count (updated 18,375 to 18,380), buy-box $149.99, list $209.99, dimensions, capacity, features and bullets re-confirmed; the Item-details table again lists configuration as 24 functions and 7 accessories (title says six)."
+      "sourceNote": "Title, rating, price, dimensions, capacity, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass) and read again line by line 2026-11-20. Wattage from the Product information table (1700 watts / 120 volts, confirmed 2026-11-20). Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) - see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) - see FLG-005. Accessory count differs across the listing - see FLG-021, which the 2026-11-20 read confirmed and extended: the product description also says seven. The 2026-11-20 read added the temperature range (75 °F to 500 °F), the six named included components and the model number. The $149.99 new offer and the Amazon.com seller were confirmed; the $209.99 List Price was carried from the 2026-11-19 observation and was not re-observed in the text captured on 2026-11-20.",
+      "unitCount": "1 Count",
+      "tempRange": "75 °F to 500 °F",
+      "includedComponents": "Rack, Bake Pan, Drip Tray, Crisper Basket, Rotisserie Spit, Fetch Tool (six pieces named)",
+      "modelNumber": "4-00675-02X-VN"
     },
     {
       "id": "P3",
@@ -107,14 +117,14 @@
       "material": "Plastic, Stainless Steel",
       "specialFeatures": "Automatic Shut-Off, LED Shake Reminder, Programmable",
       "rating": "4.4",
-      "ratingCount": "16,892",
+      "ratingCount": "16,894",
       "boughtPastMonth": "3K+ bought in past month",
-      "badge": "Amazon's Choice (shown on listing)",
+      "badge": "Amazon's Choice and a Black Friday Deal chip (both shown on listing)",
       "priceNew": "$69.99",
       "priceList": "$119.99",
       "priceUsed": "$45.49",
       "wattage": "1000 Watts / 120 Volts (model RJ38-SQSS-8T, per listing bullets); listing Product information table says 1700 watts - discrepancy flagged FLG-022, both values shown",
-      "warranty": "1-year warranty provided by Chefman (per listing bullets); cETL approved (per listing bullets)",
+      "warranty": "1-Year Limited Warranty (per the listing's Warranty Description field); bullets also state a 1-year warranty provided by Chefman, plus cETL approved.",
       "bullets": [
         "TurboFry 4-in-1: Air Fry, Bake, Dehydrate, Frozen (per title); four presets for French fries, chicken, meat and fish (per bullets)",
         "450°F Hi-Fry option (per title); general temperature range 200–400°F (per bullets)",
@@ -123,7 +133,12 @@
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003. Re-read line by line 2026-11-20: title, rating 4.4/16,892, buy-box $69.99, list $119.99, dimensions, capacity, wattage (1000 W/120 V) and bullets all re-confirmed on the listing."
+      "sourceNote": "Title, rating, price, dimensions, capacity, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass) and read again line by line 2026-11-20. The listing itself gives two wattage figures and now three places to read them: the bullets say 1000 Watts/120 Volts (model RJ38-SQSS-8T), the Product information table says Output Wattage 1700 watts, and the product description closes \"1700W/120V\" - see flagged.html FLG-022. Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) - see flagged.html FLG-003. The 2026-11-20 read confirmed the $69.99 buy box (42 percent savings) and $119.99 List Price, added item weight (12.8 lb), the temperature range, the model number and the Warranty Description field, and confirmed the rating count 16,894.",
+      "unitCount": "1 Count",
+      "itemWeight": "12.8 pounds",
+      "tempRange": "94 °C to 400 °F",
+      "includedComponents": "User Guide",
+      "modelNumber": "RJ38-SQSS-8T"
     },
     {
       "id": "P4",
@@ -153,7 +168,7 @@
       "priceList": "$22.99",
       "priceUsed": "—",
       "wattage": "—",
-      "warranty": "Includes 1× Calibration Certificate (per included-components field)",
+      "warranty": "Manufacturer's warranty can be requested from customer service (per the listing's Warranty & Support section); no term is stated. A calibration certificate is listed as an included component, not as a warranty term.",
       "bullets": [
         "±0.5°F accuracy with NIST certification (per title and bullets)",
         "Thermocouple sensor with 1-second read (per bullets)",
@@ -162,7 +177,11 @@
         "Motion-activated wake and sleep (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
-      "sourceNote": "Title, rating, price (buy box and List Price), special features, specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count 3,499, buy-box $16.99, NIST/NSF specification field, included components and bullets re-confirmed on the listing (dimensions still not listed)."
+      "sourceNote": "Title, rating, price (buy box $16.99 = 26 percent savings; $22.99 List Price), specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass) and read again line by line 2026-11-20. Item dimensions are still not in the captured fields - left blank and flagged (FLG-004) - but the 2026-11-20 read captured the listing's own length figure (Item Length 6.5 in) and the matching immersion depth (6.5 in). It also captured the upper temperature range (572 °F), the 1-second response time, the 0.1° resolution and the model number (HT07). Correction made in this pass: the warranty field previously named the calibration certificate, which the listing lists under included components; the Warranty & Support section states no term (FLG-084). The returns panel copy was captured verbatim and is recorded on the register. Price is a snapshot and will change.",
+      "unitCount": "1 Count",
+      "tempRange": "572 °F upper range (immersion depth 6.5 in)",
+      "includedComponents": "1x Meat Thermometer, 1x AAA Battery, 1x User Manual, 1x Calibration Certificate",
+      "modelNumber": "HT07"
     },
     {
       "id": "P5",
@@ -192,7 +211,7 @@
       "priceList": "$219.99 (3-probe variant)",
       "priceUsed": "—",
       "wattage": "—",
-      "warranty": "Two-year assurance provided by CHEF iQ (per listing bullets)",
+      "warranty": "3 Year (per the listing's Warranty Description field) against a two-year assurance in the listing bullets - the listing disagrees with itself and both values are published (FLG-083).",
       "bullets": [
         "Three ultra-thin probes plus hub; hub charges all three probes at once (per bullets)",
         "Four internal temperature sensors plus one ambient sensor (per bullets; title says 5 sensors)",
@@ -201,7 +220,12 @@
         "Flip reminders, rest timers, estimated cooking times and Guided Cooking recipes in the app (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Re-read line by line 2026-11-20: title, rating 4.2/2,178, buy-box $119.99 (3-probe variant), list $219.99, included components, two-year assurance and bullets re-confirmed on the listing (dimensions still not listed)."
+      "sourceNote": "Title, rating, price (buy box $119.99 = 45 percent savings for the 3-probe variant; $40.00 per count; $219.99 List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass) and read again line by line 2026-11-20. Dimensions are not in the captured fields, so the field stays blank and FLG-004 stays open, but the 2026-11-20 read captured the listing's own length figure (Item Length 4.75 in) and the Unit Count (3 Count). It also captured the Warranty Description field ('3 Year'), which contradicts the two-year assurance in the bullets - see flagged.html FLG-083. Variant prices were re-read 2026-11-20 (1 probe $99.99 / $129.99, 2 probes $99.99 / $179.99, 3 probes $119.99 / $219.99, 4 probes $142.49 / $249.99). Price is a snapshot and will change.",
+      "unitCount": "3 Count",
+      "pricePerCount": "$40.00 per count (3-probe variant)",
+      "tempRange": "1000 °F heat-safe probes (per title and bullets)",
+      "includedComponents": "3 Probes, Hub",
+      "modelNumber": "CQ60-3C-Z1-E"
     }
   ]
 }

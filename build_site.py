@@ -89,12 +89,33 @@ POSITION = {
 # spec table, so verifiedDate stays 2026-11-19 and no field on the shop pages is relabelled as
 # freshly confirmed. Full record: review/42e09357/VERIFICATION-2026-11-20.md
 RECHECK_DATE = "2026-11-20"
+# Two sessions read these pages on 2026-11-20. The earlier pass (session 42e09357) was narrow and
+# is kept below; this pass read every product-details table, the buy box and the returns panel of
+# all five listings, so the rows now state what the read settled rather than what it left open.
 RECHECK = {
-  "P1": ("title matches, page reachable", "buy box not isolated in this read, so the dated figure stands"),
-  "P2": ("title matches, still states 24 One-Touch Preset Options and Six Cooking Accessories", "FLG-002 and FLG-021 unchanged by this read"),
-  "P3": ("title matches (the register drops the registered-trademark mark from TurboFry)", "newer 6QT B0CNY1YVDD still shown in the page's own carousel at $59.99, 4.6/7,602, corroborating FLG-003"),
-  "P4": ("title matches; the seller has added holiday keywords to it", "buy box read in this session: $16.99, matching the register's dated figure"),
-  "P5": ("title matches, including Gen3 and 5 Sensors", "no dimensions in the fields captured, so FLG-004 stays open"),
+  "P1": ("title matches; buy box reads Buy New $79.93 with $39.97 per count and List Price $99.99; "
+         "Item details gives Unit Count 2 Count, item weight 13.3 lb, temperature range 93 C to 450 F, "
+         "Included Components \u201cUser Guide\u201d and model RJ38-SQPF-3TDB-2W; ships from and sold by Amazon.com",
+         "the $79.93 headline is a two-unit price, so the comparable figure is $39.97 (FLG-082)"),
+  "P2": ("title matches, still states 24 One-Touch Preset Options and Six Cooking Accessories; buy box $149.99; "
+         "Item details gives Configuration \u201c24 Functions and 7 Accessories\u201d, Included Components naming six pieces, "
+         "temperature range 75 F to 500 F and model 4-00675-02X-VN; the Product information table confirms 1700 watts / 120 volts",
+         "FLG-002 (24 vs 25 presets) and FLG-021 (six vs seven accessories) still stand; the product description also says seven, "
+         "so the conflict now appears in three places"),
+  "P3": ("title matches (the register drops the registered-trademark mark from TurboFry); buy box $69.99 with 42 percent savings "
+         "and List Price $119.99; Product information table reads Output Wattage 1700 watts / 120 volts; item weight 12.8 lb; "
+         "temperature range 94 C to 400 F; Warranty Description \u201c1-Year Limited Warranty\u201d; model RJ38-SQSS-8T; rating count 16,894",
+         "the 1000 W bullet still disagrees with the 1700 W table (FLG-022), and the product description closes \u201c1700W/120V\u201d, "
+         "so the bullet is the minority reading; the newer 6QT B0CNY1YVDD is still shown in the page's own carousel, corroborating FLG-003"),
+  "P4": ("title matches; the seller has added holiday keywords to it; buy box $16.99 with 26 percent savings and List Price $22.99; "
+         "Item details gives Item Length 6.5 in, Unit Count 1 Count and model HT07; Features & Specs gives 572 F upper range, "
+         "1-second response, 0.1 degree resolution, immersion depth 6.5 in, 1 AAA battery included and Specification Met \u201cNIST, NSF\u201d; "
+         "the returns panel reads \u201cFREE Returns\u201d with at least one free return option and no shipping charges",
+         "no width or height is published, so the full footprint stays blank and FLG-004 stays open; the Warranty & Support section states no term (FLG-084)"),
+  "P5": ("title matches, including Gen3 and 5 Sensors; buy box $119.99 for the 3-probe variant with $40.00 per count and List Price $219.99; "
+         "Item details gives Unit Count 3 Count, Item Length 4.75 in, Included Components \u201c3 Probes, Hub\u201d, model CQ60-3C-Z1-E "
+         "and Warranty Description \u201c3 Year\u201d; the RESOURCES bullet says \u201ctwo-year assurance\u201d",
+         "the warranty description and the bullet disagree, so both are published (FLG-083); no width or height is published, so FLG-004 stays open"),
 }
 
 # ---------- claim integrity: a superlative must survive the data it came from ----------
@@ -1526,6 +1547,9 @@ for pid in ["P1","P2","P3","P4","P5"]:
     if PRODS[pid].get("dimensions") == "":
         p["dimensions"] = ""
     dims_cell = esc(p["dimensions"]) if p["dimensions"] else '<span class="badge-flag">Blank - not captured (Flagged)</span>'
+    # A price per count is the only figure comparable across listings with different unit counts
+    # (FLG-082). It is quoted with the unit count beside it, never as a standalone price.
+    per_count_cell = f' &middot; {esc(p["pricePerCount"])}' if p.get("pricePerCount") else ''
     ver_rows += f"""
 <article class="card" id="{pid}">
 <h3>{pid} - {esc(p['shortName'])} (ASIN {p['asin']})</h3>
@@ -1539,7 +1563,13 @@ for pid in ["P1","P2","P3","P4","P5"]:
 <tr><td>Title (as listed)</td><td>{esc(p['title'])}</td><td><a href="{p['sourceUrl']}">Listing</a></td></tr>
 <tr><td>Rating / count (snapshot)</td><td>{esc(p['rating'])} ({esc(p['ratingCount'])})</td><td><a href="{p['sourceUrl']}">Listing</a></td></tr>
 <tr><td>Price snapshot (new / list)</td><td>{esc(p['priceNew'])} / {esc(p['priceList'])}</td><td><a href="{p['sourceUrl']}">Listing buy box</a></td></tr>
+<tr><td>Unit count and price per count</td><td>{esc(p.get('unitCount','')) or '<span class="badge-flag">Not captured</span>'}{per_count_cell}</td><td><a href="{p['sourceUrl']}">Listing Item details and buy box</a></td></tr>
 <tr><td>Dimensions</td><td>{dims_cell}</td><td><a href="{p['sourceUrl']}">Listing purchase options</a></td></tr>
+<tr><td>Item weight (as listed)</td><td>{esc(p.get('itemWeight','')) or '<span class="badge-flag">Not captured</span>'}</td><td><a href="{p['sourceUrl']}">Listing Measurements</a></td></tr>
+<tr><td>Temperature range (as listed)</td><td>{esc(p.get('tempRange','')) or '<span class="badge-flag">Not captured</span>'}</td><td><a href="{p['sourceUrl']}">Listing Features &amp; Specs</a></td></tr>
+<tr><td>Warranty statement (as listed)</td><td>{esc(p.get('warranty','')) or '<span class="badge-flag">Not captured</span>'}</td><td><a href="{p['sourceUrl']}">Listing Warranty &amp; Support</a></td></tr>
+<tr><td>Included components (as listed)</td><td>{esc(p.get('includedComponents','')) or '<span class="badge-flag">Not captured</span>'}</td><td><a href="{p['sourceUrl']}">Listing Item details</a></td></tr>
+<tr><td>Model number (as listed)</td><td>{esc(p.get('modelNumber','')) or '<span class="badge-flag">Not captured</span>'}</td><td><a href="{p['sourceUrl']}">Listing Item details</a></td></tr>
 <tr><td>Capacity (title / field)</td><td>{esc(p['capacityTitle'])} / {esc(p['capacityField'])}</td><td><a href="{p['sourceUrl']}">Listing</a></td></tr>
 <tr><td>Special features</td><td>{esc(p['specialFeatures'])}</td><td><a href="{p['sourceUrl']}">Listing</a></td></tr>
 <tr><td>Affiliate URL used on site</td><td>{esc(aff(p))} (rel="sponsored")</td><td>Constructed: official URL + tag {TAG}</td></tr>
@@ -1551,7 +1581,7 @@ def recheck_html():
         f'<tr><td>{k}</td><td>{esc(RECHECK[k][0])}</td><td>{flaglinks(esc(RECHECK[k][1]))}</td></tr>'
         for k in ["P1", "P2", "P3", "P4", "P5"])
     return f"""<h2 id="recheck">Re-read of {RECHECK_DATE}, by this session</h2>
-<p>The five listing pages were opened again on {RECHECK_DATE}. The scope is stated because it is narrow: this pass confirmed that each page is reachable, that its title still matches the title in the register, and the one buy-box price this read could attribute to the product itself. Spec tables, ratings and the rest were <strong>not</strong> re-read line by line, so the field dates on this page stay {VERIFIED} and nothing on a shop card is relabelled as freshly confirmed. Full record: <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
+<p>The five listing pages were opened again on {RECHECK_DATE}. An earlier pass that day confirmed only that each page was reachable and that its title matched the register; this pass read every product-details table, the buy box and the returns panel of all five listings line by line, so the rows below state what the read settled and what it left open. Fields that a listing does not publish are still blank rather than filled, and nothing on a shop card is relabelled as freshly confirmed beyond the fields the read covered. Records: <code>review/87e5be8d/VERIFICATION.md</code> and <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
 <div class="table-scroll"><table>
 <tr><th>Ref</th><th>What the {RECHECK_DATE} read confirmed</th><th>What it did not settle</th></tr>
 {rows}
@@ -1711,7 +1741,10 @@ flag_body = f"""
 <tr id="FLG-078"><td>FLG-078</td><td>Three guides published into a window with no measured demand behind them</td><td>The brief asks for both seasonal, findable articles and topics chosen from measured queries. With no Search Console property there are no queries to choose from, so this pass published three holiday-window guides as labelled editorial hypotheses and recorded the cadence deviation in <code>data/editorial.json</code>. Nothing on the pages claims the topics are popular. Dated 2026-11-20.</td><td>Owner: connect Search Console (D-01/D-04), export queries after 28 days, then re-rank the queue; the three pages are the test, not the answer</td></tr>
 <tr id="FLG-079"><td>FLG-079</td><td>The footprint drawings are ours, and they do not settle the imagery question</td><td>Each product card now carries an SVG drawn to a shared scale from the dimensions on the listing, labelled as a drawing rather than a photograph. It is original artwork, so it needs no Amazon licence, and <a href="flagged.html#FLG-009">FLG-009</a> (no product photography) stays open: a drawing is not a photograph of the machine, and no page should imply that it is.</td><td>Owner: keep drawings as the house visual (D-06 option 1), or fund photography; do not fill the gap with scraped images either way</td></tr>
 <tr id="FLG-080"><td>FLG-080</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
-<tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr></table></div>
+<tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
+<tr id="FLG-082"><td>FLG-082</td><td>The Chefman 6QT buy box sells two units, so its headline price is not a single-appliance price</td><td>The 2026-11-20 read of <a href="https://www.amazon.com/dp/B0CDY277D3">B0CDY277D3</a> shows a buy box of <strong>Buy New $79.93</strong> with <strong>$39.97 per count</strong> and an Item-details <strong>Unit Count: 2 Count</strong> (Number of Packs 1, Number of Items 1). So $79.93 is the price of two and $39.97 is the price of one &mdash; the number a buyer comparing three fryers actually wants. The other four listings are single-count (Unit Count 1 Count, except the CHEF iQ at 3 Count for its three probes). Every price figure in the register now carries the unit count and the per-count figure beside it, so no page invites a two-for-one comparison against a single-unit price. This is a listing-internal quantity rather than a disagreement, so it is recorded as a reading rule.</td><td>None outstanding: the register now shows unit count and per-count price for all five. Keep that pairing whenever a price is quoted</td></tr>
+<tr id="FLG-083"><td>FLG-083</td><td>The CHEF iQ Sense states two different warranty terms</td><td>The 2026-11-20 read of <a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a> found an Item-details field <strong>Warranty Description: 3 Year</strong> while the listing&rsquo;s own RESOURCES bullet says <strong>&ldquo;two-year assurance provided by CHEF iQ&rdquo;</strong>. Both are on the same page and they disagree. This is the same class of listing-internal conflict already recorded for the Emeril&rsquo;s accessory count (FLG-021) and the 8QT&rsquo;s wattage (FLG-022): the register publishes both values, names which field each came from, and asserts no term of its own. The site&rsquo;s earlier text on the gift and multifunction guides said only &ldquo;two-year assurance&rdquo;, which would have printed one side of a disagreement as if it settled it; those sentences now say the listing disagrees with itself.</td><td>Ask the seller or read the manufacturer warranty document; until then both terms stay published</td></tr>
+<tr id="FLG-084"><td>FLG-084</td><td>The ThermoMaven warranty field named an included component, not a warranty term</td><td>Until this pass, the register carried &ldquo;Includes 1&times; Calibration Certificate&rdquo; in the <code>warranty</code> field for <a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a>. That certificate is one of four items in the listing&rsquo;s Included Components field (thermometer, AAA battery, user manual, calibration certificate) &mdash; it is a component in the box, not the length of cover. The listing&rsquo;s Warranty &amp; Support section says only that the manufacturer&rsquo;s warranty can be requested from customer service, and states no term. The field now says that, and the calibration certificate moved to the included-components row where it belongs. The rule this follows: a field is named for what the page actually puts in it.</td><td>None outstanding: the register now separates the warranty statement from the box contents</td></tr></table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
 # ---------- COMPLIANCE ----------
