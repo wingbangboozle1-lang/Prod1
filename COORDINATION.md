@@ -484,7 +484,6 @@ Session ID: **1b65e5a1**. Branch: `arena/1b65e5a1-prod1` (fixed for this session
 - **Gates on the merged tree:** `check_site.mjs` PASS · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS · `counter-check` gate PASS · rebuild deterministic.
 - **Tasks closed:** T-VER, T-POLISH, T-REVIEW, T-INT all **done**. Four tasks, one PR.
 - **Carried forward for the owner (non-blocking, on `flagged.html`):** FLG-001 (Special Link test — only the owner can clear it), FLG-003 (newer models), FLG-004 (thermometer dimensions), FLG-005 (Emeril warranty), FLG-015 (short links carry no tag), FLG-021 (P2 accessory count), FLG-039 (three builds on one host), FLG-051 (Pages build source), FLG-058 (FTC read on per-card disclosure), SG-43 (switch Pages build source), SG-44 (visual QA), SG-45 (goal-based intent landings). None blocks the merge.
-<<<<<<< HEAD
 ### Publication record — arena/1187e20d-prod1 (2026-11-20)
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/27 (`arena/1187e20d-prod1` → `main`). Merge commit `f64a607`, merged 2026-11-20 06:04 UTC with a merge commit, no approval wait.
 - **Main moved once during the PR** (PR #26, `arena/963ca90f-prod1`, which changed only `COORDINATION.md`). Resolved by keeping both records; no other session's work was dropped.
@@ -519,7 +518,6 @@ Out of scope (other owners, not edited): `data/products.json` register values (u
 **Irregularities:** none new. Carried unchanged: FLG-001/015 (Special Link manual test), FLG-004/005 (blanks kept blank), FLG-021/022 (listing self-conflicts, both values published), FLG-032/033 (price/rating display vs Participation Requirements §2 — the §2 clause was re-confirmed verbatim today; owner ratification still required), FLG-051 (Pages build source). FLG-039 remediated-but-open: robots.txt now disallows the secondary builds; owner still decides delete-or-promote.
 
 **Requests closed:** R-06 (one event taxonomy — the site's five defined names now in the server too), R-07 (legacy `assets/js/analytics.js` deleted; conversions remain first-party-report-only, never client events).
-=======
 
 ## Claim — session arena/62786810-prod1 (2026-11-20)
 
@@ -577,7 +575,6 @@ policy), FLG-051/SG-43 (Pages build source), FLG-070 (three builds on one host),
 - **Tasks closed:** T-627-A … T-627-G all **done**. **FLG-067/068/069** and **SG-49** were fixed or shipped in this pass; FLG-070/071/072/073 and SG-50…SG-53 wait on the owner.
 - **Not verified, and said so on the site:** the visual result was never looked at — two browser installs failed in this environment (`playwright install chromium`, `puppeteer browsers install chrome-headless-shell`). Structure is proven mechanically; taste is not. See `review/62786810/VERIFICATION.md` §7 and the note on `executive-summary.html`.
 - **Still open for the owner (non-blocking):** FLG-001 (Special Link test), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (price display), FLG-051/SG-43 (Pages build source), **FLG-070** (three builds on one host — the `docs/` half is outside this session's scope), SG-02 (custom domain), Q-30 (attribution), Q-36 (CHEF iQ tolerance), FLG-004/072 (thermometer dimensions), FLG-005 (Emeril warranty term).
->>>>>>> origin/main
 
 ### Merge-conflict log — arena/fbfe1742-prod1 (2026-11-20)
 
@@ -586,3 +583,21 @@ PR #37 initially refused to merge: `main` had advanced with PR #35 (`arena/62786
 - The two findability passes are complementary and both now ship: upstream's per-page `noindex, follow` + 20-URL sitemap (their FLG-069) for root audit pages; this session's robots disallows for the secondary builds (FLG-039). SG-51 on the board proposes the owner-side noindex of `docs/` + `counter-check/`; the robots rules cover the same ground reversibly until that decision.
 - `pages.yml` gate list merged earlier in the rebase: upstream's `check_style.mjs` and this session's `check_measure.mjs` both run before upload (four gates).
 - Regenerated all HTML from the merged generator; all gates green on the merged tree (check_site 55 files, check_meta 0 warnings, check_style 0 warnings, check_measure PASS, counter-check PASS, rebuild byte-identical).
+
+## Session arena/54d3e366-prod1 (2026-11-20) — claim
+
+Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds an open claim on the board; every row above is `done`. Baseline re-run on this base: `build_site.py` rebuild is byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` and `counter-check` all PASS.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-5461-A **Feed and cadence integrity pass**: feed `pubDate` taken from the listing re-read date (`VERIFIED`) instead of the page date (`contentDate`); garbled cadence rule text in `data/editorial.json`; log the two cadence/feed irregularities as FLG-074 and FLG-075 | **done** | arena/54d3e366-prod1 | `build_site.py` (feed line + FLG rows), `data/editorial.json` (`cadence.rule`), generated `feed.xml`, `flagged.html`, `COORDINATION.md` | `data/editorial.json` `contentDateNote` (Google sitemap guidance: lastmod must be verifiably accurate); RFC-822 format per existing feed | FLG-074 (feed dates), FLG-075 (cadence status ahead of week); both need owner decisions. Could not re-read Amazon listings from this sandbox (amazon.com fetch failed), so no listing value was changed |
+
+### Record — T-5461-A (session arena/54d3e366-prod1, 2026-11-20)
+
+- **Changed:** `build_site.py` feed `pubDate` now uses `contentDate` (`ISSUE`) instead of `verifiedDate` (`VERIFIED`); `data/editorial.json` cadence rule text repaired ("data/editorial-driven sitemap.xml" was a garbled path); FLG-074 and FLG-075 added to the flag register. Generated output changed only in `methodology.html` (the same rule sentence), `flagged.html`, and two new rows. `feed.xml` is byte-identical because both dates are 2026-11-20 today.
+- **Sources (fetched 2026-11-20):** RSS Advisory Board, RSS 2.0 Specification, item `pubDate` = publication date of the content, RFC 822 format — https://www.rssboard.org/rss-specification . Google Search Central, Build and submit a sitemap (used for `lastmod` accuracy, already cited in `data/editorial.json`) — https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+- **Verification performed:** cadence dates checked (all nine queue weeks are Tuesdays); sitemap lists 20 URLs and feed lists the 10 published guides; live site `https://wingbangboozle1-lang.github.io/Prod1/` fetched and serving the current build; gates re-run on `bebe082` and on the change: `check_site.mjs` PASS (55 HTML), `check_meta.mjs` PASS (0 warnings), `check_style.mjs` PASS, `verify_structure.mjs` PASS (0 blocking), `counter-check` PASS. Rebuild is deterministic.
+- **Not verified in this pass:** the five Amazon listings. `amazon.com` could not be fetched from this sandbox, so every listing value keeps the date and source from the earlier re-reads on 2026-11-19 and 2026-11-20 (see `review/62786810/VERIFICATION.md`).
+- **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
+- **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`). Only those marker lines were removed; every record on both sides is kept. Irregularity logged here, not on `flagged.html`.
