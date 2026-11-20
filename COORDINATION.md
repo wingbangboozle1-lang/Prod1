@@ -484,3 +484,22 @@ Session ID: **1b65e5a1**. Branch: `arena/1b65e5a1-prod1` (fixed for this session
 - **Gates on the merged tree:** `check_site.mjs` PASS · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS · `counter-check` gate PASS · rebuild deterministic.
 - **Tasks closed:** T-VER, T-POLISH, T-REVIEW, T-INT all **done**. Four tasks, one PR.
 - **Carried forward for the owner (non-blocking, on `flagged.html`):** FLG-001 (Special Link test — only the owner can clear it), FLG-003 (newer models), FLG-004 (thermometer dimensions), FLG-005 (Emeril warranty), FLG-015 (short links carry no tag), FLG-021 (P2 accessory count), FLG-039 (three builds on one host), FLG-051 (Pages build source), FLG-058 (FTC read on per-card disclosure), SG-43 (switch Pages build source), SG-44 (visual QA), SG-45 (goal-based intent landings). None blocks the merge.
+### Publication record — arena/1187e20d-prod1 (2026-11-20)
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/27 (`arena/1187e20d-prod1` → `main`). Merge commit `f64a607`, merged 2026-11-20 06:04 UTC with a merge commit, no approval wait.
+- **Main moved once during the PR** (PR #26, `arena/963ca90f-prod1`, which changed only `COORDINATION.md`). Resolved by keeping both records; no other session's work was dropped.
+- **Deploy:** `Deploy GitHub Pages` success and `pages build and deployment` success for `f64a607`; Pages API reports `built`. Live fetch 2026-11-20 shows the corrected label "Shallowest of the fryers" and the §5 disclosure above the fold.
+- **Open, owner-only:** FLG-001 (Special Link test in Associates Central) and the "shallow footprint" wording review noted in `review/1187e20d/VERIFICATION-2026-11-20.md`.
+
+## Claim — session arena/fbfe1742-prod1 (2026-11-20)
+
+Session ID: **arena/fbfe1742-prod1**. Branch `arena/fbfe1742-prod1`, rebased onto `origin/main` (PRs #25–#29 merged at claim time; PRs #28 and #30–#34 merged while this work was in flight). Claiming the measurement-machinery and findability lane that no active session owns (R-06/R-07/SG-03/FLG-039 are logged as open requests to owners; their owning sessions are merged and gone):
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| M1 Unify the measurement contract: one event taxonomy (the five defined events) across client `assets/app.js`, `analytics-endpoint/server.py`, `data/editorial.json` and methodology; delete the third-vocabulary legacy tracker `assets/js/analytics.js` (closes R-06, R-07); endpoint test record | in progress | fbfe1742 | `analytics-endpoint/server.py`, `analytics-endpoint/README.md`, `assets/js/analytics.js` (delete), `build_site.py` (methodology text), `review/fbfe1742/` | Endpoint contract probe: five events accepted, malformed rejected |
+| M2 New publishing gate `scripts/check_measure.mjs`: fails the deploy if client, server, editorial data and methodology ever disagree on the event names, if a stray tracker reappears, or if the ledger schema changes; wired into `pages.yml` | in progress | fbfe1742 | `scripts/check_measure.mjs` (new), `.github/workflows/pages.yml` | "Put a gate in front of the parts that cannot be automated" |
+| M3 One site to index: generated `robots.txt` disallows the secondary builds (`/counter-check/`, `/docs/`, `/articles/`, `/review/`, `/analytics-endpoint/`) so search engines index the root publication only; FLG-039 row updated | in progress | fbfe1742 | `build_site.py` (robots writer + FLG-039/SG-03 text), regenerated `robots.txt`, root `*.html` | Reversible; deletes nothing; owner decision on removal stays open |
+| M4 Line-by-line verification pass of the published register: every table row has an official source link; live spot-check of the five Amazon listing pages and the Associates/FTC policy quotes; report with manual-review links | in progress | fbfe1742 | `review/fbfe1742/VERIFICATION-2026-11-20.md` (new) | Read-only against `data/products.json` |
+| M5 Integration: deterministic rebuild, all four gates green, PR to `main`, merge, Pages deploy confirmed, record here | in progress | fbfe1742 | `COORDINATION.md`, `README.md` | `git pull --rebase` before every push |
+
+Out of scope (other owners, not edited): `data/products.json` register values (unless a live spot-check finds drift — then flagged, not silently changed), `counter-check/**`, `docs/**`, `articles/**`, `review/<other>/**`, draft PR #10.
