@@ -1,95 +1,44 @@
-# Rendered-page QA — session 1d3cc97c (T-1D3-A / T-1D3-B)
+# Rendered-page QA harness — session 1d3cc97c
 
-Date: 2026-11-20 (UTC). Base: `main` at b41bb12 (after PR #70 and #71). Scope: the root publication only.
+Date: 2026-11-20 (UTC). Scope: the root publication only. This PR adds a reusable harness and this note. It changes **no site output**.
 
-## What was checked
+## What this PR adds
 
-Every root `*.html` page (37 pages), at two widths: desktop 1366 px and mobile 390 px (touch, device pixel ratio 1). 74 renders in headless Chromium, with the stylesheet, fonts and art served from the checkout.
+`scripts/render_qa.mjs`: renders every root `*.html` page at desktop (1366 px) and phone (390 px) width in headless Chromium, with the stylesheet, fonts and art served from the checkout, and reports:
 
-Per render:
-
-- horizontal overflow of the document, and elements whose box passes the right edge of the viewport (ignoring anything inside a horizontally scrollable wrapper);
-- images that failed to load, after scrolling the page so lazy images are requested;
+- horizontal overflow of the document, and boxes that pass the right edge of the viewport (ignoring anything inside a horizontally scrollable wrapper);
+- images that did not load, after scrolling so lazy images are requested;
 - declared web fonts that did not load;
 - page errors and console errors;
-- requests that were not served from the checkout (none allowed through).
+- any request not served from the checkout.
 
-Tool: `scripts/render_qa.mjs` (new, in this branch). It is a reproducible harness, not a CI gate: the browser is not installed by the repository.
+It writes screenshots to `/tmp/render-qa` (outside the repo) and prints JSON. `--strict` exits non-zero if any run has a problem. It is not wired into CI: the repository does not install a browser.
 
-## Method and why it needed a harness
+## Why it needed interception
 
-The pages reference their stylesheet, fonts and art by absolute `https://wingbangboozle1-lang.github.io/Prod1/…` URLs. A browser outside GitHub Pages therefore renders them unstyled. The first attempt rendered exactly that, and it looked like the "unstyled" defect the design-system fix (FLG-052) addressed. The harness intercepts those URLs and serves the matching file from the working tree. It then renders what the live site ships.
+The pages reference their stylesheet, fonts and art by absolute `https://wingbangboozle1-lang.github.io/Prod1/…` URLs. Without interception, a browser outside GitHub Pages renders them unstyled. The harness serves those URLs from the working tree, so the render matches what the live site ships.
 
-Browser: Chromium build from the npm package `@sparticuz/chromium` (131.0.1), driven by `puppeteer-core` (23.11.1), both installed outside the repository in `/tmp/chr`. The Playwright CDN is not reachable from this sandbox, so Playwright's own browser download failed. Shared libraries came from the same package (`al2023` bundle).
+## Result on current main (5810211)
 
-Tooling sources (not product data, so no product row cites them): [puppeteer-core on npm](https://www.npmjs.com/package/puppeteer-core) (installed 23.11.1), [@sparticuz/chromium on npm](https://www.npmjs.com/package/@sparticuz/chromium) (installed 131.0.1).
+Run with `--strict` on this branch, which differs from main only by the two files above: **37 pages × 2 widths = 74 runs, 0 with issues.**
 
-## Results (final run, after the fix)
+## Relation to other sessions' work (overlap, stated plainly)
 
-Final run on the branch rebased onto main at 717cd94: 68 runs (37 pages × 2 widths), 0 with issues. The table is from that run.
+- Session `8aa7237d` (commit `ee36edd`, "first browser-based visual QA") ran a browser QA of all pages on main and fixed the two defects this session also found: `suggestions.html` status pills forcing an 801 px-wide page on a phone (`nowrap`), and `decisions.html` grid tracks (`1fr`) forcing a 456 px page. Its fixes are on main; this branch's `assets/style.css` is identical to main.
+- This session therefore made **no further site change**. Its earlier edits to the same two rules were dropped in favour of main's equivalent fixes during rebase.
+- What this PR adds beyond `8aa7237d`: the harness as a committed, reproducible script, instead of an ad-hoc run.
 
-Runs: 74. Runs with an issue: **0**. Overflow, off-screen elements, broken images, failed fonts, page errors, console errors and unserved requests: all **0**. Loaded fonts on every page: Fraunces and Inter.
+## Not checked here
 
-| Page | Desktop | Mobile | Result |
-|---|---|---|---|
-| about.html | ok | ok | none |
-| air-fryers.html | ok | ok | none |
-| compare.html | ok | ok | none |
-| compliance.html | ok | ok | none |
-| dashboard.html | ok | ok | none |
-| decisions.html | ok | ok | none |
-| design-brief.html | ok | ok | none |
-| executive-summary.html | ok | ok | none |
-| flagged.html | ok | ok | none |
-| guide-accessories-included.html | ok | ok | none |
-| guide-basket-vs-oven.html | ok | ok | none |
-| guide-capacity-checklist.html | ok | ok | none |
-| guide-cleanup-counter-space.html | ok | ok | none |
-| guide-counter-depth-fit.html | ok | ok | none |
-| guide-dual-vs-single-basket.html | ok | ok | none |
-| guide-gift-picks.html | ok | ok | none |
-| guide-gift-return-window.html | ok | ok | none |
-| guide-gifts-by-budget.html | ok | ok | none |
-| guide-holiday-deal-check.html | ok | ok | none |
-| guide-holiday-gifts.html | ok | ok | none |
-| guide-holiday-hosting.html | ok | ok | none |
-| guide-holiday-roast.html | ok | ok | none |
-| guide-instant-read-vs-wireless.html | ok | ok | none |
-| guide-multifunction-questions.html | ok | ok | none |
-| guide-small-kitchen.html | ok | ok | none |
-| guide-thanksgiving-counter.html | ok | ok | none |
-| guide-thermometer-accuracy.html | ok | ok | none |
-| guide-wattage-outlets.html | ok | ok | none |
-| guides.html | ok | ok | none |
-| index.html | ok | ok | none |
-| methodology.html | ok | ok | none |
-| review-desk.html | ok | ok | none |
-| search.html | ok | ok | none |
-| suggestions.html | ok | ok | none |
-| thermometers.html | ok | ok | none |
-| topics.html | ok | ok | none |
-| verification.html | ok | ok | none |
-
-## Defects found and fixed
-
-1. **suggestions.html, mobile (390 px): page 447 px wider than the screen.** Cause: `.badge-ok`, `.badge-warn` and `.badge-flag` in `assets/style.css` set `white-space: nowrap`. A long status badge inside a paragraph (the SG-49 status line) could not wrap. Fix: badges wrap (`white-space: normal; max-width: 100%; overflow-wrap: anywhere`). Tables on the same page were already in `.table-scroll` containers and were not the cause.
-2. **decisions.html, mobile (390 px): page 66 px wider than the screen.** Found when main added the page (PR #49 era). Cause: `.gate-grid` collapses to one column at 900 px, but its tracks were `1fr`, so a grid item grew to its content's minimum width (a long unbreakable string). Fix: `minmax(0, …)` tracks and `min-width: 0; overflow-wrap: anywhere` on the grid items.
-
-Before the fixes: 2 runs with issues. After: 0 runs with issues.
-
-## Not checked, and why
-
-- **Taste.** This is a mechanical render check. The look was judged from screenshots of the front page only (desktop and mobile). It was not reviewed page by page. A human still decides whether the site looks designed.
-- **Live github.io.** The live site was not fetched through this harness. The sandbox fetch tool has its own access. Earlier sessions recorded live checks on the same deploy; this session did not repeat them.
-- **Interactive states.** Search, chooser, decision-desk picks and the sticky compare bar were not exercised. They run in JavaScript and need a separate test.
-- **Screenshots** are written to `/tmp/render-qa` outside the repository and are not committed.
+- Visual taste: this is a mechanical check, not a design review.
+- Live github.io fetch and interactive surfaces (search, chooser, decision desk): not exercised by this harness.
 
 ## Reproduce
 
 ```
-# once, outside the repo
 mkdir -p /tmp/chr && cd /tmp/chr && npm init -y >/dev/null && npm i @sparticuz/chromium@131 puppeteer-core@23
-# the browser needs the bundled al2023 shared libraries (libnss3 etc.)
-# unpack node_modules/@sparticuz/chromium/bin/al2023.tar.br and set LD_LIBRARY_PATH to its lib dir
-cd /home/user/Prod1 && LD_LIBRARY_PATH=/tmp/chr/libs/lib node scripts/render_qa.mjs --deps /tmp/chr
+# unpack node_modules/@sparticuz/chromium/bin/al2023.tar.br (brotli) and extract; set LD_LIBRARY_PATH to its lib dir
+cd /home/user/Prod1 && LD_LIBRARY_PATH=/tmp/chr/libs/lib node scripts/render_qa.mjs --deps /tmp/chr --strict
 ```
+
+Tooling sources (not product data): [puppeteer-core on npm](https://www.npmjs.com/package/puppeteer-core) (23.11.1), [@sparticuz/chromium on npm](https://www.npmjs.com/package/@sparticuz/chromium) (131.0.1).
