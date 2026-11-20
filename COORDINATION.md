@@ -1326,3 +1326,15 @@ Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice
 
 **No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
 
+
+
+
+## Claim — session arena/1d3cc97c-prod1 (2026-11-20)
+
+Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`, base `3392c0d`). Open PR #37 (`arena/fbfe1742-prod1`, measurement contract + one-site-to-index + verification) is not yet merged and owns `scripts/check_measure.mjs`, `analytics-endpoint/**`, `robots.txt`, `README.md`, `methodology.html`, `executive-summary.html`, and the measurement rows of `build_site.py`. This session does **not** edit those files.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-1D3-A **Rendered-page QA** of every root page at desktop (1366) and mobile (390) width, in headless Chromium, with the site's own stylesheet and images served from the checkout (the pages hard-code `https://wingbangboozle1-lang.github.io/Prod1/` asset URLs; the harness intercepts them) | in progress | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Browser: `@sparticuz/chromium` (npm), run outside the repo in `/tmp`; no screenshots committed | — |
+| T-1D3-B **Fix render defects** found by T-1D3-A that are confined to CSS (`assets/style.css`) or to a single generator template line; anything else is logged, not edited | in progress | 1d3cc97c | `assets/style.css`, `build_site.py` (only the defective template line), regenerated root `*.html` | re-run T-1D3-A after the fix; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` | — |
+| T-1D3-C **Integration**: rebuild, all gates, PR to `main`, merge, Pages status | in progress | 1d3cc97c | this file | Pages API + Actions run | — |
