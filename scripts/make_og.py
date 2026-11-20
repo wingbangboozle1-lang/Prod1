@@ -66,14 +66,16 @@ def main():
     # An earlier version hard-coded a y for the diagram label that overlapped the
     # subtitle; this version cannot overlap because it measures instead of guessing.
     y = 196
-    for line in ["Air fryers and meat thermometers,", "compared from the listing - not from a guess."]:
+    for line in ["Five machines. Every number", "read from its own Amazon listing."]:
         s, wdt = fit(d, line, "serifr", 42, RIGHT - M)
         d.text((M, y), line, font=font("serifr", s), fill=PAPER)
         y += s + 12
-    s, _ = fit(d, "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", "sans", 22, RIGHT - M)
+    L1 = "Capacity, counter depth and cleanup - with the gap in each listing named."
+    L2 = "No stale prices: no page quotes one, the Amazon button is the price. No fake testing."
+    s, _ = fit(d, L1, "sans", 22, RIGHT - M)
     sub = font("sans", s)
-    d.text((M, y + 10), "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", font=sub, fill=MUTED)
-    d.text((M, y + 10 + s + 8), "so no page pretends otherwise. No stale prices either - the button is the price.", font=sub, fill=MUTED)
+    d.text((M, y + 10), L1, font=sub, fill=MUTED)
+    d.text((M, y + 10 + s + 8), L2, font=sub, fill=MUTED)
     sub_bottom = y + 10 + s + 8 + s
 
     # our own diagram, from the dimensions the listings state
@@ -95,7 +97,8 @@ def main():
     x = M
     for name, depth in bars:
         hgt = int(depth * scale)
-        d.rectangle([x, y0 - hgt, x + bw, y0], fill="#221B15")
+        d.rectangle([x, y0 - hgt, x + bw, y0], fill="#302619")
+        d.rectangle([x, y0 - hgt, x + bw, y0 - hgt + 2], fill=GOLD)
         d.rectangle([x, y0 - hgt, x + 6, y0], fill=CLAY)
         d.text((x + 18, y0 - hgt + 12), f'{depth}"', font=font("serif", 34), fill=PAPER)
         d.text((x + 18, y0 - hgt + 54), f"{round(depth * 2.54, 1)} cm", font=font("sans", 19), fill=MUTED)
