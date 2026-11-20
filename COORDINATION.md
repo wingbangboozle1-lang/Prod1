@@ -1298,3 +1298,13 @@ Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice
 
 **No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
 
+
+### Session arena/3c99f15c-prod1 — publication record (2026-11-20)
+
+- **Pull request #84** (`arena/3c99f15c-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/84 — **MERGED** 2026-11-20T07:05:47Z as merge commit `9a686d5`.
+- **Deploy:** `Deploy GitHub Pages` run 44692440799 = **success**; `pages build and deployment` run 44692440534 = **success**. Pages API: `status: built`, `build_type: legacy`, https://wingbangboozle1-lang.github.io/Prod1/.
+- **Live confirmation (fetched 2026-11-20 after deploy):** `topics.html` now serves `<title>Topic calendar: fifteen buyer questions</title>` and the `h1` "The topic calendar: fifteen buyer questions, spec-backed answers", with the body reading "Twelve guides are published; three are queued" — the three numbers now agree with the fifteen-row table, which is what FLG-087 was about.
+- **Merge handling:** `main` advanced four times during this session (to `2829f0e`, `ab6e70b`, `e088436`, `14d46cb`, then again during the merge attempt). Every conflict was `COORDINATION.md` alone after the first pass; both sides kept each time, nothing from another session discarded. When two other sessions rebuilt the front page, this session withdrew its own front-page redesign rather than land a fourth competing layout — recorded as FLG-089, not hidden.
+- **What shipped from this session:** `topics.html` counts derived from `TOPICS` (FLG-087); `review/3c99f15c/DECISION_WORKSHEET.md` linked from `review-desk.html` and `executive-summary.html`; `review/3c99f15c/VERIFICATION.md`; a sharper `og-image` share card; and flags FLG-087…FLG-090.
+- **Gates on the merged tree:** `build_site.py` exit 0 and deterministic; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure` all exit 0; `counter-check/tools/check_site.py` PASSED.
+- **Still open for the owner (unchanged, non-blocking):** FLG-001 / SG-01 (Special Link test in the enrolled account), FLG-015 (tracking report), FLG-008 / SG-03 (analytics host), FLG-009 / SG-04 (photography licence), FLG-023 / FLG-032 (link-only pricing), SG-02 (custom domain), SG-27…SG-30 (Search Console), and the eighteen decisions in the worksheet.
