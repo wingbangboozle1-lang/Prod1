@@ -1447,6 +1447,81 @@ Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwar
 - **T-DD9-1, T-DD9-2, T-DD9-3: done.**
 
 
+Session ID: **arena/b2f99e67-prod1**. Branch `arena/b2f99e67-prod1`, based on `main` @ `f237c4a`
+(PR #53 merged). At claim time these parallel sessions hold open PRs and are left untouched:
+`3ca58211` (listing/policy re-verification), `7bc009de` (source-link audit, read-only),
+`5da138fb` (listing re-verification), `8bdadebf` (three new calendar guides), `e0c70d8e`
+(article markup + share cards + prose gate), `1d3cc97c` (rendered QA + phone overflow),
+`fbfe1742` (stale board-row triage PR). **This session claims the design-prompt, decision-desk
+and publication-craft lane only** — the lane the brief names "make suggestions that feed the
+design prompt", "a section dedicated for suggestions… choose the best path before implementing",
+and "make it read like a shop, not an audit".
+
+**ID range reserved by this pass so parallel sessions do not collide:** SG-65…SG-70,
+Q-45…Q-48, FLG-085…FLG-092.
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| T-B2F-1 One-pass gate picker on the decision register: pick an option per gate D-01…D-07, status per row, export review sheet (extends the existing localStorage pick tooling; no new event names — the five-event contract is untouched) | done | b2f99e67 | `build_site.py` (decisions section), `assets/app.js`, `assets/style.css` | "Choose the best path before implementing any changes" |
+| T-B2F-2 Design/marketing suggestion set feeding the design prompt (SG-65…SG-70) with recommended paths; `DESIGN_PROMPT.md` §10 | done | b2f99e67 | `build_site.py` (suggestions section), `DESIGN_PROMPT.md`, `data/decisions.json` (triage) | Every row triaged; nothing implemented without the slate rule |
+| T-B2F-3 Publication-craft fixes from a line-by-line consistency sweep (theme-color vs brand palette; any other mechanical tell) | done | b2f99e67 | `build_site.py` (chrome), `assets/style.css`, regenerated root `*.html` | Small, reversible; logged with revert offer |
+| T-B2F-4 Q/I/A additions (Q-45…Q-48): missing information + discovery routes for the design/measurement decisions | done | b2f99e67 | `build_site.py`, `data/decisions.json` (triage) | — |
+| T-B2F-5 Line-by-line source re-check for what this pass publishes + repo-consistency irregularities (workflows, secondary builds, generated-output sweep) | done | b2f99e67 | `review/b2f99e67/VERIFICATION.md` (new), `flagged.html` rows FLG-085… | Listing values are owned by the three parallel verification sessions; carried, not re-read |
+| T-B2F-6 Executive-summary touch-up; rebuild; all gates; PR to `main`, merge, Pages deploy confirmed; publication record | done | b2f99e67 | `executive-summary.html`, `COORDINATION.md` | `git pull --rebase` before every push |
+
+**Scope discipline.** Root publication only: `build_site.py`, `assets/`, `data/decisions.json`
+(triage additions only), `DESIGN_PROMPT.md`, regenerated root `*.html`, `COORDINATION.md`,
+`review/b2f99e67/`. Read-only: `data/products.json`, `counter-check/`, `docs/`, `articles/`,
+`analytics-endpoint/`, `scripts/`, `.github/`, `review/<other-session>/`. Requests against
+those are logged here, never edited.
+
+### Completion record — session arena/b2f99e67-prod1 (2026-11-20)
+
+| Task | Files touched | Verification performed | Irregularities |
+|---|---|---|---|
+| T-B2F-1 Slate on `decisions.html` | `build_site.py` (register section), `assets/app.js`, regenerated `decisions.html` | Slate renders one row per gate with the data's own recommendation; picks stay in `localStorage` and export JSON; `check_measure.mjs` confirms the five-event contract is untouched | — |
+| T-B2F-2 SG-65…SG-70 + `DESIGN_PROMPT.md` §10 | `build_site.py` (suggestions section), `DESIGN_PROMPT.md`, `data/decisions.json` (triage), regenerated `suggestions.html` | Every claim in the new rows traced to a file or an official page (see `review/b2f99e67/VERIFICATION.md` §2); all six rows triaged, build triage gate green | Nothing shipped without a label: only the slate and the theme-color fix ship (both with revert offers) |
+| T-B2F-3 Craft fixes | `build_site.py` (chrome), regenerated 34 root pages | `grep -h 'theme-color' *.html` → 34 × `#1E1712`; sweep for placeholders/undefined/wrong canonicals clean | FLG-085 (fixed; two near-identical inks left as found) |
+| T-B2F-4 Q-45…Q-48 | `build_site.py`, `data/decisions.json` | Each row states what is known (with source), what is missing, and a discovery route | — |
+| T-B2F-5 Re-check + repo sweep | `review/b2f99e67/VERIFICATION.md` (new), `flagged.html` rows FLG-085/086 | OA §5 re-read verbatim 2026-11-20; Google outbound-link page re-read 2026-11-20; five listings deliberately NOT re-read (three parallel sessions own them today) | FLG-086 (second measurement vocabulary in root `app.js`, request to that build's owner) |
+| T-B2F-6 Integration | `executive-summary.html`, this file | Gates: `check_site` PASSED (59 HTML) · `check_meta` PASSED (0 warnings) · `check_style` PASSED · `check_measure` PASSED · `verify_structure` PASSED · `counter-check` PASSED · rebuild byte-identical (md5 over root HTML+sitemap+feed stable across two builds) | — |
+
+**Official sources read in this pass (2026-11-20, for manual review):**
+[Associates Program Operating Agreement](https://affiliate-program.amazon.com/help/operating/agreement) (header "Updated: October 15, 2025"; §5 disclosure sentence matched character for character against the site),
+[Google Search Central — qualify your outbound links](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links) (page updated 2025-12-10; `rel="sponsored"` and the multiple-values rule confirm the site's link marking),
+[Associates Program Policies](https://affiliate-program.amazon.com/help/operating/policies) (Commission Income Statement clauses on redirecting and improperly-formatted links read; the price/availability display clause carried from the register's dated read, not re-read here).
+Full detail, including what was deliberately not verified: `review/b2f99e67/VERIFICATION.md`.
+
+**ID usage:** reserved SG-65…SG-70, Q-45…Q-48, FLG-085…FLG-092; used SG-65…70, Q-45…48, FLG-085/086. FLG-087…092 remain reserved and unused, so a later session can take them without renumbering.
+
+**Requests logged (not edited):** to the owner of the `articles/`/`docs/` builds — fold root `app.js` into the five-event contract or retire it with its build (FLG-086; the build question is SG-51 / FLG-070).
+
+#### Merge resolution — arena/b2f99e67-prod1 ← origin/main (2026-11-20, pre-PR rebase onto 726a977)
+
+`main` had advanced to PR #92 while this pass was in flight (sessions 84799c33, 0c26f71b,
+dd9f338f, 1d3cc97c and others). Resolved without discarding either side:
+
+- **Generated-file conflicts were resolved in the generator, then rebuilt** — never by hand:
+  `build_site.py` (5 hunks) keeps both sides' rows, cards and builder functions (their
+  `decision_maker()` answer-line tool + my `_slate_rows` picker; their SG-58/59 rows and
+  Q-42 row + my SG-65…70 and Q-45…48); `data/decisions.json` merged semantically (their
+  themes + mine); `DESIGN_PROMPT.md` kept both passes' sections (their §10 front-page
+  record, mine renumbered to §11); `assets/app.js` kept their `ctgDecision` tool and my
+  generalized `select[data-pick]` tooling.
+- **Flag renumber (collision):** parallel passes took FLG-082…FLG-090 for their rows,
+  including their own FLG-085/086. This pass's rows renumbered to **FLG-091** (theme-color
+  tell, fixed) and **FLG-092** (second measurement vocabulary, open). All references in
+  this pass's copy updated.
+- **Register repair (found by main's new hard gate):** `data/decisions.json` classified
+  Q-02, Q-14, SG-33 and SG-43 in two themes each (the irregularity fe0774e7 left for the
+  register owner) and pointed at ghost ids Q-43, Q-44, SG-60 that no longer exist on the
+  board. Main's rebuilt generator now hard-fails on duplicates and warns on ghosts. Fixed
+  as the gate instructs: each row kept in its first (original) theme, ghosts removed from
+  themes. Logged here because it edits the shared register.
+- **Gates on the merged tree (all green):** `check_site` PASSED (62 HTML) · `check_meta`
+  PASSED (0 warnings) · `check_style` PASSED · `check_measure` PASSED (37 pages wired) ·
+  `verify_structure` PASSED · `counter-check` PASSED · build exit 0 with no warnings ·
+  rebuild byte-identical.
 ### Publication record — session arena/47414174-prod1 (2026-11-20)
 
 - **PR #93** (`arena/47414174-prod1` → `main`, T-4741-V + T-4741-R): https://github.com/wingbangboozle1-lang/Prod1/pull/93 — **merged** as `dd784c0` (merge commit, 2026-11-20).

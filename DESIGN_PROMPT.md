@@ -219,3 +219,59 @@ This pass changed the order of the front page to obey it, and nothing else on th
 - Rooms for later, not built: a variant-aware price module (blocked by the 24-hour caching
   rule and the missing API), and photography (blocked by SG-04). Neither is faked with a
   stock photo.
+## 11. Suggestions for the next design pass (session b2f99e67, 2026-11-20)
+
+These are suggestions feeding this prompt, not decisions. Each has a row on
+[suggestions.html](https://wingbangboozle1-lang.github.io/Prod1/suggestions.html)
+(SG-65…SG-70) with options, and each is pickable on the
+[decision slate](https://wingbangboozle1-lang.github.io/Prod1/decisions.html#slate).
+Nothing below ships until a reviewer approves its row. Sources re-read for this section:
+[Operating Agreement §5](https://affiliate-program.amazon.com/help/operating/agreement)
+and
+[Google's outbound-link qualification](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links)
+(both read 2026-11-20); the design constraints from Amazon's Program Policies are carried
+from the register's dated reads (see verification.html).
+
+### 11.1 Editorial illustration layer (SG-65) — recommended direction
+
+- One hero scene and one seasonal band drawing, **our own line drawings in the existing
+  `assets/art/` language**: flat fills, one stroke weight, warm paper, no rendering of any
+  specific listed unit. Captioned "our drawing" the way the footprint diagrams are.
+- What it must never do: depict a product as if photographed, imitate a listing image,
+  or imply handling or testing. The imagery policy (§5) is a floor, not a prohibition on
+  art the site owns.
+- Brand surfaces to harmonise when the layer lands: the favicon and og-card ink
+  (#171310) against the stylesheet ink (#1E1712) — pick one ink in one commit
+  (FLG-091).
+
+### 11.2 Decision-making surfaces (SG-66) — shipped, awaiting ratification
+
+- The register now carries a **slate**: seven gates, one row each, the recommendation
+  beside it, a per-gate option picker and a JSON export. This is the "review and choose
+  the best path before implementing anything" surface; the board (90+ rows) stays the
+  evidence layer behind it.
+- Design rule for future rows: every suggestion that reaches the board must land in
+  exactly one register theme (the build enforces it) and must state its recommended path
+  in the row itself, so the slate can render it without opening the card.
+
+### 11.3 Findability without claims (SG-67)
+
+- Internal-link anchors should read like the question the reader typed ("how much
+  capacity is real", not "read more"). One inventory pass over the built HTML, one diff,
+  no new pages — and no traffic claim follows from it, by the rule in §9.4.
+- Search Console (SG-28) remains the only source allowed to say anything about
+  demand. Until it exists, the topic calendar is labelled a plan.
+
+### 11.4 The holiday window gets a closing bracket (SG-69)
+
+- Seasonal dressing (band, chips) is generated per build date and stops rendering after
+  2027-01-05; guides stay published and indexed. Snapshot refreshes stay on the SG-57
+  dates (Dec 1, Dec 15). An expired skin is a one-line generator change, not a cleanup
+  project.
+
+### 11.5 Measurement gates the marketing layer (SG-68, SG-70)
+
+- No CTA copy, button colour or layout test starts until the five defined events record
+  real counts (SG-03 / D-04). The thresholds and the funnel are pre-registered in the
+  ledger schema first. Reader capture, if it grows beyond the GitHub-issue intake, uses
+  the same host decision — one privacy surface, not two.
