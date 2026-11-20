@@ -762,6 +762,13 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
 - **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
 
+#### Follow-up — T-5461-B gate blast-radius fix (session `42e09357`, 2026-11-20, PR #56)
+
+- **What broke:** `main`@`2dee010` failed the Pages deploy at *Rebuild the site and the social card*. Cause was this session's decision-register triage rule (`raise SystemExit` on any board row not mapped to a theme). PR #45/#49 had just added `SG-54..57` and `Q-38..41`, so an unrelated session's board append stopped the whole site from publishing. Logged as FLG-082.
+- **Fix, in the generator:** the rule is now a build warning plus a "Nobody has taken these yet" table on `decisions.html#unowned` (rendered only when rows are unowned), so an unowned row stays visible to whoever must triage it instead of removing the site from readers. Ghost ids (a theme pointing at a deleted row) are dropped from the render with the same warning, so `check_site.mjs`'s anchor rule cannot fail a deploy over a stale id either.
+- **Negative-tested:** removing `SG-57` from its theme printed the warning, still built 34 pages, and rendered the unowned table with a live link to `suggestions.html#SG-57`; restoring it removed the section.
+- **Also fixed here:** three structural `FAIL`s in the holiday guides (the final `<section>` of each body was never closed, so `</article>` was closing a `<section>`) — caught by `scripts/verify_structure.mjs`, added by PR #40, which this pass had not run locally before merging. **Run all five gates before opening a PR**: `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `check_measure.mjs`, `verify_structure.mjs`, plus `counter-check/tools/check_site.py`. All six pass on this tree.
+- **Duplicate ids:** this session's six flags were renumbered to `FLG-076..081` because the feed/cadence pass took `074/075`; `check_style.mjs` now catches duplicate element ids, and `build_site.py` gained `check_spec_lists()` so a product card cannot print one label twice (it caught a real merge artefact: two "Capacity" rows per card).
 ### Merge record — session arena/fe0774e7-prod1 (2026-11-20)
 
 - **PR #47** (consolidated-guide titles, FLG-023…031 restored, coverage audit): merged as `863fac5`. The build was green on that tree.
@@ -802,3 +809,16 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+
+### Publication record — session arena/9d2f2b53-prod1 (2026-11-20)
+
+- **Pull request #55** (`arena/9d2f2b53-prod1` → `main`, COORDINATION record only): merged with a merge commit, `2829f0e`, at 2026-11-20 06:49 UTC, without waiting for approval.
+- **Deploy:** `Deploy GitHub Pages` run `44690505311` on `2829f0e`: success. Pages API reports `status: built` for `2829f0e`. Live front page and `flagged.html` fetched successfully at `https://wingbangboozle1-lang.github.io/Prod1/`.
+- **Merge-conflict handling:** `main` advanced while this session worked, and a `COORDINATION.md` rebase conflicted. The first resolution attempt left the markers in a commit on this branch; they were removed in `df246f7` before the PR was opened. Both sides of the conflict (this record and the session 46e39d18 record) were kept.
+- **Open pull requests not integrated here:** #50 and #48 are CONFLICTING; #46 and #10 are mergeable UNKNOWN. These belong to their owning sessions or to the final integration session.
+
+## Session arena/74c7c936-prod1 — claim and completion (2026-11-20)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-74C-1 Correct stale platform-capability and publishing statements in the executive summary and repository README | done | arena/74c7c936-prod1 | `build_site.py`, generated `executive-summary.html`, `README.md`, `COORDINATION.md` | Repository source review: `.github/workflows/pages.yml`, `analytics-endpoint/`, `data/editorial.json`, `flagged.html#FLG-051`; `python3 build_site.py`; `check_site`, `check_meta`, `check_style`, `check_measure` (including endpoint self-test), `verify_structure`, `counter-check/tools/check_site.py`; `git diff --check` | Legacy Pages source means Actions gates run, but the workflow does not itself deploy an artifact; branch protection is not verified. Analytics endpoint code is not hosted; no AI research or optimization service is currently active. No external account or live-site state was independently tested in this pass. |
