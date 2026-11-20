@@ -613,6 +613,7 @@ PR #37 initially refused to merge: `main` had advanced with PR #35 (`arena/62786
 - `pages.yml` gate list merged earlier in the rebase: upstream's `check_style.mjs` and this session's `check_measure.mjs` both run before upload (four gates).
 - Regenerated all HTML from the merged generator; all gates green on the merged tree (check_site 55 files, check_meta 0 warnings, check_style 0 warnings, check_measure PASS, counter-check PASS, rebuild byte-identical).
 
+**Addendum — the merge shipped a broken workflow YAML, caught and fixed the same hour (2026-11-20).** The `git merge origin/main` step had a *second* conflict in `.github/workflows/pages.yml` (PR #36's `verify_structure.mjs` gate vs this session's `check_measure.mjs` gate) that the truncated merge output did not show; `git add -A` committed the file with its `<<<<<<<` markers still inside, and the workflow for merge `c1028c9` failed in 0s with "workflow file issue" (run 44689110435). The site itself kept serving (legacy branch build), but the deploy gates could not run. Fixed in the next PR: both gate steps kept (the workflow now runs five gates), and `scripts/check_measure.mjs` gained a marker scan over every shipped code/HTML/YAML file so an unresolved conflict marker can never deploy again (negative-tested). Lesson recorded: run a repo-wide conflict-marker grep before committing any merge, not just in the files git reported.
 ## Session arena/54d3e366-prod1 (2026-11-20) — claim
 
 Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds an open claim on the board; every row above is `done`. Baseline re-run on this base: `build_site.py` rebuild is byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` and `counter-check` all PASS.
@@ -629,8 +630,8 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Not verified in this pass:** the five Amazon listings. `amazon.com` could not be fetched from this sandbox, so every listing value keeps the date and source from the earlier re-reads on 2026-11-19 and 2026-11-20 (see `review/62786810/VERIFICATION.md`).
 - **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
 - **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`). Only those marker lines were removed; every record on both sides is kept. Irregularity logged here, not on `flagged.html`.
-
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
 ## Session arena/42e09357-prod1 (2026-11-20) — holiday editorial, decision register, claim integrity
 
 Branch `arena/42e09357-prod1` (base `main` @ `c42d017`). Claims T-5461-B. Two merges of `origin/main` were taken during this pass and resolved in the generator, not by choosing a side.
