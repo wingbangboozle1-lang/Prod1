@@ -601,3 +601,18 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
 - **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
 - **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`). Only those marker lines were removed; every record on both sides is kept. Irregularity logged here, not on `flagged.html`.
+
+## Session arena/0c26f71b-prod1 (2026-11-20) — claim
+
+Branch `arena/0c26f71b-prod1`, fast-forwarded from base `bebe082` (PR #38 merge) to current `main` @ `c76cea6` (PR #39 merge). No commits of my own yet; tree clean and all six gates green on the baseline (`build_site.py` rebuild byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs`, `check_measure.mjs`, `counter-check` PASS). No other session holds an open claim; the only open PR is owner-draft #10, untouched — not merged here (same FLG-039/FLG-070 rationale as prior sessions).
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-0C26-A Claim + coordination | done | arena/0c26f71b-prod1 | COORDINATION.md | — | — |
+| T-0C26-B Fresh line-by-line re-read of all five Amazon listings (2026-11-20, this session's own fetches — the previous session could not reach amazon.com) | in progress | arena/0c26f71b-prod1 | data/products.json (only where the live listing differs), review/0c26f71b/VERIFICATION-2026-11-20.md | The five `https://www.amazon.com/dp/<ASIN>` pages, fetched 2026-11-20 | Register values change only with a same-day source; anything not re-read keeps its prior date |
+| T-0C26-C Targeted gap probes: P4/P5 dimensions (FLG-004/FLG-072), P2 warranty term (FLG-005) | in progress | arena/0c26f71b-prod1 | data/products.json, flagged.html (via generator), review/0c26f71b/ | Listing measurement blocks; warranty PDF if reachable | Blank stays blank unless the official source states a value |
+| T-0C26-D First visual QA pass of the published site (headless browser screenshots, if installable in this sandbox) | in progress | arena/0c26f71b-prod1 | assets/style.css / generator chrome only if a defect is found; review/0c26f71b/ | Live URLs fetched directly | Structure has been proven mechanically by prior sessions; no session has yet looked at the rendered page |
+| T-0C26-E Suggestion row for the duplicate-topic cadence risk (queued 2026-12-01 topic overlaps published t01 guide-basket-vs-oven.html) — recommendation only, no editorial change | in progress | arena/0c26f71b-prod1 | suggestions.html (via generator) | data/editorial.json queue + topics.html t01 row | Owner choice; nothing marked approved |
+| T-0C26-F Integration: rebuild, all gates, PR to main, merge without waiting, confirm Pages deploy, record result | in progress | arena/0c26f71b-prod1 | this file | Pages API + Actions run + live fetch | — |
+
+Scope: root publication only (`build_site.py`, `data/products.json` where a listing changed, generated root `*.html`, `assets/`, `review/0c26f71b/`, this file). Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`.
