@@ -800,3 +800,16 @@ Session ID: **3ca58211** (branch `arena/3ca58211-prod1`, based on `bebe0827`; sy
 | T-3CA4 Integration: six gates + counter-check on the merged tree, PR to `main`, merge, confirm Pages deploy | in progress | 3ca58211 | this file | Pages API + Actions runs | — |
 
 **Scope.** This session edits only `review/3ca58211/` and `COORDINATION.md`. No generator, data, asset, workflow or page changes; no new FLG/SG/Q rows (this pass's observations reinforce existing FLG-001/FLG-015 and live in the review file). `data/products.json` untouched — the P3 ® and P4 ℉ glyph notes are logged in the record for the register owner, not silently edited.
+
+### T-3CA completion record — session arena/3ca58211-prod1 (2026-11-20)
+
+| Task | Status | Verification performed | Irregularities |
+|---|---|---|---|
+| T-3CA1 Live-site end-to-end audit | **done** | Live index/sitemap/robots/feed fetched and matched against the repo at the pinned Pages build (`2dee010`); §5 disclosure verbatim above the fold on the served page; sponsored `tag=shopnow047c-20` links for all five ASINs; robots disallows deployed; sitemap/feed consistent after re-sync to `3e86d23`/`f237c4a`. | Mid-audit feed/sitemap divergence = `main` advancing between fetches, not a defect. |
+| T-3CA2 Policy source re-verification | **done** | OA §5 + §6, Participation Requirements §2(b), §6(t), §6(y), §6(w), FTC Disclosures 101 — fetched from the official pages 2026-11-20; every site citation matches the official text character-for-character. | None. No policy wording on the site needs correction. |
+| T-3CA3 Product-link identification + short-link spot check | **done** | Five ASINs resolve on Amazon.com; titles match the register (P3 `TurboFry®` and P4 `±0.5℉`→`±0.5°F` glyph notes logged, not edited). P4 buy box observed live: $16.99 In Stock, consistent with the register. `link.amazon/B04G1MEwY` served the Amazon.com **home page** to this fetcher — new dated observation reinforcing FLG-001/FLG-015; compliance status unchanged (unresolved). | Widget prices on the fallback pages belong to other ASINs — recorded to prevent the FLG-016 pattern repeating. |
+| T-3CA4 Integration | **done** | Gates on the merged tree: `build_site.py` rebuild byte-identical; `check_site.mjs` PASS (59 files); `check_meta.mjs` 0 warnings; `check_style.mjs` PASS; `check_measure.mjs` PASS (34 pages); `verify_structure.mjs` PASS; `counter-check` PASS. PR opened and merged per the brief; Pages deploy confirmed after merge (addendum below). | The `2dee010` gate failures were independently reproduced by this session and fixed on `main` by PRs #49/#51 (other sessions) — no overlap. |
+
+Full evidence with source links for manual review: [`review/3ca58211/LIVE-AUDIT-2026-11-20.md`](review/3ca58211/LIVE-AUDIT-2026-11-20.md).
+
+**Conflict log (this session's first push):** the claim commit hit a COORDINATION.md append-conflict against PR #53's records during `git pull --rebase`; resolved by keeping both sides in full, rebased onto `f237c4a`, branch force-pushed over its own pre-rebase tip (`d71be29` → `4e27669`, same content, no other session on this branch). Four remaining grep hits for marker strings in this file are quoted prose inside historical records, not markers.
