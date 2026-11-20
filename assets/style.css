@@ -756,3 +756,7 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   .card, .prod, .sg { box-shadow: none; border: 1px solid #999; break-inside: avoid; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; }
 }
+
+/* Front page: the hero side column now sells three picks, so it needs a button and tighter rows. */
+.hero-side-cta { margin: .9rem 0 .4rem; }
+.hero-side ol li span { display: block; }

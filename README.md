@@ -8,7 +8,7 @@ Pages site. No build step to deploy: edit `data/products.json`, run
 GitHub Pages from `main` (see `.github/workflows/pages.yml`, which runs three publishing gates before deploy: `node scripts/check_site.mjs`, `node scripts/check_meta.mjs`, `node scripts/check_measure.mjs`). Canonical is the per-page GitHub Pages URL (`https://wingbangboozle1-lang.github.io/Prod1/<page>`) — a custom domain remains an owner decision (see `flagged.html` FLG-007 and `suggestions.html` SG-02).
 
 ## Structure
-- `index.html` — publication front page (hero, category tiles, picks, fresh guides, chooser)
+- `index.html` — shop front page (hero, **five-product decision table**, picks by job, full cards, chooser, guides)
 - `dashboard.html` — single hub for every dashboard surface (verification, flagged, compliance, method, summary, suggestions)
 - `air-fryers.html`, `thermometers.html` — category hubs with comparison tables
 - `compare.html` — all five side by side + 3-question chooser + counter-space math + sticky bar
