@@ -167,5 +167,26 @@
     ]
   },
   "contentDate": "2026-11-20",
-  "contentDateNote": "Date the published HTML last changed. Distinct from data/products.json verifiedDate, which is the date the Amazon listings were last read (2026-11-19). Google's sitemap guidance says lastmod must be verifiably accurate, so the sitemap and the masthead issue line use this field and the 'as listed' wording on cards uses verifiedDate. The two must not be merged: one dates the page, the other dates the evidence."
+  "contentDateNote": "Date the published HTML last changed. Distinct from data/products.json verifiedDate, which is the date the Amazon listings were last read (2026-11-19). Google's sitemap guidance says lastmod must be verifiably accurate, so the sitemap and the masthead issue line use this field and the 'as listed' wording on cards uses verifiedDate. The two must not be merged: one dates the page, the other dates the evidence.",
+  "dates": {
+    "note": "Publication date per guide. Kept separate from the register's verifiedDate on purpose: a guide can be written today against listing data read last week, and conflating the two is how a dated claim starts looking current. Each date below is the date the commit that first added that guide's source to build_site.py was authored in this repository, so every date here is repository evidence rather than an estimate. The three consolidated pages carry their own dates because they are live pages.",
+    "publish": {
+      "guide-basket-vs-oven.html": "2026-11-19",
+      "guide-capacity-checklist.html": "2026-11-19",
+      "guide-cleanup-counter-space.html": "2026-11-19",
+      "guide-multifunction-questions.html": "2026-11-19",
+      "guide-thermometer-accuracy.html": "2026-11-19",
+      "guide-gift-picks.html": "2026-11-19",
+      "guide-holiday-hosting.html": "2026-11-19",
+      "guide-gifts-by-budget.html": "2026-11-19",
+      "guide-wattage-outlets.html": "2026-11-19",
+      "guide-thanksgiving-counter.html": "2026-11-20",
+      "guide-holiday-deal-check.html": "2026-11-20",
+      "guide-gift-return-window.html": "2026-11-20",
+      "guide-instant-read-vs-wireless.html": "2026-11-20",
+      "guide-holiday-gifts.html": "2026-11-19",
+      "guide-small-kitchen.html": "2026-11-19",
+      "guide-holiday-roast.html": "2026-11-19"
+    }
+  }
 }
