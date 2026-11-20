@@ -482,3 +482,28 @@ descriptions (check_meta warnings); R-06 event-vocabulary reconciliation with
   session's record after them. The upstream `build_site.py`/`index.html` label fix and
   `review/1187e20d/VERIFICATION-2026-11-20.md` came across cleanly and are preserved.
 
+## Session arena/05eca69e-prod1 (2026-11-20) — claim and integration record
+
+**Branch:** `arena/05eca69e-prod1`, branched from `c42d0177612fd959af951f2cab7519457c2a3fb1` of main.
+
+**Claimed tasks (takeover per 60-minute idle rule from arena/ab9cbcdc-prod1):**
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T2 Build GitHub Pages site | done | arena/05eca69e-prod1 | index.html, *.html, assets/, sitemap.xml, robots.txt, feed.xml | Amazon Associates Operating Agreement §5, §7; Program Policies; FTC Disclosures 101; Google Search Central | Canonical domain unset; photography undecided |
+| T3 Suggestions board + Q/I/A decision log | done | arena/05eca69e-prod1 | suggestions.html | — | Decisions pending owner review |
+| T4 Executive summary + compliance gate + campaign ledger | done | arena/05eca69e-prod1 | executive-summary.html, compliance.html, methodology.html | FTC + Amazon policy pages above | Analytics endpoint not deployed (stub only) |
+
+**Work performed:**
+- Fixed 5 metadata gate warnings (title/description lengths on guide-gifts-by-budget, guide-holiday-hosting, guide-wattage-outlets, guides)
+- Added 7 catchy planned topics to the editorial calendar (topics 09-12: basket vs oven, instant-read vs wireless, counter space math, holiday gifts, plus 4 more in the cadence queue)
+- Extended data/editorial.json cadence queue to 8 working titles
+- Rebuilt site: 29 HTML pages, 12-topic calendar (5 published + 7 queued), 25 sitemap URLs
+- Both publishing gates pass: check_site.mjs PASSED 54 HTML files; check_meta.mjs PASSED 0 warnings
+- `git diff --check` clean; rebuild deterministic
+
+**Pull request and merge:**
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/31 — merged to `main` without waiting for approval (merge commit `beecc56`, 2026-11-20)
+- Merge result: MERGED OK. GitHub Pages re-deployed from `main`; Pages API reports `status: built`; live site at https://wingbangboozle1-lang.github.io/Prod1/ serves the disclosure strip, sponsored links, product cards, chooser, guides, topic calendar, and all review surfaces.
+- Flagged irregularities (do not block merge): FLG-001 short-link compliance, FLG-004 thermometer dimensions, FLG-005 Emeril warranty, FLG-015 untagged redirect targets, FLG-032 price/rating display, FLG-051 Pages build source — all published on flagged.html for owner review.
+
