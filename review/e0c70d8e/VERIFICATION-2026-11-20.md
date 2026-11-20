@@ -81,10 +81,10 @@ Test 2 initially passed, which was itself a defect: my first pattern looked for 
 
 | Ref | What | Why it is not fixed here |
 |---|---|---|
-| FLG-083 | Ten guides had no `Article` markup; the one that did was incomplete | **Fixed and gated** in this pass. Recorded because the *class* of defect — valid HTML, present strings, no meaning — is the one this repo keeps producing. |
-| FLG-084 | One shared social card for every page | **Fixed and gated.** Ten cards drawn from each guide's own title and description. |
-| FLG-085 | Truncated sentence on the product card | **Fixed and gated.** |
-| FLG-086 | Masthead printed the page date where the evidence date belongs | **Fixed.** Two fields, two labels. |
+| FLG-088 | Ten guides had no `Article` markup; the one that did was incomplete | **Fixed and gated** in this pass. Recorded because the *class* of defect — valid HTML, present strings, no meaning — is the one this repo keeps producing. |
+| FLG-089 | One shared social card for every page | **Fixed and gated.** Ten cards drawn from each guide's own title and description. |
+| FLG-090 | Truncated sentence on the product card | **Fixed and gated.** |
+| FLG-091 | Masthead printed the page date where the evidence date belongs | **Fixed.** Two fields, two labels. |
 | P2 preset count (24 in today's title vs 25 recorded) | Listing-side change | The register's number is dated 2026-11-20 from an earlier read. I will not overwrite a dated observation from a different read without re-reading the field it came from; recorded here for the register's owner. |
 | FLG-003 | Compliance status of the five `link.amazon` short links | **Unresolved and left unresolved.** Nothing in this pass tests it. The brief is explicit: do not claim the short links are invalid. P5 above is the closest the documentation comes, and it is about *disqualified purchases*, not about the links being forbidden. |
 | FLG-001 / SG-53 | No Special Link click has ever been confirmed as attributed | Needs an Associates Central login. Cannot be closed from this sandbox. |
@@ -120,20 +120,20 @@ All six pass on this branch. The rebuild is deterministic: a second `python3 bui
 `main` advanced four times while this branch was open. Rebasing onto `3e86d23` produced a genuine
 collision of the kind the board warns about: **two sessions inventing the same numbers.** Main's
 `FLG-074…081`, `SG-54…57` and `Q-38…41` are already published, so this pass moved its rows to
-**FLG-083…087, SG-58/SG-59, Q-42** and left every one of main's records untouched. Caught by
+**FLG-088…087, SG-61/SG-62, Q-45** and left every one of main's records untouched. Caught by
 `check_style.mjs`'s duplicate-id rule, which is exactly the gate that should catch it.
 
 Two things worth recording rather than hiding:
 
 - **A rebase pushed main's build into a failing state under my hands.** `build_site.py` refuses to
   write `decisions.html` while any board row is untriaged, and three of my new rows were. Main's own
-  triage list already covered its rows; mine did not. SG-58, SG-59 and Q-42 are now triaged into the
+  triage list already covered its rows; mine did not. SG-61, SG-62 and Q-45 are now triaged into the
   *Findability and one canonical site* theme, and the build is green again.
 - **I very nearly rewrote another session's flags.** A bulk ID renumber briefly relabelled five of
   main's rows before I restored them verbatim from `3e86d23`. Every flag row is now verified to have
   `id` equal to its visible label, and no ID appears twice. The lesson is in the method: renumber by
   matching the row's *text*, never by a range substitution.
 
-The prose gate I added (FLG-085) also had to survive a merge: main had independently repaired the
+The prose gate I added (FLG-090) also had to survive a merge: main had independently repaired the
 same truncated sentence I did, with better wording. Theirs is kept; my sentence is discarded. The
 gate stays, because the gate is the part that stops it happening a third time.

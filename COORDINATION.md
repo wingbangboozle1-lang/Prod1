@@ -966,7 +966,7 @@ and bullets.
 | P4 | B0DHZTCNR5 | title exact; 4.6 (3,499); buy box $16.99; Product-information table again has **no** dimension/weight row | FLG-004 stays open |
 | P5 | B0DZFD6R9Z | title exact (Gen3, 5 Sensors); 3-probe variant $119.99, list $219.99; Item details: 3 Probes + Hub; two-year CHEF iQ assurance bullet | size selector also shows 1 probe $99.99 / 2 probes $99.99 / 4 probes $142.49 |
 
-Recorded as **FLG-083** on `flagged.html`. Nothing was edited on the strength of a carousel,
+Recorded as **FLG-088** on `flagged.html`. Nothing was edited on the strength of a carousel,
 a sponsored placement or a bundle price.
 
 **T-8479-2 — shop-first front page (done).** `build_site.py` gained `shelf_table()` and the
@@ -974,7 +974,7 @@ front page was reordered: hero (number-led headline) → five-product decision t
 sponsored `Check price` per row → seasonal band → three picks by job → full cards → chooser →
 guides → topic calendar → trust strip. The review-desk cluster stays in the footer and in the
 single "The desk" nav group; the front page gained no audit furniture. Design record:
-`DESIGN_PROMPT.md` §10. Risk recorded as **FLG-084**.
+`DESIGN_PROMPT.md` §10. Risk recorded as **FLG-089**.
 
 **T-8479-3 — gates and integration (done).** On the final tree: `python3 build_site.py` exit 0
 (34 pages, 24 sitemap URLs, 4 consolidated, deterministic - a second build produced no diff);
@@ -1056,22 +1056,22 @@ Sources: the five Amazon.com listing pages above; Amazon Associates Operating Ag
 ### Publication record — session arena/e05155a0-prod1 (2026-11-20)
 
 - **Pull request #48** (`arena/e05155a0-prod1` → `main`, "e05155a0: re-verify official sources,
-  contrast audit, design-prompt polish direction, SG-58..60 + Q-42..44, exec summary"): merged
+  contrast audit, design-prompt polish direction, SG-61..60 + Q-45..44, exec summary"): merged
   2026-11-20 06:56:51 UTC as **`da6d49e`** (fast-forward merge, no waiting for approval). PR link:
   https://github.com/wingbangboozle1-lang/Prod1/pull/48
 - **Content delivered this session.** (T-E1) line-by-line re-verification from official sources,
   recorded in `review/e05155a0/VERIFICATION.md`; (T-E2) code-level visual QA — 20/20 WCAG AA
   contrast pairs pass, anti-slop scan clean (no browser render available in this sandbox, so this
-  is a mechanical stand-in, captured as SG-59); (T-E3) `DESIGN_PROMPT.md` §9 polished-marketing
-  direction; (T-E4) suggestion/Q-I-A rows **SG-58, SG-59, SG-60** and **Q-42, Q-43, Q-44** wired
+  is a mechanical stand-in, captured as SG-62); (T-E3) `DESIGN_PROMPT.md` §9 polished-marketing
+  direction; (T-E4) suggestion/Q-I-A rows **SG-61, SG-62, SG-60** and **Q-45, Q-43, Q-44** wired
   into the interactive decision board; (T-E5) `executive-summary.html` refreshed.
 - **Rebase friction, resolved without loss.** The branch was rebased three times onto advancing
   `main` (`2dee010` → `c08fd15` → `038cd02` → `b41bb12`); each pass hit an append-vs-append
   `COORDINATION.md` conflict and one `DESIGN_PROMPT.md` §9 conflict, resolved by removing only the
   conflict markers and keeping both sessions' records (and merging the two parallel §9 sections
   into one). Board ID collision: session 543ed7f4 took SG-54..57 / Q-38..41, so this session's rows
-  were renumbered to **SG-58..60 / Q-42..44** rather than duplicated; `data/decisions.json` was
-  resolved by keeping main's triage of SG-54..57/Q-38..41 and adding only SG-58..60/Q-42..44 to the
+  were renumbered to **SG-61..60 / Q-45..44** rather than duplicated; `data/decisions.json` was
+  resolved by keeping main's triage of SG-54..57/Q-38..41 and adding only SG-61..60/Q-45..44 to the
   Design/anti-slop theme (D-06). All other sessions' records preserved verbatim.
 - **Gates (re-run on the final rebased tree).** `python3 build_site.py` deterministic, exit 0
   (37 pages, 27 sitemap URLs, 4 consolidated); `check_site.mjs` PASSED 62 HTML; `check_meta.mjs`
@@ -1088,7 +1088,7 @@ Sources: the five Amazon.com listing pages above; Amazon Associates Operating Ag
   domain; FLG-008/SG-03 analytics endpoint hosting; FLG-009/SG-04 photography licence; FLG-023
   price/rating display policy; FLG-039/070 three builds on one host; FLG-051/SG-43 Pages source is
   `legacy`; FLG-058 per-card disclosure FTC read; FLG-071 thermometer tolerance. Owner picks
-  SG-58/SG-59/SG-60 and Q-42/Q-43/Q-44 remain open on `suggestions.html`. Request **R-10**
+  SG-61/SG-62/SG-60 and Q-45/Q-43/Q-44 remain open on `suggestions.html`. Request **R-10**
   (blocking WCAG-contrast gate) logged to the style-gate owner.
 - **Status:** T-E1, T-E2, T-E3, T-E4, T-E5, T-E6 **done**. No open claims from this session.
 ## Session arena/e0c70d8e-prod1 (2026-11-20) — findability, prose repair, re-verification
@@ -1097,18 +1097,18 @@ Branch `arena/e0c70d8e-prod1` (base `3392c0d`). Root publication only: `build_si
 
 | Task | Status | Owner | Files touched | Sources / verification | Irregularities |
 |---|---|---|---|---|---|
-| T-E0-D **Structured data + per-guide share cards.** Ten of thirteen guides emitted no `Article` at all; the one that did lacked `image` and `mainEntityOfPage`. All thirteen now declare the full property set, with `datePublished` read from the commit that first added each page (`git log --diff-filter=A`), not from the build date. Each guide gets its own 1200×630 card drawn from its own title and description. | **done** | e0c70d8e | `build_site.py`, `scripts/make_og.py` (`--cards`), `assets/cards/*.png` (13), all `guide-*.html` | [Google Search Central — Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article) (last updated 2026-09-08, read 2026-11-20); [Build and submit a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap) for `lastmod` accuracy | FLG-083 (no Article markup), FLG-084 (one shared card). No rich-result claim is made. |
-| T-E0-P **Prose repair + three gates.** A published sentence stopped mid-thought on five pages ("…the button shows today's"). `check_meta.mjs` now fails on a sentence ending on a determiner, possessive or objectless verb; on a published guide missing `Article` or any required field; and on any live link whose `?tag=` is not `site.trackingId`. | **done** | e0c70d8e | `scripts/check_meta.mjs`, `build_site.py`, `.github/workflows/pages.yml` (cards rebuilt in CI) | All three gates negative-tested: disabling `Article` → 10 failures; restoring the truncated copy → 13 failures; a mistyped tag in a live link → blocked. Correct tree → 0. | FLG-085 (truncated sentence), FLG-087 (the tag typo this pass nearly shipped). Main had independently repaired the same sentence with better wording; theirs is kept. |
+| T-E0-D **Structured data + per-guide share cards.** Ten of thirteen guides emitted no `Article` at all; the one that did lacked `image` and `mainEntityOfPage`. All thirteen now declare the full property set, with `datePublished` read from the commit that first added each page (`git log --diff-filter=A`), not from the build date. Each guide gets its own 1200×630 card drawn from its own title and description. | **done** | e0c70d8e | `build_site.py`, `scripts/make_og.py` (`--cards`), `assets/cards/*.png` (13), all `guide-*.html` | [Google Search Central — Article structured data](https://developers.google.com/search/docs/appearance/structured-data/article) (last updated 2026-09-08, read 2026-11-20); [Build and submit a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap) for `lastmod` accuracy | FLG-088 (no Article markup), FLG-089 (one shared card). No rich-result claim is made. |
+| T-E0-P **Prose repair + three gates.** A published sentence stopped mid-thought on five pages ("…the button shows today's"). `check_meta.mjs` now fails on a sentence ending on a determiner, possessive or objectless verb; on a published guide missing `Article` or any required field; and on any live link whose `?tag=` is not `site.trackingId`. | **done** | e0c70d8e | `scripts/check_meta.mjs`, `build_site.py`, `.github/workflows/pages.yml` (cards rebuilt in CI) | All three gates negative-tested: disabling `Article` → 10 failures; restoring the truncated copy → 13 failures; a mistyped tag in a live link → blocked. Correct tree → 0. | FLG-090 (truncated sentence), FLG-092 (the tag typo this pass nearly shipped). Main had independently repaired the same sentence with better wording; theirs is kept. |
 | T-E0-V **Line-by-line re-verification, 2026-11-20.** OA §5 sentence re-read character for character; Program Policies §2(b)/§2(t)/§3(e) and Commission Income Statement §2(d)/(e); all five listings re-opened and their titles confirmed against the register. | **done** | e0c70d8e | `review/e0c70d8e/VERIFICATION-2026-11-20.md` | [Operating Agreement](https://affiliate-program.amazon.com/help/operating/agreement) (updated 2025-10-15) · [Program Policies](https://affiliate-program.amazon.com/help/operating/policies) (updated 2026-04-14) · the five `/dp/` pages | FLG-003 stays **unresolved — the short links are untested, not invalid.** FTC not re-read this session, so its claims keep their 2026-11-19 date. |
 | T-E0-C **Closed FLG-036 with an official citation.** The FAQ-rich-result restriction had been recorded from secondary reporting. | **done** | e0c70d8e | `build_site.py` (FLG-036 row) | [Google Search Central — Changes to HowTo and FAQ rich results](https://developers.google.com/search/blog/2023/08/howto-faq-changes), 2023-08-08, read 2026-11-20: FAQ rich results limited to government and health sites; unused markup "does not cause problems" | None. The markup stays; the rich-result claim was never made. |
-| T-E0-S **Suggestion + Q/I/A rows from this pass.** SG-58 (organisation vs named author), SG-59 (the indexed verification register earns nothing — 77 of 77 listing citations carry no `?tag=`), Q-42 (does any markup validate — needs Rich Results Test), S-25 (structured data shipped). Triaged into the decision themes so the build could publish. | **done** | e0c70d8e | `build_site.py`, `data/decisions.json`, `suggestions.html` | Schema.org `Article`; the register's own link audit | SG-59 is **logged, not implemented**: `verification.html` is in open PR #37's scope. |
+| T-E0-S **Suggestion + Q/I/A rows from this pass.** SG-61 (organisation vs named author), SG-62 (the indexed verification register earns nothing — 77 of 77 listing citations carry no `?tag=`), Q-45 (does any markup validate — needs Rich Results Test), S-25 (structured data shipped). Triaged into the decision themes so the build could publish. | **done** | e0c70d8e | `build_site.py`, `data/decisions.json`, `suggestions.html` | Schema.org `Article`; the register's own link audit | SG-62 is **logged, not implemented**: `verification.html` is in open PR #37's scope. |
 | T-E0-G **Integration**: rebuild, five gates, PR, merge, Pages, record | **done** | e0c70d8e | this file | PR #54; Actions run + Pages API | None |
 
 ### Concurrency — four merges, and what they cost
 
 `main` advanced seven times while this branch was open (PRs #44, #49, #51, #53, #58, #62, #66). Each merge was resolved in the generator, never by hand-editing output. Three things are worth recording rather than smoothing over:
 
-- **Number collision, three times.** Main published `FLG-074…082`, `SG-54…57` and `Q-38…41` while this pass was writing the same ranges. My rows moved to **FLG-083…087, SG-58/SG-59, Q-42**. `check_style.mjs`'s duplicate-id rule caught every collision — that gate earned its place today.
+- **Number collision, three times.** Main published `FLG-074…082`, `SG-54…57` and `Q-38…41` while this pass was writing the same ranges. My rows moved to **FLG-088…087, SG-61/SG-62, Q-45**. `check_style.mjs`'s duplicate-id rule caught every collision — that gate earned its place today.
 - **A bulk renumber briefly relabelled main's rows.** Restored verbatim from the merge base; every flag row is now verified to have `id` equal to its visible label. Renumber by matching a row's text, never by a range substitution.
 - **My first rebase pushed main's build into a failing state.** `build_site.py` refuses to write `decisions.html` while any board row is untriaged, and three of my new rows were. Fixed by triaging them, which is what the gate is for.
 
