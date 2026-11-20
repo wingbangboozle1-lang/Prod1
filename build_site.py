@@ -84,6 +84,16 @@ POSITION = {
            "headline": "The phone-watched setup"},
 }
 # ---------------------------------------------------------------- product card
+def capacity_row(p):
+    """A thermometer has no cavity, so "Capacity, as titled" followed by an em dash is a row
+    that tells the reader nothing. Say why the row is empty instead, in the reader's words.
+    This is the same placeholder problem as FLG-073, fixed at the point where it is read."""
+    cap = p.get("capacityTitle")
+    if cap not in ("", "\u2014", None):
+        return f"<div><dt>Capacity, as titled</dt><dd>{esc(cap)}</dd></div>"
+    kind = "handheld thermometer" if "handheld" in p.get("form", "").lower() else "wireless probe set"
+    return f"<div><dt>Capacity</dt><dd>Not applicable &mdash; a {kind} has no cooking cavity</dd></div>"
+
 def cta_note(p):
     return (f'Sponsored link &middot; opens Amazon &middot; as listed {VERIFIED} &middot; '
             f'<a href="verification.html#{p["id"]}">source record</a>')
@@ -114,7 +124,7 @@ def product_card(pid, bullets_n=3, detailed=False, level=3):
     {money}{rating}
   </div>
   <dl class="specs">
-    <div><dt>Capacity, as titled</dt><dd>{esc(p['capacityTitle'])}</dd></div>
+    {capacity_row(p)}
     <div><dt>Footprint on the listing</dt><dd>{dims}</dd></div>
     {footprint}{height}{power}
     <div><dt>Features, as listed</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
@@ -1269,6 +1279,8 @@ flag_body = f"""
 <tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across all 29 pages.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
 <tr id="FLG-073"><td>FLG-073</td><td>One placeholder was carrying two meanings</td><td>Thirteen fields in <code>data/products.json</code> hold the literal string <code>&mdash;</code>. The page correctly renders that as &ldquo;Blank &mdash; not captured&rdquo;, but the same character is also used where the field genuinely does not apply (a thermometer has no capacity). So the data cannot distinguish &ldquo;we looked and did not find it&rdquo; from &ldquo;this field is meaningless for this product&rdquo;. Publishing reads the dash as blank, which is the safe direction. A future session must not treat it as a recorded figure.</td><td>Owner of <code>data/products.json</code> to split the two into <code>null</code> and an explicit <code>notApplicable</code> reason</td></tr>
 
+<tr id="FLG-074"><td>FLG-074</td><td>Every feed item carries one date, and it is the listing re-read date</td><td>The RSS feed set <code>pubDate</code> from the listing verification date (<code>verifiedDate</code>) for all ten guides, so every item reads the same day. RSS 2.0 defines item <code>pubDate</code> as the publication date of the content (<a href="https://www.rssboard.org/rss-specification">RSS 2.0 spec, pubDate</a>). The generator now uses the page date (<code>contentDate</code>), as <code>data/editorial.json</code> already specifies. Today both values are 2026-11-20, so the feed output is unchanged. Per-guide publication dates are not recorded anywhere in the repo, and none is inferred here.</td><td>Owner of <code>data/editorial.json</code> to supply a publication date per guide (a <code>published</code> field) so each feed item can carry its own date</td></tr>
+<tr id="FLG-075"><td>FLG-075</td><td>Two guides are live before their cadence week</td><td>The cadence rule says one guide per week, published on Tuesday. The queue marks <code>guide-gift-picks.html</code> (week 2026-11-24) and <code>guide-instant-read-vs-wireless.html</code> (week 2026-12-08) as <code>published</code>, and both are live on 2026-11-20. The queue also has 2026-12-08 published before the queued 2026-12-01 topic. The status is read as "page exists", not "week reached". Nothing was hidden or re-dated in this pass.</td><td>Owner decision: keep both pages live now and reword the rule, or hold them until their Tuesday (sitemap and feed are generated from the build, so either path is a one-line change)</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
@@ -1765,7 +1777,7 @@ fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="h
       f'<lastBuildDate>{rfc(VERIFIED)}</lastBuildDate>']
 for slug, t, d in GUIDES:
     u = esc(abs_url(slug))
-    fd.append(f"<item><title>{esc(t)}</title><link>{u}</link><guid>{u}</guid><pubDate>{rfc(VERIFIED)}</pubDate><description>{esc(d)}</description></item>")
+    fd.append(f"<item><title>{esc(t)}</title><link>{u}</link><guid>{u}</guid><pubDate>{rfc(ISSUE)}</pubDate><description>{esc(d)}</description></item>")
 fd += ['</channel>','</rss>']
 open("feed.xml","w").write("\n".join(fd) + "\n")
 open("robots.txt","w").write(
