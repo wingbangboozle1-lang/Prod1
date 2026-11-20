@@ -616,14 +616,18 @@
         "SG-32",
         "SG-40",
         "SG-51",
-        "SG-55"
+        "SG-55",
+        "SG-43",
+        "SG-58",
+        "SG-59"
       ],
       "qs": [
         "Q-02",
         "Q-06",
         "Q-18",
         "Q-27",
-        "Q-34"
+        "Q-34",
+        "Q-42"
       ],
       "gate": "D-01"
     },
@@ -684,8 +688,6 @@
         "SG-44",
         "SG-45",
         "SG-50",
-        "SG-58",
-        "SG-59",
         "SG-60"
       ],
       "qs": [
@@ -694,7 +696,6 @@
         "Q-12",
         "Q-21",
         "Q-22",
-        "Q-42",
         "Q-43",
         "Q-44"
       ],
@@ -732,9 +733,7 @@
     {
       "name": "Machinery and automation",
       "oneLine": "Automate what can be automated; put a gate in front of everything that cannot.",
-      "sgs": [
-        "SG-43"
-      ],
+      "sgs": [],
       "qs": [],
       "gate": "D-04"
     }

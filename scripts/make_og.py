@@ -6,7 +6,14 @@ image hash or the feed. Brand art only - no product photography, no Amazon image
 no generated food shots (the policy read sits in flagged.html FLG-021 and FLG-030).
 The one graphic is our own depth diagram, drawn from the dimensions the listings state.
 
-Run:  python3 scripts/make_og.py   ->  assets/og-image.png
+Run:  python3 scripts/make_og.py   ->  assets/og-image.png  (the site card)
+      python3 scripts/make_og.py --cards -> assets/cards/<guide>.png (one per guide)
+
+Why per-guide cards: every guide used to point og:image and Article.image at the same
+site card, so a share of any guide showed the same picture. Google's Article guidance asks
+for an image representative of that article. These cards carry the guide's own question,
+which is the one thing a shared card cannot do. Same imagery policy as the site card:
+type and brand rules only, never a product photograph.
 """
 import json, hashlib, os
 from PIL import Image, ImageDraw, ImageFont
@@ -14,6 +21,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = json.load(open(os.path.join(ROOT, "data", "products.json")))
 SITE, PRODS = D["site"], {p["id"]: p for p in D["products"]}
+SITE_BRAND = json.load(open(os.path.join(ROOT, "data", "editorial.json")))["publisher"]["name"]
 INK, PAPER, CLAY, GOLD, TEAL, MUTED = "#171310", "#FBF7F0", "#B24320", "#E5B85C", "#7FBFB5", "#9E9382"
 W, H, M = 1200, 630, 70
 RIGHT = W - M
@@ -42,6 +50,100 @@ def depth_of(pid):
     import re
     m = re.findall(r'([0-9.]+)"', PRODS[pid]["dimensions"])
     return float(m[0]) if m else None
+
+
+GUIDES = None  # loaded lazily from build_site.py's own GUIDS list source
+
+def guide_list():
+    """Read the published guide list straight out of build_site.py, so a card cannot exist for
+    a guide that is not published and a published guide cannot lack one. Parsing the tuple
+    list is deliberate: importing the generator would run the whole build as a side effect."""
+    import ast
+    src = open(os.path.join(ROOT, "build_site.py"), encoding="utf-8").read()
+    m = __import__("re").search(r"\nGUIDES = (\[.*?\n\])\n", src, __import__("re").S)
+    if not m:
+        raise SystemExit("make_og: could not find the GUIDES list in build_site.py")
+    return ast.literal_eval(m.group(1))
+
+
+def wrap(d, text, name, size, max_w, max_lines):
+    """Greedy wrap that shrinks the type until the headline fits. Returns (size, lines)."""
+    lines = []
+    while size > 20:
+        words, lines, cur = text.split(), [], ""
+        f = font(name, size)
+        for w in words:
+            trial = (cur + " " + w).strip()
+            if d.textlength(trial, font=f) <= max_w:
+                cur = trial
+            else:
+                if cur:
+                    lines.append(cur)
+                cur = w
+        if cur:
+            lines.append(cur)
+        if len(lines) <= max_lines:
+            return size, lines
+        size -= 2
+    return size, lines
+
+
+def guide_card(slug, title, desc, kicker, outdir):
+    img = Image.new("RGB", (W, H), INK)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, int(W * .34), 12], fill=CLAY)
+    d.rectangle([int(W * .34), 0, int(W * .67), 12], fill=TEAL)
+    d.rectangle([int(W * .67), 0, W, 12], fill=GOLD)
+
+    spaced(d, (M, 50), kicker.upper(), font("sansb", 20), GOLD, 4)
+    s1, _ = fit(d, SITE_BRAND, "serif", 40, RIGHT - M)
+    d.text((M, 96), SITE_BRAND, font=font("serif", s1), fill=MUTED)
+
+    size, lines = wrap(d, title, "serif", 62, RIGHT - M, 4)
+    y = 176
+    for line in lines:
+        d.text((M, y), line, font=font("serif", size), fill=PAPER)
+        y += int(size * 1.16)
+    # a rule that ends where the text ends, so short titles do not look unfinished
+    d.line([M, y + 14, M + 132, y + 14], fill=CLAY, width=5)
+
+    # The guide's own summary, in the space the headline leaves. Wrapped and shrunk to a hard
+    # floor so a long description cannot collide with the disclosure band.
+    FLOOR = H - 56 - 30
+    size, lines = wrap(d, desc, "sans", 26, RIGHT - M, 3)
+    y2 = y + 40
+    while y2 + len(lines) * int(size * 1.34) > FLOOR and size > 15:
+        size -= 1
+        _, lines = wrap(d, desc, "sans", size, RIGHT - M, 3)
+    for line in lines:
+        if y2 + size > FLOOR:
+            break
+        d.text((M, y2), line, font=font("sans", size), fill=MUTED)
+        y2 += int(size * 1.34)
+
+    d.rectangle([0, H - 56, W, H], fill="#100D0B")
+    d.text((M, H - 40), "As an Amazon Associate I earn from qualifying purchases.",
+           font=font("sans", 20), fill="#F6E7C4")
+    stamp = f"Listings read {SITE['verifiedDate']}"
+    d.text((RIGHT - d.textlength(stamp, font=font("sans", 18)), H - 38), stamp,
+           font=font("sans", 18), fill=MUTED)
+
+    os.makedirs(outdir, exist_ok=True)
+    dest = os.path.join(outdir, slug.replace(".html", ".png"))
+    img.save(dest, "PNG", optimize=True)
+    return dest
+
+
+def make_cards():
+    ed = json.load(open(os.path.join(ROOT, "data", "editorial.json")))
+    outdir = os.path.join(ROOT, "assets", "cards")
+    n = 0
+    for slug, title, desc in guide_list():
+        kicker = "Guide" if not slug.endswith("vs-wireless.html") else "Guide"
+        dest = guide_card(slug, title, desc, kicker, outdir)
+        print("card", os.path.relpath(dest, ROOT), os.path.getsize(dest), "bytes")
+        n += 1
+    print(f"{n} guide cards written")
 
 
 def main():
@@ -124,4 +226,8 @@ def main():
     print("og-image.png", os.path.getsize(out), "bytes | sha256", hashlib.sha256(open(out, "rb").read()).hexdigest()[:16])
 
 
-main()
+import sys
+if "--cards" in sys.argv:
+    make_cards()
+else:
+    main()

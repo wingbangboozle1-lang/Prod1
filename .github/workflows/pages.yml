@@ -27,15 +27,17 @@ jobs:
       - name: Install the one build dependency
         run: python -m pip install --quiet Pillow
 
-      - name: Rebuild the site and the social card
+      - name: Rebuild the site, the social card and the per-guide cards
         run: |
           python build_site.py
           python scripts/make_og.py
+          python scripts/make_og.py --cards
 
-      # assets/og-image.png is deliberately left out of the comparison: the drawing is
-      # deterministic for a given Pillow build, and a different Pillow on the runner can
-      # re-encode the same pixels to different bytes. Content drift in the HTML is what
-      # must never happen, so that is what this step protects.
+      # assets/og-image.png and assets/cards/ are deliberately left out of the comparison:
+      # the drawings are deterministic for a given Pillow build, and a different Pillow on
+      # the runner can re-encode the same pixels to different bytes. Content drift in the
+      # HTML is what must never happen, so that is what this step protects. The cards are
+      # still *built* above, so a missing card fails check_meta.mjs on the next gate.
       - name: Fail if generated files are out of date
         run: |
           if ! git diff --exit-code -- '*.html' sitemap.xml feed.xml robots.txt data/search-index.json; then
