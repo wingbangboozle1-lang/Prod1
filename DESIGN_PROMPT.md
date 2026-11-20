@@ -157,3 +157,40 @@ That is the whole article anatomy — nothing is padded.
   funded protocol first.
 - Not a price or rating display on shop pages. Prices and ratings stay dated register
   observations; the button links to Amazon where Amazon serves the live figure.
+
+### 9.5 Structural rules for polished marketing (from the PR #48 review pass — additive)
+
+PR #48 wrote a "polished-marketing direction" as section 9 of its own design prompt. Its
+structural rules are recorded here because they answer the same brief; nothing below
+replaces 9.1–9.4, it sharpens them. The tell that copy is generated is structural, not
+stylistic:
+
+- **Lead with the buyer's question, not the pipeline.** Every page opens with the question a
+  person types ("Will a 26-quart air fryer fit my counter?"), then answers it with the
+  verified spec. The verification machinery stays one click away in the footer and the
+  review-desk nav group. A page that opens with "here is how we verified" reads as a
+  register; a page that opens with the answer reads as a shop.
+- **One opinion per page.** Take a position inside the bounds of the data ("the shallowest
+  of the three", "the one to reach for if you cook two things at once") rather than listing
+  facts symmetrically. Opinions are built only from fields the listing states — which is
+  what the build's claim-integrity gate already enforces for superlatives.
+- **Numbers, not adjectives.** "16.9 in (42.9 cm) deep" beats "spacious". Adjectives are
+  where generated copy fills space.
+- **Honest gaps as content.** "The listing does not state the warranty period" is a sentence
+  a buyer trusts more than a polished lie. Gap callouts are a marketing asset, not a
+  weakness — the flag register already runs on this principle.
+- **No emoji-as-icon, no gradient glow, no badge soup.** The palette is warm paper + one
+  clay accent + one teal; the type is a display serif + a grotesque (section 3). That
+  restraint is what makes a page read published rather than templated.
+- **Findability rails to keep:** one canonical host, one sitemap of buying URLs, one RSS
+  feed, per-page question-shaped title + meta description, `rel="sponsored"` on every
+  outbound link, and structured data (Organization / Article / FAQPage) that matches the
+  visible content. All of these are enforced or generated today; none is optional.
+- **Imagery:** brand diagrams and typography until SG-04 (photography licence) clears. A
+  single ownable visual — the counter-depth scale comparing 32.4 / 34.0 / 42.9 cm — is the
+  strongest non-photographic hero the site can carry, and it is built from derived numbers,
+  so it cannot be mistaken for stock. PR #46's raster hero (a counter photograph) stays
+  excluded until it has provenance; a JPEG with no licence record is not a brand asset.
+- **Rule for any "trending" or "catchy" wording:** it may only appear next to a dated
+  snapshot from an official source, or not at all. The banned-phrase gate enforces this on
+  every page.
