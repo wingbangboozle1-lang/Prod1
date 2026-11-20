@@ -2018,7 +2018,7 @@ b10, j10 = guide_shell(
 <section id="limits">
 <h2>What this page cannot tell you</h2>
 <p>Not how long anything takes to cook. Not whether a 6-quart basket feeds your family. Not whether the machine is good. Those need a test kitchen and a protocol, and the decision on whether to build one is still open on the <a href="suggestions.html#SG-09">review desk</a> (SG-09, Q-19). What this page can tell you is what the seller stated, when we read it, and what the listing leaves out. The gaps are listed on <a href="flagged.html">Flagged for review</a>.</p>
-<p class="next">Next: <a href="compare.html#chooser">answer the three-question chooser</a>, or read the <a href="guide-holiday-deal-check.html">holiday listing check</a> before you buy in the sales window.</p>
+<p class="next">Next: <a href="compare.html#chooser">answer the three-question chooser</a>, or read the <a href="guide-holiday-deal-check.html">holiday listing check</a> before you buy in the sales window.</p></section>
 """,
     [("Can an air fryer replace an oven on Thanksgiving?",
       "Nothing on these listings claims it can cook a whole turkey, and we are not going to invent that claim. The Emeril listing describes a rotisserie for a 6-lb chicken and a 12-inch pizza. Whether that helps your menu is your call, and it is a question the listing answers only about capacity, not about timing."),
@@ -2073,7 +2073,7 @@ b11, j11 = guide_shell(
 <section id="after">
 <h2>5. Warranty, returns and the receipt, before you click</h2>
 <p>Captured from the listings on VERIFIED, in the sellers' words: the Chefman fryers state a 1-year assurance (P1) and a 1-year warranty (P3), both per bullets, plus cETL approval. The Emeril's listing links a warranty PDF and states no term in its text, so the field on our pages is blank rather than guessed (<a href="flagged.html#FLG-005">FLG-005</a>). The ThermoMaven includes one calibration certificate per its included-components field. Returns windows and exchange rules are not product fields: they live on your order page, so read them there.</p>
-<p class="next">Next: the <a href="guide-gift-return-window.html">gift receipt test</a> if this purchase is for someone else, or the <a href="verification.html">verification register</a> to see every figure and where it came from.</p>
+<p class="next">Next: the <a href="guide-gift-return-window.html">gift receipt test</a> if this purchase is for someone else, or the <a href="verification.html">verification register</a> to see every figure and where it came from.</p></section>
 """,
     [("Is there actually a deal in the holiday window?",
       "We cannot say, and that is not modesty. This site publishes no price figures, so it also makes no claim about what happens to them on a given Friday. The check above works whether a price moved or not, which is the point."),
@@ -2117,7 +2117,7 @@ b12, j12 = guide_shell(
 <section id="gaps">
 <h2>What this site cannot promise about a returned gift</h2>
 <p>Returns windows, exchange rules and gift-receipt mechanics belong to the order page, not to a product listing, so we do not state them here. Same for warranty terms: the Emeril's listing links a PDF and puts no period in its text, which stays blank on our tables rather than guessed (<a href="flagged.html#FLG-005">FLG-005</a>). Everything we do state carries a date and a link, so a recipient can check the same source.</p>
-<p class="next">Next: <a href="guide-gift-picks.html">which appliance to gift in the first place</a>, or the <a href="compare.html">side-by-side table</a> for the five products.</p>
+<p class="next">Next: <a href="guide-gift-picks.html">which appliance to gift in the first place</a>, or the <a href="compare.html">side-by-side table</a> for the five products.</p></section>
 """,
     [("Is an air fryer a good gift for someone who has one?",
       "The listing fields cannot answer that, and neither can we without knowing the person. What we can say: the 6QT's two-basket Sync Finish claim and the 8QT's single large basket are different purchases solving different problems, so if their current machine is a single basket, the dual-basket one is the only one of the three that changes anything."),
