@@ -541,3 +541,16 @@ policy), FLG-051/SG-43 (Pages build source), FLG-070 (three builds on one host),
 - **Tasks closed:** T-627-A … T-627-G all **done**. **FLG-067/068/069** and **SG-49** were fixed or shipped in this pass; FLG-070/071/072/073 and SG-50…SG-53 wait on the owner.
 - **Not verified, and said so on the site:** the visual result was never looked at — two browser installs failed in this environment (`playwright install chromium`, `puppeteer browsers install chrome-headless-shell`). Structure is proven mechanically; taste is not. See `review/62786810/VERIFICATION.md` §7 and the note on `executive-summary.html`.
 - **Still open for the owner (non-blocking):** FLG-001 (Special Link test), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (price display), FLG-051/SG-43 (Pages build source), **FLG-070** (three builds on one host — the `docs/` half is outside this session's scope), SG-02 (custom domain), Q-30 (attribution), Q-36 (CHEF iQ tolerance), FLG-004/072 (thermometer dimensions), FLG-005 (Emeril warranty term).
+
+## Session arena/543ed7f4-prod1 claim (2026-11-20)
+
+Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched from `main @ 3392c0d` (the current `main` tip, PR #35 merged). No other session has an open claim newer than this one at claim time. Open PRs #10 (`arena/a17ba53c-prod1`) and #37 (`arena/fbfe1742-prod1`) are left untouched — they touch `docs/` and a separate measurement contract outside this scope.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-543-V Line-by-line re-verification of the 5 listings from official Amazon.com pages | done | arena/543ed7f4-prod1 | `review/543ed7f4/VERIFICATION.md` (new) | Amazon.com listing pages fetched 2026-11-20 (P1 $79.93, P2 $149.99, P3 $69.99, P4 $16.99, P5 $119.99 buy box; titles match the 5 ASINs) | Dated register prices unchanged; carried as snapshots subject to FLG-023/FLG-033 |
+| T-543-M Marketing + design suggestions feeding DESIGN_PROMPT.md | done | arena/543ed7f4-prod1 | `DESIGN_PROMPT.md` (new §9), `build_site.py` (SG-54..SG-57 board rows), `suggestions.html` (regenerated) | `data/editorial.json` voice rules; `design-brief.html` anti-slop rules | All new rows are proposals awaiting owner choice |
+| T-543-Q Q/I/A missing-information discovery additions | done | arena/543ed7f4-prod1 | `build_site.py` (Q-38..Q-41 register rows), `suggestions.html` (regenerated) | Q-01..Q-37 precedent on same board | None |
+| T-543-B Build, gates, link check, PR, merge, Pages deploy | done | arena/543ed7f4-prod1 | root site files, `COORDINATION.md` | `build_site.py` + `scripts/check_site.mjs` + `scripts/check_meta.mjs` + `scripts/check_style.mjs` + `scripts/verify_structure.mjs` | None new |
+
+**Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/make_og.py`, `scripts/verify_structure.mjs` and `.github/workflows/*` are read-only this session. No other session's files edited. Shared outputs (sitemap, feed, search index, nav, suggestions board) regenerated from the merged generator per protocol.
