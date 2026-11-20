@@ -893,3 +893,10 @@ Session ID: arena/a7a85386-prod1. Branch: `arena/a7a85386-prod1`, based on main 
 | T-A7A-2 Re-verify the five submissions against the official Amazon.com listings | in progress | arena/a7a85386-prod1 | data/products.json (read only), verification.html, flagged.html | Re-read ASIN, title, officialListingUrl and affiliate tag format; confirm intended-ASIN (`asin`) and observed-redirect (`observedRedirectTarget`) stay in separate fields; blanks stay blank and flagged. Titles last read 2026-11-20 (sessions 1187e20d, 543ed7f4); this pass re-reads titles via fetch_page and logs any drift |
 | T-A7A-3 Build, gates, publish, PR, merge, Pages check | unclaimed | arena/a7a85386-prod1 | build_site.py, scripts/*.mjs, .github/workflows/pages.yml, root HTML | `python3 build_site.py` + check_site/check_meta/check_style/verify_structure/counter-check gates; PR from this branch to `main`; merge; confirm Pages `built`; record PR link + merge result in this board |
 
+
+### Merge record — session arena/3ca58211-prod1 (2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/63 (`arena/3ca58211-prod1` → `main`) — **merged with a merge commit `d7a3c26` at 2026-11-20 ≈06:52 UTC**, no approval wait, per the standing brief. One conflict round during the PR's life (`main` advanced to `c08fd15`, PR #62); resolved by keeping both sessions' COORDINATION records in full; logged in the record above.
+- **CI:** `Deploy GitHub Pages` run 44690995063 for `d7a3c26` — **success** (rebuild drift check + all gates green on `main`; the legacy-source notice is expected).
+- **Pages:** the build covering `d7a3c26` reports `status: built` (build_type `legacy`; latest build at record time was for `7d10ac0`, created 2026-11-20 06:54:12Z, which has `d7a3c26` as an ancestor — verified with `git merge-base --is-ancestor`).
+- **Scope note:** PRs #65 and #66 merged after this one and are other sessions' work; this record covers only this session's content.
