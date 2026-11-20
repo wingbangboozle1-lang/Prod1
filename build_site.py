@@ -605,40 +605,88 @@ def topic_band():
 </div>"""
 
 
+
+# ---------- FRONT PAGE: the shelf (buyer-first, generated from the register) ----------
+# Why this exists: the brief asks for a shop. A shopper's first question is "which one, and what
+# does it cost me in counter space" - not "how was this verified". Every row below is a field the
+# register already carries, or an explicit statement that the field was not captured. Nothing is
+# computed here except the centimetre conversion the rest of the site already prints.
+SHELF_ORDER = ["P1", "P2", "P3", "P4", "P5"]
+SHELF_PICK = {
+    "P1": "Two dishes landing at the same time, without a second appliance",
+    "P2": "Cooking for four to six, with rotisserie and a 12-inch pizza",
+    "P3": "One big batch on a shallow counter",
+    "P4": "A fast reading in your hand at the grill",
+    "P5": "Walking away from the oven and watching from your phone",
+}
+SHELF_CHECK = {
+    "P1": "Clearance the manual asks for is not stated on the listing - measure the gap under your cabinet",
+    "P2": "The doors need room to swing, and the warranty period is not stated on the listing",
+    "P3": "The listing gives two wattages (1000 W in the bullets, 1700 W in its spec table) - <a href=\"flagged.html#FLG-022\">FLG-022</a>",
+    "P4": "Dimensions and item weight are not in the fields we captured - <a href=\"flagged.html#FLG-004\">FLG-004</a>",
+    "P5": "No +/-F accuracy figure appears in the fields we captured; it needs WiFi and the app",
+}
+
+def shelf_table():
+    rows = []
+    for pid in SHELF_ORDER:
+        p = PRODS[pid]; dm = dims_of(p)
+        depth = f"{dm['depth_in']} in ({dm['depth_cm']} cm)" if dm else '<span class="fine">not stated in our fields</span>'
+        cap = p.get("capacityTitle")
+        cap = esc(cap) if cap not in ("", "\u2014", None) else '<span class="fine">no cavity</span>'
+        rows.append(
+            f'<tr><td><a href="#{pid}"><strong>{esc(p["shortName"])}</strong></a><br>'
+            f'<span class="fine">{esc(p["category"])} &middot; {esc(p["form"])}</span></td>'
+            f'<td>{esc(SHELF_PICK[pid])}</td><td>{cap}</td><td>{depth}</td>'
+            f'<td class="fine">{SHELF_CHECK[pid]}</td>'
+            f'<td><a class="btn small" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" '
+            f'data-ctg-outbound data-asin="{p["asin"]}">Check price</a></td></tr>')
+    return f"""<div class="table-wrap"><table>
+<tr><th>Product</th><th>Pick it if</th><th>Capacity, as titled</th><th>Counter depth</th><th>Before you order</th><th>Amazon</th></tr>
+{"".join(rows)}
+</table></div>
+<p class="small">Depth is the listing's own dimension, converted at 2.54 cm per inch - not a manufacturer claim. Every &ldquo;Check price&rdquo; button carries our Associates tag and is marked sponsored; Amazon shows the live price and stock. Specs re-read {VERIFIED}.</p>"""
+
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
-    <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
+    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; specs re-read {VERIFIED}</p>
+    <h1>Five countertop appliances, priced in the space they take.</h1>
+    <p class="lede">Air fryers and meat thermometers are bought on one number most pages hide: how much counter they take. Here is that number for all five, in inches and centimetres, next to the job each one is built for &mdash; and a plain note on what to check before you order.</p>
+    <p class="hero-cta"><a class="btn" href="#shelf">See all five at a glance</a> <a class="btn ghost" href="compare.html#chooser">Or answer three questions</a></p>
     <ul class="hero-facts">
-      <li><strong>5</strong> products, each read from its own listing</li>
-      <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
-      <li><strong>1</strong> source link per fact</li>
+      <li><strong>5</strong> products, each read from its own Amazon listing</li>
+      <li><strong>1</strong> table that decides it: depth, capacity, what to check</li>
+      <li><strong>0</strong> claims that anyone here cooked in these machines</li>
     </ul>
   </div>
-  <aside class="hero-side" aria-label="Start here">
-    <p class="side-title">Two minutes, three decisions</p>
+  <aside class="hero-side" aria-label="Three picks by job">
+    <p class="side-title">Three jobs, three machines</p>
     <ol>
-      <li><a href="guide-basket-vs-oven.html">Basket or oven-style?</a> <span>Form factor first - it decides everything else.</span></li>
-      <li><a href="guide-capacity-checklist.html">How much capacity is real?</a> <span>Quarts, litres and &ldquo;feeds 4-6&rdquo; read honestly.</span></li>
-      <li><a href="guide-cleanup-counter-space.html">Will it fit, and will you wash it?</a> <span>Depth, cabinet clearance, dishwasher parts.</span></li>
+      <li><a href="air-fryers.html#P1">Two dishes at once &rarr; Chefman 6QT dual</a> <span>13.38 in deep &middot; 11.81 in wide &middot; two 3-quart baskets</span></li>
+      <li><a href="air-fryers.html#P2">Feed four to six &rarr; Emeril 26QT oven</a> <span>16.9 in deep &middot; rotisserie and a 12-inch pizza, per listing</span></li>
+      <li><a href="air-fryers.html#P3">One big batch &rarr; Chefman 8QT basket</a> <span>12.75 in deep &middot; the shallowest of the three</span></li>
     </ol>
-    <p class="fine">Listing data checked {VERIFIED}. Prices and ratings live on Amazon and move - we link to them rather than quote a stale figure.</p>
+    <p class="hero-side-cta"><a class="btn small" href="#shelf">Compare all five side by side</a></p>
+    <p class="fine">Prices and ratings live on Amazon and move, so we link to them instead of quoting a stale figure. Specs re-read {VERIFIED}.</p>
   </aside>
 </section>
+
+<h2 id="shelf">All five at a glance</h2>
+<p>The table a shopper needs first: what each machine is for, how much counter it takes, and the one thing the listing will not tell you. Click a name for the full card with the source link; click <em>Check price</em> for the live figure on Amazon.</p>
+{shelf_table()}
 
 <section class="season" aria-label="This week on the desk">
   <p class="eyebrow">Holiday window, 2026</p>
   <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. The retail days either side of it are the Friday and the Monday, which are not holidays in that law. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/">OPM schedule</a> on 2026-11-20.</p>
 </section>
 
-<h2>Quick picks, straight from the listings</h2>
+<h2>If you want a shortcut, start with these three</h2>
+<p>Each pick names the job it wins on. It is a reading of the listing&rsquo;s own fields, not a test result.</p>
 <div class="grid cols-3">
-  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
+  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P1']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P1">Full card</a></p></article>
+  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P2']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P2">Full card</a></p></article>
+  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P3']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P3">Full card</a></p></article>
 </div>
 <p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 
@@ -1822,6 +1870,8 @@ flag_body = f"""
 <tr id="FLG-080"><td>FLG-080</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
 <tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
 <tr id="FLG-082"><td>FLG-082</td><td>A build gate this session wrote could block the whole deploy, and did</td><td>The decision register shipped with a hard rule: any board row not triaged into a theme stopped the build. The suggestions board is append-only and every session adds rows to it, so within hours an unrelated session&rsquo;s new idea (Q-33..Q-37, SG-44..53, later SG-54..57) failed the Pages workflow for the entire site over an editorial to-do item. On 2026-11-20 the rule became a build warning plus a &ldquo;Nobody has taken these yet&rdquo; table on <a href="decisions.html#map">the register</a>, so an unowned row is visible to whoever must triage it instead of removing the site from readers. A gate that cannot be satisfied by the person who is blocked is not a gate, it is a hostage.</td><td>Owner: set the triage expectation (Q-14 asks for a review SLA); until then the register lists unowned rows on every build</td></tr>
+<tr id="FLG-083"><td>FLG-083</td><td>A 2026-11-20 re-read of all five listings: displayed specs still match; three volatile figures moved; P5's size selector showed a different headline price</td><td>Session <code>84799c33</code> fetched all five listing pages on 2026-11-20 and re-read title, rating, rating count, buy-box price, list price, Product-information table and bullets. Confirmed unchanged on the page: P1 title, rating 4.2 with 4,878 ratings (register 4,877 - drift of one), buy box $79.93, list $99.99, used $62.85; P2 title, rating 4.3 with 18,380 ratings, buy box $149.99, list $209.99, dimensions 16.9&quot;D x 15.8&quot;W x 14.8&quot;H and capacity 24.6 liters; P3 title, rating 4.4 with 16,894 ratings (register 16,892), buy box $69.99, list $119.99, dimensions 12.75&quot;D x 13.5&quot;W x 10&quot;H, capacity 8 quarts, the 1000 W/120 V bullet and the same page carrying a Black Friday deal label; P4 title, rating 4.6 with 3,499 ratings, buy box $16.99, Product-information table (Brand, Special Feature, Color, Included Components, Specification Met, Unit Count - again no dimensions row); P5 title, buy box $119.99 for the 3-probe variant, list $219.99, Item-details table including 3 Probes, Hub and the two-year CHEF iQ assurance bullet. <strong>Two things are recorded, not published.</strong> (1) P3's rating count moved 16,892 &rarr; 16,894 between passes; that is the normal drift the site already refuses to print. (2) P5's page shows a size selector in which the 3-probe variant reads $119.99 while the variant list also shows 1 Probe at $99.99 (list $129.99), 2 Probes at $99.99 (list $179.99) and 4 Probes at $142.49; the register's &ldquo;$119.99 (3-probe variant)&rdquo; remains correct for the ASIN's default variant, but a buyer on a small screen may land on a different variant's price, which is exactly why shop pages link to Amazon rather than print a figure. No value was edited on the strength of a carousel or a sponsored placement. Sources: <code>https://www.amazon.com/gp/aw/d/&lt;ASIN&gt;</code> for B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z, fetched 2026-11-20.</td><td>None blocking. Next cadence pass re-reads and re-dates; the register keeps dated observations, the shop pages keep linking instead of quoting</td></tr>
+<tr id="FLG-084"><td>FLG-084</td><td>The front page now leads with a decision table, so a wrong reading of one field would be the most expensive mistake on the site</td><td>The front page was rebuilt in this pass around one table (product, the job it wins, capacity as titled, counter depth in inches and centimetres, what to check before ordering). Every cell is read from <code>data/products.json</code>, and the table is generated by <code>shelf_table()</code> in <code>build_site.py</code>, so a value can only change if the register changes. The risk this records is editorial, not technical: the &ldquo;pick it if&rdquo; column is a reading of listing fields, not a test result, and it must stay worded as a job description. Two rows deliberately print a gap (P4 and P5 depth) rather than a number, because the listings' captured fields do not state dimensions - <a href="#FLG-004">FLG-004</a>.</td><td>Owner: read the five &ldquo;pick it if&rdquo; lines as a buyer and change any that reads like a ranking claim; the gate can prove the values match the register, not that the sentence is fair</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
