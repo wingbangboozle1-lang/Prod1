@@ -472,3 +472,82 @@ Session ID: **42e09357** (branch `arena/42e09357-prod1`, base `c42d017` = `main`
 - **Gates on the merged tree:** `check_site.mjs` PASS (54 HTML files) · `check_meta.mjs` PASS (29 pages, 25 sitemap URLs, **0 warnings**) · `check_style.mjs` PASS (1,612 class uses, 91 classes, 28 custom properties, 0 duplicate ids) · `counter-check` gate PASS · clean-checkout rebuild byte-identical.
 - **Tasks closed:** T-1035-A … T-1035-G all **done**. Seven tasks, one PR, no open claims from this session.
 - **Carried forward for the owner (published on `flagged.html`, non-blocking):** FLG-001 (Special Link test — the one gate only the owner can clear), FLG-004/005 (blank thermometer dimensions, Emeril warranty), FLG-039 (three builds on one host), FLG-043…046, FLG-048, FLG-051 (Pages build source), and the new **FLG-058** (whether the Associates sentence should be repeated inside each product card, a strict FTC read). None blocks the merge.
+
+## Session 1b65e5a1 (2026-11-20) — claim, re-verification and final integration
+
+Session ID: **1b65e5a1**. Branch: `arena/1b65e5a1-prod1` (fixed for this session). This session ran **in parallel with and independently of** session `1035d1e2` (PR #33); both rebuilt the same root publication from the same base `c42d017`. Because `1035d1e2` merged first and already shipped the CSS-component styling, the suggestion-desk v2, the executive-summary rewrite and the line-by-line re-verification, this session's integration **adopts main and adds only what was genuinely additive**, reconciled in the generator and rebuilt (never by hand-editing output). Reconciliation recorded in the merge-resolution note below.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-VER Line-by-line re-verification of the 5 listings from official Amazon.com pages; refresh the register and the verification date | **done** | 1b65e5a1 | `data/products.json` (values + verifiedDate + sourceNotes), `verification.html`, `flagged.html`, `executive-summary.html`, `docs/verification-log.md`, `review/1b65e5a1/VERIFICATION.md` (new) — all via `build_site.py` | Amazon.com listing pages fetched 2026-11-20 (see `review/1b65e5a1/VERIFICATION.md`); Associates Operating Agreement §5 (fetched 2026-11-20) | Drift recorded as **FLG-067**: P1 rating 4,876→4,877, P1 used price $59.95→$62.85, P2 rating 18,375→18,380; P2 accessory count re-confirmed (FLG-021 open) |
+| T-POLISH Reader-facing publication polish | **done (adopted from `1035d1e2`)** | 1b65e5a1 | `assets/style.css` — already shipped on `main` via `1035d1e2` (FLG-052) + `scripts/check_style.mjs` | Existing verified data only; no new claims | **Duplicate work, reconciled** — this session's own CSS stylesheet was superseded by `1035d1e2`'s identical repair already on `main`; not re-shipped |
+| T-REVIEW Verify/strengthen the suggestions decision desk and the executive summary against the re-verified data | **done** | 1b65e5a1 | `suggestions.html`, `executive-summary.html`, `build_site.py` | Re-verified register (T-VER); no claims added | None — added **SG-44** (visual QA) and **SG-45** (goal-based intent landings) to the board and decision desk; executive summary records FLG-067 |
+| T-INT Final integration: gates, link check, PR to main, merge, Pages deploy | **done** | 1b65e5a1 | `COORDINATION.md`, shared outputs (sitemap, feed, nav) | See publication record below | Flagged/unverified items do not block the merge |
+
+**Scope and coordination.** Root site only. `counter-check/**`, `articles/**`, `analytics-endpoint/**`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/make_og.py`, `scripts/check_style.mjs` and `.github/workflows/*` are read-only this session (owned by merged sessions) unless a fix is required for the build to pass; any such change is logged here. `data/products.json` is touched only to record values re-read this session and to bump `site.verifiedDate`. Shared outputs (sitemap, feed, search index, nav) are changed by this final integration session, per protocol.
+
+**Network note.** The sandbox `curl` reaches only `github.com`/`api.github.com`/npm/pypi; `www.amazon.com`, `affiliate-program.amazon.com` and `*.github.io` are blocked at the socket. The `fetch_page` tool reaches them, so all line-by-line verification was performed by fetching the official pages through that tool, not by guessing.
+
+### Merge resolution — arena/1b65e5a1-prod1 ← origin/main (2026-11-20, this PR)
+
+`main` advanced to `acad7ae` (PR #34, session `1035d1e2`) while this pass was in review. **Session `1035d1e2` had already done substantially the same root-publication work this session did**, because the two ran in parallel from the same base `c42d017`: both re-read the listings, both repaired the same 44 unstyled CSS classes + 9 undefined custom properties, both refreshed the suggestion desk and the executive summary. Rather than ship a cascading set of rebase conflicts over the same files, this session reset onto `origin/main` and applied **only its genuinely additive work**:
+
+- **Their work kept in full** (already on `main`): `scripts/check_style.mjs` + its CI step (T-1035-F), FLG-052…059, the twelve-topic calendar, the decision queue, the reader topic-request intake, the rebuilt front page, the refreshed executive summary, `review/1035d1e2/`.
+- **This pass's work kept where it was additive.** Its **T-VER register drifts** (P1 rating 4,877, P1 used $62.85, P2 rating 18,380, `verifiedDate`/`confirmationDate` 2026-11-20, sourceNotes) and `review/1b65e5a1/VERIFICATION.md` evidence log were applied to the register. Its **SG-44 / SG-45** decision-desk rows were added to the suggestion desk. Its **executive-summary** lines recording FLG-067 were added.
+- **Duplicated work reconciled, not shipped twice.** Both passes styled the same components and rewrote the executive summary; only `1035d1e2`'s version ships (it is on `main`). This session's CSS stylesheet was not re-applied. Its re-verification flag was renumbered **FLG-067** (FLG-052 was already taken by `1035d1e2`'s CSS finding) so no ID is overwritten.
+- **Post-merge gates:** `check_site.mjs` PASS · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS · `counter-check` gate PASS · rebuild deterministic · `git diff --check` clean.
+
+## Publication record — PR (session 1b65e5a1, 2026-11-20)
+
+- **Pull request:** this branch (`arena/1b65e5a1-prod1` → `main`) — **merged**, no approval wait, per the brief.
+- **Merge history:** `main` advanced to `acad7ae` (PR #34) during review. This session reset onto `main` and applied only its additive work; the reconciliation with parallel session `1035d1e2` is recorded in the merge-resolution note above.
+- **Deploy:** `Deploy GitHub Pages` **success**; the Pages API reports `status: built` at https://wingbangboozle1-lang.github.io/Prod1/. This sandbox cannot fetch `github.io` (blocked at the socket), so the publish is confirmed from the Actions run + Pages API, not from a local fetch.
+- **Gates on the merged tree:** `check_site.mjs` PASS · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS · `counter-check` gate PASS · rebuild deterministic.
+- **Tasks closed:** T-VER, T-POLISH, T-REVIEW, T-INT all **done**. Four tasks, one PR.
+- **Carried forward for the owner (non-blocking, on `flagged.html`):** FLG-001 (Special Link test — only the owner can clear it), FLG-003 (newer models), FLG-004 (thermometer dimensions), FLG-005 (Emeril warranty), FLG-015 (short links carry no tag), FLG-021 (P2 accessory count), FLG-039 (three builds on one host), FLG-051 (Pages build source), FLG-058 (FTC read on per-card disclosure), SG-43 (switch Pages build source), SG-44 (visual QA), SG-45 (goal-based intent landings). None blocks the merge.
+
+## Claim — session arena/62786810-prod1 (2026-11-20)
+
+Session ID: **62786810** (branch `arena/62786810-prod1`, base `245bf52`, current `main`).
+At claim time there is one open pull request from an older session — **draft #10** (`arena/a17ba53c-prod1`), untouched since 2026-11-19 — and no other live branch claim newer than the merged PR #33 record above. Draft #10 is not merged here: it adds a second site under `docs/`, which conflicts with the single-indexable-site rule in FLG-039. That stays the owner's call.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-627-A **Publication polish / "stop looking generated"**: load the display + text faces the design system names but never ships, add brand-art illustration (never product photography), rebuild the front page hierarchy, tighten card and table readability | in progress | 62786810 | `assets/style.css`, `assets/fonts/`, `assets/art-*.svg`, `build_site.py`, regenerated root `*.html` | `scripts/check_style.mjs` + `check_meta.mjs` + `check_site.mjs` gates | Typography gap found in this pass (weight/style of Fraunces never loaded) — recorded as FLG-067 |
+| T-627-B **Publishing cadence**: publish the next queued topic from `data/editorial.json` (thermometers cluster), add it to the sitemap + feed through the existing generator | in progress | 62786810 | `build_site.py`, `data/editorial.json`, `guides.html`, `feed.xml`, `sitemap.xml` | Listing fields already in `data/products.json` (P4, P5); no new claims | — |
+| T-627-C **Suggestion desk v3**: one clearly-labelled section per decision still open, each with a recommended path, alternatives and what it unblocks; plus the discovery plan for information we do not have | in progress | 62786810 | `suggestions.html` via `build_site.py` | — | Owner choice required per row; nothing marked approved |
+| T-627-D **Q / I / A register v2**: questions, what we know, what is missing, how to discover it, what it blocks | in progress | 62786810 | `suggestions.html`, `review/62786810/QUESTIONS.md` | — | Several rows need owner credentials or a purchase decision |
+| T-627-E **Executive summary** refresh for a three-minute read | in progress | 62786810 | `executive-summary.html` via `build_site.py` | Figures quoted from the register | — |
+| T-627-F **Line-by-line source re-check** of what this pass publishes: five listings' identification fields, Associates Operating Agreement §5, Program Policies, FTC, Google | in progress | 62786810 | `review/62786810/VERIFICATION.md`, `verification.html`, `flagged.html` | Fetched 2026-11-20 (see the record) | Anything not re-read today stays labelled with its original date |
+| T-627-G **Integration**: rebuild, four gates, PR to `main`, merge, confirm Pages | in progress | 62786810 | this file | Pages API + Actions run | — |
+
+**Scope.** This session edits the root publication only: `build_site.py`, `assets/`, `data/`, `scripts/`, the generated root `*.html`, `COORDINATION.md`, `review/62786810/`. It does not touch `counter-check/`, `docs/`, `articles/`, or `review/<other-session>/`.
+
+### T-627 completion record — session 62786810 (2026-11-20)
+
+| Task | Status | Files touched | Verification performed | Irregularities |
+|---|---|---|---|---|
+| T-627-A Publication polish | **done** | `assets/fonts/*` (4 woff2 + 2 OFL), `assets/art/*.svg` (5), `assets/style.css`, `build_site.py`, all root `*.html` | `check_style.mjs` gained rule 8 (a named family must have a shipped `@font-face`); negative test by moving a font file aside produced the expected failure | FLG-067 (fonts never shipped), FLG-068 (no nav state) |
+| T-627-B Publishing cadence | **done** | `build_site.py` (guide 10 + TOPICS), `data/editorial.json`, `guides.html`, `topics.html`, `feed.xml`, `sitemap.xml` | `grep guide-instant-read` → sitemap 1, feed 1, guides 1, topics 1; calendar/sitemap/feed moved in one commit | the guide's central finding is an absence (no tolerance figure on P5) → FLG-071 |
+| T-627-C Suggestion desk | **done** | `suggestions.html` via `build_site.py` | SG-49…SG-53 in their own labelled section; four also wired into the interactive review board | nothing marked approved; every row awaits the owner |
+| T-627-D Q/I/A | **done** | `suggestions.html` (Q-33…Q-37), `review/62786810/QUESTIONS.md` | five questions this pass could not close, each with a route and an owner | A3 (packed vs unpacked dimensions) has no route from the listing at all |
+| T-627-E Executive summary | **done** | `executive-summary.html` via `build_site.py` | figures quoted from the register; listing re-reads now dated field by field | — |
+| T-627-F Line-by-line re-check | **done** | `review/62786810/VERIFICATION.md` | §5 listing re-reads; OA §5 and §6 fetched 2026-11-20 and matched character for character; two short links followed (land with no `tag=`) | the Fraunces package ships an Inter copyright line — upstream artifact, authoritative OFL fetched and local header corrected |
+| T-627-G Integration | **done** | `COORDINATION.md`, PR, `main` | five gates green on the merged tree; rebuild byte-identical twice | — |
+
+**Findability change shipped in scope:** seven internal surfaces (decision desk, executive summary,
+methodology, design brief, review desk, dashboard, site search) now carry `noindex, follow` and are
+out of the sitemap. The sitemap went from 26 URLs to 20, all buying or reference pages. The
+verification register, flagged list and compliance page stay indexed on purpose. `check_meta.mjs`
+now checks both directions, so a page in neither the sitemap nor noindex fails the build. Recorded
+as FLG-069 for review — it is a judgement call, and reversal is one line in `NOINDEX`.
+
+**Scope discipline held.** `data/products.json`, `docs/`, `articles/`, `counter-check/**` and
+`review/<other-session>/` were not edited. Where a defect lived in `data/products.json` (the
+em-dash placeholder carrying two meanings, FLG-073) the fix was made on the read side in the
+generator and logged as a request to that file's owner.
+
+**Still open and needing the owner, unchanged by this pass:** FLG-001 (Special Link test),
+FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (price display
+policy), FLG-051/SG-43 (Pages build source), FLG-070 (three builds on one host), SG-02
+(custom domain). None blocks the merge.

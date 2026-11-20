@@ -73,6 +73,12 @@
         "note": "Deviation from the one-a-week rule, recorded rather than smoothed over: the window these guides serve closes on 30 November 2026, so they shipped together on 2026-11-20. None of the three is presented as a response to measured demand; demand data arrives only after SG-02 and D-04."
       },
       {
+        "week": "2026-11-24",
+        "title": "Holiday air fryer gifts: how to choose one that gets used",
+        "status": "published",
+        "page": "guide-gift-picks.html"
+      },
+      {
         "week": "2026-12-01",
         "title": "Air fryer basket vs oven: which one actually fits your counter?",
         "status": "queued",
@@ -81,8 +87,9 @@
       {
         "week": "2026-12-08",
         "title": "Instant-read vs wireless thermometer: do you need both?",
-        "status": "queued",
-        "page": ""
+        "status": "published",
+        "page": "guide-instant-read-vs-wireless.html",
+        "note": "Published by session 1035d1e2 on 2026-11-20, one week ahead of its queue slot; the deviation is recorded here so the calendar keeps one history."
       },
       {
         "week": "2026-12-15",
@@ -113,10 +120,17 @@
         "title": "Air fryer accessories: which ones the listing actually includes",
         "status": "queued",
         "page": ""
+      },
+      {
+        "week": "2027-01-26",
+        "title": "Do you need a thermometer at all? What a $17 tool changes",
+        "status": "queued",
+        "page": ""
       }
     ],
     "deviations": [
-      "2026-11-20: three guides in one publish for the Thanksgiving window (see the queue note). Back to one per week from 2026-12-01."
+      "2026-11-20: three guides in one publish for the Thanksgiving window (see the queue note). Back to one per week from 2026-12-01.",
+      "2026-11-20: session 1035d1e2 published the instant-read vs wireless guide ahead of its 2026-12-08 slot; both deviations are recorded instead of being hidden by rewriting the queue."
     ]
   },
   "voice": {
@@ -151,5 +165,7 @@
       "only a few left",
       "don't miss out"
     ]
-  }
+  },
+  "contentDate": "2026-11-20",
+  "contentDateNote": "Date the published HTML last changed. Distinct from data/products.json verifiedDate, which is the date the Amazon listings were last read (2026-11-19). Google's sitemap guidance says lastmod must be verifiably accurate, so the sitemap and the masthead issue line use this field and the 'as listed' wording on cards uses verifiedDate. The two must not be merged: one dates the page, the other dates the evidence."
 }
