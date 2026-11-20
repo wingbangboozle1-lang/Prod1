@@ -25,6 +25,10 @@ PAGES = []          # slug, title, description, kind - drives sitemap, feed and 
 NOINDEX = {
     "executive-summary.html", "suggestions.html", "design-brief.html", "methodology.html",
     "review-desk.html", "dashboard.html", "search.html",
+    # The error document. GitHub Pages returns it with a real 404 status for missing
+    # paths, but a direct visit to /404.html answers 200 - so the meta tag, not the
+    # status code, is what keeps that URL out of the index.
+    "404.html",
 }
 # These two are audit pages that a buyer may legitimately land on, so they stay indexable;
 # they are named here to make the choice explicit rather than implied by omission.
@@ -466,7 +470,7 @@ def crumbs(slug, title):
     if slug != "index.html":
         items.append({"@type": "ListItem", "position": 2, "name": title.split(" | ")[0], "item": abs_url(slug)})
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items}
-def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
+def page(slug, title, desc, body, extra_head="", body_class="", canonical=None, register=True):
     kind = "Article" if body_class == "guide-page" else "webpage"
     # A consolidated page declares another URL as canonical, so it must not also be in the
     # sitemap; Google's canonicalisation guidance is one signal per page, not two.
@@ -492,8 +496,12 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
                "url": abs_url(slug), "inLanguage": "en-US", "description": desc})
     ldscripts = "".join(jsonld(x) for x in ld)
     ogimg = BASE + "/assets/og-image.png"
-    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon,
-                  "indexable": not (slug in NOINDEX and not canonical)})
+    # register=False: the file is written and gated like every other page, but it is not
+    # a page of the publication - an error document must not enter the sitemap, the
+    # search index or the executive summary's page count.
+    if register:
+        PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon,
+                      "indexable": not (slug in NOINDEX and not canonical)})
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2925,6 +2933,47 @@ for slug, target, dest, title, desc, h1 in MERGED:
 """
     page_to(slug, title, desc, merged_body, canonical=target)
 print("consolidated pages wired:", len(MERGED))
+# ---------- custom 404 (served by GitHub Pages for any missing path) ----------
+# GitHub Pages looks for a file named 404.html at the site root and returns it, with a
+# real 404 status, for every address that does not exist (docs.github.com, "Creating a
+# custom 404 page for your GitHub Pages site"). Without this file the platform's stock
+# error page ships instead - no disclosure strip, no navigation, no way back into the
+# site, which the brief requires on *every* page. Google's guidance for error pages
+# (developers.google.com, "Troubleshoot Google Search crawling errors"): say clearly
+# the page is missing, keep the site's look and feel including navigation, link to the
+# home page and the most-read content, and give a way to report a broken link.
+#
+# Two mechanics make the page work when it is served at an arbitrary depth (a missing
+# path can be any depth under the site, so relative hrefs would resolve against the
+# wrong directory):
+#   1. <base href> points every relative URL at the site root - nav, footer, strip.
+#   2. The shell's fragment-only skip link (#main) would resolve against <base> and
+#      jump to the HOME page, so it is rewritten to this file's own absolute URL.
+# register=False keeps the error document out of the sitemap, the search index and the
+# executive summary's page count: it is not a page of the publication.
+_404_body = """
+<p class="eyebrow">Error 404</p>
+<h1>Page not found</h1>
+<p class="lede">That address does not exist on this site. It may have been a typo, or a page we folded into a fuller guide - we keep one answer per question, so some pages now live under a different address. Nothing is broken on your side; start again from one of these:</p>
+<div class="callout">
+<p><strong>The front door:</strong> <a href="index.html">the home page</a> - the five picks, the three-question chooser and today's issue.</p>
+<p><strong>By category:</strong> <a href="air-fryers.html">air fryers</a> or <a href="thermometers.html">meat thermometers</a>; or put them <a href="compare.html">side by side</a>.</p>
+<p><strong>By question:</strong> <a href="guides.html">the buying guides</a> - each one written from the listing, with its source and the date it was read.</p>
+</div>
+<p class="fine">If a link on this site brought you here, that link is wrong - tell us on the <a href="about.html">about page</a> and we will fix it. You can also <a href="search.html">search the site</a> for what you were looking for.</p>
+"""
+page_to("404.html",
+        "Page not found | Countertop Guide",
+        "That address does not exist on this site. Start again from the home page, "
+        "browse the five verified picks, or open a buying guide - every page shows its sources.",
+        _404_body,
+        extra_head=f'<base href="{BASE}/">',
+        register=False)
+# The skip link is fragment-only: with <base> it would resolve to the site root's
+# #main (the home page). Point it at this file so "Skip to content" stays put.
+_h404 = open("404.html", encoding="utf-8").read().replace(
+    'class="skip" href="#main"', f'class="skip" href="{BASE}/404.html#main"')
+open("404.html", "w", encoding="utf-8").write(_h404)
 # ---------- sitemap / feed / robots / search index ----------
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
