@@ -19,9 +19,9 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
 | Campaign ledger: empty, defined columns, first-party reports only | `methodology.html` + `docs/campaign-ledger.html` | Empty by design; no conversion score or revenue forecast anywhere | — |
 | Compliance gate in the publishing workflow (disclosure + API policy checks) | `.github/workflows/pages.yml`: determinism check + `check_site` + `check_meta` + `check_style` + `check_measure` (+ endpoint self-test) + `verify_structure` before upload | All six green on this branch (see §3) | FTC: https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers |
 | "Read like a shop, not an audit"; publication front page; dashboard surfaces in footer + one nav group | `index.html` hero/picks/chooser/guides; `DESIGN_PROMPT.md`; internal surfaces `noindex, follow` and out of the sitemap | Shipped across several passes; kept in this pass | https://wingbangboozle1-lang.github.io/Prod1/ |
-| Question-shaped guides; publishing cadence; each guide added to sitemap + feed | 13 guides in 3 clusters; calendar `topics.html` + `data/editorial.json`; `sitemap.xml` (23 URLs) + `feed.xml` generated from the page registry | This pass published the thermometer guide and reconciled the calendar; duplicate rows consolidated (FLG-093/SG-62) | topics.html; feed.xml |
-| Suggestion desk with recommended paths + decision board before implementing | `suggestions.html`: SG-01..SG-64 with Path A/B/C and recommended paths, localStorage decision board with export | Shipped; this pass added SG-62..64 | suggestions.html |
-| Clear Q/I/A list of what is known / missing / how to discover | `suggestions.html` Q-01..Q-46 | Shipped; this pass added Q-45 (accessory count) and Q-46 (measured queries) | suggestions.html |
+| Question-shaped guides; publishing cadence; each guide added to sitemap + feed | 13 guides in 3 clusters; calendar `topics.html` + `data/editorial.json`; `sitemap.xml` (23 URLs) + `feed.xml` generated from the page registry | This pass published the thermometer guide and reconciled the calendar; duplicate rows consolidated (FLG-093/SG-71) | topics.html; feed.xml |
+| Suggestion desk with recommended paths + decision board before implementing | `suggestions.html`: SG-01..SG-73 with Path A/B/C and recommended paths, localStorage decision board with export | Shipped; this pass added SG-71..64 | suggestions.html |
+| Clear Q/I/A list of what is known / missing / how to discover | `suggestions.html` Q-01..Q-50 | Shipped; this pass added Q-49 (accessory count) and Q-50 (measured queries) | suggestions.html |
 | Executive summary | `executive-summary.html` | Refreshed this pass | executive-summary.html |
 | Parallel-session coordination board | `COORDINATION.md` | Claimed, worked, and recorded per protocol | this file + COORDINATION.md |
 
@@ -30,10 +30,10 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
 1. **Topic-calendar duplication (fixed, reversible).** TOPICS 06 vs 11 (same question),
    09 vs published guide 01, 12 vs published gift guide — the FLG-047 trap in a new
    place. Consolidated to the surviving guides; owner-reversible; recorded as
-   **FLG-093 / SG-62**. The `data/editorial.json` queue had drifted from the TOPICS
+   **FLG-093 / SG-71**. The `data/editorial.json` queue had drifted from the TOPICS
    table in the same way; both are reconciled. (IDs: renumbered twice during the
    merge after parallel passes claimed FLG-074/090/091/092, SG-54..61 and Q-38..44;
-   the final numbers are FLG-093/094, SG-62/63/64, Q-45/46.)
+   the final numbers are FLG-093/094, SG-71/63/64, Q-49/46.)
 2. **Stale typed counts (fixed).** `guides.html` said "Ten guides" in the heading and
    "Nine question-led guides" in the meta description (the real count was 10 before
    this pass); `topics.html`'s meta said "five published, seven queued" while its body
@@ -65,7 +65,7 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
    consolidated page `guide-dual-vs-single.html`. For `guide-accessories-included.html`
    (both passes wrote the same URL) the fuller checklist-and-table draft survives with
    the other pass's baskets-count FAQ carried in. Superseded drafts remain in git
-   history; each is one commit away. Owner call: SG-62.
+   history; each is one commit away. Owner call: SG-71.
 8. **Draft PR #10** (`arena/a17ba53c-prod1`, "Counter Notes: buyer site, guides,
    dashboards, and checks (GitHub Pages from docs/)") is still open at the time of
    writing. Not merged by this session: it conflicts with the one-indexable-site rule.
