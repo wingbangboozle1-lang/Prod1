@@ -85,12 +85,17 @@ everything the moment some of it was touched.
 
 Full text on `flagged.html`:
 
-- **FLG-082** — `topics.html` headline/title/description said "twelve … five published,
-  seven queued" while the table held fifteen rows (ten published). Counts now computed
-  from the data. Fixed.
-- **FLG-083** — three queued topics restated guides that were already published; two were
-  near-duplicates of each other. Rows removed from the queue. Fixed.
-- **FLG-084** — the front page rendered each of three products twice (pick card + full
-  register card) before a single buy button. Replaced with one shelf card per product.
-  Fixed.
-- **FLG-085** — scope note: titles and identity were re-read; every other spec was not.
+- **FLG-085** — `topics.html` printed "twelve buyer questions" in its `<title>`, `h1` and
+  description ("five published, seven queued") while the table below held fifteen rows
+  (twelve published, three queued). Counts are now computed from `TOPICS`. Fixed.
+- **FLG-086** — the front page rendered each of three products twice (quick-pick card, then
+  the full register card) before a single buy button. Replaced with one shelf card per
+  product. Fixed.
+- **FLG-087** — scope note: titles and buy boxes were re-read; every other spec field was
+  not, so `verifiedDate` is unchanged by this session.
+
+Two earlier rows from this session were dropped in the merge, not forgotten: it had removed
+three queued topics as duplicates of published guides, but another session published those
+three as full guides (`guide-counter-depth-fit.html`, `guide-dual-vs-single-basket.html`,
+`guide-accessories-included.html`) in the same window. Publishing them is the better answer
+than deleting the rows, so this branch adopts the published pages and keeps no deletion.

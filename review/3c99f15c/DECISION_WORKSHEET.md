@@ -179,13 +179,13 @@ These four gate revenue. Everything else in this file is polish compared with th
   reason it is off is a policy constraint, not a design preference — so this is the row with
   the largest revenue upside in the whole file.
 
-### C2. Which topics, chosen how? — `SG-32`, `FLG-078`, `FLG-083`
+### C2. Which topics, chosen how? — `SG-32`, `FLG-078`, `FLG-085`
 
 - **Question.** Keep publishing on editorial judgement, or wait for measured queries?
-- **What we know.** Twelve question-shaped topics are on the calendar: ten published, two
-  queued. This pass removed three queued topics that restated already-published guides —
-  publishing them would have re-created the duplicate-page problem `FLG-047` was about.
-  Nothing on the site claims any topic is popular or in demand.
+- **What we know.** Fifteen question-shaped topics are on the calendar: twelve published, three
+  queued. This pass made those counts derive from the data after they had drifted out of step
+  with the table that lists them (`FLG-085`). Nothing on the site claims any topic is popular
+  or in demand.
 - **What we do not know.** Which questions people actually type. That requires A5.
 - **What would settle it.** Search Console queries after 28 days (A5), plus the analytics
   events from A3. Then the next four topics are chosen from what people searched for and did
@@ -307,10 +307,10 @@ low-cost instruments, in order of value per hour:
 For the record, so this worksheet is not mistaken for a plan that was executed:
 
 - Front page rebuilt as a **shelf**: one card per product, no duplicated spec dumps
-  (`FLG-084`).
-- Topic calendar counts derived from data, and three duplicate queued topics removed
-  (`FLG-082`, `FLG-083`).
+  (`FLG-086`).
+- Topic calendar counts derived from the data they describe (`FLG-085`), after they had
+  drifted to "twelve … five published" against a table of fifteen rows.
 - Five product titles re-read against Amazon and confirmed; scope of the re-read recorded
-  (`FLG-085`, `review/3c99f15c/VERIFICATION.md`).
+  (`FLG-087`, and the verification record).
 
 Nothing in sections A–D was implemented. Each needs the owner.

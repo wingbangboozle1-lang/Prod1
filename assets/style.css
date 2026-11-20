@@ -757,30 +757,26 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; }
 }
 
+/* Front page: the hero side column now sells three picks, so it needs a button and tighter rows. */
+.hero-side-cta { margin: .9rem 0 .4rem; }
+.hero-side ol li span { display: block; }
+
 /* ============================================================================
    THE SHELF — the front-page buying surface (session arena/3c99f15c-prod1)
    ----------------------------------------------------------------------------
-   What changed and why: the front page used to stack the full register card for
-   each of five products, spec rows and all, so a buyer met a dossier before an
-   offer and the page scrolled like an audit. The shelf keeps every verified
-   figure but arranges it the way a shop shelf does — picture and label, one
-   line of why, the number that decides it, the number that causes returns,
-   then the buy button in the same place on every card.
-
-   Rules kept: no price or rating figure (FLG-023 / FLG-032), the sponsored
-   label sits with the button, and each card links its own source record.
+   Why: the front page rendered each air fryer twice, first as a "quick pick"
+   and again as the full register card with every spec row and drawing, so a
+   shopper met roughly six thousand characters of register before the first buy
+   button. One card per product replaces both. Every figure is the same dated
+   register field; no price or rating appears (FLG-023 / FLG-032).
    ========================================================================== */
-.shelf-title { margin: 2.2rem 0 .5rem; }
-.shelf-intro { max-width: 66ch; color: var(--ink-2); font-size: .98rem; line-height: 1.65; margin-bottom: 1.8rem; }
 .shelf-head {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap;
   margin: 2rem 0 .2rem; padding-bottom: .55rem;
   border-bottom: 2px solid var(--ink);
 }
-.shelf-head h3 {
-  margin: 0; font-size: 1.28rem; letter-spacing: -.01em;
-}
+.shelf-head h3 { margin: 0; font-size: 1.28rem; letter-spacing: -.01em; }
 .shelf-head p { margin: 0; font-size: .86rem; }
 .shelf-head p a { color: var(--clay-ink); font-weight: 600; text-decoration: none; }
 .shelf-head p a:hover { text-decoration: underline; }
@@ -800,25 +796,27 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   overflow: hidden;
   transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
 }
-.shelf:hover {
-  box-shadow: var(--shadow);
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
-}
+.shelf:hover { box-shadow: var(--shadow); border-color: var(--line-strong); transform: translateY(-2px); }
 .shelf-media {
   position: relative;
   background: linear-gradient(160deg, var(--surface-2) 0%, var(--tint) 100%);
   border-bottom: 1px solid var(--line);
-  padding: .4rem .4rem 0;
 }
-.shelf-media .prod-art { margin: 0; }
-.shelf-media img { display: block; width: 100%; height: auto; }
+.shelf-media .prod-art {
+  margin: 0; padding: .9rem .9rem .2rem;
+  background: none; border: 0; border-radius: 0;
+}
+.shelf-media .prod-art img { max-width: 100%; }
 .shelf-chip {
   position: absolute; left: .75rem; top: .75rem;
   background: var(--surface); color: var(--clay-ink);
-  border: 1px solid var(--line-strong);
-  font-weight: 700; letter-spacing: .02em;
+  border: 1px solid var(--line-strong); font-weight: 700;
   box-shadow: var(--shadow-sm);
+}
+.shelf-form {
+  position: absolute; right: .75rem; top: .75rem;
+  background: rgba(255, 255, 255, .88); color: var(--ink-2);
+  border: 1px solid var(--line); box-shadow: none; font-weight: 700;
 }
 
 .shelf-body { padding: 1.05rem 1.15rem .2rem; }
@@ -842,32 +840,23 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
 }
 .shelf-facts > div:last-child { border-bottom: 0; }
 .shelf-facts dt {
-  color: var(--muted); font-size: .72rem; font-weight: 700;
+  flex: 0 1 auto; color: var(--muted); font-size: .72rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .05em;
 }
 .shelf-facts dd {
-  margin: 0; text-align: right; font-size: .88rem; font-weight: 600;
+  flex: 0 1 auto; margin: 0; text-align: right; font-size: .88rem; font-weight: 600;
   color: var(--ink); font-variant-numeric: tabular-nums;
 }
 .shelf-fit { text-align: right; font-weight: 700; font-size: .88rem; color: var(--ink); }
-.shelf-fit-cm {
-  display: block; font-size: .72rem; font-weight: 500; color: var(--muted);
-}
+.shelf-fit-cm { display: block; font-size: .72rem; font-weight: 500; color: var(--muted); }
 .shelf-gap { color: var(--flag); }
 
 .shelf .best, .shelf .watch { font-size: .87rem; padding: .55rem .7rem; }
-.shelf-bullets { font-size: .85rem; }
-.shelf-bullets li { margin: .22rem 0; }
 
 .shelf-buy {
   display: flex; flex-direction: column; gap: .45rem;
   padding: 0 1.15rem 1.1rem; margin-top: .35rem;
 }
-.shelf-buy .price-row {
-  padding: .5rem .65rem; margin: 0 0 .2rem;
-  background: var(--surface-2); border: 1px dashed var(--line-strong);
-}
-.shelf-buy .price-live { font-size: .95rem; }
 .shelf-buy .btn { width: 100%; }
 .shelf-alt { margin: 0; text-align: center; font-size: .82rem; }
 .shelf-buy .sponsored-note { margin: 0; text-align: center; line-height: 1.5; }
@@ -880,25 +869,9 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   .shelf-head { margin-top: 1.6rem; }
   .shelf:hover { transform: none; }
 }
-
-/* the shelf reuses .prod-art inside a full-bleed media well, so it owns its own frame */
-.shelf-media .prod-art {
-  margin: 0; padding: .9rem .9rem .2rem;
-  background: none; border: 0; border-radius: 0;
-}
-.shelf-media .prod-art img { max-width: 100%; }
-/* the row label sits left and its figure right, so a shopper compares one number down a column */
-.shelf-facts dt { flex: 0 1 auto; }
-.shelf-facts dd { flex: 0 1 auto; }
-
-/* ------------------------------------------------------------------- shelf on a phone
-   Most affiliate traffic arrives on a phone, so the shelf is tuned for a 360-420 px
-   viewport rather than left to the default column stack. Two changes matter:
-   1. `.btn` is an inline-flex box. In a 1fr grid column a long label ("See today's
-      price on Amazon") sets the column's minimum width and pushes the page sideways,
-      so the shelf button is a block that fills the card and wraps its own text.
-   2. The two fact rows become label-above-value so a long figure never collides with
-      its label at 360 px, and the buy button stays at a 44 px tap target. */
+/* A phone is where most affiliate traffic lands. `.btn` is inline-flex, so in a 1fr
+   grid column a long label ("See today's price on Amazon") sets the column's minimum
+   width and pushes the page sideways; the shelf button is a block instead. */
 @media (max-width: 760px) {
   .shelf-buy .btn { display: flex; width: 100%; min-height: 48px; white-space: normal; text-align: center; }
   .shelf-buy { padding: 0 1rem 1rem; }
@@ -908,18 +881,9 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   .shelf-fit { text-align: left; }
   .shelf-name { font-size: 1.08rem; }
   .shelf-media .prod-art { padding: .5rem .5rem 0; }
-  .shelf-head { gap: .2rem; }
   .shelf-head h3 { font-size: 1.15rem; }
-  .shelf-intro { font-size: .94rem; }
-}
-
-/* two chips on the media well: the reason to pick it, then the form you can sort by */
-.shelf-form {
-  position: absolute; right: .75rem; top: .75rem;
-  background: rgba(255, 255, 255, .86); color: var(--ink-2);
-  border: 1px solid var(--line); box-shadow: none; font-weight: 700;
 }
 @media (max-width: 420px) {
   .shelf-chip, .shelf-form { position: static; display: inline-block; margin: .25rem .25rem 0 0; }
-  .shelf-media { padding: .4rem .4rem .5rem; }
+  .shelf-media { padding-bottom: .5rem; }
 }
