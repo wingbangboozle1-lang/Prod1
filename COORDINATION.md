@@ -979,3 +979,17 @@ table carries `rel="sponsored nofollow noopener"`, `data-ctg-outbound` and the t
 enrolled Associates account), FLG-015 / Q-35 (tracking report), FLG-008 / SG-03 (analytics host),
 FLG-009 / SG-04 (photography licence), FLG-004 (thermometer dimensions), FLG-022 (P3 wattage
 conflict, both values published), SG-02 (custom domain), and the seven gates on `decisions.html`.
+## Claim — session arena/e05155a0-prod1 (2026-11-20)
+
+Session ID: **e05155a0** (branch `arena/e05155a0-prod1`, base `3392c0d` = current `main`). At claim time the tree is clean and equal to `main`; no other session has an open branch or a claim newer than the merged PR #35 record above. This session takes the next slot rather than running a parallel branch.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-E1 Line-by-line re-verification from official sources, this session | done | e05155a0 | read-only (`review/e05155a0/VERIFICATION.md` new) | OA §5 + §6, Program Policies §1/§2(b)/§6(t)/§6(w)/§6(y), Google qualify-outbound-links; five Amazon.com listings fetched 2026-11-20 | None new; register consistent |
+| T-E2 Visual-structure + anti-AI-slop QA pass (code-level layout audit; no browser available) | in progress | e05155a0 | `assets/style.css`, `build_site.py` (chrome/markup only), regenerated root `*.html` | `scripts/check_style.mjs`, `check_meta.mjs`, `check_site.mjs`, `verify_structure.mjs` | FLG-074+ as found |
+| T-E3 Strengthen the design prompt / design-brief with polished-marketing suggestions (catchy spec-backed topics, anti-slop rules, brand & imagery direction) | in progress | e05155a0 | `DESIGN_PROMPT.md`, `design-brief.html` via `build_site.py` | Existing verified data; no new claims | — |
+| T-E4 Suggestion desk + Q/I/A expansion with this session's findings | in progress | e05155a0 | `suggestions.html` via `build_site.py` | Findings from T-E1/T-E2 | Owner choice per row |
+| T-E5 Executive summary refresh for a three-minute read | in progress | e05155a0 | `executive-summary.html` via `build_site.py` | Figures quoted from the register; verification dated this session | — |
+| T-E6 Integration: rebuild, four gates, PR to main, merge, confirm Pages | in progress | e05155a0 | `COORDINATION.md`, shared outputs (sitemap, feed, nav) | See publication record | Flagged/unverified items do not block |
+
+**Scope discipline.** This session edits the root publication only: `build_site.py`, `assets/style.css`, `DESIGN_PROMPT.md`, and the generated root `*.html`, `review/e05155a0/`, `COORDINATION.md`. It does **not** touch `data/products.json` (re-verified read-only, no correction needed), `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/`, or `review/<other-session>/`. Shared outputs (sitemap, feed, search index, nav) are changed by this final integration session only.
