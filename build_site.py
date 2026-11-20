@@ -153,7 +153,7 @@ def nav(slug, prefix=""):
   <button class="btn small secondary" type="submit">Search</button>
 </form>''')
     return "\n".join(out)
-ISSUE = VERIFIED
+ISSUE = E.get("contentDate", VERIFIED)   # page date, not evidence date - see editorial.json
 def issue_bar(slug):
     """A publication says what issue it is and when it was last read. Generated from the same
     date the register uses, so the line cannot drift from the data it describes."""
@@ -1736,7 +1736,7 @@ sm = ['<?xml version="1.0" encoding="UTF-8"?>',
 for pg in PAGES:
     if pg["kind"] == "merged" or not pg["indexable"]:
         continue
-    sm.append(f"<url><loc>{esc(abs_url(pg['slug']))}</loc><lastmod>{VERIFIED}</lastmod></url>")
+    sm.append(f"<url><loc>{esc(abs_url(pg['slug']))}</loc><lastmod>{ISSUE}</lastmod></url>")
 sm.append("</urlset>")
 open("sitemap.xml","w").write("\n".join(sm) + "\n")
 def rfc(d):

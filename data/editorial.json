@@ -153,5 +153,7 @@
       "only a few left",
       "don't miss out"
     ]
-  }
+  },
+  "contentDate": "2026-11-20",
+  "contentDateNote": "Date the published HTML last changed. Distinct from data/products.json verifiedDate, which is the date the Amazon listings were last read (2026-11-19). Google's sitemap guidance says lastmod must be verifiably accurate, so the sitemap and the masthead issue line use this field and the 'as listed' wording on cards uses verifiedDate. The two must not be merged: one dates the page, the other dates the evidence."
 }
