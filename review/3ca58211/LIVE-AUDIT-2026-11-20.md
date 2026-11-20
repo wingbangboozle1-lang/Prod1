@@ -118,6 +118,6 @@ Notes for future sessions:
   landed the pre-rebase claim `d71be29`, and the rebased branch was force-pushed over it with
   `--force-with-lease` — same commit content, new parent; no other session works on this branch).
 - Six gates + counter-check green on the merged tree before the PR (§B).
-- PR: https://github.com/wingbangboozle1-lang/Prod1/pull/54 (`arena/3ca58211-prod1` → `main`),
+- PR: https://github.com/wingbangboozle1-lang/Prod1/pull/63 (`arena/3ca58211-prod1` → `main`),
   merged without waiting for approval per the standing brief.
 - Pages deploy after merge: confirmed via Pages API + live fetch (see `COORDINATION.md`).
