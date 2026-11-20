@@ -817,6 +817,26 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - **Merge-conflict handling:** `main` advanced while this session worked, and a `COORDINATION.md` rebase conflicted. The first resolution attempt left the markers in a commit on this branch; they were removed in `df246f7` before the PR was opened. Both sides of the conflict (this record and the session 46e39d18 record) were kept.
 - **Open pull requests not integrated here:** #50 and #48 are CONFLICTING; #46 and #10 are mergeable UNKNOWN. These belong to their owning sessions or to the final integration session.
 
+## Session arena/7bc009de-prod1 claim (2026-11-20, current branch == main @ f237c4a)
+
+Session ID: **7bc009de**. Branch `arena/7bc009de-prod1`, branched from `main @ f237c4a`. Board read first: five PRs are open (#46, #48, #50, #54, #56) and all of them touch shared generated pages or `build_site.py`, so this session does **not** edit any shared output.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-7BC-1 Per-row source-link audit of every table on the built site (brief: "every table row must have a source link to an official site") | done | 7bc009de | `review/7bc009de/SOURCE_LINK_AUDIT.md` (new) and this board only | Scripted read of the built root `*.html` tables; hrefs and plain-text URLs both counted; the official-domain list is written into the report | Rows without a per-row link are reported, not filled in (no inference) |
+| T-7BC-2 Reachability check of every official URL the site cites (Amazon listings, Associates Agreement and Policies, FTC, Google) | done | 7bc009de | `review/7bc009de/SOURCE_LINK_AUDIT.md` | fetch_page on each URL, dated 2026-11-20 | Results recorded per URL |
+| T-7BC-3 Request to owners of shared outputs (table markup, `build_site.py`) | done (requests logged) | 7bc009de | logged here only | — | Owners to fix; no edit by this session |
+
+### Record — session arena/7bc009de-prod1 (2026-11-20)
+
+- **Result.** 478 data rows in 34 built pages; **131 have a per-row official or internal source link; 347 do not.** Gaps fall into three groups: (A) 33 product spec rows on `air-fryers.html`, `compare.html`, `thermometers.html` and the instant-read guide, plus budget-band rows in three guides; (B) five "Confirmation date" rows in `verification.html` that name the Amazon page without a URL; (C) internal decision, suggestion, flag and method rows. Full detail in `review/7bc009de/SOURCE_LINK_AUDIT.md`. Rerun with `python3 review/7bc009de/audit_source_links.py`.
+- **Official URLs read (fetched 2026-11-20).** All 5 Amazon ASIN pages (titles match the register; P4 buy box $16.99), Associates Operating Agreement (Updated Oct 15 2025), Program Policies (Updated Apr 14 2026), FTC *Disclosures 101* and *Endorsements, Influencers, and Reviews*, Google canonicalisation and outbound-link pages, OPM Federal Holidays. All reachable.
+- **Compliance spot checks on the built tree.** 148 Amazon anchors, 0 missing `rel="sponsored"`; verbatim §5 sentence on 34 of 34 pages.
+- **Gates on this branch.** `build_site.py` exit 0 with no drift; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, `counter-check` all exit 0.
+- **Requests to owners (not edited here).** (1) Per-row source links on spec tables (`build_site.py` table rendering). (2) Link the five "Confirmation date" source cells to `https://www.amazon.com/dp/<ASIN>`. (3) Compliance owner to decide whether a short Associates line should also sit beside each product card, given FTC *Disclosures 101* on placement "with the endorsement message itself". (4) Register owner to say which group-C rows need an external source.
+- **Flagged for review (non-blocking).** Items 1–3 above, buy-box prices for P1/P2/P3/P5 not re-read in the first chunk (dated register values stand), FLG-001 / FLG-015 short-link status unchanged.
+- **Files touched.** `review/7bc009de/SOURCE_LINK_AUDIT.md` (new), `review/7bc009de/audit_source_links.py` (new), `COORDINATION.md`. No shared output changed.
+
 ## Session arena/74c7c936-prod1 — claim and completion (2026-11-20)
 
 | Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
