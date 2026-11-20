@@ -1344,3 +1344,15 @@ Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`). Claimed a rendered-pag
 **Scope discipline.** No site output changed by this session. No file owned by an open PR was edited. PR #37's measurement files were not touched.
 
 **Suggested follow-up (a decision, not done here):** run `scripts/render_qa.mjs --strict` in CI. That needs a Chromium install step in `pages.yml`. Add it only if the owner wants a browser gate.
+
+## Session arena/dd9f338f-prod1 claim (2026-11-20 06:55 UTC)
+
+Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwarded from base `f237c4a` to `origin/main @ fdc7387` before claiming (branch had no unique commits). Found PRs #50/#48/#46 open with last commits 06:37–06:45 UTC (under 60 min — treated as ACTIVE sessions; their scopes and PRs are untouched) and PR #10 open since 2026-11-19 12:46 UTC (18h+ stale; recorded, not closed here — owner decision logged below).
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-DD9-1 Close open register gaps from the official listings: FLG-004/072 (P4/P5 dimensions blank), FLG-005 (Emeril warranty term), FLG-021/022 re-check; fresh verification record | in progress | arena/dd9f338f-prod1 | `data/products.json` (only fields actually read), `review/dd9f338f/VERIFICATION-2026-11-20.md` (new), `COORDINATION.md` | Amazon.com listing pages fetched 2026-11-20 via page fetch (21-chunk read of B0CDY277D3 confirms reachability) | `build_site.py` (owns FLG row text) is claimed by sessions e05155a0/e7dcb638 — flag-row edits go through logged requests, not direct edits |
+| T-DD9-2 Policy source re-read (OA §5, Program Policies, Google sponsored-links, FTC 101) for this session's record | in progress | arena/dd9f338f-prod1 | `review/dd9f338f/VERIFICATION-2026-11-20.md`, `COORDINATION.md` | affiliate-program.amazon.com, developers.google.com, ftc.gov fetched 2026-11-20 | — |
+| T-DD9-3 Gates, PR to main, merge, confirm Pages deploy, record | pending | arena/dd9f338f-prod1 | `COORDINATION.md` | `gh` PR + Pages API | Flagged items do not block the merge |
+
+**Scope discipline.** Read-only for: `build_site.py`, `assets/`, `scripts/`, `.github/workflows/`, `suggestions.html`, `executive-summary.html`, `DESIGN_PROMPT.md`, `decisions.html`, `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`. Regenerated root pages come only from `data/products.json` changes through the existing generator. No active session's PR touched or closed.
