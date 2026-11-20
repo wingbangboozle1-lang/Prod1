@@ -153,6 +153,19 @@ def nav(slug, prefix=""):
   <button class="btn small secondary" type="submit">Search</button>
 </form>''')
     return "\n".join(out)
+ISSUE = VERIFIED
+def issue_bar(slug):
+    """A publication says what issue it is and when it was last read. Generated from the same
+    date the register uses, so the line cannot drift from the data it describes."""
+    y, mo, d = ISSUE.split("-")
+    months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    label = f"{int(d)} {months[int(mo)-1]} {y}"
+    return f'''<div class="issue-bar"><div class="issue-inner">
+<span class="issue-vol">{esc(BRAND)} &middot; Issue of {label}</span>
+<span class="issue-note">Specs read from the Amazon listing, dated on every page &middot; no fake testing</span>
+<a class="issue-link" href="methodology.html">How we work</a>
+</div></div>'''
+
 STRIP = (f'<div class="disclosure-strip" role="note"><span class="disclosure-req">{REQ_DISCLOSURE}</span> '
          f'&middot; We are paid when a reader buys after clicking, which is why the specs, not hype, are the point. '
          f'<a href="about.html#money">How this site works</a></div>')
@@ -244,6 +257,7 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <a class="brand" href="{esc(BASE)}/index.html">{esc(BRAND).replace('Guide', '<span>Guide</span>')}</a>
 {nav(slug)}
 </div></header>
+{issue_bar(slug)}
 {STRIP}
 <main id="main" class="wrap">
 {body}
