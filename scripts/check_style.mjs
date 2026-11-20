@@ -113,6 +113,14 @@ for (const p of pages) {
   }
 }
 
+/* ---------- 7. duplicate element ids ---------- */
+for (const p of pages) {
+  const h = readFileSync(join(ROOT, p), "utf8");
+  const ids = [...h.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+  const dup = [...new Set(ids.filter((v, i) => ids.indexOf(v) !== i))];
+  if (dup.length) fail(`${p}: duplicate id attribute(s) ${dup.slice(0, 4).join(", ")} - anchors and aria references break`);
+}
+
 /* ---------- report ---------- */
 if (!QUIET) {
   console.log(`\nDesign-system gate: ${pages.length} pages, ${classCount} class uses, ${defined.size} classes defined, ${declaredSet.size} custom properties.`);
