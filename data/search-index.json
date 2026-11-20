@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy, gift picks, hosting and wattage."
+    "text": "Thirteen question-led guides on air fryers and meat thermometers: form, capacity, cleanup, presets, accessories, accuracy, gifts and wattage."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -80,9 +80,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: twelve buyer questions",
+    "title": "Topic calendar: fourteen buyer questions",
     "url": "topics.html",
-    "text": "Twelve question-shaped, spec-backed article working titles - five published, seven queued - with the verified fields and sources each is built from."
+    "text": "Fourteen question-shaped topics - nine published, one queued, four merged - each with the verified fields and sources it is built from."
   },
   {
     "title": "Search the guides and products",
@@ -118,6 +118,21 @@
     "title": "Instant-read vs wireless thermometer",
     "url": "guide-instant-read-vs-wireless.html",
     "text": "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure."
+  },
+  {
+    "title": "Two baskets or one big basket?",
+    "url": "guide-dual-vs-single.html",
+    "text": "Two dishes finishing together or one large cavity: what a dual-basket split actually changes at dinner time - and the footprint surprise, from listing fields only."
+  },
+  {
+    "title": "Air fryer accessories: what's in the box",
+    "url": "guide-accessories-included.html",
+    "text": "Title, bullets and item-details can disagree about what ships - one of our listings says six accessories and seven at once. A checklist for the box before you order."
+  },
+  {
+    "title": "Do you need a meat thermometer?",
+    "url": "guide-do-you-need-a-thermometer.html",
+    "text": "Oven dials report the oven; thermometers report the food. What an instant-read and a wireless probe set each measure - and when either earns its drawer space."
   },
   {
     "title": "Review desk: register & open items",

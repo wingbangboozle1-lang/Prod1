@@ -74,8 +74,8 @@
       {
         "week": "2026-12-01",
         "title": "Air fryer basket vs oven: which one actually fits your counter?",
-        "status": "queued",
-        "page": ""
+        "status": "merged",
+        "page": "guide-basket-vs-oven.html"
       },
       {
         "week": "2026-12-08",
@@ -86,20 +86,20 @@
       {
         "week": "2026-12-15",
         "title": "Counter space math: will a 26-quart oven fit your kitchen?",
-        "status": "queued",
-        "page": ""
+        "status": "merged",
+        "page": "guide-cleanup-counter-space.html"
       },
       {
         "week": "2026-12-22",
-        "title": "Dual baskets vs one big basket: what changes at dinner time",
-        "status": "queued",
-        "page": ""
+        "title": "Two baskets or one big basket: what changes at dinner time?",
+        "status": "published",
+        "page": "guide-dual-vs-single.html"
       },
       {
         "week": "2027-01-05",
         "title": "Wattage, circuits and shared outlets: what the listing does and does not say",
-        "status": "blocked",
-        "page": ""
+        "status": "merged",
+        "page": "guide-wattage-outlets.html"
       },
       {
         "week": "2027-01-12",
@@ -110,14 +110,14 @@
       {
         "week": "2027-01-19",
         "title": "Air fryer accessories: which ones the listing actually includes",
-        "status": "queued",
-        "page": ""
+        "status": "published",
+        "page": "guide-accessories-included.html"
       },
       {
         "week": "2027-01-26",
-        "title": "Do you need a thermometer at all? What a $17 tool changes",
-        "status": "queued",
-        "page": ""
+        "title": "Do you need a meat thermometer at all?",
+        "status": "published",
+        "page": "guide-do-you-need-a-thermometer.html"
       }
     ]
   },
