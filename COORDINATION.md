@@ -808,6 +808,21 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+
+## Claim — session arena/ae5eeead-prod1 (2026-11-20)
+
+Session ID: **arena/ae5eeead-prod1**. Branch `arena/ae5eeead-prod1`, fast-forwarded to `origin/main @ f237c4a` before any edit (the branch had been cut from `141604a`, 30+ commits behind; the stale checkout is why `python3 build_site.py` was failing its own triage gate and three gates reported sponsored-link failures on this branch while `main` was green). Important: **the `warn`/`fail` I first saw were an artefact of a stale branch, not a live-site defect** — on `f237c4a` all five gates pass and the rebuild is byte-identical.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification |
+|---|---|---|---|---|
+| T-AE-A Buyer-decision layer: make the shop pages answer the buying question in the first screen (fit summary, "who this is for", "what the listing does not say" with dates), not just present specs | in progress | ae5eeead | `build_site.py`, `assets/style.css`, regenerated root `*.html` | `data/products.json` (re-read today); Amazon listings |
+| T-AE-B Re-verify all five listings line by line today and record drift | in progress | ae5eeead | `data/products.json` (snapshot fields only), `review/ae5eeead/VERIFICATION-2026-11-20.md` | Amazon.com listing pages fetched 2026-11-20 |
+| T-AE-C Anti-slop copy pass on reader-facing pages: remove machine phrasing, de-duplicate repeated cards, tighten headlines | in progress | ae5eeead | `build_site.py` (copy strings only) | `data/editorial.json` voice rules + gate |
+| T-AE-D Suggestions + Q/I/A additions for anything newly discovered; triage them into `data/decisions.json` so the build stays green | in progress | ae5eeead | `build_site.py` (board rows), `data/decisions.json`, `suggestions.html` | — |
+| T-AE-E Executive summary refresh + PR to `main`, merge, confirm Pages | in progress | ae5eeead | `executive-summary.html`, `COORDINATION.md` | five gates + CI drift check |
+
+**Scope discipline.** Root publication only: `build_site.py`, `data/products.json` (snapshot fields), `data/decisions.json`, `data/editorial.json` (only if a voice rule is genuinely missing), `assets/style.css`, generated root HTML, `review/ae5eeead/`, `COORDINATION.md`, `DESIGN_PROMPT.md`. Read-only this session: `scripts/*`, `.github/workflows/*`, `analytics-endpoint/`, `counter-check/`, `docs/`, `articles/`, `review/<other session>/`.
+
 - **Merge result:** PR #44 merged at `2dee010`; the follow-up PR #56 merged at `8fa1044` (2026-11-20). Pages run 44690558291 on `8fa1044` = **success**, and `guide-thanksgiving-counter.html` was fetched from the live Pages URL after the deploy to confirm the new editorial ships as generated. Pages source is still `legacy`/`main` (owner action needed to move it to `github-pages` Actions-only).
 
 ## Claim — session arena/3ca58211-prod1 (2026-11-20)
