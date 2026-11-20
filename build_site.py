@@ -67,31 +67,31 @@ def art(pid, cls="prod-art", alt_override=None):
 # Editorial reading of the listing. Every phrase below paraphrases a field on the linked
 # Amazon listing (attributed "per listing" in the copy) or says a figure is not shown there.
 POSITION = {
-    "P1": {"good": "two different dishes finishing at the same time (2 independent 3-quart baskets, Sync Finish - per listing)",
+    "P1": {"good": "you cook two different things on a weeknight (independent baskets with Sync Finish, per listing)",
            "check": "34.0 cm of counter depth (13.38 in, as listed) - measure your own space, and check the clearance the manual asks for",
            "headline": "The two-basket one",
            "label": "Two dishes at once",
            "short": "Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide."},
-    "P2": {"good": "cooking for four to six, rotisserie and a 12-inch pizza in one cavity (per listing)",
+    "P2": {"good": "you feed four to six and want one appliance doing the roasting (capacity and rotisserie per listing)",
            "check": "42.9 cm of depth - the largest here - plus room for the doors to swing; the warranty period is not stated on the listing",
            "headline": "The family-size oven",
            "label": "Feeding four to six",
            "short": "The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order."},
-    "P3": {"good": "one big batch in the shallowest box here - 12.75 in deep - with a top-rack dishwasher-safe basket and tray (per listing; its floor area is still the middle of the three, so judge it on depth, not on footprint)",
+    "P3": {"good": "you cook one big batch at a time and your counter depth is tight (single basket, 12.75 in deep, per listing)",
            "check": "one cavity, so two dishes means staggering; 450F Hi-Fry appears in the title while the bullets give 200-400F",
            "headline": "The weeknight workhorse",
            "label": "Shallowest of the fryers",
            "short": "One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets."},
-    "P4": {"good": "a one-second reading in your hand, with a +/-0.5F and NIST/NSF claim on the listing",
+    "P4": {"good": "you check doneness at the grill or pan and do not need an alert in another room",
            "check": "it is handheld - it will not watch the roast from another room; its dimensions are not in the fields we captured",
            "headline": "The pocket read",
            "label": "For the grill and the pan",
-           "short": "A one-second thermocouple read, and the listing names a &plusmn;0.5&deg;F tolerance with NIST and NSF certification."},
-    "P5": {"good": "three probes and app alerts while you are away from the oven",
+           "short": "A reading in about a second, from something that lives in a drawer."},
+    "P5": {"good": "you leave the kitchen during long cooks and want the alert to follow you (per listing)",
            "check": "no +/-F accuracy figure appears in the fields we captured, and it needs WiFi, the hub and the app to earn its place",
            "headline": "The phone-watched setup",
            "label": "For the long cook",
-           "short": "Three ultra-thin probes and app alerts, so a long roast is watched from the other end of the house."},
+           "short": "Three probes reporting to your phone while you are in another room."},
 }
 SHELF_PAGE = {"P1": "air-fryers.html", "P2": "air-fryers.html", "P3": "air-fryers.html",
               "P4": "thermometers.html", "P5": "thermometers.html"}
@@ -355,7 +355,7 @@ def shelf_card(pid, level=4, bullets_n=2):
     fit = shelf_fit_row(p)
     return f"""
 <article class="shelf" id="shelf-{pid}">
-  <div class="shelf-media">{art(pid)}<span class="chip shelf-chip">{esc(pos['label'])}</span></div>
+  <div class="shelf-media">{art(pid)}<span class="chip shelf-chip">{esc(pos['label'])}</span><span class="chip shelf-form">{esc(p['form'])}</span></div>
   <div class="shelf-body">
     <p class="shelf-kicker">{esc(pos['headline'])}</p>
     <{h} class="shelf-name"><a href="{esc(SHELF_PAGE[pid])}#{pid}">{esc(p['shortName'])}</a></{h}>
@@ -366,7 +366,6 @@ def shelf_card(pid, level=4, bullets_n=2):
     </dl>
     <p class="best"><strong>Pick it if:</strong> {esc(pos['good'])}</p>
     <p class="watch"><strong>Check first:</strong> {esc(pos['check'])}</p>
-    <ul class="bullets shelf-bullets">{bl}</ul>
   </div>
   <div class="shelf-buy">
     <a class="btn" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{p['asin']}">See today&rsquo;s price on Amazon</a>

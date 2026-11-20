@@ -912,3 +912,14 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   .shelf-head h3 { font-size: 1.15rem; }
   .shelf-intro { font-size: .94rem; }
 }
+
+/* two chips on the media well: the reason to pick it, then the form you can sort by */
+.shelf-form {
+  position: absolute; right: .75rem; top: .75rem;
+  background: rgba(255, 255, 255, .86); color: var(--ink-2);
+  border: 1px solid var(--line); box-shadow: none; font-weight: 700;
+}
+@media (max-width: 420px) {
+  .shelf-chip, .shelf-form { position: static; display: inline-block; margin: .25rem .25rem 0 0; }
+  .shelf-media { padding: .4rem .4rem .5rem; }
+}
