@@ -1337,7 +1337,7 @@ Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`, base `3392c0d`). Open P
 |---|---|---|---|---|---|
 | T-1D3-A **Rendered-page QA** of every root page at desktop (1366) and mobile (390) width, in headless Chromium, with the site's own stylesheet and images served from the checkout (the pages hard-code `https://wingbangboozle1-lang.github.io/Prod1/` asset URLs; the harness intercepts them) | **done** | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Browser: `@sparticuz/chromium` (npm), run outside the repo in `/tmp`; no screenshots committed | — |
 | T-1D3-B **Fix render defects** found by T-1D3-A that are confined to CSS (`assets/style.css`) or to a single generator template line; anything else is logged, not edited | **done** | 1d3cc97c | `assets/style.css`, `build_site.py` (only the defective template line), regenerated root `*.html` | re-run T-1D3-A after the fix; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` | — |
-| T-1D3-C **Integration**: rebuild, all gates, PR to `main`, merge, Pages status | **done** | 1d3cc97c | this file | Pages API + Actions run | — |
+| T-1D3-C **Integration**: rebuild, all gates, PR to `main`, merge, Pages status | in progress | 1d3cc97c | this file | Pages API + Actions run | — |
 
 ### T-1D3 completion record — session 1d3cc97c (2026-11-20)
 

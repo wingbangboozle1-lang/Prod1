@@ -26,6 +26,8 @@ Tooling sources (not product data, so no product row cites them): [puppeteer-cor
 
 ## Results (final run, after the fix)
 
+Re-run on the merged tree (main at 863fac5 with this branch rebased on it): 60 runs, 0 with issues. The table below is from the first post-fix run on bebe082; the merged-tree run was identical.
+
 Runs: 60. Runs with an issue: **0**. Overflow, off-screen elements, broken images, failed fonts, page errors, console errors and unserved requests: all **0**. Loaded fonts on every page: Fraunces and Inter.
 
 | Page | Desktop | Mobile | Result |
