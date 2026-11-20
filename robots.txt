@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
+# One site to index: the root publication only (see flagged.html FLG-039).
+# The secondary builds on this host are review-only material, kept out of the
+# search index. Remove a rule only if the owner promotes that build to its own site.
+Disallow: /counter-check/
+Disallow: /docs/
+Disallow: /articles/
+Disallow: /review/
+Disallow: /analytics-endpoint/
 Sitemap: https://wingbangboozle1-lang.github.io/Prod1/sitemap.xml
