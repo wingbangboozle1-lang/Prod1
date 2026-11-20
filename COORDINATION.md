@@ -735,3 +735,28 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 - **Gates on the repaired tree:** `build_site.py` exit 0; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, and `counter-check/tools/check_site.py` all exit 0; no drift.
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
 - **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
+
+## Claim — session arena/87e5be8d-prod1 (2026-11-20)
+
+Session ID: **87e5be8d**. Branch: `arena/87e5be8d-prod1`, reset onto `origin/main @ 717cd94` (PR #49 merged). Board read: every earlier root-site task is recorded `done`; three pull requests are open and stale — **#43**, **#46**, **#48** — all branched from older bases.
+
+**Board state of the three open PRs (checked against their own merge bases, not against `main`):**
+
+| PR | Authored (vs its own base) | Verdict for integration |
+|---|---|---|
+| #43 `arena/543ed7f4` | +168/-0: `DESIGN_PROMPT.md` §9, a verification record, board rows SG-54..57 / Q-38..41 | **Fully absorbed already.** `git diff origin/main refs/remotes/pr/43 -- DESIGN_PROMPT.md` is empty, and `review/543ed7f4/VERIFICATION.md` is on `main`. Its board rows were triaged into `data/decisions.json` by PR #49. Nothing left to merge. |
+| #46 `arena/e7dcb638` | +1987/-347: three new guides, original SVG line art, an upgraded decision-desk client, an event-contract test | **Additive but the branch is stale.** Merged whole it would *delete* `assets/fonts/`, `assets/art/`, `data/decisions.json`, `decisions.html`, `scripts/check_measure.mjs`, `scripts/verify_structure.mjs` and three guides, and re-add the legacy tracker `assets/js/analytics.js` that request R-07 removed. Its guide bodies and SVG art are ported into this branch instead of merged wholesale. |
+| #48 `arena/e05155a0` | +245/-0: a rewritten `DESIGN_PROMPT.md` §9, a verification record, board rows SG-54..56 / Q-38..40 | **Its board rows now collide with `main`'s** (main uses SG-54..57 and Q-38..41 for different, already-triaged rows) and its §9 replaces main's. Its genuinely new text — the "what polished marketing means in practice" structural rules — is ported as an additive block; the rows are not re-numbered over `main`'s. |
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| T-87E-A **Line-by-line re-verification** of the five listings and the policy clauses from the official pages, today | in progress | 87e5be8d | `review/87e5be8d/VERIFICATION.md` (new), `data/products.json` (only fields re-read today), `flagged.html` | `amazon.com` and `affiliate-program.amazon.com` are reachable from this sandbox through the fetch tool, so every listing can be read directly rather than carried forward |
+| T-87E-B **Three new reader guides** ported into the generator: counter height, what is in the box, how to check a price claim | in progress | 87e5be8d | `build_site.py`, `assets/img/*.svg`, regenerated `*.html`, `sitemap.xml`, `feed.xml`, `data/editorial.json` | From PR #46, ported rather than merged. Spec-backed; no popularity, price or superiority claim. The JPEG hero in that PR is **not** ported — see T-87E-C |
+| T-87E-C **Imagery licence decision**, recorded rather than assumed | in progress | 87e5be8d | `build_site.py` (art map), `flagged.html`, `review/87e5be8d/VERIFICATION.md` | PR #46's `assets/img/hero-counter.jpg` is a 165 KB raster with no provenance metadata in the file. SVG line art is verifiably ours; a raster hero is not. FLG-009/SG-04 stays open and the raster is left out until the owner supplies the licence |
+| T-87E-D **Polished-marketing direction** added to the design prompt, without replacing main's §9 | in progress | 87e5be8d | `DESIGN_PROMPT.md`, `suggestions.html` via `build_site.py` | From PR #48. Feeds the brief's "polished marketing, not AI slop" ask with structural rules, not adjectives |
+| T-87E-E **Decision-desk client upgrade** + the event-contract test promoted into CI | in progress | 87e5be8d | `assets/app.js`, `scripts/test_event_contract.py` (new), `scripts/test_pages_dom.mjs` (new), `.github/workflows/pages.yml` | From PR #46. Every numbered board row gets a pick control. The contract test is standard-library only, so it runs in CI; the DOM test needs jsdom and stays local |
+| T-87E-F **Close FLG-074**: a real publication date per guide, taken from this repo's own history | in progress | 87e5be8d | `data/editorial.json` (`dates.publish`), `build_site.py` (feed `pubDate`), `feed.xml`, `flagged.html` | The dates are read from the commit that first added each guide — repository evidence, not invention |
+| T-87E-G **Reconcile the three open PRs and close them** with a note pointing at what was ported | in progress | 87e5be8d | `COORDINATION.md`, PR comments | No branch is left in a state that would regress `main` |
+| T-87E-H **Integration**: gates, link check, PR to `main`, merge, Pages deploy | in progress | 87e5be8d | `COORDINATION.md`, shared outputs | Flagged and unverified items do not block the merge |
+
+**Scope.** Root publication only: `build_site.py`, `assets/`, `data/`, `scripts/`, `.github/workflows/pages.yml`, the generated root `*.html`, `DESIGN_PROMPT.md`, `review/87e5be8d/`, this file. Not edited: `counter-check/**`, `docs/**`, `articles/**`, `review/<other session>/`, `analytics-endpoint/**` (read-only unless my own output needs it). `data/products.json` is touched only where a field is re-read today.
