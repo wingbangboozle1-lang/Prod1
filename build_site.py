@@ -248,6 +248,7 @@ CHOOSER = """
   <div id="chooser-result" aria-live="polite"></div>
 </form>"""
 # ---------- TOPICS (topic calendar, session bb3ae11b) ----------
+# ---------- TOPICS (topic calendar, session bb3ae11b) ----------
 TOPICS = [
     {"n": "01", "title": "Basket or oven-style air fryer: what should you compare?", "cat": "Air fryers - Form",
      "status": "Published", "href": "guide-basket-vs-oven.html",
@@ -289,7 +290,28 @@ TOPICS = [
      "angle": "What an Amazon's Choice badge and a rating snapshot can and cannot tell a buyer, with the snapshot date kept visible.",
      "hooks": "Badge and rating fields as shown on listings (P1, P3, P4); dated-snapshot rule",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
+    {"n": "09", "title": "Air fryer basket vs oven: which one actually fits your counter?", "cat": "Air fryers - Form",
+     "status": "Planned", "href": "topics.html#t09",
+     "angle": "Dual-basket, French-door oven and single basket side by side: depth, footprint and what each shape is genuinely good for.",
+     "hooks": "Listing form fields and dimensions (P1, P2, P3); derived footprint math",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
+    {"n": "10", "title": "Instant-read vs wireless thermometer: do you need both?", "cat": "Thermometers",
+     "status": "Planned", "href": "topics.html#t10",
+     "angle": "One-second handheld reads versus app-monitored probes: when each type earns its place, and what the accuracy claims do and do not prove.",
+     "hooks": "ThermoMaven tolerance and certification (P4); CHEF iQ sensor count, range and probe count (P5)",
+     "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
+    {"n": "11", "title": "Counter space math: will a 26-quart oven fit your kitchen?", "cat": "Air fryers - Space",
+     "status": "Planned", "href": "topics.html#t11",
+     "angle": "Depth, width, footprint and capacity per centimetre of counter - a tape-measure guide built only from listed dimensions.",
+     "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
+     "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
+    {"n": "12", "title": "Holiday air fryer gifts: what to buy without the guesswork", "cat": "Seasonal - Gifts",
+     "status": "Planned", "href": "topics.html#t12",
+     "angle": "Depth, household size, dishwasher-safe parts and control-panel learnability - the gift checklist that needs no price tag.",
+     "hooks": "Listing dimensions, capacity, care bullets and seller gift claims (P1, P2, P3, P4)",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
 ]
+
 
 def topic_band():
     rows = "".join(
@@ -300,7 +322,7 @@ def topic_band():
   <div class="wrap topic-inner">
     <div>
       <h2>The topic calendar</h2>
-      <p>Eight question-shaped topics, five published and three queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p>Twelve question-shaped topics, five published and seven queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
       <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
     </div>
     <div class="topic-list">{rows}</div>
@@ -480,7 +502,7 @@ guides_body = """
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
 """
-page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting, budget bands and wattage.",guides_body)
+page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Buying guides for air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting and wattage math.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
@@ -1120,7 +1142,7 @@ for t in TOPICS:
 topics_body = f"""
 <p class="eyebrow">The desk &middot; Topic calendar</p>
 <h1>The topic calendar: eight questions, eight spec-backed answers</h1>
-<p>Five guides are published; three are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
+<p>Five guides are published; seven are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
 <div class="callout"><b>How this calendar works</b>
 <p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
 <h2>The calendar</h2>
@@ -1132,7 +1154,7 @@ topics_body = f"""
 <p>One thoroughly checked guide per publishing slot, with a reassessment after the first batch of measured data. This is an operational plan, not a traffic promise. Every new guide is added to <a href="sitemap.xml">sitemap.xml</a> and <a href="feed.xml">feed.xml</a> at publish time.</p>
 <p class="fine">No topic here is a claim that the subject is popular or in demand. If a popularity claim is ever made, it carries a dated snapshot from an official source (see <a href="methodology.html">Method</a>).</p>
 """
-page_to("topics.html","Topic calendar: eight spec-backed buyer questions | Countertop Guide","Eight question-shaped, spec-backed article working titles - five published, three queued - with the verified fields and sources each is built from.",topics_body)
+page_to("topics.html","Topic calendar: twelve buyer questions | Countertop Guide","Twelve question-shaped, spec-backed article working titles - five published, seven queued - with the verified fields and sources each is built from.",topics_body)
 
 
 # ---------- SEARCH ----------
@@ -1223,7 +1245,7 @@ b7, j7 = guide_shell("Guide - Seasonal - Holiday 2026", "The holiday hosting tes
   ("Do these make good holiday gifts?","The ThermoMaven listing itself positions the thermometer as a stocking stuffer and Secret Santa gift (seller claim). Our gift-by-budget guide maps the five products into budget bands."),
   ("Are the holiday prices final?","We do not quote prices on the site - snapshots go stale within days. Check the live listing price before buying; the register keeps what each listing showed on the check date.")],
  picks=("P1", "P2", "P3"))
-page_to("guide-holiday-hosting.html", "The holiday hosting test: which air fryer feeds a crowd? | Countertop Guide", "Holiday hosting questions answered from verified Amazon listings: two dishes at once, rotisserie and pizza claims, counter-depth math and dated holiday-return observations.", b7, j7, "guide-page")
+page_to("guide-holiday-hosting.html", "Holiday hosting: which air fryer feeds a crowd? | Countertop Guide", "Holiday hosting questions from verified listings: two dishes at once, rotisserie and pizza claims, counter-depth math.", b7, j7, "guide-page")
 
 b8, j8 = guide_shell("Guide - Seasonal - Gifts", "Kitchen gifts under $25, under $80 and under $150",
  f"Gift guides usually invent prices. This one maps the five listings we verify into budget bands and quotes each product's own gift positioning where the seller makes one. Bands are a starting map, not a price promise: every product's dated price snapshot lives in the <a href=\"verification.html\">verification register</a>.",
@@ -1251,7 +1273,7 @@ b8, j8 = guide_shell("Guide - Seasonal - Gifts", "Kitchen gifts under $25, under
   ("Is the Chefman dual-basket a good mid-band gift?","Its buy-box snapshot on the check date sat inside the band against a higher list price shown on the listing (both in the register). Prices are snapshots and move - confirm on Amazon."),
   ("Should I gift an air fryer to someone with a small kitchen?","Measure their counter depth first. The Chefman 8QT is the shallowest of the three fryers here at 12.75 in (32.4 cm); the Emeril oven needs 16.9 in (42.9 cm).")],
  picks=("P4", "P3", "P2"))
-page_to("guide-gifts-by-budget.html", "Kitchen gifts under $25, $80 and $150: budget bands | Countertop Guide", "Holiday gift bands from five verified Amazon listings: who each pick is for, the listings' own gift claims quoted, and a gift-giver's checklist.", b8, j8, "guide-page")
+page_to("guide-gifts-by-budget.html", "Kitchen gifts under $25, $80 and $150 | Countertop Guide", "Holiday gift bands from five verified Amazon listings: who each pick is for, the listings' own gift claims quoted, and a gift-giver's checklist.", b8, j8, "guide-page")
 
 b9, j9 = guide_shell("Guide - Air fryers - Specs", "Will it trip the breaker? Wattage and outlet math for air fryers",
  "Air fryers are high-wattage appliances, and wattage is the spec listings are most likely to get inconsistent. We found exactly that on one of our own products. Here is what wattage means for your kitchen circuit, and how to check any listing for the same trap.",
@@ -1278,7 +1300,7 @@ b9, j9 = guide_shell("Guide - Air fryers - Specs", "Will it trip the breaker? Wa
   ("Can I run an air fryer and a microwave on the same circuit?","Not safely if the air fryer draws 1700W: that alone approaches the capacity of a 15-amp, 120-volt kitchen circuit. Use separate outlets on separate circuits for two high-wattage appliances."),
   ("Why do two sections of the same listing show different wattage?","Seller-entered data can disagree between bullets and the Product information table, exactly as on the Chefman 8QT (FLG-022). Treat the conflict as unresolved and verify on the box or manufacturer's spec sheet.")],
  picks=("P3", "P1", "P2"))
-page_to("guide-wattage-outlets.html", "Will it trip the breaker? Air fryer wattage and outlet math | Countertop Guide", "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.", b9, j9, "guide-page")
+page_to("guide-wattage-outlets.html", "Will it trip the breaker? Air fryer wattage math | Countertop Guide", "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.", b9, j9, "guide-page")
 
 # ---------- GIFT GUIDE ----------
 b6, j6 = guide_shell("Guide - Seasonal", "Holiday air fryer gifts: how to choose one that gets used",
