@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
-"""Self-hosted, privacy-preserving event counter for the Kitchen Buyer's Desk site.
+"""Self-hosted, privacy-preserving event counter for The Countertop Guide.
 
-Accepts exactly five events (page_view, outbound_click, guide_read_75, category_click,
-feed_click) as JSON POST to /event. Keeps daily counts per event and path. It never
-stores or logs client addresses, user agents, referrers, cookies or timestamps per event.
+Accepts exactly the site's five defined events (page_view, outbound_click, search,
+chooser_complete, guide_read) as JSON POST to /event. Those five names are the contract
+shared by assets/app.js, data/editorial.json and methodology.html; scripts/check_measure.mjs
+fails the deploy if any of them ever disagrees with EVENT_NAMES below.
+
+Keeps daily counts per event and path (and per ASIN for outbound_click). It never stores
+or logs client addresses, user agents, referrers, cookies or per-event timestamps, and it
+keeps no query text: the payload's `data` object is read only for its `asin` key.
 Standard library only.
 
 Run:      python3 analytics-endpoint/server.py --port 8787 --origin https://wingbangboozle1-lang.github.io
 Health:   GET /health
-Site:     set window.KBD_ENDPOINT = "https://<your-host>/event" before assets/measure.js loads.
-          The site sends nothing until that is set. (Not set in this build; see FLAG-06.)
+Site:     set data-analytics-endpoint="https://<your-host>/event" on <body> (the generator
+          writes it from data/editorial.json -> events.endpoint). The site sends nothing
+          while that attribute is empty, which is how this build ships. Hosting is an open
+          owner decision (SG-03); the contract and this implementation are ready for it.
 """
 from __future__ import annotations
 
@@ -23,10 +30,10 @@ import tempfile
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-EVENT_NAMES = frozenset({"page_view", "outbound_click", "guide_read_75", "category_click", "feed_click"})
+EVENT_NAMES = frozenset({"page_view", "outbound_click", "search", "chooser_complete", "guide_read"})
 PATH_RE = re.compile(r"^/[A-Za-z0-9._~/\-]{0,200}$")   # a site path only: no query, no fragment, no spaces
 ASIN_RE = re.compile(r"^B[0-9A-Z]{9}$")                 # Amazon ASIN format
-MAX_BODY = 512
+MAX_BODY = 1024                                         # the client envelope; query text is never stored
 DEFAULT_ORIGIN = "https://wingbangboozle1-lang.github.io"
 _lock = threading.Lock()
 
@@ -67,7 +74,7 @@ def record(counts_file: pathlib.Path, payload: dict, today: str | None = None) -
 
 def make_handler(counts_file: pathlib.Path, allowed_origin: str):
     class Handler(BaseHTTPRequestHandler):
-        server_version = "kbd-measure"
+        server_version = "ctg-measure"
         sys_version = ""
 
         def log_message(self, format, *args):  # no request log: it would record client addresses
@@ -136,7 +143,7 @@ def main() -> None:
     ap.add_argument("--host", default="0.0.0.0")
     ap.add_argument("--port", type=int, default=8787)
     ap.add_argument("--counts", default=str(here / "counts.json"))
-    ap.add_argument("--origin", default=os.environ.get("KBD_ALLOWED_ORIGIN", DEFAULT_ORIGIN))
+    ap.add_argument("--origin", default=os.environ.get("CTG_ALLOWED_ORIGIN", DEFAULT_ORIGIN))
     args = ap.parse_args()
     srv = ThreadingHTTPServer((args.host, args.port), make_handler(pathlib.Path(args.counts), args.origin))
     print(f"listening on {args.host}:{args.port}; origin {args.origin}", flush=True)
