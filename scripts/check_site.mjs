@@ -9,7 +9,13 @@
 //     instead of "I" is reported as a WARNING for owner review (it is not failed automatically).
 //  2. Every link to an Amazon host carries rel="sponsored".
 //  3. Every internal href resolves to a file (anchors and query strings ignored).
-//  4. Every page has a non-empty, unique <title> and meta description.
+//  4. Same-page anchor links (#id) resolve to an id that exists on that page, and a link whose
+//     visible text is an ID (FLG-012, SG-034, Q-005) points at that same ID. Cross-references
+//     between the flag register and the suggestion desk are how a reviewer navigates the site;
+//     a label that disagrees with its target sends them to the wrong record.
+//     Added 2026-11-20 after four links labelled FLG-070 resolved to #FLG-069 and one labelled
+//     FLG-060 resolved to #FLG-067 in the published HTML.
+//  5. Every page has a non-empty, unique <title> and meta description.
 //  5. No banned claim words in visible text ("bestseller", "top rated", "#1", "guaranteed", "most popular").
 //     Words inside quotation marks are ignored (they quote a rule). "trending" is a WARNING, not a failure.
 //
@@ -83,7 +89,27 @@ for (const file of files) {
     if (!ok) failures.push(`${rel}: broken internal link: ${href}`);
   }
 
-  // 4. title and description
+  // 4. anchors resolve, and an ID-shaped link label names its own target
+  const ids = new Set();
+  for (const m of h.matchAll(/\sid="([^"]+)"/g)) ids.add(m[1]);
+  for (const m of h.matchAll(/<a\s[^>]*href="([^"]*#[^"]+)"[^>]*>([\s\S]*?)<\/a>/gi)) {
+    const href = m[1];
+    const target = href.split('#')[0];
+    const anchor = href.slice(href.indexOf('#') + 1);
+    if (!anchor) continue;
+    // same-page anchor (href="#x" or "thisfile.html#x") must have a matching id here
+    const samePage = target === '' || target === rel || target === path.basename(rel);
+    if (samePage && !ids.has(anchor)) {
+      failures.push(`${rel}: anchor #${anchor} has no matching id on this page`);
+    }
+    // a label like "FLG-070" or "SG-034" must name the anchor it points at
+    const label = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (/^(?:FLG|SG|Q)-\d+$/.test(label) && label !== anchor) {
+      failures.push(`${rel}: link labelled ${label} points at #${anchor}`);
+    }
+  }
+
+  // 5. title and description
   const title = (h.match(/<title>([^<]*)<\/title>/i) || [])[1]?.trim() || '';
   const desc = (h.match(/<meta\s+name="description"\s+content="([^"]*)"/i) || [])[1]?.trim() || '';
   if (!title) failures.push(`${rel}: missing <title>`);
@@ -93,7 +119,7 @@ for (const file of files) {
   if (title) seenTitle.set(title, rel);
   if (desc) seenDesc.set(desc, rel);
 
-  // 5. banned claim wording in visible text
+  // 6. banned claim wording in visible text
   const visible = h.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ')
     .replace(/&quot;[^&]*&quot;/g, ' ').replace(/"[^"]*"/g, ' ').replace(/&#39;[^&]*&#39;/g, ' ');
   const hit = visible.match(BANNED);
@@ -108,4 +134,4 @@ if (failures.length) {
   for (const f of failures) console.error(' - ' + f);
   process.exit(1);
 }
-console.log(`CHECK PASSED: ${files.length} HTML files. Disclosure, sponsored links, internal links, titles and descriptions, claim wording.`);
+console.log(`CHECK PASSED: ${files.length} HTML files. Disclosure, sponsored links, internal links, anchors and link labels, titles and descriptions, claim wording.`);
