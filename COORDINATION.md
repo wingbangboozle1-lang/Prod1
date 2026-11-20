@@ -782,6 +782,7 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 - **Irregularities carried forward (non-blocking, on flagged.html).** FLG-001 (Special Link test — owner login required), FLG-004/072 (thermometer dimensions blank), FLG-005 (Emeril warranty term), FLG-015 (short links carry no tag), FLG-022 (P3 wattage conflict — both values published), FLG-023/033 (dated price snapshots), FLG-024 (rating-count drift), FLG-037 (API eligibility not read from Amazon), FLG-051 (Pages build source — legacy mode, deploy-pages red X is expected), FLG-070 (three builds on one host). None blocks the deploy.
 - **Tracking ID:** `shopnow047c-20` (outbound format `https://www.amazon.com/dp/ASIN?tag=shopnow047c-20`, `rel="sponsored"`).
 
+<<<<<<< HEAD
 ## Session arena/9d2f2b53-prod1 record (2026-11-20) — integration check, build repair confirmed, live Pages verified
 
 Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. No reader-facing file was edited by hand; no generated file was changed by this session.
@@ -796,3 +797,10 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 **Publication.** This record is the only change in the PR from this branch to `main`. The PR is the next step in this session; its merge result is recorded below once it exists.
 
 **Still open for the owner (unchanged, non-blocking):** FLG-001 / SG-01 (Special Link test in the enrolled Associates account), FLG-015 / Q-35 (tracking report), FLG-008 / SG-03 (endpoint host), FLG-009 / SG-04 (photography licence), FLG-032 / SG-19 (link-only pricing), SG-02 (custom domain), SG-43 (Pages build source), and the seven gates in `decisions.html`.
+=======
+### Session arena/46e39d18-prod1 — publication record (2026-11-20)
+- Pull request #51 (`arena/46e39d18-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/51 — merged as `3e86d23` (merge commit, 2026-11-20 06:46 UTC).
+- Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
+- Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
+- Tasks T-46E-1, T-46E-2, T-46E-3: done.
+>>>>>>> origin/main
