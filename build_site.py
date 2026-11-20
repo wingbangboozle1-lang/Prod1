@@ -902,7 +902,7 @@ guides_body = """
 <p class="eyebrow">Guides</p>
 <h1>Question-shaped guides, answered from the listing</h1>
 <p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or trend claims without a dated snapshot.</p>
-<h2>Thirteen guides, three clusters</h2>
+<h2>@@NGWORD@@ question-led guides, three clusters</h2>
 <div class="grid cols-2">
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
@@ -931,6 +931,12 @@ guides_body = """
 <tr><td>holiday roast thermometer</td><td><a href="guide-thermometer-accuracy.html">How to read accuracy claims</a></td></tr>
 </tbody></table></div>
 """
+# The count in the heading is computed from the cards, not typed: a typed number goes stale on
+# the next publish, and a stale count on an index page is exactly the kind of small falsehood
+# this site is built to avoid. The heading carries a token until the body exists.
+_gn = guides_body.count('<a class="btn small" href="guide-')
+guides_body = guides_body.replace("@@NGWORD@@", NUMW.get(_gn, str(_gn)))
+assert "@@NGWORD@@" not in guides_body
 page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide",f"{_gn} question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
