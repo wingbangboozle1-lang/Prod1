@@ -613,7 +613,6 @@ PR #37 initially refused to merge: `main` had advanced with PR #35 (`arena/62786
 - `pages.yml` gate list merged earlier in the rebase: upstream's `check_style.mjs` and this session's `check_measure.mjs` both run before upload (four gates).
 - Regenerated all HTML from the merged generator; all gates green on the merged tree (check_site 55 files, check_meta 0 warnings, check_style 0 warnings, check_measure PASS, counter-check PASS, rebuild byte-identical).
 
-<<<<<<< HEAD
 ## Claim — session arena/03ccc2ca-prod1 (2026-11-20)
 
 Session ID: **03ccc2ca** (branch `arena/03ccc2ca-prod1`, base `3392c0d`, rebased onto `c1028c9` = current `main` incl. PRs #37/#38). No other session has an open claim at this time: PR #37 (`arena/fbfe1742-prod1`) and PR #38 (`arena/62786810-prod1`) are merged; draft PR #10 (`arena/a17ba53c-prod1`) stays unmerged and is the owner's call (FLG-039/FLG-070 second-build question) — not touched here.
@@ -627,7 +626,6 @@ Session ID: **03ccc2ca** (branch `arena/03ccc2ca-prod1`, base `3392c0d`, rebased
 | T-03E **Integration**: deterministic rebuild, all six gates green, PR to `main`, merge without waiting, Pages confirmed, publication record | in progress | 03ccc2ca | this file | Gates + Pages API + live fetch | — |
 
 **Scope.** Root publication only: `build_site.py`, `data/editorial.json`, generated root `*.html`, `sitemap.xml`, `feed.xml`, `review/03ccc2ca/`, `COORDINATION.md`. Not touched: `data/products.json` except for T-03C drift corrections, `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`, `analytics-endpoint/` (PR #37 owns its contract; nothing to change unless T-03C finds drift).
-=======
 **Addendum — the merge shipped a broken workflow YAML, caught and fixed the same hour (2026-11-20).** The `git merge origin/main` step had a *second* conflict in `.github/workflows/pages.yml` (PR #36's `verify_structure.mjs` gate vs this session's `check_measure.mjs` gate) that the truncated merge output did not show; `git add -A` committed the file with its `## Session arena/54d3e366-prod1 (2026-11-20) — claim
 
 Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds an open claim on the board; every row above is `done`. Baseline re-run on this base: `build_site.py` rebuild is byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` and `counter-check` all PASS.
@@ -1353,9 +1351,6 @@ Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice
 
 **No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
 
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
 
 ### Publication record — PR #87 (session arena/0c26f71b-prod1, 2026-11-20)
 
@@ -1548,8 +1543,6 @@ dd9f338f, 1d3cc97c and others). Resolved without discarding either side:
 - **Gates on the merged tree immediately before the PR:** `check_site` (62 HTML), `check_meta` (0 warnings), `check_style` (0 warnings), `check_measure` (PASS), `verify_structure` (PASS), `counter-check` (PASS); `python3 build_site.py` byte-identical.
 - **Tasks T-4741-V and T-4741-R: done.** T-4741-I: **done** (merge + deploy confirmed; this record is the close-out).
 - **Flagged, non-blocking, for the owner:** see `review/47414174/VERIFICATION.md` §D — T-V2's FLG-021/022 mis-attribution on this board; §6(w)/FLG-003 short-link question unresolved by design; four of five short links not re-observed today; Agent-terms/ML-clause boundary note for the "AI-powered" brief wording. Owner items unchanged: FLG-001, FLG-008, FLG-009, FLG-015, FLG-023, FLG-025, FLG-070, SG-02, SG-51, Q-35/SG-53.
-<<<<<<< HEAD
->>>>>>> origin/main
 
 ### 2026-11-20 — `arena/03ccc2ca-prod1` — T-03A..T-03E complete (review, cadence, re-verification, decision surfaces, integration)
 
@@ -1570,7 +1563,6 @@ dd9f338f, 1d3cc97c and others). Resolved without discarding either side:
 **Gates (all green at merge):** `python3 build_site.py` (39 pages, 28 sitemap URLs, 5 consolidated; deterministic ×2) → `check_site.mjs` (64 files) → `check_meta.mjs` (0 warnings) → `check_style.mjs` (0 warnings) → `check_measure.mjs` + endpoint self-test (17/17) → `verify_structure.mjs` (0 blocking) → `counter-check/tools/check_site.py` → `make_og.py` (no drift).
 
 **Statuses:** T-03A..T-03E done. Owner items unchanged and unblocked: SG-02/03/04/43, SG-59/71/72/73, Q-49/50 plus the pre-existing open questions, FLG-001/003/005/021/022/070/074/091/092/093/094, draft PR #10 (second site under `docs/` — owner's call).
-=======
 
 ### Publication record — PR #95 (session arena/b2f99e67-prod1, 2026-11-20)
 
@@ -1580,4 +1572,3 @@ dd9f338f, 1d3cc97c and others). Resolved without discarding either side:
 - **Live content confirmed by fetch, not assumed:** `https://wingbangboozle1-lang.github.io/Prod1/decisions.html` serves the slate — seven gates, each with the register's recommendation, a per-gate option picker and the export/print/clear buttons; the board counter reads 62 suggestions and 41 questions (103 rows), matching the generator. `flagged.html` serves the full register. The §5 disclosure sits above the fold on both.
 - **Gates on the merged tree:** `check_site` PASSED (62 HTML) · `check_meta` PASSED (0 warnings) · `check_style` PASSED · `check_measure` PASSED (37 pages wired) · `verify_structure` PASSED · `counter-check` PASSED · build exit 0 with no warnings · rebuild byte-identical (no drift).
 - **Tasks closed:** T-B2F-1 … T-B2F-6 all **done**. Shipped and awaiting ratification (revertable): the slate (SG-66), the theme-color fix (FLG-091). Proposed, not shipped: SG-65, SG-67, SG-68, SG-69, SG-70. Open and owner-only, unchanged: FLG-001/SG-01 (Special Link test), SG-02/SG-28 (Search Console), SG-03/FLG-008 (analytics host), SG-04/FLG-009 (photography), FLG-023 (price display), FLG-051/SG-43 (Pages build source), FLG-070/SG-51 (three builds), Q-45…Q-48 (this pass's questions).
->>>>>>> origin/main
