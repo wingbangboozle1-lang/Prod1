@@ -6,6 +6,7 @@ PRODS = {p["id"]: p for p in D["products"]}
 VERIFIED = SITE["verifiedDate"]
 TAG = SITE["trackingId"]
 E = json.load(open("data/editorial.json"))
+RS = json.load(open("data/reader-suggestions.json"))
 BASE = E["baseUrl"].rstrip("/")
 SHOW_PRICE = bool(E["display"]["pricesOnShopPages"])
 SHOW_RATING = bool(E["display"]["ratingsOnShopPages"])
@@ -311,14 +312,14 @@ def topic_band():
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow">Air fryers &amp; meat thermometers</p>
+    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
     <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines worth reading about, compared on the four things that decide it: capacity, counter depth, cleanup, and what the listing quietly does not say. Every spec links to the Amazon page it came from, dated.</p>
+    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
     <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
     <ul class="hero-facts">
-      <li><strong>5</strong> products, all from one category page each</li>
-      <li><strong>0</strong> claims about cooking with a machine nobody cooked with</li>
-      <li><strong>1</strong> link per fact, on the listing</li>
+      <li><strong>5</strong> products, each read from its own listing</li>
+      <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
+      <li><strong>1</strong> source link per fact</li>
     </ul>
   </div>
   <aside class="hero-side" aria-label="Start here">
@@ -338,6 +339,7 @@ index_body = f"""
   <article class="pick"><span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
   <article class="pick"><span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
 </div>
+<p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 
 <h2>All five, side by side</h2>
 <div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
@@ -350,9 +352,9 @@ index_body = f"""
 
 <h2>Guides worth ten minutes</h2>
 <div class="grid cols-3">
-  <article class="card"><span class="tag">Form factor</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Two dishes at once, crowd capacity, counter depth - decided with the three fryers on this page.</p><p><a href="guide-basket-vs-oven.html">Read the guide</a></p></article>
-  <article class="card"><span class="tag">Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p><p><a href="guide-capacity-checklist.html">Read the guide</a></p></article>
-  <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a href="guide-gift-picks.html">Read the guide</a></p></article>
+  <article class="card"><span class="tag">Form factor</span><h3><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer: what should you compare?</a></h3><p>Two dishes at once, crowd capacity, counter depth - decided with the three fryers on this page.</p></article>
+  <article class="card"><span class="tag">Capacity</span><h3><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer capacity</a></h3><p>Quarts vs litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p></article>
+  <article class="card"><span class="tag">Seasonal</span><h3><a href="guide-gift-picks.html">Holiday air fryer gifts: how to choose one that gets used</a></h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p></article>
 </div>
 <p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-thermometer-accuracy.html">Thermometer accuracy claims</a> &middot; <a href="suggestions.html">Ask for a topic</a></p>
 {topic_band()}
@@ -632,6 +634,13 @@ sugg_body = f"""
 <p class="lede">This page is where the next version of this site gets decided. Nothing here is implemented until a reviewer marks a row <strong>Approve</strong>, <strong>Reject</strong> or <strong>Defer</strong> with a date. Each suggestion states the buyer problem it solves, the options with their trade-offs, the evidence it needs, and what it blocks. Suggestions SG-01 to SG-10 came from the first build and stand as written; SG-19 onward are added by this pass.</p>
 
 <div class="callout"><strong>Three things to know before you read.</strong> (1) The site currently shows <em>no</em> price or rating figures on shop pages, because Amazon&rsquo;s policies only allow a site to display price and availability when Amazon serves it or when it comes from the Creators/PA API, with caching capped at 24 hours &mdash; see <a href="flagged.html#FLG-032">FLG-032</a>. (2) We have not cooked in any product, so no copy may imply we have. (3) Traffic, ranking and revenue are not forecasted anywhere on this site; the campaign ledger is empty by design.</div>
+
+<h2>Ask for a topic</h2>
+<div class="card">
+<p><strong>What should we answer next?</strong> Reader questions pick the calendar, not instinct. A request opens as a public issue on the site repository, where you can see it, and where the answer will be published if we write it.</p>
+<p><a class="btn" href="https://github.com/wingbangboozle1-lang/Prod1/issues/new?labels=reader-suggestion&amp;title=Topic%20request%3A%20&amp;body=The%20question%20I%20want%20answered%3A%0A%0AThe%20product%20or%20category%20it%20is%20about%3A%0A%0AWhat%20I%20have%20already%20read%20on%20this%20site%3A%0A" rel="noopener">Suggest a topic</a> <a class="link-quiet" href="{RS["inbox"]}" rel="noopener">Read the requests already sent</a></p>
+<p class="fine">Nothing is collected silently: the form opens on GitHub, under your own account, and you can see and edit it afterwards. If you would rather not use GitHub, the <a href="about.html">about page</a> explains the other route. This desk shows <strong>{len(RS["items"])}</strong> reader-submitted topics so far. It is empty because none have arrived yet - we do not invent them to make the page look busy.</p>
+</div>
 
 <h2>Choose a path</h2>
 <p>If you approve a bundle, everything inside it moves together. Each bundle is a coherent story for the reader, not a random list.</p>
