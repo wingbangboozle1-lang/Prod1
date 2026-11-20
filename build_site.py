@@ -1686,7 +1686,37 @@ def gate_card(g):
   <p class="callout"><strong>Recommended:</strong> {esc(g['recommendation'])}</p>
   <p class="fine"><strong>Unblocks:</strong> {unblocks}. <strong>Risk of choosing:</strong> {esc(g['risk'])}.
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+  {decision_maker(g)}
 </article>"""
+
+def decision_maker(g):
+    """A way to actually decide, without a backend and without a login.
+
+    The board's own answer format asks for one line naming the gate, an option and a reason. That
+    is exactly what a form can produce: pick a path, add a note, and the page builds the line in
+    the published format for the reader to copy into COORDINATION.md. Nothing is submitted
+    anywhere - a static site cannot receive it - so the copy is the artifact, and the page says so
+    rather than implying a saved choice. Every option is the same list the gate above prices.
+    """
+    oid = g["id"].lower()
+    rec = re.compile(r"\s*\(recommended[^)]*\)")
+    opts = "".join(
+        f'<label class="choice"><input type="radio" name="{oid}" value="{esc(o["label"])}"> '
+        f'<span>{esc(rec.sub("", o["label"]))}</span></label>'
+        for o in g["options"])
+    return f"""
+<details class="decide">
+  <summary>Answer {g['id']}</summary>
+  <fieldset>
+    <legend>Which path for {g['id']}?</legend>
+    {opts}
+  </fieldset>
+  <label class="choice-note" for="{oid}-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="{oid}-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="{oid}-out" class="decision-out" aria-live="polite"></output>
+</details>"""
+
 
 _queue_rows = "".join(
     f'<tr><td><a href="#{g["id"]}">{g["id"]}</a></td><td>{esc(g["title"])}</td>'

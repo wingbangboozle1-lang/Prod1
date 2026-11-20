@@ -90,6 +90,18 @@
   <p class="callout"><strong>Recommended:</strong> Option 1 now, Option 2 at the next integration once the counter-check audit has been cited on the flagged page. Keep the github.io address until the site earns a reason for a domain; a domain changes every canonical and is not a ranking shortcut.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-02">SG-02</a>, <a href="suggestions.html#SG-22">SG-22</a>, <a href="suggestions.html#SG-23">SG-23</a>, <a href="suggestions.html#Q-02">Q-02</a>, <a href="suggestions.html#Q-18">Q-18</a>, <a href="flagged.html#FLG-007">FLG-007</a>, <a href="flagged.html#FLG-039">FLG-039</a>. <strong>Risk of choosing:</strong> Low. Reversible by editing data/editorial.json and rebuilding..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-01</summary>
+  <fieldset>
+    <legend>Which path for D-01?</legend>
+    <label class="choice"><input type="radio" name="d-01" value="Root is the site; the other two builds get a noindex and a banner naming the canonical (recommended)"> <span>Root is the site; the other two builds get a noindex and a banner naming the canonical</span></label><label class="choice"><input type="radio" name="d-01" value="Root is the site; delete the other builds at the next integration"> <span>Root is the site; delete the other builds at the next integration</span></label><label class="choice"><input type="radio" name="d-01" value="Leave all three indexable"> <span>Leave all three indexable</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-01-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-01-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-01-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <article class="card gate" id="D-02">
   <p class="eyebrow">D-02 &middot; 15 minutes of owner clicks, then one table column</p>
@@ -112,6 +124,18 @@
   <p class="callout"><strong>Recommended:</strong> Option 1, and record it as a dated test rather than a claim. Do not describe the supplied short links as invalid; the register&#x27;s position (FLG-001) is that their compliance status is unresolved, and that is still the honest answer.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-01">SG-01</a>, <a href="suggestions.html#SG-08">SG-08</a>, <a href="suggestions.html#Q-01">Q-01</a>, <a href="suggestions.html#Q-25">Q-25</a>, <a href="flagged.html#FLG-001">FLG-001</a>, <a href="flagged.html#FLG-013">FLG-013</a>, <a href="flagged.html#FLG-015">FLG-015</a>, <a href="flagged.html#FLG-045">FLG-045</a>, the campaign ledger. <strong>Risk of choosing:</strong> Low. If the test fails, the fix is a link-format change in one function of the generator..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-02</summary>
+  <fieldset>
+    <legend>Which path for D-02?</legend>
+    <label class="choice"><input type="radio" name="d-02" value="Test one link, confirm click plus tracking, then keep the current button form everywhere (recommended)"> <span>Test one link, confirm click plus tracking, then keep the current button form everywhere</span></label><label class="choice"><input type="radio" name="d-02" value="Switch to SiteStripe-generated Special Links per product"> <span>Switch to SiteStripe-generated Special Links per product</span></label><label class="choice"><input type="radio" name="d-02" value="Keep publishing without the test"> <span>Keep publishing without the test</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-02-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-02-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-02-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <article class="card gate" id="D-03">
   <p class="eyebrow">D-03 &middot; One console check; then either nothing or one refresh job</p>
@@ -134,6 +158,18 @@
   <p class="callout"><strong>Recommended:</strong> Option 1 until the owner reports what the console shows. If the console offers the API, move to Option 2 and let the gate, not a promise, keep the figures fresh. Copy can already handle this: &#x27;today&#x27;s price is on Amazon&#x27; is a sentence a shopper trusts more than a stale number.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-19">SG-19</a>, <a href="suggestions.html#SG-20">SG-20</a>, <a href="suggestions.html#Q-15">Q-15</a>, <a href="suggestions.html#Q-16">Q-16</a>, <a href="flagged.html#FLG-032">FLG-032</a>, <a href="flagged.html#FLG-033">FLG-033</a>, <a href="flagged.html#FLG-037">FLG-037</a>, <a href="flagged.html#FLG-044">FLG-044</a>, the card design on every shop page. <strong>Risk of choosing:</strong> Medium. This is the decision with a policy edge, so the answer is recorded with a date and a source..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-03</summary>
+  <fieldset>
+    <legend>Which path for D-03?</legend>
+    <label class="choice"><input type="radio" name="d-03" value="Link-only pricing, permanently, with the button as the price (recommended default)"> <span>Link-only pricing, permanently, with the button as the price</span></label><label class="choice"><input type="radio" name="d-03" value="Pursue the API, then switch display.pricesOnShopPages on behind a 24-hour staleness gate"> <span>Pursue the API, then switch display.pricesOnShopPages on behind a 24-hour staleness gate</span></label><label class="choice"><input type="radio" name="d-03" value="Show dated snapshots now and accept the reading risk"> <span>Show dated snapshots now and accept the reading risk</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-03-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-03-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-03-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <article class="card gate" id="D-04">
   <p class="eyebrow">D-04 &middot; One evening of setup, or one Search Console property</p>
@@ -156,6 +192,18 @@
   <p class="callout"><strong>Recommended:</strong> Option 2 for four weeks (Search Console is the smallest thing that can change what we write), then Option 1 once the owner has a box. Say which one is true on the methodology page instead of letting the page imply both.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-03">SG-03</a>, <a href="suggestions.html#SG-32">SG-32</a>, <a href="suggestions.html#Q-06">Q-06</a>, <a href="suggestions.html#Q-08">Q-08</a>, <a href="suggestions.html#Q-24">Q-24</a>, <a href="flagged.html#FLG-008">FLG-008</a>, the empty campaign ledger, the cadence rule that picks the next topic. <strong>Risk of choosing:</strong> Low. Nothing published depends on it; the claim &#x27;we measure&#x27; does..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-04</summary>
+  <fieldset>
+    <legend>Which path for D-04?</legend>
+    <label class="choice"><input type="radio" name="d-04" value="Self-hosted endpoint plus local counters, privacy note, thresholds written down (recommended)"> <span>Self-hosted endpoint plus local counters, privacy note, thresholds written down</span></label><label class="choice"><input type="radio" name="d-04" value="Search Console only for now; keep counters in the browser"> <span>Search Console only for now; keep counters in the browser</span></label><label class="choice"><input type="radio" name="d-04" value="Third-party analytics"> <span>Third-party analytics</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-04-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-04-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-04-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <article class="card gate" id="D-05">
   <p class="eyebrow">D-05 &middot; Two strings in one data file</p>
@@ -178,6 +226,18 @@
   <p class="callout"><strong>Recommended:</strong> Option 1 today; Option 2 if a real specialist is willing to put a name on it. Either way, publish the corrections address, because an affiliate site that cannot be corrected has no business making claims.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-17">SG-17</a>, <a href="suggestions.html#SG-26">SG-26</a>, <a href="suggestions.html#Q-11">Q-11</a>, <a href="suggestions.html#Q-13">Q-13</a>, <a href="suggestions.html#Q-17">Q-17</a>, author schema on every article. <strong>Risk of choosing:</strong> Low, and reversible; the only hard rule is that the bio states what the author has not done..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-05</summary>
+  <fieldset>
+    <legend>Which path for D-05?</legend>
+    <label class="choice"><input type="radio" name="d-05" value="Named desk plus an explicit limit (&#x27;compiled from the listing; nobody here cooked in these machines&#x27;) (recommended)"> <span>Named desk plus an explicit limit (&#x27;compiled from the listing; nobody here cooked in these machines&#x27;)</span></label><label class="choice"><input type="radio" name="d-05" value="Individual byline with credentials"> <span>Individual byline with credentials</span></label><label class="choice"><input type="radio" name="d-05" value="Keep &#x27;editorial desk&#x27; anonymous"> <span>Keep &#x27;editorial desk&#x27; anonymous</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-05-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-05-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-05-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <article class="card gate" id="D-06">
   <p class="eyebrow">D-06 &middot; One letter for the direction; money and time for photography</p>
@@ -200,6 +260,18 @@
   <p class="callout"><strong>Recommended:</strong> Ship Option 1 now (this pass added the first diagrams), keep Option 2 as the funded path, and treat 3 and 4 as blocked until paper or the console says otherwise. Never reach for a scraped product photo to fill white space.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-04">SG-04</a>, <a href="suggestions.html#SG-11">SG-11</a>, <a href="suggestions.html#SG-27">SG-27</a>, <a href="suggestions.html#SG-31">SG-31</a>, <a href="suggestions.html#SG-35">SG-35</a>, <a href="suggestions.html#Q-07">Q-07</a>, <a href="suggestions.html#Q-09">Q-09</a>, <a href="suggestions.html#Q-21">Q-21</a>, <a href="suggestions.html#Q-22">Q-22</a>, <a href="flagged.html#FLG-009">FLG-009</a>, <a href="flagged.html#FLG-018">FLG-018</a>, <a href="flagged.html#FLG-038">FLG-038</a>, <a href="flagged.html#FLG-041">FLG-041</a>. <strong>Risk of choosing:</strong> Low for diagrams, high for any image we do not own..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-06</summary>
+  <fieldset>
+    <legend>Which path for D-06?</legend>
+    <label class="choice"><input type="radio" name="d-06" value="Original data graphics as the house visual: scale diagrams, footprint comparisons, spec bars (recommended, shipping now)"> <span>Original data graphics as the house visual: scale diagrams, footprint comparisons, spec bars</span></label><label class="choice"><input type="radio" name="d-06" value="Own photography of purchased units"> <span>Own photography of purchased units</span></label><label class="choice"><input type="radio" name="d-06" value="Manufacturer or brand images"> <span>Manufacturer or brand images</span></label><label class="choice"><input type="radio" name="d-06" value="Amazon-served images via the API"> <span>Amazon-served images via the API</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-06-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-06-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-06-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <article class="card gate" id="D-07">
   <p class="eyebrow">D-07 &middot; One Search Console verification, then patience</p>
@@ -222,6 +294,18 @@
   <p class="callout"><strong>Recommended:</strong> Option 1, with the deviation recorded: three holiday-window guides shipped together on 2026-11-20 because the window closes on 2026-11-30, then back to one per week. Every one of them is a hypothesis until a query export says otherwise, and the page says that out loud.</p>
   <p class="fine"><strong>Unblocks:</strong> <a href="suggestions.html#SG-12">SG-12</a>, <a href="suggestions.html#SG-32">SG-32</a>, <a href="suggestions.html#SG-40">SG-40</a>, <a href="suggestions.html#Q-06">Q-06</a>, <a href="suggestions.html#Q-10">Q-10</a>, <a href="suggestions.html#Q-23">Q-23</a>, the topic queue, the &#x27;next topic&#x27; rule. <strong>Risk of choosing:</strong> Low. Publishing is reversible by consolidating a page; an unindexed site is invisible, which is worse..
   <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+
+<details class="decide">
+  <summary>Answer D-07</summary>
+  <fieldset>
+    <legend>Which path for D-07?</legend>
+    <label class="choice"><input type="radio" name="d-07" value="Publish on cadence, label every title a hypothesis, and re-rank after 28 days of queries (recommended, and what this pass did)"> <span>Publish on cadence, label every title a hypothesis, and re-rank after 28 days of queries</span></label><label class="choice"><input type="radio" name="d-07" value="Pause new guides until Search Console has data"> <span>Pause new guides until Search Console has data</span></label><label class="choice"><input type="radio" name="d-07" value="Publish a burst of ten guides to &#x27;cover the niche&#x27;"> <span>Publish a burst of ten guides to &#x27;cover the niche&#x27;</span></label>
+  </fieldset>
+  <label class="choice-note" for="d-07-note">Evidence in one line (a link, a screenshot name, a report row)</label>
+  <input id="d-07-note" type="text" placeholder="e.g. Associates report row, 2026-11-21">
+  <button class="btn small" type="button" onclick="ctgDecision(this)">Build the answer line</button>
+  <output id="d-07-out" class="decision-out" aria-live="polite"></output>
+</details>
 </article>
 <h2 id="answered">Answered already, so nobody re-litigates it</h2>
 <div class="table-scroll"><table>

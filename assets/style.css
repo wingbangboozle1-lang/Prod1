@@ -796,3 +796,17 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
 .card.choose { display: flex; flex-direction: column; justify-content: center; background: var(--surface-2); border-style: dashed; border-color: var(--line-strong); }
 .card.choose h3 { margin-top: .4rem; }
 .card.choose .btn { margin-top: .8rem; }
+
+/* ---------------------------------------------------------------- decision desk
+   The board asks the owner for a one-line answer. This is the smallest honest form for
+   that: choose a path, type the evidence, get the line, copy it. Nothing is submitted. */
+.decide { margin: 1.1rem 0 .2rem; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--surface-2); padding: .7rem 1rem; }
+.decide summary { cursor: pointer; font-weight: 700; color: var(--clay-ink); font-family: var(--sans); font-size: .95rem; }
+.decide fieldset { border: 0; margin: .8rem 0 .2rem; padding: 0; }
+.decide legend { font-size: .82rem; text-transform: uppercase; letter-spacing: .07em; color: var(--teal); font-weight: 700; margin-bottom: .4rem; }
+.choice { display: flex; gap: .5rem; align-items: flex-start; font-size: .9rem; padding: .3rem 0; color: var(--ink-2); }
+.choice input { margin-top: .25rem; }
+.choice-note { display: block; font-size: .82rem; color: var(--muted); margin: .7rem 0 .3rem; }
+.decide input[type=text] { width: 100%; min-height: 44px; padding: .5rem .6rem; border: 1px solid var(--line-strong); border-radius: var(--r-sm); font-family: inherit; font-size: .9rem; background: var(--surface); }
+.decide .btn { margin-top: .6rem; }
+.decision-out { display: block; margin-top: .7rem; font-family: var(--mono); font-size: .82rem; line-height: 1.7; color: var(--ink); background: var(--surface); border-left: 3px solid var(--gold); padding: .6rem .8rem; border-radius: 0 var(--r-sm) var(--r-sm) 0; white-space: pre-wrap; }
