@@ -68,7 +68,7 @@
       {
         "week": "2026-11-20",
         "title": "Is that air fryer actually on sale? How to check the claim",
-        "status": "published out of slot, on purpose: the question is only urgent in this fortnight, and it needed no new product facts",
+        "status": "published out of slot, on purpose: the question is time-sensitive in the gifting season, and it needed no new product facts. No page here names or dates an Amazon promotion - Program Policies require references to limited-time promotions to come down when the promotion ends",
         "page": "guide-price-check.html"
       },
       {
@@ -108,7 +108,7 @@
         "page": "guide-wattage-outlets.html"
       }
     ],
-    "deviation": "The rule says one guide per Tuesday. Three shipped on Friday 2026-11-20 (the fit guide, the accessories guide and the price-check guide), because a fixed weekday is a plan, not a promise to readers. Recorded here so the calendar stays auditable instead of quietly amended."
+    "deviation": "The rule says one guide per Tuesday. Three shipped on Friday 2026-11-20 (the fit guide, the accessories guide and the price-check guide), because a fixed weekday is a plan, not a promise to readers. Recorded here so the calendar stays auditable instead of quietly amended. Note also what the site will not do: name a specific Amazon promotion on a reader page, because that clause ties the reference to the promotion's own lifetime."
   },
   "voice": {
     "name": "Plain-spoken buying desk",
