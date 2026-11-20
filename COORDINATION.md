@@ -882,3 +882,12 @@ Open at claim time: PR #39 (`arena/54d3e366-prod1`, session 54d3e366 — feed da
 | T-8B4 Integration: rebuild, gates, PR to `main`, merge, confirm Pages | in progress | 8bdadebf | `COORDINATION.md`, PR | Gates + deterministic rebuild + Pages deploy | Resolve any rebase conflict with PR #39 without discarding work |
 
 **Scope.** This session edits `build_site.py` (guide region, TOPICS, GUIDES feed list, guides index), `data/editorial.json` (`queue` only), the generated root `*.html`, `sitemap.xml`, `feed.xml`, `COORDINATION.md`, `review/8bdadebf/`. It does **not** touch `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `assets/`, `data/products.json`, or `review/<other-session>/`.
+
+### Publication record — session arena/7bc009de-prod1 (2026-11-20)
+
+- **Pull request #62** (`arena/7bc009de-prod1` → `main`, review files and board only): merged 2026-11-20 06:52:53 UTC as `c08fd15`, merge commit, no waiting for approval. Changed files: `COORDINATION.md`, `review/7bc009de/SOURCE_LINK_AUDIT.md`, `review/7bc009de/audit_source_links.py`.
+- **Merge friction, handled without loss.** My first claim commit was rebased after `main` moved, so the remote branch diverged from the local one. The remote's only extra commit was my own claim, already present locally, so I recorded it with `-s ours` and did not force-push. A later `COORDINATION.md` conflict with `74c7c936` was resolved by keeping both sections.
+- **Deploy.** `Deploy GitHub Pages` run `44690928348` on `c08fd15`: success. Pages API: `status: built`, https://wingbangboozle1-lang.github.io/Prod1/. A later run (`44690995063`) is for another session's push to `main` (`8ae779c`) and is outside this session's scope.
+- **Live check (fetched 2026-11-20).** The front page shows the verbatim §5 sentence under the masthead, sponsored links on each card, dated "specs read from this listing 2026-11-20" lines, and the OPM-sourced Thanksgiving date (Thursday 26 Nov 2026).
+- **Flagged for review (non-blocking, not edited here).** (1) The front page's stat strip says **"1 source link per fact"**. The audit in `review/7bc009de/SOURCE_LINK_AUDIT.md` finds 347 of 478 table rows with no per-row link, so the claim is wider than the markup. Owner of the front page to reword or fix the rows. (2) The FTC *Disclosures 101* placement question (§4 item 3 of the audit) is for the compliance owner.
+- **Status:** T-7BC-1, T-7BC-2, T-7BC-3 **done**. No open claims from this session.
