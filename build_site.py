@@ -17,6 +17,18 @@ EVENTS = E["events"]["five"]
 CADENCE = E["cadence"]
 REQ_DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
 PAGES = []          # slug, title, description, kind - drives sitemap, feed and the gate
+# Internal surfaces. Every one of them stays reachable from the footer and the review desk,
+# because the audit is part of the publication's honesty. None of them is a page a shopper
+# searched for, and each one competes with the buying pages for the same host, so they are
+# excluded from the sitemap and carry `noindex, follow`. Reader-facing notes that a *buyer*
+# benefits from - the register, the flagged list - stay indexed; see READER_AUDIT below.
+NOINDEX = {
+    "executive-summary.html", "suggestions.html", "design-brief.html", "methodology.html",
+    "review-desk.html", "dashboard.html", "search.html",
+}
+# These two are audit pages that a buyer may legitimately land on, so they stay indexable;
+# they are named here to make the choice explicit rather than implied by omission.
+READER_AUDIT = {"verification.html", "flagged.html", "compliance.html"}
 
 def esc(s): return html.escape(str(s), quote=True)
 def flaglinks(s):
@@ -190,7 +202,8 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
                "url": abs_url(slug), "inLanguage": "en-US", "description": desc})
     ldscripts = "".join(jsonld(x) for x in ld)
     ogimg = BASE + "/assets/og-image.png"
-    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon})
+    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon,
+                  "indexable": not (slug in NOINDEX and not canonical)})
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -199,6 +212,7 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{esc(canon)}">
+{('<meta name="robots" content="noindex, follow">' if (slug in NOINDEX and not canonical) else '')}
 <meta name="theme-color" content="#1F2937">
 <meta property="og:site_name" content="{esc(BRAND)}">
 <meta property="og:title" content="{esc(title.split(' | ')[0])}">
@@ -654,7 +668,7 @@ exec_body = f"""
 <p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
 
 <div class="grid cols-3">
-  <article class="card"><span class="chip">Live</span><h3>1 publication, 30 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, ten question-shaped guides, a topic calendar, and the review desk. One sitemap of 26 URLs, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Live</span><h3>1 publication, 30 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, ten question-shaped guides, a topic calendar, and the review desk. One sitemap of 20 buying URLs, one feed, one canonical host; the seven internal surfaces carry <code>noindex</code> (<a href="flagged.html#FLG-065">FLG-065</a>).</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on {VERIFIED}, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
   <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
 </div>
@@ -695,6 +709,7 @@ exec_body = f"""
 <li><strong>Original brand art on every product card.</strong> Five line drawings of the appliance <em>types</em>, drawn for this site. No photograph, no Amazon image, no rendering of a specific unit &mdash; the imagery rule the site set for itself still holds.</li>
 <li><strong>Navigation tells you where you are.</strong> The header marks the current section, and the stylesheet rule that was written for it is finally used (<a href="flagged.html#FLG-061">FLG-061</a>).</li>
 <li><strong>The calendar produced a page.</strong> The queued 2026-12-08 topic is published as <a href="guide-instant-read-vs-wireless.html">guide 10</a>, and it moved in the calendar, the sitemap and the RSS feed in the same commit, so those three cannot disagree.</li>
+<li><strong>The sitemap is now the shop, not the audit.</strong> Seven internal surfaces moved to <code>noindex, follow</code>; the register, the flagged list and the compliance page stay indexed for the buyer who wants the source (<a href="flagged.html#FLG-065">FLG-065</a>).</li>
 <li><strong>Five decisions are written so they can be settled in one sitting</strong> (<a href="suggestions.html#suggestions">SG-44 to SG-48</a>), plus five new questions (<a href="suggestions.html#Q-28">Q-28 to Q-32</a>) covering the things this build cannot answer from inside the repository.</li>
 </ul>
 
@@ -818,7 +833,7 @@ sugg_body = f"""
 <p><strong>Path B:</strong> move the alternate builds to a separate repository or branch-preview URL.</p>
 <p><strong>Path C:</strong> leave it and accept the competition. Cheapest today, most expensive if the site ever ranks.</p>
 </div>
-<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> confirmation of which build the owner considers the publication. <strong>Blocks:</strong> a clean Search Console picture. <strong>Status:</strong> <span class="badge-warn">Needs owner call</span></p></article>
+<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> confirmation of which build the owner considers the publication. <strong>Blocks:</strong> a clean Search Console picture. <strong>Status:</strong> <span class="badge-warn">Half done this pass</span> &mdash; the seven internal root pages now carry <code>noindex, follow</code> and left the sitemap (<a href="flagged.html#FLG-065">FLG-065</a>). The <code>docs/</code> and <code>counter-check/site/</code> builds are outside this session&rsquo;s scope and still need your call.</p></article>
 
 <article class="sg" id="SG-47"><h3>SG-47 &middot; Four measurable events before any optimisation claim</h3>
 <p><strong>Why:</strong> the brief orders measurement before optimisation, and the site currently measures nothing beyond local browser counters. Four first-party numbers would let the next four topics be chosen instead of guessed.</p>
@@ -1209,6 +1224,7 @@ flag_body = f"""
 <tr id="FLG-058"><td>FLG-058</td><td>The Agreement sentence is above the fold, but not repeated inside each product card</td><td>FTC <a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">Disclosures 101</a> (re-read 2026-11-20) says the disclosure should be placed &ldquo;with the endorsement message itself&rdquo; and warns that disclosures are likely to be missed when they sit only at the end of a page or behind a click. On this site the Agreement sentence is directly under the masthead on every page plus the footer, and every card carries a visible &ldquo;Sponsored link &middot; opens Amazon&rdquo; line beside its button. The Agreement sentence itself is not inside each card. This pass did not change the layout: repeating the legal sentence in every card is a design and compliance judgement for the owner, not a unilateral edit.</td><td>Owner / compliance: keep the current arrangement (strip + per-card sponsored label) or add the sentence to each card. Either way, re-read this row when the layout next changes</td></tr>
 <tr id="FLG-060"><td>FLG-060</td><td>The design named two typefaces and shipped neither</td><td><code>assets/style.css</code> and <code>DESIGN_PROMPT.md</code> both specify Fraunces for display and Inter for text. No <code>@font-face</code> rule and no font files existed, so every visitor saw Georgia and the system UI font. This is the most likely reason the site read as generated: the whole typographic identity was a fallback. Fixed in this pass with four self-hosted latin variable fonts (182 KB, SIL OFL 1.1).</td><td>Closed; <code>check_style.mjs</code> now fails if a stylesheet declares a font family with no local file</td></tr>
 <tr id="FLG-061"><td>FLG-061</td><td>No navigation state on any page</td><td>The header rendered identical links everywhere with no <code>aria-current</code>, so a reader had no orientation cue and a screen reader announced the current section as just another link. The stylesheet already had a <code>[aria-current]</code> rule: the markup never used it. Now generated per page from one link list.</td><td>Closed</td></tr>
+<tr id="FLG-065"><td>FLG-065</td><td>Half of the indexable site was internal audit</td><td>Until this pass, the sitemap listed 26 URLs and 7 of them were the decision desk, executive summary, methodology, design brief, review desk, dashboard and the site-search page. They are useful to the owner and to a reader who follows a source link, but they are not what a shopper searched for, and they diluted the shopping clusters on the same host. Those seven now carry <code>noindex, follow</code> and stay out of the sitemap; the verification register, the flagged list and the compliance page stay indexed, because a buyer checking a spec benefits from them. The sitemap is now 20 URLs, all of them pages a buyer could want. Reversal is one line in <code>NOINDEX</code>.</td><td>Review with the owner; the split is a judgement call, recorded rather than hidden</td></tr>
 <tr id="FLG-062"><td>FLG-062</td><td>Three builds are served from one host; only one is in a sitemap</td><td>The root publication is the only build with a sitemap and canonical tags. <code>docs/</code> (the target of draft PR #10) and <code>counter-check/site/</code> are also reachable under the same hostname, with their own titles and no <code>noindex</code>. Competing pages on one host is a findability problem, not a design one. Reported, not resolved: it changes files outside this session's scope.</td><td>Owner decision (<a href="suggestions.html#SG-46">SG-46</a>, <a href="suggestions.html#Q-29">Q-29</a>)</td></tr>
 <tr id="FLG-063"><td>FLG-063</td><td>CHEF iQ listing states no temperature-tolerance figure</td><td>The listing (B0DZFD6R9Z) gives heat safety (1000&deg;F), probe count, sensor count and range, but no &plusmn; accuracy figure in the fields captured. The comparison pages and the new guide report this as an absence rather than borrowing the other listing&rsquo;s number.</td><td>Read the manual linked from the listing, or request it from the seller (<a href="suggestions.html#Q-31">Q-31</a>)</td></tr>
 <tr id="FLG-064"><td>FLG-064</td><td>ThermoMaven listing shows only an item length, not a full dimension set</td><td>The 2026-11-20 re-read found an <code>Item Length</code> of 6.5 inches and no width, height or depth in the listing&rsquo;s measurement block. The register stays blank rather than treating a single axis as dimensions. This narrows FLG-004 but does not close it.</td><td>Full dimension set from the manual, or leave blank (FLG-004)</td></tr>
@@ -1682,7 +1698,7 @@ print("consolidated pages wired:", len(MERGED))
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for pg in PAGES:
-    if pg["kind"] == "merged":
+    if pg["kind"] == "merged" or not pg["indexable"]:
         continue
     sm.append(f"<url><loc>{esc(abs_url(pg['slug']))}</loc><lastmod>{VERIFIED}</lastmod></url>")
 sm.append("</urlset>")
@@ -1713,7 +1729,7 @@ for slug, t, d in GUIDES:
 fd += ['</channel>','</rss>']
 open("feed.xml","w").write("\n".join(fd) + "\n")
 open("robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
-idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] not in ("admin", "merged")]
+idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] != "merged"]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
 SM_URLS = open("sitemap.xml").read().count("<url>")
 MERGED_N = sum(1 for pg in PAGES if pg["kind"] == "merged")
