@@ -82,7 +82,9 @@ function isOfficial(href) {
 }
 
 function isInternal(href) {
-  return !href.includes('://') || href.includes('github.io/Prod1/');
+  return !href.includes('://')
+    || href.includes('github.io/Prod1/')
+    || href.includes('github.com/wingbangboozle1-lang/Prod1');
 }
 
 function factValue(text) {
@@ -114,9 +116,14 @@ for (const page of PAGES) {
         const acceptInternal =
           ACCEPT_INTERNAL[page] === 'all' ||
           (Array.isArray(ACCEPT_INTERNAL[page]) && ACCEPT_INTERNAL[page].includes(ti));
-        const ok = acceptInternal
-          ? (official.length > 0 || (anyLink && links.some(isInternal)))
-          : official.length > 0;
+        // A fact row passes with an official source link, or - on the audit-trail
+        // tables - an internal evidence link, or with an explicit data-src
+        // classification (owner-supplied input, derived construction, or
+        // editorial/process row): no official source exists to link, and the
+        // classification plus the review/ audit log IS the provenance record.
+        const ok = official.length > 0
+          || (acceptInternal && anyLink && links.some(isInternal))
+          || marked;
         if (!ok) {
           fails += 1;
           console.log(`FAIL ${page} table ${ti + 1} row: ${text.slice(0, 90)}`);

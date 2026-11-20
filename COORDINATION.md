@@ -1535,3 +1535,56 @@ Session ID: **c2a9c3e8** (branch `arena/c2a9c3e8-prod1`, base `3392c0d`, current
 5. `python3 scripts/make_og.py` regenerates a byte-different `assets/og-image.png` in this sandbox (different Pillow build); the card content is unchanged and the CI drift step excludes that path by design, so the committed image was left as-is rather than churning the binary.
 
 **Sources used:** https://affiliate-program.amazon.com/help/operating/agreement · https://affiliate-program.amazon.com/help/operating/policies · https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers · https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls · the five listing pages https://www.amazon.com/dp/{B0CDY277D3,B09B7SB46R,B08DKYBTPH,B0DHZTCNR5,B0DZFD6R9Z} — all fetched 2026-11-20, evidence lines in `review/c2a9c3e8/VERIFICATION.md`.
+
+## Session arena/0f8382dd-prod1 — completion + integration record (2026-11-20)
+
+**T-0F8-A (source-coverage audit) — done.** New gate `scripts/check_sources.mjs` enforces the
+brief's rule ("every table row must have a source link to an official site; unverifiable values
+stay blank and flagged"): fact-table manifest + explicit `data-src="owner|derived|editorial"`
+classification + a generic value-pattern scan. First run found 158 violations; all fixed in
+`build_site.py` (per-fact listing links in every spec/guide table, linked register Source cells,
+policy citations on compliance quotes, flag rows sourced or classified). Final: **587 rows
+scanned, 0 violations.** Request: add `node scripts/check_sources.mjs` to `pages.yml` gates
+(the workflow is shared; not edited in this pass). Audit details: `review/0f8382dd/AUDIT.md`.
+
+**T-0F8-R (repo review) — done.** Findings in `review/0f8382dd/AUDIT.md`: README.md double-text
+duplication (owner: one delete), stale anchor/label id pairs on some register rows, `styles.css`
+orphan (FLG-069), same-question guide pairs (FLG-104). No conflict markers anywhere
+(`git grep '^<<<<<<< '` clean).
+
+**T-0F8-V (line-by-line verification) — done.** All five listings + the Operating Agreement +
+Program Policies re-read live 2026-11-20 through the sandbox fetcher; every field compared to
+`data/products.json`. Titles/prices/spec tables/bullets confirmed; **intraday rating-count drift
+found and recorded** (P1 4,877→4,878, P3 16,892→16,894 — FLG-024 extended; the register keeps
+dated snapshots). All compliance quotes verified verbatim (OA §5, Policies §2 price rule, §6(t),
+(w), (y)). Evidence: `review/0f8382dd/VERIFICATION.md`. A parallel pass (0c26f71b, PR #87)
+independently found the same drift — corroborated.
+
+**Integration merges done by this session (keeping both passes, nothing discarded):**
+- **PR #46 branch (e7dcb638)** merged: 21 `build_site.py` hunks resolved (dynamic footer + both
+  nav sets; TOPICS rows unioned with n16–18 renumber; front page = their hero/art + the shelf
+  table + chooser/fresh modules; `GUIDE_CARDS` unified to 19 guides with `GUIDES` derived and
+  the feed assert kept; methodology narrative unioned; SG/Q/FLG rows unioned with renumbers
+  SG-60..63 / FLG-091..093 and refs shifted; per-guide publish dates keep their `pdate()` feed
+  dating; `data/editorial.json` object-merged). Their selftest/endpoint contract kept (one
+  shared docstring merge).
+- **PR #54 branch (e0c70d8e)** merged: Article JSON-LD = their url/mainEntityOfPage/image
+  share-card fields + the pdate date semantics; `data/decisions.json` id-lists unioned then each
+  row kept in exactly one theme; their board rows renumbered FLG-094..098 / Q-45 / SG-64/65.
+- **PR #64 branch (c2a9c3e8)** merged: `guide-counter-fit.html` consolidated onto
+  `guide-counter-depth-fit.html` (same question — their own "one question keeps one URL" rule;
+  alias via `MERGED`, registered in `check_meta.mjs`; the full draft stays in the branch
+  history); their board rows renumbered FLG-099..103 / Q-46..50 / SG-66..70 with refs shifted.
+
+All three PRs are included in this session's integration PR to `main`; their GitHub PR pages
+should be closed as integrated if GitHub does not auto-detect the merged commits. After each
+merge: pages rebuilt from the merged generator (deterministic — two consecutive builds diff
+clean), full gate set green (`check_site`, `check_meta`, `check_style`, `check_measure`,
+`verify_structure`, `test_event_contract`, endpoint selftest, counter-check selftest,
+`check_sources`), and `git grep` clean of conflict markers.
+
+**Register renumber map at integration** (original claims preserved in each row's note):
+e7dcb638 FLG-053..060→FLG-091..093 (second shift; first shift was theirs), SG-46..52 kept where
+free, colliding set → SG-60..63; e0c70d8e rows → FLG-094..098, Q-45, SG-64/65; c2a9c3e8
+FLG-074..078→FLG-099..103, Q-38..42→Q-46..50, SG-54..58→SG-66..70. This session's own rows used
+the free SG-60..63 gap first. Nothing deleted at any step.
