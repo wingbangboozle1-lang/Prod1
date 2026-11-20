@@ -1425,3 +1425,31 @@ Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwar
   - **FLG-092 (same owner):** P5 listing self-contradicts on battery life — About-this-Item bullet "up to 50 hours on a full charge" vs Product Description "up to 70 hours" and spec list "70+ hours of probe use". Both values are recorded in the register source note; a flag row would surface it on `flagged.html`.
 - **T-DD9-1, T-DD9-2, T-DD9-3: done.**
 
+
+Session ID: **arena/b2f99e67-prod1**. Branch `arena/b2f99e67-prod1`, based on `main` @ `f237c4a`
+(PR #53 merged). At claim time these parallel sessions hold open PRs and are left untouched:
+`3ca58211` (listing/policy re-verification), `7bc009de` (source-link audit, read-only),
+`5da138fb` (listing re-verification), `8bdadebf` (three new calendar guides), `e0c70d8e`
+(article markup + share cards + prose gate), `1d3cc97c` (rendered QA + phone overflow),
+`fbfe1742` (stale board-row triage PR). **This session claims the design-prompt, decision-desk
+and publication-craft lane only** — the lane the brief names "make suggestions that feed the
+design prompt", "a section dedicated for suggestions… choose the best path before implementing",
+and "make it read like a shop, not an audit".
+
+**ID range reserved by this pass so parallel sessions do not collide:** SG-65…SG-70,
+Q-45…Q-48, FLG-085…FLG-092.
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| T-B2F-1 One-pass gate picker on the decision register: pick an option per gate D-01…D-07, status per row, export review sheet (extends the existing localStorage pick tooling; no new event names — the five-event contract is untouched) | in progress | b2f99e67 | `build_site.py` (decisions section), `assets/app.js`, `assets/style.css` | "Choose the best path before implementing any changes" |
+| T-B2F-2 Design/marketing suggestion set feeding the design prompt (SG-65…SG-70) with recommended paths; `DESIGN_PROMPT.md` §10 | in progress | b2f99e67 | `build_site.py` (suggestions section), `DESIGN_PROMPT.md`, `data/decisions.json` (triage) | Every row triaged; nothing implemented without the slate rule |
+| T-B2F-3 Publication-craft fixes from a line-by-line consistency sweep (theme-color vs brand palette; any other mechanical tell) | in progress | b2f99e67 | `build_site.py` (chrome), `assets/style.css`, regenerated root `*.html` | Small, reversible; logged with revert offer |
+| T-B2F-4 Q/I/A additions (Q-45…Q-48): missing information + discovery routes for the design/measurement decisions | in progress | b2f99e67 | `build_site.py`, `data/decisions.json` (triage) | — |
+| T-B2F-5 Line-by-line source re-check for what this pass publishes + repo-consistency irregularities (workflows, secondary builds, generated-output sweep) | in progress | b2f99e67 | `review/b2f99e67/VERIFICATION.md` (new), `flagged.html` rows FLG-085… | Listing values are owned by the three parallel verification sessions; carried, not re-read |
+| T-B2F-6 Executive-summary touch-up; rebuild; all gates; PR to `main`, merge, Pages deploy confirmed; publication record | in progress | b2f99e67 | `executive-summary.html`, `COORDINATION.md` | `git pull --rebase` before every push |
+
+**Scope discipline.** Root publication only: `build_site.py`, `assets/`, `data/decisions.json`
+(triage additions only), `DESIGN_PROMPT.md`, regenerated root `*.html`, `COORDINATION.md`,
+`review/b2f99e67/`. Read-only: `data/products.json`, `counter-check/`, `docs/`, `articles/`,
+`analytics-endpoint/`, `scripts/`, `.github/`, `review/<other-session>/`. Requests against
+those are logged here, never edited.
