@@ -20,9 +20,9 @@
     "text": "Capacity, dimensions, footprint, cleanup and accuracy claims side by side, quoted from each listing, with a three-question chooser and the maths shown."
   },
   {
-    "title": "Buying guides for air fryers & probes",
+    "title": "12 buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting, budget bands and wattage."
+    "text": "12 question-led guides: fit, capacity, cleanup, height, what is in the box, price claims, accuracy and wattage - each from a dated listing read."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -80,9 +80,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: eight spec-backed buyer questions",
+    "title": "Topic calendar: 11 spec-backed buyer questions",
     "url": "topics.html",
-    "text": "Eight question-shaped, spec-backed article working titles - five published, three queued - with the verified fields and sources each is built from."
+    "text": "11 question-shaped working titles - 8 published, 3 queued - each with the verified listing fields it is built from and the sources beside it."
   },
   {
     "title": "Search the guides and products",
@@ -95,19 +95,34 @@
     "text": "Who writes here, how Amazon Associates money works, why no prices are quoted, what has not been tested and how corrections are handled."
   },
   {
-    "title": "The holiday hosting test: which air fryer feeds a crowd?",
+    "title": "Holiday hosting: which air fryer feeds a crowd?",
     "url": "guide-holiday-hosting.html",
-    "text": "Holiday hosting questions answered from verified Amazon listings: two dishes at once, rotisserie and pizza claims, counter-depth math and dated holiday-return observations."
+    "text": "Hosting answers from verified Amazon listings: two dishes at once, rotisserie and pizza claims, and the counter-depth math that decides fit."
   },
   {
-    "title": "Kitchen gifts under $25, $80 and $150: budget bands",
+    "title": "Kitchen gifts by budget: $25, $80, $150 bands",
     "url": "guide-gifts-by-budget.html",
-    "text": "Holiday gift bands from five verified Amazon listings: who each pick is for, the listings' own gift claims quoted, and a gift-giver's checklist."
+    "text": "Gift bands mapped to five verified listings: who each pick suits, the listing's own gift claims quoted, and a gift-giver's checklist."
   },
   {
-    "title": "Will it trip the breaker? Air fryer wattage and outlet math",
+    "title": "Breaker math: air fryer wattage and outlets",
     "url": "guide-wattage-outlets.html",
-    "text": "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing."
+    "text": "What 1000W vs 1700W means on a 120V circuit, the wattage conflict on one listing, and a checklist to verify wattage anywhere."
+  },
+  {
+    "title": "What fits under the cabinet? Check counter height",
+    "url": "guide-counter-height.html",
+    "text": "Listed heights are 10 in, 10.63 in and 14.8 in. How to check yours against a cabinet gap, a vent clearance and an outlet, before you order."
+  },
+  {
+    "title": "What comes in the box? Air fryer accessories",
+    "url": "guide-accessories-in-box.html",
+    "text": "One listing says six accessories in the title and seven in the description. How to read an included-components field, using three verified listings."
+  },
+  {
+    "title": "Is that air fryer on sale? How to check the claim",
+    "url": "guide-price-check.html",
+    "text": "A strikethrough price is not a saving. Six checks on any discounted appliance listing, and why this site links to the price instead of quoting one."
   },
   {
     "title": "Air fryer gifts that get used",

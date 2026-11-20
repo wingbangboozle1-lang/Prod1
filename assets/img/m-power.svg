@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140" role="img" preserveAspectRatio="xMidYMid meet">
+<g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="30" y="46" width="58" height="48" rx="10" fill="currentColor" fill-opacity=".07"/>
+  <path d="M46 46V30M70 46V30" stroke-width="5"/>
+  <path d="M88 70h34"/>
+  <path d="M122 46h34v48h-34z" fill="currentColor" fill-opacity=".05"/>
+  <path d="M139 58v24" stroke-width="5"/>
+</g>
+</svg>
