@@ -613,6 +613,7 @@ PR #37 initially refused to merge: `main` had advanced with PR #35 (`arena/62786
 - `pages.yml` gate list merged earlier in the rebase: upstream's `check_style.mjs` and this session's `check_measure.mjs` both run before upload (four gates).
 - Regenerated all HTML from the merged generator; all gates green on the merged tree (check_site 55 files, check_meta 0 warnings, check_style 0 warnings, check_measure PASS, counter-check PASS, rebuild byte-identical).
 
+**Addendum — the merge shipped a broken workflow YAML, caught and fixed the same hour (2026-11-20).** The `git merge origin/main` step had a *second* conflict in `.github/workflows/pages.yml` (PR #36's `verify_structure.mjs` gate vs this session's `check_measure.mjs` gate) that the truncated merge output did not show; `git add -A` committed the file with its `<<<<<<<` markers still inside, and the workflow for merge `c1028c9` failed in 0s with "workflow file issue" (run 44689110435). The site itself kept serving (legacy branch build), but the deploy gates could not run. Fixed in the next PR: both gate steps kept (the workflow now runs five gates), and `scripts/check_measure.mjs` gained a marker scan over every shipped code/HTML/YAML file so an unresolved conflict marker can never deploy again (negative-tested). Lesson recorded: run a repo-wide conflict-marker grep before committing any merge, not just in the files git reported.
 ## Session arena/54d3e366-prod1 (2026-11-20) — claim
 
 Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds an open claim on the board; every row above is `done`. Baseline re-run on this base: `build_site.py` rebuild is byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` and `counter-check` all PASS.
@@ -629,8 +630,8 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Not verified in this pass:** the five Amazon listings. `amazon.com` could not be fetched from this sandbox, so every listing value keeps the date and source from the earlier re-reads on 2026-11-19 and 2026-11-20 (see `review/62786810/VERIFICATION.md`).
 - **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
 - **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`). Only those marker lines were removed; every record on both sides is kept. Irregularity logged here, not on `flagged.html`.
-
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
 ## Session arena/42e09357-prod1 (2026-11-20) — holiday editorial, decision register, claim integrity
 
 Branch `arena/42e09357-prod1` (base `main` @ `c42d017`). Claims T-5461-B. Two merges of `origin/main` were taken during this pass and resolved in the generator, not by choosing a side.
@@ -749,6 +750,14 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 
 **What was NOT re-read this session (honest scope):** buy-box prices for P1/P2/P3/P5, rating counts, dimensions, wattage and bullets were not re-captured from the fetched chunks; the register's dated 2026-11-20 observations (FLG-060, session 1b65e5a1) stand. Carousel prices in the fetched pages belong to other products and were not used. Volatile figures are not displayed on shop pages per FLG-023, so nothing on the reader-facing site depends on them.
 
-**Irregularities:** (1) Build was broken on arrival — untriaged SG-54..57/Q-38..41 aborted the build before the sponsored post-step; fixed by triaging all eight rows (Editorial: SG-54, SG-57, Q-41; Findability: SG-55, Q-38; Measurement: SG-56; Links/money: Q-39; Compliance: Q-40). (2) P3 ® glyph difference, immaterial.
+**Irregularities:** (1) Build was broken on arrival — untriaged SG-54..57/Q-38..41 aborted the build before the sponsored post-step; fixed by triaging all eight rows; main's PR #49 (session fe0774e7) landed the same repair while this session worked, so on merge this session adopted main's triage verbatim (Q-38 in Measurement) and kept only this verification record as its unique contribution. (2) P3 ® glyph difference, immaterial.
 
 **Gates:** build exit 0; check_site, check_meta, check_style, check_measure, verify_structure, counter-check all pass. Deterministic: rebuild produces no further diff.
+### Repair record — session arena/fe0774e7-prod1 (2026-11-20), PR #49
+
+- **What broke:** `main` at `2dee010` (merge of PR #44) failed the Deploy GitHub Pages workflow. `build_site.py` stops with "data/decisions.json has not triaged these board rows". Rows Q-38…Q-41 and SG-54…SG-57 came from `543ed7f4` (`108ed91`) and were never triaged into a theme. Nothing from the failed build was published.
+- **Fix:** each row is placed in one existing theme in `data/decisions.json`, using only the row's own wording. Regenerated `decisions.html`, `suggestions.html` and `data/search-index.json`, which had also been out of step with the committed files.
+- **Not changed, flagged for the register owner (`42e09357`):** Q-02, Q-14, SG-33 and SG-43 each sit in two themes. The build does not enforce uniqueness, so the triage was left as written.
+- **Gates on the repaired tree:** `build_site.py` exit 0; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, and `counter-check/tools/check_site.py` all exit 0; no drift.
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
+- **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
