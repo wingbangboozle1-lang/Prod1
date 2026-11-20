@@ -735,3 +735,18 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 - **Gates on the repaired tree:** `build_site.py` exit 0; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, and `counter-check/tools/check_site.py` all exit 0; no drift.
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
 - **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
+
+## Claim — session arena/76fe7f9c-prod1 (2026-11-20)
+
+Session ID: **arena/76fe7f9c-prod1**. Branch: `arena/76fe7f9c-prod1`, based on `main @ 717cd94` (PR #49 merged; the Pages run for `141604a` had failed, the repair is in `717cd94`). This session acts as the **final integration session** for the brief: the three open PRs are integrated, the combined data is re-verified line by line, the site is rebuilt with every gate, and the result is published to GitHub Pages.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-76F-A | in progress | 76fe7f9c | `build_site.py`, `assets/style.css`, `assets/app.js`, `data/editorial.json`, `assets/img/*`, `scripts/*`, `.github/workflows/pages.yml`, generated root HTML | The three open PR branches: #46 (`arena/e7dcb638-prod1`, shop pass: artwork, styled component layer, 3 guides, decision-desk picks, measurement contract), #48 (`arena/e05155a0-prod1`, re-verification, contrast audit, design direction, SG-54..56 + Q-38..40), #43 (`arena/543ed7f4-prod1`, verification + marketing suggestions + board rows) | All three are CONFLICTING against current `main`; each is integrated by hand, keeping both sides' work |
+| T-76F-B | in progress | 76fe7f9c | `review/76fe7f9c/VERIFICATION.md` (new), `data/products.json` (only if a value is re-confirmed from the official listing) | The five Amazon.com listings and the Amazon Associates / FTC / Google policy pages, fetched from the official URLs | A value that cannot be re-confirmed stays at its dated snapshot and is flagged, never overwritten |
+| T-76F-C | pending | 76fe7f9c | generated root HTML, `sitemap.xml`, `feed.xml`, `data/search-index.json` | `python3 build_site.py`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/verify_structure.mjs`, `scripts/check_measure.mjs`, `counter-check/tools/check_site.py`, `scripts/test_event_contract.py`, `scripts/test_pages_dom.mjs` | — |
+| T-76F-D | pending | 76fe7f9c | `COORDINATION.md` | PR to `main`, merge, GitHub Pages deploy confirmed through the Pages API | — |
+
+**Scope discipline.** Root publication, its data files, its scripts and its workflow. `counter-check/`, `docs/`, `articles/`, `review/<other session>/` and `data/products.json` (except a re-confirmed field) are read-only. Shared outputs (sitemap, feed, search index, navigation, suggestions board, flag register) are regenerated only from the merged generator, in this final integration session.
+
+**Coordination note.** PR #43 (`arena/543ed7f4-prod1`) and PR #48 (`arena/e05155a0-prod1`) add board rows `SG-54..SG-57` and `Q-38..Q-41`. `main` already triaged `Q-38..Q-41` and `SG-54..SG-57` into `data/decisions.json` in PR #49; the integration re-checks that every row is triaged exactly once and that no identifier is used twice.
