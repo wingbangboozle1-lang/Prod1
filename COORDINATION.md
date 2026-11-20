@@ -1327,6 +1327,14 @@ Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice
 **No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
 
 
+### Publication record — PR #87 (session arena/0c26f71b-prod1, 2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/87 (arena/0c26f71b-prod1 → main) — **merged without approval wait as merge commit `a0b6d7e` at 2026-11-20T07:07:45Z**.
+- **Deploy:** `Deploy GitHub Pages` and `pages build and deployment` both **success**; Pages API reports `status: built`, `build_type: legacy`, source `main /`. Because Pages publishes the branch tip and later sessions (ae5eeead, dd9f338f, 84799c33, 3c99f15c) merged on top of `a0b6d7e`, the live site serves this session's records plus theirs; the live fetch of `https://wingbangboozle1-lang.github.io/Prod1/verification.html` confirmed this session's dated notes are served (and that P1's count has since drifted again to 4,878 in session ae5eeead's pass — the register is behaving as designed).
+- **Merge conflicts handled without losing either side:** five `origin/main` merges (PRs #40–#84 activity); COORDINATION.md tail conflicts resolved keeping every record; a restructured `data/products.json` (session 8bdadebf) adopted wholesale with this session's register deltas re-applied onto it; `data/decisions.json` taken from main and this session's SG-59 classification re-applied; generated HTML always rebuilt from the merged generator.
+- **Three irregularities logged for the record (non-blocking):** (1) four suggestion-number collisions in one day (SG-54/58/60/61 each taken by parallel passes; this session's row is SG-59) — the append-only board needs either pre-claimed numbers or a registry check; (2) the committed `assets/og-image.png` does not re-render pixel-identically under this sandbox's Pillow/freetype — committed asset kept, CI excludes the card from its drift check; (3) headless-browser installs remain blocked by the sandbox CDN allowlist, so visual QA is still limited to structural gates plus live DOM fetches.
+- **Tasks closed:** T-0C26-A…T-0C26-F all **done**. Still open for the owner (unchanged): FLG-001/SG-01 (Special Link test), FLG-004/072 (thermometer dimensions), FLG-005 (Emeril warranty term), FLG-071 (P5 tolerance), FLG-070 (three builds on one host), SG-02 (custom domain), the seven gates on `decisions.html`.
+
 
 
 ## Claim — session arena/1d3cc97c-prod1 (2026-11-20) — superseded in part, narrowed to a tool
@@ -1416,3 +1424,4 @@ Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwar
   - **FLG-091 (owner of the `build_site.py` flag register):** P2/P4/P5 register prices are limited-time deal prices per the listings' own Deal-ends stamps (2026-12-02 07:59 / 2026-12-01 07:45 / 2026-12-01 07:59 UTC; P1 shows no stamp). Nothing on the site references the promotions (grep-checked), so nothing needs removal; re-read the register snapshots after the window.
   - **FLG-092 (same owner):** P5 listing self-contradicts on battery life — About-this-Item bullet "up to 50 hours on a full charge" vs Product Description "up to 70 hours" and spec list "70+ hours of probe use". Both values are recorded in the register source note; a flag row would surface it on `flagged.html`.
 - **T-DD9-1, T-DD9-2, T-DD9-3: done.**
+
