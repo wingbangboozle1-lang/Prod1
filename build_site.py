@@ -686,13 +686,54 @@ def topic_band():
 </div>"""
 
 
+
+# ---------- FRONT PAGE: the shelf table (buyer-first, generated from the register) ----------
+# Why this exists: a shopper's first question is "which one, and how much counter does it take",
+# not "how was this verified". The cards lower down carry the buyer brief; this one table lets a
+# reader decide in ten seconds. Every cell is a register field or an explicit statement that the
+# field was not captured. Nothing is inferred.
+SHELF_CHOOSE = {
+    "P1": "Two dishes finishing together, in the narrowest body here (11.81 in wide)",
+    "P2": "Feeding four to six: rotisserie chicken, 12-inch pizza, one cavity",
+    "P3": "One big 8-quart batch where counter depth is the limit",
+    "P4": "A one-second reading in your hand at the grill",
+    "P5": "Three probes and phone alerts while you are out of the room",
+}
+SHELF_NOTE = {
+    "P1": "Cabinet clearance is not stated on the listing - measure the gap you have",
+    "P2": "Deepest here at 16.9 in, and the doors need room to swing",
+    "P3": "The listing gives two wattages - 1000 W in the bullets, 1700 W in its spec table (<a href=\"flagged.html#FLG-022\">FLG-022</a>)",
+    "P4": "Dimensions and warranty period are not in the fields we captured (<a href=\"flagged.html#FLG-004\">FLG-004</a>)",
+    "P5": "No accuracy figure is stated on the listing; needs WiFi and the app",
+}
+
+def shelf_table():
+    rows = []
+    for pid in ("P1", "P2", "P3", "P4", "P5"):
+        p = PRODS[pid]; dm = dims_of(p)
+        depth = f"{dm['depth_in']} in ({dm['depth_cm']} cm)" if dm else '<span class="fine">not stated</span>'
+        cap = p.get("capacityTitle")
+        cap = esc(cap) if cap not in ("", "\u2014", None) else '<span class="fine">no cavity</span>'
+        rows.append(
+            f'<tr><td><a href="#{pid}"><strong>{esc(p["shortName"])}</strong></a><br>'
+            f'<span class="fine">{esc(p["category"])} &middot; {esc(p["form"])}</span></td>'
+            f'<td>{SHELF_CHOOSE[pid]}</td><td>{cap}</td><td>{depth}</td>'
+            f'<td class="fine">{SHELF_NOTE[pid]}</td>'
+            f'<td><a class="btn small" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" '
+            f'data-ctg-outbound data-asin="{p["asin"]}">Check price</a></td></tr>')
+    return f"""<div class="table-wrap"><table>
+<tr><th>Product</th><th>Choose it if</th><th>Capacity, as titled</th><th>Counter depth</th><th>Before you order</th><th>Amazon</th></tr>
+{"".join(rows)}
+</table></div>
+<p class="small">Depth is the listing&rsquo;s own dimension, converted at 2.54 cm per inch - not a manufacturer claim. Each <em>Check price</em> button carries the Associates tag and is marked sponsored; Amazon serves the live price and stock. Specs re-read {VERIFIED}.</p>"""
+
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
     <p class="eyebrow">Air fryers &amp; meat thermometers &middot; listings read {VERIFIED}</p>
     <h1>The counter is the constraint. Buy for it.</h1>
     <p class="lede">Five machines, checked against their own Amazon listings on {VERIFIED}: three air fryers and two thermometers. The pages answer the four questions that decide a purchase - which job, how deep, what you wash, and what the listing will not say - and every spec links to the page it came from.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Start with air fryers</a></p>
+    <p class="hero-cta"><a class="btn" href="#shelf">See all five at a glance</a> <a class="btn ghost" href="compare.html#chooser">Answer three questions</a></p>
     <ul class="hero-facts">
       <li><strong>5</strong> products, each read from its own listing</li>
       <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
@@ -709,6 +750,10 @@ index_body = f"""
     <p class="fine">Prices and ratings live on Amazon and move by the day, so they are not printed here. Each product page carries the link instead.</p>
   </aside>
 </section>
+
+<h2 id="shelf">All five at a glance</h2>
+<p class="section-note">The ten-second version: what each one is for, how much counter it takes, and the one thing to check before you order. The full cards, with the buyer brief and the source record, are one heading further down.</p>
+{shelf_table()}
 
 <h2>Choose by what you cook, not by brand</h2>
 <div class="grid cols-3">
