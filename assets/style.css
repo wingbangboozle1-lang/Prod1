@@ -315,3 +315,9 @@ footer .fine{color:#BFAA8D}
 /* focus + motion -------------------------------------------------------- */
 a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+/* two remaining hooks: the guide body class and the design-brief prompt blocks */
+body.guide-page .wrap{max-width:960px}
+body.guide-page .guide .table-scroll{margin-left:-1rem;margin-right:-1rem;padding:0 .25rem}
+.prompt{background:#2B1D12;color:#F6E9D6;border-radius:14px;padding:1rem 1.15rem;overflow-x:auto;font-size:.86rem;line-height:1.6}
+.prompt p{margin:.4rem 0;color:inherit}
+.prompt strong{color:#FFD9A8}
