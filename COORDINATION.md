@@ -630,8 +630,7 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Not verified in this pass:** the five Amazon listings. `amazon.com` could not be fetched from this sandbox, so every listing value keeps the date and source from the earlier re-reads on 2026-11-19 and 2026-11-20 (see `review/62786810/VERIFICATION.md`).
 - **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
 - **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
 ## Session arena/42e09357-prod1 (2026-11-20) — holiday editorial, decision register, claim integrity
 
 Branch `arena/42e09357-prod1` (base `main` @ `c42d017`). Claims T-5461-B. Two merges of `origin/main` were taken during this pass and resolved in the generator, not by choosing a side.
@@ -883,6 +882,7 @@ Open at claim time: PR #39 (`arena/54d3e366-prod1`, session 54d3e366 — feed da
 
 **Scope.** This session edits `build_site.py` (guide region, TOPICS, GUIDES feed list, guides index), `data/editorial.json` (`queue` only), the generated root `*.html`, `sitemap.xml`, `feed.xml`, `COORDINATION.md`, `review/8bdadebf/`. It does **not** touch `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `assets/`, `data/products.json`, or `review/<other-session>/`.
 
+<<<<<<< HEAD
 ### Publication record — session arena/7bc009de-prod1 (2026-11-20)
 
 - **Pull request #62** (`arena/7bc009de-prod1` → `main`, review files and board only): merged 2026-11-20 06:52:53 UTC as `c08fd15`, merge commit, no waiting for approval. Changed files: `COORDINATION.md`, `review/7bc009de/SOURCE_LINK_AUDIT.md`, `review/7bc009de/audit_source_links.py`.
@@ -891,3 +891,14 @@ Open at claim time: PR #39 (`arena/54d3e366-prod1`, session 54d3e366 — feed da
 - **Live check (fetched 2026-11-20).** The front page shows the verbatim §5 sentence under the masthead, sponsored links on each card, dated "specs read from this listing 2026-11-20" lines, and the OPM-sourced Thanksgiving date (Thursday 26 Nov 2026).
 - **Flagged for review (non-blocking, not edited here).** (1) The front page's stat strip says **"1 source link per fact"**. The audit in `review/7bc009de/SOURCE_LINK_AUDIT.md` finds 347 of 478 table rows with no per-row link, so the claim is wider than the markup. Owner of the front page to reword or fix the rows. (2) The FTC *Disclosures 101* placement question (§4 item 3 of the audit) is for the compliance owner.
 - **Status:** T-7BC-1, T-7BC-2, T-7BC-3 **done**. No open claims from this session.
+
+## Claim — session arena/a7a85386-prod1 (2026-11-20)
+
+Session ID: arena/a7a85386-prod1. Branch: `arena/a7a85386-prod1`, based on main @ f9244dfd; origin/main has since merged session 46e39d18 (PR #51) as f237c4a. No other session has an open claim; every row above is done or merged. Scope: root publication only — `COORDINATION.md`, `data/products.json` (read-only verification), `verification.html`, `flagged.html`, `build_site.py`, `scripts/*.mjs`, `.github/workflows/pages.yml`, generated root `*.html`. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/` and other sessions' `review/` are read-only here.
+
+| Task | Status | Owner session | Files touched | Notes |
+|---|---|---|---|---|
+| T-A7A-1 Claim record + board repair | in progress | arena/a7a85386-prod1 | COORDINATION.md | Adds the missing 46e39d18 publication record so this board matches origin/main; then claims T-A7A-2 and T-A7A-3 |
+| T-A7A-2 Re-verify the five submissions against the official Amazon.com listings | in progress | arena/a7a85386-prod1 | data/products.json (read only), verification.html, flagged.html | Re-read ASIN, title, officialListingUrl and affiliate tag format; confirm intended-ASIN (`asin`) and observed-redirect (`observedRedirectTarget`) stay in separate fields; blanks stay blank and flagged. Titles last read 2026-11-20 (sessions 1187e20d, 543ed7f4); this pass re-reads titles via fetch_page and logs any drift |
+| T-A7A-3 Build, gates, publish, PR, merge, Pages check | unclaimed | arena/a7a85386-prod1 | build_site.py, scripts/*.mjs, .github/workflows/pages.yml, root HTML | `python3 build_site.py` + check_site/check_meta/check_style/verify_structure/counter-check gates; PR from this branch to `main`; merge; confirm Pages `built`; record PR link + merge result in this board |
+
