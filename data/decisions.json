@@ -1,5 +1,5 @@
 {
- "note": "The decision register behind decisions.html. Written by session 42e09357 on 2026-11-20 so that the 43 suggestions and 27 questions accumulated by ten parallel sessions become seven decisions with an order. Nothing here is approved; status says what it is. build_site.py refuses to write the page unless every SG-/Q- id on suggestions.html is classified in exactly one theme below, so a future session cannot add a row that nobody has triaged. Reclassified on 2026-11-20 after merge: the board grew to SG-53 and Q-37 in a parallel pass, and the triage check in build_site.py listed the twelve unclassified rows rather than letting them sit unowned. Reclassified 2026-11-20 (session arena/fbfe1742-prod1): the board grew again to SG-57 and Q-41 in a parallel pass; the eight new rows are triaged into the themes below (SG-54/56/57, Q-41 -> Editorial; SG-55, Q-38 -> Findability; Q-39 -> Links and money; Q-40 -> Compliance), consistent with where their sibling rows sit. Classification only - nothing is approved.",
+ "note": "The decision register behind decisions.html. Written by session 42e09357 on 2026-11-20 so that the 43 suggestions and 27 questions accumulated by ten parallel sessions become seven decisions with an order. Nothing here is approved; status says what it is. build_site.py refuses to write the page unless every SG-/Q- id on suggestions.html is classified in exactly one theme below, so a future session cannot add a row that nobody has triaged. Reclassified on 2026-11-20 after merge: the board grew to SG-53 and Q-37 in a parallel pass, and the triage check in build_site.py listed the twelve unclassified rows rather than letting them sit unowned. Classification note (session arena/fbfe1742-prod1, 2026-11-20): this session triaged the same eight rows first (SG-54/56/57 + Q-41 -> Editorial; SG-55 + Q-38 -> Findability; Q-39 -> Links and money; Q-40 -> Compliance); the integrated version on main places Q-38 and SG-56 under Measurement instead - both placements classify every row and neither is approved policy, so the integrated placement stands and this note keeps the alternative visible.",
  "updated": "2026-11-20",
  "answerFormat": "One line per decision, in COORDINATION.md or a message to a session: D-03 = option 2, 2026-11-20, evidence: <link or screenshot name>. The session that reads it moves the row from gates to answered, applies the change, and records who decided and when. No reply at all is also recorded: after 28 days an unanswered gate gets its recommended default applied and the row is marked 'default applied, reversible'.",
  "howThisWorks": [
@@ -623,8 +623,7 @@
     "Q-06",
     "Q-18",
     "Q-27",
-    "Q-34",
-    "Q-38"
+    "Q-34"
    ],
    "gate": "D-01"
   },
@@ -635,11 +634,13 @@
     "SG-03",
     "SG-06",
     "SG-39",
-    "SG-52"
+    "SG-52",
+    "SG-56"
    ],
    "qs": [
     "Q-08",
-    "Q-24"
+    "Q-24",
+    "Q-38"
    ],
    "gate": "D-04"
   },
@@ -708,7 +709,6 @@
     "SG-26",
     "SG-49",
     "SG-54",
-    "SG-56",
     "SG-57"
    ],
    "qs": [
