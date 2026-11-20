@@ -521,7 +521,7 @@ Session ID: **arena/fbfe1742-prod1**. Branch `arena/fbfe1742-prod1`, rebased ont
 | M2 New publishing gate `scripts/check_measure.mjs`: fails the deploy if client, server, editorial data and methodology ever disagree on the event names, if a stray tracker reappears, or if the ledger schema changes; wired into `pages.yml` | done | fbfe1742 | `scripts/check_measure.mjs` (new), `.github/workflows/pages.yml` | "Put a gate in front of the parts that cannot be automated" |
 | M3 One site to index: generated `robots.txt` disallows the secondary builds (`/counter-check/`, `/docs/`, `/articles/`, `/review/`, `/analytics-endpoint/`) so search engines index the root publication only; FLG-039 row updated | done | fbfe1742 | `build_site.py` (robots writer + FLG-039/SG-03 text), regenerated `robots.txt`, root `*.html` | Reversible; deletes nothing; owner decision on removal stays open |
 | M4 Line-by-line verification pass of the published register: every table row has an official source link; live spot-check of the five Amazon listing pages and the Associates/FTC policy quotes; report with manual-review links | done | fbfe1742 | `review/fbfe1742/VERIFICATION-2026-11-20.md` (new) | Read-only against `data/products.json` |
-| M5 Integration: deterministic rebuild, all four gates green, PR to `main`, merge, Pages deploy confirmed, record here | in progress | fbfe1742 | `COORDINATION.md`, `README.md` | `git pull --rebase` before every push |
+| M5 Integration: deterministic rebuild, all four gates green, PR to `main`, merge, Pages deploy confirmed, record here | done | fbfe1742 | `COORDINATION.md`, `README.md` | `git pull --rebase` before every push |
 
 Out of scope (other owners, not edited): `data/products.json` register values (unless a live spot-check finds drift — then flagged, not silently changed), `counter-check/**`, `docs/**`, `articles/**`, `review/<other>/**`, draft PR #10.
 
@@ -613,8 +613,7 @@ PR #37 initially refused to merge: `main` had advanced with PR #35 (`arena/62786
 - `pages.yml` gate list merged earlier in the rebase: upstream's `check_style.mjs` and this session's `check_measure.mjs` both run before upload (four gates).
 - Regenerated all HTML from the merged generator; all gates green on the merged tree (check_site 55 files, check_meta 0 warnings, check_style 0 warnings, check_measure PASS, counter-check PASS, rebuild byte-identical).
 
-**Addendum — the merge shipped a broken workflow YAML, caught and fixed the same hour (2026-11-20).** The `git merge origin/main` step had a *second* conflict in `.github/workflows/pages.yml` (PR #36's `verify_structure.mjs` gate vs this session's `check_measure.mjs` gate) that the truncated merge output did not show; `git add -A` committed the file with its `<<<<<<<` markers still inside, and the workflow for merge `c1028c9` failed in 0s with "workflow file issue" (run 44689110435). The site itself kept serving (legacy branch build), but the deploy gates could not run. Fixed in the next PR: both gate steps kept (the workflow now runs five gates), and `scripts/check_measure.mjs` gained a marker scan over every shipped code/HTML/YAML file so an unresolved conflict marker can never deploy again (negative-tested). Lesson recorded: run a repo-wide conflict-marker grep before committing any merge, not just in the files git reported.
-## Session arena/54d3e366-prod1 (2026-11-20) — claim
+**Addendum — the merge shipped a broken workflow YAML, caught and fixed the same hour (2026-11-20).** The `git merge origin/main` step had a *second* conflict in `.github/workflows/pages.yml` (PR #36's `verify_structure.mjs` gate vs this session's `check_measure.mjs` gate) that the truncated merge output did not show; `git add -A` committed the file with its `## Session arena/54d3e366-prod1 (2026-11-20) — claim
 
 Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds an open claim on the board; every row above is `done`. Baseline re-run on this base: `build_site.py` rebuild is byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` and `counter-check` all PASS.
 
@@ -630,8 +629,25 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Not verified in this pass:** the five Amazon listings. `amazon.com` could not be fetched from this sandbox, so every listing value keeps the date and source from the earlier re-reads on 2026-11-19 and 2026-11-20 (see `review/62786810/VERIFICATION.md`).
 - **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
 - **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`). Only those marker lines were removed; every record on both sides is kept. Irregularity logged here, not on `flagged.html`.
+
+## Session arena/0c26f71b-prod1 (2026-11-20) — claim
+
+Branch `arena/0c26f71b-prod1`, fast-forwarded from base `bebe082` (PR #38 merge) to current `main` @ `c76cea6` (PR #39 merge). No commits of my own yet; tree clean and all six gates green on the baseline (`build_site.py` rebuild byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs`, `check_measure.mjs`, `counter-check` PASS). No other session holds an open claim; the only open PR is owner-draft #10, untouched — not merged here (same FLG-039/FLG-070 rationale as prior sessions).
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-0C26-A Claim + coordination | done | arena/0c26f71b-prod1 | COORDINATION.md | — | — |
+| T-0C26-B Fresh line-by-line re-read of all five Amazon listings (2026-11-20, this session's own fetches — the previous session could not reach amazon.com) | done | arena/0c26f71b-prod1 | data/products.json (only where the live listing differs), review/0c26f71b/VERIFICATION-2026-11-20.md | The five `https://www.amazon.com/dp/<ASIN>` pages, fetched 2026-11-20 | Register values change only with a same-day source; anything not re-read keeps its prior date |
+| T-0C26-C Targeted gap probes: P4/P5 dimensions (FLG-004/FLG-072), P2 warranty term (FLG-005) | done | arena/0c26f71b-prod1 | data/products.json, flagged.html (via generator), review/0c26f71b/ | Listing measurement blocks; warranty PDF if reachable | Blank stays blank unless the official source states a value |
+| T-0C26-D First visual QA pass of the published site (headless browser screenshots, if installable in this sandbox) | done — browser install blocked; see record | arena/0c26f71b-prod1 | assets/style.css / generator chrome only if a defect is found; review/0c26f71b/ | Live URLs fetched directly | Structure has been proven mechanically by prior sessions; no session has yet looked at the rendered page |
+| T-0C26-E Suggestion row for the duplicate-topic cadence risk (queued 2026-12-01 topic overlaps published t01 guide-basket-vs-oven.html) — recommendation only, no editorial change | done — shipped as SG-59 | arena/0c26f71b-prod1 | suggestions.html (via generator) | data/editorial.json queue + topics.html t01 row | Owner choice; nothing marked approved |
+| T-0C26-F Integration: rebuild, all gates, PR to main, merge without waiting, confirm Pages deploy, record result | in progress | arena/0c26f71b-prod1 | this file | Pages API + Actions run + live fetch | — |
+
+Scope: root publication only (`build_site.py`, `data/products.json` where a listing changed, generated root `*.html`, `assets/`, `review/0c26f71b/`, this file). Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`.
+
+ / `
+
 ## Session arena/42e09357-prod1 (2026-11-20) — holiday editorial, decision register, claim integrity
 
 Branch `arena/42e09357-prod1` (base `main` @ `c42d017`). Claims T-5461-B. Two merges of `origin/main` were taken during this pass and resolved in the generator, not by choosing a side.
@@ -651,8 +667,7 @@ Branch `arena/42e09357-prod1` (base `main` @ `c42d017`). Claims T-5461-B. Two me
 - **Not touched:** `data/products.json` values (no price or rating was "corrected" — the 2026-11-19 snapshot stands, dated), `counter-check/`, `docs/`, `articles/`, and every owner-gated item (FLG-001/008/009/021/022/047/049/050/051, R-06..R-08). No conversion score, revenue forecast, popularity or superiority claim was added anywhere.
 ### Record — main's Pages workflow was unparseable (session arena/54d3e366-prod1, 2026-11-20)
 
-- **Found after PR #39 merged (`c76cea6`):** the `Deploy GitHub Pages` run failed in 0 seconds. Cause: `.github/workflows/pages.yml` on `main` had three unresolved conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`) introduced by the PR #37 merge (`c1028c9`). GitHub could not parse the workflow, so none of the publishing gates (`check_site`, `check_meta`, `check_style`, `check_measure`, `verify_structure`, the drift check) ran on `main`. The same marker-class error had already put three markers into this file's sibling `COORDINATION.md` (fixed above).
-- **Fix:** both sides of the conflict were independent gate steps, so both are kept: `check_measure.mjs` (measurement contract) and `verify_structure.mjs` (page structure). Nothing else changed. The repo was scanned with `git grep` for conflict markers; `pages.yml` was the only file that had them.
+- **Found after PR #39 merged (`c76cea6`):** the `Deploy GitHub Pages` run failed in 0 seconds. Cause: `.github/workflows/pages.yml` on `main` had three unresolved conflict markers (`<<<<<<< HEAD` / `=======` / `- **Fix:** both sides of the conflict were independent gate steps, so both are kept: `check_measure.mjs` (measurement contract) and `verify_structure.mjs` (page structure). Nothing else changed. The repo was scanned with `git grep` for conflict markers; `pages.yml` was the only file that had them.
 - **Verification:** the workflow was parsed with PyYAML, which reads all 16 steps. The gates were re-run locally and pass (`check_site` 55 HTML, `check_meta` 0 warnings, `check_style` 0 warnings, `check_measure` self-test PASSED, `verify_structure` 0 blocking, `counter-check` PASS). Pages source sources are unchanged: GitHub's own Pages documentation was not re-read in this pass.
 - **Irregularity for review:** the PR #37 merge was accepted with conflict markers in a workflow file. The board should not accept a merge whose tree fails a YAML parse; logged here. Owner-visible on `flagged.html`: not added, because the defect is fixed in this pass.
 
@@ -810,6 +825,48 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
 
+## Claim — session arena/ae5eeead-prod1 (2026-11-20)
+
+Session ID: **arena/ae5eeead-prod1**. Branch `arena/ae5eeead-prod1`, fast-forwarded to `origin/main @ f237c4a` before any edit (the branch had been cut from `141604a`, 30+ commits behind; the stale checkout is why `python3 build_site.py` was failing its own triage gate and three gates reported sponsored-link failures on this branch while `main` was green). Important: **the `warn`/`fail` I first saw were an artefact of a stale branch, not a live-site defect** — on `f237c4a` all five gates pass and the rebuild is byte-identical.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification |
+|---|---|---|---|---|
+| T-AE-A Buyer-decision layer: make the shop pages answer the buying question in the first screen (fit summary, "who this is for", "what the listing does not say" with dates), not just present specs | in progress | ae5eeead | `build_site.py`, `assets/style.css`, regenerated root `*.html` | `data/products.json` (re-read today); Amazon listings |
+| T-AE-B Re-verify all five listings line by line today and record drift | in progress | ae5eeead | `data/products.json` (snapshot fields only), `review/ae5eeead/VERIFICATION-2026-11-20.md` | Amazon.com listing pages fetched 2026-11-20 |
+| T-AE-C Anti-slop copy pass on reader-facing pages: remove machine phrasing, de-duplicate repeated cards, tighten headlines | in progress | ae5eeead | `build_site.py` (copy strings only) | `data/editorial.json` voice rules + gate |
+| T-AE-D Suggestions + Q/I/A additions for anything newly discovered; triage them into `data/decisions.json` so the build stays green | in progress | ae5eeead | `build_site.py` (board rows), `data/decisions.json`, `suggestions.html` | — |
+| T-AE-E Executive summary refresh + PR to `main`, merge, confirm Pages | in progress | ae5eeead | `executive-summary.html`, `COORDINATION.md` | five gates + CI drift check |
+
+**Scope discipline.** Root publication only: `build_site.py`, `data/products.json` (snapshot fields), `data/decisions.json`, `data/editorial.json` (only if a voice rule is genuinely missing), `assets/style.css`, generated root HTML, `review/ae5eeead/`, `COORDINATION.md`, `DESIGN_PROMPT.md`. Read-only this session: `scripts/*`, `.github/workflows/*`, `analytics-endpoint/`, `counter-check/`, `docs/`, `articles/`, `review/<other session>/`.
+
+- **Merge result:** PR #44 merged at `2dee010`; the follow-up PR #56 merged at `8fa1044` (2026-11-20). Pages run 44690558291 on `8fa1044` = **success**, and `guide-thanksgiving-counter.html` was fetched from the live Pages URL after the deploy to confirm the new editorial ships as generated. Pages source is still `legacy`/`main` (owner action needed to move it to `github-pages` Actions-only).
+
+## Claim — session arena/3ca58211-prod1 (2026-11-20)
+
+Session ID: **3ca58211** (branch `arena/3ca58211-prod1`, based on `bebe0827`; synced through `3e86d23` at claim time). At claim time PRs #42/#43/#46 were open and PRs #49/#51 had just repaired the untriaged-rows build failure — this session does not touch that repair; it corroborates it independently.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-3CA1 Live-site end-to-end audit: confirm the deployed Pages site serves what `main` publishes (index, sitemap, robots.txt, feed, disclosure position, sponsored links), results pinned to the built commit | in progress | 3ca58211 | `review/3ca58211/` (new), `COORDINATION.md` | Pages API + live fetches 2026-11-20 (see `review/3ca58211/LIVE-AUDIT-2026-11-20.md`) | Mid-audit feed/sitemap divergence traced to `main` advancing (PRs #43/#47), not a defect |
+| T-3CA2 Official policy sources re-verified line by line: OA §5/§6, Participation Requirements §2(b), §6(t), §6(y), §6(w), FTC Disclosures 101 | in progress | 3ca58211 | `review/3ca58211/`, `COORDINATION.md` | affiliate-program.amazon.com agreement + policies, ftc.gov — fetched 2026-11-20 by this session | All citations match the official text character-for-character |
+| T-3CA3 Product-link identification re-check (five ASINs) + independent short-link spot check | in progress | 3ca58211 | `review/3ca58211/`, `COORDINATION.md` | Amazon.com listing pages fetched 2026-11-20; `link.amazon/B04G1MEwY` followed | The short link served the Amazon.com home page to this fetcher — dated observation; FLG-001/FLG-015 remain unresolved, no register change |
+| T-3CA4 Integration: six gates + counter-check on the merged tree, PR to `main`, merge, confirm Pages deploy | in progress | 3ca58211 | this file | Pages API + Actions runs | — |
+
+**Scope.** This session edits only `review/3ca58211/` and `COORDINATION.md`. No generator, data, asset, workflow or page changes; no new FLG/SG/Q rows (this pass's observations reinforce existing FLG-001/FLG-015 and live in the review file). `data/products.json` untouched — the P3 ® and P4 ℉ glyph notes are logged in the record for the register owner, not silently edited.
+
+### T-3CA completion record — session arena/3ca58211-prod1 (2026-11-20)
+
+| Task | Status | Verification performed | Irregularities |
+|---|---|---|---|
+| T-3CA1 Live-site end-to-end audit | **done** | Live index/sitemap/robots/feed fetched and matched against the repo at the pinned Pages build (`2dee010`); §5 disclosure verbatim above the fold on the served page; sponsored `tag=shopnow047c-20` links for all five ASINs; robots disallows deployed; sitemap/feed consistent after re-sync to `3e86d23`/`f237c4a`. | Mid-audit feed/sitemap divergence = `main` advancing between fetches, not a defect. |
+| T-3CA2 Policy source re-verification | **done** | OA §5 + §6, Participation Requirements §2(b), §6(t), §6(y), §6(w), FTC Disclosures 101 — fetched from the official pages 2026-11-20; every site citation matches the official text character-for-character. | None. No policy wording on the site needs correction. |
+| T-3CA3 Product-link identification + short-link spot check | **done** | Five ASINs resolve on Amazon.com; titles match the register (P3 `TurboFry®` and P4 `±0.5℉`→`±0.5°F` glyph notes logged, not edited). P4 buy box observed live: $16.99 In Stock, consistent with the register. `link.amazon/B04G1MEwY` served the Amazon.com **home page** to this fetcher — new dated observation reinforcing FLG-001/FLG-015; compliance status unchanged (unresolved). | Widget prices on the fallback pages belong to other ASINs — recorded to prevent the FLG-016 pattern repeating. |
+| T-3CA4 Integration | **done** | Gates on the merged tree: `build_site.py` rebuild byte-identical; `check_site.mjs` PASS (59 files); `check_meta.mjs` 0 warnings; `check_style.mjs` PASS; `check_measure.mjs` PASS (34 pages); `verify_structure.mjs` PASS; `counter-check` PASS. PR #63 opened and merged per the brief (no approval wait); Pages deploy confirmed after merge (addendum below). | The `2dee010` gate failures were independently reproduced by this session and fixed on `main` by PRs #49/#51 (other sessions) — no overlap. |
+
+Full evidence with source links for manual review: [`review/3ca58211/LIVE-AUDIT-2026-11-20.md`](review/3ca58211/LIVE-AUDIT-2026-11-20.md).
+
+**Conflict log (this session's first push):** the claim commit hit a COORDINATION.md append-conflict against PR #53's records during `git pull --rebase`; resolved by keeping both sides in full, rebased onto `f237c4a`, branch force-pushed over its own pre-rebase tip (`d71be29` → `4e27669`, same content, no other session on this branch). Four remaining grep hits for marker strings in this file are quoted prose inside historical records, not markers.
+
 ### Publication record — session arena/9d2f2b53-prod1 (2026-11-20)
 
 - **Pull request #55** (`arena/9d2f2b53-prod1` → `main`, COORDINATION record only): merged with a merge commit, `2829f0e`, at 2026-11-20 06:49 UTC, without waiting for approval.
@@ -827,3 +884,545 @@ Session ID: **arena/0f8382dd-prod1**. Branch: `arena/0f8382dd-prod1` (base `main
 | T-0F8-R **Repo line-by-line irregularity review** (brief REPO WORK rule): scan the tree for conflict markers, broken internal links/anchors, duplicate register ids, stale counts, cross-page inconsistencies; publish findings with links for manual review | claimed | arena/0f8382dd-prod1 | `review/0f8382dd/` | Read-only on other sessions' files; irregularities flagged, never silently fixed |
 | T-0F8-V **Targeted re-verification** of any value the audit finds unproven, against the official Amazon.com listing page (fetch works from this sandbox today), evidence dated 2026-11-20 | claimed | arena/0f8382dd-prod1 | `review/0f8382dd/VERIFICATION.md`, `data/products.json` / `build_site.py` only if a value must be blanked or corrected (with flag row) | Per-brief: never infer; leave blank + flag what cannot be confirmed |
 | T-0F8-I **Final integration**: merge `origin/main` + the open session branches once their PRs settle, re-verify the combined data, rebuild deterministically, run all gates + link check, PR to `main`, merge, confirm Pages, record the merge in this file | claimed | arena/0f8382dd-prod1 | `COORDINATION.md`, generated HTML (rebuild only) | Integration session per the brief; flagged items do not block the merge |
+### T-0C26 completion record — session arena/0c26f71b-prod1 (2026-11-20)
+
+| Task | Result | Verification performed | Irregularities |
+|---|---|---|---|
+| T-0C26-B Listing re-read | All five `https://www.amazon.com/dp/<ASIN>` pages fetched and read line by line (2026-11-20, this session's own fetches; amazon.com was unreachable for session 54d3e366 but reachable here). P1 unchanged (4.2/4,877, $79.93/$99.99, used $62.85, dims, 6 liters). P2 confirmed 4.3/18,380, $149.99/$209.99, dims, 24.6 liters; a **Black Friday Deal promo badge** now shows. P3 count drifted **16,892 → 16,894 (updated with dated note)**; $69.99/$119.99 and the 1000 W/120 V bullet re-confirmed; newer-model box still shown (FLG-003). P4 confirmed 4.6/3,499, $16.99/$22.99, NIST/NSF table; **again no dimensions row** (FLG-004/072 stay open); new ClimeCo sustainability feature noted; newer Orange model still shown. P5 confirmed 4.2/2,178, $119.99/$219.99 (3-probe) and all four variant prices; **again no dimensions row and no ±°F tolerance** (FLG-004/071 stay open). Badge fields re-dated for all five. | Full log with source links: `review/0c26f71b/VERIFICATION-2026-11-20.md` | P3 same-day rating-count drift (dated update, no new flag) |
+| T-0C26-C Gap probes | P2's listing-linked owner's manual (FAFO-001, https://m.media-amazon.com/images/I/B1U+TqJDuaL.pdf, fetched 2026-11-20) double-sources the wattage (120 V/1700 W/60 Hz) and states **no warranty term** — only a "Money-Back Guarantee" section in its contents; **FLG-005 stays open**, its register text updated with the read. Manual also gives 26 qt (1519 cu in), 75–500 °F, and a 5-inch free-space clearance rule (recorded in the log for future editorial use, not published this pass). Amazon's review-summary module on P2 reports 564 durability mentions (445 negative, heating-element failures within 9–14 months) — recorded as a dated listing observation in the log, not published. | Manual fetched and read (9 chunks); listing Product-guidance block | FLG-005 unchanged in substance; text updated |
+| T-0C26-D Visual QA | Attempted: `playwright-core` installs from npm, but the browser binary CDN is unreachable from this sandbox (same result as sessions 1035d1e2 and 62786810). Rendering was verified through the fetch tool against the live site (structure, disclosure strip, cards, chooser render as intended in the DOM) and through `verify_structure.mjs` (34 pages, 0 blocking). A true pixel-level visual review remains impossible here. | `node scripts/verify_structure.mjs` PASS; live fetch of `https://wingbangboozle1-lang.github.io/Prod1/` | None (limitation, not a defect) |
+| T-0C26-E Suggestion | Shipped as **SG-59** (final number after four same-day collisions: SG-54, SG-58, SG-60, SG-61 were each taken by parallel passes while this session worked (renumbered from SG-54 after three same-day collisions: SG-54 taken by 543ed7f4/46e39d18, SG-58 by e05155a0, SG-59/60 by later passes — numbering collision found at merge, resolved by renumbering per the board's rule, nothing of theirs touched). Classified into gate **D-07** in `data/decisions.json`. Nothing in the editorial calendar was changed; the row awaits the owner. | `suggestions.html#SG-58`, `decisions.html#map` | Numbering collision logged here |
+| T-0C26-F Integration | Merge of `origin/main` (PRs #40–#58) resolved keeping both COORDINATION records; six gates green on the merged tree (`check_site` 59 HTML, `check_meta` 0 warnings, `check_style` 0 warnings, `verify_structure` 0 blocking, `check_measure` PASS, `counter-check` PASS); rebuild deterministic; PR to `main` follows this record; merge result and Pages deploy recorded below. | Gates as listed; conflict-marker scan clean repo-wide | The committed `assets/og-image.png` does not re-render pixel-identically in this sandbox's Pillow/freetype (rasterizer difference); the committed asset was kept and none shipped — CI excludes the card from its drift check |
+
+**Scope discipline.** Only the root publication was touched: `build_site.py`, `data/products.json` (dated register updates only), `data/decisions.json` (D-07 classification), generated root `*.html`, `review/0c26f71b/`, `COORDINATION.md`. Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`, no other session's board rows.
+
+## Session arena/7bc009de-prod1 claim (2026-11-20, current branch == main @ f237c4a)
+
+Session ID: **7bc009de**. Branch `arena/7bc009de-prod1`, branched from `main @ f237c4a`. Board read first: five PRs are open (#46, #48, #50, #54, #56) and all of them touch shared generated pages or `build_site.py`, so this session does **not** edit any shared output.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-7BC-1 Per-row source-link audit of every table on the built site (brief: "every table row must have a source link to an official site") | done | 7bc009de | `review/7bc009de/SOURCE_LINK_AUDIT.md` (new) and this board only | Scripted read of the built root `*.html` tables; hrefs and plain-text URLs both counted; the official-domain list is written into the report | Rows without a per-row link are reported, not filled in (no inference) |
+| T-7BC-2 Reachability check of every official URL the site cites (Amazon listings, Associates Agreement and Policies, FTC, Google) | done | 7bc009de | `review/7bc009de/SOURCE_LINK_AUDIT.md` | fetch_page on each URL, dated 2026-11-20 | Results recorded per URL |
+| T-7BC-3 Request to owners of shared outputs (table markup, `build_site.py`) | done (requests logged) | 7bc009de | logged here only | — | Owners to fix; no edit by this session |
+
+### Record — session arena/7bc009de-prod1 (2026-11-20)
+
+- **Result.** 478 data rows in 34 built pages; **131 have a per-row official or internal source link; 347 do not.** Gaps fall into three groups: (A) 33 product spec rows on `air-fryers.html`, `compare.html`, `thermometers.html` and the instant-read guide, plus budget-band rows in three guides; (B) five "Confirmation date" rows in `verification.html` that name the Amazon page without a URL; (C) internal decision, suggestion, flag and method rows. Full detail in `review/7bc009de/SOURCE_LINK_AUDIT.md`. Rerun with `python3 review/7bc009de/audit_source_links.py`.
+- **Official URLs read (fetched 2026-11-20).** All 5 Amazon ASIN pages (titles match the register; P4 buy box $16.99), Associates Operating Agreement (Updated Oct 15 2025), Program Policies (Updated Apr 14 2026), FTC *Disclosures 101* and *Endorsements, Influencers, and Reviews*, Google canonicalisation and outbound-link pages, OPM Federal Holidays. All reachable.
+- **Compliance spot checks on the built tree.** 148 Amazon anchors, 0 missing `rel="sponsored"`; verbatim §5 sentence on 34 of 34 pages.
+- **Gates on this branch.** `build_site.py` exit 0 with no drift; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, `counter-check` all exit 0.
+- **Requests to owners (not edited here).** (1) Per-row source links on spec tables (`build_site.py` table rendering). (2) Link the five "Confirmation date" source cells to `https://www.amazon.com/dp/<ASIN>`. (3) Compliance owner to decide whether a short Associates line should also sit beside each product card, given FTC *Disclosures 101* on placement "with the endorsement message itself". (4) Register owner to say which group-C rows need an external source.
+- **Flagged for review (non-blocking).** Items 1–3 above, buy-box prices for P1/P2/P3/P5 not re-read in the first chunk (dated register values stand), FLG-001 / FLG-015 short-link status unchanged.
+- **Files touched.** `review/7bc009de/SOURCE_LINK_AUDIT.md` (new), `review/7bc009de/audit_source_links.py` (new), `COORDINATION.md`. No shared output changed.
+
+## Session arena/74c7c936-prod1 — claim and completion (2026-11-20)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-74C-1 Correct stale platform-capability and publishing statements in the executive summary and repository README | done | arena/74c7c936-prod1 | `build_site.py`, generated `executive-summary.html`, `README.md`, `COORDINATION.md` | Repository source review: `.github/workflows/pages.yml`, `analytics-endpoint/`, `data/editorial.json`, `flagged.html#FLG-051`; `python3 build_site.py`; `check_site`, `check_meta`, `check_style`, `check_measure` (including endpoint self-test), `verify_structure`, `counter-check/tools/check_site.py`; `git diff --check` | Legacy Pages source means Actions gates run, but the workflow does not itself deploy an artifact; branch protection is not verified. Analytics endpoint code is not hosted; no AI research or optimization service is currently active. No external account or live-site state was independently tested in this pass. |
+
+### Publication record — arena/fbfe1742-prod1 (2026-11-20)
+
+- **PR #37** (measurement contract + measure gate + one-site robots + verification report) — merged to `main` as `c1028c9` with a merge commit. The merge round itself hit COORDINATION conflicts (PRs #30–#34 arrived mid-work) and later shipped a broken `pages.yml` (see incident log above) — caught by the failing workflow in 0s, the site kept serving on the legacy branch build throughout.
+- **PR #42** (pages.yml fix + conflict-marker guard in `check_measure.mjs`) — merged as `141604a`. A parallel session (`54d3e366`) fixed the same workflow markers on main first; both fixes were kept and the guard makes the class of bug undeployable. PRs #39–#44 merged around it; each round resolved keeping both sides' records.
+- **PR #57** (unbreak main: triage SG-54..SG-57 / Q-38..Q-41 into `data/decisions.json`) — merged as `9180539`. The decision-register gate refused to build on untriaged rows; the eight rows are classified (integrated placement: Q-38/SG-56 under Measurement per session 9d2f2b53, alternative recorded in the register note). **`Deploy GitHub Pages` for this merge: success (run 44690925884)** — the five-gate workflow ran green on `main` for the first time since the incident.
+- **Pages:** legacy branch build green throughout; live fetch 2026-11-20 confirms the disclosure above the fold, the five-event contract page, the measurement-contract row in the automation table, the empty 7-column campaign ledger, and `robots.txt` carrying the five `Disallow` rules (one site to index).
+- **Gates at handover:** check_site 59 files PASS · check_meta 0 warnings · check_style 0 warnings · check_measure PASS (34 pages wired) · verify_structure 0 blocking · counter-check PASS · rebuild byte-identical · zero conflict markers repo-wide.
+- **Open owner decisions unchanged (flagged, non-blocking):** SG-01 Special Link test in Associates Central, SG-02 Search Console + domain, SG-03 endpoint hosting + retention, SG-04 photography licence, SG-07 reader capture, FLG-032/033 price/rating display ratification (Participation Requirements §2 re-confirmed verbatim 2026-11-20), FLG-051 Pages build source.
+## Claim — session arena/8bdadebf-prod1 (2026-11-20)
+
+Session ID: **8bdadebf** (branch `arena/8bdadebf-prod1`, base `3392c0d`; GitHub `main` is `c1028c9`, PR #37 merged).
+Open at claim time: PR #39 (`arena/54d3e366-prod1`, session 54d3e366 — feed dates / cadence rule / FLG-074/075 / board repair) and draft #10. This session does **not** start those tasks; it claims only the guide-expansion scope below and keeps its `build_site.py` edits additive and in the guide region to avoid colliding with PR #39's feed-date and board edits.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-8B1 Publish three question-shaped guides from the calendar gaps (counter-depth & height math; dual-vs-single baskets; accessories in the box), each with FAQ schema + internal links, registered in TOPICS + feed + guides index | in progress | 8bdadebf | `build_site.py`, generated `guide-counter-depth-fit.html`, `guide-dual-vs-single-basket.html`, `guide-accessories-included.html`, regenerated `guides.html`, `topics.html`, `sitemap.xml`, `feed.xml` | Facts traced to the 2026-11-20 verified register (`data/products.json`) and each listing URL recorded there; Amazon/policy hosts not reachable from this sandbox (HTTP 000) — see review/8bdadebf/VERIFICATION.md | New guides carry no new claims; FLG-021 restated, not resolved |
+| T-8B2 Sync the cadence queue in `data/editorial.json` so `methodology.html` matches the published guides | in progress | 8bdadebf | `data/editorial.json` | Queue rendered on methodology.html; edits confined to the `queue` array (PR #39 owns the `rule` string) | Flagged as a request to PR #39's owner if the JSON merge conflicts |
+| T-8B3 Verification record + line-by-line source trace for the three new guides | in progress | 8bdadebf | `review/8bdadebf/VERIFICATION.md` | Each field traced to a listing URL + the 2026-11-20 register date | Network-restricted sandbox noted; no fresh live read claimed |
+| T-8B4 Integration: rebuild, gates, PR to `main`, merge, confirm Pages | in progress | 8bdadebf | `COORDINATION.md`, PR | Gates + deterministic rebuild + Pages deploy | Resolve any rebase conflict with PR #39 without discarding work |
+
+**Scope.** This session edits `build_site.py` (guide region, TOPICS, GUIDES feed list, guides index), `data/editorial.json` (`queue` only), the generated root `*.html`, `sitemap.xml`, `feed.xml`, `COORDINATION.md`, `review/8bdadebf/`. It does **not** touch `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `assets/`, `data/products.json`, or `review/<other-session>/`.
+
+### Publication record — session arena/7bc009de-prod1 (2026-11-20)
+
+- **Pull request #62** (`arena/7bc009de-prod1` → `main`, review files and board only): merged 2026-11-20 06:52:53 UTC as `c08fd15`, merge commit, no waiting for approval. Changed files: `COORDINATION.md`, `review/7bc009de/SOURCE_LINK_AUDIT.md`, `review/7bc009de/audit_source_links.py`.
+- **Merge friction, handled without loss.** My first claim commit was rebased after `main` moved, so the remote branch diverged from the local one. The remote's only extra commit was my own claim, already present locally, so I recorded it with `-s ours` and did not force-push. A later `COORDINATION.md` conflict with `74c7c936` was resolved by keeping both sections.
+- **Deploy.** `Deploy GitHub Pages` run `44690928348` on `c08fd15`: success. Pages API: `status: built`, https://wingbangboozle1-lang.github.io/Prod1/. A later run (`44690995063`) is for another session's push to `main` (`8ae779c`) and is outside this session's scope.
+- **Live check (fetched 2026-11-20).** The front page shows the verbatim §5 sentence under the masthead, sponsored links on each card, dated "specs read from this listing 2026-11-20" lines, and the OPM-sourced Thanksgiving date (Thursday 26 Nov 2026).
+- **Flagged for review (non-blocking, not edited here).** (1) The front page's stat strip says **"1 source link per fact"**. The audit in `review/7bc009de/SOURCE_LINK_AUDIT.md` finds 347 of 478 table rows with no per-row link, so the claim is wider than the markup. Owner of the front page to reword or fix the rows. (2) The FTC *Disclosures 101* placement question (§4 item 3 of the audit) is for the compliance owner.
+- **Status:** T-7BC-1, T-7BC-2, T-7BC-3 **done**. No open claims from this session.
+
+## Claim — session arena/a7a85386-prod1 (2026-11-20)
+
+Session ID: arena/a7a85386-prod1. Branch: `arena/a7a85386-prod1`, based on main @ f9244dfd; origin/main has since merged session 46e39d18 (PR #51) as f237c4a. No other session has an open claim; every row above is done or merged. Scope: root publication only — `COORDINATION.md`, `data/products.json` (read-only verification), `verification.html`, `flagged.html`, `build_site.py`, `scripts/*.mjs`, `.github/workflows/pages.yml`, generated root `*.html`. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/` and other sessions' `review/` are read-only here.
+
+| Task | Status | Owner session | Files touched | Notes |
+|---|---|---|---|---|
+| T-A7A-1 Claim record + board repair | done | arena/a7a85386-prod1 | COORDINATION.md | Board repaired with the 46e39d18 publication record; claim section recorded |
+| T-A7A-2 Re-verify the five submissions against the official Amazon.com listings | done | arena/a7a85386-prod1 | data/products.json (read only), verification.html, flagged.html | All five listing pages re-fetched 2026-11-20 via fetch_page: P1 B0CDY277D3 title exact; P2 B09B7SB46R title exact; P3 B08DKYBTPH title exact (register omits ® glyph, immaterial); P4 B0DHZTCNR5 title exact, buy box $16.99 In Stock; P5 B0DZFD6R9Z title exact. Intended-ASIN (`asin`) and observed-redirect (`observedRedirectTarget`) kept in separate fields; blanks (P4/P5 dimensions) stay blank and flagged; prices/ratings stay dated snapshots (FLG-023/FLG-033), not restated as freshly confirmed |
+| T-A7A-3 Build, gates, publish, PR, merge, Pages check | done | arena/a7a85386-prod1 | build_site.py, scripts/*.mjs, .github/workflows/pages.yml, root HTML | PR #66 https://github.com/wingbangboozle1-lang/Prod1/pull/66 merged as 7d10ac0, no approval wait; all check runs success (build, deploy, report-build-status); Pages API `status: built`, build_type `legacy`, public at https://wingbangboozle1-lang.github.io/Prod1/; gates green: build_site.py 34 pages / 24 sitemap URLs / 4 consolidated / byte-identical, check_site.mjs PASSED 59 HTML, check_meta.mjs 0 warnings, check_style.mjs 0 warnings, verify_structure.mjs 0 blocking, analytics selftest PASSED, counter-check PASSED |
+## Claim — session arena/5da138fb-prod1 (2026-11-20)
+
+Session ID: **arena/5da138fb-prod1**. Branch `arena/5da138fb-prod1`, branched from `f237c4a` (= `main` at claim time; the checkout is a single commit, so branch == main). No other session has an open claim; every prior task on the board is `done` and merged.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-5DA-V Independent line-by-line re-verification of the 5 submitted Amazon listings from official Amazon.com pages | done | arena/5da138fb-prod1 | `review/5da138fb/VERIFICATION-2026-11-20.md` (new), `COORDINATION.md` (this claim) | All five `https://www.amazon.com/dp/<ASIN>` listing pages fetched 2026-11-20 via fetch_page (sandbox cannot curl amazon.com directly): all five titles match `data/products.json` exactly; P4 buy box $16.99 In Stock confirmed matching the register; P3 title drops the ® glyph after "TurboFry" (immaterial normalisation, already FLG-077). Spec tables, ratings and remaining prices not re-read — deliberate partial pass per FLG-076; `verifiedDate` stays 2026-11-19. | None new. All prior flags (FLG-001/004/005/015/022/023/024/037/051/070) remain valid and non-blocking. |
+| T-5DA-S Site confirmed buildable and gated (shop-first landing, category tables, guides, suggestions board, Q/I/A register, executive summary, disclosure above fold, sponsored links) | done | arena/5da138fb-prod1 | root site (no file changed; regenerated output is byte-identical) | `python3 build_site.py` deterministic exit 0 (34 pages, 24 sitemap URLs, 4 consolidated); `check_site.mjs` PASSED 59 HTML; `check_meta.mjs` 0 warnings; `check_style.mjs` 0 warnings; `verify_structure.mjs` 0 blocking; `counter-check` PASSED 16 pages/5 products/21 flags. | None |
+| T-5DA-I Integration: PR to main, merge, confirm Pages deploy | in progress | arena/5da138fb-prod1 | `COORDINATION.md`, `review/5da138fb/` | PR created from `arena/5da138fb-prod1` → `main`; merge and Pages deploy to be confirmed in this session | — |
+
+
+### Publication record — session arena/74c7c936-prod1 (2026-11-20)
+
+- **Pull request #59** (`arena/74c7c936-prod1` → `main`, T-74C-1 capability/publishing statement corrections: `build_site.py`, generated `executive-summary.html`, `README.md`, `COORDINATION.md`): https://github.com/wingbangboozle1-lang/Prod1/pull/59 — merged with a merge commit `8ae779c`, without waiting for approval.
+- **Deploy confirmed on the merge commit:** `Deploy GitHub Pages` run `44690821198` on `8ae779c`: success. `pages build and deployment` run `44690820641`: success. Live `executive-summary.html` fetched after the deploy serves the corrected five-gate wording, the legacy-Pages caveat with the FLG-051 link, the "not hosted yet" endpoint language, and the new "Automation boundary" section.
+- **Live-check note:** the sandbox cannot curl `github.io` directly (TLS blocked); the live fetch was done through the platform page fetcher. The Pages API briefly reported `status: errored` while concurrent sessions' overlapping builds superseded each other; that was not caused by this merge, and the runs for `8ae779c` themselves are green.
+- **Merge-conflict handling:** the pre-PR rebase conflicted in this file only (this record vs the session 9d2f2b53 record); both sections kept, repo-wide conflict-marker scan run before continuing. No other session's work discarded.
+- **PR tooling note:** the first PR body was mangled by shell backtick expansion in `gh pr create`; rewritten via the REST API before merge. Use a body file for backticked markdown.
+- **Unchanged open owner gates:** FLG-001/SG-01 (Special Link test), FLG-015/Q-35 (tracking report), FLG-008/SG-03 (endpoint host), FLG-009/SG-04 (photography licence), FLG-032/SG-19 (link-only pricing), SG-02 (custom domain), SG-43 (Pages build source), and the decision-register gates.
+- **Status:** T-74C-1 **done**. No open claims from this session.
+### Merge record — session arena/3ca58211-prod1 (2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/63 (`arena/3ca58211-prod1` → `main`) — **merged with a merge commit `d7a3c26` at 2026-11-20 ≈06:52 UTC**, no approval wait, per the standing brief. One conflict round during the PR's life (`main` advanced to `c08fd15`, PR #62); resolved by keeping both sessions' COORDINATION records in full; logged in the record above.
+- **CI:** `Deploy GitHub Pages` run 44690995063 for `d7a3c26` — **success** (rebuild drift check + all gates green on `main`; the legacy-source notice is expected).
+- **Pages:** the build covering `d7a3c26` reports `status: built` (build_type `legacy`; latest build at record time was for `7d10ac0`, created 2026-11-20 06:54:12Z, which has `d7a3c26` as an ancestor — verified with `git merge-base --is-ancestor`).
+- **Scope note:** PRs #65 and #66 merged after this one and are other sessions' work; this record covers only this session's content.
+
+## Claim — session arena/84799c33-prod1 (2026-11-20)
+
+Branch `arena/84799c33-prod1`, rebased onto `main` @ `fdc7387` before claiming. No other session had an unexpired claim at this point; every prior session above is recorded as done/merged.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-8479-1 Re-verify all five ASINs against the live Amazon.com listings, line by line, and record the result | in progress | arena/84799c33-prod1 | `COORDINATION.md`, `data/products.json` (only if a value moved) | Amazon.com `/gp/aw/d/<ASIN>` fetched 2026-11-20 (see record below) | Snapshot drift only; see record |
+| T-8479-2 Shop-first front page: buy bar above the fold, one at-a-glance decision table, product cards before process, review-desk cluster kept in the footer only | in progress | arena/84799c33-prod1 | `build_site.py`, `assets/style.css`, root `*.html` (regenerated) | Existing verified register; gate scripts in `scripts/` | — |
+| T-8479-3 Publication + integration: build, all gates, PR to `main`, merge, confirm Pages deploy, record PR link and live check | pending | arena/84799c33-prod1 | `COORDINATION.md` | `gh` + Pages API | — |
+
+**Scope discipline.** This session edits only `build_site.py`, `assets/style.css`, `data/products.json`, `COORDINATION.md` and the generated root pages. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `review/`, `.github/workflows/` and `data/decisions.json` are read-only here. Change requests for those files are logged, not made.
+
+### Session arena/84799c33-prod1 — verification and publication record (2026-11-20)
+
+**Rebase.** Branch rebased onto `main` @ `fdc7387` (after PR #58) before any edit. No other
+session had an unexpired claim at that point; every earlier section above is recorded done/merged.
+
+**T-8479-1 — line-by-line re-read of all five listings (done).**
+Fetched `https://www.amazon.com/gp/aw/d/<ASIN>` for all five ASINs on 2026-11-20 and read
+title, rating, rating count, buy box, list price, Product-information table, Item-details table
+and bullets.
+
+| ID | ASIN | Confirmed on the live page today | Drift / note |
+|---|---|---|---|
+| P1 | B0CDY277D3 | title exact; 4.2 (4,878); buy box $79.93; list $99.99; used $62.85; Amazon's Choice; 1K+ bought in past month | rating count 4,877 → 4,878 (register is right to keep it dated) |
+| P2 | B09B7SB46R | title exact (24 presets / six accessories); 4.3 (18,380); buy box $149.99; list $209.99; 16.9"D x 15.8"W x 14.8"H; capacity 24.6 liters | badge row absent today (register records "—") |
+| P3 | B08DKYBTPH | title exact incl. ®; 4.4 (16,894); buy box $69.99; list $119.99; 12.75"D x 13.5"W x 10"H; 8 quarts; "1000 Watts/120 Volts – RJ38-SQSS-8T" bullet | rating count 16,892 → 16,894 |
+| P4 | B0DHZTCNR5 | title exact; 4.6 (3,499); buy box $16.99; Product-information table again has **no** dimension/weight row | FLG-004 stays open |
+| P5 | B0DZFD6R9Z | title exact (Gen3, 5 Sensors); 3-probe variant $119.99, list $219.99; Item details: 3 Probes + Hub; two-year CHEF iQ assurance bullet | size selector also shows 1 probe $99.99 / 2 probes $99.99 / 4 probes $142.49 |
+
+Recorded as **FLG-083** on `flagged.html`. Nothing was edited on the strength of a carousel,
+a sponsored placement or a bundle price.
+
+**T-8479-2 — shop-first front page (done).** `build_site.py` gained `shelf_table()` and the
+front page was reordered: hero (number-led headline) → five-product decision table with a
+sponsored `Check price` per row → seasonal band → three picks by job → full cards → chooser →
+guides → topic calendar → trust strip. The review-desk cluster stays in the footer and in the
+single "The desk" nav group; the front page gained no audit furniture. Design record:
+`DESIGN_PROMPT.md` §10. Risk recorded as **FLG-084**.
+
+**T-8479-3 — gates and integration (done).** On the final tree: `python3 build_site.py` exit 0
+(34 pages, 24 sitemap URLs, 4 consolidated, deterministic - a second build produced no diff);
+`scripts/check_site.mjs` PASSED 59 files; `check_meta.mjs`, `check_style.mjs`,
+`verify_structure.mjs`, `check_measure.mjs` (incl. endpoint selftest) all **0 warnings, 0
+blocking**; `counter-check/tools/check_site.py` PASSED. Every outbound Amazon link on the new
+table carries `rel="sponsored nofollow noopener"`, `data-ctg-outbound` and the tag
+`shopnow047c-20`; the §5 sentence is above the fold and repeated in the footer.
+
+**Still open for the owner (unchanged, non-blocking):** FLG-001 / SG-01 (Special Link test in the
+enrolled Associates account), FLG-015 / Q-35 (tracking report), FLG-008 / SG-03 (analytics host),
+FLG-009 / SG-04 (photography licence), FLG-004 (thermometer dimensions), FLG-022 (P3 wattage
+conflict, both values published), SG-02 (custom domain), and the seven gates on `decisions.html`.
+## Claim — session arena/e05155a0-prod1 (2026-11-20)
+
+Session ID: **e05155a0** (branch `arena/e05155a0-prod1`, base `3392c0d` = current `main`). At claim time the tree is clean and equal to `main`; no other session has an open branch or a claim newer than the merged PR #35 record above. This session takes the next slot rather than running a parallel branch.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-E1 Line-by-line re-verification from official sources, this session | done | e05155a0 | read-only (`review/e05155a0/VERIFICATION.md` new) | OA §5 + §6, Program Policies §1/§2(b)/§6(t)/§6(w)/§6(y), Google qualify-outbound-links; five Amazon.com listings fetched 2026-11-20 | None new; register consistent |
+| T-E2 Visual-structure + anti-AI-slop QA pass (code-level layout audit; no browser available) | in progress | e05155a0 | `assets/style.css`, `build_site.py` (chrome/markup only), regenerated root `*.html` | `scripts/check_style.mjs`, `check_meta.mjs`, `check_site.mjs`, `verify_structure.mjs` | FLG-074+ as found |
+| T-E3 Strengthen the design prompt / design-brief with polished-marketing suggestions (catchy spec-backed topics, anti-slop rules, brand & imagery direction) | in progress | e05155a0 | `DESIGN_PROMPT.md`, `design-brief.html` via `build_site.py` | Existing verified data; no new claims | — |
+| T-E4 Suggestion desk + Q/I/A expansion with this session's findings | in progress | e05155a0 | `suggestions.html` via `build_site.py` | Findings from T-E1/T-E2 | Owner choice per row |
+| T-E5 Executive summary refresh for a three-minute read | in progress | e05155a0 | `executive-summary.html` via `build_site.py` | Figures quoted from the register; verification dated this session | — |
+| T-E6 Integration: rebuild, four gates, PR to main, merge, confirm Pages | in progress | e05155a0 | `COORDINATION.md`, shared outputs (sitemap, feed, nav) | See publication record | Flagged/unverified items do not block |
+
+**Scope discipline.** This session edits the root publication only: `build_site.py`, `assets/style.css`, `DESIGN_PROMPT.md`, and the generated root `*.html`, `review/e05155a0/`, `COORDINATION.md`. It does **not** touch `data/products.json` (re-verified read-only, no correction needed), `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/`, or `review/<other-session>/`. Shared outputs (sitemap, feed, search index, nav) are changed by this final integration session only.
+
+### e05155a0 — verification, visual QA and design-prompt strengthening (2026-11-20)
+
+**T-E1 — line-by-line re-verification (done).** Read directly from the official pages this
+session: Operating Agreement §5 (disclosure, verbatim "As an Amazon Associate I earn from
+qualifying purchases.") and §6 (a §5 violation is a material breach); Program Policies
+§1 (original content), §2(b) (price/availability only via an Amazon-served link or the
+Creators/PA API), §6(t) (reviews/star ratings only via Creators/PA API), §6(w) (link-shortening
+must not obscure that the destination is Amazon), §6(y) (no price tracking/alerting); Google
+qualify-outbound-links (`rel="sponsored"` for paid links, multiple values allowed); and all five
+Amazon.com listing pages (each ASIN resolves to the title in the register). Full quotes and
+source links: `review/e05155a0/VERIFICATION.md`. No correction to `data/products.json` was needed.
+
+**T-E2 — visual-structure / anti-slop QA (done).** No browser is installable here (the
+Chrome-for-Testing download is blocked at the socket), so this is a code-level audit, labelled as
+such. Results: a 20-pair WCAG AA contrast audit of the palette passed (body, links, buttons,
+disclosure strip, footer, table headers, status badges); `check_style.mjs` confirms every emitted
+class has a rule; `verify_structure.mjs` confirms parse + heading order + sized images; a scan
+for AI-slop phrases found every hit inside banned-phrase rules or negative examples, not in
+reader-facing copy. Recorded as SG-55 (the documented stand-in for a screenshot) and SG-54 (a
+standing contrast gate, request logged to the style-gate owner — see R-10 below).
+
+**T-E3 — design prompt strengthened (done).** `DESIGN_PROMPT.md` gained section 9, "Polished-
+marketing direction", the brief's core ask: what "polished marketing, not AI slop" means
+structurally, the catchy spec-backed topic direction, findability rails and the imagery rule.
+
+**T-E4 — suggestion desk + Q/I/A (done).** Added SG-54 (contrast/accessibility gate), SG-55
+(code-level visual QA as the documented stand-in), SG-56 (adopt the polished-marketing direction
+and consolidate to one brief); Q-38 (enforce contrast in the build), Q-39 (which single design
+brief to execute), Q-40 (build "shop by goal" intent landings next). All wired into the
+interactive decision board. Every row awaits owner choice.
+
+**T-E5 — executive summary refresh (done).** `executive-summary.html` records this session's
+re-verification, the contrast audit and the design-prompt strengthening.
+
+**Requests logged, not edited here.**
+- **R-10 → style-gate owner (`scripts/check_style.mjs` / `scripts/check_meta.mjs`):** consider
+  adding a blocking WCAG-contrast check for body/link text, using the palette audit in
+  `review/e05155a0/VERIFICATION.md` as the reference. No file outside this session's scope was
+  changed.
+
+### Publication record — session arena/a7a85386-prod1 (2026-11-20)
+
+- **Pull request #66** (`arena/a7a85386-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/66 — merged with merge commit `7d10ac0`, no approval wait, per the brief.
+- **Deploy:** `Deploy GitHub Pages` run `44691077013` and `pages build and deployment` run `44691077195` for `7d10ac0` — every check run `success` (`report-build-status`, `deploy`, `build`). Pages API: `status: built`, `build_type: legacy`, source `main` `/`, public URL https://wingbangboozle1-lang.github.io/Prod1/. A later main build (`da6d49e`, PRs #48/#73) is built on top of `7d10ac0` (verified with `git merge-base --is-ancestor`).
+- **Verification performed in this session:** all five submitted links re-read against their official Amazon.com listing pages (fetched 2026-11-20 via fetch_page; the sandbox cannot curl amazon.com directly): P1 https://www.amazon.com/dp/B0CDY277D3 title exact; P2 https://www.amazon.com/dp/B09B7SB46R title exact; P3 https://www.amazon.com/dp/B08DKYBTPH title exact (register omits the ® glyph, immaterial, noted in the 46e39d18 record); P4 https://www.amazon.com/dp/B0DHZTCNR5 title exact, buy box $16.99 In Stock confirmed live; P5 https://www.amazon.com/dp/B0DZFD6R9Z title exact. Intended-ASIN field (`asin`) and observed-redirect field (`observedRedirectTarget`) remain in separate fields — not merged; blank fields (P4/P5 dimensions) stay blank and flagged (FLG-004/FLG-072); prices and ratings remain dated snapshots (FLG-023/FLG-033) and are not restated as freshly confirmed.
+- **Gates on this branch:** `python3 build_site.py` — 34 pages, 24 sitemap URLs, 4 consolidated, byte-identical rebuild; `node scripts/check_site.mjs` — CHECK PASSED, 59 HTML files; `node scripts/check_meta.mjs` — 0 warnings; `node scripts/check_style.mjs` — 0 warnings; `node scripts/verify_structure.mjs` — 0 blocking, 0 warnings; `python3 analytics-endpoint/selftest.py` — SELFTEST PASSED; `python3 counter-check/tools/check_site.py` — PASSED, 16 pages, 5 products, 21 flags.
+- **Flagged irregularities (non-blocking, published on flagged.html with source links):** FLG-001 (Special Link test — owner login required, cannot be done from this sandbox), FLG-004/FLG-072 (thermometer dimensions blank), FLG-005 (Emeril warranty term), FLG-015 (short links carry no tag=), FLG-022 (P3 wattage conflict — both values published), FLG-023/FLG-033 (dated price snapshots), FLG-024 (rating-count drift), FLG-037 (API eligibility not read from Amazon), FLG-051 (Pages build source — legacy mode), FLG-070 (three builds on one host). None blocks the merge.
+- **Tasks:** T-A7A-1 done, T-A7A-2 done, T-A7A-3 done. No open claims from this session.
+
+Sources: the five Amazon.com listing pages above; Amazon Associates Operating Agreement §5 (disclosure wording); Amazon Associates Program Policies (price/availability, IP license); Google Search Central (rel="sponsored", self-canonical, sitemaps); FTC Disclosures 101.
+### Publication record — session arena/e05155a0-prod1 (2026-11-20)
+
+- **Pull request #48** (`arena/e05155a0-prod1` → `main`, "e05155a0: re-verify official sources,
+  contrast audit, design-prompt polish direction, SG-58..60 + Q-42..44, exec summary"): merged
+  2026-11-20 06:56:51 UTC as **`da6d49e`** (fast-forward merge, no waiting for approval). PR link:
+  https://github.com/wingbangboozle1-lang/Prod1/pull/48
+- **Content delivered this session.** (T-E1) line-by-line re-verification from official sources,
+  recorded in `review/e05155a0/VERIFICATION.md`; (T-E2) code-level visual QA — 20/20 WCAG AA
+  contrast pairs pass, anti-slop scan clean (no browser render available in this sandbox, so this
+  is a mechanical stand-in, captured as SG-59); (T-E3) `DESIGN_PROMPT.md` §9 polished-marketing
+  direction; (T-E4) suggestion/Q-I-A rows **SG-58, SG-59, SG-60** and **Q-42, Q-43, Q-44** wired
+  into the interactive decision board; (T-E5) `executive-summary.html` refreshed.
+- **Rebase friction, resolved without loss.** The branch was rebased three times onto advancing
+  `main` (`2dee010` → `c08fd15` → `038cd02` → `b41bb12`); each pass hit an append-vs-append
+  `COORDINATION.md` conflict and one `DESIGN_PROMPT.md` §9 conflict, resolved by removing only the
+  conflict markers and keeping both sessions' records (and merging the two parallel §9 sections
+  into one). Board ID collision: session 543ed7f4 took SG-54..57 / Q-38..41, so this session's rows
+  were renumbered to **SG-58..60 / Q-42..44** rather than duplicated; `data/decisions.json` was
+  resolved by keeping main's triage of SG-54..57/Q-38..41 and adding only SG-58..60/Q-42..44 to the
+  Design/anti-slop theme (D-06). All other sessions' records preserved verbatim.
+- **Gates (re-run on the final rebased tree).** `python3 build_site.py` deterministic, exit 0
+  (37 pages, 27 sitemap URLs, 4 consolidated); `check_site.mjs` PASSED 62 HTML; `check_meta.mjs`
+  0 warnings; `check_style.mjs` 0 blocking (duplicate-id conflict from the ID collision resolved);
+  `check_measure.mjs` PASSED; `verify_structure.mjs` 0 blocking; `counter-check/tools/check_site.py`
+  PASSED. `git diff --check` clean.
+- **Deploy.** `Deploy GitHub Pages` run **44691382035** on `da6d49e`: **success**. Pages API:
+  `status: built`, source `main`. Live front page (fetched 2026-11-20) shows the verbatim OA §5
+  disclosure above the fold, `rel="sponsored"` links carrying `tag=shopnow047c-20`, dated "specs
+  read from this listing 2026-11-20" lines, and FLG-022 shown on the Chefman 8QT wattage row.
+- **Flagged for review (non-blocking, not edited here).** All prior flags remain valid: FLG-001
+  Associates Special Link test; FLG-003/015 short-link compliance unresolved (never claimed
+  invalid); FLG-004/072 thermometer dimensions; FLG-005 Emeril warranty term; FLG-007/SG-02 custom
+  domain; FLG-008/SG-03 analytics endpoint hosting; FLG-009/SG-04 photography licence; FLG-023
+  price/rating display policy; FLG-039/070 three builds on one host; FLG-051/SG-43 Pages source is
+  `legacy`; FLG-058 per-card disclosure FTC read; FLG-071 thermometer tolerance. Owner picks
+  SG-58/SG-59/SG-60 and Q-42/Q-43/Q-44 remain open on `suggestions.html`. Request **R-10**
+  (blocking WCAG-contrast gate) logged to the style-gate owner.
+- **Status:** T-E1, T-E2, T-E3, T-E4, T-E5, T-E6 **done**. No open claims from this session.
+
+## Session arena/35638f92-prod1 — claim (2026-11-20)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-35638-1 Produce a scoped executive recommendations + missing-information brief from the current repository state; avoid overlap with live site/generator work | done | arena/35638f92-prod1 | `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md`, this section only in `COORDINATION.md` | Current product register, editorial configuration, decision/suggestion board, and site gates; official Associates Agreement, Program Policies, FTC and Google Search Central pages checked 2026-11-20 | No Associates Central, Search Console, or live endpoint credentials; no fresh product listing pass claimed |
+
+Scope discipline: review documentation only. Do not edit generated site pages, `build_site.py`, shared data, navigation, sitemap/feed, analytics code, or workflow files owned/being changed by concurrent sessions. This is a synthesis, not new product verification or a compliance certification.
+
+
+### Session arena/35638f92-prod1 — completion record (2026-11-20)
+
+- **Deliverable:** `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md` — executive summary; per-listing verification table; a Q/I/A board of 12 questions across four gates (money, findability, compliance, the board itself) each with a discovery step; seven recommendations with options, recommended path, effort, evidence and what each unblocks; the exact gate output for this checkout; official source links; and five new irregularities (I-1…I-5).
+- **Sources fetched this session (2026-11-20):** the five Amazon.com listing pages (titles and buy boxes re-read; P4 $16.99 / list $22.99 / 4.6 (3,499) and P5 $119.99 / list $219.99 / 4.2 (2,178) confirmed against the register), Amazon Return Policy help page (2026 holiday window), Associates Operating Agreement §5, Associates Program Policies (Commission Income Statement, Participation Requirements §2–§3, IP License, Trademark Guidelines), Google Search Central (outbound-link qualification, spam policies, SEO starter guide), FTC Endorsement Guides FAQ. All links are in §7 of the brief.
+- **Gates on this checkout (after rebasing onto `main @ 4572f1d`, 37 pages):** `build_site.py` 37 pages / 33 index / 27 sitemap / 4 consolidated; `check_site` 62 HTML files; `check_site`, `check_meta`, `check_style`, `check_measure` (endpoint self-test included), `verify_structure` all pass; `git diff --check` clean. Only documentation was added by this session.
+- **New irregularities (detail in §8 of the brief):** I-1 "deal badges across the board" in `guide-holiday-hosting.html` is not per-listing; I-2 the board's self-count is wrong in two places ("43/27" and "42/26" against 57 SG / 39 Q rendered; `decisions.html` computes the count correctly) — the generator-owner's fix; I-3 SG-43/Q-02/SG-33/Q-14 sit in two themes (previously logged); I-4 no dedicated privacy statement despite Program Policies §3(e); I-5 third-party offers visible beside P4's buy box. None blocks publishing.
+- **Not done here, deliberately:** no listing value was inferred; no short link was called invalid; no commission rate, Search Console figure, endpoint host or Pages setting was asserted; no reader-facing page, generator, data file, sitemap/feed or workflow was edited.
+## T-8B completion record — session 8bdadebf (2026-11-20)
+
+| Task | Status | Files touched | Verification performed | Irregularities |
+|---|---|---|---|---|
+| T-8B1 Publish three question-shaped guides | **done** | `build_site.py` (guide blocks, TOPICS, GUIDES feed list, guides index), generated `guide-counter-depth-fit.html`, `guide-dual-vs-single-basket.html`, `guide-accessories-included.html`, regenerated `guides.html`, `topics.html`, `sitemap.xml`, `feed.xml` | `check_site.mjs` PASS (62 HTML) · `check_meta.mjs` 0 warnings · `check_style.mjs` 0 warnings · `check_measure.mjs` PASS · `verify_structure.mjs` 0 blocking · `counter-check` PASS; each guide in sitemap + feed once | FLG-021 restated (P2 accessory count), not resolved |
+| T-8B2 Sync cadence queue | **done** | `data/editorial.json` (`queue` array only) | `methodology.html` queue matches published guides; JSON valid; edits confined to `queue` (PR #39/#44 own `cadence.rule`) | JSON merge kept both sides at rebase |
+| T-8B3 Verification record | **done** | `review/8bdadebf/VERIFICATION.md` | Every fact traced to `data/products.json` (confirmationDate 2026-11-20) + listing URL; compliance checks on the three pages | Amazon/policy hosts unreachable from this sandbox (HTTP 000) — no fresh live read claimed |
+| T-8B4 Integration + deploy | **done** | `COORDINATION.md`, PR | Rebase onto latest `main` (twice); conflicts resolved keeping both sides; deterministic rebuild; all gates green | Pages API status cycles `building`/`errored` from concurrent sessions' merges cancelling in-flight builds; a `pages build and deployment` run completed **success** (44691381733) |
+
+### Publication record — PR #60 (session arena/8bdadebf-prod1, 2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/60 (`arena/8bdadebf-prod1` → `main`) — **merged** as `cdb2a4779cfdf0d150bf759bcf2e3a3585d03618` at 2026-11-20T06:53:42Z, no approval wait, per the brief.
+- **Concurrency handled without losing work.** `main` advanced repeatedly during this pass (PRs #59, #61, #63, #65). Two `git pull --rebase`/`rebase` passes conflicted in `COORDINATION.md` (claim block vs newer session records) and, on the second, in `README.md` and the generated files. All resolved in the generator / by keeping both sides' records; generated files rebuilt, never hand-edited. The claim block and every newer session's records are all present.
+- **Content confirmed on `main`:** `git merge-base --is-ancestor cdb2a47 origin/main` → yes; `guide-counter-depth-fit.html`, `guide-dual-vs-single-basket.html`, `guide-accessories-included.html` all present on `origin/main`. The three guides carry disclosure, `rel="sponsored"`, `FAQPage` JSON-LD and a 2026-11-20 verified date.
+- **Deploy:** a `pages build and deployment` run (**44691381733**) completed **success**. The Pages API reports `build_type: legacy`, source `main`. The API `status` field cycles between `building` and `errored` because concurrent sessions' merges keep cancelling in-flight Pages builds; this is a transient, external state and not a failure of this content. `github.io` is not fetchable from this sandbox (HTTP 000), so the live HTML could not be read directly this session — the merge, the content on `main`, and the successful build run are the confirmation.
+- **Gates on the merged tree:** `check_site.mjs` PASS (62 HTML) · `check_meta.mjs` 0 warnings · `check_style.mjs` 0 warnings · `check_measure.mjs` PASS · `verify_structure.mjs` 0 blocking · `counter-check` PASS · rebuild deterministic.
+- **Tasks closed:** T-8B1 … T-8B4 all **done**. **No new irregularity** beyond FLG-021 restated.
+- **Still open for the owner (non-blocking, unchanged):** FLG-001 (Special Link test), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (price display), FLG-051/SG-43 (Pages build source), FLG-070 (three builds on one host), SG-02 (custom domain), plus the carried FLG-003/004/005/021/022/074/075 and Q-30/Q-36. None blocks the merge.
+## Session arena/8aa7237d-prod1 (2026-11-20) — first browser-based visual QA + two reference bugs
+
+Branch `arena/8aa7237d-prod1`, base `bebe082` (main). Claimed below before any edit. Scope: the
+root publication only (`assets/style.css`, `build_site.py`, `scripts/check_site.mjs`, generated root
+`*.html`, this file). `counter-check/`, `docs/`, `articles/`, `data/` and `review/<other-session>/`
+were not edited.
+
+**Why this pass exists.** Earlier sessions recorded, on the site itself, that "the visual result was
+never looked at — two browser installs failed in this environment" (PR #35 record; `review/62786810/
+VERIFICATION.md` §7). Structure had been proven mechanically; appearance had not. This session
+closed that gap rather than assuming it.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-8AA-VIS **Real browser QA.** Playwright's browser CDN (`cdn.playwright.dev`) is outside this sandbox's allowlist, so `playwright install chromium` fails with ECONNRESET — the same wall earlier sessions hit. Worked around *without* unlisted hosts: `npm i @sparticuz/chromium puppeteer-core` from the allowed npm registry, then hand-extracted the three missing NSS libraries from the package's own bundled `al2023.tar.br` layer (`libnspr4`, `libnss3`, `libnssutil3`) and launched with `LD_LIBRARY_PATH`. A local harness serves the repo and intercepts the absolute `wingbangboozle1-lang.github.io` asset URLs so the real stylesheet and fonts load (a plain `file://` load cannot fetch them and renders unstyled — that is a harness artifact, not a site bug). | done | 8aa7237d | none (read only) | 60 renders: every one of the 30 root pages at 1440px and 390px. Confirmed: CSS applies (`body` bg `rgb(251,247,240)`), Fraunces + Inter actually load and render, no broken images, no duplicate ids, no missing `alt`, no uncaught JS errors, no page-level horizontal overflow. | None after the fix below |
+| T-8AA-FIX1 **Mobile overflow on `suggestions.html` (real defect, now fixed).** The status pills `.badge-ok`/`.badge-warn` carried `white-space: nowrap` while also holding full sentences ("Published 2026-11-19 (guide-gift-picks.html)"). The longest measured **801px wide**, forcing the whole document to 837px on a 390px phone — every phone reader had to scroll the page sideways. Fixed in the design system (`assets/style.css`): `white-space: normal; overflow-wrap: break-word; max-width: 100%`. Short pills still sit on one line. | done | 8aa7237d | `assets/style.css`, regenerated `*.html` | Before: `documentElement.scrollWidth` 837 at 390px. After: 390. Re-swept all 60 renders → 0 problem rows. | Was published on `main` since the suggestions desk shipped; no gate caught it (the CSS gate checks that classes *exist*, not that they fit) |
+| T-8AA-FIX2 **Link labels that name the wrong record (real defect, now fixed).** Four links *labelled* `FLG-070` resolved to `#FLG-069`, and one labelled `FLG-060` resolved to `#FLG-067`. In the published HTML a reviewer clicking "FLG-070" (three builds on one host) landed on FLG-069 (half the site was audit). Same-ID-numbering collision the board already warns about, now visible to readers. Fixed in `build_site.py` at each site; the fonts sentence at former line 741 was pointing at the audit flag and now points at FLG-067 (the typography flag) — that one was the wrong target, not just a wrong label. | done | 8aa7237d | `build_site.py`, `executive-summary.html`, `suggestions.html` | After: `grep 'FLG-069">FLG-070'` = 0, `'FLG-067">FLG-060'` = 0 | Wrong target on the fonts sentence was a second, distinct defect found while fixing the label |
+| T-8AA-FIX3 **Gate hardening (negative-tested).** `scripts/check_site.mjs` gained check 4: a same-page/`thisfile#anchor` link must resolve to an id on that page, and a link whose visible text is an ID (`FLG-070`, `SG-034`, `Q-005`) must name the anchor it points at. My **first version of this check was a no-op** — it only inspected `href="#..."` and the real bugs are cross-page `flagged.html#...`. Caught by running a deliberate negative test. Corrected, then re-proven: breaking the label → `CHECK FAILED: link labelled FLG-070 points at #FLG-069` (exit 1); dangling anchor → fails; clean tree → passes. | done | 8aa7237d | `scripts/check_site.mjs` | Negative tests both fail correctly, clean tree passes. Recorded because a gate that cannot fail is worse than no gate |
+| T-8AA-VER **Compliance re-read, line by line, against official pages.** Operating Agreement §5 (updated 2025-10-15): the exact sentence "As an Amazon Associate I earn from qualifying purchases." — matches the site character for character. Program Policies (updated 2026-04-14), **Participation Requirements §6(t)** and **§6(y)**, which the site quotes: both exist and the quoted wording matches. §6(t): no customer reviews or star ratings unless obtained via Creators API/PA API. §6(y): no price tracking or price alerting. Participation Requirements §2(b): price/availability only if Amazon serves the link or via Creators API/PA API — quoted correctly on `compliance.html`. | done | 8aa7237d | none (read only) | https://affiliate-program.amazon.com/help/operating/agreement · https://affiliate-program.amazon.com/help/operating/policies | Corrects an earlier log line (COORDINATION.md T-V2, session 8e82d03c) that attributed the star-rating rule to **"Operating Agreement §6(t)"**. The Operating Agreement §6 has only subsections (a)–(h); the (t) rule lives in the **Program Policies → Participation Requirements §6**, which is what `compliance.html` correctly cites. The register's conclusion is unchanged; only the earlier citation's source was mislabelled |
+| T-8AA-VER2 **Disclosure above the fold, measured not assumed.** Headless browser, all 30 pages × 2 viewports: the Section 5 sentence appears at least twice, once with a bounding box inside the initial viewport and not in the footer, and once inside `<footer>`. | done | 8aa7237d | none | 60 page/viewport combinations, 0 failures | The static gate checks presence above `<main>`; it cannot check "inside the first screen". This does |
+| T-8AA-VER3 **Interactive surfaces exercised.** The 3-question chooser: 9 radios across `q1/q2/q3`, submit renders a shortlist, 0 JS errors. The Amazon links it builds **at runtime** carry `rel="sponsored nofollow noopener"`, `target="_blank"` and `?tag=shopnow047c-20` — the CI gate only scans static HTML, so JS-built links were previously unverified. | done | 8aa7237d | none | compare.html driven in a real browser at 390px | `.chooser` radios: `input[type=radio]` is 18×18px, under the 44px guideline; the surrounding label is large enough to tap. Noted, not changed |
+| T-8AA-CI **Integration.** Rebuild deterministic (two builds byte-identical). Gates: `check_site.mjs` PASS (55 HTML) · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS · `verify_structure.mjs` PASS · `counter-check` PASS. | in progress | 8aa7237d | this file | see publication record below | — |
+
+**Still open and needing the owner (unchanged, non-blocking):** FLG-001 (Special Link test — needs an
+Associates login no session has), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography
+licence), FLG-023 (price display policy), FLG-051/SG-43 (Pages build source), FLG-070 (three builds
+on one host), SG-02 (custom domain).
+
+**Not done in this pass, and said plainly:** dimension/wattage/price values in
+`data/products.json` were **not** re-read from the listings in this session. Amazon returns its
+product pages as ~20 chunks of which the majority is advertising; the item-details block was not
+reliably retrievable through this sandbox's fetch path today. Those values therefore keep their
+existing dates and provenance and are **not** upgraded to "re-verified 2026-11-20". The structural
+link checks still confirm that all five listings resolve for their ASINs.
+
+### T-8AA outcome after rebasing onto `main` (2026-11-20, second pass)
+
+`main` advanced past `bebe082` while this branch was open (PR #37–#43, session `fbfe1742`), so the
+rebase surfaced two things. Both are recorded here rather than quietly resolved.
+
+**1. Merge conflict, resolved without discarding either side.** `build_site.py`, `executive-summary.html`
+and this file conflicted. `build_site.py`: `main` had replaced the hardcoded "30 pages / ten guides"
+sentence with `@@PAGES@@` / `@@GUIDES@@` tokens — strictly better than my literal numbers — so
+**their version was kept** and my FLG-069 label fix re-applied on top. `executive-summary.html` is
+generated, so the conflict was resolved by rebuilding, never by hand-editing output. This file:
+both sides kept in full (this session's record retained beneath theirs). Also verified while
+resolving: `main`'s `.github/workflows/pages.yml` references a `check_measure.mjs` step, and that
+file **is** present, so the workflow is not broken.
+
+**2. A new page from `main` overflows on mobile — found and fixed.**
+`decisions.html` (new in `main`) rendered a **456px document on a 390px phone**.
+Root cause: `.gate-grid` used bare `1fr` tracks. A bare `1fr` has an automatic minimum of the
+column's **min-content** width, and that card quotes full URLs as plain text, so one unbreakable
+token set a 423px floor. Three separate fixes were needed, each verified in a browser:
+
+| Attempt | Change | Result |
+|---|---|---|
+| 1 | `minmax(0,…)` on the three-column rule | still 456 — the `@media(max-width:900px)` override sets `1fr` again, and *that* is the rule a phone actually uses |
+| 2 | `minmax(0,1fr)` in the media query too | grid column now 324px (correct) but document still 456 — children kept a 423px min-content floor |
+| 3 | `overflow-wrap:anywhere` on `.gate-grid` and its children | **390px. Fixed.** `break-word` would not have done it: only `anywhere` removes the token's contribution to min-content width |
+
+Final state: **68 renders (34 pages × 1440px and 390px): 0 problem rows.** Disclosure above the fold
+and in the footer on all 34 pages at both widths, still 0 failures. All six gates pass and the
+rebuild is byte-identical.
+
+**Carried forward for the owner, non-blocking:** `decisions.html` is a strong addition from
+`fbfe1742` — it is exactly the suggestion-review surface the brief asked for, with a dated answer
+format and every gate honestly marked `awaiting owner`. Nothing in it was marked approved by this
+pass.
+
+## Session arena/942dddd0-prod1 claim (2026-11-20)
+
+Branch: `arena/942dddd0-prod1`, originally based on merged `main` commit `141604a`. Claimed the narrow build-integrity repair and verification. No other active worktree was visible in this checkout.
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| T-942-A Restore board/build consistency so every board row is classified exactly once, then rebuild and run publishing gates | **done** | arena/942dddd0-prod1 | `data/decisions.json`, `build_site.py` (uniqueness gate), generated `decisions.html`, `suggestions.html`, `data/search-index.json`, `COORDINATION.md` | `python3 build_site.py` deterministic; 90/90 SG/Q rows mapped exactly once; all six publishing gates + counter-check pass; `git diff --check` clean. Four legacy duplicate classifications removed. Product facts and owner-only actions unchanged. |
+| T-942-B Rebase onto the advanced `main`, re-apply only the still-missing fix, re-run every gate | **done** | arena/942dddd0-prod1 | as above + `COORDINATION.md` | `main` advanced to `f237c4a` while this branch was open and had already shipped the eight-row triage (PR #49, #51, #53). The rebase kept `main`'s canonical triage and re-applied only the de-duplication and the uniqueness gate. |
+| T-942-C Open PR to `main`, merge, confirm GitHub Pages deploy | **done** | arena/942dddd0-prod1 | `COORDINATION.md` | PR opened from `arena/942dddd0-prod1`; merge and deploy result recorded in the merge record below. |
+
+### T-942 completion record - session arena/942dddd0-prod1 (2026-11-20)
+
+- **Finding (first pass, on `main` @ `141604a`):** `python3 build_site.py` halted because SG-54..SG-57 and Q-38..Q-41 were visible on the Suggestions board but absent from the decision map. While checking, the board also proved to allow a second defect the map's own one-theme rule forbids: four rows (SG-33, SG-43, Q-02, Q-14) were classified in two themes each, and the generator only checked for missing ids.
+- **What other sessions shipped while this branch was open:** PR #49 repaired the same broken build on `main` and triaged the eight rows; PRs #51, #52, #53 added the listing re-verification record and merge/publication records; PR #65, #66 and the `fbfe1742`/`8bdadebf`/`a7a85386` passes added three more guides, the source-link audit and the claim-integrity block; PR #48 added the line-by-line re-verification record, the WCAG contrast audit and the polished-marketing design direction. Those sessions explicitly left the four duplicate classifications to the register owner and did not enforce uniqueness in the generator. `main` is now `da6d49e` (PR #48 merged, adding the contrast gate and SG-58/SG-60/Q-43) with a green Pages deploy.
+- **Repair carried by this branch (rebased onto `da6d49e`):** each of the four duplicated rows keeps exactly one home, chosen from the row's own wording and the theme's stated purpose - SG-33 (compliance gate in CI) to *Compliance and evidence discipline*, SG-43 (Pages build source, a gate in front of publishing) to *Machinery and automation*, Q-02 (canonical domain) to *Findability and one canonical site*, Q-14 (review SLA for the board) to *Editorial: voice, authors, cadence*. No row was dropped, no theme was invented or renamed, and `data/decisions.json` carries the change in its `note`.
+- **Reconciling with the upstream gate design (important):** session `fbfe1742` correctly found that the hard build failure for an *unowned* row held the publish hostage twice on 2026-11-20, and softened that check to a loud warning plus a visible "Nobody has taken these" table on `decisions.html#unowned`. This branch **keeps that behaviour unchanged**. A row classified in **two** themes is a different fault and stays a hard failure: the register claims each row sits in exactly one theme, a doubled row counts twice against both themes so the row counts printed on `decisions.html` stop matching the board, and unlike an unowned row it can only be introduced by an edit to `data/decisions.json` itself, so it cannot be created by another session appending to the board and it never blocks readers. The generator comment records the distinction and the reason.
+- **Rebuild and checks on the rebased tree:** `python3 build_site.py` run twice, generated diff byte-identical (`decisions.html`, `suggestions.html`, `data/search-index.json` md5 unchanged between runs). Board/decision map comparison: **96 board rows, each mapped exactly once** - zero unclassified, zero unknown, zero duplicates. PASS: `node scripts/check_site.mjs` (62 HTML files), `node scripts/check_meta.mjs` (37 pages, 27 sitemap URLs, 0 warnings), `node scripts/check_measure.mjs` (SELFTEST PASSED, contract intact, 37 pages wired), `node scripts/check_style.mjs` (0 warnings), `node scripts/verify_structure.mjs` (37 pages walked, 0 blocking, 0 warnings), `python3 counter-check/tools/check_site.py` (16 pages, 5 products, 21 flags), and `git diff --check`.
+- **Source and verification boundary:** this repair changes only editorial decision mapping and the build guard. It adds no product, policy, commission, price, search-volume, or conversion claim, and it changes no register value. The official Amazon listing/policy and FTC/Google sources already recorded on `verification.html`, `compliance.html` and `flagged.html` were **not** re-fetched in this session, so their earlier verification dates remain authoritative and no new live verification is claimed here. The live site was fetched once to confirm it is serving: `https://wingbangboozle1-lang.github.io/Prod1/` returns the front page with the disclosure strip, `tag=shopnow047c-20` outbound links and the source-record links.
+- **Irregularities raised (all non-blocking, already on the Flagged for Review page):** (1) board rows had previously been published without a matching decision-register entry; (2) the generator checked for missing ids but not duplicate assignment. Both are now covered by the build. Account-dependent actions remain open and are **not** claimed complete by this session: FLG-001 / Q-01 / SG-01 (Associates Special Link test and tracking report), SG-03 / FLG-008 (analytics endpoint host), SG-02 / Q-02 (canonical domain decision), SG-04 / FLG-009 (imagery licence), SG-27..SG-30 (Search Console), FLG-026 (Creators API eligibility), FLG-025 (FAQPage markup).
+- **Open pull requests reviewed by this session:** PR #46, #48, #50 and #10 are all stale - GitHub reports each `mergeable_state: dirty` against the current `main`, because they were built on older bases. PR #46's diff against `main` would **delete** `scripts/check_measure.mjs`, `scripts/verify_structure.mjs`, `scripts/check_style.mjs`, `data/decisions.json` and five live guides, which is a regression rather than an improvement, so it was not merged. PR #48's generator edits remove the claim-integrity and re-verification blocks that `main` now carries. PR #50 adds only a coordination row. PR #10 is a draft of the older `docs/` build, which the register (D-01) treats as the non-canonical second publication. None of them is merged by this session; their unique, non-conflicting content is noted for the owner on the Suggestions board.
+
+### Session arena/35638f92-prod1 — merge and deploy record (2026-11-20)
+
+- **PR #78** (`arena/35638f92-prod1` → `main`, documentation only): https://github.com/wingbangboozle1-lang/Prod1/pull/78 — merged with a merge commit `4abd3fd`, without waiting for approval.
+- **Deploy:** `Deploy GitHub Pages` and `pages build and deployment` for `4abd3fd` both `success`. Pages API: `status: building` at the moment of check, `build_type: legacy`, public URL https://wingbangboozle1-lang.github.io/Prod1/. Live front page fetched after the merge: masthead disclosure strip present, `?tag=shopnow047c-20` on every product button, dated "specs read from this listing 2026-11-20" lines, `rel="sponsored"` labels.
+- **Conflicts handled, nothing discarded:** three rebases onto a moving `main` conflicted in `COORDINATION.md`. Each time both sides' records were kept (the other session's publication record plus this session's claim/completion section). `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md` was never modified by another session. Rebased tree re-gated: `build_site.py` 37 pages / 33 index / 27 sitemap / 4 consolidated; `check_site` 62 files PASS; `check_meta`, `check_style` 0 warnings; `check_measure` (endpoint self-test) PASS; `verify_structure` 0 blocking; `counter-check` PASS; `git diff --check` clean; rebuild leaves no diff.
+- **Not fixed here, by scope:** the five irregularities I-1…I-5 in `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md` §8 need the generator owner (`build_site.py` / `data/editorial.json`). They are non-blocking and now recorded on the branch that owns documentation only.
+
+
+
+### T-8479 completion record — session arena/84799c33-prod1 (2026-11-20)
+
+- **PR #69** (`arena/84799c33-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/69 — **merged**, squash commit `cdf4869`, 2026-11-20 06:55 UTC. The brief says not to wait for approval, so it was merged on the green gate result.
+- **Deploy:** `Deploy GitHub Pages` run on `cdf4869`: success; Pages API `status: built` for `https://wingbangboozle1-lang.github.io/Prod1/`. Live check of `/index.html` (fetched 2026-11-20 after the deploy): the shop front page serves the new headline, the **five-product decision table** with the `tag=shopnow047c-20` sponsored `Check price` on every row, the §5 sentence above the fold and repeated in the footer.
+- **Note on the environment's cache:** the bare `/` URL still served the previous front page to the fetch tool while `/index.html` served the new one; the generated file on `main` is the new one (`grep "All five at a glance" index.html` → line 81). That is a CDN cache, not a build divergence.
+- **Conflict handling:** `main` advanced four times while this session worked (PRs #58, #61, #66, #67, #73). Two `COORDINATION.md` append-conflicts were resolved by keeping **both** sides in full — no other session's record was dropped — and the rebase was re-run over the merged tree each time; the front-page table survived other sessions' guide additions (37 pages, 27 sitemap URLs after rebase).
+- **Follow-up commit in this PR:** the front page's `<title>` and meta description were rewritten to match the shop framing and to stay inside the gate's length limits (79→58 chars, 185→152 chars). No gate warning remains.
+- **Still open for the owner (unchanged, non-blocking, all on `flagged.html`):** FLG-001/SG-01 (Special Link test in the enrolled account), FLG-015/Q-35 (tracking report), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photo licence), FLG-004 (thermometer dimensions), FLG-022 (P3 wattage — both values published), SG-02 (custom domain).
+
+### T-AE-A..E completion record — session arena/ae5eeead-prod1 (2026-11-20)
+
+- **PR #76** (`arena/ae5eeead-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/76 — **merged**, merge commit `96941cf`, 2026-11-20 06:59 UTC. The branch was force-pushed once (`791de4e…7ec4468`) after integrating `main` locally; no other session's commit was removed from the branch history — the rebase onto `main` carries every upstream commit.
+- **Deploy:** `Deploy GitHub Pages` and `pages build and deployment` for `e088436` both `success`; Pages API `status: built`. Live check (fetched 2026-11-20 after the deploy): `decisions.html` serves the seven gates **with the answer panel on every one** (radio per option, evidence field, "Build the answer line"), and `air-fryers.html` serves the buying brief table, the scaled depth chart (13.38 / 16.9 / 12.75 in), the three question cards and the per-product in-box and warranty rows.
+- **Task mapping:** T-AE-A buyer-decision layer (brief + depth chart + in-box/warranty rows, front page by what you cook) — done. T-AE-B re-verification of all five listings on 2026-11-20 — done, recorded in `review/ae5eeead/VERIFICATION-2026-11-20.md`, with P1's rating count moved 4,877 → 4,878 as the only drift. T-AE-C anti-slop pass — done on the pages this session owns (front page, both category pages, guides index). T-AE-D new rows **SG-58 → D-06**, **Q-42 → D-07** triaged so the build's triage rule stays satisfied. T-AE-E executive summary refreshed: the five product rows now state exactly what was read today and what the listing does not state, and the owner-decision card reads the seven register gates instead of six unlinked items.
+- **Machinery defects found and fixed, not just reported:** (1) the sponsored-link post-step matched only `<a href="…">`, so five hand-written citations shipped unmarked and `check_site.mjs` failed the publish — now matches the whole tag and only adds `rel` where absent (FLG-084); (2) `guides.html` printed a typed guide count that was wrong twice — now computed from the cards, with a build failure if the token is missing (FLG-085); (3) this session's own new helper `window.ctgDecision` was first placed after an early `return` inside an existing IIFE, i.e. it would have been a silently dead button on the one page that calls it — found by executing `assets/app.js` in Node against a stub DOM, moved to top level, re-tested both with and without a selected option.
+- **Gates at the merged tree:** `build_site.py` 37 pages / 33 index / 27 sitemap / 4 consolidated; `check_site` 62 files PASS; `check_meta` 0 warnings; `check_style` 0 warnings; `check_measure` PASS (endpoint self-test); `verify_structure` 0 blocking; `counter-check/tools/check_site.py` PASSED; local link-and-anchor crawl over the built root NO ISSUES (37 files). `executive-summary.html` claim-audit needles were re-pointed to the rewritten sentences rather than the sentences being watered down.
+- **Merge conflicts, nothing discarded:** three integrations this session (`origin/main` moving under the branch), all in append-only files. Both sides were kept every time: `COORDINATION.md` records, the other session's board rows, and this session's register rows. Generated HTML was resolved by rebuilding, never by hand-merging. `grep -c "<<<<<<<" build_site.py assets/style.css data/decisions.json` → 0 before every commit.
+- **Still open for the owner (unchanged, non-blocking, all on `flagged.html`):** FLG-001 / Q-01 / SG-01 (Special Link test — the supplied short links are **not** called invalid, only unproven), FLG-002 / FLG-021 (P2's 24-vs-25 presets and six-vs-seven accessories), FLG-022 (P3's two wattages — both published), FLG-004 / FLG-005 (P5 tolerance figure, P4 dimensions, P2 warranty period), FLG-083 (no in-box field on the P1 and P3 listings), FLG-008 / SG-03 (analytics host), FLG-009 / SG-04 (imagery licence), FLG-037 / Q-16 (API eligibility).
+
+### Merge and publication record - session arena/942dddd0-prod1 (2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/68 (`arena/942dddd0-prod1` -> `main`), opened with the summary, the sources boundary and the flagged irregularities listed above.
+- **Merge:** merged as `a1a28a5` at 2026-11-20 07:01:36 UTC (merge commit `a1a28a570961c8588eb4c3d544c4960cd0e07613`). The branch was rebased onto `main` five times while the pull request was open, because other sessions kept merging append-only records into `COORDINATION.md` and every one of those merges made the pull request go DIRTY. Each rebase kept upstream's text and re-applied only this session's own edits: `COORDINATION.md` keeps upstream and appends this session's section, `data/decisions.json` keeps upstream's file and re-applies the four de-duplications, `build_site.py` keeps upstream's generator and re-adds the duplicate gate. **No other session's work was discarded at any point.** The final diff against `main` is four files and 40 insertions / 8 deletions.
+- **Deploy:** `Deploy GitHub Pages` and `pages build and deployment` both **success** for `a1a28a5`. The Pages API reports `build_type: legacy` (the site is served from the committed root of `main`), status `built` after the run.
+- **Verified on the merged tree, not on the branch:** a clean worktree at `origin/main` = `a1a28a5` was created and re-verified end to end - `python3 build_site.py` exits 0 and leaves the tree clean (the committed HTML is exactly what the generator produces), `check_site.mjs` PASS (62 HTML files), `check_meta.mjs` PASS (37 pages, 27 sitemap URLs, 0 warnings), `check_measure.mjs` PASS (SELFTEST PASSED, 37 pages wired), `check_style.mjs` PASS (0 warnings), `verify_structure.mjs` PASS (0 blocking, 0 warnings), `counter-check/tools/check_site.py` PASS (16 pages, 5 products, 21 flags), `git diff --check` clean.
+- **Live check (fetched, not assumed):** `https://wingbangboozle1-lang.github.io/Prod1/decisions.html` now serves the map with **Machinery and automation = 1 row (SG-43)** and the other three corrected rows sitting once each in Compliance (SG-33), Findability (Q-02) and Editorial (Q-14). The map's row counts sum to the board exactly: 17 + 12 + 8 + 11 + 23 + 20 + 1 = 92.
+- **Negative test:** injecting a duplicate id into `data/decisions.json` and running the build makes it exit 1 with "data/decisions.json classifies board ids more than once: SG-33" and no page is published. The duplicate was then reverted and the tree rebuilt clean.
+- **Pre-existing issue this session did not introduce and did not silently absorb:** `data/decisions.json` on `main` lists four ids (SG-59, SG-60, Q-43, Q-44) that the board does not carry. This arrived with PR #48 and is present on `main` before this branch; the generator's warn-and-drop path removes them from the render and prints a warning, which is why the build stays green. It is recorded here rather than fixed, because the fix belongs to the session that owns those rows.
+### Publication record — PR #75 (session arena/8aa7237d-prod1, 2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/75 — **merged with a merge commit `b01201d` at 2026-11-20 07:01 UTC**, no approval wait, per the brief. This follow-up record is committed from the session branch and merged by its own PR, so `main` is never written to directly.
+- **Deploy:** `Deploy GitHub Pages` and `pages build and deployment` both **success** for `b01201d`. The live stylesheet at https://wingbangboozle1-lang.github.io/Prod1/assets/style.css was fetched after the merge and **both fixes are present in production**, read from the served bytes rather than assumed: `minmax(0,1.2fr)` on `.gate-grid` (with `minmax(0,1fr)` in the `max-width:900px` override and `overflow-wrap:anywhere`) and `white-space: normal` on the status pills.
+- **Concurrency.** `main` advanced repeatedly during this branch (PRs #37–#43, #66, #72, #76, #78, #79). Five rebases; every conflict was the append-only `COORDINATION.md` (resolved keeping both sides) or a generated file (resolved by rebuilding, never hand-editing output). `build_site.py` adopted `main`'s `@@PAGES@@`/`@@GUIDES@@` templating over this branch's literal page counts.
+- **Gates on the merged tree:** `check_site` · `check_meta` · `check_style` · `check_measure` · `verify_structure` · `counter-check` all PASS; rebuild byte-identical (CI drift step clean).
+- **Browser QA repeated after every rebase:** 74 renders (37 pages × 1440px and 390px) → **0 problem rows**; Section 5 disclosure above the fold and in the footer 74/74.
+- **What this session fixed, both now live:** (1) `suggestions.html` status pills overflowing to an 837px document on a 390px phone; (2) `decisions.html` `.gate-grid` overflowing to 456px on a 390px phone. Plus check 4 in `scripts/check_site.mjs` (anchors resolve; an ID-shaped link label must name its own anchor), negative-tested in both directions.
+- **Found already fixed upstream:** the five mislabelled flag links (`FLG-070`→`#FLG-069`, `FLG-060`→`#FLG-067`) were corrected by another session before this branch rebased. Recorded as such rather than claimed as this branch's work; the gate that now prevents recurrence is this branch's contribution.
+- **Still open for the owner (non-blocking):** FLG-001 (Special Link test), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (price display), FLG-051/SG-43 (Pages build source), FLG-070 (three builds on one host), SG-02 (custom domain).
+
+## Session arena/3c99f15c-prod1 — record (2026-11-20)
+
+Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice (to `2829f0e`, then to `ab6e70b`) because `main` moved 80 commits while this session worked. Two other sessions rebuilt the front page in the same window (`arena/a7a85386-prod1`, `arena/ae5eeead-prod1`). When their work landed, this session withdrew its own front-page redesign from the merge rather than land a fourth competing layout, and kept only the contributions that were still unique. That withdrawal is recorded as FLG-089, not hidden.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-3C1 Line-by-line re-verify of the five listings vs Amazon.com | **done** | arena/3c99f15c-prod1 | `review/3c99f15c/VERIFICATION.md`, `flagged.html` | Amazon.com `/dp/` pages fetched 2026-11-20. All five `<title>`s match their ASIN (P2 includes "24 One-Touch Preset Options / Six Cooking Accessories"; P4 includes ±0.5℉ / NIST&NSF). P1 buy box $79.93 and P4 buy box $16.99 match the dated register snapshot. P2/P3/P5 buy boxes were **not** read and the record says so | FLG-088 (scope, stated rather than glossed) |
+| T-3C2 Decision worksheet: what is known, what is missing, what would settle it | **done** | arena/3c99f15c-prod1 | `review/3c99f15c/DECISION_WORKSHEET.md`; linked from `review-desk.html` and `executive-summary.html` | Builds only on evidence already in the repo and the official policy pages already cited on `compliance.html`; no new claim | Eighteen decisions; each states the missing fact and the one action that produces it |
+| T-3C3 Topic calendar counts derived from the data they describe | **done** | arena/3c99f15c-prod1 | `build_site.py`, `topics.html` | `TOPICS` is the single source; title, `h1` and meta description are computed on every build | FLG-087 — the defect was live on `main`: "twelve … five published, seven queued" against fifteen rows (twelve published) |
+| T-3C4 Front-page shelf card (built, withdrawn from the merge) | **withdrawn** | arena/3c99f15c-prod1 | none on `main` | The card carried only existing dated register fields: capacity, counter depth, pick-it-if, check-first, one sponsored button | FLG-089 — the duplicate-rendering observation stands; the layout choice is an owner decision, and two other sessions rebuilt the page in the same hour. A fourth variant would have been the duplication the flag names |
+| T-3C5 Integration: gates, PR to `main`, merge, Pages deploy | in progress | arena/3c99f15c-prod1 | `COORDINATION.md` | Six gates + `pages.yml` | — |
+
+**Gates on the merged tree (this session):** `build_site.py` exit 0 and deterministic (rebuild leaves the tree unchanged); `check_site.mjs` PASS; `check_meta.mjs` 0 warnings; `check_style.mjs` 0 warnings; `verify_structure.mjs` 0 blocking; `check_measure.mjs` + endpoint self-test PASS; `counter-check/tools/check_site.py` PASSED.
+
+**Merge handling.** Conflicts in `build_site.py`, `assets/style.css`, `index.html`, `flagged.html`, `executive-summary.html` and `COORDINATION.md` were resolved by taking `main`'s version of the front-page work and re-applying this session's unique edits on top, then rebuilding so the generated HTML comes from the merged generator rather than from either side of the conflict. No other session's work was discarded; both sides of `COORDINATION.md` are kept.
+
+**No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
+
+
+
+
+## Claim — session arena/1d3cc97c-prod1 (2026-11-20) — superseded in part, narrowed to a tool
+
+Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`). Claimed a rendered-page QA task. During the work, `main` gained session `8aa7237d`'s browser QA (commit `ee36edd`), which covered the same pages and fixed the same two defects. This session therefore **did not duplicate the site fixes** and narrowed its PR to the reusable harness.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-1D3-A Reusable rendered-page QA harness (`scripts/render_qa.mjs`) | **done** (in PR #50) | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Ran on current main `5810211`: 37 pages × 2 widths = 74 runs, 0 with issues (`--strict`). Browser: npm `@sparticuz/chromium` 131.0.1 + `puppeteer-core` 23.11.1, installed outside the repo. | — |
+| T-1D3-B Fix render defects (CSS) | **superseded, no change here** | 1d3cc97c | none | Both defects this session found (suggestions.html 447 px; decisions.html 66 px on a phone) were already fixed on main by `8aa7237d` (`ee36edd`). The branch's `assets/style.css` equals main. | Overlap logged so the owner sees it was done once. |
+| T-1D3-C Integration | done on merge | 1d3cc97c | this file | Gates on base `5810211`: `build_site.py` rebuild leaves tree unchanged · `check_site.mjs` · `check_meta.mjs` · `check_style.mjs` · `verify_structure.mjs` · `check_measure.mjs` · `counter-check` — all PASS; render QA 74/74 clean. | — |
+
+**Not verified here:** taste (page-by-page design review); the live github.io page; interactive surfaces. Nothing is marked verified beyond the render checks listed.
+
+**Scope discipline.** No site output changed by this session. No file owned by an open PR was edited. PR #37's measurement files were not touched.
+
+**Suggested follow-up (a decision, not done here):** run `scripts/render_qa.mjs --strict` in CI. That needs a Chromium install step in `pages.yml`. Add it only if the owner wants a browser gate.
+
+## Session arena/dd9f338f-prod1 claim (2026-11-20 06:55 UTC)
+
+Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwarded from base `f237c4a` to `origin/main @ fdc7387` before claiming (branch had no unique commits). Found PRs #50/#48/#46 open with last commits 06:37–06:45 UTC (under 60 min — treated as ACTIVE sessions; their scopes and PRs are untouched) and PR #10 open since 2026-11-19 12:46 UTC (18h+ stale; recorded, not closed here — owner decision logged below).
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-DD9-1 Close open register gaps from the official listings: FLG-004/072 (P4/P5 dimensions blank), FLG-005 (Emeril warranty term), FLG-021/022 re-check; fresh verification record | in progress | arena/dd9f338f-prod1 | `data/products.json` (only fields actually read), `review/dd9f338f/VERIFICATION-2026-11-20.md` (new), `COORDINATION.md` | Amazon.com listing pages fetched 2026-11-20 via page fetch (21-chunk read of B0CDY277D3 confirms reachability) | `build_site.py` (owns FLG row text) is claimed by sessions e05155a0/e7dcb638 — flag-row edits go through logged requests, not direct edits |
+| T-DD9-2 Policy source re-read (OA §5, Program Policies, Google sponsored-links, FTC 101) for this session's record | in progress | arena/dd9f338f-prod1 | `review/dd9f338f/VERIFICATION-2026-11-20.md`, `COORDINATION.md` | affiliate-program.amazon.com, developers.google.com, ftc.gov fetched 2026-11-20 | — |
+| T-DD9-3 Gates, PR to main, merge, confirm Pages deploy, record | pending | arena/dd9f338f-prod1 | `COORDINATION.md` | `gh` PR + Pages API | Flagged items do not block the merge |
+
+**Scope discipline.** Read-only for: `build_site.py`, `assets/`, `scripts/`, `.github/workflows/`, `suggestions.html`, `executive-summary.html`, `DESIGN_PROMPT.md`, `decisions.html`, `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`. Regenerated root pages come only from `data/products.json` changes through the existing generator. No active session's PR touched or closed.
+
+### Session arena/dd9f338f-prod1 — completion record (2026-11-20)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-DD9-1 Register gap closure + line-by-line listing re-verification | done | arena/dd9f338f-prod1 | `data/products.json` (P1 ratingCount + source notes; P2/P4/P5 deal-window notes; P5 50/70-hour conflict note), `review/dd9f338f/VERIFICATION-2026-11-20.md` (new), regenerated `verification.html` | Amazon.com listing pages for all 5 ASINs fetched 2026-11-20 (chunks cited in the review file). Titles match character-for-character (P3 keeps its ®-glyph note). P1 price block $79.93/list $99.99 with NO deal flag; P2 $149.99/$209.99 (deal ends 2026-12-02 07:59 UTC); P4 $16.99/$22.99 (deal ends 2026-12-01 07:45 UTC); P5 $119.99/$219.99 (deal ends 2026-12-01 07:59 UTC). Ratings re-read: P1 4.2/4,878 (+1 drift, register updated), P2 4.3/18,380, P4 4.6/3,499, P5 4.2/2,178 — all match the register. Bullets/warranty/wattage re-confirmed where the fetched view exposes them | FLG-004/072 (P4/P5 dimensions): re-attempted via plain, ?th=1&psc=1 and slug URLs — the fetcher always lands on Amazon's Product Summary fallback, which exposes no Product Information tables; stays blank + flagged. FLG-005: documents list shows User Manual PDF only, no warranty term — stays open. FLG-002/021/022 re-confirmed live (listing self-contradictions). NEW FLG-073 (deal-priced snapshots end 2026-12-01/02; re-read the register after the window). NEW FLG-074 (P5 50 vs 70 hours). FLG row updates requested below — `build_site.py` was claimed by sessions e05155a0/e7dcb638 this hour, so no direct edit |
+| T-DD9-2 Policy source re-read | done | arena/dd9f338f-prod1 | `review/dd9f338f/VERIFICATION-2026-11-20.md` | OA (Updated Oct 15, 2025) §5 verbatim + §6 material-breach clause; Program Policies (Updated Apr 14, 2026) §1 Enrollment incl. the "significant commentary, analysis, or transformation" sentence, §2(a) Special Links use the assigned Associates ID, §2(b) price/availability clause VERBATIM incl. the limited-time-promotion removal sentence; Google qualify-outbound-links (Last updated 2025-12-10) rel="sponsored" + multiple rel values; FTC Endorsement Guides FAQ (clearly and conspicuously, honest endorsements, revised 2023) | Site grep 2026-11-20: zero promotion references ("deal"/"Black Friday" appear only inside the deal-check guide's explicit no-claims wording) — compliant with §2(b)'s promotion-removal clause |
+| T-DD9-3 Gates, PR, merge, Pages deploy confirm | done | arena/dd9f338f-prod1 | `COORDINATION.md` | `build_site.py` exit 0, deterministic (rebuild = no further diff); check_site PASS 59 HTML; check_meta 0 warnings; check_style 0 warnings; verify_structure 34 pages 0 blocking; check_measure SELFTEST + gate PASS; counter-check PASS (16 pages, 5 products, 21 flags) | Flagged items do not block the merge |
+
+**Requests to the owning sessions (logged, not edited here):**
+- **FLG-073 (owner of `build_site.py` flag register):** P2/P4/P5 register prices are limited-time deal prices per the listings' own Deal-ends stamps (2026-12-02 07:59 / 2026-12-01 07:45 / 2026-12-01 07:59 UTC). The site publishes no promotion references, so nothing to remove; the register snapshots should be re-read after the window closes.
+- **FLG-074 (same owner):** P5 listing self-contradicts on battery life — About-this-Item bullet "up to 50 hours on a full charge" vs Product Description "up to 70 hours" / "70+ hours of probe use". Both values are now recorded in `data/products.json` sourceNote; a flag row would make it visible on `flagged.html`.
+
+**Open PRs observed at publish time (untouched):** #50, #48, #46 (last commits 06:37–06:45 UTC, under 60 minutes old at claim time — active sessions, scopes respected) and #10 (last commit 2026-11-19 12:46 UTC, 18h+ stale). This session merged none of them.
+
+### Session arena/3c99f15c-prod1 — publication record (2026-11-20)
+
+- **Pull request #84** (`arena/3c99f15c-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/84 — **MERGED** 2026-11-20T07:05:47Z as merge commit `9a686d5`.
+- **Deploy:** `Deploy GitHub Pages` run 44692440799 = **success**; `pages build and deployment` run 44692440534 = **success**. Pages API: `status: built`, `build_type: legacy`, https://wingbangboozle1-lang.github.io/Prod1/.
+- **Live confirmation (fetched 2026-11-20 after deploy):** `topics.html` now serves `<title>Topic calendar: fifteen buyer questions</title>` and the `h1` "The topic calendar: fifteen buyer questions, spec-backed answers", with the body reading "Twelve guides are published; three are queued" — the three numbers now agree with the fifteen-row table, which is what FLG-087 was about.
+- **Merge handling:** `main` advanced four times during this session (to `2829f0e`, `ab6e70b`, `e088436`, `14d46cb`, then again during the merge attempt). Every conflict was `COORDINATION.md` alone after the first pass; both sides kept each time, nothing from another session discarded. When two other sessions rebuilt the front page, this session withdrew its own front-page redesign rather than land a fourth competing layout — recorded as FLG-089, not hidden.
+- **What shipped from this session:** `topics.html` counts derived from `TOPICS` (FLG-087); `review/3c99f15c/DECISION_WORKSHEET.md` linked from `review-desk.html` and `executive-summary.html`; `review/3c99f15c/VERIFICATION.md`; a sharper `og-image` share card; and flags FLG-087…FLG-090.
+- **Gates on the merged tree:** `build_site.py` exit 0 and deterministic; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure` all exit 0; `counter-check/tools/check_site.py` PASSED.
+- **Still open for the owner (unchanged, non-blocking):** FLG-001 / SG-01 (Special Link test in the enrolled account), FLG-015 (tracking report), FLG-008 / SG-03 (analytics host), FLG-009 / SG-04 (photography licence), FLG-023 / FLG-032 (link-only pricing), SG-02 (custom domain), SG-27…SG-30 (Search Console), and the eighteen decisions in the worksheet.
+
+### Publication record — PR #50 (session arena/1d3cc97c-prod1, 2026-11-20)
+
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/50 (`arena/1d3cc97c-prod1` → `main`), **merged** with merge commit `48c6374` at 2026-11-20 07:08:04 UTC, no approval wait, per the brief.
+- **Content merged:** `scripts/render_qa.mjs` (reusable render harness) and `review/1d3cc97c/RENDER-QA.md`, plus this record. **No site output changed** — the two phone-overflow fixes this session found were already on main from session `8aa7237d` (`ee36edd`), so they were not duplicated.
+- **Gates on the base the PR was verified against (`98f02a4`, then `a0b6d7e` at merge):** rebuild leaves the tree unchanged · `check_site.mjs` PASS · `check_meta.mjs` PASS · `check_style.mjs` PASS · `verify_structure.mjs` PASS · `check_measure.mjs` PASS · `counter-check` PASS. Full render QA on base `5810211`: 37 pages × 2 widths = 74 runs, 0 with issues.
+- **Deploy:** `Deploy GitHub Pages` **success** and `pages build and deployment` **success** for `48c6374`. Pages API reports `built` for `b13b470` (which contains `48c6374`). Live check: https://wingbangboozle1-lang.github.io/Prod1/ fetched and serving the current front page.
+- **Irregularity seen, not caused here:** a `.github/workflows/pages.yml` run failed on branch `arena/03ccc2ca-prod1` (run 44692580634, "workflow file issue"). It is on another session's branch, not `main`; logged for that session to check. Not edited here.
+- **Coordination note:** `main` moved about every few minutes during this session. Four rebases were needed. Conflicts were in `COORDINATION.md` (both sides kept) and `assets/style.css` (main's equivalent fixes kept). The force-with-lease pushes replaced only this session's own superseded claim commit on its own branch.
+- **Still open for the owner (non-blocking):** FLG-001 / SG-01 (Special Link test; needs an Associates login), SG-03 (analytics host), SG-04 (photography licence), FLG-023 (price display), FLG-051 / SG-43 (Pages build source), SG-02 (custom domain).
+
+### Session arena/84799c33-prod1 — final integration record (2026-11-20)
+
+| Task | Status | Result |
+|---|---|---|
+| T-8479-1 Re-read all five listings line by line | **done** | Recorded as FLG-083 on `flagged.html`. Titles, ratings, rating counts, buy boxes, list prices, Product-information/Item-details tables and bullets all re-read; specs still match the register; P1 4,877→4,878, P3 16,892→16,894, and P5's size selector shows other variants at other prices — recorded, not published. |
+| T-8479-2 Shop-first front page | **done, re-applied** | First merged as PR #69 (`cdf4869`). A parallel session's shop-first rewrite (`d9fdf65`, merged via #74) replaced the whole `index_body` and the table went with it — a clean rebase, so nothing flagged it. Re-applied on top of their copy in PR #85 (`7254772`): the table now sits at `#shelf` between their hero and their "choose by what you cook" cards. Their buyer brief, in-box rows and copy are untouched. |
+| T-8479-3 Integration, PR, merge, deploy | **done** | PR #69 → `cdf4869` (merged, Pages built). PR #77 → `e088436` (merged; title/meta sized to the metadata gate so `check_meta` reports 0 warnings). PR #85 → `7254772` (merged). Final `main` observed at `48c6374`; Pages `status: built`; `Deploy GitHub Pages` and `pages build and deployment` both **success** on `a0b6d7e` and `48c6374`. |
+
+**Live verification (2026-11-20, after the deploy).** `https://wingbangboozle1-lang.github.io/Prod1/index.html` serves the front page with: the §5 sentence directly under the masthead; headline *"The counter is the constraint. Buy for it."*; the **five-product table** (product, choose-it-if, capacity as titled, depth in in/cm, what to check, one `Check price` per row carrying `tag=shopnow047c-20` and `rel="sponsored nofollow noopener"`); the two thermometer rows printing an honest "not stated" gap and linking FLG-004; and the review desk reachable from the footer. `flagged.html` serves FLG-083 and FLG-084.
+
+**Irregularities recorded by this session**
+1. **Two sessions rewriting `index_body` (FLG-084 class, logged here rather than as a new flag id).** The brief's parallel-session protocol is what caused it: both sessions shipped a defensible front page, the rebase was clean because both rewrote the same block, and only a read of the deployed HTML showed the table had disappeared. The fix kept both: their cards, my table.
+2. **A red `pages.yml` run (`cf5e933`) that is not on `main`.** It was a run on another session's branch; `main`'s runs for `a0b6d7e` and `48c6374` are both green, and `python3 build_site.py` on a clean checkout of `main` reproduces the committed HTML with no diff. `main` does **not** currently show a failing gate.
+
+**Still open for the owner (unchanged, non-blocking, all on `flagged.html`):** FLG-001/SG-01, FLG-015/Q-35, FLG-008/SG-03, FLG-009/SG-04, FLG-004, FLG-022, SG-02 — plus whatever newer rows later passes added above this line.
+
+### Session arena/dd9f338f-prod1 — publication record (2026-11-20)
+
+- **Pull request #86** (`arena/dd9f338f-prod1` → `main`): merged without waiting for approval as `b13b470` at 2026-11-20T07:09:12Z. Contents: register gap closure from the live listings (P1 count 4,877→4,878, deal-window observations for P2/P4/P5, P5 50-vs-70-hour conflict), policy re-reads (OA §5 verbatim, Program Policies §1/§2(a)/§2(b) incl. the limited-time-promotion removal sentence, Google rel="sponsored", FTC Endorsement Guides), and `review/dd9f338f/VERIFICATION-2026-11-20.md`.
+- **Deploy:** `Deploy GitHub Pages` run 44692857097 = success; `pages build and deployment` 44692855434 = success; Pages API `status: built`. Live check (fetch tool): `verification.html` serves rating 4.2 (4,878) and the Session dd9f338f notes. `main` has since advanced (PRs #88, #90, a direct 84799c33 record push); later deploys are those sessions' records.
+- **Merge-conflict handling:** `main` advanced four times during this session (to `e088436`, `98f02a4`, `48c6374`, and past the merge). Each `COORDINATION.md` conflict was resolved by keeping both sides in full. `data/products.json` was resolved twice by taking `main`'s register (sessions ae5eeead and 0c26f71b had already recorded the P1 count and a second same-day read) and re-applying only this session's new observations. No other session's work discarded.
+- **Correction to the request numbering in the claim block above:** the numbers FLG-073 and FLG-074 were consumed by other sessions while this session waited (FLG-073 = em-dash placeholder ambiguity; FLG-074 = RSS pubDate), and neither of this session's two new findings is in the flag register yet (checked: `flagged.html` has no deal-window or battery-hours flag; register tops out at FLG-090). **Re-issued as:**
+  - **FLG-091 (owner of the `build_site.py` flag register):** P2/P4/P5 register prices are limited-time deal prices per the listings' own Deal-ends stamps (2026-12-02 07:59 / 2026-12-01 07:45 / 2026-12-01 07:59 UTC; P1 shows no stamp). Nothing on the site references the promotions (grep-checked), so nothing needs removal; re-read the register snapshots after the window.
+  - **FLG-092 (same owner):** P5 listing self-contradicts on battery life — About-this-Item bullet "up to 50 hours on a full charge" vs Product Description "up to 70 hours" and spec list "70+ hours of probe use". Both values are recorded in the register source note; a flag row would surface it on `flagged.html`.
+- **T-DD9-1, T-DD9-2, T-DD9-3: done.**

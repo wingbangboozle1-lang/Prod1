@@ -132,6 +132,29 @@
   });
 })();
 
+/* ---- decision desk: build the one-line answer the board asks for ----
+     A static page cannot store a choice, so this writes the exact line COORDINATION.md asks for
+     and offers it for copying. It records nothing, sends nothing, and fabricates nothing: the
+     date comes from the reader's own clock, and the page labels the line as unrecorded until it
+     is pasted into the board. */
+  window.ctgDecision = function (btn) {
+    var box = btn.closest ? btn.closest(".decide") : null;
+    if (!box) return;
+    var gate = (box.querySelector("summary") || {}).textContent || "";
+    gate = gate.replace("Answer ", "").trim();
+    var picked = box.querySelector("input[type=radio]:checked");
+    var noteInput = box.querySelector("input[type=text]");
+    var out = box.querySelector("output");
+    if (!picked) { out.textContent = "Pick a path first."; return; }
+    var idx = Array.prototype.indexOf.call(box.querySelectorAll("input[type=radio]"), picked) + 1;
+    var note = (noteInput && noteInput.value.trim()) || "no evidence recorded yet";
+    var d = new Date();
+    var stamp = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    out.textContent = gate + " = option " + idx + ", " + stamp + ", evidence: " + note +
+      "  (copy this into COORDINATION.md - nothing on this page is saved or sent)";
+  };
+
+
 // Suggestions decision desk — pick a path per item, keep it in this browser,
 // and export a review sheet. Static hosting only: nothing is sent anywhere.
 (function(){
@@ -192,4 +215,7 @@
       refreshStatus();
     });
   }
+
+
+
 })();
