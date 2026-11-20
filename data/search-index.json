@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy, gift picks, hosting and wattage."
+    "text": "Eleven question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy, gift picks, hosting, wattage and counter fit."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -57,7 +57,7 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "Twenty-five ranked suggestions with options and trade-offs, a copy-paste design brief, and fourteen questions whose answers gate the next build."
+    "text": "Thirty ranked suggestions with options and trade-offs, a copy-paste design brief, and nineteen questions whose answers gate the next build."
   },
   {
     "title": "Verification register, line by line",
@@ -118,6 +118,11 @@
     "title": "Instant-read vs wireless thermometer",
     "url": "guide-instant-read-vs-wireless.html",
     "text": "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure."
+  },
+  {
+    "title": "Can a 26-quart oven fit your counter?",
+    "url": "guide-counter-fit.html",
+    "text": "Depth, width and footprint for the 26-quart French-door oven, from listed dimensions only - plus the fit questions the listing does not answer."
   },
   {
     "title": "Review desk: register & open items",
