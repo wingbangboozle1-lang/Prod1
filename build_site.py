@@ -330,7 +330,7 @@ TOPICS = [
      "hooks": "Listing form fields and dimensions (P1, P2, P3); derived footprint math",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
     {"n": "10", "title": "Instant-read vs wireless thermometer: do you need both?", "cat": "Thermometers",
-     "status": "Planned", "href": "topics.html#t10",
+     "status": "Published", "href": "guide-instant-read-vs-wireless.html",
      "angle": "One-second handheld reads versus app-monitored probes: when each type earns its place, and what the accuracy claims do and do not prove.",
      "hooks": "ThermoMaven tolerance and certification (P4); CHEF iQ sensor count, range and probe count (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
@@ -411,6 +411,13 @@ index_body = f"""
   <article class="card"><span class="tag">Seasonal</span><h3><a href="guide-gift-picks.html">Holiday air fryer gifts: how to choose one that gets used</a></h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p></article>
 </div>
 <p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-thermometer-accuracy.html">Thermometer accuracy claims</a> &middot; <a href="suggestions.html">Ask for a topic</a></p>
+
+<h2>Latest from the desk</h2>
+<div class="latest">
+  <a class="latest-item" href="guide-instant-read-vs-wireless.html"><span class="latest-date">This week</span><strong>Instant-read vs wireless thermometer: do you need both?</strong><span>Two tools, two jobs - and one listing that never states an accuracy figure.</span></a>
+  <a class="latest-item" href="guide-capacity-checklist.html"><span class="latest-date">Capacity</span><strong>A no-hype checklist for comparing air fryer capacity</strong><span>Quarts, litres and what &ldquo;feeds 4-6&rdquo; is actually claiming.</span></a>
+  <a class="latest-item" href="guide-wattage-outlets.html"><span class="latest-date">Circuits</span><strong>Will it trip the breaker? Wattage and outlet math</strong><span>1000W against 1700W on a 120V kitchen circuit, with the conflict shown.</span></a>
+</div>
 {topic_band()}
 
 <h2>Why the numbers here match the listing</h2>
@@ -531,6 +538,7 @@ guides_body = """
 <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that works without a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a class="btn small" href="guide-gift-picks.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal - Hosting</span><h3>The holiday hosting test: which air fryer actually feeds a crowd?</h3><p>Capacity claims, a 6-lb rotisserie chicken, 12-inch pizzas - and the counter-depth number that decides fit in December.</p><p><a class="btn small" href="guide-holiday-hosting.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal - Budget</span><h3>Kitchen gifts under $25, under $80 and under $150</h3><p>Budget bands mapped to the five verified picks, with each listing's own gift claims quoted, not invented.</p><p><a class="btn small" href="guide-gifts-by-budget.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Thermometers - Buying</span><h3>Instant-read vs wireless thermometer: do you need both?</h3><p>Two tools, two jobs. What each listing states - and the one that states no accuracy figure at all.</p><p><a class="btn small" href="guide-instant-read-vs-wireless.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Specs</span><h3>Will it trip the breaker? Wattage and outlet math for air fryers</h3><p>1000W or 1700W? One of our listings answers that question two different ways - here is how to check yours.</p><p><a class="btn small" href="guide-wattage-outlets.html">Read guide</a></p></article>
 </div>
 <h2>Consolidated URLs</h2>
@@ -1426,6 +1434,51 @@ b6, j6 = guide_shell("Guide - Seasonal", "Holiday air fryer gifts: how to choose
  picks=("P3","P1","P4"))
 page_to("guide-gift-picks.html","Air fryer gifts that get used | Countertop Guide","The gift check that needs no price tag: counter depth, household size, dishwasher-safe parts and a panel the recipient will actually learn.",b6,j6,"guide-page")
 
+# ---------- GUIDE 10: instant-read vs wireless (published from the topic calendar, week 2026-12-08) ----------
+b10, j10 = guide_shell("Guide - Thermometers", "Instant-read vs wireless thermometer: do you need both?",
+ "These two tools answer different questions. One tells you the temperature of the food in front of you, in about a second. The other tells you the temperature of food you are not standing next to. Whether you need both depends on how often you leave the kitchen during a cook - and on two listings that do not state the same kind of accuracy claim.",
+ """
+<h2>The one-line answer</h2>
+<p>If you grill, pan-fry or roast and stay nearby, the handheld instant-read covers it. If you smoke, roast low and slow, or cook a bird big enough to need an hour, the wireless probe set earns its place. Owning both is common because they fail in different ways: a handheld cannot watch a roast, and a probe set cannot give you a reading in a saucepan of caramel in two seconds.</p>
+
+<h2>What each listing actually states</h2>
+<div class="table-scroll"><table>
+<tr><th>Question</th><th>ThermoMaven instant-read (B0DHZTCNR5)</th><th>CHEF iQ Sense wireless, 3 probes (B0DZFD6R9Z)</th></tr>
+<tr><td>Stated accuracy</td><td>&plusmn;0.5&deg;F, with NIST and NSF certification named in the title <span class="fine">(per listing)</span></td><td>No &plusmn; figure in the fields we captured <span class="badge-warn">not stated</span></td></tr>
+<tr><td>Read time</td><td>1 second, thermocouple sensor <span class="fine">(per title and bullets)</span></td><td>Continuous monitoring; each probe reports to the hub and the app <span class="fine">(per bullets)</span></td></tr>
+<tr><td>How many readings</td><td>One at a time, in your hand</td><td>Three probes at once, from the app</td></tr>
+<tr><td>Range</td><td>Not applicable - you are holding it</td><td>&ldquo;WiFi unlimited range&rdquo; with app monitoring, plus Bluetooth in the connectivity field <span class="fine">(per listing)</span></td></tr>
+<tr><td>Heat rating</td><td>Not stated as a probe rating in the fields we captured</td><td>1000&deg;F heat safe <span class="fine">(per title and bullets)</span></td></tr>
+<tr><td>Water</td><td>IP67, can be rinsed <span class="fine">(per title and bullets)</span></td><td>Not stated in the fields we captured</td></tr>
+<tr><td>Power</td><td>Battery; a calibration certificate is included <span class="fine">(per included-components field)</span></td><td>Rechargeable hub; up to 50 hours per charge <span class="fine">(per bullets)</span></td></tr>
+<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">Amazon listing</a></td></tr>
+</table></div>
+<p class="small">Both columns are read from the product's own listing on the date shown in the byline. Where a field is absent we write &ldquo;not stated&rdquo; rather than assuming a comparable value.</p>
+
+<h2>The asymmetry that decides it</h2>
+<p>Only one of these two listings makes a numeric accuracy claim, so an accuracy comparison would be a comparison of a number against silence. That is not a reason to prefer the cheaper tool; it is a reason to check the wireless listing&rsquo;s manual or product-support documents before you buy it <em>for accuracy</em>. Buy it for coverage, not for a tolerance figure you have not seen.</p>
+
+<h2>Four questions that sort most buyers</h2>
+<ol>
+<li><strong>Do you leave the room during a cook?</strong> If yes, a handheld is the wrong only-tool. Probes that report to a phone are the ones that solve that.</li>
+<li><strong>Do you cook more than one protein at once?</strong> Three probes against one. If you regularly do a joint and a chicken together, the count matters.</li>
+<li><strong>Do you need a reading in a saucepan?</strong> Caramel, custard, oil and sugar work are handheld jobs. A probe in a hub is not designed for a spoon-and-stir check.</li>
+<li><strong>Do you want the tool to survive the sink?</strong> One listing states IP67 and rinsing; the other does not state a water rating in the fields we captured.</li>
+</ol>
+
+<h2>What we will not tell you</h2>
+<p>We have not calibrated either unit, and we have not cooked with either. The accuracy sentence in this guide is the seller's claim, attributed, with the certification it names. If a tolerance figure matters to your cooking, spend the two minutes it takes to find the manual on the listing before you order.</p>
+""",
+ [("Do I need both thermometers?","Not necessarily. A handheld instant-read covers grilling, pan-frying and quick checks. A wireless probe set covers long cooks you are not standing next to. Buy the second only if you leave the kitchen during cooks."),
+  ("Which one is more accurate?","We cannot say from the listings. The ThermoMaven listing states a tolerance of plus or minus 0.5 degrees F with NIST and NSF certification named. No tolerance figure appears in the CHEF iQ fields we captured, so ranking them would be inventing a number."),
+  ("Does the wireless thermometer need WiFi?","The listing describes WiFi unlimited range with app monitoring and also lists Bluetooth in its connectivity field. Either way you need the app and the hub for remote readings."),
+  ("Can the instant-read stay in the oven?","That is not what a handheld instant-read is for, and the listing does not state an oven-safe probe rating in the fields we captured. Use a probe designed to stay in the oven.")],
+ picks=("P4", "P5"))
+page_to("guide-instant-read-vs-wireless.html", "Instant-read vs wireless thermometer | Countertop Guide",
+ "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure.",
+ b10, j10, "guide-page")
+
+
 # ---------- REVIEW DESK ----------
 desk_body = f"""
 <p class="eyebrow">Review desk</p>
@@ -1575,6 +1628,7 @@ GUIDES = [
  ("guide-holiday-hosting.html","The holiday hosting test: which air fryer actually feeds a crowd?","Capacity claims, two-dish cooking and counter-depth math for December counters, from the listings."),
  ("guide-gifts-by-budget.html","Kitchen gifts under $25, under $80 and under $150","Budget bands mapped to five verified picks, each listing's own gift claims quoted."),
  ("guide-wattage-outlets.html","Will it trip the breaker? Wattage and outlet math for air fryers","1000W vs 1700W on a 120V circuit, the Chefman 8QT wattage conflict, and a listing checklist."),
+ ("guide-instant-read-vs-wireless.html","Instant-read vs wireless thermometer: do you need both?","Two thermometers, two jobs: a one-second handheld read against three probes monitored from a phone, and the accuracy figure one listing never states."),
 ]
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',

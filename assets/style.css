@@ -485,6 +485,27 @@ td:first-child { font-weight: 600; color: var(--ink-2); }
 .table-wrap td { vertical-align: top; border-bottom: 1px solid var(--line); padding: .78rem .9rem; line-height: 1.55; }
 .table-wrap a { word-break: break-word; }
 
+/* ------------------------------------------------- "latest from the desk" band */
+.latest {
+  display: grid; gap: .55rem; margin: 1.2rem 0 2.4rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 900px) { .latest { grid-template-columns: 1fr; } }
+.latest-item {
+  display: flex; flex-direction: column; gap: .3rem;
+  padding: 1rem 1.15rem; background: var(--surface);
+  border: 1px solid var(--line); border-left: 3px solid var(--clay);
+  border-radius: var(--r-sm); text-decoration: none; color: var(--ink);
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.latest-item:hover { border-left-color: var(--clay-ink); box-shadow: var(--shadow-sm); color: var(--ink); }
+.latest-date {
+  font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--clay);
+}
+.latest-item strong { font-family: var(--serif); font-size: 1.02rem; line-height: 1.3; }
+.latest-item span:last-child { font-size: .86rem; color: var(--muted); line-height: 1.45; }
+
 /* ------------------------------------------------------------------ chooser */
 .chooser-block {
   background: var(--surface); border: 1px solid var(--line);
