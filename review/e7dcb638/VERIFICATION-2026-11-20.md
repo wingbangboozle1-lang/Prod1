@@ -39,12 +39,12 @@ Source: https://affiliate-program.amazon.com/help/operating/policies — page he
    basis of link-only pricing (FLG-032) and of the wording in `guide-price-check.html`.
 2. Same section: *"You must not make inaccurate, overbroad, deceptive or otherwise misleading
    claims about any Product, an Amazon Site, or any of our policies, promotions, or prices."* →
-   why our own drawings are labelled as drawings (FLG-053).
+   why our own drawings are labelled as drawings (FLG-061).
 3. Same section: *"You must remove from your Site any links and related references to limited time
    promotions as soon as that promotion on the relevant Amazon Site ends."* → **new to this repo**
-   (FLG-059); the seasonal guide is written as a method, and no reader page names a promotion.
+   (FLG-067); the seasonal guide is written as a method, and no reader page names a promotion.
 4. Same section: a comparison-format price display must show both the lowest *new* and, where
-   provided, the lowest *used* price → **new** (FLG-060); moot today because `compare.html` shows
+   provided, the lowest *used* price → **new** (FLG-068); moot today because `compare.html` shows
    no prices, live the moment an API price column is added.
 5. §1 Enrollment and eligibility: *"Your Site(s) must contain original content. Original content
    utilizing third-party materials must contain significant commentary, analysis, or
@@ -82,21 +82,21 @@ the three at 12.75 in deep").
    `assets/style.css` (with token aliases), re-checked by an automated class/var coverage diff
    after the change: 0 unstyled classes among the reader-facing components, 0 undefined
    properties. The two remainders are `guide-page` (a hook, now styled) and `prompt`.
-2. **FLG-055 — the thermometer specification table could not be reached by fetch.** The
+2. **FLG-063 — the thermometer specification table could not be reached by fetch.** The
    ThermoMaven page was retrieved twice; both fetches returned nav, bundles and sponsored
    carousels, not the Product information block. P4/P5 dimensions therefore **stay blank**, and
    the card text says "not shown in the fields we captured". FLG-004 remains open.
-3. **FLG-056 — the register still dates the data 2026-11-19** while two sessions re-read
+3. **FLG-064 — the register still dates the data 2026-11-19** while two sessions re-read
    listings on 2026-11-20. Pages inherit that date, so they under-report freshness by a day.
    Not edited here: `data/products.json` belongs to the register owner (coordination rule);
    this is a logged request.
 4. **Register text cosmetic variance:** the register records P4's title with `±0.5°F`; the
    listing renders `±0.5℉`. No factual impact; noted so a later diff does not call it a
    mismatch.
-5. **FLG-057 — `dates.publish` fallback.** A guide missing from `data/editorial.json →
+5. **FLG-065 — `dates.publish` fallback.** A guide missing from `data/editorial.json →
    dates.publish` silently inherits the register date as its publish date. All 12 guides have
    entries today (verified by building and reading the Article markup on each page).
-6. **FLG-058 — runtime tests are not in CI.** `scripts/test_pages_dom.mjs` needs jsdom; the
+6. **FLG-066 — runtime tests are not in CI.** `scripts/test_pages_dom.mjs` needs jsdom; the
    Pages workflow installs nothing, so it stays a local test. The event-contract test *is* wired
    in, because it is standard-library only.
 7. **Endpoint behaviour exercised, not deployed.** `analytics-endpoint/server.py` was run locally
@@ -132,6 +132,24 @@ Thermometer dimensions (FLG-004); Emeril warranty term (FLG-005); the Special Li
 Associates Central (FLG-001, needs the owner's login); Creators/PA API eligibility (FLG-037,
 third-party claim only); SiteStripe link-type availability (FLG-038); commission rates (never
 published here); search volume for any topic (never claimed); whether the commissioned
-illustration can be mistaken for product photography (FLG-053 / Q-31, needs two human readers).
+illustration can be mistaken for product photography (FLG-061 / Q-31, needs two human readers).
 All of it is on [flagged.html](https://wingbangboozle1-lang.github.io/Prod1/flagged.html) with
 the action that would close it.
+
+## 7. Post-merge identifier map (2026-11-20)
+
+Merging `origin/main` (PRs #28 to #36) collided with this pass on three registers. The rows were
+renumbered, never deleted; the map is recorded here so any earlier citation can be followed.
+
+| This record and this pass's pages originally said | After the merge | Reason |
+|---|---|---|
+| FLG-052 (unstyled CSS) | FLG-052, written by session `a8a06a38`; my duplicate row dropped | same defect, better evidence, plus a CI gate |
+| FLG-053 … FLG-060 (mine) | FLG-061 … FLG-068 | `052`–`060` was already taken on main by nine unrelated rows |
+| (new) | FLG-069: an orphan `styles.css` at the repository root, linked by no page, script or workflow; annotated in place rather than deleted | owner call, not a merge-time tidy-up |
+| SG-44 … SG-50 (mine) | SG-46 … SG-52 | main had already used `SG-44`/`SG-45`; my old `SG-44` now carries a badge pointing at their shipped gate |
+| Q-28 … Q-31 (mine) | unchanged | main stopped at `Q-27` |
+| topic rows 09–11 (mine) | 13–15, with their four planned topics kept at 09–12 | published pages and the plan both stay listed |
+
+Flag list is 60 rows; the desk is 91 numbered rows with 99 runtime controls. Both counts are read
+from the built pages (`@@FLAG_N@@`, `@@BOARD_N@@`), and the build refuses if the desk count is
+smaller than the number of table rows.
