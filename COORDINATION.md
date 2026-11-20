@@ -727,6 +727,32 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 
 **Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/make_og.py`, `scripts/verify_structure.mjs` and `.github/workflows/*` are read-only this session. No other session's files edited. Shared outputs (sitemap, feed, search index, nav, suggestions board) regenerated from the merged generator per protocol.
 
+## Session arena/46e39d18-prod1 claim (2026-11-20)
+
+Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched from `main @ 2dee010`. Found the build broken on arrival: `build_site.py` exits 1 at the decision-register triage check because SG-54..SG-57 and Q-38..Q-41 (added by session 543ed7f4) were never triaged into `data/decisions.json` themes. The abort happens before the sponsored-link post-step, so the four pages the build did write are missing `rel="sponsored"` on citation links and three gates fail. This session triages the eight rows, rebuilds, re-runs all gates, spot-verifies the five listings, then PR + merge + Pages deploy per the brief.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-46E-1 Triage SG-54..SG-57, Q-38..Q-41 into decisions.json themes; rebuild; all gates green | in progress | arena/46e39d18-prod1 | `data/decisions.json`, regenerated root `*.html`, `sitemap.xml`, `feed.xml`, `data/search-index.json` | Gate scripts in `scripts/` | Build was broken on arrival (see above) |
+| T-46E-2 Line-by-line spot verification of the 5 listings vs official Amazon.com pages | in progress | arena/46e39d18-prod1 | `COORDINATION.md` (this section) | Amazon.com listing pages fetched 2026-11-20 | Volatile figures stay dated snapshots per FLG-023 |
+| T-46E-3 PR to main, merge, confirm Pages deploy | pending | arena/46e39d18-prod1 | — | `gh` PR + Pages API | — |
+
+**Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/` are read-only this session. No other session's files edited.
+
+### Session arena/46e39d18-prod1 — verification record (2026-11-20)
+
+**Official sources read line by line in this session** (fetched 2026-11-20 from Amazon.com):
+- https://www.amazon.com/dp/B0CDY277D3 — title confirmed exactly: "CHEFMAN 6 Quart Dual Basket Air Fryer Oven with Easy View Windows, Sync Finish, Hi-Fry, Auto Shutoff, 2 Independent 3Qt Nonstick Dishwasher Safe Frying Baskets, Digital Double Air Fryer - Black". Matches register P1.
+- https://www.amazon.com/dp/B09B7SB46R — title confirmed exactly: "Emeril Lagasse 26QT French Door Multi-Function Air Fryer Toaster Oven | Countertop Convection Cooker, 24 One-Touch Preset Options, Extra Large Interior, Six Cooking Accessories Included". Matches register P2.
+- https://www.amazon.com/dp/B08DKYBTPH — title confirmed: "Chefman Air Fryer 8 Qt | TurboFry® 4-in-1 with 450°F Hi-Fry Option for Crispier Results | Bake, Dehydrate, Frozen | XL Nonstick Dishwasher-Safe Basket | Stainless Steel". Register P3 omits the ® glyph; immaterial, noted here rather than silently edited.
+- https://www.amazon.com/dp/B0DHZTCNR5 — title confirmed exactly (ThermoMaven 1 Sec, ±0.5℉, NIST&NSF, Black). Buy box $16.99 and In Stock confirmed live; matches register P4 snapshot.
+- https://www.amazon.com/dp/B0DZFD6R9Z — title confirmed exactly (CHEF iQ Sense, 3 Ultra-Thin Probes, Gen3). Matches register P5.
+
+**What was NOT re-read this session (honest scope):** buy-box prices for P1/P2/P3/P5, rating counts, dimensions, wattage and bullets were not re-captured from the fetched chunks; the register's dated 2026-11-20 observations (FLG-060, session 1b65e5a1) stand. Carousel prices in the fetched pages belong to other products and were not used. Volatile figures are not displayed on shop pages per FLG-023, so nothing on the reader-facing site depends on them.
+
+**Irregularities:** (1) Build was broken on arrival — untriaged SG-54..57/Q-38..41 aborted the build before the sponsored post-step; fixed by triaging all eight rows; main's PR #49 (session fe0774e7) landed the same repair while this session worked, so on merge this session adopted main's triage verbatim (Q-38 in Measurement) and kept only this verification record as its unique contribution. (2) P3 ® glyph difference, immaterial.
+
+**Gates:** build exit 0; check_site, check_meta, check_style, check_measure, verify_structure, counter-check all pass. Deterministic: rebuild produces no further diff.
 ### Repair record — session arena/fe0774e7-prod1 (2026-11-20), PR #49
 
 - **What broke:** `main` at `2dee010` (merge of PR #44) failed the Deploy GitHub Pages workflow. `build_site.py` stops with "data/decisions.json has not triaged these board rows". Rows Q-38…Q-41 and SG-54…SG-57 came from `543ed7f4` (`108ed91`) and were never triaged into a theme. Nothing from the failed build was published.
@@ -743,3 +769,28 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 - **Negative-tested:** removing `SG-57` from its theme printed the warning, still built 34 pages, and rendered the unowned table with a live link to `suggestions.html#SG-57`; restoring it removed the section.
 - **Also fixed here:** three structural `FAIL`s in the holiday guides (the final `<section>` of each body was never closed, so `</article>` was closing a `<section>`) — caught by `scripts/verify_structure.mjs`, added by PR #40, which this pass had not run locally before merging. **Run all five gates before opening a PR**: `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `check_measure.mjs`, `verify_structure.mjs`, plus `counter-check/tools/check_site.py`. All six pass on this tree.
 - **Duplicate ids:** this session's six flags were renumbered to `FLG-076..081` because the feed/cadence pass took `074/075`; `check_style.mjs` now catches duplicate element ids, and `build_site.py` gained `check_spec_lists()` so a product card cannot print one label twice (it caught a real merge artefact: two "Capacity" rows per card).
+### Merge record — session arena/fe0774e7-prod1 (2026-11-20)
+
+- **PR #47** (consolidated-guide titles, FLG-023…031 restored, coverage audit): merged as `863fac5`. The build was green on that tree.
+- **PR #49** (repair of the `main` build, triage of Q-38…Q-41 and SG-54…SG-57): merged 2026-11-20 06:46 UTC as `717cd94`.
+- **Why the repair was needed:** `2dee010` (PR #44) and `141604a` (PR #42) both failed the Deploy GitHub Pages run. Both had the same cause: `build_site.py` stopped on untriaged board rows from `108ed91`. Checked by building each commit in a clean worktree: both exit 1; `717cd94` exits 0 with no drift.
+- **Deploy after merge:** Deploy GitHub Pages `717cd94` = success. Pages API: latest build `built` for `717cd94`.
+- **Live check (fetched 2026-11-20):** `guide-holiday-gifts.html` title is "Holiday gifts guide | Countertop Guide" with no audit label; `decisions.html` serves "The board carries 54 suggestions and 36 questions", matching the repaired register.
+- **Still open, owner-only, non-blocking:** FLG-001 / Q-01 / SG-01 (Associates Special Link and tracking-report test), SG-03 / FLG-008 (analytics host), SG-02 (domain), SG-04 / FLG-009 (photo licence), Search Console (SG-27..SG-30), FLG-026 (Creators API eligibility), FLG-025 (FAQPage markup: keep or remove).
+- **Flagged for the register owner (`42e09357`):** Q-02, Q-14, SG-33 and SG-43 each sit in two decision themes.
+- **Status:** T-FE-A, T-FE-B, the register repair and T-FE-C (integration) are **done**.
+## Record — session arena/543ed7f4-prod1 (completion, 2026-11-20)
+
+- **Integrated.** Branch `arena/543ed7f4-prod1` was rebased onto `origin/main` and its work reached `main` via commit `108ed91` (verified: `108ed91` is an ancestor of `origin/main`). Pull request #43 (`arena/543ed7f4-prod1` → `main`) was closed as integrated; its changes ship with commit `108ed91`.
+- **Deploy.** `git push origin main` → `origin/main` = `141604a`. GitHub Pages API: `status: built`, `build_type: legacy`, public, URL `https://wingbangboozle1-lang.github.io/Prod1/`. Latest "pages build and deployment" run (44690138397) and "Deploy GitHub Pages" run (44690139213) both `success` at 2026-11-20T06:46:09Z.
+- **Live-content confirmation.** Fetched `https://wingbangboozle1-lang.github.io/Prod1/` (chunk 0): verbatim §5 disclosure strip under the masthead, `tag=shopnow047c-20` sponsored links on every product, dated specs ("specs read from this listing 2026-11-20"), source-record links to `verification.html`, per-card "Check before you buy" gaps, FLG-022 wattage discrepancy shown side by side, and `og-image.png` served. Reads like a shop/publication, not an audit.
+- **Gates on the merged tree (this session).** `python3 build_site.py` — 30 pages, 20 sitemap URLs, 4 consolidated, deterministic. `node scripts/check_site.mjs` — CHECK PASSED, 55 HTML files. `node scripts/check_meta.mjs` — Gate passed, 0 warnings. `node scripts/check_style.mjs` — Gate passed, 0 warnings. `node scripts/verify_structure.mjs` — Structure check passed, 0 blocking, 0 warnings. `python3 counter-check/tools/check_site.py` — PASSED (read-only, not edited). No broken internal links; no `example.com` placeholder; uniform per-page canonical.
+- **Sources used (official, fetched 2026-11-20).** Amazon.com listing pages for B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z (all 5 buy-box prices match the register: $79.93 / $149.99 / $69.99 / $16.99 / $119.99; titles match the 5 ASINs). Amazon Associates Operating Agreement §5 (verbatim disclosure adopted). Amazon Associates Program Policies (price/availability only via Amazon-served link or Creators/PA API, 24-hour cache; no price tracking). Google Search Central (rel="sponsored", self-canonical, sitemap). FTC Disclosures 101.
+- **Irregularities carried forward (non-blocking, on flagged.html).** FLG-001 (Special Link test — owner login required), FLG-004/072 (thermometer dimensions blank), FLG-005 (Emeril warranty term), FLG-015 (short links carry no tag), FLG-022 (P3 wattage conflict — both values published), FLG-023/033 (dated price snapshots), FLG-024 (rating-count drift), FLG-037 (API eligibility not read from Amazon), FLG-051 (Pages build source — legacy mode, deploy-pages red X is expected), FLG-070 (three builds on one host). None blocks the deploy.
+- **Tracking ID:** `shopnow047c-20` (outbound format `https://www.amazon.com/dp/ASIN?tag=shopnow047c-20`, `rel="sponsored"`).
+
+### Session arena/46e39d18-prod1 — publication record (2026-11-20)
+- Pull request #51 (`arena/46e39d18-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/51 — merged as `3e86d23` (merge commit, 2026-11-20 06:46 UTC).
+- Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
+- Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
+- Tasks T-46E-1, T-46E-2, T-46E-3: done.
