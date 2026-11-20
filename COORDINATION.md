@@ -1106,3 +1106,20 @@ Sources: the five Amazon.com listing pages above; Amazon Associates Operating Ag
   SG-58/SG-59/SG-60 and Q-42/Q-43/Q-44 remain open on `suggestions.html`. Request **R-10**
   (blocking WCAG-contrast gate) logged to the style-gate owner.
 - **Status:** T-E1, T-E2, T-E3, T-E4, T-E5, T-E6 **done**. No open claims from this session.
+
+## Session arena/35638f92-prod1 — claim (2026-11-20)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-35638-1 Produce a scoped executive recommendations + missing-information brief from the current repository state; avoid overlap with live site/generator work | done | arena/35638f92-prod1 | `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md`, this section only in `COORDINATION.md` | Current product register, editorial configuration, decision/suggestion board, and site gates; official Associates Agreement, Program Policies, FTC and Google Search Central pages checked 2026-11-20 | No Associates Central, Search Console, or live endpoint credentials; no fresh product listing pass claimed |
+
+Scope discipline: review documentation only. Do not edit generated site pages, `build_site.py`, shared data, navigation, sitemap/feed, analytics code, or workflow files owned/being changed by concurrent sessions. This is a synthesis, not new product verification or a compliance certification.
+
+
+### Session arena/35638f92-prod1 — completion record (2026-11-20)
+
+- **Deliverable:** `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md` — executive summary; per-listing verification table; a Q/I/A board of 12 questions across four gates (money, findability, compliance, the board itself) each with a discovery step; seven recommendations with options, recommended path, effort, evidence and what each unblocks; the exact gate output for this checkout; official source links; and five new irregularities (I-1…I-5).
+- **Sources fetched this session (2026-11-20):** the five Amazon.com listing pages (titles and buy boxes re-read; P4 $16.99 / list $22.99 / 4.6 (3,499) and P5 $119.99 / list $219.99 / 4.2 (2,178) confirmed against the register), Amazon Return Policy help page (2026 holiday window), Associates Operating Agreement §5, Associates Program Policies (Commission Income Statement, Participation Requirements §2–§3, IP License, Trademark Guidelines), Google Search Central (outbound-link qualification, spam policies, SEO starter guide), FTC Endorsement Guides FAQ. All links are in §7 of the brief.
+- **Gates on this checkout (after rebasing onto `main @ 4572f1d`, 37 pages):** `build_site.py` 37 pages / 33 index / 27 sitemap / 4 consolidated; `check_site` 62 HTML files; `check_site`, `check_meta`, `check_style`, `check_measure` (endpoint self-test included), `verify_structure` all pass; `git diff --check` clean. Only documentation was added by this session.
+- **New irregularities (detail in §8 of the brief):** I-1 "deal badges across the board" in `guide-holiday-hosting.html` is not per-listing; I-2 the board's self-count is wrong in two places ("43/27" and "42/26" against 57 SG / 39 Q rendered; `decisions.html` computes the count correctly) — the generator-owner's fix; I-3 SG-43/Q-02/SG-33/Q-14 sit in two themes (previously logged); I-4 no dedicated privacy statement despite Program Policies §3(e); I-5 third-party offers visible beside P4's buy box. None blocks publishing.
+- **Not done here, deliberately:** no listing value was inferred; no short link was called invalid; no commission rate, Search Console figure, endpoint host or Pages setting was asserted; no reader-facing page, generator, data file, sitemap/feed or workflow was edited.
