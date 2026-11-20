@@ -629,9 +629,25 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Not verified in this pass:** the five Amazon listings. `amazon.com` could not be fetched from this sandbox, so every listing value keeps the date and source from the earlier re-reads on 2026-11-19 and 2026-11-20 (see `review/62786810/VERIFICATION.md`).
 - **Irregularities raised for review:** FLG-074 (all feed items shared one date; per-guide publication dates do not exist in the repo, so none was invented); FLG-075 (two guides live before their cadence week). Both are logged on `flagged.html` with sources and an owner route.
 - **Still open for the owner (unchanged):** FLG-001 (Special Link test needs the Associates account), FLG-008/SG-03 (analytics endpoint host), FLG-009/SG-04 (photography licence), FLG-023 (price display policy), FLG-070 (three builds on one host), SG-02 (custom domain).
-- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `
+- **Board repair (same session):** after rebasing onto PR #37, `main`'s `COORDINATION.md` was found to contain three leftover conflict markers (`<<<<<<< HEAD` / `=======` / `>>>>>>> origin/main`). Only those marker lines were removed; every record on both sides is kept. Irregularity logged here, not on `flagged.html`.
+
+## Session arena/0c26f71b-prod1 (2026-11-20) — claim
+
+Branch `arena/0c26f71b-prod1`, fast-forwarded from base `bebe082` (PR #38 merge) to current `main` @ `c76cea6` (PR #39 merge). No commits of my own yet; tree clean and all six gates green on the baseline (`build_site.py` rebuild byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs`, `check_measure.mjs`, `counter-check` PASS). No other session holds an open claim; the only open PR is owner-draft #10, untouched — not merged here (same FLG-039/FLG-070 rationale as prior sessions).
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-0C26-A Claim + coordination | done | arena/0c26f71b-prod1 | COORDINATION.md | — | — |
+| T-0C26-B Fresh line-by-line re-read of all five Amazon listings (2026-11-20, this session's own fetches — the previous session could not reach amazon.com) | done | arena/0c26f71b-prod1 | data/products.json (only where the live listing differs), review/0c26f71b/VERIFICATION-2026-11-20.md | The five `https://www.amazon.com/dp/<ASIN>` pages, fetched 2026-11-20 | Register values change only with a same-day source; anything not re-read keeps its prior date |
+| T-0C26-C Targeted gap probes: P4/P5 dimensions (FLG-004/FLG-072), P2 warranty term (FLG-005) | done | arena/0c26f71b-prod1 | data/products.json, flagged.html (via generator), review/0c26f71b/ | Listing measurement blocks; warranty PDF if reachable | Blank stays blank unless the official source states a value |
+| T-0C26-D First visual QA pass of the published site (headless browser screenshots, if installable in this sandbox) | done — browser install blocked; see record | arena/0c26f71b-prod1 | assets/style.css / generator chrome only if a defect is found; review/0c26f71b/ | Live URLs fetched directly | Structure has been proven mechanically by prior sessions; no session has yet looked at the rendered page |
+| T-0C26-E Suggestion row for the duplicate-topic cadence risk (queued 2026-12-01 topic overlaps published t01 guide-basket-vs-oven.html) — recommendation only, no editorial change | done — shipped as SG-59 | arena/0c26f71b-prod1 | suggestions.html (via generator) | data/editorial.json queue + topics.html t01 row | Owner choice; nothing marked approved |
+| T-0C26-F Integration: rebuild, all gates, PR to main, merge without waiting, confirm Pages deploy, record result | in progress | arena/0c26f71b-prod1 | this file | Pages API + Actions run + live fetch | — |
+
+Scope: root publication only (`build_site.py`, `data/products.json` where a listing changed, generated root `*.html`, `assets/`, `review/0c26f71b/`, this file). Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`.
 
  / `
+
 ## Session arena/42e09357-prod1 (2026-11-20) — holiday editorial, decision register, claim integrity
 
 Branch `arena/42e09357-prod1` (base `main` @ `c42d017`). Claims T-5461-B. Two merges of `origin/main` were taken during this pass and resolved in the generator, not by choosing a side.
@@ -857,6 +873,18 @@ Full evidence with source links for manual review: [`review/3ca58211/LIVE-AUDIT-
 - **Deploy:** `Deploy GitHub Pages` run `44690505311` on `2829f0e`: success. Pages API reports `status: built` for `2829f0e`. Live front page and `flagged.html` fetched successfully at `https://wingbangboozle1-lang.github.io/Prod1/`.
 - **Merge-conflict handling:** `main` advanced while this session worked, and a `COORDINATION.md` rebase conflicted. The first resolution attempt left the markers in a commit on this branch; they were removed in `df246f7` before the PR was opened. Both sides of the conflict (this record and the session 46e39d18 record) were kept.
 - **Open pull requests not integrated here:** #50 and #48 are CONFLICTING; #46 and #10 are mergeable UNKNOWN. These belong to their owning sessions or to the final integration session.
+
+### T-0C26 completion record — session arena/0c26f71b-prod1 (2026-11-20)
+
+| Task | Result | Verification performed | Irregularities |
+|---|---|---|---|
+| T-0C26-B Listing re-read | All five `https://www.amazon.com/dp/<ASIN>` pages fetched and read line by line (2026-11-20, this session's own fetches; amazon.com was unreachable for session 54d3e366 but reachable here). P1 unchanged (4.2/4,877, $79.93/$99.99, used $62.85, dims, 6 liters). P2 confirmed 4.3/18,380, $149.99/$209.99, dims, 24.6 liters; a **Black Friday Deal promo badge** now shows. P3 count drifted **16,892 → 16,894 (updated with dated note)**; $69.99/$119.99 and the 1000 W/120 V bullet re-confirmed; newer-model box still shown (FLG-003). P4 confirmed 4.6/3,499, $16.99/$22.99, NIST/NSF table; **again no dimensions row** (FLG-004/072 stay open); new ClimeCo sustainability feature noted; newer Orange model still shown. P5 confirmed 4.2/2,178, $119.99/$219.99 (3-probe) and all four variant prices; **again no dimensions row and no ±°F tolerance** (FLG-004/071 stay open). Badge fields re-dated for all five. | Full log with source links: `review/0c26f71b/VERIFICATION-2026-11-20.md` | P3 same-day rating-count drift (dated update, no new flag) |
+| T-0C26-C Gap probes | P2's listing-linked owner's manual (FAFO-001, https://m.media-amazon.com/images/I/B1U+TqJDuaL.pdf, fetched 2026-11-20) double-sources the wattage (120 V/1700 W/60 Hz) and states **no warranty term** — only a "Money-Back Guarantee" section in its contents; **FLG-005 stays open**, its register text updated with the read. Manual also gives 26 qt (1519 cu in), 75–500 °F, and a 5-inch free-space clearance rule (recorded in the log for future editorial use, not published this pass). Amazon's review-summary module on P2 reports 564 durability mentions (445 negative, heating-element failures within 9–14 months) — recorded as a dated listing observation in the log, not published. | Manual fetched and read (9 chunks); listing Product-guidance block | FLG-005 unchanged in substance; text updated |
+| T-0C26-D Visual QA | Attempted: `playwright-core` installs from npm, but the browser binary CDN is unreachable from this sandbox (same result as sessions 1035d1e2 and 62786810). Rendering was verified through the fetch tool against the live site (structure, disclosure strip, cards, chooser render as intended in the DOM) and through `verify_structure.mjs` (34 pages, 0 blocking). A true pixel-level visual review remains impossible here. | `node scripts/verify_structure.mjs` PASS; live fetch of `https://wingbangboozle1-lang.github.io/Prod1/` | None (limitation, not a defect) |
+| T-0C26-E Suggestion | Shipped as **SG-59** (final number after four same-day collisions: SG-54, SG-58, SG-60, SG-61 were each taken by parallel passes while this session worked (renumbered from SG-54 after three same-day collisions: SG-54 taken by 543ed7f4/46e39d18, SG-58 by e05155a0, SG-59/60 by later passes — numbering collision found at merge, resolved by renumbering per the board's rule, nothing of theirs touched). Classified into gate **D-07** in `data/decisions.json`. Nothing in the editorial calendar was changed; the row awaits the owner. | `suggestions.html#SG-58`, `decisions.html#map` | Numbering collision logged here |
+| T-0C26-F Integration | Merge of `origin/main` (PRs #40–#58) resolved keeping both COORDINATION records; six gates green on the merged tree (`check_site` 59 HTML, `check_meta` 0 warnings, `check_style` 0 warnings, `verify_structure` 0 blocking, `check_measure` PASS, `counter-check` PASS); rebuild deterministic; PR to `main` follows this record; merge result and Pages deploy recorded below. | Gates as listed; conflict-marker scan clean repo-wide | The committed `assets/og-image.png` does not re-render pixel-identically in this sandbox's Pillow/freetype (rasterizer difference); the committed asset was kept and none shipped — CI excludes the card from its drift check |
+
+**Scope discipline.** Only the root publication was touched: `build_site.py`, `data/products.json` (dated register updates only), `data/decisions.json` (D-07 classification), generated root `*.html`, `review/0c26f71b/`, `COORDINATION.md`. Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`, no other session's board rows.
 
 ## Session arena/7bc009de-prod1 claim (2026-11-20, current branch == main @ f237c4a)
 
@@ -1298,6 +1326,24 @@ Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice
 
 **No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
 
+
+
+
+## Claim — session arena/1d3cc97c-prod1 (2026-11-20) — superseded in part, narrowed to a tool
+
+Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`). Claimed a rendered-page QA task. During the work, `main` gained session `8aa7237d`'s browser QA (commit `ee36edd`), which covered the same pages and fixed the same two defects. This session therefore **did not duplicate the site fixes** and narrowed its PR to the reusable harness.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-1D3-A Reusable rendered-page QA harness (`scripts/render_qa.mjs`) | **done** (in PR #50) | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Ran on current main `5810211`: 37 pages × 2 widths = 74 runs, 0 with issues (`--strict`). Browser: npm `@sparticuz/chromium` 131.0.1 + `puppeteer-core` 23.11.1, installed outside the repo. | — |
+| T-1D3-B Fix render defects (CSS) | **superseded, no change here** | 1d3cc97c | none | Both defects this session found (suggestions.html 447 px; decisions.html 66 px on a phone) were already fixed on main by `8aa7237d` (`ee36edd`). The branch's `assets/style.css` equals main. | Overlap logged so the owner sees it was done once. |
+| T-1D3-C Integration | done on merge | 1d3cc97c | this file | Gates on base `5810211`: `build_site.py` rebuild leaves tree unchanged · `check_site.mjs` · `check_meta.mjs` · `check_style.mjs` · `verify_structure.mjs` · `check_measure.mjs` · `counter-check` — all PASS; render QA 74/74 clean. | — |
+
+**Not verified here:** taste (page-by-page design review); the live github.io page; interactive surfaces. Nothing is marked verified beyond the render checks listed.
+
+**Scope discipline.** No site output changed by this session. No file owned by an open PR was edited. PR #37's measurement files were not touched.
+
+**Suggested follow-up (a decision, not done here):** run `scripts/render_qa.mjs --strict` in CI. That needs a Chromium install step in `pages.yml`. Add it only if the owner wants a browser gate.
 
 ### Session arena/3c99f15c-prod1 — publication record (2026-11-20)
 
