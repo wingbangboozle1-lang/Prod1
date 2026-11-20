@@ -122,29 +122,29 @@ def _airfryers(P):
 CLAIMS = [
     {"claim": "The narrowest of the three fryers at 11.81 in wide",
      "where": "the to-scale drawing caption on every P1 card, and the air-fryers spec bullets",
-     "needle": ("air-fryers.html", "11.81 inches wide by 13.38 inches deep"),
+     "needle": ("index.html", r"narrowest at 11\.81 in wide"),
      "basis": "smallest listed width among the three air fryers",
      "test": lambda P: min(_airfryers(P), key=lambda k: dims_of(P[k])["width_in"]) == "P1"
               and abs(dims_of(P["P1"])["width_in"] - 11.81) < 0.005},
     {"claim": "Shallowest of the fryers",
-     "where": "index.html, quick-pick chip for P3",
-     "needle": ("index.html", "Shallowest of the fryers"),
+     "where": "index.html, quick-pick chip for P3, and air-fryers.html",
+     "needle": ("air-fryers.html", r"The shallowest is the 8-quart basket"),
      "basis": "smallest listed depth among the three air fryers",
      "test": lambda P: min(_airfryers(P), key=lambda k: dims_of(P[k])["depth_in"]) == "P3"},
     {"claim": "One big basket in 12.75 in of depth",
      "where": "index.html and air-fryers.html, P3 card",
-     "needle": ("index.html", r"One big basket in 12\.75 in of depth"),
+     "needle": ("index.html", r"One 8-quart basket in 12\.75 in of depth"),
      "basis": "the depth on the P3 listing, and a single-basket form field",
      "test": lambda P: abs(dims_of(P["P3"])["depth_in"] - 12.75) < 0.005
               and "single" in P["P3"]["form"].lower()},
     {"claim": "The biggest cavity here",
      "where": "index.html, quick-pick card for P2",
-     "needle": ("index.html", r"The biggest cavity here"),
+     "needle": ("index.html", r"The largest cavity here"),
      "basis": "largest capacity among the three fryers, compared in litres from the listing fields",
      "test": lambda P: max(_airfryers(P), key=lambda k: _litres(P[k])) == "P2"},
     {"claim": "Also the deepest, at 16.9 in",
      "where": "index.html and air-fryers.html, P2 card",
-     "needle": ("index.html", r"Also the deepest, at 16\.9 in"),
+     "needle": ("index.html", r"Also the deepest at 16\.9 in"),
      "basis": "largest listed depth among the three air fryers",
      "test": lambda P: max(_airfryers(P), key=lambda k: dims_of(P[k])["depth_in"]) == "P2"
               and abs(dims_of(P["P2"])["depth_in"] - 16.9) < 0.005},
@@ -237,9 +237,40 @@ def capacity_row(p):
     This is the same placeholder problem as FLG-073, fixed at the point where it is read."""
     cap = p.get("capacityTitle")
     if cap not in ("", "\u2014", None):
-        return f"<div><dt>Capacity, as titled</dt><dd>{esc(cap)}</dd></div>"
+        return f"<div><dt>Capacity</dt><dd>{esc(cap)}</dd></div>"
     kind = "handheld thermometer" if "handheld" in p.get("form", "").lower() else "wireless probe set"
     return f"<div><dt>Capacity</dt><dd>Not applicable &mdash; a {kind} has no cooking cavity</dd></div>"
+
+def spec_row(p, label, value, in_body=False):
+    """A spec row a shopper can act on, or no row at all.
+
+    Why: `Detail` and `Features` are the two fields nearly every Amazon listing fills, and neither
+    changes on a Tuesday, so both are safe to print under the same no-volatile-figures rule that
+    keeps price and star counts off these pages. Printing them answers "what do I actually get"
+    without a single number that can go stale. A field the listing did not state prints nothing -
+    the card is shorter, which is the honest shape (never a dash that reads like a value).
+    """
+    if value in ("", "\u2014", None):
+        return ""
+    v = esc(value)
+    return f"<div><dt>{esc(label)}</dt><dd>{v}</dd></div>"
+
+def money_row(p):
+    """Price is the one thing a shopper wants most and the one thing this build may not print.
+
+    FLG-021/FLG-023: Associates policy allows price display only when Amazon serves the link
+    carrying that figure or the figure comes from the Creators/PA API inside its cache window.
+    This is a static build, so the row states that in one line and carries the link, instead of
+    a hedge that reads like the site forgot to finish the page.
+    """
+    return (f'<p class="price-row"><span class="price-live">{esc(money_label(p))}</span> '
+            f'<span class="fine">Amazon shows the live price, stock and rating on this listing. '
+            f'This page links there instead of printing a figure that would be wrong within a day.</span></p>')
+
+def money_label(p):
+    """One label per product intent, so the same phrase is not pasted down the page."""
+    cat = (p.get("category") or "").lower()
+    return "Price and stock today" if "air fryer" in cat else "Today&rsquo;s price on the listing"
 
 def cta_note(p):
     return (f'Sponsored link &middot; Amazon price and stock govern &middot; '
@@ -256,7 +287,7 @@ def product_card(pid, bullets_n=3, detailed=False, level=3):
     if SHOW_PRICE:
         money = f'<p class="price-row"><span class="price">{esc(p["priceNew"])}</span> <span class="fine">listed {VERIFIED} &middot; Amazon price governs</span></p>'
     else:
-        money = f'<p class="price-row"><span class="price-live">Today&rsquo;s price sits on Amazon</span> <span class="fine">we link to it instead of quoting a number that goes stale</span></p>'
+        money = money_row(p)
     rating = (f'<p class="fine"><span class="stars">&#9733; {esc(p["rating"])}</span> from {esc(p["ratingCount"])} ratings, as counted on {VERIFIED}. Live count on the listing.</p>') if SHOW_RATING else ""
     footprint = f'<div><dt>Counter depth</dt><dd>{dm["depth_in"]} in ({dm["depth_cm"]} cm)</dd></div>' if dm else ""
     height = f'<div><dt>Height to clear a cabinet</dt><dd>{dm["height_in"]} in ({dm["height_cm"]} cm)</dd></div>' if dm and dm.get("height_cm") else ""
@@ -275,7 +306,9 @@ def product_card(pid, bullets_n=3, detailed=False, level=3):
     {capacity_row(p)}
     <div><dt>Footprint on the listing</dt><dd>{dims}</dd></div>
     {footprint}{height}{power}
-    <div><dt>Features the listing calls out</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
+    {spec_row(p, 'What you get in the box', p.get('includedComponents'))}
+    {spec_row(p, 'Warranty, as listed', p.get('warranty'))}
+    {spec_row(p, 'Features the listing calls out', p.get('specialFeatures'))}
   </dl>
   {fit_svg(pid)}
   <p class="best"><strong>Good for:</strong> {esc(pos['good'])}</p>
@@ -318,6 +351,54 @@ def fit_svg(pid):
 <figcaption>Our drawing, scaled from the dimensions on the listing ({esc(p['sourceUrl'].rsplit('/',1)[-1])}). Not a photograph of the product.</figcaption>
 </figure>"""
 
+# ---------------------------------------------------------------- buyer brief
+# Why this block exists: a shopper lands on a category page and asks four things before a
+# spec table is any use - which one is for me, what does it cost me in counter space, what
+# will I be washing, and what is the catch. The cards answered 3 and 4; nothing answered 1
+# in one screen. This is that screen, and every sentence in it is a pointer to a row that
+# already exists below, so it cannot drift from the table.
+def buyer_brief(rows, chart_note):
+    """rows: (pid, 'Who it is for', 'Counter cost', 'The catch') - all from the register."""
+    trs = "".join(
+        f'<tr><td><a href="#{pid}">{esc(PRODS[pid]["shortName"])}</a></td>'
+        f'<td>{for_text}</td><td class="num">{cost}</td><td>{catch}</td></tr>'
+        for pid, for_text, cost, catch in rows)
+    return f"""
+<div class="table-wrap brief">
+<table>
+<thead><tr><th>If you are&hellip;</th><th>Pick</th><th>Counter depth</th><th>The catch, from the listing</th></tr></thead>
+<tbody>{trs}</tbody>
+</table>
+</div>
+<p class="fine">{chart_note}</p>"""
+
+def fit_chart():
+    """One scaled meter per air fryer, drawn from the listed depth. No photo, no invented number.
+
+    A <meter> rather than a styled div: the value is in the markup, so the drawing survives CSS
+    being off, and the design gate's no-inline-style rule is respected without a width class per
+    possible depth. max is the deepest listing (+0.1 in) so the bars stay comparable.
+    """
+    fryers = [k for k in ("P1", "P2", "P3") if dims_of(PRODS[k])]
+    if not fryers:
+        return ""
+    top = max(dims_of(PRODS[k])["depth_in"] for k in fryers) + 0.1
+    bars = ""
+    for k in fryers:
+        dm = dims_of(PRODS[k])
+        bars += (f'<div class="bar-row"><span class="bar-lab">{esc(PRODS[k]["shortName"])}</span>'
+                 f'<meter class="bar" min="0" max="{top}" value="{dm["depth_in"]}">{dm["depth_in"]} in</meter>'
+                 f'<span class="bar-val">{dm["depth_in"]} in / {dm["depth_cm"]} cm</span></div>')
+    return f"""
+<figure class="chart">
+  <figcaption><strong>Counter depth, drawn to one scale.</strong> This is the number that ends most
+  returns. Each bar is the depth on that product&rsquo;s listing; the scale starts at zero, so the
+  difference is the difference you measure. From the shallowest to the deepest is 4.15 in (10.5 cm)
+  of counter you either keep or give up.</figcaption>
+  {bars}
+  <p class="fine">Sourced from the Product Dimensions field on each Amazon listing, read {VERIFIED}.
+  A drawing of three numbers, not a photograph.</p>
+</figure>"""
 # ---------------------------------------------------------------- chrome
 # --- navigation: one reader group; the active page is marked, not guessed by the reader
 NAV_LINKS = [
@@ -608,10 +689,10 @@ def topic_band():
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
-    <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
+    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; listings read {VERIFIED}</p>
+    <h1>The counter is the constraint. Buy for it.</h1>
+    <p class="lede">Five machines, checked against their own Amazon listings on {VERIFIED}: three air fryers and two thermometers. The pages answer the four questions that decide a purchase - which job, how deep, what you wash, and what the listing will not say - and every spec links to the page it came from.</p>
+    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Start with air fryers</a></p>
     <ul class="hero-facts">
       <li><strong>5</strong> products, each read from its own listing</li>
       <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
@@ -619,125 +700,167 @@ index_body = f"""
     </ul>
   </div>
   <aside class="hero-side" aria-label="Start here">
-    <p class="side-title">Two minutes, three decisions</p>
+    <p class="side-title">The three decisions, in order</p>
     <ol>
-      <li><a href="guide-basket-vs-oven.html">Basket or oven-style?</a> <span>Form factor first - it decides everything else.</span></li>
-      <li><a href="guide-capacity-checklist.html">How much capacity is real?</a> <span>Quarts, litres and &ldquo;feeds 4-6&rdquo; read honestly.</span></li>
-      <li><a href="guide-cleanup-counter-space.html">Will it fit, and will you wash it?</a> <span>Depth, cabinet clearance, dishwasher parts.</span></li>
+      <li><a href="guide-basket-vs-oven.html">Basket or oven-style?</a> <span>Form first - it decides everything after it.</span></li>
+      <li><a href="guide-capacity-checklist.html">How much capacity is real?</a> <span>Quarts, litres, and what a serving claim is worth.</span></li>
+      <li><a href="guide-cleanup-counter-space.html">Will it fit, and will you wash it?</a> <span>Depth, clearance, dishwasher parts.</span></li>
     </ol>
-    <p class="fine">Listing data checked {VERIFIED}. Prices and ratings live on Amazon and move - we link to them rather than quote a stale figure.</p>
+    <p class="fine">Prices and ratings live on Amazon and move by the day, so they are not printed here. Each product page carries the link instead.</p>
   </aside>
 </section>
 
-<section class="season" aria-label="This week on the desk">
+<h2>Choose by what you cook, not by brand</h2>
+<div class="grid cols-3">
+  <article class="pick">{art("P1")}<span class="chip">Two dishes, one finish time</span><h3><a href="air-fryers.html#P1">Chefman 6QT Dual-Basket</a></h3><p>Two independent 3-quart baskets with Sync Finish, per its listing. 13.38 in deep - the middle of the three, and the narrowest at 11.81 in wide. In the box: the listing states nothing, so this page does not either.</p><p><a class="link-quiet" href="air-fryers.html#P1">The full card and its source record &rarr;</a></p></article>
+  <article class="pick">{art("P2")}<span class="chip">Four to six people</span><h3><a href="air-fryers.html#P2">Emeril Lagasse 26QT French-Door</a></h3><p>The largest cavity here: a 6-lb rotisserie chicken and a 12-inch pizza, per the listing bullets. Also the deepest at 16.9 in, so measure twice. Six accessories per the title, seven per the details table - both shown.</p><p><a class="link-quiet" href="air-fryers.html#P2">The full card and its source record &rarr;</a></p></article>
+  <article class="pick">{art("P3")}<span class="chip">Shallowest counter</span><h3><a href="air-fryers.html#P3">Chefman 8QT TurboFry</a></h3><p>One 8-quart basket in 12.75 in of depth, with the basket and flat tray top-rack dishwasher safe per the bullets. The listing gives 1000 W in one place and 1700 W in another, and both are printed.</p><p><a class="link-quiet" href="air-fryers.html#P3">The full card and its source record &rarr;</a></p></article>
+  <article class="pick">{art("P4")}<span class="chip">One second in your hand</span><h3><a href="thermometers.html#P4">ThermoMaven instant-read</a></h3><p>&plusmn;0.5&deg;F claimed, with NIST and NSF named on the listing; IP67 and rinsable. Comes with a calibration certificate. No dimensions and no warranty period are stated on the page we read, and the card says so.</p><p><a class="link-quiet" href="thermometers.html#P4">The full card and its source record &rarr;</a></p></article>
+  <article class="pick">{art("P5")}<span class="chip">Six-hour cooks, from another room</span><h3><a href="thermometers.html#P5">CHEF iQ Sense, three probes</a></h3><p>Three probes and a hub that charges them, WiFi monitoring through the app, probes rated to 1000&deg;F. The listing states no accuracy figure, so it is not ranked on accuracy here - only described.</p><p><a class="link-quiet" href="thermometers.html#P5">The full card and its source record &rarr;</a></p></article>
+  <article class="card choose"><span class="tag">Not sure yet</span><h3>Answer three questions instead</h3><p>What you cook, how much counter depth you have, and what you want to spend. The chooser returns a shortlist built from the listing fields, with a sponsored link on each pick.</p><p><a class="btn small" href="compare.html#chooser">Open the chooser</a></p></article>
+</div>
+
+<section class="season" aria-label="The holiday window">
   <p class="eyebrow">Holiday window, 2026</p>
-  <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. The retail days either side of it are the Friday and the Monday, which are not holidays in that law. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/">OPM schedule</a> on 2026-11-20.</p>
+  <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/" rel="nofollow noopener" target="_blank">OPM schedule</a> on 2026-11-20.</p>
 </section>
 
-<h2>Quick picks, straight from the listings</h2>
-<div class="grid cols-3">
-  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
-</div>
-<p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
-
 <h2>All five, side by side</h2>
+<p class="section-note">Every row is a field on the listing named in its own card. Where a listing is silent, the row says so.</p>
 <div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
 <div class="grid cols-2 grid-gap-top">{product_card('P4')}{product_card('P5')}</div>
-<p class="section-more"><a class="btn secondary" href="compare.html">Open the full comparison table</a> <a class="link-quiet" href="verification.html">or check our sources first</a></p>
 
-<h2>Not sure yet? Answer three questions</h2>
-<p>The chooser uses only what the listings state - form factor, depth and your budget. It gives you a shortlist, not a verdict, and it runs entirely in your browser.</p>
-<div id="chooser">{CHOOSER}</div>
-
-<h2>Guides worth ten minutes</h2>
+<h2>This week&rsquo;s guides</h2>
 <div class="grid cols-3">
-  <article class="card"><span class="tag">Form factor</span><h3><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer: what should you compare?</a></h3><p>Two dishes at once, crowd capacity, counter depth - decided with the three fryers on this page.</p></article>
-  <article class="card"><span class="tag">Capacity</span><h3><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer capacity</a></h3><p>Quarts vs litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p></article>
-  <article class="card"><span class="tag">Seasonal</span><h3><a href="guide-gift-picks.html">Holiday air fryer gifts: how to choose one that gets used</a></h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p></article>
+  <article class="card"><span class="tag">Air fryers</span><h3><a href="guide-basket-vs-oven.html">Basket or oven-style: what should you compare?</a></h3><p>Two dishes at once, or one big cavity for a chicken and a pizza. The form decision, made from listing fields.</p></article>
+  <article class="card"><span class="tag">Space</span><h3><a href="guide-cleanup-counter-space.html">How to assess cleanup and counter-space trade-offs</a></h3><p>The footprint arithmetic, shown so you can repeat it, and which parts the listing says are dishwasher safe.</p></article>
+  <article class="card"><span class="tag">Thermometers</span><h3><a href="guide-thermometer-accuracy.html">How to read an accuracy claim</a></h3><p>&plusmn;0.5&deg;F, NIST, NSF, a sensor count and &ldquo;unlimited range&rdquo; - what each one does and does not prove.</p></article>
+  <article class="card"><span class="tag">Capacity</span><h3><a href="guide-capacity-checklist.html">A no-hype checklist for comparing capacity</a></h3><p>Quarts against litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p></article>
+  <article class="card"><span class="tag">Seasonal</span><h3><a href="guide-gift-picks.html">Holiday air fryer gifts that get used</a></h3><p>Depth, cleanup and one control panel they will learn - the gift checklist that needs no price tag.</p></article>
+  <article class="card"><span class="tag">Circuits</span><h3><a href="guide-wattage-outlets.html">Will it trip the breaker?</a></h3><p>1000 W against 1700 W on a 120 V kitchen circuit, with the listing&rsquo;s own contradiction left visible.</p></article>
 </div>
-<p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-thermometer-accuracy.html">Thermometer accuracy claims</a> &middot; <a href="suggestions.html">Ask for a topic</a></p>
+<p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-instant-read-vs-wireless.html">Instant-read vs wireless</a> &middot; <a href="topics.html">What we are writing next</a></p>
 
-<h2>Latest from the desk</h2>
-<div class="latest">
-  <a class="latest-item" href="guide-instant-read-vs-wireless.html"><span class="latest-date">This week</span><strong>Instant-read vs wireless thermometer: do you need both?</strong><span>Two tools, two jobs - and one listing that never states an accuracy figure.</span></a>
-  <a class="latest-item" href="guide-capacity-checklist.html"><span class="latest-date">Capacity</span><strong>A no-hype checklist for comparing air fryer capacity</strong><span>Quarts, litres and what &ldquo;feeds 4-6&rdquo; is actually claiming.</span></a>
-  <a class="latest-item" href="guide-wattage-outlets.html"><span class="latest-date">Circuits</span><strong>Will it trip the breaker? Wattage and outlet math</strong><span>1000W against 1700W on a 120V kitchen circuit, with the conflict shown.</span></a>
-</div>
-{topic_band()}
-
-<h2>Why the numbers here match the listing</h2>
+<h2>How this desk works</h2>
 <div class="trust-row">
-  <div><strong>Nothing invented.</strong><p>Every product fact is quoted from the Amazon listing and linked. If we did not capture a field, the row says so instead of guessing.</p></div>
-  <div><strong>No fake testing.</strong><p>Nobody here has cooked in these machines, so the words &ldquo;our team tried it&rdquo; never appear on a page here. Hands-on content needs a protocol and a budget first.</p></div>
-  <div><strong>Links are paid.</strong><p>Product links carry our Associates tag and are marked sponsored, on the page and in the code.</p></div>
-  <div><strong>The audit is public.</strong><p>A line-by-line register, open questions and every irregularity we found sit in the <a href="review-desk.html">review desk</a>.</p></div>
+  <div><strong>Nothing invented.</strong><p>Every product fact is quoted from the Amazon listing and linked. A field we did not capture says so, in the place you wanted it.</p></div>
+  <div><strong>No fake testing.</strong><p>Nobody here has cooked in these machines, so the phrase never appears. Hands-on content needs a protocol and a budget first.</p></div>
+  <div><strong>Links are paid, and labelled.</strong><p>Product links carry tracking ID <code>{TAG}</code>, are marked sponsored in the visible text and in the code, and open the exact listing.</p></div>
+  <div><strong>The audit is public.</strong><p>The line-by-line register, the open questions and every irregularity we found sit in the <a href="review-desk.html">review desk</a>, one click from any page.</p></div>
 </div>
 """
 page_to("index.html","Air fryers & thermometers, compared | Countertop Guide","Five appliances compared on capacity, counter depth, cleanup and what the listing does not say. Every spec links to the Amazon page it came from.",index_body)
 # ---------- AIR FRYERS ----------
 af_body = f"""
 <p class="eyebrow">Air fryers</p>
-<h1>Three air fryers, three different jobs</h1>
-<p class="lede">One cooks two dishes at once, one feeds a family and roasts a chicken, one disappears into a shallow counter. Pick the job first, then check the depth - it is the number that ends most returns. Specs below are quoted from each listing, with the link.</p>
-<div class="callout"><strong>Short version:</strong> two dishes at once &rarr; <a href="#P1">Chefman 6QT dual</a>. Four to six people, rotisserie, pizza &rarr; <a href="#P2">Emeril 26QT</a>. Limited depth, one big batch &rarr; <a href="#P3">Chefman 8QT basket</a>.</div>
+<h1>Three air fryers, three different weeks</h1>
+<p class="lede">One finishes two dishes together, one roasts a chicken for six, one fits where the others will not. Below, the choice first, then the specs each choice rests on - quoted from its own listing, with the date we read it.</p>
+
+{buyer_brief([
+  ("P1", "cooking two things at once and both should land together", f'{dims_of(PRODS["P1"])["depth_in"]} in', "its listing states no in-box contents; the baskets are dishwasher safe but the housing is not"),
+  ("P2", "feeding four to six, or you want rotisserie and a 12-inch pizza", f'{dims_of(PRODS["P2"])["depth_in"]} in', "the deepest unit here, and the listing states no warranty period - it links a PDF instead"),
+  ("P3", "working with a shallow counter and one big batch at a time", f'{dims_of(PRODS["P3"])["depth_in"]} in', "one cavity, so two dishes means two rounds; the listing gives two different wattages"),
+], "Every cell is a link to the product below, and every product row above is a field on its Amazon listing. Where a listing is silent, this page says so instead of filling the gap.")}
+
+{fit_chart()}
+
+<h2>Start with the question, not the machine</h2>
+<div class="grid cols-3">
+  <article class="card"><span class="tag">Two dishes</span><h3>Do you cook two different things in one evening?</h3><p>Then the dual-basket machine is the only one here built for it: two independent 3-quart baskets with Sync Finish, per its listing. A single basket means cooking in rounds.</p></article>
+  <article class="card"><span class="tag">A crowd</span><h3>Are you feeding four to six, or roasting whole birds?</h3><p>The 26-quart French-door oven is the one whose listing makes those claims - 4 to 6 people, a 6-lb rotisserie chicken, a 12-inch pizza. Confirm them on the listing before you buy them.</p></article>
+  <article class="card"><span class="tag">Space</span><h3>Is your counter depth the limit?</h3><p>Measure it in inches, then compare: 13.38, 16.9 and 12.75. The shallowest is the 8-quart basket. Four inches of difference decides whether a unit lives on the counter or in a cupboard.</p></article>
+</div>
+
+<h2>The three machines, in detail</h2>
 <div class="grid cols-3">{product_card('P1',level=2)}{product_card('P2',level=2)}{product_card('P3',level=2)}</div>
-<h2>The spec table</h2>
-<div class="table-scroll"><table>
+
+<h2>Field by field, as listed</h2>
+<div class="table-wrap"><table>
 <tr><th>Field</th><th>Chefman 6QT Dual-Basket<br>B0CDY277D3</th><th>Emeril 26QT French-Door<br>B09B7SB46R</th><th>Chefman 8QT TurboFry<br>B08DKYBTPH</th></tr>
 <tr><td>Form</td><td>Dual basket (2 x 3 Qt)</td><td>Oven-style, French door</td><td>Single basket</td></tr>
 <tr><td>Capacity (title)</td><td>6 Quart</td><td>26QT</td><td>8 quarts</td></tr>
-<tr><td>Capacity field on listing</td><td>6 liters <span class="badge-warn">unit differs - see Flagged</span></td><td>24.6 liters <span class="badge-warn">unit differs - see Flagged</span></td><td>8 quarts</td></tr>
+<tr><td>Capacity field on listing</td><td>6 liters <span class="badge-warn">unit differs - FLG-002</span></td><td>24.6 liters <span class="badge-warn">unit differs - FLG-002</span></td><td>8 quarts</td></tr>
 <tr><td>Dimensions (D x W x H)</td><td>13.38 x 11.81 x 10.63 in</td><td>16.9 x 15.8 x 14.8 in</td><td>12.75 x 13.5 x 10 in</td></tr>
 <tr><td>Counter depth</td><td>13.38 in (34.0 cm)</td><td>16.9 in (42.9 cm)</td><td>12.75 in (32.4 cm)</td></tr>
 <tr><td>Footprint (W x D)</td><td>158.0 sq in</td><td>267.0 sq in</td><td>172.1 sq in</td></tr>
 <tr><td>Capacity per sq in footprint*</td><td>0.038 qt/sq in</td><td>0.097 qt/sq in</td><td>0.046 qt/sq in</td></tr>
-<tr><td>Price &amp; rating today</td><td><a href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">See on Amazon</a> <span class="fine">(sponsored)</span></td><td><a href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">See on Amazon</a> <span class="fine">(sponsored)</span></td><td><a href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">See on Amazon</a> <span class="fine">(sponsored)</span></td></tr>
-<tr><td>Power, as listed</td><td>1700 W / 120 V (bullets)</td><td>1700 W / 120 V (Product information table)</td><td>1000 W per bullets, 1700 W per the spec table <span class="badge-flag">listing disagrees - FLG-022</span></td></tr>
-<tr><td>Cleanup (listing)</td><td>Non-stick baskets dishwasher safe</td><td>See listing for accessory care</td><td>Basket + tray top-rack dishwasher safe</td></tr>
-<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0CDY277D3">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B09B7SB46R">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B08DKYBTPH">Amazon listing</a></td></tr>
+<tr><td>In the box, as listed</td><td>Not stated in the listing fields read {VERIFIED}</td><td>Six accessories per the title; the details table says seven <span class="badge-flag"><a href="flagged.html#FLG-021">FLG-021</a></span></td><td>Not stated in the listing fields read {VERIFIED}</td></tr>
+<tr><td>Warranty, as listed</td><td>1-year assurance provided by Chefman (bullets)</td><td>No period in the listing text; a PDF is linked <span class="badge-flag"><a href="flagged.html#FLG-005">FLG-005</a></span></td><td>1-year warranty provided by Chefman (bullets)</td></tr>
+<tr><td>Power, as listed</td><td>1700 W / 120 V (bullets)</td><td>1700 W / 120 V (Product information table)</td><td>1000 W per bullets, 1700 W per the same listing&rsquo;s table <span class="badge-flag"><a href="flagged.html#FLG-022">FLG-022</a></span></td></tr>
+<tr><td>Cleanup (listing)</td><td>Removable non-stick baskets are dishwasher safe</td><td>Interior light and French doors that pull open; no care claim captured</td><td>Basket and flat tray are top-rack dishwasher safe</td></tr>
+<tr><td>Price and rating today</td><td><a href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0CDY277D3">Check on Amazon</a> <span class="fine">(sponsored)</span></td><td><a href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B09B7SB46R">Check on Amazon</a> <span class="fine">(sponsored)</span></td><td><a href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B08DKYBTPH">Check on Amazon</a> <span class="fine">(sponsored)</span></td></tr>
+<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0CDY277D3" rel="sponsored nofollow noopener" target="_blank">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B09B7SB46R" rel="sponsored nofollow noopener" target="_blank">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B08DKYBTPH" rel="sponsored nofollow noopener" target="_blank">Amazon listing</a></td></tr>
+<tr><td>Our record</td><td><a href="verification.html#P1">P1 source record</a></td><td><a href="verification.html#P2">P2 source record</a></td><td><a href="verification.html#P3">P3 source record</a></td></tr>
 </table></div>
-<p class="small">* Derived by us from listing dimensions and title capacity (1 in = 2.54 cm). It is not a manufacturer claim. See <a href="guide-cleanup-counter-space.html">counter-space guide</a> for method and limits.</p>
+<p class="small">* Derived by us from listing dimensions and title capacity (1 in = 2.54 cm). It is not a manufacturer claim. See <a href="guide-cleanup-counter-space.html">counter-space guide</a> for method and limits. Prices and ratings are not printed here: Amazon serves them on the listing, and a printed figure would be wrong within a day (see <a href="compliance.html">compliance</a>).</p>
+
+<h2>What these listings cannot tell you</h2>
+<p>None of the three pages we read states a required wall or cabinet clearance, noise level, or how long the unit takes to preheat. Those are questions for the seller, and we have written them down rather than guessed: they sit on the <a href="flagged.html">flagged list</a> with the rest. What we can tell you is what each listing states, and we have.</p>
+
 <h2>Guides for air fryer buyers</h2>
-<ul>
-<li><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer: what should you compare?</a></li>
-<li><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer capacity</a></li>
-<li><a href="guide-cleanup-counter-space.html">How to assess cleanup and counter-space trade-offs</a></li>
-<li><a href="guide-multifunction-questions.html">Questions to ask before buying a multi-function kitchen appliance</a></li>
+<ul class="guide-list">
+<li><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer: what should you compare?</a> - the form decision, in one page.</li>
+<li><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer capacity</a> - quarts, litres and what a serving claim is worth.</li>
+<li><a href="guide-cleanup-counter-space.html">How to assess cleanup and counter-space trade-offs</a> - footprint maths and what actually gets washed.</li>
+<li><a href="guide-multifunction-questions.html">Questions to ask before buying a multi-function kitchen appliance</a> - presets, accessories, wattage, warranty.</li>
+<li><a href="guide-wattage-outlets.html">Will it trip the breaker?</a> - 1000 W against 1700 W on a 120 V circuit.</li>
 </ul>
-<p><a class="btn secondary" href="compare.html">Compare with thermometers</a></p>
+<p><a class="btn secondary" href="compare.html">Compare all five side by side</a></p>
 """
-page_to("air-fryers.html","Dual-basket vs oven-style air fryers | Countertop Guide","Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry: capacity, depth and cleanup, each row linked to its listing.",af_body)
+page_to("air-fryers.html","Air fryers: which of the three fits your counter | Countertop Guide","Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry, chosen by job and counter depth, with every field linked to its listing.",af_body)
 # ---------- THERMOMETERS ----------
 th_body = f"""
 <p class="eyebrow">Meat thermometers</p>
-<h1>Instant-read or wireless? It is a distance question</h1>
-<p class="lede">If you stand at the grill, a one-second handheld read is all you need. If you cook a brisket for six hours while doing something else, you want probes that phone you. Accuracy claims below are quoted from the listing with the certification named - we have not calibrated either unit, and we say so where it matters.</p>
-<div class="callout"><strong>Short version:</strong> fast checks and candy &rarr; <a href="#P4">ThermoMaven instant-read</a>. Long cooks, multiple proteins, alerts at the other end of the house &rarr; <a href="#P5">CHEF iQ Sense</a>.</div>
+<h1>Instant-read or wireless? It is a question about distance</h1>
+<p class="lede">If you are standing at the grill, a one-second read in your hand is the whole job. If a brisket is going for six hours while you do something else, you want a probe that reaches your phone. That is the decision. Everything below is what the two listings state, and one of them never states an accuracy figure at all.</p>
+
+<div class="table-wrap brief">
+<table>
+<thead><tr><th>If you are&hellip;</th><th>Pick</th><th>In the box</th><th>The catch, from the listing</th></tr></thead>
+<tbody>
+<tr><td>checking a steak or a batch of candy at the grill</td><td><a href="#P4">ThermoMaven instant-read</a></td><td class="num">1 thermometer, battery, manual, calibration certificate</td><td>no stated warranty and no dimensions in the listing fields we read</td></tr>
+<tr><td>cooking long, or away from the cooker</td><td><a href="#P5">CHEF iQ Sense, 3 probes</a></td><td class="num">3 probes and the charging hub</td><td>the listing gives no &plusmn;&deg;F accuracy figure, so we do not rank it on accuracy</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Accuracy is a claim with a source, or it is marketing</h2>
+<p>The instant-read listing states &plusmn;0.5&deg;F and names NIST and NSF in its specification field. The wireless listing names twenty standards in one field and states no tolerance anywhere in the text we read. Both are seller statements. We have calibrated neither unit, so we print the claim and the gap, and we do not put the two on an accuracy ranking - that would need a measurement we have not made.</p>
+
+<h2>The two thermometers, in detail</h2>
 <div class="grid cols-2">{product_card('P4',level=2)}{product_card('P5',level=2)}</div>
-<h2>The spec table</h2>
-<div class="table-scroll"><table>
+
+<h2>Field by field, as listed</h2>
+<div class="table-wrap"><table>
 <tr><th>Field</th><th>ThermoMaven Instant-Read<br>B0DHZTCNR5</th><th>CHEF iQ Sense Wireless<br>B0DZFD6R9Z</th></tr>
-<tr><td>Type</td><td>Handheld instant-read</td><td>Wireless probes + hub + app</td></tr>
-<tr><td>Accuracy claim (listing)</td><td>+/-0.5F, NIST &amp; NSF certified</td><td>4 internal + 1 ambient sensor (listing bullets); no +/-F figure captured</td></tr>
-<tr><td>Read / monitoring</td><td>1-second read (thermocouple, per bullets)</td><td>Real-time app updates, WiFi unlimited range, Bluetooth</td></tr>
-<tr><td>Probes</td><td>Single probe (handheld)</td><td>3 probes included (1/2/4-probe variants exist)</td></tr>
-<tr><td>Heat rating</td><td>- (not captured)</td><td>1000F heat-safe probes (per title/bullets)</td></tr>
-<tr><td>Waterproof / care</td><td>IP67 waterproof; rinse under water</td><td>Waterproof, dishwasher-safe probes</td></tr>
-<tr><td>Battery / charge</td><td>1x AAA battery included</td><td>Up to 50 hours per charge (per bullets)</td></tr>
-<tr><td>Price &amp; rating today</td><td><a href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">See on Amazon</a> <span class="fine">(sponsored)</span></td><td><a href="{aff(PRODS['P5'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">See on Amazon</a> <span class="fine">(sponsored)</span></td></tr>
-<tr><td>Dimensions</td><td><span class="badge-flag">Not stated on the listing &mdash; <a href="flagged.html#FLG-004">FLG-004</a></span></td><td><span class="badge-flag">Not stated on the listing &mdash; <a href="flagged.html#FLG-004">FLG-004</a></span></td></tr>
-<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">Amazon listing</a></td></tr>
+<tr><td>Type</td><td>Handheld instant-read</td><td>Wireless probes, hub and app</td></tr>
+<tr><td>Accuracy claim (listing)</td><td>&plusmn;0.5&deg;F, with NIST and NSF named in the specification field</td><td>No &plusmn;&deg;F figure in the listing text read {VERIFIED} <span class="badge-flag"><a href="flagged.html#FLG-004">FLG-004</a></span></td></tr>
+<tr><td>Read or monitoring</td><td>1-second read from a thermocouple sensor (bullets)</td><td>Real-time app updates over WiFi; Bluetooth also listed in the connectivity field</td></tr>
+<tr><td>Probes</td><td>Single probe, handheld</td><td>3 probes in the box; 1-, 2-, 3- and 4-probe variants are sold separately on the same page</td></tr>
+<tr><td>Heat rating</td><td>Not stated in the listing fields read {VERIFIED}</td><td>Probes rated to 1000&deg;F (title and bullets)</td></tr>
+<tr><td>Water and care</td><td>IP67 waterproof and can be rinsed (title, bullets); wipe clean per the care field</td><td>Waterproof, dishwasher-safe probes (bullets and care field)</td></tr>
+<tr><td>In the box, as listed</td><td>1 thermometer, 1 AAA battery, 1 user manual, 1 calibration certificate</td><td>3 probes and the charging hub; the hub charges all three at once</td></tr>
+<tr><td>Warranty, as listed</td><td>No period stated in the listing</td><td>Two-year assurance provided by CHEF iQ (bullets)</td></tr>
+<tr><td>Battery</td><td>1x AAA, included</td><td>Up to 50 hours per charge (bullets)</td></tr>
+<tr><td>Dimensions</td><td>Not stated on the listing <span class="badge-flag"><a href="flagged.html#FLG-004">FLG-004</a></span></td><td>Not stated on the listing <span class="badge-flag"><a href="flagged.html#FLG-004">FLG-004</a></span></td></tr>
+<tr><td>Price and rating today</td><td><a href="{aff(PRODS['P4'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DHZTCNR5">Check on Amazon</a> <span class="fine">(sponsored)</span></td><td><a href="{aff(PRODS['P5'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="B0DZFD6R9Z">Check on Amazon</a> <span class="fine">(sponsored)</span></td></tr>
+<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5" rel="sponsored nofollow noopener" target="_blank">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z" rel="sponsored nofollow noopener" target="_blank">Amazon listing</a></td></tr>
+<tr><td>Our record</td><td><a href="verification.html#P4">P4 source record</a></td><td><a href="verification.html#P5">P5 source record</a></td></tr>
 </table></div>
+<p class="small">Every cell is a field on the listing it names, read {VERIFIED}. Where the listing is silent, the cell says so: an empty field we filled in would be the one thing on this page you could not check.</p>
+
+<h2>What neither listing tells you</h2>
+<p>Neither page states a response time for the wireless probes, and neither states a replacement-probe part number. Those are the two questions worth sending the seller before you buy a probe set. They are recorded on the <a href="flagged.html">flagged list</a>, not answered by guesswork here.</p>
+
 <h2>Guides for thermometer buyers</h2>
-<ul>
-<li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims</a></li>
-<li><a href="guide-instant-read-vs-wireless.html">Instant-read vs wireless thermometer: do you need both?</a></li>
+<ul class="guide-list">
+<li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims</a> - what a tolerance, a named standard and a sensor count each prove.</li>
+<li><a href="guide-instant-read-vs-wireless.html">Instant-read vs wireless: do you need both?</a> - the two jobs, priced against each other on the listing.</li>
+<li><a href="guide-holiday-hosting.html">Holiday hosting: which air fryer feeds a crowd?</a> - where a probe earns its place on the day.</li>
 </ul>
-<p><a class="btn secondary" href="compare.html">Compare with air fryers</a></p>
+<p><a class="btn secondary" href="compare.html">Compare all five side by side</a></p>
 """
-page_to("thermometers.html","Instant-read vs wireless thermometers | Countertop Guide","ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as listed, probes, range and care.",th_body)
+page_to("thermometers.html","Meat thermometers: instant-read vs wireless | Countertop Guide","ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as stated, probes, range, care and what neither listing says.",th_body)
 # ---------- COMPARE ----------
 compare_body = f"""
 <p class="eyebrow">Comparison</p>
@@ -798,10 +921,16 @@ guides_body = """
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Two baskets or one: what dual-zone cooking actually changes</h3><p>Dual-basket, single-basket and oven-cavity cooking, decided on the listings' form and capacity facts.</p><p><a class="btn small" href="guide-dual-vs-single-basket.html">Read guide</a></p></article>
 <article class="card"><span class="tag">In the box</span><h3>What's actually in the box: accessories, per the listing</h3><p>Included parts for all five picks as each listing states them - including one count the listing gives two ways.</p><p><a class="btn small" href="guide-accessories-included.html">Read guide</a></p></article>
 </div>
-<h2>Consolidated URLs</h2>
-<p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
+<h2>Pages that moved</h2>
+<p>Three pages published in an earlier pass answered questions the guides below already cover. Rather than delete a live address, each one points search engines and readers at the surviving guide, so one question has one answer. The reason, and the option to reverse it, are logged as <a href="flagged.html#FLG-047">FLG-047</a>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>The old address answered&hellip;</th><th>&hellip;which this guide now covers</th></tr></thead>
+<tbody>
+<tr><td>holiday gifts</td><td><a href="guide-gift-picks.html">Holiday air fryer gifts that get used</a></td></tr>
+<tr><td>small-kitchen fit</td><td><a href="guide-cleanup-counter-space.html">Cleanup and counter-space trade-offs</a></td></tr>
+<tr><td>holiday roast thermometer</td><td><a href="guide-thermometer-accuracy.html">How to read accuracy claims</a></td></tr>
+</tbody></table></div>
 """
-_gn = guides_body.count('<a class="btn small" href="guide-')
 page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide",f"{_gn} question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
@@ -2539,7 +2668,16 @@ print(f"pages: {len(PAGES)} | search index: {len(idx)} | sitemap: {SM_URLS} urls
 import glob as _g, re as _r
 for _f in _g.glob("*.html"):
     _s = open(_f).read()
-    _s2 = _r.sub(r'(<a href="https://www\.amazon\.com/dp/[^"]*")>', r'\1 rel="sponsored nofollow noopener" target="_blank">', _s)
+    # Two forms are possible: a bare href, and a href followed by other attributes. The second
+    # form is what a hand-written row looks like, and the first regex missed it, so the executive
+    # summary shipped five bare Amazon citations and the gate caught them. Match the tag, then add
+    # the attributes only when rel is absent.
+    def _mark(m):
+        tag = m.group(0)
+        if 'rel=' in tag:
+            return tag
+        return tag[:-1] + ' rel="sponsored nofollow noopener" target="_blank">'
+    _s2 = _r.sub(r'<a\s[^>]*href="https://www\.amazon\.com/dp/[^"]*"[^>]*>', _mark, _s)
     if _s2 != _s:
         open(_f, "w").write(_s2)
 print("sponsored post-step done")
