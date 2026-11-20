@@ -65,5 +65,5 @@ re-fetched a third time today, and their citations on the site keep their 2026-1
   volatility; recorded in the register badge fields with read dates. The shop pages display no badges,
   so nothing published changes.
 - **Duplicate-topic row in the calendar** (queued 2026-12-01 topic overlaps published topic 01) -
-  logged as **SG-54** on the suggestion desk with a recommended path; not changed, editorial is the
-  owner's call. See `suggestions.html#SG-54`.
+  logged as **SG-58** on the suggestion desk with a recommended path; not changed, editorial is the
+  owner's call. See `suggestions.html#SG-58`.
