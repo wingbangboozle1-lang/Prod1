@@ -725,3 +725,15 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 | T-543-B Build, gates, link check, PR, merge, Pages deploy | done | arena/543ed7f4-prod1 | root site files, `COORDINATION.md` | `build_site.py` + `scripts/check_site.mjs` + `scripts/check_meta.mjs` + `scripts/check_style.mjs` + `scripts/verify_structure.mjs` | None new |
 
 **Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/make_og.py`, `scripts/verify_structure.mjs` and `.github/workflows/*` are read-only this session. No other session's files edited. Shared outputs (sitemap, feed, search index, nav, suggestions board) regenerated from the merged generator per protocol.
+
+## Session arena/46e39d18-prod1 claim (2026-11-20)
+
+Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched from `main @ 2dee010`. Found the build broken on arrival: `build_site.py` exits 1 at the decision-register triage check because SG-54..SG-57 and Q-38..Q-41 (added by session 543ed7f4) were never triaged into `data/decisions.json` themes. The abort happens before the sponsored-link post-step, so the four pages the build did write are missing `rel="sponsored"` on citation links and three gates fail. This session triages the eight rows, rebuilds, re-runs all gates, spot-verifies the five listings, then PR + merge + Pages deploy per the brief.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-46E-1 Triage SG-54..SG-57, Q-38..Q-41 into decisions.json themes; rebuild; all gates green | in progress | arena/46e39d18-prod1 | `data/decisions.json`, regenerated root `*.html`, `sitemap.xml`, `feed.xml`, `data/search-index.json` | Gate scripts in `scripts/` | Build was broken on arrival (see above) |
+| T-46E-2 Line-by-line spot verification of the 5 listings vs official Amazon.com pages | in progress | arena/46e39d18-prod1 | `COORDINATION.md` (this section) | Amazon.com listing pages fetched 2026-11-20 | Volatile figures stay dated snapshots per FLG-023 |
+| T-46E-3 PR to main, merge, confirm Pages deploy | pending | arena/46e39d18-prod1 | — | `gh` PR + Pages API | — |
+
+**Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/` are read-only this session. No other session's files edited.
