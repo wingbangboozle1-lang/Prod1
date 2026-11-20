@@ -1240,6 +1240,16 @@ Branch: `arena/942dddd0-prod1`, originally based on merged `main` commit `141604
 - **Not fixed here, by scope:** the five irregularities I-1…I-5 in `review/35638f92/EXECUTIVE-RECOMMENDATIONS.md` §8 need the generator owner (`build_site.py` / `data/editorial.json`). They are non-blocking and now recorded on the branch that owns documentation only.
 
 
+
+### T-8479 completion record — session arena/84799c33-prod1 (2026-11-20)
+
+- **PR #69** (`arena/84799c33-prod1` → `main`): https://github.com/wingbangboozle1-lang/Prod1/pull/69 — **merged**, squash commit `cdf4869`, 2026-11-20 06:55 UTC. The brief says not to wait for approval, so it was merged on the green gate result.
+- **Deploy:** `Deploy GitHub Pages` run on `cdf4869`: success; Pages API `status: built` for `https://wingbangboozle1-lang.github.io/Prod1/`. Live check of `/index.html` (fetched 2026-11-20 after the deploy): the shop front page serves the new headline, the **five-product decision table** with the `tag=shopnow047c-20` sponsored `Check price` on every row, the §5 sentence above the fold and repeated in the footer.
+- **Note on the environment's cache:** the bare `/` URL still served the previous front page to the fetch tool while `/index.html` served the new one; the generated file on `main` is the new one (`grep "All five at a glance" index.html` → line 81). That is a CDN cache, not a build divergence.
+- **Conflict handling:** `main` advanced four times while this session worked (PRs #58, #61, #66, #67, #73). Two `COORDINATION.md` append-conflicts were resolved by keeping **both** sides in full — no other session's record was dropped — and the rebase was re-run over the merged tree each time; the front-page table survived other sessions' guide additions (37 pages, 27 sitemap URLs after rebase).
+- **Follow-up commit in this PR:** the front page's `<title>` and meta description were rewritten to match the shop framing and to stay inside the gate's length limits (79→58 chars, 185→152 chars). No gate warning remains.
+- **Still open for the owner (unchanged, non-blocking, all on `flagged.html`):** FLG-001/SG-01 (Special Link test in the enrolled account), FLG-015/Q-35 (tracking report), FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photo licence), FLG-004 (thermometer dimensions), FLG-022 (P3 wattage — both values published), SG-02 (custom domain).
+
 ## Session arena/3c99f15c-prod1 — record (2026-11-20)
 
 Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice (to `2829f0e`, then to `ab6e70b`) because `main` moved 80 commits while this session worked. Two other sessions rebuilt the front page in the same window (`arena/a7a85386-prod1`, `arena/ae5eeead-prod1`). When their work landed, this session withdrew its own front-page redesign from the merge rather than land a fourth competing layout, and kept only the contributions that were still unique. That withdrawal is recorded as FLG-089, not hidden.

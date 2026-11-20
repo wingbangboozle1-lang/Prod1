@@ -749,7 +749,7 @@ index_body = f"""
   <div><strong>The audit is public.</strong><p>The line-by-line register, the open questions and every irregularity we found sit in the <a href="review-desk.html">review desk</a>, one click from any page.</p></div>
 </div>
 """
-page_to("index.html","Air fryers & thermometers, compared | Countertop Guide","Five appliances compared on capacity, counter depth, cleanup and what the listing does not say. Every spec links to the Amazon page it came from.",index_body)
+page_to("index.html","5 air fryers & thermometers, by counter depth | Countertop Guide","Five countertop appliances compared by depth, capacity and the job each does, with what to check before ordering. Every spec links to its Amazon listing.",index_body)
 # ---------- AIR FRYERS ----------
 af_body = f"""
 <p class="eyebrow">Air fryers</p>
