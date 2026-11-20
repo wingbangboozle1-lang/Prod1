@@ -20,9 +20,9 @@
     "text": "Capacity, dimensions, footprint, cleanup and accuracy claims side by side, quoted from each listing, with a three-question chooser and the maths shown."
   },
   {
-    "title": "12 buying guides for air fryers & probes",
+    "title": "13 buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "12 question-led guides: fit, capacity, cleanup, height, what is in the box, price claims, accuracy and wattage - each from a dated listing read."
+    "text": "13 question-led guides: fit, capacity, cleanup, height, what is in the box, price claims, accuracy and wattage - each from a dated listing read."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -57,7 +57,7 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "52 ranked suggestions with options and trade-offs, a design brief to paste, and 31 questions whose answers gate the next build. Pick a row, export, decide."
+    "text": "57 ranked suggestions with options and trade-offs, a design brief to paste, and 36 questions whose answers gate the next build. Pick a row, export, decide."
   },
   {
     "title": "Verification register, line by line",
@@ -82,7 +82,7 @@
   {
     "title": "Topic calendar: fifteen buyer questions",
     "url": "topics.html",
-    "text": "Fifteen question-shaped working titles - eight published, seven queued - each with the verified listing fields it is built from and the sources beside it."
+    "text": "Fifteen question-shaped working titles - nine published, six queued - each with the verified listing fields it is built from and the sources beside it."
   },
   {
     "title": "Search the guides and products",
@@ -128,6 +128,11 @@
     "title": "Air fryer gifts that get used",
     "url": "guide-gift-picks.html",
     "text": "The gift check that needs no price tag: counter depth, household size, dishwasher-safe parts and a panel the recipient will actually learn."
+  },
+  {
+    "title": "Instant-read vs wireless thermometer",
+    "url": "guide-instant-read-vs-wireless.html",
+    "text": "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure."
   },
   {
     "title": "Review desk: register & open items",

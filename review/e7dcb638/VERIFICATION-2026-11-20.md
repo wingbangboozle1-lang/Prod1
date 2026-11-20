@@ -136,20 +136,40 @@ illustration can be mistaken for product photography (FLG-061 / Q-31, needs two 
 All of it is on [flagged.html](https://wingbangboozle1-lang.github.io/Prod1/flagged.html) with
 the action that would close it.
 
-## 7. Post-merge identifier map (2026-11-20)
+## 7. Identifier map, after two merges on the same day
 
-Merging `origin/main` (PRs #28 to #36) collided with this pass on three registers. The rows were
-renumbered, never deleted; the map is recorded here so any earlier citation can be followed.
+Main moved twice while this branch was open (PRs #28-#36, then #37-#45: five other sessions, all
+touching the same registers). Rows were renumbered twice and none was deleted. The final numbers
+for this pass's own rows are:
 
-| This record and this pass's pages originally said | After the merge | Reason |
+| This pass | Final id | Note |
 |---|---|---|
-| FLG-052 (unstyled CSS) | FLG-052, written by session `a8a06a38`; my duplicate row dropped | same defect, better evidence, plus a CI gate |
-| FLG-053 … FLG-060 (mine) | FLG-061 … FLG-068 | `052`–`060` was already taken on main by nine unrelated rows |
-| (new) | FLG-069: an orphan `styles.css` at the repository root, linked by no page, script or workflow; annotated in place rather than deleted | owner call, not a merge-time tidy-up |
-| SG-44 … SG-50 (mine) | SG-46 … SG-52 | main had already used `SG-44`/`SG-45`; my old `SG-44` now carries a badge pointing at their shipped gate |
-| Q-28 … Q-31 (mine) | unchanged | main stopped at `Q-27` |
-| topic rows 09–11 (mine) | 13–15, with their four planned topics kept at 09–12 | published pages and the plan both stay listed |
+| artwork as a representation surface | `FLG-076` | their `FLG-053` is an unrelated finding (broken class attributes) |
+| images are binaries outside the drift gate | `FLG-077` | |
+| re-read could not reach the spec table | `FLG-078` | keeps `FLG-004` open |
+| register dated 2026-11-19 vs a 2026-11-20 re-read | `FLG-079` | |
+| `dates.publish` fallback | `FLG-080` | closed the same day: the lookup now raises, and a merge that dropped the block would have redated all 13 guides |
+| runtime tests not in CI | `FLG-081` | |
+| limited-time promotion references expire | `FLG-082` | |
+| comparison format needs lowest new **and** used | `FLG-083` | |
+| orphan root `styles.css` | `FLG-084` | new in the second merge |
+| suggestions from this pass | `SG-54` … `SG-60` | `SG-44`-`SG-53` were taken on main |
+| questions from this pass | `Q-28` … `Q-31` | unchanged |
 
-Flag list is 60 rows; the desk is 91 numbered rows with 99 runtime controls. Both counts are read
-from the built pages (`@@FLAG_N@@`, `@@BOARD_N@@`), and the build refuses if the desk count is
-smaller than the number of table rows.
+Unifications the merge forced, recorded because they change how the site is built:
+
+- **One guide line-up.** The feed had grown its own hard-coded list of ten guides while the pages
+  listed twelve, so three shipped guides were in the sitemap and absent from the feed. The feed now
+  derives from `GUIDE_CARDS` and the build asserts the two sets are equal (13 of 13).
+- **Publish dates cannot be inferred.** `pdate()` raises when a slug has no `dates.publish` row;
+  it caught a typo of my own on the first run, which is the proof the guard works.
+- **Endpoint self-test.** `analytics-endpoint/selftest.py` feeds one generic envelope to all five
+  event names, which my per-event rules correctly rejected for `chooser_complete`. Rather than
+  weaken the rule or edit their fixture's meaning, the fixture now carries the documented
+  `q1/q2/q3` answers and three new negative cases (partial answer set, 200-character query,
+  click with no ASIN) are rejected. `scripts/check_measure.mjs` and `scripts/test_event_contract.py`
+  both pass against the same server.
+
+Flag list: **69 rows** (`FLG-001`-`FLG-022`, `FLG-032`-`FLG-084`, with the retired `023`-`031` gap
+recorded by main's `FLG-056`). Decision desk: **101 numbered rows**, 113 runtime controls, verified
+under jsdom on the built page rather than asserted in prose.

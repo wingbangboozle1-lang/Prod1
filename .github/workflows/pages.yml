@@ -49,11 +49,14 @@ jobs:
         with:
           node-version: "20"
 
-      # Two independent gates on purpose: check_site.mjs (written by another session,
-      # scans every HTML file in the repo) and check_meta.mjs (this site's metadata,
-      # voice and price-policy rules). With the Pages source set to GitHub Actions either
-      # one blocks the publish; in legacy mode they gate the commit, and a failure is the
-      # red X on main that tells the owner the branch is not shippable.
+      # Four independent gates on purpose: check_site.mjs (written by another session,
+      # scans every HTML file in the repo), check_meta.mjs (this site's metadata,
+      # voice and price-policy rules), check_style.mjs (design-system coverage) and
+      # check_measure.mjs (the five-event measurement contract shared by data, client,
+      # server and the published page, including the endpoint's own self-test). With the
+      # Pages source set to GitHub Actions any one blocks the publish; in legacy mode they
+      # gate the commit, and a failure is the red X on main that tells the owner the branch
+      # is not shippable.
       - name: Publishing gate - repository-wide checks
         run: node scripts/check_site.mjs
       - name: Publishing gate - metadata, voice and price policy
@@ -63,6 +66,13 @@ jobs:
       # a class without a rule, or a var() without a value, block the publish.
       - name: Publishing gate - design system coverage
         run: node scripts/check_style.mjs
+      - name: Publishing gate - measurement contract
+        run: node scripts/check_measure.mjs
+      # Added 2026-11-20: structural checks a browser would show and a regex gate cannot -
+      # asset 404s, heading outline breaks, images with no alt decision, unclosed tags,
+      # Amazon links missing rel=sponsored. Still not a visual review; see the script header.
+      - name: Publishing gate - page structure
+        run: node scripts/verify_structure.mjs
 
       # The measurement contract is checked even though the endpoint is not hosted: the day
       # someone points the site at a host, the client and the endpoint must already agree.

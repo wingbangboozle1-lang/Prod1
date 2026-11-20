@@ -62,20 +62,14 @@
     "gate": "Conversion and order values are never measured client-side. They come only from authorized first-party Associates reports into the campaign ledger."
   },
   "cadence": {
-    "rule": "One guide per week, published Tuesday. Each guide is added to data/editorial-driven sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
+    "rule": "One guide per week, published Tuesday. Each guide is added to sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
     "measure": "After Search Console has 28 days of queries (SG-02), the next four topics are chosen from arriving queries that our pages do not answer, not from instinct. Until then the calendar below is a stated plan, not a demand claim.",
     "queue": [
       {
         "week": "2026-11-20",
         "title": "Is that air fryer actually on sale? How to check the claim",
-        "status": "published out of slot, on purpose: the question is time-sensitive in the gifting season, and it needed no new product facts. No page here names or dates an Amazon promotion - Program Policies require references to limited-time promotions to come down when the promotion ends",
+        "status": "published out of slot, on purpose: the question is time-sensitive in the gifting season and needed no new product facts. No reader page names or dates an Amazon promotion, because Program Policies tie a promotion reference to the promotion's own lifetime (FLG-082)",
         "page": "guide-price-check.html"
-      },
-      {
-        "week": "2026-11-24",
-        "title": "Holiday air fryer gifts: how to choose one that gets used",
-        "status": "published",
-        "page": "guide-gift-picks.html"
       },
       {
         "week": "2026-12-01",
@@ -88,45 +82,9 @@
         "title": "Air fryer accessories: which ones the listing actually includes",
         "status": "published 2026-11-20, ahead of the 2026-12-08 slot",
         "page": "guide-accessories-in-box.html"
-      },
-      {
-        "week": "2026-12-15",
-        "title": "Instant-read thermometer care: waterproof, rinse-safe and what those words cover",
-        "status": "queued",
-        "page": ""
-      },
-      {
-        "week": "2026-12-22",
-        "title": "Dual baskets vs one big basket: what changes at dinner time",
-        "status": "queued",
-        "page": ""
-      },
-      {
-        "week": "2027-01-05",
-        "title": "Wattage, circuits and shared outlets: what the listing does and does not say",
-        "status": "covered by guide-wattage-outlets.html (2026-11-19); the 2027-01-05 slot is free for a new question",
-        "page": "guide-wattage-outlets.html"
-      },
-      {
-        "week": "2027-01-12",
-        "title": "Air fryer basket vs oven: which one actually fits your counter?",
-        "status": "queued (drafted by session a8a06a38 for December; moved to an open slot because three other guides shipped ahead of it)",
-        "page": ""
-      },
-      {
-        "week": "2027-01-19",
-        "title": "Instant-read vs wireless thermometer: do you need both?",
-        "status": "queued",
-        "page": ""
-      },
-      {
-        "week": "2027-01-26",
-        "title": "Counter space math: will a 26-quart oven fit your kitchen?",
-        "status": "queued",
-        "page": ""
       }
     ],
-    "deviation": "The rule says one guide per Tuesday. Three shipped on Friday 2026-11-20 (the fit guide, the accessories guide and the price-check guide), because a fixed weekday is a plan, not a promise to readers. Recorded here so the calendar stays auditable instead of quietly amended. Note also what the site will not do: name a specific Amazon promotion on a reader page, because that clause ties the reference to the promotion's own lifetime. Sessions a8a06a38 and 1b65e5a1 drafted three further topics into the same window on 2026-11-20; because this pass published three guides out of slot, those three drafts were moved to open January slots rather than dropped, and one duplicated a topic that already has a page."
+    "deviation": "The rule says one guide per Tuesday. Three shipped on Friday 2026-11-20 (the fit guide, the accessories guide and the price-check guide), because a fixed weekday is a plan, not a promise to readers. Recorded here so the calendar stays auditable instead of quietly amended. Four other sessions drafted topics into the same window that day; where a topic already has a page the queue row says published and points at it, and duplicate drafts were re-slotted to open weeks rather than deleted."
   },
   "voice": {
     "name": "Plain-spoken buying desk",
@@ -161,20 +119,23 @@
       "don't miss out"
     ]
   },
+  "contentDate": "2026-11-20",
+  "contentDateNote": "Date the published HTML last changed. Distinct from data/products.json verifiedDate, which is the date the Amazon listings were last read (2026-11-19). Google's sitemap guidance says lastmod must be verifiably accurate, so the sitemap and the masthead issue line use this field and the 'as listed' wording on cards uses verifiedDate. The two must not be merged: one dates the page, the other dates the evidence.",
   "dates": {
-    "note": "Publish dates for guides. Kept separate from the register's verifiedDate in data/products.json on purpose: a guide can be written today against listing data read last week, and conflating the two is how a dated claim starts looking current.",
+    "note": "Publish dates for guides, per slug. Kept separate from the register's verifiedDate in data/products.json on purpose: a guide can be written today against listing data read last week, and conflating the two is how a dated claim starts looking current. Every guide the build emits must appear here - build_site.py refuses the build if one is missing.",
     "publish": {
+      "guide-accessories-in-box.html": "2026-11-20",
       "guide-basket-vs-oven.html": "2026-11-19",
       "guide-capacity-checklist.html": "2026-11-19",
       "guide-cleanup-counter-space.html": "2026-11-19",
       "guide-counter-height.html": "2026-11-20",
-      "guide-accessories-in-box.html": "2026-11-20",
-      "guide-price-check.html": "2026-11-20",
-      "guide-multifunction-questions.html": "2026-11-19",
-      "guide-thermometer-accuracy.html": "2026-11-19",
       "guide-gift-picks.html": "2026-11-19",
-      "guide-holiday-hosting.html": "2026-11-19",
       "guide-gifts-by-budget.html": "2026-11-19",
+      "guide-holiday-hosting.html": "2026-11-19",
+      "guide-instant-read-vs-wireless.html": "2026-11-20",
+      "guide-multifunction-questions.html": "2026-11-19",
+      "guide-price-check.html": "2026-11-20",
+      "guide-thermometer-accuracy.html": "2026-11-19",
       "guide-wattage-outlets.html": "2026-11-19"
     }
   }

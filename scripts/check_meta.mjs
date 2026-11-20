@@ -194,15 +194,36 @@ for (const loc of locs) {
   if (!/^[a-z][a-z0-9+.-]*:\/\/[^\s<]+$/.test(loc)) fail(`sitemap entry is not an absolute URL: ${loc}`);
   if (/index\.html$/.test(loc) && loc !== BASE + "/index.html") fail(`sitemap uses /index.html while pages self-canonicalise without it: ${loc}`);
 }
+/* A page may be deliberately excluded from the sitemap only if it says so itself. The
+   internal surfaces (decision desk, executive summary, methodology, design brief, review
+   desk, search) stay reachable but carry `noindex, follow`: they are the audit, not the
+   shop, and every one of them competes for the same hostname as a buying page. This is the
+   only alternative to listing everything, so it is checked both ways - a page that is in
+   neither the sitemap nor noindex is a findability bug, and a page that is noindex yet
+   listed in the sitemap is a contradiction Google resolves by ignoring us. */
+const noindexed = new Set();
 for (const p of pages.filter((x) => x !== "404.html")) {
   const url = p === "index.html" ? BASE + "/" : `${BASE}/${p}`;
+  const h = read(p);
+  const isNoindex = /<meta name="robots" content="[^"]*noindex/.test(h);
+  if (isNoindex) noindexed.add(p);
   if (CONSOLIDATED.has(p)) {
     if (locs.includes(url)) fail(`${p} canonicalises to ${CONSOLIDATED.get(p)} but is still listed in the sitemap - list one URL per answer`);
     continue;
   }
-  if (!locs.includes(url)) fail(`${p} is missing from sitemap.xml - a published page that is not in the sitemap is a findability bug`);
+  if (isNoindex) {
+    if (locs.includes(url)) fail(`${p} says noindex but is listed in sitemap.xml - the two signals contradict each other`);
+    if (!/content="[^"]*follow/.test(h)) warn(`${p}: noindex without "follow" stops link equity reaching the pages it points at`);
+    if (!/<a\s[^>]*href="(?:[a-z-]+\.html|index\.html|\/)"/.test(h)) warn(`${p}: noindex page has no visible route back into the site`);
+    continue;
+  }
+  if (!locs.includes(url)) fail(`${p} is missing from sitemap.xml and does not declare noindex - a published page that is in neither is invisible to search`);
 }
-for (const [p, canon] of CONSOLIDATED) if (!locs.includes(canon)) fail(`${p} canonicalises to ${canon}, which the sitemap does not list`);
+for (const [p, canon] of CONSOLIDATED) {
+  const target = canon.replace(BASE + "/", "").replace(/\/$/, "index.html") || "index.html";
+  if (noindexed.has(target)) continue; // pointing at a noindex hub is a deliberate consolidation
+  if (!locs.includes(canon)) fail(`${p} canonicalises to ${canon}, which the sitemap does not list`);
+}
 if (!/Sitemap:\s/.test(read("robots.txt"))) fail("robots.txt does not declare the sitemap");
 if (new RegExp(`${BASE}/sitemap\\.xml`).test(read("robots.txt")) === false) warn("robots.txt sitemap line does not point at the deployed base URL");
 

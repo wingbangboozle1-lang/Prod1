@@ -1,21 +1,22 @@
+#!/usr/bin/env python3
 """Self-hosted, privacy-preserving event counter for The Countertop Guide.
 
-Accepts exactly the five events this site documents (data/editorial.json -> events.five):
-page_view, outbound_click, search, chooser_complete, guide_read. Each arrives as JSON POST
-to /event and is counted per day, per event and per path. It never stores or logs client
-addresses, user agents, referrers, cookies or per-event timestamps, and it has no database.
+Accepts exactly the site's five defined events (page_view, outbound_click, search,
+chooser_complete, guide_read) as JSON POST to /event. Those five names are the contract
+shared by assets/app.js, data/editorial.json and methodology.html; scripts/check_measure.mjs
+fails the deploy if any of them ever disagrees with EVENT_NAMES below.
 
-The event names and payload shape are a contract with assets/app.js. scripts/
-test_event_contract.py imports this module, feeds validate() the payloads the client actually
-builds, and fails the build if either side drifts - which is how the earlier mismatch
-(endpoint expecting guide_read_75 / category_click / feed_click while the client emitted
-search / chooser_complete / guide_read) got closed instead of being re-litigated.
+Keeps daily counts per event and path (and per ASIN for outbound_click). It never stores
+or logs client addresses, user agents, referrers, cookies or per-event timestamps, and it
+keeps no query text: the payload's `data` object is read only for its `asin` key.
+Standard library only.
 
 Run:      python3 analytics-endpoint/server.py --port 8787 --origin https://wingbangboozle1-lang.github.io
 Health:   GET /health
-Site:     set data-editorial.json -> events.endpoint (which the build writes into
-          body[data-analytics-endpoint]) to the hosted /event URL. While it is empty, as it
-          is today, the site sends no request at all.
+Site:     set data-analytics-endpoint="https://<your-host>/event" on <body> (the generator
+          writes it from data/editorial.json -> events.endpoint). The site sends nothing
+          while that attribute is empty, which is how this build ships. Hosting is an open
+          owner decision (SG-03); the contract and this implementation are ready for it.
 """
 from __future__ import annotations
 
@@ -30,13 +31,13 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 EVENT_NAMES = frozenset({"page_view", "outbound_click", "search", "chooser_complete", "guide_read"})
-# Fields a payload must carry to be useful later, per event. Kept tiny on purpose: every
-# extra field is something a reader would have to trust us with.
-CHOOSERS = frozenset({"snacks", "family", "meat", "compact", "standard", "plenty", "budget", "mid", "premium"})
-MAX_Q = 80
 PATH_RE = re.compile(r"^/[A-Za-z0-9._~/\-]{0,200}$")   # a site path only: no query, no fragment, no spaces
-ASIN_RE = re.compile(r"^B[0-9A-Z]{9}$")                 # Amazon ASIN format
-MAX_BODY = 1024   # the client sends {event, path, asin?, data}; 1 KB bounds a search query at MAX_Q
+ASIN_RE = re.compile(r"^B[0-9A-Z]{9}$")                 # Amazon ASIN format (a click without one cannot be reconciled against an Associates report, so it is refused)
+MAX_BODY = 1024                                         # the client envelope; query text is never stored
+MAX_Q = 80                                              # a search query is measured, never stored
+CHOOSERS = frozenset({"snacks", "family", "meat",       # the chooser's own answer values, from
+                      "compact", "standard", "plenty",  # assets/app.js; an unknown answer means the
+                      "budget", "mid", "premium"})      # client and the endpoint drifted apart
 DEFAULT_ORIGIN = "https://wingbangboozle1-lang.github.io"
 _lock = threading.Lock()
 
@@ -95,7 +96,7 @@ def record(counts_file: pathlib.Path, payload: dict, today: str | None = None) -
 
 def make_handler(counts_file: pathlib.Path, allowed_origin: str):
     class Handler(BaseHTTPRequestHandler):
-        server_version = "kbd-measure"
+        server_version = "ctg-measure"
         sys_version = ""
 
         def log_message(self, format, *args):  # no request log: it would record client addresses
@@ -164,7 +165,7 @@ def main() -> None:
     ap.add_argument("--host", default="0.0.0.0")
     ap.add_argument("--port", type=int, default=8787)
     ap.add_argument("--counts", default=str(here / "counts.json"))
-    ap.add_argument("--origin", default=os.environ.get("KBD_ALLOWED_ORIGIN", DEFAULT_ORIGIN))
+    ap.add_argument("--origin", default=os.environ.get("CTG_ALLOWED_ORIGIN", DEFAULT_ORIGIN))
     args = ap.parse_args()
     srv = ThreadingHTTPServer((args.host, args.port), make_handler(pathlib.Path(args.counts), args.origin))
     print(f"listening on {args.host}:{args.port}; origin {args.origin}", flush=True)

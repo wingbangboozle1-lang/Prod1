@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Line drawing of a countertop oven with two French doors and side handles">
+  <g fill="none" stroke="#8A2E1B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="34" y="52" width="252" height="132" rx="10" fill="#F7EAD6"/>
+    <rect x="34" y="52" width="252" height="70" rx="10" fill="#FFFDF9"/>
+    <rect x="52" y="66" width="52" height="12" rx="4"/>
+    <circle cx="266" cy="72" r="4" fill="#8A2E1B"/>
+    <rect x="48" y="134" width="112" height="38" rx="6" fill="#EFE0CC" stroke="#B4432B" stroke-width="2"/>
+    <rect x="160" y="134" width="112" height="38" rx="6" fill="#EFE0CC" stroke="#B4432B" stroke-width="2"/>
+    <path d="M120 142v22M200 142v22"/>
+    <path d="M60 184v10M260 184v10"/>
+    <path d="M152 98h24"/>
+  </g>
+  <g fill="none" stroke="#B4432B" stroke-width="2" stroke-linecap="round" opacity=".55">
+    <path d="M150 74c0 10 8 12 8 22M164 74c0 10 8 12 8 22"/>
+  </g>
+</svg>

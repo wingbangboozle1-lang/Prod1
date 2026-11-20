@@ -1,7 +1,8 @@
 # DESIGN_PROMPT.md — the brief behind the site's look
 
-Version 1.1, amended 2026-11-20 by session `arena/e7dcb638-prod1` to describe what is
-actually shipped, not what was intended. This file exists so the look can be reviewed and
+Version 1.2, amended 2026-11-20 by session `arena/e7dcb638-prod1` to describe what is actually
+shipped, not what was intended. Identifier citations were re-pointed after the second merge that
+day, when four other sessions filled `FLG-052`–`FLG-075` and `SG-44`–`SG-53`. This file exists so the look can be reviewed and
 revised as a *brief* rather than as scattered CSS. Every section names the decision and the
 suggestion that fed it (`SG-xx` / `Q-xx` on
 [suggestions.html](https://wingbangboozle1-lang.github.io/Prod1/suggestions.html)).
@@ -37,25 +38,32 @@ Trust is *shown* by dated sources and honest blanks, never announced with a badg
 | Ink | `#221810` espresso | softer than black |
 | Accent | `#B4432B` terracotta | CTAs, kickers, rules |
 | Secondary | `#245B4E` teal · `#A4691C` amber | category chips, buy button |
-| Display type | `Fraunces, Iowan Old Style, Palatino, Georgia, serif` | **no webfont is loaded** — see §3.1 |
-| Body type | `Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial` | same caveat |
+| Display type | `Fraunces, Iowan Old Style, Palatino, Georgia, serif` | self-hosted subset woff2 under OFL — see §3.1 |
+| Body type | `Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial` | self-hosted subset woff2 under OFL |
 
 Mobile-first: fluid `clamp()` type, 44–48 px tap targets, single column under 640 px,
 sticky compare bar, `prefers-reduced-motion` respected, one visible focus ring style
 (3 px amber outline) for the whole site.
 
-### 3.1 The typography decision is still open (SG-45 / Q-28)
+### 3.1 Typography: settled as option 2 on 2026-11-20 (SG-55 / Q-28 / SG-50)
 
-The tokens name Fraunces and Inter; the pages load neither, so readers see Georgia and the
-system UI stack. Three ways out, none taken without an owner:
+The tokens named Fraunces and Inter while no page loaded either, so readers saw Georgia and the
+system UI stack. Three ways were on the board:
 
-1. **Keep the local stack** (status quo, zero bytes, no third party). Tune scale and
-   tracking instead of chasing a typeface.
-2. **Self-host subsetted woff2** of both families. Verify each family's licence *on its own
-   project page* (not in a tutorial) and record the byte count — Q-28.
-3. **A third-party font host.** Rejected for now: it sends every visitor's IP to another
-   company, and the site's privacy line does not currently cover that. If the owner chooses
-   it, `about.html` has to change in the same commit.
+1. **Keep the local stack** — zero bytes, no third party.
+2. **Self-host subsetted woff2** of both families, each licence read on the family's own project
+   page rather than in a tutorial. **This is what shipped on 2026-11-20:** `assets/fonts/` holds
+   `fraunces-latin-wght-normal.woff2` (36,620 B), `fraunces-latin-wght-italic.woff2` (45,656 B),
+   `inter-latin-wght-normal.woff2` (48,256 B), `inter-latin-wght-italic.woff2` (51,832 B) and the
+   two `OFL-*.txt` licence files.
+3. **A third-party font host** — rejected, and still rejected: it sends every visitor's IP to
+   another company, which the site's privacy line does not cover. If the owner ever chooses it,
+   `about.html` changes in the same commit.
+
+Two checks this brief asks for, because no gate can see them: that the latin subsets carry the
+characters the copy actually uses (`±`, `°`, `—`, curly quotes), and that a missing glyph shows as
+a fallback rather than a blank box. `scripts/check_style.mjs` proves a class has a rule; it cannot
+prove a face has a glyph.
 
 ## 4. Layout system — what shipped 2026-11-20
 
@@ -70,10 +78,12 @@ system UI stack. Three ways out, none taken without an owner:
   *Good for* → *Check before you buy* → sponsored CTA → source record link. No price figure,
   no star rating: `data/editorial.json → display` keeps them off every shop page.
 - **Why §4 existed at all**: 44 class names in the generated HTML had no CSS rule, and nine
-  custom properties used by the desk block were never declared (FLG-052). A page can be
-  factually perfect and still look generated because nobody styled the components.
+  custom properties used by the desk block were never declared (`FLG-052`). A page can be
+  factually perfect and still look generated because nobody styled the components. The class/var
+  and duplicate-id checks are now a CI step (`scripts/check_style.mjs`), so that failure cannot
+  return quietly; the *look* still needs a human (`SG-44`).
 
-## 5. Imagery policy — ours, or none (SG-04, SG-46, FLG-053)
+## 5. Imagery policy — ours, or none (SG-04, SG-56, FLG-076, FLG-077)
 
 - **Never copied, never AI-generated *product* photography.** Program Content images are
   licensed, not owned, and a synthetic picture of a real SKU would be a misleading claim
@@ -84,7 +94,9 @@ system UI stack. Three ways out, none taken without an owner:
 - Real photography arrives only with owner-shot or manufacturer-permitted images (SG-04),
   consistent lighting, kitchen context, and no staged "we tested this" implication unless the
   testing protocol (SG-09) becomes real.
-- Images are committed binaries; the determinism gate does not see them (FLG-054).
+- Images are committed binaries; the determinism gate does not see them (`FLG-077`), and a
+  drawing is a representation surface a reader can misread, which is why every caption is
+  load-bearing (`FLG-076`).
 
 ## 6. Seasons and clusters
 
@@ -93,7 +105,8 @@ system UI stack. Three ways out, none taken without an owner:
 - Seasonal copy is a **method**, not a promotion: "how to check a price claim", never
   "these five are on sale". A named limited-time promotion obliges us to take the page down
   the day it ends (FLG-059), and a static build has no expiry job.
-- Snapshot refresh is a standing duty, not a memory: see FLG-040 and FLG-056.
+- Snapshot refresh is a standing duty, not a memory: see `FLG-040` (ageing snapshots) and
+  `FLG-079` (the register's own date lagging a re-read).
 
 ## 7. Measurement before optimisation (Priority 4)
 
@@ -131,8 +144,12 @@ decision was made."
 ## 9. Open design questions
 
 1. Photography direction once SG-04 decides (lifestyle vs white-seamless).
-2. Whether the chooser grows a counter-depth input with units (SG-06).
-3. Custom domain vs `github.io` canonical (SG-02) — the design assumes the Pages URL.
-4. December gift-guide refresh cadence (SG-14) and the snapshot re-read clock (FLG-040).
-5. Q-31: can a reader mistake our drawing for the product? Two fresh eyes, then decide how
-   far the art system may go.
+2. Whether the chooser grows a counter-depth input with units (`SG-06`).
+3. Custom domain and canonical host (`SG-02`), and whether Pages publishes from the Actions build
+   so a failed gate blocks a release (`SG-43`) — the design assumes the Pages URL.
+4. The December gift-guide refresh cadence and the snapshot re-read clock (`FLG-040`), plus the
+   publish-date convention for new guides (`SG-59`, `FLG-080`).
+5. `Q-31`: can a reader mistake our drawing for the product? Two fresh eyes, then decide how far
+   the art system may go.
+6. Whether the type and artwork system gets a human visual QA before the next deploy (`SG-44`),
+   and what a "shop pass" would be measured by at all (`SG-60`).

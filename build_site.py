@@ -17,6 +17,18 @@ EVENTS = E["events"]["five"]
 CADENCE = E["cadence"]
 REQ_DISCLOSURE = "As an Amazon Associate I earn from qualifying purchases."
 PAGES = []          # slug, title, description, kind - drives sitemap, feed and the gate
+# Internal surfaces. Every one of them stays reachable from the footer and the review desk,
+# because the audit is part of the publication's honesty. None of them is a page a shopper
+# searched for, and each one competes with the buying pages for the same host, so they are
+# excluded from the sitemap and carry `noindex, follow`. Reader-facing notes that a *buyer*
+# benefits from - the register, the flagged list - stay indexed; see READER_AUDIT below.
+NOINDEX = {
+    "executive-summary.html", "suggestions.html", "design-brief.html", "methodology.html",
+    "review-desk.html", "dashboard.html", "search.html",
+}
+# These two are audit pages that a buyer may legitimately land on, so they stay indexable;
+# they are named here to make the choice explicit rather than implied by omission.
+READER_AUDIT = {"verification.html", "flagged.html", "compliance.html"}
 
 def esc(s): return html.escape(str(s), quote=True)
 def flaglinks(s):
@@ -79,6 +91,9 @@ GUIDE_CARDS = [
  ("guide-thermometer-accuracy.html","Thermometers - Accuracy","Instant-read or wireless? How to read accuracy claims",
   "+/-0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.","thermo",
   "Instant-read or wireless? How to read accuracy claims","What a stated tolerance, a named certification, a sensor count and 'unlimited range' do and do not prove - for a handheld and a wireless probe set."),
+ ("guide-instant-read-vs-wireless.html","Thermometers - Which type","Instant-read vs wireless thermometer: do you need both?",
+  "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure.","thermo",
+  "Instant-read vs wireless thermometer: do you need both?","A one-second handheld read versus three app-monitored probes - what the two listings we verified actually state, and what neither does."),
  ("guide-gift-picks.html","Seasonal","Holiday air fryer gifts: how to choose one that gets used",
   "The gift checklist that works without a price tag: depth, cleanup, one control panel they will actually learn.","gift",
   "Holiday air fryer gifts: how to choose one that gets used","Five questions that predict whether a gifted air fryer stays on the counter: depth, household size, cleanup, control panel and returns."),
@@ -98,7 +113,12 @@ GUIDES = [(s, ft, fd) for s, tag, t, d, m, ft, fd in GUIDE_CARDS]
 # against the register date: the two are different things (a guide can be written today
 # against listing data read last week). Kept in data/editorial.json -> dates.publish.
 PDATES = dict(E.get("dates", {}).get("publish", {}))
-def pdate(slug): return PDATES.get(slug, VERIFIED)
+def pdate(slug):
+    # A silent fallback to the register date once made every guide look published on the day the
+    # listings were read, which is a false claim about a page. Missing dates are a build failure.
+    if slug not in PDATES:
+        raise SystemExit(f"build refused: {slug} has no entry in data/editorial.json -> dates.publish")
+    return PDATES[slug]
 def art(pid, cls="prod-art"):
     f, alt = ART[pid]
     return (f'<span class="{cls}"><img src="{BASE}/assets/img/{f}" alt="{esc(alt)}" width="200" height="140" loading="lazy">'
@@ -116,6 +136,25 @@ def dims_of(p):
     if None in (d, w): return None
     return {"depth_in": d, "width_in": w, "height_in": h, "depth_cm": round(d * 2.54, 1),
             "height_cm": round(h * 2.54, 1) if h else None, "footprint_sqin": round(d * w, 1)}
+# Brand-art map. These are our own drawings of the appliance *type* - never a rendering of a
+# specific product, never a photograph, never Amazon's Program Content (FLG-041 / SG-04).
+# A drawing of a shape is not a claim about a unit's appearance, so it is not captioned as one.
+ART = {
+    "P1": ("air-fryer-dual", "Dual-basket air fryer, drawing"),
+    "P2": ("air-fryer-oven", "Countertop French-door oven, drawing"),
+    "P3": ("air-fryer-basket", "Single-basket air fryer, drawing"),
+    "P4": ("thermometer-instant", "Handheld instant-read thermometer, drawing"),
+    "P5": ("thermometer-wireless", "Wireless thermometer hub with probes, drawing"),
+}
+def art(pid, cls="prod-art", alt_override=None):
+    """Decorative by default: the card heading already names the product, so an alt string
+    that repeats it is noise for a screen reader. Pass alt_override only where the picture
+    carries information the text does not."""
+    name, label = ART[pid]
+    alt = esc(alt_override if alt_override is not None else "")
+    return (f'<div class="{cls}"><img src="{esc(BASE)}/assets/art/{name}.svg" alt="{alt}" '
+            f'width="320" height="240" loading="lazy" decoding="async"></div>')
+
 # Editorial reading of the listing. Every phrase below paraphrases a field on the linked
 # Amazon listing (attributed "per listing" in the copy) or says a figure is not shown there.
 POSITION = {
@@ -136,10 +175,24 @@ POSITION = {
            "headline": "The phone-watched setup"},
 }
 # ---------------------------------------------------------------- product card
+def capacity_row(p):
+    """A thermometer has no cavity, so "Capacity, as titled" followed by an em dash is a row
+    that tells the reader nothing. Say why the row is empty instead, in the reader's words.
+    This is the same placeholder problem as FLG-073, fixed at the point where it is read."""
+    cap = p.get("capacityTitle")
+    if cap not in ("", "\u2014", None):
+        return f"<div><dt>Capacity, as titled</dt><dd>{esc(cap)}</dd></div>"
+    kind = "handheld thermometer" if "handheld" in p.get("form", "").lower() else "wireless probe set"
+    return f"<div><dt>Capacity</dt><dd>Not applicable &mdash; a {kind} has no cooking cavity</dd></div>"
+
 def cta_note(p):
     return (f'Sponsored link &middot; opens Amazon &middot; as listed {VERIFIED} &middot; '
             f'<a href="verification.html#{p["id"]}">source record</a>')
-def product_card(pid, bullets_n=3, detailed=False):
+def product_card(pid, bullets_n=3, detailed=False, level=3):
+    """`level` keeps the heading outline honest: a card directly under an <h1> is an h2, and a
+    card under a section <h2> is an h3. Shipping every card as h3 was a real outline break on
+    five pages (the structure check caught it)."""
+    h = f"h{level}"
     p = PRODS[pid]; pos = POSITION[pid]; dm = dims_of(p)
     bl = "".join(f"<li>{esc(b)}</li>" for b in p["bullets"][:bullets_n])
     dims = esc(p["dimensions"]) if p["dimensions"] else "not shown in the fields we captured"
@@ -157,12 +210,12 @@ def product_card(pid, bullets_n=3, detailed=False):
   {art(pid)}
   <div class="prod-head">
     <span class="chip">{esc(p['form'])}</span>
-    <h3>{esc(p['shortName'])}</h3>
+    <{h}>{esc(p['shortName'])}</{h}>
     <p class="prod-sub">{esc(pos['headline'])} &middot; {esc(p['category'])}</p>
     {money}{rating}
   </div>
   <dl class="specs">
-    <div><dt>Capacity, as titled</dt><dd>{esc(p['capacityTitle'])}</dd></div>
+    {capacity_row(p)}
     <div><dt>Footprint on the listing</dt><dd>{dims}</dd></div>
     {footprint}{height}{power}
     <div><dt>Features, as listed</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
@@ -175,19 +228,45 @@ def product_card(pid, bullets_n=3, detailed=False):
   <p class="fine">{cta_note(p)}</p>
 </article>"""
 # ---------------------------------------------------------------- chrome
-NAV = f"""<nav class="nav" aria-label="Main">
-  <a href="air-fryers.html">Air fryers</a>
-  <a href="thermometers.html">Thermometers</a>
-  <a href="compare.html">Compare</a>
-  <a href="guides.html">Guides</a>
-  <a href="about.html">About</a>
-  <a href="review-desk.html" class="nav-desk">Review desk</a>
-</nav>
-<form class="searchbox" id="site-search-form" role="search">
+# --- navigation: one reader group; the active page is marked, not guessed by the reader
+NAV_LINKS = [
+    ("air-fryers.html", "Air fryers", ("air-fryers.html", "guide-basket-vs-oven.html", "guide-capacity-checklist.html")),
+    ("thermometers.html", "Thermometers", ("thermometers.html", "guide-thermometer-accuracy.html")),
+    ("compare.html", "Compare", ("compare.html",)),
+    ("guides.html", "Guides", ("guides.html",)),
+    ("about.html", "About", ("about.html",)),
+]
+def nav(slug, prefix=""):
+    """One reader group plus the desk link. `prefix` is the absolute base for in-page anchors
+    on consolidated pages, which are served from a build that does not share this nav state."""
+    out = ['<nav class="nav" aria-label="Main">']
+    for href, label, owns in NAV_LINKS:
+        cur = ' aria-current="page"' if slug in owns else ""
+        out.append(f'  <a href="{prefix}{href}"{cur}>{label}</a>')
+    cur = ' aria-current="page"' if slug in ("review-desk.html", "verification.html", "flagged.html",
+                                            "suggestions.html", "methodology.html", "compliance.html",
+                                            "executive-summary.html", "design-brief.html") else ""
+    out.append(f'  <a href="{prefix}review-desk.html" class="nav-desk"{cur}>Review desk</a>')
+    out.append('</nav>')
+    out.append(f'''<form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
   <input id="site-search-input" type="search" placeholder="Search specs, guides" aria-label="Search the site">
   <button class="btn small secondary" type="submit">Search</button>
-</form>"""
+</form>''')
+    return "\n".join(out)
+ISSUE = E.get("contentDate", VERIFIED)   # page date, not evidence date - see editorial.json
+def issue_bar(slug):
+    """A publication says what issue it is and when it was last read. Generated from the same
+    date the register uses, so the line cannot drift from the data it describes."""
+    y, mo, d = ISSUE.split("-")
+    months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    label = f"{int(d)} {months[int(mo)-1]} {y}"
+    return f'''<div class="issue-bar"><div class="issue-inner">
+<span class="issue-vol">{esc(BRAND)} &middot; Issue of {label}</span>
+<span class="issue-note">Specs read from the Amazon listing, dated on every page &middot; no fake testing</span>
+<a class="issue-link" href="methodology.html">How we work</a>
+</div></div>'''
+
 STRIP = (f'<div class="disclosure-strip" role="note"><span class="disclosure-req">{REQ_DISCLOSURE}</span> '
          f'&middot; We are paid when a reader buys after clicking, which is why the specs, not hype, are the point. '
          f'<a href="about.html#money">How this site works</a></div>')
@@ -247,7 +326,8 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
                "url": abs_url(slug), "inLanguage": "en-US", "description": desc})
     ldscripts = "".join(jsonld(x) for x in ld)
     ogimg = BASE + "/assets/og-image.png"
-    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon})
+    PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon,
+                  "indexable": not (slug in NOINDEX and not canonical)})
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -256,6 +336,7 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{esc(canon)}">
+{('<meta name="robots" content="noindex, follow">' if (slug in NOINDEX and not canonical) else '')}
 <meta name="theme-color" content="#1F2937">
 <meta property="og:site_name" content="{esc(BRAND)}">
 <meta property="og:title" content="{esc(title.split(' | ')[0])}">
@@ -281,8 +362,9 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <a class="skip" href="#main">Skip to content</a>
 <header class="masthead"><div class="masthead-inner">
 <a class="brand" href="{esc(BASE)}/index.html">{esc(BRAND).replace('Guide', '<span>Guide</span>')}</a>
-{NAV}
+{nav(slug)}
 </div></header>
+{issue_bar(slug)}
 {STRIP}
 <main id="main" class="wrap">
 {body}
@@ -387,7 +469,7 @@ TOPICS = [
      "hooks": "Listing form fields and dimensions (P1, P2, P3); derived footprint math",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
     {"n": "10", "title": "Instant-read vs wireless thermometer: do you need both?", "cat": "Thermometers",
-     "status": "Planned", "href": "topics.html#t10",
+     "status": "Published", "href": "guide-instant-read-vs-wireless.html",
      "angle": "One-second handheld reads versus app-monitored probes: when each type earns its place, and what the accuracy claims do and do not prove.",
      "hooks": "ThermoMaven tolerance and certification (P4); CHEF iQ sensor count, range and probe count (P5)",
      "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])]},
@@ -469,9 +551,9 @@ index_body = f"""
 
 <h2 id="picks">Quick picks, straight from the listings</h2>
 <div class="grid cols-3">
-  <article class="pick"><span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick"><span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick"><span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
+  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
+  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
+  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
 </div>
 <p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 
@@ -486,8 +568,18 @@ index_body = f"""
 
 <h2>Fresh from the desk</h2>
 <div class="grid cols-3">
-{FRESH}</div>
-<p class="section-more"><a href="guides.html">All {GUIDE_N} guides</a> &middot; <a href="topics.html">the topic calendar</a> &middot; <a href="suggestions.html">ask the desk for a topic</a></p>
+  <article class="card"><span class="tag">Form factor</span><h3><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer: what should you compare?</a></h3><p>Two dishes at once, crowd capacity, counter depth - decided with the three fryers on this page.</p></article>
+  <article class="card"><span class="tag">Capacity</span><h3><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer capacity</a></h3><p>Quarts vs litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p></article>
+  <article class="card"><span class="tag">Seasonal</span><h3><a href="guide-gift-picks.html">Holiday air fryer gifts: how to choose one that gets used</a></h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p></article>
+</div>
+<p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-thermometer-accuracy.html">Thermometer accuracy claims</a> &middot; <a href="suggestions.html">Ask for a topic</a></p>
+
+<h2>Latest from the desk</h2>
+<div class="latest">
+  <a class="latest-item" href="guide-instant-read-vs-wireless.html"><span class="latest-date">This week</span><strong>Instant-read vs wireless thermometer: do you need both?</strong><span>Two tools, two jobs - and one listing that never states an accuracy figure.</span></a>
+  <a class="latest-item" href="guide-capacity-checklist.html"><span class="latest-date">Capacity</span><strong>A no-hype checklist for comparing air fryer capacity</strong><span>Quarts, litres and what &ldquo;feeds 4-6&rdquo; is actually claiming.</span></a>
+  <a class="latest-item" href="guide-wattage-outlets.html"><span class="latest-date">Circuits</span><strong>Will it trip the breaker? Wattage and outlet math</strong><span>1000W against 1700W on a 120V kitchen circuit, with the conflict shown.</span></a>
+</div>
 {topic_band()}
 
 <h2>Why the numbers here match the listing</h2>
@@ -505,7 +597,7 @@ af_body = f"""
 <h1>Three air fryers, three different jobs</h1>
 <p class="lede">One cooks two dishes at once, one feeds a family and roasts a chicken, one disappears into a shallow counter. Pick the job first, then check the depth - it is the number that ends most returns. Specs below are quoted from each listing, with the link.</p>
 <div class="callout"><strong>Short version:</strong> two dishes at once &rarr; <a href="#P1">Chefman 6QT dual</a>. Four to six people, rotisserie, pizza &rarr; <a href="#P2">Emeril 26QT</a>. Limited depth, one big batch &rarr; <a href="#P3">Chefman 8QT basket</a>.</div>
-<div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
+<div class="grid cols-3">{product_card('P1',level=2)}{product_card('P2',level=2)}{product_card('P3',level=2)}</div>
 <h2>The spec table</h2>
 <div class="table-scroll"><table>
 <tr><th>Field</th><th>Chefman 6QT Dual-Basket<br>B0CDY277D3</th><th>Emeril 26QT French-Door<br>B09B7SB46R</th><th>Chefman 8QT TurboFry<br>B08DKYBTPH</th></tr>
@@ -538,7 +630,7 @@ th_body = f"""
 <h1>Instant-read or wireless? It is a distance question</h1>
 <p class="lede">If you stand at the grill, a one-second handheld read is all you need. If you cook a brisket for six hours while doing something else, you want probes that phone you. Accuracy claims below are quoted from the listing with the certification named - we have not calibrated either unit, and we say so where it matters.</p>
 <div class="callout"><strong>Short version:</strong> fast checks and candy &rarr; <a href="#P4">ThermoMaven instant-read</a>. Long cooks, multiple proteins, alerts at the other end of the house &rarr; <a href="#P5">CHEF iQ Sense</a>.</div>
-<div class="grid cols-2">{product_card('P4')}{product_card('P5')}</div>
+<div class="grid cols-2">{product_card('P4',level=2)}{product_card('P5',level=2)}</div>
 <h2>The spec table</h2>
 <div class="table-scroll"><table>
 <tr><th>Field</th><th>ThermoMaven Instant-Read<br>B0DHZTCNR5</th><th>CHEF iQ Sense Wireless<br>B0DZFD6R9Z</th></tr>
@@ -553,8 +645,11 @@ th_body = f"""
 <tr><td>Dimensions</td><td><span class="badge-flag">Not stated on the listing &mdash; <a href="flagged.html#FLG-004">FLG-004</a></span></td><td><span class="badge-flag">Not stated on the listing &mdash; <a href="flagged.html#FLG-004">FLG-004</a></span></td></tr>
 <tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">Amazon listing</a></td></tr>
 </table></div>
-<h2>Guide</h2>
-<ul><li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims without being misled</a></li></ul>
+<h2>Guides for thermometer buyers</h2>
+<ul>
+<li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims</a></li>
+<li><a href="guide-instant-read-vs-wireless.html">Instant-read vs wireless thermometer: do you need both?</a></li>
+</ul>
 <p><a class="btn secondary" href="compare.html">Compare with air fryers</a></p>
 """
 page_to("thermometers.html","Instant-read vs wireless thermometers | Countertop Guide","ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as listed, probes, range and care.",th_body)
@@ -602,9 +697,19 @@ GUIDE_GRID = "\n".join(
 guides_body = f"""
 <p class="eyebrow">Guides &middot; {GUIDE_N} published</p>
 <h1>Question-shaped guides, answered from the listing</h1>
-<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. Nothing here claims a product is popular, and nothing claims anyone cooked with it.</p>
+<p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or trend claims without a dated snapshot.</p>
+<h2>Ten guides, three clusters</h2>
 <div class="grid cols-2">
-{GUIDE_GRID}
+<article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Space &amp; cleanup</span><h3>How to assess cleanup and counter-space trade-offs</h3><p>Dishwasher-safe baskets, footprint math, and capacity per centimetre of counter depth.</p><p><a class="btn small" href="guide-cleanup-counter-space.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Multi-function</span><h3>Questions to ask before buying a multi-function kitchen appliance</h3><p>Presets, accessories, wattage and warranty - the pre-purchase checklist, applied to the Emeril oven.</p><p><a class="btn small" href="guide-multifunction-questions.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Thermometers - Accuracy</span><h3>Instant-read or wireless? How to read accuracy claims</h3><p>+/-0.5F, NIST/NSF, sensor counts and range - what each claim does and does not prove.</p><p><a class="btn small" href="guide-thermometer-accuracy.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that works without a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a class="btn small" href="guide-gift-picks.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Hosting</span><h3>The holiday hosting test: which air fryer actually feeds a crowd?</h3><p>Capacity claims, a 6-lb rotisserie chicken, 12-inch pizzas - and the counter-depth number that decides fit in December.</p><p><a class="btn small" href="guide-holiday-hosting.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Budget</span><h3>Kitchen gifts under $25, under $80 and under $150</h3><p>Budget bands mapped to the five verified picks, with each listing's own gift claims quoted, not invented.</p><p><a class="btn small" href="guide-gifts-by-budget.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Thermometers - Buying</span><h3>Instant-read vs wireless thermometer: do you need both?</h3><p>Two tools, two jobs. What each listing states - and the one that states no accuracy figure at all.</p><p><a class="btn small" href="guide-instant-read-vs-wireless.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Air fryers - Specs</span><h3>Will it trip the breaker? Wattage and outlet math for air fryers</h3><p>1000W or 1700W? One of our listings answers that question two different ways - here is how to check yours.</p><p><a class="btn small" href="guide-wattage-outlets.html">Read guide</a></p></article>
 </div>
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
@@ -717,8 +822,9 @@ exec_body = f"""
 <h1>What is live, what is verified, what needs your decision</h1>
 <p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
 
+<h2>The state of the publication</h2>
 <div class="grid cols-3">
-  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, nine question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Live</span><h3>1 publication, @@PAGE_N@@ pages</h3><p>Front page, two category hubs, a @@PRODUCT_N@@-product comparison with a three-question chooser, @@GUIDE_N@@ question-shaped guides, a topic calendar, and the review desk. One sitemap of 20 buying URLs, one feed, one canonical host; the seven internal surfaces carry <code>noindex</code> (<a href="flagged.html#FLG-069">FLG-070</a>).</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on {VERIFIED}, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
   <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
 </div>
@@ -726,11 +832,11 @@ exec_body = f"""
 <h2>The five products</h2>
 <div class="table-scroll"><table>
 <tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Verified from the listing</th><th>Listing</th></tr>
-<tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets</td><td><a href="https://www.amazon.com/dp/B0CDY277D3">B0CDY277D3</a></td></tr>
-<tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets, wattage (warranty period not stated)</td><td><a href="https://www.amazon.com/dp/B09B7SB46R">B09B7SB46R</a></td></tr>
-<tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets</td><td><a href="https://www.amazon.com/dp/B08DKYBTPH">B08DKYBTPH</a></td></tr>
-<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>title, accuracy claim, features, bullets (dimensions not captured in our reads)</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a></td></tr>
-<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>title, sensors, features, bullets (dimensions and tolerance figure not captured in our reads)</td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a></td></tr>
+<tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets <span class="fine">re-read 2026-11-20</span></td><td><a href="https://www.amazon.com/dp/B0CDY277D3">B0CDY277D3</a></td></tr>
+<tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets, wattage (warranty period not stated) <span class="fine">re-read 2026-11-20</span></td><td><a href="https://www.amazon.com/dp/B09B7SB46R">B09B7SB46R</a></td></tr>
+<tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets <span class="fine">re-read 2026-11-20</span></td><td><a href="https://www.amazon.com/dp/B08DKYBTPH">B08DKYBTPH</a></td></tr>
+<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>title, accuracy claim, features, bullets, item length 6.5 in; rating 4.6 (3,499) (full dimensions not stated) <span class="fine">re-read 2026-11-20</span></td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a></td></tr>
+<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>title, sensors, features, bullets (dimensions and tolerance figure not stated) <span class="fine">re-read 2026-11-20</span></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a></td></tr>
 </table></div>
 <p class="fine">Tracking ID <code>{TAG}</code>. Outbound format <code>https://www.amazon.com/dp/ASIN?tag={TAG}</code>. The supplied <code>link.amazon</code> short links are recorded as submitted, with their observed redirects in a separate field; they are not used as buttons.</p>
 
@@ -750,16 +856,28 @@ exec_body = f"""
 </table></div>
 
 <h2>How money and measurement work</h2>
-<p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because no endpoint is hosted. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
-<p>Every count on this page is read from the build, not remembered: <strong>@@PAGE_N@@</strong> pages, <strong>@@GUIDE_N@@</strong> guides, <strong>@@TOPIC_N@@</strong> calendar topics, <strong>@@FLAG_N@@</strong> rows on the flag list, <strong>@@SG_N@@</strong> suggestions and <strong>@@Q_N@@</strong> questions on the decision desk.</p>
+<p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because the self-hosted endpoint - code-complete with a CI-tested five-event contract - is not hosted yet. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
+<p class="fine">See <a href="methodology.html">Method &amp; campaign ledger</a> for the event contract, the endpoint self-test and the ledger rules.</p>
 
-<h2>What the 2026-11-20 passes changed</h2><ul>
+<h2>What the 2026-11-20 pass changed</h2>
+<ul>
+<li><strong>The type the design always specified now actually loads.</strong> The stylesheet named Fraunces and Inter; neither file existed, so every page rendered in Georgia and the system UI font. Four self-hosted latin variable fonts (182 KB total, SIL Open Font License 1.1, licences committed alongside) now render the site (<a href="flagged.html#FLG-069">FLG-070</a>).</li>
+<li><strong>Original brand art on every product card.</strong> Five line drawings of the appliance <em>types</em>, drawn for this site. No photograph, no Amazon image, no rendering of a specific unit &mdash; the imagery rule the site set for itself still holds.</li>
+<li><strong>Navigation tells you where you are.</strong> The header marks the current section, and the stylesheet rule that was written for it is finally used (<a href="flagged.html#FLG-071">FLG-071</a>).</li>
+<li><strong>The calendar produced a page.</strong> The queued 2026-12-08 topic is published as <a href="guide-instant-read-vs-wireless.html">guide 10</a>, and it moved in the calendar, the sitemap and the RSS feed in the same commit, so those three cannot disagree.</li>
+<li><strong>The sitemap is now the shop, not the audit.</strong> Seven internal surfaces moved to <code>noindex, follow</code>; the register, the flagged list and the compliance page stay indexed for the buyer who wants the source (<a href="flagged.html#FLG-069">FLG-070</a>).</li>
+<li><strong>The site is not claimed to have been looked at.</strong> No browser could be installed in this environment, so there is no screenshot review in this pass. <code>scripts/verify_structure.mjs</code> proves the documents parse, that every asset and font file the HTML names exists, that headings are ordered and that images declare dimensions &mdash; and says in its own header that this is a structural proof, not a visual one. The full working record, including the two failed browser installs, is <code>review/62786810/VERIFICATION.md</code>.</li>
+<li><strong>Five decisions are written so they can be settled in one sitting</strong> (<a href="suggestions.html#suggestions">SG-49 to SG-53</a>), plus five new questions (<a href="suggestions.html#Q-33">Q-33 to Q-37</a>) covering the things this build cannot answer from inside the repository.</li>
+</ul>
+
+<h2>What earlier passes changed</h2>
+<ul>
 <li><strong>The site now looks designed, because the styles exist.</strong> The build was emitting 44 CSS classes with no rule and referencing 9 undefined custom properties, so cards, hero columns and status chips rendered as plain blocks. All of it is styled, and <code>scripts/check_style.mjs</code> fails the build if an unstyled class returns (<a href="flagged.html#FLG-052">FLG-052</a>).</li>
 <li><strong>Broken markup repaired.</strong> Three suggestion rows had malformed class attributes, so their status badges and row text never rendered (<a href="flagged.html#FLG-053">FLG-053</a>).</li>
 <li><strong>The social card is readable.</strong> The shared-link image had text overlapping the subtitle and captions hidden under the footer; <code>make_og.py</code> now measures each block and asserts clearance (<a href="flagged.html#FLG-054">FLG-054</a>).</li>
-<li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-063">FLG-063</a>).</li>
+<li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-078">FLG-078</a>).</li>
 <li><strong>Search metadata fits.</strong> Five titles and descriptions that would truncate in results were rewritten; the metadata gate now reports zero warnings.</li>
-<li><strong>Re-verified {VERIFIED}.</strong> Every listing was re-read line by line on {VERIFIED}; the volatile figures that drifted (P1 rating count and used price, P2 rating count) were corrected in the register, and the new <a href="flagged.html#FLG-060">FLG-060</a> records the pass and its scope. Full evidence: <code>review/1b65e5a1/VERIFICATION.md</code>.</li>
+<li><strong>Re-verified {VERIFIED}.</strong> Every listing was re-read line by line on {VERIFIED}; the volatile figures that drifted (P1 rating count and used price, P2 rating count) were corrected in the register, and the new <a href="flagged.html#FLG-067">FLG-060</a> records the pass and its scope. Full evidence: <code>review/1b65e5a1/VERIFICATION.md</code>.</li>
 <li><strong>Two decision rows added.</strong> The desk now carries <a href="suggestions.html#SG-44">SG-44</a> (visual QA of the styled shop before the next deploy) and <a href="suggestions.html#SG-45">SG-45</a> (goal-based intent landings built only from verified fields).</li>
 <li><strong>Original artwork, ours.</strong> Five line drawings of the appliance <em>forms</em> (dual basket, French door, single basket, handheld, wireless probes) sit on the product cards and tiles, with a commissioned illustration opening the front page. Every one is captioned as our drawing, not product photography; no Amazon image is stored, linked or imitated. Product photographs remain gated by SG-04.</li>
 <li><strong>Three guides shipped</strong> from the topic calendar: <a href="guide-counter-height.html">counter height and cabinet fit</a>, <a href="guide-accessories-in-box.html">what is actually in the box</a>, and <a href="guide-price-check.html">how to check a price claim</a>. The guide list is now one source of truth: the same data builds the guides index, the front-page module, the footer column and the RSS feed, and the build fails if they disagree.</li>
@@ -798,7 +916,7 @@ sugg_body = f"""
 <div class="grid cols-3">
   <article class="card path"><span class="chip">Path A</span><h3>Earn trust, then traffic</h3><p>Ship the honest-shop polish: link-only pricing with better CTAs, a real comparison tool, the &ldquo;what the listing does not say&rdquo; boxes, and the review desk kept out of the reader&rsquo;s way.</p><ul><li>SG-19, SG-20, SG-21, SG-25, SG-29</li></ul><p class="fine">Cost: mostly copy and one build. Needs no new accounts. Unblocks: nothing external, everything internal.</p></article>
   <article class="card path"><span class="chip">Path B</span><h3>Get found, then write to what arrives</h3><p>One canonical site, real Search Console data, per-page metadata, structured data, internal-link spine and a weekly cadence, so the next topic is chosen from queries rather than instinct.</p><ul><li>SG-02, SG-22, SG-23, SG-26, SG-30, SG-32</li></ul><p class="fine">Cost: low build work + owner access to Search Console and Associates Central. Needs ~4 weeks before data is meaningful.</p></article>
-  <article class="card path"><span class="chip">Path C</span><h3>Look like a magazine, not a spreadsheet</h3><p>The visual overhaul: component CSS for the parts the stylesheet never styled, our own illustration system, tighter headlines and a voice pass over every article.</p><ul><li>Shipped 2026-11-20: SG-31, SG-36, SG-46 (the coverage gate), SG-51</li><li>Still open: SG-24, SG-27, SG-28, SG-33, SG-44 (visual QA of the styled shop), SG-47 (typefaces), SG-04</li></ul><p class="fine">Cost: the highest design effort, and the only path that can go wrong visually. Product photography stays gated by SG-04; the drawings shipped instead because they are ours.</p></article>
+  <article class="card path"><span class="chip">Path C</span><h3>Look like a magazine, not a spreadsheet</h3><p>The visual overhaul: component CSS for the parts the stylesheet never styled, our own illustration system, tighter headlines and a voice pass over every article.</p><ul><li>Shipped 2026-11-20: SG-31, SG-36, SG-54 (the coverage gate, now a CI step), SG-59</li><li>Still open: SG-24, SG-27, SG-28, SG-33, SG-44 (visual QA of the styled shop), SG-55 (typefaces, largely settled by the self-hosted Fraunces/Inter pass), SG-04</li></ul><p class="fine">Cost: the highest design effort, and the only path that can go wrong visually. Product photography stays gated by SG-04; the drawings shipped instead because they are ours.</p></article>
 </div>
 <p class="section-more">Our recommendation, stated plainly: <strong>Path B, and nothing else until Path B has 28 days of data.</strong> The non-imagery half of C shipped on 2026-11-20 (component CSS, our own artwork, headline and date hygiene), so the visual argument is no longer the bottleneck; the bottleneck is that no session here has seen a single real query. Photography stays gated by SG-04, because a licence problem is a bigger loss than a plain-looking page. To use this board: pick a row, export the sheet, and paste it into <code>docs/decisions.md</code> - an approval that is not written down is not an approval.</p>
 
@@ -820,7 +938,7 @@ sugg_body = f"""
 <tr><th>#</th><th>Suggestion</th><th>Why it matters</th><th>Evidence needed</th><th>Effort</th><th>Status</th></tr>
 <tr id="SG-01"><td>SG-01</td><td>Validate one Special Link per product in Associates Central (SiteStripe) and confirm destination + tracking report</td><td>Proves outbound links earn correctly before scaling</td><td>Associates Central test clicks + report screenshots</td><td>Low (manual)</td><td><span class="badge-warn">Needs decision - gate</span></td></tr>
 <tr id="SG-02"><td>SG-02</td><td>Set canonical domain + Search Console + sitemap submission</td><td>One site to index; measured queries drive next topics</td><td>Domain choice; Search Console property</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr id="SG-03"><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr id="SG-03"><td>SG-03</td><td>Deploy self-hosted analytics endpoint (5 events) + weekly ledger review</td><td>Turns clicks into decisions without third-party trackers</td><td>Hosting choice; retention policy (contract code-complete and CI-gated 2026-11-20: one five-event taxonomy across client, server and site, endpoint self-test green; only the host is missing)</td><td>Medium</td><td><span class="badge-warn">Partly done - hosting decision open</span></td></tr>
 <tr id="SG-04"><td>SG-04</td><td>Licensed product photography (own photos or manufacturer permission)</td><td>Real photos convert; copied Amazon images risk IP breach</td><td>Licence / permission letters</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
 <tr id="SG-05"><td>SG-05</td><td>Holiday gift guides built from verified specs, no dated price claims</td><td>Seasonal organic traffic; gift intent converts</td><td>Gift-angle verification per listing</td><td>Low</td><td><span class="badge-ok">Published 2026-11-19 (guide-gift-picks.html)</span></td></tr>
 <tr id="SG-06"><td>SG-06</td><td>Chooser expansion (budget slider, counter-depth input)</td><td>Better decision support without fake testing</td><td>Usability feedback</td><td>Low</td><td>Proposed</td></tr>
@@ -846,14 +964,15 @@ sugg_body = f"""
 <tr id="SG-41"><td>SG-41</td><td>Trust bar under masthead: &quot;every fact sourced - see the register&quot; one-liner linking to verification.html on all pages</td><td>Turns the audit strength into a shopper-facing promise without leading with process</td><td>None</td><td>Low</td><td><span class="badge-ok">Shipped in this pass</span></td></tr>
 <tr id="SG-42"><td>SG-42</td><td>Decide disclosure wording: verbatim Operating Agreement §5 or site-named variant</td><td>§5 requires "As an Amazon Associate I earn from qualifying purchases." or a substantially similar previously allowed statement</td><td>Compliance review of current variant</td><td>Low</td><td>Resolved 2026-11-19: verbatim wording adopted</td></tr>
 <tr id="SG-43"><td>SG-43</td><td>Switch the Pages build source from &ldquo;deploy from branch&rdquo; to GitHub Actions, so a gate failure can block a publish rather than only marking the commit red</td><td>Today the deploy workflow builds, checks and gates, and then skips publishing because the repository&rsquo;s Pages source is the branch; the site is served from whatever is committed to <code>main</code>. Artifact publishing makes the two gates load-bearing.</td><td>Owner action in Settings &rarr; Pages &rarr; Build source (the token in this session cannot: <code>gh api -X PUT /repos/&hellip;/pages</code> returned 403 &ldquo;Resource not accessible by integration&rdquo;, observed 2026-11-19)</td><td>Low</td><td><span class="badge-warn">Needs owner action</span></td></tr>
-<tr id="SG-46"><td>SG-46</td><td>Give the component layer a stylesheet of its own and a build-time check that every class used in a page has a rule <span class="badge-ok">shipped by another session on 2026-11-20: <code>scripts/check_style.mjs</code> now fails the build on a class with no rule, an undefined <code>var()</code>, or a duplicate id</span></td><td>The pages read as generated because 44 class names in the markup had no CSS at all, and nine custom properties were referenced but never declared. The content was fine; the skin was missing. A check makes that impossible to re-introduce quietly</td><td>None - it is a diff and a script</td><td>Low</td><td><span class="badge-ok">Shipped 2026-11-20: the component layer and <code>scripts/check_style.mjs</code></span></td></tr>
-<tr id="SG-47"><td>SG-47</td><td>Decide the typography question honestly: keep the local serif stack, or self-host a subsetted Fraunces/Inter</td><td>The design tokens name faces the pages never loaded, so the intended look silently became Georgia-and-system-ui. Loading a CDN font fixes the look and starts sending reader IPs to a third party, which the site&rsquo;s own privacy line does not currently cover</td><td>The licence text of each family (verify on the project page, not in a tutorial), the subset size, and one sentence on <code>about.html</code> if a third party is added</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
-<tr id="SG-48"><td>SG-48</td><td>Keep the artwork system to forms and diagrams, never to food results or "this is the machine" renders</td><td>A drawing that looks like a product photo is a representation problem, not a style problem: a reader may believe we photographed the unit. Our line drawings are labelled "our drawing" on the card, and the hero caption says plainly that it is not product photography</td><td>Two reader checks (can a stranger say what the picture is claiming?); the misleading-representation clause read against the current Program Policies</td><td>Low</td><td><span class="badge-ok">Shipped 2026-11-20 with the labels; the reader check is open</span></td></tr>
-<tr id="SG-49"><td>SG-49</td><td>Add a 90-word "print me" block to each guide: the checklist, the numbers, the two questions to ask a seller</td><td>Guides that end in a decision are the ones people return to and link to. A compact block is also the only part of an affiliate page that earns a citation</td><td>None - editorial work on pages that already exist</td><td>Low per guide</td><td>Proposed</td></tr>
-<tr id="SG-50"><td>SG-50</td><td>Publish the decision-sheet export into <code>docs/decisions.md</code> on a weekly slot, with the reviewer&rsquo;s name and date</td><td>The board has had 43+ suggestions and 27 questions since 2026-11-19 with no recorded approvals. A board nobody answers becomes decoration, and agents keep re-litigating the same rows</td><td>Owner: 20 minutes weekly; one commit per slot</td><td>Low</td><td><span class="badge-warn">Needs decision - this is the gate on everything else</span></td></tr>
-<tr id="SG-51"><td>SG-51</td><td>Keep publish dates separate from verification dates, in data, not in prose</td><td>A guide written today against a listing read last week used to present both as the same date. <code>dates.publish</code> now feeds the Article markup, the feed and the byline, so the two cannot be confused by a machine either</td><td>None - shipped, keep it in review when a guide is amended</td><td>Done</td><td><span class="badge-ok">Shipped 2026-11-20</span></td></tr>
-<tr id="SG-52"><td>SG-52</td><td>Define what "reads like a shop" will be measured by before the next design pass</td><td>Gates can check disclosure, sponsored marking, price policy and voice; they cannot see hierarchy or rhythm. Without a stated measure, every future redesign claims success by taste - including this one</td><td>Three candidate checks are on the board: time to first product link, share of readers reaching a CTA, and outbound clicks per 100 page views from the local counter once a host exists</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr id="SG-54"><td>SG-54</td><td>Give the component layer a stylesheet of its own and a build-time check that every class used in a page has a rule <span class="badge-ok">shipped by another session on 2026-11-20: <code>scripts/check_style.mjs</code> now fails the build on a class with no rule, an undefined <code>var()</code>, or a duplicate id</span></td><td>The pages read as generated because 44 class names in the markup had no CSS at all, and nine custom properties were referenced but never declared. The content was fine; the skin was missing. A check makes that impossible to re-introduce quietly</td><td>None - it is a diff and a script</td><td>Low</td><td><span class="badge-ok">Shipped 2026-11-20: the component layer and <code>scripts/check_style.mjs</code></span></td></tr>
+<tr id="SG-55"><td>SG-55</td><td>Decide the typography question honestly: keep the local serif stack, or self-host a subsetted Fraunces/Inter</td><td>The design tokens name faces the pages never loaded, so the intended look silently became Georgia-and-system-ui. Loading a CDN font fixes the look and starts sending reader IPs to a third party, which the site&rsquo;s own privacy line does not currently cover</td><td>The licence text of each family (verify on the project page, not in a tutorial), the subset size, and one sentence on <code>about.html</code> if a third party is added</td><td>Low</td><td><span class="badge-warn">Needs decision</span></td></tr>
+<tr id="SG-56"><td>SG-56</td><td>Keep the artwork system to forms and diagrams, never to food results or "this is the machine" renders</td><td>A drawing that looks like a product photo is a representation problem, not a style problem: a reader may believe we photographed the unit. Our line drawings are labelled "our drawing" on the card, and the hero caption says plainly that it is not product photography</td><td>Two reader checks (can a stranger say what the picture is claiming?); the misleading-representation clause read against the current Program Policies</td><td>Low</td><td><span class="badge-ok">Shipped 2026-11-20 with the labels; the reader check is open</span></td></tr>
+<tr id="SG-57"><td>SG-57</td><td>Add a 90-word "print me" block to each guide: the checklist, the numbers, the two questions to ask a seller</td><td>Guides that end in a decision are the ones people return to and link to. A compact block is also the only part of an affiliate page that earns a citation</td><td>None - editorial work on pages that already exist</td><td>Low per guide</td><td>Proposed</td></tr>
+<tr id="SG-58"><td>SG-58</td><td>Publish the decision-sheet export into <code>docs/decisions.md</code> on a weekly slot, with the reviewer&rsquo;s name and date</td><td>The board has carried @@SG_N@@ suggestions and @@Q_N@@ questions since 2026-11-19 with no recorded approvals. A board nobody answers becomes decoration, and agents keep re-litigating the same rows</td><td>Owner: 20 minutes weekly; one commit per slot</td><td>Low</td><td><span class="badge-warn">Needs decision - this is the gate on everything else</span></td></tr>
+<tr id="SG-59"><td>SG-59</td><td>Keep publish dates separate from verification dates, in data, not in prose</td><td>A guide written today against a listing read last week used to present both as the same date. <code>dates.publish</code> now feeds the Article markup, the feed and the byline, so the two cannot be confused by a machine either</td><td>None - shipped, keep it in review when a guide is amended</td><td>Done</td><td><span class="badge-ok">Shipped 2026-11-20</span></td></tr>
+<tr id="SG-60"><td>SG-60</td><td>Define what "reads like a shop" will be measured by before the next design pass</td><td>Gates can check disclosure, sponsored marking, price policy and voice; they cannot see hierarchy or rhythm. Without a stated measure, every future redesign claims success by taste - including this one</td><td>Three candidate checks are on the board: time to first product link, share of readers reaching a CTA, and outbound clicks per 100 page views from the local counter once a host exists</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
 </table></div>
+
 
 <h2>New suggestions from this pass</h2>
 <p>Each card is written so a decision can be made from it alone: what a buyer would feel, what the alternative costs, and what evidence has to arrive first.</p>
@@ -1052,7 +1171,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-11"><td>Q-11</td><td>What is the site's editorial voice, and what will it never claim?</td><td>No testing / popularity / superlative claims today; voice statement is proposed</td><td>Owner sign-off on the voice statement</td><td>Review voice rules on design-brief.html</td><td>All content (SG-13, SG-14)</td></tr>
 <tr id="Q-12"><td>Q-12</td><td>Should the homepage lead with the comparison and chooser?</td><td>Current homepage leads with categories then data</td><td>Layout preference; impact on conversion vs. trust</td><td>Review homepage layout option in the brief</td><td>Homepage redesign (SG-16)</td></tr>
 <tr id="Q-13"><td>Q-13</td><td>Who are the named authors, and what bios go with them?</td><td>Guides currently say \"The Countertop Guide editorial team\"</td><td>Author identity and bio wording</td><td>Owner provides names/bios or keeps the team credit</td><td>Authorship (SG-17)</td></tr>
-<tr id="Q-14"><td>Q-14</td><td>What is the review SLA for this suggestions board?</td><td>Every row waits on an owner choice: 43 suggestions, 27 questions and 8 design inputs, merged into one board after three sessions wrote to it in parallel</td><td>Review cadence and who approves</td><td>Owner sets a review rhythm; approved items become tasks</td><td>All pending suggestions</td></tr>
+<tr id="Q-14"><td>Q-14</td><td>What is the review SLA for this suggestions board?</td><td>Every row waits on an owner choice: @@SG_N@@ suggestions, @@Q_N@@ questions and @@DI_N@@ design inputs, merged into one board after three sessions wrote to it in parallel</td><td>Review cadence and who approves</td><td>Owner sets a review rhythm; approved items become tasks</td><td>All pending suggestions</td></tr>
 <tr id="Q-15"><td>Q-15</td><td>Does a price or rating figure belong on the page at all?</td><td>Program Policies allow a site to show price/availability only when Amazon serves the link containing it or via Creators/PA API, with 24-hour caching limits</td><td>Whether the owner accepts link-only pricing as the site&rsquo;s default</td><td>Read the clause next to the register (verification page links it); optionally ask Associates support in writing</td><td>SG-19, plus whether the register&rsquo;s dated figures stay visible anywhere</td></tr>
 <tr id="Q-16"><td>Q-16</td><td>What exactly unlocks the Creators/PA API?</td><td>Third-party guides consistently state three qualifying sales inside 180 days; we have not verified that on an Amazon page</td><td>The account&rsquo;s real eligibility and the application screen&rsquo;s wording</td><td>Associates Central &rarr; Tools &rarr; Product Advertising API / Creators API; screenshot the eligibility notice</td><td>SG-20 and every automation promise on this site</td></tr>
 <tr id="Q-17"><td>Q-17</td><td>Who is accountable for these claims?</td><td>Pages currently carry the editorial-desk byline, which is true</td><td>Whether a named person with a real bio takes the byline</td><td>Owner decision; publish a contact address and a corrections note either way</td><td>Authorship, any &ldquo;expert&rdquo; framing, and how corrections get handled</td></tr>
@@ -1061,14 +1180,19 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-20"><td>Q-20</td><td>Is a trend claim ever claimable?</td><td>Our rule: a dated snapshot from an official category page, or no claim. The air fryers&rsquo; &ldquo;bought in past month&rdquo; chips are listing content, not our finding</td><td>Whether the owner wants periodic snapshots at all</td><td>Snapshot the official category page, store URL + date + what was visible, and cite that row only</td><td>Any popularity framing in titles or social copy</td></tr>
 <tr id="Q-21"><td>Q-21</td><td>Which design direction does the owner want?</td><td>Design inputs DI-1..DI-8 written; front page rebuilt editorial-first in this pass</td><td>Approved visual direction (type, color, card anatomy)</td><td>Review DI-1..DI-8 on this board plus design-brief.html; approve/reject/defer each; then SG-34 mockups</td><td>Full visual overhaul (SG-11, SG-34, SG-35)</td></tr>
 <tr id="Q-22"><td>Q-22</td><td>What imagery may we legally ship?</td><td>No Amazon images used; CSS and SVG only on the pages, and the share card is a generated 1200&times;630 PNG from <code>scripts/make_og.py</code></td><td>Licensed photography or manufacturer permission status; whether placeholder tiles are acceptable long-term</td><td>Decide SG-04; if placeholders approved, specify style in design prompt</td><td>Product cards, social previews, conversion polish</td></tr>
-<tr id="Q-23"><td>Q-23</td><td>What is the publishing cadence and who approves topics?</td><td>Five guides exist; 8 topic hypotheses drafted; sitemap/feed updated at publish</td><td>Owner approval of calendar; reviewer for each article</td><td>Owner sets cadence (e.g. 2/week) and names reviewer in COORDINATION.md</td><td>SG-40 cluster build-out</td></tr>
+<tr id="Q-23"><td>Q-23</td><td>What is the publishing cadence and who approves topics?</td><td>@@GUIDE_N@@ guides exist; @@TOPIC_N@@ topic hypotheses on the calendar; sitemap/feed updated at publish</td><td>Owner approval of calendar; reviewer for each article</td><td>Owner sets cadence (e.g. 2/week) and names reviewer in COORDINATION.md</td><td>SG-40 cluster build-out</td></tr>
 <tr id="Q-24"><td>Q-24</td><td>Which success metrics decide iteration?</td><td>Five events defined; campaign ledger empty by design; Search Console not yet connected</td><td>Owner's thresholds (e.g. N eligible sessions before topic re-rank; CTR target)</td><td>Owner sets thresholds after first month of Search Console + ledger data</td><td>Evidence-based iteration (Priority 4)</td></tr>
 <tr id="Q-25"><td>Q-25</td><td>Are the five short links the only promotion surface, or will more ASINs be added?</td><td>Five ASINs verified and shippable; newer variants noted (FLG-003, SG-08)</td><td>Scope of catalogue growth; margin/commission data per category</td><td>Owner sets catalogue scope; commission data only from Associates reports (Q-05)</td><td>SG-10 expansion; revenue planning</td></tr>
 <tr id="Q-26"><td>Q-26</td><td>Should the disclosure use the verbatim §5 wording?</td><td>Current variant names the site instead of &quot;I&quot;; check script flagged it for owner review</td><td>— (resolved)</td><td>Resolved 2026-11-19 against Operating Agreement §5: verbatim wording adopted on all pages</td><td>Disclosure wording</td></tr>
+<tr id="Q-33"><td>Q-33</td><td>Does the site need to state an author, or is an editorial desk enough?</td><td>Every page names &ldquo;The Countertop Guide editorial desk&rdquo; and the structured data types the author as an Organization. No individual is named because no individual has been identified</td><td>A name, a one-line credential and a real contact route</td><td>Owner supplies the byline; the build already reads it from one field in <code>data/editorial.json</code></td><td>Trust signals; Google&rsquo;s guidance on who wrote a page. Not a launch blocker</td></tr>
+<tr id="Q-34"><td>Q-34</td><td>Which build under this hostname is the publication?</td><td>Three builds are served: the root site (26 sitemap URLs), <code>docs/</code> and <code>counter-check/site/</code>. Only the root is in a sitemap</td><td>The owner&rsquo;s intent for the other two</td><td>Designate one; add <code>noindex</code> to the others (<a href="suggestions.html#SG-51">SG-51</a>)</td><td>Every ranking statement, and a clean Search Console property</td></tr>
+<tr id="Q-35"><td>Q-35</td><td>Can any of the five outbound links be attributed to this tag?</td><td>The links carry <code>tag=shopnow047c-20</code> and the correct ASINs, verified against the listings. No Associates report has been read, because no session can log in</td><td>One report row per product</td><td>Owner runs the click test (<a href="#SG-53">SG-53</a>)</td><td>Any revenue statement; nothing about publishing</td></tr>
+<tr id="Q-36"><td>Q-36</td><td>What exact accuracy figure does the wireless thermometer carry?</td><td>No tolerance figure appears in the fields captured from B0DZFD6R9Z. The ThermoMaven listing states &plusmn;0.5&deg;F with NIST and NSF named</td><td>The manual or product-support document for the CHEF iQ</td><td>Either read the manual on the listing, or ask the seller through the listing&rsquo;s contact route; until then the guide reports an absence</td><td>Any accuracy comparison between the two thermometers</td></tr>
+<tr id="Q-37"><td>Q-37</td><td>Do the listings&rsquo; own dimensions match the units shipped?</td><td>Dimensions are quoted as the listing states them, with the unit (inches) preserved. No independent measurement exists</td><td>A physical unit, or a manufacturer spec sheet naming the same model code</td><td>Only a purchase resolves it; until then the pages say &ldquo;as listed&rdquo;</td><td>Counter-fit advice, which is the site&rsquo;s central promise</td></tr>
 <tr id="Q-27"><td>Q-27</td><td>Who publishes this site, the branch or the workflow?</td><td>The workflow gates every push to <code>main</code>; GitHub&rsquo;s legacy branch build is what actually serves the pages. <a href="flagged.html#FLG-051">FLG-051</a> and <a href="suggestions.html#SG-43">SG-43</a></td><td>Whether to move Pages to the GitHub Actions build source</td><td>Owner: Settings &rarr; Pages &rarr; Build source &rarr; GitHub Actions; then the next deploy run publishes the artifact and a failed gate stops it</td><td>Every claim this site makes about automation being load-bearing</td></tr>
-<tr id="Q-28"><td>Q-28</td><td>Which typefaces may we ship ourselves, and at what byte budget?</td><td>The stylesheet names Fraunces and Inter; no page loads either, so readers see the fallback stack. A third-party font host was not used, on purpose</td><td>The licence of each family, and the size of a subset woff2 that carries the glyphs this site uses</td><td>Read each family&rsquo;s project page and licence file directly (SIL OFL is stated there, not in a tutorial), build a subset with <code>pyftsubset</code> or <code>fonttools</code>, and record the byte count</td><td>SG-47, and any claim that the site &ldquo;looks like the brief&rdquo;</td></tr>
-<tr id="Q-29"><td>Q-29</td><td>How will we know this shop pass helped, when the gates cannot see design?</td><td>The three gates check rules, not layout. The visual work is shipped and reviewed by eye in code only; no browser session has measured it</td><td>Any before/after number at all</td><td>Write the three checks from SG-52 into the ledger template, then read them once a host exists for the endpoint. A no-measurement outcome is a legitimate answer, recorded as such</td><td>Every sentence that starts &ldquo;the redesign improved&hellip;&rdquo;</td></tr>
-<tr id="Q-30"><td>Q-30</td><td>What counts as an approval on this board, and where does it live?</td><td>Board picks are saved in a browser and exported as Markdown. <code>docs/decisions.md</code> is 1 KB of prose written before the board grew</td><td>Whether the owner will adopt the export as the record, or wants issues/PRs instead</td><td>One owner decision plus a commit convention: export, paste, sign, date. Then agents read that file instead of re-offering shipped options</td><td>Whether SG-01&hellip;SG-52 stay open forever, and how much work parallel sessions duplicate</td></tr>
+<tr id="Q-28"><td>Q-28</td><td>Which typefaces may we ship ourselves, and at what byte budget?</td><td>The stylesheet names Fraunces and Inter; no page loads either, so readers see the fallback stack. A third-party font host was not used, on purpose</td><td>The licence of each family, and the size of a subset woff2 that carries the glyphs this site uses</td><td>Read each family&rsquo;s project page and licence file directly (SIL OFL is stated there, not in a tutorial), build a subset with <code>pyftsubset</code> or <code>fonttools</code>, and record the byte count</td><td>SG-55, and any claim that the site &ldquo;looks like the brief&rdquo;</td></tr>
+<tr id="Q-29"><td>Q-29</td><td>How will we know this shop pass helped, when the gates cannot see design?</td><td>The three gates check rules, not layout. The visual work is shipped and reviewed by eye in code only; no browser session has measured it</td><td>Any before/after number at all</td><td>Write the three checks from SG-60 into the ledger template, then read them once a host exists for the endpoint. A no-measurement outcome is a legitimate answer, recorded as such</td><td>Every sentence that starts &ldquo;the redesign improved&hellip;&rdquo;</td></tr>
+<tr id="Q-30"><td>Q-30</td><td>What counts as an approval on this board, and where does it live?</td><td>Board picks are saved in a browser and exported as Markdown. <code>docs/decisions.md</code> is 1 KB of prose written before the board grew</td><td>Whether the owner will adopt the export as the record, or wants issues/PRs instead</td><td>One owner decision plus a commit convention: export, paste, sign, date. Then agents read that file instead of re-offering shipped options</td><td>Whether SG-01&hellip;SG-60 stay open forever, and how much work parallel sessions duplicate</td></tr>
 <tr id="Q-31"><td>Q-31</td><td>Could our own artwork be read as a product claim?</td><td>Every drawing is labelled &ldquo;our drawing&rdquo;, the hero caption says it is not product photography, and no Amazon image is stored or linked anywhere on the site</td><td>Whether a stranger reads a line drawing of a basket as a picture of the actual basket</td><td>Show three pages to two people who have not seen the repo and ask what each image asserts; re-read the Program Policies clause on misleading representation and the FTC endorsement guidance at the same sitting</td><td>How far the art system may go (food shots, &ldquo;results&rdquo; imagery, anything that implies a test)</td></tr>
 </table></div>
 
@@ -1103,6 +1227,10 @@ it says specific things, admits its gaps, and never asks to be believed.
 <p class="fine">Picks stay in this browser only (localStorage) - nothing is sent anywhere on static hosting. Use the export button for a review sheet; approved items then move to <code>COORDINATION.md</code> as claimed tasks.</p>
 <div class="table-wrap"><table>
 <tr><th>Item</th><th>Question / suggestion</th><th>Reviewer pick</th><th>Status</th></tr>
+<tr><td>SG-49</td><td>Keep guide 10 (instant-read vs wireless) as the 11th published page</td><td><select data-pick="SG-49"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-51</td><td>One indexable publication: noindex the docs/ and counter-check/ builds</td><td><select data-pick="SG-51"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-52</td><td>Search Console first, self-hosted endpoint second</td><td><select data-pick="SG-52"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-53</td><td>One Associates click test per product</td><td><select data-pick="SG-53"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-11</td><td>Run the design brief as the brief for the visual overhaul</td><td><select data-pick="SG-11"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-12</td><td>Adopt the eight-topic editorial calendar as the publishing cadence</td><td><select data-pick="SG-12"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-22</td><td>One site, one canonical, one sitemap (consolidate the builds)</td><td><select data-pick="SG-22"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
@@ -1118,7 +1246,56 @@ it says specific things, admits its gaps, and never asks to be believed.
   <button class="btn secondary small" id="sg-reset" type="button">Clear my picks</button>
   <p class="pick-status" id="pick-meter">Picks you make are saved in this browser only.</p>
 </div>
+</div><h2 id="suggestions">Suggestions for this pass &mdash; five decisions, each with a recommended path</h2>
+<p>Everything below is a proposal. Nothing in this section has been implemented beyond what the row says it already does, and every row can be settled in under two minutes by one person. Rows marked <span class="badge-ok">ready</span> need no outside information; rows marked <span class="badge-warn">blocked</span> need something only the owner can obtain.</p>
+
+<article class="sg path" id="SG-49"><h3>SG-49 &middot; Publish an 11th guide from the two thermometer listings</h3>
+<p><strong>Why now:</strong> the thermometer cluster has three pages to the air fryers' eight. It is also the cluster where the two listings disagree most: one states a tolerance figure and the other states none, which is a genuine buyer question rather than a keyword guess.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> the &ldquo;do you need both?&rdquo; question, answered by the stated read time, probe count, range and heat rating already in the register. Honest headline: one listing makes no accuracy claim.</p>
+<p><strong>Path B:</strong> a thermometer gift guide for the same window. Cheaper to write, but it duplicates the 2026-11-24 gift guide already published.</p>
+<p><strong>Path C:</strong> hold the cluster until Search Console exists, so the topic is chosen from arriving queries.</p>
 </div>
+<p class="fine"><strong>Effort:</strong> 1 session, no new sources. <strong>Evidence needed:</strong> none beyond the register. <strong>Blocks:</strong> nothing. <strong>Status:</strong> <span class="badge-ok">Ready &mdash; and Path A is already published this pass as <a href="guide-instant-read-vs-wireless.html">guide 10</a>; approve it to keep it, or say the word and it is reverted in one commit.</span></p></article>
+
+<article class="sg" id="SG-50"><h3>SG-50 &middot; Replace the typographic-only look with shipped type and brand art</h3>
+<p><strong>Why:</strong> the design system named Fraunces and Inter but shipped neither, so every page rendered in Georgia and system-ui. A page set in default system type reads as generated no matter how good the copy is. The same pass added drawings of the five appliance <em>types</em>.</p>
+<div class="opts">
+<p><strong>Path A (recommended, done):</strong> self-host four latin variable font files (182 KB total, SIL Open Font License 1.1) and five original line drawings. No third-party font host, no Amazon imagery, no photographs.</p>
+<p><strong>Path B:</strong> commission photography, which requires the licence decision in <a href="#SG-04">SG-04</a> first.</p>
+<p><strong>Path C:</strong> pull fonts from Google Fonts at runtime. One extra third-party request per visitor and a render path we do not control.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> done. <strong>Evidence:</strong> the fonts and licences are in <code>assets/fonts/</code>; the drawings are original SVGs in <code>assets/art/</code>. <strong>Blocks:</strong> nothing. <strong>Status:</strong> <span class="badge-ok">Ready &mdash; inspect and confirm; reverting is a single folder delete.</span></p></article>
+
+<article class="sg" id="SG-51"><h3>SG-51 &middot; Make the site one indexable publication, not three</h3>
+<p><strong>Why:</strong> this repository hosts three builds under one host: the root publication (26 URLs in the sitemap), a second site in <code>docs/</code> (served, and the target of draft PR #10) and an audit build in <code>counter-check/site/</code>. Search engines see duplicate or competing pages under one hostname. That is the single largest findability risk on the site and it is not a design problem.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> pin GitHub Pages to the root only, and add <code>noindex</code> meta tags to <code>docs/</code> and <code>counter-check/site/</code> output so the alternate builds stay reviewable without competing for the host. Reversible, no data loss.</p>
+<p><strong>Path B:</strong> move the alternate builds to a separate repository or branch-preview URL.</p>
+<p><strong>Path C:</strong> leave it and accept the competition. Cheapest today, most expensive if the site ever ranks.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> confirmation of which build the owner considers the publication. <strong>Blocks:</strong> a clean Search Console picture. <strong>Status:</strong> <span class="badge-warn">Half done this pass</span> &mdash; the seven internal root pages now carry <code>noindex, follow</code> and left the sitemap (<a href="flagged.html#FLG-069">FLG-070</a>). The <code>docs/</code> and <code>counter-check/site/</code> builds are outside this session&rsquo;s scope and still need your call.</p></article>
+
+<article class="sg" id="SG-52"><h3>SG-52 &middot; Four measurable events before any optimisation claim</h3>
+<p><strong>Why:</strong> the brief orders measurement before optimisation, and the site currently measures nothing beyond local browser counters. Four first-party numbers would let the next four topics be chosen instead of guessed.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> Search Console property + sitemap submission, then four weeks of data. No code, no privacy surface, no cost. Queries arrive with impressions, position and click-through.</p>
+<p><strong>Path B:</strong> host the existing self-contained endpoint (<code>analytics-endpoint/server.py</code>) for the five defined events. Gives click coverage that Search Console cannot; needs a host, a retention rule and a privacy notice.</p>
+<p><strong>Path C:</strong> both, in that order.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> Path A is 20 minutes of owner time. <strong>Evidence needed:</strong> owner verification of the domain property. <strong>Blocks:</strong> any statement that a topic is in demand. <strong>Status:</strong> <span class="badge-warn">Needs owner action</span></p></article>
+
+<article class="sg" id="SG-53"><h3>SG-53 &middot; Open one Associates click test per product, or stop calling the links validated</h3>
+<p><strong>Why:</strong> the five outbound buttons carry the tracking ID and the correct ASIN, but no session here can confirm that a click is attributed in the Associates report. Until it is confirmed once per product, every statement about earning is a statement about intent.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> one click per ASIN from the live page, then check Reports &rarr; Link Type for the tag the same day. Five clicks, about ten minutes.</p>
+<p><strong>Path B:</strong> test only the two highest-intent products first, and label the other three as untested.</p>
+<p><strong>Path C:</strong> run the supplied <code>link.amazon</code> short links through the same test, which would also settle <a href="flagged.html#FLG-001">FLG-001</a>.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> S, owner only. <strong>Evidence needed:</strong> a report row, not a click-through that merely looks correct. <strong>Blocks:</strong> any claim that the site is earning. <strong>Status:</strong> <span class="badge-warn">Needs owner action</span></p></article>
+
+
+
 """
 _sg_n, _q_n = sugg_body.count('id="SG-'), sugg_body.count('id="Q-')
 # The board's size is counted from the assembled page, so a row added by any later pass
@@ -1129,8 +1306,18 @@ page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide
 
 # ---------- VERIFICATION ----------
 ver_rows = ""
+# Irregularity found by this session's audit of its own register: these 13 fields hold the
+# literal string "—" (em dash). The page turns that into "Blank - not captured", which is
+# correct for a missing value, but the JSON is telling a future session that a figure was
+# RECORDED, and the em dash is how "not applicable" was also written (capacity for a
+# thermometer, say). Two different meanings in one placeholder is how an inference gets made
+# later. Mapping is explicit and one-way; data/products.json itself is another session's
+# field and is left untouched (see COORDINATION.md, scope discipline).
+NA_FIELD = "—"
 for pid in ["P1","P2","P3","P4","P5"]:
-    p = PRODS[pid]
+    p = {k: ("" if v == NA_FIELD else v) for k, v in PRODS[pid].items()}
+    if PRODS[pid].get("dimensions") == "":
+        p["dimensions"] = ""
     dims_cell = esc(p["dimensions"]) if p["dimensions"] else '<span class="badge-flag">Blank - not captured (Flagged)</span>'
     ver_rows += f"""
 <article class="card" id="{pid}">
@@ -1183,7 +1370,7 @@ flag_body = f"""
 <tr id="FLG-005"><td>FLG-005</td><td>Missing warranty (Emeril)</td><td>Emeril wattage captured 2026-11-19 (1700 watts / 120 volts per the listing's Product information table). Warranty period is not stated on the listing page; the listing links a warranty PDF only. Left blank.</td><td>Read warranty PDF if the term is needed</td></tr>
 <tr id="FLG-006"><td>FLG-006</td><td>Price volatility</td><td>All prices are {VERIFIED} snapshots (Black Friday period). Live price on Amazon governs.</td><td>Re-snapshot on cadence; date every price</td></tr>
 <tr id="FLG-007"><td>FLG-007</td><td>Canonical is the GitHub Pages URL, not a custom domain</td><td>Canonical/og URLs now point to https://wingbangboozle1-lang.github.io/Prod1/ (session 9969fd0c). A custom domain is still unset, and the generator previously wrote a placeholder - fixed in build_site.py 2026-11-19 so rebuilds reproduce the committed pages.</td><td>Pick domain (SG-02)</td></tr>
-<tr id="FLG-008"><td>FLG-008</td><td>Analytics endpoint not deployed</td><td>Five events defined; local counter only. No server endpoint yet.</td><td>Deploy endpoint (SG-03)</td></tr>
+<tr id="FLG-008"><td>FLG-008</td><td>Analytics endpoint not hosted</td><td>Five events defined; local counter only. The endpoint code is complete and contract-tested (<code>analytics-endpoint/server.py</code> + <code>selftest.py</code>, wired into the deploy gate as <code>scripts/check_measure.mjs</code>, 2026-11-20) but no host is configured, so nothing is transmitted.</td><td>Owner picks a host and retention period (SG-03, Q-08), then sets <code>events.endpoint</code> in <code>data/editorial.json</code></td></tr>
 <tr id="FLG-009"><td>FLG-009</td><td>No product photography</td><td>No Amazon images used (IP/licence). SVG/CSS illustrations only.</td><td>Licence decision (SG-04)</td></tr>
 <tr id="FLG-010"><td>FLG-010</td><td>No hands-on testing</td><td>We have not cooked with or calibrated any product. No "lived-with" claims made.</td><td>Testing programme if approved (SG-09)</td></tr>
 <tr id="FLG-011"><td>FLG-011</td><td>No commission / revenue claims</td><td>Rates not published; ledger empty until authorized reports arrive.</td><td>Record only from Associates reports</td></tr>
@@ -1205,7 +1392,7 @@ flag_body = f"""
 <tr id="FLG-036"><td>FLG-036</td><td>FAQPage structured data must not be sold as an SEO win</td><td>Each guide emits FAQPage JSON-LD. Secondary sources reporting on Google&rsquo;s documentation state that FAQ rich results were restricted to well-known government and health sites in August 2023 and stopped appearing for everyone on 7 May 2026, with the FAQ documentation removed on 15 June 2026. We did not read that notice on an official Google page in this session, so it is recorded here rather than asserted on a page; the markup itself is harmless and may still help machines read the answer. Source: <a href="https://developers.google.com/search/docs/appearance/structured-data">Google structured data overview</a> for what remains supported.</td><td>Confirm against Google Search Central, then keep the markup without claiming a rich-result benefit (affects S-09)</td></tr>
 <tr id="FLG-037"><td>FLG-037</td><td>Creators/PA API eligibility not verified from an official page</td><td>Third-party guides consistently state that API access follows three qualifying sales inside 180 days. No Amazon page was read in this session that states it. This matters because the whole automation plan (SG-20) and the price/image policy (FLG-032) rest on it.</td><td>Read the eligibility notice in Associates Central &rarr; Tools &rarr; Product Advertising / Creators API and record the wording and date</td></tr>
 <tr id="FLG-038"><td>FLG-038</td><td>SiteStripe image options: second-hand claim</td><td>Several third-party tutorials state that SiteStripe stopped offering Image and Text+Image link types in late 2023, leaving API access as the route to compliant product imagery. We have not verified that in the Associates console. It changes the photography plan (SG-04), so it is stated as unverified rather than as a constraint.</td><td>Open SiteStripe on any product page and record which link types exist, with the date</td></tr>
-<tr id="FLG-039"><td>FLG-039</td><td>Three builds are published on one host, under two brands</td><td>The root publication, <code>counter-check/site/</code> (Counter Check) and the <code>docs/</code> + <code>articles/</code> build (Counter &amp; Crumb, still open as draft PR #10) are all reachable and all indexable, and the root sitemap previously listed <code>docs/</code> and <code>articles/</code> URLs. That splits the domain across near-duplicate content and two mastheads. Nothing here is a policy breach - it is a findability and brand problem. The sitemap generated by this pass lists only the pages this build writes.</td><td>Owner picks one publication (SG-22); then noindex or remove the others and reconcile the two mastheads</td></tr>
+<tr id="FLG-039"><td>FLG-039</td><td>Three builds are published on one host, under two brands</td><td>The root publication, <code>counter-check/site/</code> (Counter Check) and the <code>docs/</code> + <code>articles/</code> build (Counter &amp; Crumb, still open as draft PR #10) are all reachable and all indexable, and the root sitemap previously listed <code>docs/</code> and <code>articles/</code> URLs. That splits the domain across near-duplicate content and two mastheads. Nothing here is a policy breach - it is a findability and brand problem. The sitemap generated by this pass lists only the pages this build writes. Update 2026-11-20: the generated <code>robots.txt</code> now disallows the secondary builds (<code>/counter-check/</code>, <code>/docs/</code>, <code>/articles/</code>, <code>/review/</code>, <code>/analytics-endpoint/</code>), so search engines are told to index the root publication only - one site to index, with nothing deleted.</td><td>Owner picks one publication (SG-22) and decides whether to delete or promote the secondary builds; until then keep the robots rules</td></tr>
 <tr id="FLG-040"><td>FLG-040</td><td>Snapshot dates are already ageing</td><td>Every field on this site carries the date {VERIFIED}. Amazon listing content changes without notice, so the honest shelf life of a manual snapshot is days, not months. There is no scheduled re-read in the repository - only the rule that a figure must never be presented as current.</td><td>Adopt a re-read cadence (weekly while small, per publish for the pages touched) and record each pass on the register</td></tr>
 <tr id="FLG-041"><td>FLG-041</td><td>The only image on the site is brand art</td><td><code>assets/og-image.png</code> is a generated typographic card for link previews. No product image, food photograph or AI-generated product visual is used anywhere, in line with the Program Content read in FLG-032.</td><td>Replace or extend imagery only under an approved licence (SG-04), and keep drawings labelled as ours</td></tr>
 <tr id="FLG-042"><td>FLG-042</td><td>Disclosure wording changed to the Agreement&rsquo;s exact sentence</td><td>Pages previously read &quot;As an Amazon Associate, The Countertop Guide earns from qualifying purchases.&quot; Section 5 of the Operating Agreement requires the statement &quot;As an Amazon Associate I earn from qualifying purchases.&quot; or a substantially similar statement previously allowed under the Agreement; whether a reworded variant qualifies is not ours to decide, and Section 6 treats a Section 5 violation as a material breach. The strip and footer now carry the required sentence verbatim, with a plain-language explanation beside it. Source: <a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement Section 5</a>, read in-session.</td><td>Closed by this pass (answers request I-02 from session b4c6c619); revisit only with written comfort on an alternative wording</td></tr>
@@ -1216,7 +1403,7 @@ flag_body = f"""
 <tr id="FLG-047"><td>FLG-047</td><td>A second parallel pass published three more seasonal guides whose topics the site already covers</td><td>Session <code>8e82d03c</code> added <code>guide-holiday-gifts.html</code>, <code>guide-small-kitchen.html</code> and <code>guide-holiday-roast.html</code> (merged in PR #17) at the same time as this pass published <code>guide-gift-picks.html</code>, <code>guide-cleanup-counter-space.html</code> and <code>guide-thermometer-accuracy.html</code>. The pairs answer the same questions; the newer three also carried dated price and rating figures, which this build does not publish anywhere outside the verification register. Rather than delete live URLs, the three now return the same content as a short canonical page pointing at the surviving guide, and the build excludes them from the sitemap so one question has one canonical answer. The other session&rsquo;s full drafts remain in the repository history at <code>9e4b359</code>.</td><td>Owner decision: keep the consolidation, or restore the three as standalone pages after stripping the dated figures (one edit in <code>MERGED</code> in <code>build_site.py</code> plus the price lines)</td></tr>
 <tr id="FLG-048"><td>FLG-048</td><td>Third-party register values reached this build through a merge, not through this session&rsquo;s own reading</td><td>The wattage, rating-count and accessory figures adopted in this merge come from <code>data/products.json</code>, re-read on 2026-11-19 by sessions <code>2ec8638e</code> and <code>8e82d03c</code>. This session verified them against the page text in the register but did not re-open the Amazon listings a third time, so they are attributed rather than independently confirmed here.</td><td>Re-read the five listings before the next publishing cadence tick; the register row for each field carries the date it was last confirmed</td></tr>
 <tr id="FLG-049"><td>FLG-049</td><td>A third parallel pass built a second dashboard hub and its own numbering on this board</td><td>Session <code>f0db58ea</code> (PR #19) shipped a shop-first front page, a <code>dashboard.html</code> hub, eight design inputs DI-1…DI-8 and its own <code>SG-19…SG-27</code> / <code>Q-15…Q-20</code> rows - the same ranges this pass had already claimed. Merged without discarding: their design inputs keep the DI prefix and land on the board as a new section; their suggestions renumber to <a href="suggestions.html#SG-34">SG-34…SG-42</a> and their questions to <a href="suggestions.html#Q-21">Q-21…Q-26</a>, with the references inside each row shifted the same way. Their <code>dashboard.html</code> duplicated this pass&rsquo;s <a href="review-desk.html">review desk</a>, so it stays live as a canonical pointer rather than as a second hub, and their front page was not applied because both passes rebuilt the same file and only one can win - this page&rsquo;s version is the one the gate and the editorial policy drive.</td><td>Owner: if the hub&rsquo;s framing was preferred over the review desk, flip the pair in <code>MERGED</code> in <code>build_site.py</code>; if any of SG-34…SG-42 duplicates a row above it, reject the pair rather than shipping both</td></tr>
-<tr id="FLG-050"><td>FLG-050</td><td>Two of their rows described state that this build has since changed</td><td>Their imagery question said the share card was &ldquo;a typographic SVG&rdquo; and their review-SLA row counted 26 suggestions and 19 questions. Neither is true of the merged site: the share card is a generated 1200&times;630 PNG and the board now holds 42 suggestions and 26 questions. Both cells were rewritten rather than deleted, and the rewrite is recorded here so the change is attributable to the merge, not to the other session.</td><td>None; noted for the audit trail</td></tr>
+<tr id="FLG-050"><td>FLG-050</td><td>Two of their rows described state that this build has since changed</td><td>Their imagery question said the share card was &ldquo;a typographic SVG&rdquo; and their review-SLA row counted 26 suggestions and 19 questions. Neither is true of the merged site: the share card is a generated 1200&times;630 PNG and the board holds @@SG_N@@ suggestions and @@Q_N@@ questions - numbers the build substitutes rather than remembers. Both cells were rewritten rather than deleted, and the rewrite is recorded here so the change is attributable to the merge, not to the other session.</td><td>None; noted for the audit trail</td></tr>
 <tr id="FLG-051"><td>FLG-051</td><td>The deploy workflow cannot publish while Pages is set to build from the branch</td><td>Run <code>44627271033</code> for the merge of PR #20 failed at <code>actions/deploy-pages@v4</code> with every earlier step green: the build, the determinism check and both gates. <code>GET /repos/&hellip;/pages</code> reports <code>build_type: legacy</code> with <code>source: main</code>, which is GitHub&rsquo;s branch publishing mode; <code>deploy-pages</code> only works when the build source is &ldquo;GitHub Actions&rdquo;. The site itself deployed correctly through the legacy builder and serves this pass (verified by fetching the live URL). The workflow now reads the build source and skips the publish steps in legacy mode, so a green run means &ldquo;the commit is shippable&rdquo; rather than &ldquo;the workflow published it&rdquo;.</td><td>Owner: flip the build source (SG-43) if gated publishing is wanted; otherwise treat the workflow as CI on <code>main</code></td></tr>
 <tr id="FLG-052"><td>FLG-052</td><td>44 CSS classes the generator emitted had no style rule at all</td><td>Found 2026-11-20 by reading the built pages against <code>assets/style.css</code>. Every class the markup uses is now defined: the product card (<code>.prod</code>, <code>.prod-head</code>, <code>.prod-sub</code>, <code>.specs</code>), the picks (<code>.pick</code>), the hero columns (<code>.hero-copy</code>, <code>.hero-side</code>, <code>.hero-facts</code>), the topic band, the trust row, <code>.chip</code>, <code>.fine</code>, <code>.best</code>, <code>.watch</code>, <code>.cta-row</code>, <code>.link-quiet</code>, <code>.fbrand</code> and others rendered as plain unstyled blocks. Nine custom properties (<code>--ink-2</code>, <code>--tint</code>, <code>--clay</code>, <code>--clay-ink</code>, <code>--line-strong</code>, <code>--paper</code>, <code>--good</code>, <code>--r</code>, <code>--r-sm</code>) were referenced but never declared, so those rules were dropped by the browser. This is the mechanical reason the site read as generated rather than designed. <code>scripts/check_style.mjs</code> now fails the build if a class is emitted without a rule, if a <code>var()</code> has no value, or if an inline <code>style=</code> attribute reappears.</td><td>Closed in this pass. Owner: review the look in a browser; the gate can prove coverage, not taste</td></tr>
 <tr id="FLG-053"><td>FLG-053</td><td>Three rows of the suggestion table carried broken class attributes</td><td>SG-34, SG-36 and SG-41 were written with an escaped quote and a stray closing bracket inside the class attribute (the value read <em>badge-warn</em> followed by an encoded quote and a &gt;), so the status badge and the rest of the row markup were swallowed into the attribute and never rendered. Fixed in the generator 2026-11-20; the design gate now rejects any class attribute containing an escaped quote or angle bracket.</td><td>Closed in this pass</td></tr>
@@ -1225,17 +1412,29 @@ flag_body = f"""
 <tr id="FLG-056"><td>FLG-056</td><td>Register IDs FLG-023 to FLG-031 are gaps in the published table</td><td>The published table jumps from FLG-022 to FLG-032. Those nine numbers appear only in earlier sessions&rsquo; narrative in <code>COORDINATION.md</code> (they were proposals or items later renumbered). No page links to any of them: every <code>FLG-nnn</code> reference in the built HTML resolves to an existing row, checked mechanically 2026-11-20. The gap is recorded rather than renumbered so older session notes keep meaning what they meant.</td><td>Nothing needed; read a gap as &ldquo;identity retired, never published&rdquo;</td></tr>
 <tr id="FLG-057"><td>FLG-057</td><td>A slug&rsquo;s own docstring contradicts the live page</td><td>In <code>build_site.py</code>, the comment above the topics section says the calendar holds &ldquo;five published and three queued&rdquo;, which was true when eight topics were drafted. The page itself reads the topic list and renders the current counts. Cosmetic, in the generator only, left as the author wrote it.</td><td>Cosmetic; noted so a future reader does not treat the comment as data</td></tr>
 <tr id="FLG-058"><td>FLG-058</td><td>The Agreement sentence is above the fold, but not repeated inside each product card</td><td>FTC <a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">Disclosures 101</a> (re-read 2026-11-20) says the disclosure should be placed &ldquo;with the endorsement message itself&rdquo; and warns that disclosures are likely to be missed when they sit only at the end of a page or behind a click. On this site the Agreement sentence is directly under the masthead on every page plus the footer, and every card carries a visible &ldquo;Sponsored link &middot; opens Amazon&rdquo; line beside its button. The Agreement sentence itself is not inside each card. This pass did not change the layout: repeating the legal sentence in every card is a design and compliance judgement for the owner, not a unilateral edit.</td><td>Owner / compliance: keep the current arrangement (strip + per-card sponsored label) or add the sentence to each card. Either way, re-read this row when the layout next changes</td></tr>
-<tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across all 29 pages.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
 <tr id="FLG-060"><td>FLG-060</td><td>2026-11-20 line-by-line re-read of all five listings; rating-count and used-price drift recorded</td><td>Session <code>1b65e5a1</code> re-fetched every official Amazon.com listing on 2026-11-20 and re-read title, rating, rating count, buy-box price, list price, dimensions, capacity, features, wattage and bullets line by line. Displayed fields all matched the register. Two volatile snapshot figures drifted and were updated in <code>data/products.json</code> (which is why they are not published on shop pages): P1 rating count 4,876&rarr;4,877 and used price $59.95&rarr;$62.85; P2 rating count 18,375&rarr;18,380. The P2 Item-details table again lists configuration as 24 functions and 7 accessories against the title's &ldquo;Six Cooking Accessories&rdquo; (re-confirms <a href="#FLG-021">FLG-021</a>). Scope notes, not irregularities: P2 wattage (1700 W/120 V) and P4 rating value / list price were carried from the 2026-11-19 register because those specific rows were not re-captured in this pass's chunks; they are attributed, not independently re-confirmed today. Sources: the five <code>https://www.amazon.com/dp/&lt;ASIN&gt;</code> listing pages, fetched 2026-11-20.</td><td>Keep the re-read cadence (FLG-040); treat every recorded figure as dated, never current</td></tr>
-<tr id="FLG-061"><td>FLG-061</td><td>Our own artwork is a representation surface, not a free win</td><td>The five product drawings show appliance <em>forms</em> (dual basket, French door, single basket, handheld, wireless probes) and the front-page illustration shows three generic machines on a counter. None of them is a picture of the five ASINs we link. Each is captioned as our drawing, and no Amazon image is stored, linked or imitated (Program Policies, IP License clause (h)). What remains open is reader interpretation: a shopper may believe a drawing is the product, which is a claim about the listing whether or not it is intended as one.</td><td>Two reader checks per Q-31, and keep every caption; if the check shows the drawings read as product photos, reduce them to diagrams of measurements only</td><td class="fine">Renumbered from FLG-053 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-062"><td>FLG-062</td><td>Images are committed binaries the determinism gate ignores</td><td><code>assets/img/*.svg</code> and <code>hero-counter.jpg</code> (1320&times;720, 165 KB) are written into the repository, not generated by the build. The workflow&rsquo;s drift check compares <code>*.html sitemap.xml feed.xml robots.txt data/search-index.json</code>, so an image swap is invisible to CI. The JPEG was resized and re-encoded in-session with ImageMagick; <code>og-image.png</code> is still regenerated by <code>scripts/make_og.py</code> and deliberately excluded from the diff for the reasons recorded in the workflow comment.</td><td>Owner: if imagery becomes a system, add a byte-size and alt-text check to the gate rather than trusting review-by-eye</td><td class="fine">Renumbered from FLG-054 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-063"><td>FLG-063</td><td>The 2026-11-20 re-read did not reach the thermometer specification table</td><td>Two chunks of the ThermoMaven listing (B0DHZTCNR5) were fetched on 2026-11-20. The page title and the rating count (3,499) matched the register; the Product information block, where dimensions would appear, was not in the fetched content, and the chunk layout differed between two fetches of the same URL (33 chunks, then 27). The dimensions therefore stay blank on the register and on the card, which says &ldquo;not shown in the fields we captured&rdquo;. No value was inferred. Full record: <code>review/e7dcb638/VERIFICATION-2026-11-20.md</code>.</td><td>Register owner: read the spec block in a browser and paste the exact wording with the date, or record &ldquo;not stated on the listing&rdquo; and close FLG-004</td><td class="fine">Renumbered from FLG-055 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-064"><td>FLG-064</td><td>Every page still dates the data 2026-11-19, although two sessions re-read listings on 2026-11-20</td><td><code>site.verifiedDate</code> in <code>data/products.json</code> is the single source of the date printed in the disclosure line, the bylines, the cards and the feed. <code>1187e20d</code> confirmed the five short links and titles on 2026-11-20 and this session confirmed titles and one rating count the same day, but neither pass edited the register (scope: another session owns it), so the site now under-reports its own freshness by one day. Under-reporting is the safe direction; the wrong fix would be to bump the date without a fresh read of every field.</td><td>Register owner: either bump <code>verifiedDate</code> after a full field-by-field re-read, or add a second field (<code>lastPartialCheck</code>) and have the pages say which is which</td><td class="fine">Renumbered from FLG-056 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-065"><td>FLG-065</td><td>A guide with no entry in <code>dates.publish</code> silently inherits the register date</td><td>Publish dates were moved into <code>data/editorial.json &rarr; dates.publish</code> on 2026-11-20, and the Article markup, the feed and the byline all read from it. The lookup falls back to <code>verifiedDate</code> when a slug is missing - a sensible default, but it means a guide added without a date row is presented as published on the day the register was read. The guide list is asserted against the feed (<code>build_site.py</code>), so the slug cannot go unlisted; only its date can be wrong.</td><td>Add the date row when you add the guide; or make the fallback raise and force the issue at build time</td><td class="fine">Renumbered from FLG-057 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-066"><td>FLG-066</td><td>Runtime behaviour is tested locally, not in CI</td><td><code>scripts/test_pages_dom.mjs</code> loads 15 real pages plus <code>assets/app.js</code> in jsdom and checks that no page throws, that the chooser&rsquo;s links carry <code>rel="sponsored"</code>, the tag and the label, and that the decision desk exports a sheet. It needs an <code>npm install jsdom</code>, and the Pages workflow deliberately runs with no dependency install, so this script is not a gate step. A regression in the client that only appears at runtime can still reach <code>main</code>. The event-contract test <em>is</em> wired in, because it is standard-library only.</td><td>Owner: if the client grows, either add a Node install step to the workflow or accept the local-test convention and run it before each merge</td><td class="fine">Renumbered from FLG-058 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-067"><td>FLG-067</td><td>Limited-time promotion references must come down when the promotion ends</td><td>Read from the Program Policies on 2026-11-20: &ldquo;You must remove from your Site any links and related references to limited time promotions as soon as that promotion on the relevant Amazon Site ends.&rdquo; No reader page here names an Amazon promotion, so nothing is in breach. The risk is prospective and structural: this is a static build with no expiry job, so a pass that writes &ldquo;Black Friday savings on these five&rdquo; would create a page that must be edited on a deadline nobody is watching. The seasonal guides are therefore written as methods (how to check a claim) rather than as claims (what is on sale).</td><td>Keep the rule; if a promotion is ever named, put the removal date in the publishing calendar beside it, or gate the sentence behind the build so it cannot outlive the event</td><td class="fine">Renumbered from FLG-059 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-068"><td>FLG-068</td><td>A price column on the comparison page would trigger a second obligation</td><td>The same section requires that prices shown in any comparison format display both the lowest &ldquo;new&rdquo; and (where provided) the lowest &ldquo;used&rdquo; price for that Product. Today <code>compare.html</code> shows no prices, so the clause is moot. It becomes live the moment the API route in SG-20 is built and someone adds a price column - which is exactly when nobody will be thinking about the clause.</td><td>Attach this flag to SG-20 so the API work cannot ship a price column without both figures and the &sect;2 sourcing rule</td><td class="fine">Renumbered from FLG-060 on 2026-11-20 when this pass merged with the session that already held FLG-052 to FLG-060. No row was deleted.</td></tr>
-<tr id="FLG-069"><td>FLG-069</td><td>A second stylesheet at the repository root is linked by nothing</td><td><code>styles.css</code> (about 20 KB, its first line pulls fonts from a Google CDN) sits at the top of the repository while every page loads <code>assets/style.css</code>. Checked mechanically on 2026-11-20: no HTML file, script or workflow references the root copy. It is an alternate design system left behind by an earlier pass. Two concrete harms: an editor can change the wrong file and see nothing move, and its <code>@import</code> is a third-party request the site elsewhere avoids. Nothing was deleted, because a file another session authored is the owner&rsquo;s call, not a merge-time tidy-up.</td><td>Owner: delete it, or state in <code>README</code> that it is an unused prototype. Either answer closes the row; silence leaves a trap</td></tr></table></div>
+<tr id="FLG-067"><td>FLG-067</td><td>The design named two typefaces</td><td><code>assets/style.css</code> and <code>DESIGN_PROMPT.md</code> both specify Fraunces for display and Inter for text. No <code>@font-face</code> rule and no font files existed, so every visitor saw Georgia and the system UI font. This is the most likely reason the site read as generated: the whole typographic identity was a fallback. Fixed in this pass with four self-hosted latin variable fonts (182 KB, SIL OFL 1.1).</td><td>Closed; <code>check_style.mjs</code> now fails if a stylesheet declares a font family with no local file</td></tr>
+<tr id="FLG-068"><td>FLG-068</td><td>No navigation state on any page</td><td>The header rendered identical links everywhere with no <code>aria-current</code>, so a reader had no orientation cue and a screen reader announced the current section as just another link. The stylesheet already had a <code>[aria-current]</code> rule: the markup never used it. Now generated per page from one link list.</td><td>Closed</td></tr>
+
+<tr id="FLG-069"><td>FLG-069</td><td>Half of the indexable site was internal audit</td><td>Until this pass, the sitemap listed 26 URLs and 7 of them were the decision desk, executive summary, methodology, design brief, review desk, dashboard and the site-search page. They are useful to the owner and to a reader who follows a source link, but they are not what a shopper searched for, and they diluted the shopping clusters on the same host. Those seven now carry <code>noindex, follow</code> and stay out of the sitemap; the verification register, the flagged list and the compliance page stay indexed, because a buyer checking a spec benefits from them. The sitemap is now 20 URLs, all of them pages a buyer could want. Reversal is one line in <code>NOINDEX</code>.</td><td>Review with the owner; the split is a judgement call, recorded rather than hidden</td></tr>
+<tr id="FLG-070"><td>FLG-070</td><td>Three builds are served from one host</td><td>The root publication is the only build with a sitemap and canonical tags. <code>docs/</code> (the target of draft PR #10) and <code>counter-check/site/</code> are also reachable under the same hostname, with their own titles and no <code>noindex</code>. Competing pages on one host is a findability problem, not a design one. Reported, not resolved: it changes files outside this session's scope.</td><td>Owner decision (<a href="suggestions.html#SG-51">SG-51</a>, <a href="suggestions.html#Q-34">Q-34</a>)</td></tr>
+<tr id="FLG-071"><td>FLG-071</td><td>CHEF iQ listing states no temperature-tolerance</td><td>The listing (B0DZFD6R9Z) gives heat safety (1000&deg;F), probe count, sensor count and range, but no &plusmn; accuracy figure in the fields captured. The comparison pages and the new guide report this as an absence rather than borrowing the other listing&rsquo;s number.</td><td>Read the manual linked from the listing, or request it from the seller (<a href="suggestions.html#Q-36">Q-36</a>)</td></tr>
+<tr id="FLG-072"><td>FLG-072</td><td>ThermoMaven listing shows only an item length</td><td>The 2026-11-20 re-read found an <code>Item Length</code> of 6.5 inches and no width, height or depth in the listing&rsquo;s measurement block. The register stays blank rather than treating a single axis as dimensions. This narrows FLG-004 but does not close it.</td><td>Full dimension set from the manual, or leave blank (FLG-004)</td></tr>
+<tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across every page the build writes.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
+<tr id="FLG-073"><td>FLG-073</td><td>One placeholder was carrying two meanings</td><td>Thirteen fields in <code>data/products.json</code> hold the literal string <code>&mdash;</code>. The page correctly renders that as &ldquo;Blank &mdash; not captured&rdquo;, but the same character is also used where the field genuinely does not apply (a thermometer has no capacity). So the data cannot distinguish &ldquo;we looked and did not find it&rdquo; from &ldquo;this field is meaningless for this product&rdquo;. Publishing reads the dash as blank, which is the safe direction. A future session must not treat it as a recorded figure.</td><td>Owner of <code>data/products.json</code> to split the two into <code>null</code> and an explicit <code>notApplicable</code> reason</td></tr>
+
+<tr id="FLG-074"><td>FLG-074</td><td>Every feed item carries one date, and it is the listing re-read date</td><td>The RSS feed set <code>pubDate</code> from the listing verification date (<code>verifiedDate</code>) for all ten guides, so every item reads the same day. RSS 2.0 defines item <code>pubDate</code> as the publication date of the content (<a href="https://www.rssboard.org/rss-specification">RSS 2.0 spec, pubDate</a>). The generator now uses the page date (<code>contentDate</code>), as <code>data/editorial.json</code> already specifies. Today both values are 2026-11-20, so the feed output is unchanged. Per-guide publication dates are not recorded anywhere in the repo, and none is inferred here.</td><td>Owner of <code>data/editorial.json</code> to supply a publication date per guide (a <code>published</code> field) so each feed item can carry its own date</td></tr>
+<tr id="FLG-075"><td>FLG-075</td><td>Two guides are live before their cadence week</td><td>The cadence rule says one guide per week, published on Tuesday. The queue marks <code>guide-gift-picks.html</code> (week 2026-11-24) and <code>guide-instant-read-vs-wireless.html</code> (week 2026-12-08) as <code>published</code>, and both are live on 2026-11-20. The queue also has 2026-12-08 published before the queued 2026-12-01 topic. The status is read as "page exists", not "week reached". Nothing was hidden or re-dated in this pass.</td><td>Owner decision: keep both pages live now and reword the rule, or hold them until their Tuesday (sitemap and feed are generated from the build, so either path is a one-line change)</td></tr>
+<tr id="FLG-076"><td>FLG-076</td><td>Our own artwork is a representation surface, not a free win</td><td>The five product drawings show appliance <em>forms</em> (dual basket, French door, single basket, handheld, wireless probes) and the front-page illustration shows three generic machines on a counter. None of them is a picture of the five ASINs we link. Each is captioned as our drawing, and no Amazon image is stored, linked or imitated (Program Policies, IP License clause (h)). What remains open is reader interpretation: a shopper may believe a drawing is the product, which is a claim about the listing whether or not it is intended as one.</td><td>Two reader checks per Q-31, and keep every caption; if the check shows the drawings read as product photos, reduce them to diagrams of measurements only <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-077"><td>FLG-077</td><td>Images are committed binaries the determinism gate ignores</td><td><code>assets/img/*.svg</code> and <code>hero-counter.jpg</code> (1320&times;720, 165 KB) are written into the repository, not generated by the build. The workflow&rsquo;s drift check compares <code>*.html sitemap.xml feed.xml robots.txt data/search-index.json</code>, so an image swap is invisible to CI. The JPEG was resized and re-encoded in-session with ImageMagick; <code>og-image.png</code> is still regenerated by <code>scripts/make_og.py</code> and deliberately excluded from the diff for the reasons recorded in the workflow comment.</td><td>Owner: if imagery becomes a system, add a byte-size and alt-text check to the gate rather than trusting review-by-eye <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-078"><td>FLG-078</td><td>The 2026-11-20 re-read did not reach the thermometer specification table</td><td>Two chunks of the ThermoMaven listing (B0DHZTCNR5) were fetched on 2026-11-20. The page title and the rating count (3,499) matched the register; the Product information block, where dimensions would appear, was not in the fetched content, and the chunk layout differed between two fetches of the same URL (33 chunks, then 27). The dimensions therefore stay blank on the register and on the card, which says &ldquo;not shown in the fields we captured&rdquo;. No value was inferred. Full record: <code>review/e7dcb638/VERIFICATION-2026-11-20.md</code>.</td><td>Register owner: read the spec block in a browser and paste the exact wording with the date, or record &ldquo;not stated on the listing&rdquo; and close FLG-004 <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-079"><td>FLG-079</td><td>Every page still dates the data 2026-11-19, although two sessions re-read listings on 2026-11-20</td><td><code>site.verifiedDate</code> in <code>data/products.json</code> is the single source of the date printed in the disclosure line, the bylines, the cards and the feed. <code>1187e20d</code> confirmed the five short links and titles on 2026-11-20 and this session confirmed titles and one rating count the same day, but neither pass edited the register (scope: another session owns it), so the site now under-reports its own freshness by one day. Under-reporting is the safe direction; the wrong fix would be to bump the date without a fresh read of every field.</td><td>Register owner: either bump <code>verifiedDate</code> after a full field-by-field re-read, or add a second field (<code>lastPartialCheck</code>) and have the pages say which is which <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-080"><td>FLG-080</td><td>A guide with no entry in <code>dates.publish</code> silently inherits the register date</td><td>Publish dates were moved into <code>data/editorial.json &rarr; dates.publish</code> on 2026-11-20, and the Article markup, the feed and the byline all read from it. The lookup falls back to <code>verifiedDate</code> when a slug is missing - a sensible default, but it means a guide added without a date row is presented as published on the day the register was read. The guide list is asserted against the feed (<code>build_site.py</code>), so the slug cannot go unlisted; only its date can be wrong.</td><td>Add the date row when you add the guide; or make the fallback raise and force the issue at build time <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-081"><td>FLG-081</td><td>Runtime behaviour is tested locally, not in CI</td><td><code>scripts/test_pages_dom.mjs</code> loads 15 real pages plus <code>assets/app.js</code> in jsdom and checks that no page throws, that the chooser&rsquo;s links carry <code>rel="sponsored"</code>, the tag and the label, and that the decision desk exports a sheet. It needs an <code>npm install jsdom</code>, and the Pages workflow deliberately runs with no dependency install, so this script is not a gate step. A regression in the client that only appears at runtime can still reach <code>main</code>. The event-contract test <em>is</em> wired in, because it is standard-library only.</td><td>Owner: if the client grows, either add a Node install step to the workflow or accept the local-test convention and run it before each merge <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-082"><td>FLG-082</td><td>Limited-time promotion references must come down when the promotion ends</td><td>Read from the Program Policies on 2026-11-20: &ldquo;You must remove from your Site any links and related references to limited time promotions as soon as that promotion on the relevant Amazon Site ends.&rdquo; No reader page here names an Amazon promotion, so nothing is in breach. The risk is prospective and structural: this is a static build with no expiry job, so a pass that writes &ldquo;Black Friday savings on these five&rdquo; would create a page that must be edited on a deadline nobody is watching. The seasonal guides are therefore written as methods (how to check a claim) rather than as claims (what is on sale).</td><td>Keep the rule; if a promotion is ever named, put the removal date in the publishing calendar beside it, or gate the sentence behind the build so it cannot outlive the event <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-083"><td>FLG-083</td><td>A price column on the comparison page would trigger a second obligation</td><td>The same section requires that prices shown in any comparison format display both the lowest &ldquo;new&rdquo; and (where provided) the lowest &ldquo;used&rdquo; price for that Product. Today <code>compare.html</code> shows no prices, so the clause is moot. It becomes live the moment the API route in SG-20 is built and someone adds a price column - which is exactly when nobody will be thinking about the clause.</td><td>Attach this flag to SG-20 so the API work cannot ship a price column without both figures and the &sect;2 sourcing rule <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+<tr id="FLG-084"><td>FLG-084</td><td>A second stylesheet at the repository root is linked by nothing</td><td><code>styles.css</code> (about 20 KB, its first line pulls fonts from a Google CDN) sits at the top of the repository while every page loads <code>assets/style.css</code>. Checked mechanically on 2026-11-20: no HTML file, script or workflow references the root copy. It is an alternate design system left behind by an earlier pass. Two concrete harms: an editor can change the wrong file and see nothing move, and its <code>@import</code> is a third-party request the site elsewhere avoids. Nothing was deleted, because a file another session authored is the owner&rsquo;s call, not a merge-time tidy-up.</td><td>Owner: delete it, or state in <code>README</code> that it is an unused prototype. Either answer closes the row; silence leaves a trap <span class="fine">Filed 2026-11-20 by session <code>e7dcb638</code>; renumbered the same day as four other sessions filled <code>FLG-052</code> to <code>FLG-075</code>. No row was deleted: the register only grows.</span></td></tr>
+</table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
 # ---------- COMPLIANCE ----------
@@ -1265,12 +1464,12 @@ comp_body = f"""
 <blockquote>&ldquo;Because prices for and availability of Products that you have listed on your Site may change, your Site may only show prices and availability if: (a) we serve the link in which that price and availability data are displayed, or (b) you obtain Product pricing and availability data via Creators API or PA API and you comply with the requirements regarding use of Creators API or PA API in the License.&rdquo;
 <p class="fine">Participation Requirements &sect;2(b). This is the whole basis for the link-only pricing decision (<a href="flagged.html#FLG-032">FLG-032</a>), and it is confirmed, not inherited.</p></blockquote>
 <blockquote>&ldquo;You must not make inaccurate, overbroad, deceptive or otherwise misleading claims about any Product, an Amazon Site, or any of our policies, promotions, or prices.&rdquo;
-<p class="fine">Same clause. It is the reason the artwork we commissioned is labelled as our drawing of a form rather than a picture of the product (<a href="flagged.html#FLG-061">FLG-061</a>), and the reason a listing that contradicts itself is published twice instead of smoothed over.</p></blockquote>
+<p class="fine">Same clause. It is the reason the artwork we commissioned is labelled as our drawing of a form rather than a picture of the product (<a href="flagged.html#FLG-076">FLG-076</a>), and the reason a listing that contradicts itself is published twice instead of smoothed over.</p></blockquote>
 <p>Three clauses in the same section were not represented anywhere on this site before today. All three change what we may ship:</p>
 <div class="table-scroll"><table>
 <tr><th>Clause, as written</th><th>What it constrains here</th><th>State</th></tr>
-<tr><td>&ldquo;You must remove from your Site any links and related references to limited time promotions as soon as that promotion on the relevant Amazon Site ends.&rdquo;</td><td>No reader page may name a dated Amazon promotion. The price-check guide teaches a method for checking a claim; it does not repeat one, and the publishing calendar says &ldquo;gifting season&rdquo; rather than naming a sales event.</td><td>Compliant today; a rule for every future pass (<a href="flagged.html#FLG-067">FLG-067</a>)</td></tr>
-<tr><td>&ldquo;If you choose to display prices for any Product on your Site in any &lsquo;comparison&rsquo; format &hellip; you must display both the lowest &lsquo;new&rsquo; price and, if we provide it to you, the lowest &lsquo;used&rsquo; price&hellip;&rdquo;</td><td><code>compare.html</code> is a comparison table. It carries no prices at all, so the pairing obligation cannot bite; the day anyone adds a price column, this clause and the &sect;2 rule apply together.</td><td>Compliant today; recorded so a price column is never added casually (<a href="flagged.html#FLG-068">FLG-068</a>)</td></tr>
+<tr><td>&ldquo;You must remove from your Site any links and related references to limited time promotions as soon as that promotion on the relevant Amazon Site ends.&rdquo;</td><td>No reader page may name a dated Amazon promotion. The price-check guide teaches a method for checking a claim; it does not repeat one, and the publishing calendar says &ldquo;gifting season&rdquo; rather than naming a sales event.</td><td>Compliant today; a rule for every future pass (<a href="flagged.html#FLG-082">FLG-082</a>)</td></tr>
+<tr><td>&ldquo;If you choose to display prices for any Product on your Site in any &lsquo;comparison&rsquo; format &hellip; you must display both the lowest &lsquo;new&rsquo; price and, if we provide it to you, the lowest &lsquo;used&rsquo; price&hellip;&rdquo;</td><td><code>compare.html</code> is a comparison table. It carries no prices at all, so the pairing obligation cannot bite; the day anyone adds a price column, this clause and the &sect;2 rule apply together.</td><td>Compliant today; recorded so a price column is never added casually (<a href="flagged.html#FLG-083">FLG-083</a>)</td></tr>
 <tr><td>&ldquo;Your Site(s) must contain original content. Original content utilizing third-party materials must contain significant commentary, analysis, or transformation&hellip;&rdquo;</td><td>Enrolment and eligibility (&sect;1). It is the affirmative case for this site&rsquo;s editorial shape: derived arithmetic, comparison, and labelled drawings, rather than a repost of listing text.</td><td>Satisfied as designed; the standing risk is thin content on new pages</td></tr>
 </table></div>
 <p class="fine">One more line from the same page, kept because owners are frequently sold a service they do not need: &ldquo;The Associates Program is free to join&hellip; We have never authorized any business to provide paid set-up or consulting services to our associates.&rdquo;</p>
@@ -1309,8 +1508,8 @@ meth_body = f"""
 <tr><td>guide_read</td><td>Guide scrolled 75%</td><td>Guide path</td></tr>
 </table></div>
 <p>Implementation: one client, <code>assets/app.js</code>, and those five names only. It counts in <code>localStorage</code> and beacons to a configurable endpoint (<code>data-analytics-endpoint</code>) that is empty in this build, so nothing leaves the browser. No cookies, no identifiers, no third-party trackers.</p>
-<p class="fine">Contract notes settled in this pass: two other tracker scripts exist in the repository (<code>app.js</code> at the root, serving the <code>articles/</code> and <code>docs/</code> build, and <code>assets/js/analytics.js</code>, unreferenced). They use different event names and payloads from the server stub in <code>analytics-endpoint/</code>. This session did not edit those files - they belong to other sessions - and instead records the single taxonomy above as the one the root site uses. Unifying the rest is <a href="suggestions.html#SG-03">SG-03</a>; see also <a href="flagged.html">FLG-034</a> for the sponsored-marking fix in the chooser output.</p>
-<p class="fine">Endpoint status, stated exactly: no host is configured, so nothing is transmitted. The endpoint implementation in this repository (<code>analytics-endpoint/server.py</code>, owned by another session) accepts a payload carrying <code>event</code>, <code>path</code> and an optional <code>asin</code> and knows three of these five names (<code>page_view</code>, <code>outbound_click</code>, and its own <code>guide_read_75</code> for the 75% scroll event). The client here sends a payload that satisfies that validator today, and keeps the five names above as this site&rsquo;s contract. Checked by running the endpoint&rsquo;s own validator against our payload in this session: <code>page_view</code> and <code>outbound_click</code> return valid, the other three names return &ldquo;unknown event&rdquo;. Reconciling that vocabulary is request R-06 in <code>COORDINATION.md</code> - the endpoint is owned by another session, so it was not edited here.</p>
+<p class="fine">Contract notes settled 2026-11-20: the repository once carried three event vocabularies (this client, the endpoint stub, and two legacy trackers). They are now unified into the five names above, and that is a checked contract: <code>scripts/check_measure.mjs</code> runs in the deploy workflow and fails the build if <code>assets/app.js</code>, <code>analytics-endpoint/server.py</code>, <code>data/editorial.json</code> and this page ever disagree again. The legacy tracker <code>assets/js/analytics.js</code> was deleted rather than renamed (it invented client-side conversion events, which this site must not do - conversions belong to authorized first-party reports); the root <code>app.js</code> remains because it only counts locally for the supplementary review builds. Requests R-06 and R-07 in <code>COORDINATION.md</code> are closed by this pass.</p>
+<p class="fine">Endpoint status, stated exactly: no host is configured, so nothing is transmitted and the browser-local counts are all that exist. The endpoint implementation in this repository (<code>analytics-endpoint/server.py</code>) now accepts exactly these five names and the envelope this client sends; its self-test (<code>analytics-endpoint/selftest.py</code>, also run by the deploy gate) proves all five events record, the old vocabularies are rejected, and no query text or per-event timestamps are stored. Hosting is the one piece automation cannot supply: the owner picks an HTTPS host and a retention period (<a href="suggestions.html#SG-03">SG-03</a>, <a href="suggestions.html#Q-08">Q-08</a>) and sets <code>events.endpoint</code> in <code>data/editorial.json</code>; the gate in the client does the rest.</p>
 <h2>What your browser has recorded</h2>
 <div id="local-meter"><p class="fine">This section fills in with the counts stored on this device, if JavaScript is running. Nothing is sent anywhere and nothing is written to a server.</p></div>
 <h2>Campaign ledger (empty by design)</h2>
@@ -1323,7 +1522,7 @@ meth_body = f"""
 <tr><th>Step</th><th>State</th><th>How it works / what stops it</th></tr>
 <tr><td>Page rendering</td><td><span class="badge-ok">Automated</span></td><td><code>build_site.py</code> writes every page, the sitemap, the feed, robots and the search index from <code>data/products.json</code> + <code>data/editorial.json</code>. No page is hand-edited, and the build is deterministic: the same data produces the same files, so a CI diff catches a stale commit.</td></tr>
 <tr><td>Metadata, disclosure, sponsored marking, voice rules</td><td><span class="badge-ok">Automated + blocking</span></td><td><code>scripts/check_meta.mjs</code> runs in the deploy workflow after the build. A duplicate title, a missing canonical, an unlabelled Amazon link, a broken internal link, a banned phrase or a price figure on a shop page fails the deploy.</td></tr>
-<tr><td>Adding a guide to sitemap and feed</td><td><span class="badge-ok">Automated</span></td><td>The guide list and the page registry drive both files, so a new guide cannot be published and forgotten.</td></tr>
+<tr><td>Measurement contract (5 events)</td><td><span class="badge-ok">Automated + blocking</span></td><td><code>scripts/check_measure.mjs</code> runs in the deploy workflow with the endpoint&rsquo;s own self-test. If the client, the server, the data record and this page disagree on the event names - or a retired tracker reappears - the deploy fails. Conversions stay out of client events by design.</td></tr><tr><td>Adding a guide to sitemap and feed</td><td><span class="badge-ok">Automated</span></td><td>The guide list and the page registry drive both files, so a new guide cannot be published and forgotten.</td></tr>
 <tr><td>Product data refresh</td><td><span class="badge-flag">Gated</span></td><td>Manual re-read only. Creators/PA API access is the automated route and is not available to this build yet (<a href="flagged.html#FLG-037">FLG-037</a>).</td></tr>
 <tr><td>Publishing path</td><td><span class="badge-warn">Split today</span></td><td>The workflow builds, checks determinism and runs both gates on every push to <code>main</code>; the pages readers see are served by GitHub&rsquo;s branch build, because that is what the repository&rsquo;s Pages source is set to. A gate failure therefore marks the commit red instead of stopping a publish. Switching the build source to GitHub Actions would make the gate block the deploy (<a href="suggestions.html#SG-43">SG-43</a>, <a href="flagged.html#FLG-051">FLG-051</a>).</td></tr>
 <tr><td>Special Link validation</td><td><span class="badge-flag">Gated</span></td><td>A human must click a test link in the enrolled Associates workflow and confirm the destination and the tracking report (SG-01). No automation can substitute for it.</td></tr>
@@ -1337,7 +1536,7 @@ meth_body = f"""
 {"".join(f'<tr><td>{c["week"]}</td><td>{esc(c["title"])}</td><td>{esc(c["status"])}{" &middot; " + esc(c["page"]) if c["page"] else ""}</td></tr>' for c in CADENCE["queue"])}
 </table></div>
 <p class="fine">{esc(CADENCE["rule"])} {esc(CADENCE["measure"])}</p>
-<p class="fine"><strong>Where the plan slipped, on purpose.</strong> {esc(CADENCE["deviation"])}</p>
+{('<p class="fine"><strong>Where the plan slipped, on purpose.</strong> ' + esc(CADENCE["deviation"]) + '</p>') if CADENCE.get("deviation") else ''}
 """
 page_to("methodology.html","Method, events & campaign ledger | Countertop Guide","What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep.",meth_body)
 
@@ -1351,7 +1550,7 @@ for t in TOPICS:
 
 topics_body = f"""
 <p class="eyebrow">The desk &middot; Topic calendar</p>
-<h1>The topic calendar: twelve buyer questions, spec-backed answers</h1>
+<h1>The topic calendar: {NUMW[len(TOPICS)]} buyer questions, spec-backed answers</h1>
 <p>{NUMW[sum(1 for t in TOPICS if t["status"]=="Published")].capitalize()} guides are published; {NUMW[sum(1 for t in TOPICS if t["status"]!="Published")]} are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
 <div class="callout"><b>How this calendar works</b>
 <p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
@@ -1629,11 +1828,57 @@ b6, j6 = guide_shell("Guide - Seasonal", "Holiday air fryer gifts: how to choose
  picks=("P3","P1","P4"))
 page_to("guide-gift-picks.html","Air fryer gifts that get used | Countertop Guide","The gift check that needs no price tag: counter depth, household size, dishwasher-safe parts and a panel the recipient will actually learn.",b6,j6,"guide-page")
 
+# ---------- GUIDE 10: instant-read vs wireless (published from the topic calendar, week 2026-12-08) ----------
+b10, j10 = guide_shell("Guide - Thermometers", "Instant-read vs wireless thermometer: do you need both?",
+ "These two tools answer different questions. One tells you the temperature of the food in front of you, in about a second. The other tells you the temperature of food you are not standing next to. Whether you need both depends on how often you leave the kitchen during a cook - and on two listings that do not state the same kind of accuracy claim.",
+ """
+<h2>The one-line answer</h2>
+<p>If you grill, pan-fry or roast and stay nearby, the handheld instant-read covers it. If you smoke, roast low and slow, or cook a bird big enough to need an hour, the wireless probe set earns its place. Owning both is common because they fail in different ways: a handheld cannot watch a roast, and a probe set cannot give you a reading in a saucepan of caramel in two seconds.</p>
+
+<h2>What each listing actually states</h2>
+<div class="table-scroll"><table>
+<tr><th>Question</th><th>ThermoMaven instant-read (B0DHZTCNR5)</th><th>CHEF iQ Sense wireless, 3 probes (B0DZFD6R9Z)</th></tr>
+<tr><td>Stated accuracy</td><td>&plusmn;0.5&deg;F, with NIST and NSF certification named in the title <span class="fine">(per listing)</span></td><td>No &plusmn; figure in the fields we captured <span class="badge-warn">not stated</span></td></tr>
+<tr><td>Read time</td><td>1 second, thermocouple sensor <span class="fine">(per title and bullets)</span></td><td>Continuous monitoring; each probe reports to the hub and the app <span class="fine">(per bullets)</span></td></tr>
+<tr><td>How many readings</td><td>One at a time, in your hand</td><td>Three probes at once, from the app</td></tr>
+<tr><td>Range</td><td>Not applicable - you are holding it</td><td>&ldquo;WiFi unlimited range&rdquo; with app monitoring, plus Bluetooth in the connectivity field <span class="fine">(per listing)</span></td></tr>
+<tr><td>Heat rating</td><td>Not stated as a probe rating in the fields we captured</td><td>1000&deg;F heat safe <span class="fine">(per title and bullets)</span></td></tr>
+<tr><td>Water</td><td>IP67, can be rinsed <span class="fine">(per title and bullets)</span></td><td>Not stated in the fields we captured</td></tr>
+<tr><td>Power</td><td>Battery; a calibration certificate is included <span class="fine">(per included-components field)</span></td><td>Rechargeable hub; up to 50 hours per charge <span class="fine">(per bullets)</span></td></tr>
+<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">Amazon listing</a></td></tr>
+</table></div>
+<p class="small">Both columns are read from the product's own listing on the date shown in the byline. Where a field is absent we write &ldquo;not stated&rdquo; rather than assuming a comparable value.</p>
+
+<h2>The asymmetry that decides it</h2>
+<p>Only one of these two listings makes a numeric accuracy claim, so an accuracy comparison would be a comparison of a number against silence. That is not a reason to prefer the cheaper tool; it is a reason to check the wireless listing&rsquo;s manual or product-support documents before you buy it <em>for accuracy</em>. Buy it for coverage, not for a tolerance figure you have not seen.</p>
+
+<h2>Four questions that sort most buyers</h2>
+<ol>
+<li><strong>Do you leave the room during a cook?</strong> If yes, a handheld is the wrong only-tool. Probes that report to a phone are the ones that solve that.</li>
+<li><strong>Do you cook more than one protein at once?</strong> Three probes against one. If you regularly do a joint and a chicken together, the count matters.</li>
+<li><strong>Do you need a reading in a saucepan?</strong> Caramel, custard, oil and sugar work are handheld jobs. A probe in a hub is not designed for a spoon-and-stir check.</li>
+<li><strong>Do you want the tool to survive the sink?</strong> One listing states IP67 and rinsing; the other does not state a water rating in the fields we captured.</li>
+</ol>
+
+<h2>What we will not tell you</h2>
+<p>We have not calibrated either unit, and we have not cooked with either. The accuracy sentence in this guide is the seller's claim, attributed, with the certification it names. If a tolerance figure matters to your cooking, spend the two minutes it takes to find the manual on the listing before you order.</p>
+""",
+ [("Do I need both thermometers?","Not necessarily. A handheld instant-read covers grilling, pan-frying and quick checks. A wireless probe set covers long cooks you are not standing next to. Buy the second only if you leave the kitchen during cooks."),
+  ("Which one is more accurate?","We cannot say from the listings. The ThermoMaven listing states a tolerance of plus or minus 0.5 degrees F with NIST and NSF certification named. No tolerance figure appears in the CHEF iQ fields we captured, so ranking them would be inventing a number."),
+  ("Does the wireless thermometer need WiFi?","The listing describes WiFi unlimited range with app monitoring and also lists Bluetooth in its connectivity field. Either way you need the app and the hub for remote readings."),
+  ("Can the instant-read stay in the oven?","That is not what a handheld instant-read is for, and the listing does not state an oven-safe probe rating in the fields we captured. Use a probe designed to stay in the oven.")],
+ picks=("P4", "P5"))
+page_to("guide-instant-read-vs-wireless.html", "Instant-read vs wireless thermometer | Countertop Guide",
+ "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure.",
+ b10, j10, "guide-page")
+
+
 # ---------- REVIEW DESK ----------
 desk_body = f"""
 <p class="eyebrow">Review desk</p>
 <h1>Everything internal, in one place</h1>
 <p class="lede">This is the counter behind the counter: the register, the open questions, the flags, the method and the money rules. Reader-facing pages stay out of here on purpose - you will not find a row of status badges on the shop pages - but every one of these surfaces is reachable from the masthead&rsquo;s Review desk link and from the footer of every page.</p>
+<h2>The eight surfaces</h2>
 <div class="grid cols-2">
   <article class="card"><span class="tag">Evidence</span><h3><a href="verification.html">Verification register</a></h3><p>Line by line: submitted short link, intended ASIN, official listing URL, confirmation date and source, the observed redirect target in its own separate field, and every product fact with the link it came from.</p></article>
   <article class="card"><span class="tag">Open items</span><h3><a href="flagged.html">Flagged for review</a></h3><p>Every irregularity and unverified item, with the action that would close it. Flags never block publishing; they block claims.</p></article>
@@ -1759,28 +2004,41 @@ print("consolidated pages wired:", len(MERGED))
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for pg in PAGES:
-    if pg["kind"] == "merged":
+    if pg["kind"] == "merged" or not pg["indexable"]:
         continue
-    sm.append(f"<url><loc>{esc(abs_url(pg['slug']))}</loc><lastmod>{VERIFIED}</lastmod></url>")
+    sm.append(f"<url><loc>{esc(abs_url(pg['slug']))}</loc><lastmod>{ISSUE}</lastmod></url>")
 sm.append("</urlset>")
 open("sitemap.xml","w").write("\n".join(sm) + "\n")
 def rfc(d):
     import datetime as _dt
     return _dt.date.fromisoformat(d).strftime("%a, %d %b %Y 00:00:00 GMT")
-# GUIDES is derived from GUIDE_CARDS above: one source for the feed, the index and the count.
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',
       '<description>Spec-backed air fryer and meat thermometer buying guides, written from the Amazon listing.</description>',
       f'<atom:link href="{esc(BASE)}/feed.xml" rel="self" type="application/rss+xml"/>',
       f'<lastBuildDate>{rfc(VERIFIED)}</lastBuildDate>']
+# One line-up, two surfaces: the feed can never list a guide the pages do not, or omit one
+# they do. A mismatch is a build failure, not a review note.
+assert {g[0] for g in GUIDES} == {c[0] for c in GUIDE_CARDS}, "feed and the guide line-up disagree"
 for slug, t, d in GUIDES:
     u = esc(abs_url(slug))
-    fd.append(f"<item><title>{esc(t)}</title><link>{u}</link><guid>{u}</guid><pubDate>{rfc(pdate(slug))}</pubDate><description>{esc(d)}</description></item>")
-assert {c[0] for c in GUIDE_CARDS} == {g[0] for g in GUIDES}, "guide index and feed disagree"
+    fd.append(f"<item><title>{esc(t)}</title><link>{u}</link><guid>{u}</guid><pubDate>{rfc(ISSUE)}</pubDate><description>{esc(d)}</description></item>")
 fd += ['</channel>','</rss>']
 open("feed.xml","w").write("\n".join(fd) + "\n")
-open("robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
-idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] not in ("admin", "merged")]
+open("robots.txt","w").write(
+    "User-agent: *\n"
+    "Allow: /\n"
+    "# One site to index: the root publication only (see flagged.html FLG-039).\n"
+    "# The secondary builds on this host are review-only material, kept out of the\n"
+    "# search index. Remove a rule only if the owner promotes that build to its own site.\n"
+    "Disallow: /counter-check/\n"
+    "Disallow: /docs/\n"
+    "Disallow: /articles/\n"
+    "Disallow: /review/\n"
+    "Disallow: /analytics-endpoint/\n"
+    f"Sitemap: {BASE}/sitemap.xml\n"
+)
+idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] != "merged"]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
 SM_URLS = open("sitemap.xml").read().count("<url>")
 MERGED_N = sum(1 for pg in PAGES if pg["kind"] == "merged")
@@ -1796,10 +2054,12 @@ for _f in _g.glob("*.html"):
         open(_f, "w").write(_s2)
 print("sponsored post-step done")
 # Post-step: numbers a page quotes about the site itself are substituted from the build, so a
-# count can never go stale the way "fourteen questions" did (SG-51's sibling problem).
+# count can never go stale the way "fourteen questions" did (SG-59's sibling problem).
 _desk = open("suggestions.html").read()
 _board_ids = set(_r.findall(r'id="((?:SG|Q|DI)-\d+)"', _desk))
 _TOK = {"@@PAGE_N@@": str(len(PAGES)), "@@GUIDE_N@@": str(GUIDE_N), "@@TOPIC_N@@": str(len(TOPICS)),
+        "@@PRODUCT_N@@": str(len(PRODS)),
+        "@@DI_N@@": str(len(_r.findall(r'<tr id="DI-', _desk))),
         "@@FLAG_N@@": str(open("flagged.html").read().count('id="FLG-')),
         "@@SG_N@@": str(SG_N), "@@Q_N@@": str(Q_N), "@@BOARD_N@@": str(len(_board_ids))}
 # The desk counts what is actually on the page, because the suggestions tables, the question
@@ -1807,11 +2067,11 @@ _TOK = {"@@PAGE_N@@": str(len(PAGES)), "@@GUIDE_N@@": str(GUIDE_N), "@@TOPIC_N@@
 if len(_board_ids) < SG_N + Q_N:
     raise SystemExit(f"build refused: desk has {len(_board_ids)} numbered ids, fewer than {SG_N + Q_N} table rows")
 for k, v in _TOK.items():
-    if k.strip("@") not in ("PAGE_N",) and v == "0":
+    if v == "0":
         raise SystemExit(f"build refused: count {k} is 0 - a page would print a zero it does not mean")
 for _f in _g.glob("*.html"):
     _s = open(_f).read()
-    _s2 = _r.sub(r"@@(?:PAGE_N|GUIDE_N|TOPIC_N|FLAG_N|SG_N|Q_N|BOARD_N)@@", lambda m: _TOK[m.group(0)], _s)
+    _s2 = _r.sub(r"@@(?:PAGE_N|GUIDE_N|TOPIC_N|FLAG_N|SG_N|Q_N|PRODUCT_N|DI_N)@@", lambda m: _TOK[m.group(0)], _s)
     if _s2 != _s:
         open(_f, "w").write(_s2)
 print("count tokens substituted:", len(_TOK))
