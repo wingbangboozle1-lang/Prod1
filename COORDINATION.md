@@ -736,7 +736,7 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
 - **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
 
-#### Follow-up — T-5461-B gate blast-radius fix (session `42e09357`, 2026-11-20, PR #50)
+#### Follow-up — T-5461-B gate blast-radius fix (session `42e09357`, 2026-11-20, PR #56)
 
 - **What broke:** `main`@`2dee010` failed the Pages deploy at *Rebuild the site and the social card*. Cause was this session's decision-register triage rule (`raise SystemExit` on any board row not mapped to a theme). PR #45/#49 had just added `SG-54..57` and `Q-38..41`, so an unrelated session's board append stopped the whole site from publishing. Logged as FLG-082.
 - **Fix, in the generator:** the rule is now a build warning plus a "Nobody has taken these yet" table on `decisions.html#unowned` (rendered only when rows are unowned), so an unowned row stays visible to whoever must triage it instead of removing the site from readers. Ghost ids (a theme pointing at a deleted row) are dropped from the render with the same warning, so `check_site.mjs`'s anchor rule cannot fail a deploy over a stale id either.
