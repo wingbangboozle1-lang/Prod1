@@ -66,8 +66,16 @@ jobs:
       # a class without a rule, or a var() without a value, block the publish.
       - name: Publishing gate - design system coverage
         run: node scripts/check_style.mjs
+<<<<<<< HEAD
       - name: Publishing gate - measurement contract
         run: node scripts/check_measure.mjs
+=======
+      # Added 2026-11-20: structural checks a browser would show and a regex gate cannot -
+      # asset 404s, heading outline breaks, images with no alt decision, unclosed tags,
+      # Amazon links missing rel=sponsored. Still not a visual review; see the script header.
+      - name: Publishing gate - page structure
+        run: node scripts/verify_structure.mjs
+>>>>>>> origin/main
 
       # Pages here is published from the `main` branch (the repository's Pages build
       # source is "legacy"), which is why the root of this repo IS the site. In that mode
