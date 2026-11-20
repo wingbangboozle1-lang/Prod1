@@ -727,6 +727,32 @@ Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched f
 
 **Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/make_og.py`, `scripts/verify_structure.mjs` and `.github/workflows/*` are read-only this session. No other session's files edited. Shared outputs (sitemap, feed, search index, nav, suggestions board) regenerated from the merged generator per protocol.
 
+## Session arena/46e39d18-prod1 claim (2026-11-20)
+
+Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched from `main @ 2dee010`. Found the build broken on arrival: `build_site.py` exits 1 at the decision-register triage check because SG-54..SG-57 and Q-38..Q-41 (added by session 543ed7f4) were never triaged into `data/decisions.json` themes. The abort happens before the sponsored-link post-step, so the four pages the build did write are missing `rel="sponsored"` on citation links and three gates fail. This session triages the eight rows, rebuilds, re-runs all gates, spot-verifies the five listings, then PR + merge + Pages deploy per the brief.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-46E-1 Triage SG-54..SG-57, Q-38..Q-41 into decisions.json themes; rebuild; all gates green | in progress | arena/46e39d18-prod1 | `data/decisions.json`, regenerated root `*.html`, `sitemap.xml`, `feed.xml`, `data/search-index.json` | Gate scripts in `scripts/` | Build was broken on arrival (see above) |
+| T-46E-2 Line-by-line spot verification of the 5 listings vs official Amazon.com pages | in progress | arena/46e39d18-prod1 | `COORDINATION.md` (this section) | Amazon.com listing pages fetched 2026-11-20 | Volatile figures stay dated snapshots per FLG-023 |
+| T-46E-3 PR to main, merge, confirm Pages deploy | pending | arena/46e39d18-prod1 | — | `gh` PR + Pages API | — |
+
+**Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/` are read-only this session. No other session's files edited.
+
+### Session arena/46e39d18-prod1 — verification record (2026-11-20)
+
+**Official sources read line by line in this session** (fetched 2026-11-20 from Amazon.com):
+- https://www.amazon.com/dp/B0CDY277D3 — title confirmed exactly: "CHEFMAN 6 Quart Dual Basket Air Fryer Oven with Easy View Windows, Sync Finish, Hi-Fry, Auto Shutoff, 2 Independent 3Qt Nonstick Dishwasher Safe Frying Baskets, Digital Double Air Fryer - Black". Matches register P1.
+- https://www.amazon.com/dp/B09B7SB46R — title confirmed exactly: "Emeril Lagasse 26QT French Door Multi-Function Air Fryer Toaster Oven | Countertop Convection Cooker, 24 One-Touch Preset Options, Extra Large Interior, Six Cooking Accessories Included". Matches register P2.
+- https://www.amazon.com/dp/B08DKYBTPH — title confirmed: "Chefman Air Fryer 8 Qt | TurboFry® 4-in-1 with 450°F Hi-Fry Option for Crispier Results | Bake, Dehydrate, Frozen | XL Nonstick Dishwasher-Safe Basket | Stainless Steel". Register P3 omits the ® glyph; immaterial, noted here rather than silently edited.
+- https://www.amazon.com/dp/B0DHZTCNR5 — title confirmed exactly (ThermoMaven 1 Sec, ±0.5℉, NIST&NSF, Black). Buy box $16.99 and In Stock confirmed live; matches register P4 snapshot.
+- https://www.amazon.com/dp/B0DZFD6R9Z — title confirmed exactly (CHEF iQ Sense, 3 Ultra-Thin Probes, Gen3). Matches register P5.
+
+**What was NOT re-read this session (honest scope):** buy-box prices for P1/P2/P3/P5, rating counts, dimensions, wattage and bullets were not re-captured from the fetched chunks; the register's dated 2026-11-20 observations (FLG-060, session 1b65e5a1) stand. Carousel prices in the fetched pages belong to other products and were not used. Volatile figures are not displayed on shop pages per FLG-023, so nothing on the reader-facing site depends on them.
+
+**Irregularities:** (1) Build was broken on arrival — untriaged SG-54..57/Q-38..41 aborted the build before the sponsored post-step; fixed by triaging all eight rows; main's PR #49 (session fe0774e7) landed the same repair while this session worked, so on merge this session adopted main's triage verbatim (Q-38 in Measurement) and kept only this verification record as its unique contribution. (2) P3 ® glyph difference, immaterial.
+
+**Gates:** build exit 0; check_site, check_meta, check_style, check_measure, verify_structure, counter-check all pass. Deterministic: rebuild produces no further diff.
 ### Repair record — session arena/fe0774e7-prod1 (2026-11-20), PR #49
 
 - **What broke:** `main` at `2dee010` (merge of PR #44) failed the Deploy GitHub Pages workflow. `build_site.py` stops with "data/decisions.json has not triaged these board rows". Rows Q-38…Q-41 and SG-54…SG-57 came from `543ed7f4` (`108ed91`) and were never triaged into a theme. Nothing from the failed build was published.
