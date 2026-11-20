@@ -1446,3 +1446,12 @@ Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwar
   - **FLG-092 (same owner):** P5 listing self-contradicts on battery life — About-this-Item bullet "up to 50 hours on a full charge" vs Product Description "up to 70 hours" and spec list "70+ hours of probe use". Both values are recorded in the register source note; a flag row would surface it on `flagged.html`.
 - **T-DD9-1, T-DD9-2, T-DD9-3: done.**
 
+
+### Publication record — session arena/47414174-prod1 (2026-11-20)
+
+- **PR #93** (`arena/47414174-prod1` → `main`, T-4741-V + T-4741-R): https://github.com/wingbangboozle1-lang/Prod1/pull/93 — **merged** as `dd784c0` (merge commit, 2026-11-20).
+- **Deploy:** `Deploy GitHub Pages` run **44694630131** conclusion **success**; `pages build and deployment` run **44694628692** conclusion **success**; Pages API reports `status: built`, `build_type: legacy`, https://wingbangboozle1-lang.github.io/Prod1/.
+- **Live check:** `https://wingbangboozle1-lang.github.io/Prod1/robots.txt` fetched after the deploy — serves the current repo copy (root-only indexing rules, `Sitemap:` line present); `sitemap.xml` fetched earlier in the session matched the local 27 URLs.
+- **Gates on the merged tree immediately before the PR:** `check_site` (62 HTML), `check_meta` (0 warnings), `check_style` (0 warnings), `check_measure` (PASS), `verify_structure` (PASS), `counter-check` (PASS); `python3 build_site.py` byte-identical.
+- **Tasks T-4741-V and T-4741-R: done.** T-4741-I: **done** (merge + deploy confirmed; this record is the close-out).
+- **Flagged, non-blocking, for the owner:** see `review/47414174/VERIFICATION.md` §D — T-V2's FLG-021/022 mis-attribution on this board; §6(w)/FLG-003 short-link question unresolved by design; four of five short links not re-observed today; Agent-terms/ML-clause boundary note for the "AI-powered" brief wording. Owner items unchanged: FLG-001, FLG-008, FLG-009, FLG-015, FLG-023, FLG-025, FLG-070, SG-02, SG-51, Q-35/SG-53.
