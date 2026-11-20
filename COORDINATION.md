@@ -1053,3 +1053,41 @@ re-verification, the contrast audit and the design-prompt strengthening.
 - **Tasks:** T-A7A-1 done, T-A7A-2 done, T-A7A-3 done. No open claims from this session.
 
 Sources: the five Amazon.com listing pages above; Amazon Associates Operating Agreement §5 (disclosure wording); Amazon Associates Program Policies (price/availability, IP license); Google Search Central (rel="sponsored", self-canonical, sitemaps); FTC Disclosures 101.
+### Publication record — session arena/e05155a0-prod1 (2026-11-20)
+
+- **Pull request #48** (`arena/e05155a0-prod1` → `main`, "e05155a0: re-verify official sources,
+  contrast audit, design-prompt polish direction, SG-58..60 + Q-42..44, exec summary"): merged
+  2026-11-20 06:56:51 UTC as **`da6d49e`** (fast-forward merge, no waiting for approval). PR link:
+  https://github.com/wingbangboozle1-lang/Prod1/pull/48
+- **Content delivered this session.** (T-E1) line-by-line re-verification from official sources,
+  recorded in `review/e05155a0/VERIFICATION.md`; (T-E2) code-level visual QA — 20/20 WCAG AA
+  contrast pairs pass, anti-slop scan clean (no browser render available in this sandbox, so this
+  is a mechanical stand-in, captured as SG-59); (T-E3) `DESIGN_PROMPT.md` §9 polished-marketing
+  direction; (T-E4) suggestion/Q-I-A rows **SG-58, SG-59, SG-60** and **Q-42, Q-43, Q-44** wired
+  into the interactive decision board; (T-E5) `executive-summary.html` refreshed.
+- **Rebase friction, resolved without loss.** The branch was rebased three times onto advancing
+  `main` (`2dee010` → `c08fd15` → `038cd02` → `b41bb12`); each pass hit an append-vs-append
+  `COORDINATION.md` conflict and one `DESIGN_PROMPT.md` §9 conflict, resolved by removing only the
+  conflict markers and keeping both sessions' records (and merging the two parallel §9 sections
+  into one). Board ID collision: session 543ed7f4 took SG-54..57 / Q-38..41, so this session's rows
+  were renumbered to **SG-58..60 / Q-42..44** rather than duplicated; `data/decisions.json` was
+  resolved by keeping main's triage of SG-54..57/Q-38..41 and adding only SG-58..60/Q-42..44 to the
+  Design/anti-slop theme (D-06). All other sessions' records preserved verbatim.
+- **Gates (re-run on the final rebased tree).** `python3 build_site.py` deterministic, exit 0
+  (37 pages, 27 sitemap URLs, 4 consolidated); `check_site.mjs` PASSED 62 HTML; `check_meta.mjs`
+  0 warnings; `check_style.mjs` 0 blocking (duplicate-id conflict from the ID collision resolved);
+  `check_measure.mjs` PASSED; `verify_structure.mjs` 0 blocking; `counter-check/tools/check_site.py`
+  PASSED. `git diff --check` clean.
+- **Deploy.** `Deploy GitHub Pages` run **44691382035** on `da6d49e`: **success**. Pages API:
+  `status: built`, source `main`. Live front page (fetched 2026-11-20) shows the verbatim OA §5
+  disclosure above the fold, `rel="sponsored"` links carrying `tag=shopnow047c-20`, dated "specs
+  read from this listing 2026-11-20" lines, and FLG-022 shown on the Chefman 8QT wattage row.
+- **Flagged for review (non-blocking, not edited here).** All prior flags remain valid: FLG-001
+  Associates Special Link test; FLG-003/015 short-link compliance unresolved (never claimed
+  invalid); FLG-004/072 thermometer dimensions; FLG-005 Emeril warranty term; FLG-007/SG-02 custom
+  domain; FLG-008/SG-03 analytics endpoint hosting; FLG-009/SG-04 photography licence; FLG-023
+  price/rating display policy; FLG-039/070 three builds on one host; FLG-051/SG-43 Pages source is
+  `legacy`; FLG-058 per-card disclosure FTC read; FLG-071 thermometer tolerance. Owner picks
+  SG-58/SG-59/SG-60 and Q-42/Q-43/Q-44 remain open on `suggestions.html`. Request **R-10**
+  (blocking WCAG-contrast gate) logged to the style-gate owner.
+- **Status:** T-E1, T-E2, T-E3, T-E4, T-E5, T-E6 **done**. No open claims from this session.
