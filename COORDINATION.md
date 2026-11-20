@@ -616,3 +616,28 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **Fix:** both sides of the conflict were independent gate steps, so both are kept: `check_measure.mjs` (measurement contract) and `verify_structure.mjs` (page structure). Nothing else changed. The repo was scanned with `git grep` for conflict markers; `pages.yml` was the only file that had them.
 - **Verification:** the workflow was parsed with PyYAML, which reads all 16 steps. The gates were re-run locally and pass (`check_site` 55 HTML, `check_meta` 0 warnings, `check_style` 0 warnings, `check_measure` self-test PASSED, `verify_structure` 0 blocking, `counter-check` PASS). Pages source sources are unchanged: GitHub's own Pages documentation was not re-read in this pass.
 - **Irregularity for review:** the PR #37 merge was accepted with conflict markers in a workflow file. The board should not accept a merge whose tree fails a YAML parse; logged here. Owner-visible on `flagged.html`: not added, because the defect is fixed in this pass.
+
+## Reconciliation — session arena/221ec9e6-prod1 (2026-11-20)
+
+Session ID: **arena/221ec9e6-prod1** (branch `arena/221ec9e6-prod1`, base `3392c0d` = `main` as merged by PR #35).
+
+This session claimed **T-221 (close R-06, unify the five-event measurement taxonomy** across
+`assets/app.js`, `analytics-endpoint/server.py`, `data/editorial.json` and `methodology.html`, plus a
+`check_analytics.mjs` gate and a `pages.yml` wiring) from base `3392c0d`. While that claim was in flight,
+`origin/main` advanced and **PR #37 from session `arena/fbfe1742-prod1`** implemented the same lane and
+more: the one five-event contract (M1), `scripts/check_measure.mjs` (M2), endpoint `selftest.py`, deletion
+of the legacy third-vocabulary tracker `assets/js/analytics.js`, the robots one-site-to-index change
+(M3), and a line-by-line verification pass (M4).
+
+**Handoff, not duplication.** On rebase the claim collided with the already-merged record above (and again
+after PRs #39–#41 advanced `main`). Each collision was resolved by keeping the merged board in full and
+re-appending this note. **No duplicate edits were made** to `analytics-endpoint/**`,
+`scripts/check_measure.mjs`, `data/editorial.json`, `assets/app.js` or `build_site.py` — those files are
+already correct on `main`. R-06 and R-07 are closed by `fbfe1742`; this session does not re-open them.
+
+**This session's genuine remaining lane** (not touched by any merged session, and not owner-credential
+blocked): an independent **end-to-end verification and publish-readiness pass** on the merged `main` —
+re-run every gate, rebuild for determinism, walk the generated tree for broken links and disclosure, and
+confirm the GitHub Pages deploy, then record the result. Owner-only items (FLG-001 Special Link test,
+SG-03 analytics host, SG-04 photography licence, FLG-023 price display, SG-02 custom domain) remain open
+and are not attempted here.
