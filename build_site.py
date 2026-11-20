@@ -301,7 +301,7 @@ def topic_band():
   <div class="wrap topic-inner">
     <div>
       <h2>The topic calendar</h2>
-      <p>Eight question-shaped topics, five published and three queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p>{len(TOPICS)} question-shaped topics, {sum(1 for t in TOPICS if t["status"]=="Published")} published and {sum(1 for t in TOPICS if t["status"]!="Published")} queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
       <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
     </div>
     <div class="topic-list">{rows}</div>
@@ -588,43 +588,62 @@ page_to("guide-thermometer-accuracy.html","Reading thermometer accuracy claims |
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
-<h1>What this site is, what is verified, and what happens next</h1>
-<p class="lede">The Countertop Guide is a spec-backed affiliate publication for two kitchen categories - air fryers and meat thermometers - built from five Amazon listings verified on {VERIFIED}. It leads with products and buyer questions, not with process. Every number links to its source.</p>
+<h1>What is live, what is verified, what needs your decision</h1>
+<p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
+
+<div class="grid cols-3">
+  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, nine question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on {VERIFIED}, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
+  <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
+</div>
+
 <h2>The five products</h2>
 <div class="table-scroll"><table>
-<tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Spec fields verified</th><th>Listing</th></tr>
+<tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Verified from the listing</th><th>Listing</th></tr>
 <tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets</td><td><a href="https://www.amazon.com/dp/B0CDY277D3">B0CDY277D3</a></td></tr>
 <tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets, wattage (warranty period not stated)</td><td><a href="https://www.amazon.com/dp/B09B7SB46R">B09B7SB46R</a></td></tr>
 <tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets</td><td><a href="https://www.amazon.com/dp/B08DKYBTPH">B08DKYBTPH</a></td></tr>
-<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>title, accuracy claim, features, bullets (dimensions not captured)</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a></td></tr>
-<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>title, sensors, features, bullets (dimensions and +/-F figure not captured)</td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a></td></tr>
+<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>title, accuracy claim, features, bullets (dimensions not stated)</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a></td></tr>
+<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>title, sensors, features, bullets (dimensions and tolerance figure not stated)</td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a></td></tr>
 </table></div>
-<h2>What is verified</h2>
+<p class="fine">Tracking ID <code>{TAG}</code>. Outbound format <code>https://www.amazon.com/dp/ASIN?tag={TAG}</code>. The supplied <code>link.amazon</code> short links are recorded as submitted, with their observed redirects in a separate field; they are not used as buttons.</p>
+
+<h2>What is verified, and how</h2>
 <ul>
-<li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target).</li>
-<li>Titles, dimensions (air fryers), capacity, special features and bullets as shown on Amazon.com on {VERIFIED}. Price and rating were observed on the same date and are recorded in the register, not displayed on shop pages - see FLG-032 for the policy reason.</li>
-<li>Compliance posture: disclosure above the fold on every page and in the footer; every outbound product link is rel="sponsored" and labeled; no trend or popularity claims without a dated snapshot; no hands-on testing claims.</li>
+<li><strong>Product facts</strong> come from each product&rsquo;s own listing, read on {VERIFIED}, with the URL recorded per field in the <a href="verification.html">verification register</a>. Where a listing contradicts itself, both values are published and flagged rather than silently resolved (<a href="flagged.html#FLG-002">FLG-002</a>, <a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-022">FLG-022</a>).</li>
+<li><strong>Policy text</strong> was read from the official pages and quoted, not summarised from memory: Operating Agreement &sect;5 (disclosure), Program Policies (price and availability, ratings), Google Search Central (outbound link qualification), FTC (disclosure placement). Sources are listed on <a href="compliance.html">the compliance page</a> with the read date.</li>
+<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, and four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy, and now that every CSS class actually has a style. A page that fails cannot merge.</li>
 </ul>
-<h2>What is not verified (and therefore not claimed)</h2>
-<ul>
-<li>Thermometer dimensions (not stated on either listing), the Emeril warranty period (a PDF is linked, nothing on the page), the CHEF iQ +/-F accuracy figure, and the Chefman 8QT wattage, where one listing disagrees with itself - all blank or attributed, and flagged.</li>
-<li>Short-link compliance status (unresolved), Special Link test in Associates Central (manual gate), commission rates (not published here), search volume / popularity (not claimed).</li>
-<li>Product photography (no Amazon images used; real photography needs a licence decision).</li>
-</ul>
+
+<h2>What is not claimed, and why</h2>
+<div class="table-scroll"><table>
+<tr><th>Not claimed</th><th>Reason</th><th>What would change it</th></tr>
+<tr><td>Hands-on testing or &ldquo;we tried it&rdquo;</td><td>Nobody has cooked in these machines. The FTC guidance is explicit that you cannot talk about your experience with a product you have not tried, and Section 5 of the Amazon Agreement makes the same point about accuracy.</td><td>A funded test protocol with dated photos (<a href="suggestions.html#SG-09">SG-09</a>)</td></tr>
+<tr><td>Prices, ratings or &ldquo;bought in past month&rdquo; on shop pages</td><td>Program Policies allow price and availability only when Amazon serves the link or the data comes from the Creators/PA API within a 24-hour cache. A static build satisfies neither. The dated figures we saw live in the register as observations (<a href="flagged.html#FLG-032">FLG-032</a>).</td><td>Creators/PA API access with a refresh gate (<a href="suggestions.html#SG-20">SG-20</a>)</td></tr>
+<tr><td>Search volume, traffic or revenue</td><td>No Search Console property exists yet and no authorised first-party report has arrived. The campaign ledger is empty by design.</td><td>Search Console access + Associates reports, recorded with their dates</td></tr>
+<tr><td>Product photography</td><td>Amazon&rsquo;s Program Content is licensed, not owned; generated product shots would mislead. Imagery is our own drawings until a licence exists (<a href="flagged.html#FLG-041">FLG-041</a>).</td><td>A photography or permission decision (<a href="suggestions.html#SG-04">SG-04</a>)</td></tr>
+</table></div>
+
 <h2>How money and measurement work</h2>
-<p>Outbound links use tracking ID <code>{TAG}</code> and are marked sponsored. Click and conversion measurement is defined (five events) with a privacy-preserving local counter; the self-hosted endpoint is a documented stub, not yet deployed. The campaign ledger starts empty - orders and revenue are recorded only from authorized first-party reports. See <a href="methodology.html">Method &amp; campaign ledger</a>.</p>
+<p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because no endpoint is hosted. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
+
 <h2>What this pass changed</h2>
 <ul>
-<li><strong>Reader-facing order.</strong> Front page now leads with the picks and the products; the register, flags and method moved behind one Review desk link and the footer.</li>
-<li><strong>No stale figures.</strong> Price, rating, rating count, badge and &ldquo;bought in past month&rdquo; are off the shop pages, with the policy read behind the decision (<a href="flagged.html#FLG-032">FLG-032</a>).</li>
-<li><strong>Disclosure wording.</strong> The strip and footer carry the Operating Agreement&rsquo;s sentence verbatim, plus a plain-language line a reader can parse.</li>
-<li><strong>Findability.</strong> Per-page canonical, unique titles and descriptions, absolute raster og:image, generated sitemap and feed, ItemList/Article/Breadcrumb structured data, and the canonical-vs-sitemap mismatch closed.</li>
-<li><strong>Links.</strong> Script-built chooser links now carry <code>rel="sponsored"</code> and a visible label, and the CI gate checks the JavaScript too.</li>
-<li><strong>Gate in the pipeline.</strong> <code>scripts/check_meta.mjs</code> runs before the Pages upload, which also closes request R-01 from session b4c6c619.</li>
-<li><strong>New surfaces.</strong> <code>about.html</code> (who writes this, how it earns), <code>review-desk.html</code> (every internal surface in one group) and a seasonal guide that demonstrates the cadence pipeline.</li>
+<li><strong>The site now looks designed, because the styles exist.</strong> The build was emitting 44 CSS classes with no rule and referencing 9 undefined custom properties, so cards, hero columns and status chips rendered as plain blocks. All of it is styled, and <code>scripts/check_style.mjs</code> fails the build if an unstyled class returns (<a href="flagged.html#FLG-052">FLG-052</a>).</li>
+<li><strong>Broken markup repaired.</strong> Three suggestion rows had malformed class attributes, so their status badges and row text never rendered (<a href="flagged.html#FLG-053">FLG-053</a>).</li>
+<li><strong>The social card is readable.</strong> The shared-link image had text overlapping the subtitle and captions hidden under the footer; <code>make_og.py</code> now measures each block and asserts clearance (<a href="flagged.html#FLG-054">FLG-054</a>).</li>
+<li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-055">FLG-055</a>).</li>
+<li><strong>Search metadata fits.</strong> Five titles and descriptions that would truncate in results were rewritten; the metadata gate now reports zero warnings.</li>
 </ul>
-<h2>Next gates (owner decisions)</h2>
-<p>Canonical domain, Special Link validation, photography licence, analytics endpoint, and the Suggestions board priorities. Nothing scales until those gates pass. See <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
+
+<h2>What happens next, in order</h2>
+<ol>
+<li><strong>You run the Special Link test</strong> once per product in Associates Central and confirm the destination and the tracking report. This is the one gate no session can clear from inside the repository (<a href="suggestions.html#SG-01">SG-01</a>).</li>
+<li><strong>Claim the Search Console property</strong> for the canonical host and submit the sitemap. Without it the calendar is a plan, not a measurement (<a href="suggestions.html#SG-02">SG-02</a>).</li>
+<li><strong>Pick the domain and the build source</strong> — a custom domain if you want one, and GitHub Pages set to publish from Actions so a failed gate actually blocks a release (<a href="suggestions.html#SG-43">SG-43</a>).</li>
+<li><strong>Write the next guide from measured queries</strong>, four weeks after step 2, not from instinct.</li>
+</ol>
+<p class="fine">Full working list: <a href="suggestions.html">the decision desk</a> (options, trade-offs, effort, and what each one unblocks) and <a href="flagged.html">Flagged for review</a> (every irregularity, with its source).</p>
 """
 page_to("executive-summary.html","Executive summary for the owner | Countertop Guide","What is live, what is verified, what is blocked, which decisions wait on an owner, and what the latest pass changed across the site.",exec_body)
 # ---------- SUGGESTIONS / DECISION DESK ----------
@@ -650,6 +669,19 @@ sugg_body = f"""
   <article class="card path"><span class="chip">Path C</span><h3>Look like a magazine, not a spreadsheet</h3><p>The visual overhaul: the design brief below, a typography and layout pass, real imagery only once a licence exists, and a voice pass over every article.</p><ul><li>SG-24, SG-27, SG-28, SG-31, SG-33, SG-04</li></ul><p class="fine">Cost: the highest design effort and the only path that can go wrong visually. Blocked by SG-04 (photography licence) for the imagery half.</p></article>
 </div>
 <p class="section-more">Our recommendation, stated plainly: <strong>Path B first, then A, then the non-imagery half of C.</strong> The site&rsquo;s data is already better than most affiliate sites&rsquo;; its problem is that nobody has been shown it yet. Photography stays gated until SG-04 clears, because a licence problem is a bigger loss than a plain-looking page.</p>
+
+<h2 id="the-decisions">The decision queue &mdash; six items only you can settle</h2>
+<p>Each row is a decision, not a task: it names the choice, what it unblocks, and what evidence closes it. The board below carries the full reasoning and the options. Nothing is implemented until a row is marked approved here or in the board.</p>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Decision</th><th>The choice in front of you</th><th>Unblocks</th><th>What closes it</th></tr>
+<tr><td>1</td><td><a href="#SG-01">Special Link test</a></td><td>Click one tagged link per product in Associates Central and read the tracking report</td><td>Any claim that the links earn correctly; the short-link question (<a href="flagged.html#FLG-001">FLG-001</a>)</td><td>A screenshot or note per product, dated</td></tr>
+<tr><td>2</td><td><a href="#SG-02">Search Console</a></td><td>Claim the canonical host, submit <code>sitemap.xml</code></td><td>Choosing the next topic from measured queries instead of instinct</td><td>Property verified; first 28 days of query data</td></tr>
+<tr><td>3</td><td><a href="#SG-04">Photography licence</a></td><td>Own photos, manufacturer permission, or keep drawings</td><td>Any product imagery on the site (<a href="flagged.html#FLG-041">FLG-041</a>)</td><td>A signed permission or your own shoot</td></tr>
+<tr><td>4</td><td><a href="#SG-03">Analytics host</a></td><td>Where the five-event endpoint runs, if anywhere</td><td>Outbound-click counts beyond one browser (<a href="flagged.html#FLG-008">FLG-008</a>)</td><td>A host + retention decision</td></tr>
+<tr><td>5</td><td><a href="#SG-43">Pages build source</a></td><td>Publish from Actions instead of from the branch</td><td>Making a failed gate block a release (<a href="flagged.html#FLG-051">FLG-051</a>)</td><td>Settings &rarr; Pages &rarr; Build source</td></tr>
+<tr><td>6</td><td><a href="#SG-26">Byline</a></td><td>Desk byline, a named author with a bio, or a commissioned tester</td><td>Authorship signals and any &ldquo;tested&rdquo; content (<a href="flagged.html#FLG-010">FLG-010</a>)</td><td>A real person and a contact route</td></tr>
+</table></div>
+<p class="fine">The domain question (<a href="#SG-02">SG-02</a>) sits inside decision 2: the canonical host is the GitHub Pages URL today, and a custom domain changes every canonical, every og:url and the sitemap. Choosing it before Search Console is claimed is cheaper than choosing it after.</p>
 
 <h2>The board</h2>
 <div class="table-scroll"><table>
