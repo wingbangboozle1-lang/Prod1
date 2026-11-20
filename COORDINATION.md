@@ -501,3 +501,32 @@ At claim time there is one open pull request from an older session — **draft #
 | T-627-G **Integration**: rebuild, four gates, PR to `main`, merge, confirm Pages | in progress | 62786810 | this file | Pages API + Actions run | — |
 
 **Scope.** This session edits the root publication only: `build_site.py`, `assets/`, `data/`, `scripts/`, the generated root `*.html`, `COORDINATION.md`, `review/62786810/`. It does not touch `counter-check/`, `docs/`, `articles/`, or `review/<other-session>/`.
+
+### T-627 completion record — session 62786810 (2026-11-20)
+
+| Task | Status | Files touched | Verification performed | Irregularities |
+|---|---|---|---|---|
+| T-627-A Publication polish | **done** | `assets/fonts/*` (4 woff2 + 2 OFL), `assets/art/*.svg` (5), `assets/style.css`, `build_site.py`, all root `*.html` | `check_style.mjs` gained rule 8 (a named family must have a shipped `@font-face`); negative test by moving a font file aside produced the expected failure | FLG-060 (fonts never shipped), FLG-061 (no nav state) |
+| T-627-B Publishing cadence | **done** | `build_site.py` (guide 10 + TOPICS), `data/editorial.json`, `guides.html`, `topics.html`, `feed.xml`, `sitemap.xml` | `grep guide-instant-read` → sitemap 1, feed 1, guides 1, topics 1; calendar/sitemap/feed moved in one commit | the guide's central finding is an absence (no tolerance figure on P5) → FLG-063 |
+| T-627-C Suggestion desk | **done** | `suggestions.html` via `build_site.py` | SG-44…SG-48 in their own labelled section; four also wired into the interactive review board | nothing marked approved; every row awaits the owner |
+| T-627-D Q/I/A | **done** | `suggestions.html` (Q-28…Q-32), `review/62786810/QUESTIONS.md` | five questions this pass could not close, each with a route and an owner | A3 (packed vs unpacked dimensions) has no route from the listing at all |
+| T-627-E Executive summary | **done** | `executive-summary.html` via `build_site.py` | figures quoted from the register; listing re-reads now dated field by field | — |
+| T-627-F Line-by-line re-check | **done** | `review/62786810/VERIFICATION.md` | §5 listing re-reads; OA §5 and §6 fetched 2026-11-20 and matched character for character; two short links followed (land with no `tag=`) | the Fraunces package ships an Inter copyright line — upstream artifact, authoritative OFL fetched and local header corrected |
+| T-627-G Integration | **done** | `COORDINATION.md`, PR, `main` | five gates green on the merged tree; rebuild byte-identical twice | — |
+
+**Findability change shipped in scope:** seven internal surfaces (decision desk, executive summary,
+methodology, design brief, review desk, dashboard, site search) now carry `noindex, follow` and are
+out of the sitemap. The sitemap went from 26 URLs to 20, all buying or reference pages. The
+verification register, flagged list and compliance page stay indexed on purpose. `check_meta.mjs`
+now checks both directions, so a page in neither the sitemap nor noindex fails the build. Recorded
+as FLG-065 for review — it is a judgement call, and reversal is one line in `NOINDEX`.
+
+**Scope discipline held.** `data/products.json`, `docs/`, `articles/`, `counter-check/**` and
+`review/<other-session>/` were not edited. Where a defect lived in `data/products.json` (the
+em-dash placeholder carrying two meanings, FLG-066) the fix was made on the read side in the
+generator and logged as a request to that file's owner.
+
+**Still open and needing the owner, unchanged by this pass:** FLG-001 (Special Link test),
+FLG-008/SG-03 (analytics host), FLG-009/SG-04 (photography licence), FLG-023 (price display
+policy), FLG-051/SG-43 (Pages build source), FLG-062 (three builds on one host), SG-02
+(custom domain). None blocks the merge.
