@@ -893,3 +893,15 @@ Session ID: arena/a7a85386-prod1. Branch: `arena/a7a85386-prod1`, based on main 
 | T-A7A-2 Re-verify the five submissions against the official Amazon.com listings | in progress | arena/a7a85386-prod1 | data/products.json (read only), verification.html, flagged.html | Re-read ASIN, title, officialListingUrl and affiliate tag format; confirm intended-ASIN (`asin`) and observed-redirect (`observedRedirectTarget`) stay in separate fields; blanks stay blank and flagged. Titles last read 2026-11-20 (sessions 1187e20d, 543ed7f4); this pass re-reads titles via fetch_page and logs any drift |
 | T-A7A-3 Build, gates, publish, PR, merge, Pages check | unclaimed | arena/a7a85386-prod1 | build_site.py, scripts/*.mjs, .github/workflows/pages.yml, root HTML | `python3 build_site.py` + check_site/check_meta/check_style/verify_structure/counter-check gates; PR from this branch to `main`; merge; confirm Pages `built`; record PR link + merge result in this board |
 
+
+## Claim — session arena/84799c33-prod1 (2026-11-20)
+
+Branch `arena/84799c33-prod1`, rebased onto `main` @ `fdc7387` before claiming. No other session had an unexpired claim at this point; every prior session above is recorded as done/merged.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-8479-1 Re-verify all five ASINs against the live Amazon.com listings, line by line, and record the result | in progress | arena/84799c33-prod1 | `COORDINATION.md`, `data/products.json` (only if a value moved) | Amazon.com `/gp/aw/d/<ASIN>` fetched 2026-11-20 (see record below) | Snapshot drift only; see record |
+| T-8479-2 Shop-first front page: buy bar above the fold, one at-a-glance decision table, product cards before process, review-desk cluster kept in the footer only | in progress | arena/84799c33-prod1 | `build_site.py`, `assets/style.css`, root `*.html` (regenerated) | Existing verified register; gate scripts in `scripts/` | — |
+| T-8479-3 Publication + integration: build, all gates, PR to `main`, merge, confirm Pages deploy, record PR link and live check | pending | arena/84799c33-prod1 | `COORDINATION.md` | `gh` + Pages API | — |
+
+**Scope discipline.** This session edits only `build_site.py`, `assets/style.css`, `data/products.json`, `COORDINATION.md` and the generated root pages. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `review/`, `.github/workflows/` and `data/decisions.json` are read-only here. Change requests for those files are logged, not made.
