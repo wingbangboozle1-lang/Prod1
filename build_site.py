@@ -686,13 +686,54 @@ def topic_band():
 </div>"""
 
 
+
+# ---------- FRONT PAGE: the shelf table (buyer-first, generated from the register) ----------
+# Why this exists: a shopper's first question is "which one, and how much counter does it take",
+# not "how was this verified". The cards lower down carry the buyer brief; this one table lets a
+# reader decide in ten seconds. Every cell is a register field or an explicit statement that the
+# field was not captured. Nothing is inferred.
+SHELF_CHOOSE = {
+    "P1": "Two dishes finishing together, in the narrowest body here (11.81 in wide)",
+    "P2": "Feeding four to six: rotisserie chicken, 12-inch pizza, one cavity",
+    "P3": "One big 8-quart batch where counter depth is the limit",
+    "P4": "A one-second reading in your hand at the grill",
+    "P5": "Three probes and phone alerts while you are out of the room",
+}
+SHELF_NOTE = {
+    "P1": "Cabinet clearance is not stated on the listing - measure the gap you have",
+    "P2": "Deepest here at 16.9 in, and the doors need room to swing",
+    "P3": "The listing gives two wattages - 1000 W in the bullets, 1700 W in its spec table (<a href=\"flagged.html#FLG-022\">FLG-022</a>)",
+    "P4": "Dimensions and warranty period are not in the fields we captured (<a href=\"flagged.html#FLG-004\">FLG-004</a>)",
+    "P5": "No accuracy figure is stated on the listing; needs WiFi and the app",
+}
+
+def shelf_table():
+    rows = []
+    for pid in ("P1", "P2", "P3", "P4", "P5"):
+        p = PRODS[pid]; dm = dims_of(p)
+        depth = f"{dm['depth_in']} in ({dm['depth_cm']} cm)" if dm else '<span class="fine">not stated</span>'
+        cap = p.get("capacityTitle")
+        cap = esc(cap) if cap not in ("", "\u2014", None) else '<span class="fine">no cavity</span>'
+        rows.append(
+            f'<tr><td><a href="#{pid}"><strong>{esc(p["shortName"])}</strong></a><br>'
+            f'<span class="fine">{esc(p["category"])} &middot; {esc(p["form"])}</span></td>'
+            f'<td>{SHELF_CHOOSE[pid]}</td><td>{cap}</td><td>{depth}</td>'
+            f'<td class="fine">{SHELF_NOTE[pid]}</td>'
+            f'<td><a class="btn small" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" '
+            f'data-ctg-outbound data-asin="{p["asin"]}">Check price</a></td></tr>')
+    return f"""<div class="table-wrap"><table>
+<tr><th>Product</th><th>Choose it if</th><th>Capacity, as titled</th><th>Counter depth</th><th>Before you order</th><th>Amazon</th></tr>
+{"".join(rows)}
+</table></div>
+<p class="small">Depth is the listing&rsquo;s own dimension, converted at 2.54 cm per inch - not a manufacturer claim. Each <em>Check price</em> button carries the Associates tag and is marked sponsored; Amazon serves the live price and stock. Specs re-read {VERIFIED}.</p>"""
+
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
     <p class="eyebrow">Air fryers &amp; meat thermometers &middot; listings read {VERIFIED}</p>
     <h1>The counter is the constraint. Buy for it.</h1>
     <p class="lede">Five machines, checked against their own Amazon listings on {VERIFIED}: three air fryers and two thermometers. The pages answer the four questions that decide a purchase - which job, how deep, what you wash, and what the listing will not say - and every spec links to the page it came from.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Start with air fryers</a></p>
+    <p class="hero-cta"><a class="btn" href="#shelf">See all five at a glance</a> <a class="btn ghost" href="compare.html#chooser">Answer three questions</a></p>
     <ul class="hero-facts">
       <li><strong>5</strong> products, each read from its own listing</li>
       <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
@@ -709,6 +750,10 @@ index_body = f"""
     <p class="fine">Prices and ratings live on Amazon and move by the day, so they are not printed here. Each product page carries the link instead.</p>
   </aside>
 </section>
+
+<h2 id="shelf">All five at a glance</h2>
+<p class="section-note">The ten-second version: what each one is for, how much counter it takes, and the one thing to check before you order. The full cards, with the buyer brief and the source record, are one heading further down.</p>
+{shelf_table()}
 
 <h2>Choose by what you cook, not by brand</h2>
 <div class="grid cols-3">
@@ -749,7 +794,7 @@ index_body = f"""
   <div><strong>The audit is public.</strong><p>The line-by-line register, the open questions and every irregularity we found sit in the <a href="review-desk.html">review desk</a>, one click from any page.</p></div>
 </div>
 """
-page_to("index.html","Air fryers & thermometers, compared | Countertop Guide","Five appliances compared on capacity, counter depth, cleanup and what the listing does not say. Every spec links to the Amazon page it came from.",index_body)
+page_to("index.html","5 air fryers & thermometers, by counter depth | Countertop Guide","Five countertop appliances compared by depth, capacity and the job each does, with what to check before ordering. Every spec links to its Amazon listing.",index_body)
 # ---------- AIR FRYERS ----------
 af_body = f"""
 <p class="eyebrow">Air fryers</p>
@@ -1169,11 +1214,11 @@ exec_body = f"""
 
 <h2>What the 2026-11-20 pass changed</h2>
 <ul>
-<li><strong>The type the design always specified now actually loads.</strong> The stylesheet named Fraunces and Inter; neither file existed, so every page rendered in Georgia and the system UI font. Four self-hosted latin variable fonts (182 KB total, SIL Open Font License 1.1, licences committed alongside) now render the site (<a href="flagged.html#FLG-069">FLG-070</a>).</li>
+<li><strong>The type the design always specified now actually loads.</strong> The stylesheet named Fraunces and Inter; neither file existed, so every page rendered in Georgia and the system UI font. Four self-hosted latin variable fonts (182 KB total, SIL Open Font License 1.1, licences committed alongside) now render the site (<a href="flagged.html#FLG-067">FLG-067</a>).</li>
 <li><strong>Original brand art on every product card.</strong> Five line drawings of the appliance <em>types</em>, drawn for this site. No photograph, no Amazon image, no rendering of a specific unit &mdash; the imagery rule the site set for itself still holds.</li>
 <li><strong>Navigation tells you where you are.</strong> The header marks the current section, and the stylesheet rule that was written for it is finally used (<a href="flagged.html#FLG-071">FLG-071</a>).</li>
 <li><strong>The calendar produced a page.</strong> The queued 2026-12-08 topic is published as <a href="guide-instant-read-vs-wireless.html">guide 10</a>, and it moved in the calendar, the sitemap and the RSS feed in the same commit, so those three cannot disagree.</li>
-<li><strong>The sitemap is now the shop, not the audit.</strong> Seven internal surfaces moved to <code>noindex, follow</code>; the register, the flagged list and the compliance page stay indexed for the buyer who wants the source (<a href="flagged.html#FLG-069">FLG-070</a>).</li>
+<li><strong>The sitemap is now the shop, not the audit.</strong> Seven internal surfaces moved to <code>noindex, follow</code>; the register, the flagged list and the compliance page stay indexed for the buyer who wants the source (<a href="flagged.html#FLG-069">FLG-069</a>).</li>
 <li><strong>The site is not claimed to have been looked at.</strong> No browser could be installed in this environment, so there is no screenshot review in this pass. <code>scripts/verify_structure.mjs</code> proves the documents parse, that every asset and font file the HTML names exists, that headings are ordered and that images declare dimensions &mdash; and says in its own header that this is a structural proof, not a visual one. The full working record, including the two failed browser installs, is <code>review/62786810/VERIFICATION.md</code>.</li>
 <li><strong>Six decisions are written so they can be settled in one sitting</strong> (<a href="suggestions.html#suggestions">SG-49 to SG-53 and SG-59</a>), plus five new questions (<a href="suggestions.html#Q-33">Q-33 to Q-37</a>) covering the things this build cannot answer from inside the repository.</li>
 </ul>
@@ -1185,7 +1230,7 @@ exec_body = f"""
 <li><strong>The social card is readable.</strong> The shared-link image had text overlapping the subtitle and captions hidden under the footer; <code>make_og.py</code> now measures each block and asserts clearance (<a href="flagged.html#FLG-054">FLG-054</a>).</li>
 <li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-055">FLG-055</a>).</li>
 <li><strong>Search metadata fits.</strong> Five titles and descriptions that would truncate in results were rewritten; the metadata gate now reports zero warnings.</li>
-<li><strong>Re-verified {VERIFIED}.</strong> Every listing was re-read line by line on {VERIFIED}; the volatile figures that drifted (P1 rating count and used price, P2 rating count) were corrected in the register, and the new <a href="flagged.html#FLG-067">FLG-060</a> records the pass and its scope. Full evidence: <code>review/1b65e5a1/VERIFICATION.md</code>.</li>
+<li><strong>Re-verified {VERIFIED}.</strong> Every listing was re-read line by line on {VERIFIED}; the volatile figures that drifted (P1 rating count and used price, P2 rating count) were corrected in the register, and the new <a href="flagged.html#FLG-067">FLG-067</a> records the pass and its scope. Full evidence: <code>review/1b65e5a1/VERIFICATION.md</code>.</li>
 <li><strong>Two decision rows added.</strong> The desk now carries <a href="suggestions.html#SG-44">SG-44</a> (visual QA of the styled shop before the next deploy) and <a href="suggestions.html#SG-45">SG-45</a> (goal-based intent landings built only from verified fields).</li>
 </ul>
 
@@ -1586,7 +1631,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <p><strong>Path B:</strong> move the alternate builds to a separate repository or branch-preview URL.</p>
 <p><strong>Path C:</strong> leave it and accept the competition. Cheapest today, most expensive if the site ever ranks.</p>
 </div>
-<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> confirmation of which build the owner considers the publication. <strong>Blocks:</strong> a clean Search Console picture. <strong>Status:</strong> <span class="badge-warn">Half done this pass</span> &mdash; the seven internal root pages now carry <code>noindex, follow</code> and left the sitemap (<a href="flagged.html#FLG-069">FLG-070</a>). The <code>docs/</code> and <code>counter-check/site/</code> builds are outside this session&rsquo;s scope and still need your call.</p></article>
+<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> confirmation of which build the owner considers the publication. <strong>Blocks:</strong> a clean Search Console picture. <strong>Status:</strong> <span class="badge-warn">Half done this pass</span> &mdash; the seven internal root pages now carry <code>noindex, follow</code> and left the sitemap (<a href="flagged.html#FLG-069">FLG-069</a>). The <code>docs/</code> and <code>counter-check/site/</code> builds are outside this session&rsquo;s scope and still need your call.</p></article>
 
 <article class="sg" id="SG-52"><h3>SG-52 &middot; Four measurable events before any optimisation claim</h3>
 <p><strong>Why:</strong> the brief orders measurement before optimisation, and the site currently measures nothing beyond local browser counters. Four first-party numbers would let the next four topics be chosen instead of guessed.</p>
@@ -1634,12 +1679,23 @@ page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide
 # where an unowned row belongs: seen by the person who has to triage it, not silently dropped and not
 # fatal to readers. Ghost ids (a theme pointing at a deleted row) are dropped from the render for the
 # same reason - the anchor check in check_site.mjs would otherwise fail the deploy over a stale id.
+#
+# A row classified in TWO themes is a different fault from a row in no theme, and it stays a hard
+# failure. An unowned row is an ordinary editorial to-do: the board is append-only, so the row exists
+# and belongs to whoever triages it. A doubled row is a contradiction - the register claims each row
+# sits in exactly one theme, and a row in two themes counts twice against both of them, so the row
+# counts printed on decisions.html stop matching the board. It can only be introduced by an edit to
+# data/decisions.json itself, so unlike an unowned row it cannot be created by another session
+# appending to the board, and it never blocks readers by failing the publish.
 DEC = json.load(open("data/decisions.json"))
 DEC_UPDATED = DEC["updated"]
 _board_ids = sorted(set(re.findall(r'id="((?:SG|Q)-\d\d)"', sugg_body)))
-_theme_ids = sorted(set(i for t in DEC["themes"] for i in t["sgs"] + t["qs"]))
-_unknown = [i for i in _theme_ids if i not in _board_ids]
+_theme_id_list = [i for t in DEC["themes"] for i in t["sgs"] + t["qs"]]
+_theme_counts = {i: _theme_id_list.count(i) for i in set(_theme_id_list)}
+_theme_ids = sorted(_theme_counts)
+_unknown = sorted(i for i in _theme_ids if i not in _board_ids)
 _uncovered = [i for i in _board_ids if i not in _theme_ids]
+_duplicated = sorted(i for i, n in _theme_counts.items() if n != 1)
 if _unknown:
     print("warn: data/decisions.json points at board ids suggestions.html no longer has (dropped from "
           "the render, fix the theme): " + ", ".join(_unknown))
@@ -1649,6 +1705,10 @@ if _unknown:
 if _uncovered:
     print("warn: data/decisions.json has not triaged these board rows; they are listed on decisions.html "
           "under 'Nobody has taken these' and stay open: " + ", ".join(_uncovered))
+if _duplicated:
+    raise SystemExit("data/decisions.json classifies board ids more than once: " + ", ".join(_duplicated)
+                     + ". Keep each row in exactly one theme. A row in two themes counts twice against "
+                     "both themes on decisions.html, so the register's own numbers stop matching the board.")
 SG_N = len([i for i in _board_ids if i.startswith("SG")])
 Q_N = len([i for i in _board_ids if i.startswith("Q")])
 
