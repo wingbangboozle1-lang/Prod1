@@ -62,9 +62,16 @@
     "gate": "Conversion and order values are never measured client-side. They come only from authorized first-party Associates reports into the campaign ledger."
   },
   "cadence": {
-    "rule": "One guide per week, published Tuesday. Each guide is added to data/editorial-driven sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
+    "rule": "One guide per week, published Tuesday. Each guide is added to sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source).",
     "measure": "After Search Console has 28 days of queries (SG-02), the next four topics are chosen from arriving queries that our pages do not answer, not from instinct. Until then the calendar below is a stated plan, not a demand claim.",
     "queue": [
+      {
+        "week": "2026-11-20",
+        "title": "Three holiday-window guides: counter fit, the ten-minute listing check, and the gift receipt test",
+        "status": "published",
+        "page": "guide-thanksgiving-counter.html, guide-holiday-deal-check.html, guide-gift-return-window.html",
+        "note": "Deviation from the one-a-week rule, recorded rather than smoothed over: the window these guides serve closes on 30 November 2026, so they shipped together on 2026-11-20. None of the three is presented as a response to measured demand; demand data arrives only after SG-02 and D-04."
+      },
       {
         "week": "2026-11-24",
         "title": "Holiday air fryer gifts: how to choose one that gets used",
@@ -74,38 +81,39 @@
       {
         "week": "2026-12-01",
         "title": "Air fryer basket vs oven: which one actually fits your counter?",
-        "status": "merged",
+        "status": "published",
         "page": "guide-basket-vs-oven.html"
       },
       {
         "week": "2026-12-08",
         "title": "Instant-read vs wireless thermometer: do you need both?",
         "status": "published",
-        "page": "guide-instant-read-vs-wireless.html"
+        "page": "guide-instant-read-vs-wireless.html",
+        "note": "Published by session 1035d1e2 on 2026-11-20, one week ahead of its queue slot; the deviation is recorded here so the calendar keeps one history."
       },
       {
         "week": "2026-12-15",
         "title": "Counter space math: will a 26-quart oven fit your kitchen?",
-        "status": "merged",
-        "page": "guide-cleanup-counter-space.html"
+        "status": "published",
+        "page": "guide-counter-depth-fit.html"
       },
       {
         "week": "2026-12-22",
-        "title": "Two baskets or one big basket: what changes at dinner time?",
+        "title": "Dual baskets vs one big basket: what changes at dinner time",
         "status": "published",
-        "page": "guide-dual-vs-single.html"
+        "page": "guide-dual-vs-single-basket.html"
       },
       {
         "week": "2027-01-05",
         "title": "Wattage, circuits and shared outlets: what the listing does and does not say",
-        "status": "merged",
+        "status": "published",
         "page": "guide-wattage-outlets.html"
       },
       {
         "week": "2027-01-12",
         "title": "What fits under the cabinet? Checking counter height before you order",
-        "status": "queued",
-        "page": ""
+        "status": "published",
+        "page": "guide-counter-depth-fit.html"
       },
       {
         "week": "2027-01-19",
@@ -119,6 +127,10 @@
         "status": "published",
         "page": "guide-do-you-need-a-thermometer.html"
       }
+    ],
+    "deviations": [
+      "2026-11-20: three guides in one publish for the Thanksgiving window (see the queue note). Back to one per week from 2026-12-01.",
+      "2026-11-20: session 1035d1e2 published the instant-read vs wireless guide ahead of its 2026-12-08 slot; both deviations are recorded instead of being hidden by rewriting the queue."
     ]
   },
   "voice": {

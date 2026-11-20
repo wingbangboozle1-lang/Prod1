@@ -1,18 +1,18 @@
 [
   {
-    "title": "Air fryers & thermometers, compared",
+    "title": "5 air fryers & thermometers, by counter depth",
     "url": "index.html",
-    "text": "Five appliances compared on capacity, counter depth, cleanup and what the listing does not say. Every spec links to the Amazon page it came from."
+    "text": "Five countertop appliances compared by depth, capacity and the job each does, with what to check before ordering. Every spec links to its Amazon listing."
   },
   {
-    "title": "Dual-basket vs oven-style air fryers",
+    "title": "Air fryers: which of the three fits your counter",
     "url": "air-fryers.html",
-    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry: capacity, depth and cleanup, each row linked to its listing."
+    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry, chosen by job and counter depth, with every field linked to its listing."
   },
   {
-    "title": "Instant-read vs wireless thermometers",
+    "title": "Meat thermometers: instant-read vs wireless",
     "url": "thermometers.html",
-    "text": "ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as listed, probes, range and care."
+    "text": "ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as stated, probes, range, care and what neither listing says."
   },
   {
     "title": "Compare 5 air fryers & thermometers",
@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "Thirteen question-led guides on air fryers and meat thermometers: form, capacity, cleanup, presets, accessories, accuracy, gifts and wattage."
+    "text": "17 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -50,6 +50,21 @@
     "text": "What a stated tolerance, a named certification, a sensor count and 'unlimited range' do and do not prove - for a handheld and a wireless probe set."
   },
   {
+    "title": "Will a 26-quart oven fit your counter?",
+    "url": "guide-counter-depth-fit.html",
+    "text": "Counter fit as listing arithmetic: depth, height and footprint for three verified air fryers, converted to centimetres, step by step."
+  },
+  {
+    "title": "Two baskets or one: dual-zone cooking",
+    "url": "guide-dual-vs-single-basket.html",
+    "text": "Dual-basket, single-basket and oven-cavity cooking, decided on the listings' own form, capacity and care facts."
+  },
+  {
+    "title": "Air fryer accessories: what's in the box",
+    "url": "guide-accessories-included.html",
+    "text": "Title, bullets and item-details can disagree about what ships - one of our listings says six accessories and seven at once. A checklist for the box before you order."
+  },
+  {
     "title": "Executive summary for the owner",
     "url": "executive-summary.html",
     "text": "What is live, what is verified, what is blocked, which decisions wait on an owner, and what the latest pass changed across the site."
@@ -57,7 +72,12 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "Twenty-five ranked suggestions with options and trade-offs, a copy-paste design brief, and fourteen questions whose answers gate the next build."
+    "text": "58 suggestions and 39 questions with options, evidence and trade-offs, mapped to the seven gates on the decision register."
+  },
+  {
+    "title": "Decision register: seven gates, in order",
+    "url": "decisions.html",
+    "text": "The seven decisions that gate this site, what an official source already settles, what is still missing, and the exact steps that would produce each missing piece."
   },
   {
     "title": "Verification register, line by line",
@@ -80,9 +100,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: fourteen buyer questions",
+    "title": "Topic calendar: seventeen buyer questions",
     "url": "topics.html",
-    "text": "Fourteen question-shaped topics - nine published, one queued, four merged - each with the verified fields and sources it is built from."
+    "text": "Fourteen published, one queued and two consolidated question-shaped titles, each with the verified listing fields and sources it is built from."
   },
   {
     "title": "Search the guides and products",
@@ -110,6 +130,21 @@
     "text": "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing."
   },
   {
+    "title": "Thanksgiving counter math: what fits?",
+    "url": "guide-thanksgiving-counter.html",
+    "text": "Counter depth, cabinet height, wattage and what the listing actually claims it cooks, checked against the three fryers before Thanksgiving 2026."
+  },
+  {
+    "title": "Holiday listing check: ten minutes before you buy",
+    "url": "guide-holiday-deal-check.html",
+    "text": "A ten-minute check for any appliance listing in the holiday window: quarts per dollar, the variant trap, badge meaning and listings that disagree with themselves."
+  },
+  {
+    "title": "Gift receipt test: five checks before you wrap",
+    "url": "guide-gift-return-window.html",
+    "text": "Five listing-based checks that decide whether a gifted appliance gets kept: variant, counter fit, cleanup, setup burden and the paperwork to keep."
+  },
+  {
     "title": "Air fryer gifts that get used",
     "url": "guide-gift-picks.html",
     "text": "The gift check that needs no price tag: counter depth, household size, dishwasher-safe parts and a panel the recipient will actually learn."
@@ -118,16 +153,6 @@
     "title": "Instant-read vs wireless thermometer",
     "url": "guide-instant-read-vs-wireless.html",
     "text": "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure."
-  },
-  {
-    "title": "Two baskets or one big basket?",
-    "url": "guide-dual-vs-single.html",
-    "text": "Two dishes finishing together or one large cavity: what a dual-basket split actually changes at dinner time - and the footprint surprise, from listing fields only."
-  },
-  {
-    "title": "Air fryer accessories: what's in the box",
-    "url": "guide-accessories-included.html",
-    "text": "Title, bullets and item-details can disagree about what ships - one of our listings says six accessories and seven at once. A checklist for the box before you order."
   },
   {
     "title": "Do you need a meat thermometer?",
