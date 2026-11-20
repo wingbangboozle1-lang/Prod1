@@ -981,7 +981,7 @@ exec_body = f"""
 <p>Session <code>42e09357</code>. What changed on the site, and what was deliberately not touched:</p>
 <ul class="tight">
 <li><strong>Three holiday-window guides published</strong> (counter fit before Thanksgiving, the ten-minute listing check for the buying window, the gift receipt test), each built only from fields in the register, each added to the calendar, the sitemap and the feed. The one-guide-a-week rule was deviated from on purpose and the deviation is recorded in <code>data/editorial.json</code>, not smoothed over.</li>
-<li><strong>A decision register</strong> at <a href="decisions.html">decisions.html</a>: the 70-row board collapsed into seven gates, each with what an official source already settles, what is missing, the steps that would produce it, and who can take them. The build refuses to write the page if any board row is unclassified.</li>
+<li><strong>A decision register</strong> at <a href="decisions.html">decisions.html</a>: the board collapsed into seven gates, each with what an official source already settles, what is missing, the steps that would produce it, and who can take them. The build compares the register against the board on every publish and prints the rows nobody has taken yet &mdash; first written as a hard failure, which let one session&rsquo;s new suggestion block the deploy for everyone (<a href="flagged.html#FLG-082">FLG-082</a>).</li>
 <li><strong>Shop pages reworded</strong> where they read like an audit, and <strong>footprint drawings added</strong> to each product card, drawn to one shared scale from the inches the listing states. No Amazon imagery, because that licence question is still open.</li>
 <li><strong>A dated partial re-read</strong> of the five listings: titles confirmed on 2026-11-20, one buy-box price attributable and matching; the rest of the register keeps its 2026-11-19 field dates because those fields were not re-read in this pass.</li>
 <li><strong>Not changed:</strong> no price or rating figure was added anywhere, no testing claim, no popularity claim, no commission or revenue figure, no change to the disclosure, and no new product. The two brand-name sites under <code>counter-check/</code> and <code>docs/</code> are untouched, and their consolidation is still an owner decision (SG-22, Q-18).</li>
@@ -1391,8 +1391,16 @@ page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide
 # ---------- DECISION REGISTER (session arena/42e09357-prod1, 2026-11-20) ----------
 # Why this exists: ten sessions wrote 43 suggestions and 27 questions onto one board. A board
 # that long is a register, not a decision. This section re-orders the same rows into the seven
-# answers that actually gate work, and refuses to build if a row on the board has not been
-# triaged into a theme - so the desk cannot quietly grow past the people who have to read it.
+# answers that actually gate work, and reports any board row that no theme has taken.
+#
+# This check was a hard build failure for about an hour, and that was wrong. The board is append-only
+# and every session adds rows to it, so a strict triage rule meant one session's new suggestion could
+# stop the whole site from deploying - an editorial to-do item held the publish hostage, and it did
+# exactly that twice on 2026-11-20 while other sessions' PRs were open. It is now a loud warning that
+# prints on the build, plus a visible "nobody has taken these" table on the register page, which is
+# where an unowned row belongs: seen by the person who has to triage it, not silently dropped and not
+# fatal to readers. Ghost ids (a theme pointing at a deleted row) are dropped from the render for the
+# same reason - the anchor check in check_site.mjs would otherwise fail the deploy over a stale id.
 DEC = json.load(open("data/decisions.json"))
 DEC_UPDATED = DEC["updated"]
 _board_ids = sorted(set(re.findall(r'id="((?:SG|Q)-\d\d)"', sugg_body)))
@@ -1400,10 +1408,14 @@ _theme_ids = sorted(set(i for t in DEC["themes"] for i in t["sgs"] + t["qs"]))
 _unknown = [i for i in _theme_ids if i not in _board_ids]
 _uncovered = [i for i in _board_ids if i not in _theme_ids]
 if _unknown:
-    raise SystemExit("data/decisions.json lists board ids that suggestions.html does not have: " + ", ".join(_unknown))
+    print("warn: data/decisions.json points at board ids suggestions.html no longer has (dropped from "
+          "the render, fix the theme): " + ", ".join(_unknown))
+    for _t in DEC["themes"]:
+        _t["sgs"] = [i for i in _t["sgs"] if i in _board_ids]
+        _t["qs"] = [i for i in _t["qs"] if i in _board_ids]
 if _uncovered:
-    raise SystemExit("data/decisions.json has not triaged these board rows: " + ", ".join(_uncovered)
-                     + ". Add each to exactly one theme, or delete the row from the board.")
+    print("warn: data/decisions.json has not triaged these board rows; they are listed on decisions.html "
+          "under 'Nobody has taken these' and stay open: " + ", ".join(_uncovered))
 SG_N = len([i for i in _board_ids if i.startswith("SG")])
 Q_N = len([i for i in _board_ids if i.startswith("Q")])
 
@@ -1464,9 +1476,19 @@ _missing_rows = "".join(
     f'<tr><td>{esc(m["what"])}</td><td>{esc(m["why"])}</td><td>{esc(m["how"])}</td>'
     f'<td>{esc(m["who"])}</td><td>{flaglinks(esc(m["status"]))}</td></tr>' for m in DEC["missing"])
 _theme_rows = "".join(
+
     f'<tr><td>{esc(t["name"])}</td><td>{esc(t["oneLine"])}</td>'
     f'<td>{len(t["sgs"]) + len(t["qs"])}</td><td><a href="#{t["gate"]}">{t["gate"]}</a></td>'
     f'<td class="ids">{", ".join(ref(x) for x in sorted(t["sgs"] + t["qs"]))}</td></tr>' for t in DEC["themes"])
+
+_unowned_rows = (
+    '<h3 id="unowned">Nobody has taken these yet (%d)</h3>\n'
+    '<p>Each row is still on the board and unread by any gate. Pick a theme, or say why it does not need one.</p>\n'
+    '<div class="table-scroll"><table>\n<tr><th>Row</th><th>On the board</th></tr>\n%s\n</table></div>'
+    % (len(_uncovered),
+       "\n".join('<tr><td><a href="suggestions.html#%s">%s</a></td><td>Untriaged as of this build</td></tr>' % (i, i)
+                  for i in _uncovered))
+) if _uncovered else ""
 _reply_lines = "\n".join(
     f"{g['id']} = option _ , {DEC_UPDATED}, evidence: " for g in DEC["gates"])
 dec_body = f"""
@@ -1497,7 +1519,8 @@ dec_body = f"""
 {_missing_rows}
 </table></div>
 <h2 id="map">Board map: every row, one theme, one gate</h2>
-<p>The build refuses to write this page if a board row is unclassified, so the map cannot fall behind the board.</p>
+<p>The build compares this map with the board on every publish. A row the board has and no theme has taken is listed below instead of being left out, and the build says so out loud; a theme pointing at a row the board no longer has is dropped from the render rather than left dangling. Triage is a person&rsquo;s job, so the register surfaces it without holding the site hostage &mdash; see <a href="flagged.html#FLG-082">FLG-082</a>.</p>
+{_unowned_rows}
 <div class="table-scroll"><table>
 <tr><th>Theme</th><th>What it is for</th><th>Rows</th><th>Gate</th><th>Rows in this theme</th></tr>
 {_theme_rows}
@@ -1711,7 +1734,9 @@ flag_body = f"""
 <tr id="FLG-078"><td>FLG-078</td><td>Three guides published into a window with no measured demand behind them</td><td>The brief asks for both seasonal, findable articles and topics chosen from measured queries. With no Search Console property there are no queries to choose from, so this pass published three holiday-window guides as labelled editorial hypotheses and recorded the cadence deviation in <code>data/editorial.json</code>. Nothing on the pages claims the topics are popular. Dated 2026-11-20.</td><td>Owner: connect Search Console (D-01/D-04), export queries after 28 days, then re-rank the queue; the three pages are the test, not the answer</td></tr>
 <tr id="FLG-079"><td>FLG-079</td><td>The footprint drawings are ours, and they do not settle the imagery question</td><td>Each product card now carries an SVG drawn to a shared scale from the dimensions on the listing, labelled as a drawing rather than a photograph. It is original artwork, so it needs no Amazon licence, and <a href="flagged.html#FLG-009">FLG-009</a> (no product photography) stays open: a drawing is not a photograph of the machine, and no page should imply that it is.</td><td>Owner: keep drawings as the house visual (D-06 option 1), or fund photography; do not fill the gap with scraped images either way</td></tr>
 <tr id="FLG-080"><td>FLG-080</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
-<tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr></table></div>
+<tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
+<tr id="FLG-082"><td>FLG-082</td><td>A build gate this session wrote could block the whole deploy, and did</td><td>The decision register shipped with a hard rule: any board row not triaged into a theme stopped the build. The suggestions board is append-only and every session adds rows to it, so within hours an unrelated session&rsquo;s new idea (Q-33..Q-37, SG-44..53, later SG-54..57) failed the Pages workflow for the entire site over an editorial to-do item. On 2026-11-20 the rule became a build warning plus a &ldquo;Nobody has taken these yet&rdquo; table on <a href="decisions.html#map">the register</a>, so an unowned row is visible to whoever must triage it instead of removing the site from readers. A gate that cannot be satisfied by the person who is blocked is not a gate, it is a hostage.</td><td>Owner: set the triage expectation (Q-14 asks for a review SLA); until then the register lists unowned rows on every build</td></tr>
+</table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
 # ---------- COMPLIANCE ----------
