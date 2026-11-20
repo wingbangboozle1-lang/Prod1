@@ -890,3 +890,25 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
 /* the row label sits left and its figure right, so a shopper compares one number down a column */
 .shelf-facts dt { flex: 0 1 auto; }
 .shelf-facts dd { flex: 0 1 auto; }
+
+/* ------------------------------------------------------------------- shelf on a phone
+   Most affiliate traffic arrives on a phone, so the shelf is tuned for a 360-420 px
+   viewport rather than left to the default column stack. Two changes matter:
+   1. `.btn` is an inline-flex box. In a 1fr grid column a long label ("See today's
+      price on Amazon") sets the column's minimum width and pushes the page sideways,
+      so the shelf button is a block that fills the card and wraps its own text.
+   2. The two fact rows become label-above-value so a long figure never collides with
+      its label at 360 px, and the buy button stays at a 44 px tap target. */
+@media (max-width: 760px) {
+  .shelf-buy .btn { display: flex; width: 100%; min-height: 48px; white-space: normal; text-align: center; }
+  .shelf-buy { padding: 0 1rem 1rem; }
+  .shelf-body { padding: .95rem 1rem .1rem; }
+  .shelf-facts > div { flex-wrap: wrap; gap: .1rem .5rem; }
+  .shelf-facts dd { text-align: left; }
+  .shelf-fit { text-align: left; }
+  .shelf-name { font-size: 1.08rem; }
+  .shelf-media .prod-art { padding: .5rem .5rem 0; }
+  .shelf-head { gap: .2rem; }
+  .shelf-head h3 { font-size: 1.15rem; }
+  .shelf-intro { font-size: .94rem; }
+}
