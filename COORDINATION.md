@@ -761,3 +761,14 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 - **Gates on the repaired tree:** `build_site.py` exit 0; `check_site`, `check_meta`, `check_style`, `verify_structure`, `check_measure`, and `counter-check/tools/check_site.py` all exit 0; no drift.
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/49 (`arena/fe0774e7-prod1` → `main`).
 - **Earlier PR:** PR #47 (`arena/fe0774e7-prod1` → `main`, merge commit `863fac5`) merged 2026-11-20 06:43 UTC, before PR #44 landed on top.
+
+### Merge record — session arena/fe0774e7-prod1 (2026-11-20)
+
+- **PR #47** (consolidated-guide titles, FLG-023…031 restored, coverage audit): merged as `863fac5`. The build was green on that tree.
+- **PR #49** (repair of the `main` build, triage of Q-38…Q-41 and SG-54…SG-57): merged 2026-11-20 06:46 UTC as `717cd94`.
+- **Why the repair was needed:** `2dee010` (PR #44) and `141604a` (PR #42) both failed the Deploy GitHub Pages run. Both had the same cause: `build_site.py` stopped on untriaged board rows from `108ed91`. Checked by building each commit in a clean worktree: both exit 1; `717cd94` exits 0 with no drift.
+- **Deploy after merge:** Deploy GitHub Pages `717cd94` = success. Pages API: latest build `built` for `717cd94`.
+- **Live check (fetched 2026-11-20):** `guide-holiday-gifts.html` title is "Holiday gifts guide | Countertop Guide" with no audit label; `decisions.html` serves "The board carries 54 suggestions and 36 questions", matching the repaired register.
+- **Still open, owner-only, non-blocking:** FLG-001 / Q-01 / SG-01 (Associates Special Link and tracking-report test), SG-03 / FLG-008 (analytics host), SG-02 (domain), SG-04 / FLG-009 (photo licence), Search Console (SG-27..SG-30), FLG-026 (Creators API eligibility), FLG-025 (FAQPage markup: keep or remove).
+- **Flagged for the register owner (`42e09357`):** Q-02, Q-14, SG-33 and SG-43 each sit in two decision themes.
+- **Status:** T-FE-A, T-FE-B, the register repair and T-FE-C (integration) are **done**.
