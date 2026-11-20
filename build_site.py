@@ -1577,7 +1577,7 @@ def recheck_html():
         f'<tr><td>{k}</td><td>{esc(RECHECK[k][0])}</td><td>{flaglinks(esc(RECHECK[k][1]))}</td></tr>'
         for k in ["P1", "P2", "P3", "P4", "P5"])
     return f"""<h2 id="recheck">Re-read of {RECHECK_DATE}, by this session</h2>
-<p>The five listing pages were opened again on {RECHECK_DATE}. The scope is stated because it is narrow: this pass confirmed that each page is reachable, that its title still matches the title in the register, and the one buy-box price this read could attribute to the product itself. Spec tables, ratings and the rest were <strong>not</strong> re-read line by line, so the field dates on this page stay {VERIFIED} and nothing on a shop card is relabelled as freshly confirmed. Full record: <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
+<p>The five listing pages were opened again on {RECHECK_DATE}. The scope is stated because it is narrow: this pass confirmed that each page is reachable, that its title still matches the title in the register, and the one buy-box price this read could attribute to the product itself. Spec tables, ratings and the rest were <strong>not</strong> re-read in this pass, so nothing here relabelled a shop-card field as freshly confirmed by me: where a field now carries {VERIFIED}, that date belongs to the separate line-by-line pass that re-read it, recorded per product below. My contribution to that table is the title check on all five and one buy-box price, and it is quoted nowhere except this section. Full record: <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
 <div class="table-scroll"><table>
 <tr><th>Ref</th><th>What the {RECHECK_DATE} read confirmed</th><th>What it did not settle</th></tr>
 {rows}
