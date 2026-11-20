@@ -1210,3 +1210,11 @@ rebuild is byte-identical.
 `fbfe1742` — it is exactly the suggestion-review surface the brief asked for, with a dated answer
 format and every gate honestly marked `awaiting owner`. Nothing in it was marked approved by this
 pass.
+
+## Session arena/942dddd0-prod1 claim (2026-11-20)
+
+Branch: `arena/942dddd0-prod1`, based on the merged `main` commit `141604a`. Read the task board before starting. The repository's required deterministic build currently stops because the newly published board rows SG-54..SG-57 and Q-38..Q-41 have not been assigned to a decision-register theme in `data/decisions.json`. Claiming the narrow build-integrity repair and verification; no other active worktree was visible in this checkout.
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| T-942-A Restore board/build consistency by triaging SG-54..SG-57 and Q-38..Q-41 into existing themes, then rebuild and run publishing gates | in progress | arena/942dddd0-prod1 | `data/decisions.json`, generated root HTML only if generator output is valid, `COORDINATION.md` | Build halted before writing complete output; do not publish generated drift. Product-source and owner-account actions remain outside scope. |
