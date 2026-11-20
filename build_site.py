@@ -1167,7 +1167,7 @@ b13, j13 = guide_shell("Guide - Multi-function - In the box", "Air fryer accesso
  "The box is not the headline. A listing&rsquo;s title, its bullets and its item-details table can describe three different sets of accessories - one of the listings on this site does exactly that. Here is where to look, in order, applied to the five products we track.",
  f"""
 <h2>A worked example: six accessories or seven?</h2>
-<p>The Emeril 26QT&rsquo;s title says &ldquo;Six Cooking Accessories Included&rdquo;. The Item-details table on the same listing describes a configuration with seven accessories. Both figures are on one page; both are quoted here with the date we read them ({{VERIFIED}}), and the disagreement stays visible as <a href="flagged.html#FLG-021">FLG-021</a> rather than being smoothed into one number. When a listing argues with itself, the safe move is not to pick the friendlier figure - it is to find the box list.</p>
+<p>The Emeril 26QT&rsquo;s title says &ldquo;Six Cooking Accessories Included&rdquo;. The Item-details table on the same listing describes a configuration with seven accessories. Both figures are on one page; both are quoted here with the date we read them ({VERIFIED}), and the disagreement stays visible as <a href="flagged.html#FLG-021">FLG-021</a> rather than being smoothed into one number. When a listing argues with itself, the safe move is not to pick the friendlier figure - it is to find the box list.</p>
 
 <h2>Where to look, in order</h2>
 <ol>
@@ -2762,7 +2762,7 @@ b16, j16 = guide_shell("Guide - Thermometers - Buying", "Do you need a meat ther
 <h2>What changes when the food, not the clock, decides</h2>
 <p>Timers and dials measure the machine&rsquo;s settings. The two thermometer listings on this site describe tools that measure the thing you are about to eat: the ThermoMaven states a one-second thermocouple read of the food with a stated &plusmn;0.5&deg;F tolerance and NIST and NSF certification named (per its title and bullets); the CHEF iQ Sense states three probes that report the food&rsquo;s temperature to a hub and an app while cooking continues (per its bullets). Neither claim tells you how anything tastes. Both remove the guesswork that a timer cannot touch.</p>
 
-<h2>What each listing states (read {{VERIFIED}})</h2>
+<h2>What each listing states (read {VERIFIED})</h2>
 <div class="table-scroll"><table>
 <tr><th>Question</th><th>ThermoMaven instant-read (B0DHZTCNR5)</th><th>CHEF iQ Sense wireless (B0DZFD6R9Z)</th></tr>
 <tr><td>What it measures</td><td>One reading at a time, in your hand</td><td>Three probes at once, reported to the app</td></tr>
