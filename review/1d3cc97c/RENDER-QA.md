@@ -1,10 +1,10 @@
 # Rendered-page QA — session 1d3cc97c (T-1D3-A / T-1D3-B)
 
-Date: 2026-11-20 (UTC). Base: `main` at 717cd94 (after PR #49). Scope: the root publication only.
+Date: 2026-11-20 (UTC). Base: `main` at b41bb12 (after PR #70 and #71). Scope: the root publication only.
 
 ## What was checked
 
-Every root `*.html` page (34 pages), at two widths: desktop 1366 px and mobile 390 px (touch, device pixel ratio 1). 68 renders in headless Chromium, with the stylesheet, fonts and art served from the checkout.
+Every root `*.html` page (37 pages), at two widths: desktop 1366 px and mobile 390 px (touch, device pixel ratio 1). 74 renders in headless Chromium, with the stylesheet, fonts and art served from the checkout.
 
 Per render:
 
@@ -26,9 +26,9 @@ Tooling sources (not product data, so no product row cites them): [puppeteer-cor
 
 ## Results (final run, after the fix)
 
-Final run on the branch rebased onto main at 717cd94: 68 runs (34 pages × 2 widths), 0 with issues. The table is from that run.
+Final run on the branch rebased onto main at 717cd94: 68 runs (37 pages × 2 widths), 0 with issues. The table is from that run.
 
-Runs: 68. Runs with an issue: **0**. Overflow, off-screen elements, broken images, failed fonts, page errors, console errors and unserved requests: all **0**. Loaded fonts on every page: Fraunces and Inter.
+Runs: 74. Runs with an issue: **0**. Overflow, off-screen elements, broken images, failed fonts, page errors, console errors and unserved requests: all **0**. Loaded fonts on every page: Fraunces and Inter.
 
 | Page | Desktop | Mobile | Result |
 |---|---|---|---|
@@ -41,9 +41,12 @@ Runs: 68. Runs with an issue: **0**. Overflow, off-screen elements, broken image
 | design-brief.html | ok | ok | none |
 | executive-summary.html | ok | ok | none |
 | flagged.html | ok | ok | none |
+| guide-accessories-included.html | ok | ok | none |
 | guide-basket-vs-oven.html | ok | ok | none |
 | guide-capacity-checklist.html | ok | ok | none |
 | guide-cleanup-counter-space.html | ok | ok | none |
+| guide-counter-depth-fit.html | ok | ok | none |
+| guide-dual-vs-single-basket.html | ok | ok | none |
 | guide-gift-picks.html | ok | ok | none |
 | guide-gift-return-window.html | ok | ok | none |
 | guide-gifts-by-budget.html | ok | ok | none |
