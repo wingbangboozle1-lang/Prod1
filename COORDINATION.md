@@ -675,3 +675,15 @@ Branch `arena/fe0774e7-prod1` (from `main` @ `bebe082`). Scope is deliberately n
 5. The owner-action items above are unchanged. None blocks the merge.
 
 **Scope.** Edited only: `build_site.py` (two blocks), the regenerated root HTML, and `COORDINATION.md`. Not touched: `counter-check/`, `docs/`, `articles/`, `review/<other session>/`, `analytics-endpoint/`, `data/products.json`, `.github/workflows/`.
+## Session arena/543ed7f4-prod1 claim (2026-11-20)
+
+Session ID: **arena/543ed7f4-prod1**. Branch: `arena/543ed7f4-prod1`, branched from `main @ 3392c0d` (the current `main` tip, PR #35 merged). No other session has an open claim newer than this one at claim time. Open PRs #10 (`arena/a17ba53c-prod1`) and #37 (`arena/fbfe1742-prod1`) are left untouched — they touch `docs/` and a separate measurement contract outside this scope.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-543-V Line-by-line re-verification of the 5 listings from official Amazon.com pages | done | arena/543ed7f4-prod1 | `review/543ed7f4/VERIFICATION.md` (new) | Amazon.com listing pages fetched 2026-11-20 (P1 $79.93, P2 $149.99, P3 $69.99, P4 $16.99, P5 $119.99 buy box; titles match the 5 ASINs) | Dated register prices unchanged; carried as snapshots subject to FLG-023/FLG-033 |
+| T-543-M Marketing + design suggestions feeding DESIGN_PROMPT.md | done | arena/543ed7f4-prod1 | `DESIGN_PROMPT.md` (new §9), `build_site.py` (SG-54..SG-57 board rows), `suggestions.html` (regenerated) | `data/editorial.json` voice rules; `design-brief.html` anti-slop rules | All new rows are proposals awaiting owner choice |
+| T-543-Q Q/I/A missing-information discovery additions | done | arena/543ed7f4-prod1 | `build_site.py` (Q-38..Q-41 register rows), `suggestions.html` (regenerated) | Q-01..Q-37 precedent on same board | None |
+| T-543-B Build, gates, link check, PR, merge, Pages deploy | done | arena/543ed7f4-prod1 | root site files, `COORDINATION.md` | `build_site.py` + `scripts/check_site.mjs` + `scripts/check_meta.mjs` + `scripts/check_style.mjs` + `scripts/verify_structure.mjs` | None new |
+
+**Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/check_site.mjs`, `scripts/check_meta.mjs`, `scripts/check_style.mjs`, `scripts/make_og.py`, `scripts/verify_structure.mjs` and `.github/workflows/*` are read-only this session. No other session's files edited. Shared outputs (sitemap, feed, search index, nav, suggestions board) regenerated from the merged generator per protocol.
