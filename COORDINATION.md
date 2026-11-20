@@ -787,3 +787,16 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+
+## Claim — session arena/3ca58211-prod1 (2026-11-20)
+
+Session ID: **3ca58211** (branch `arena/3ca58211-prod1`, based on `bebe0827`; synced through `3e86d23` at claim time). At claim time PRs #42/#43/#46 were open and PRs #49/#51 had just repaired the untriaged-rows build failure — this session does not touch that repair; it corroborates it independently.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-3CA1 Live-site end-to-end audit: confirm the deployed Pages site serves what `main` publishes (index, sitemap, robots.txt, feed, disclosure position, sponsored links), results pinned to the built commit | in progress | 3ca58211 | `review/3ca58211/` (new), `COORDINATION.md` | Pages API + live fetches 2026-11-20 (see `review/3ca58211/LIVE-AUDIT-2026-11-20.md`) | Mid-audit feed/sitemap divergence traced to `main` advancing (PRs #43/#47), not a defect |
+| T-3CA2 Official policy sources re-verified line by line: OA §5/§6, Participation Requirements §2(b), §6(t), §6(y), §6(w), FTC Disclosures 101 | in progress | 3ca58211 | `review/3ca58211/`, `COORDINATION.md` | affiliate-program.amazon.com agreement + policies, ftc.gov — fetched 2026-11-20 by this session | All citations match the official text character-for-character |
+| T-3CA3 Product-link identification re-check (five ASINs) + independent short-link spot check | in progress | 3ca58211 | `review/3ca58211/`, `COORDINATION.md` | Amazon.com listing pages fetched 2026-11-20; `link.amazon/B04G1MEwY` followed | The short link served the Amazon.com home page to this fetcher — dated observation; FLG-001/FLG-015 remain unresolved, no register change |
+| T-3CA4 Integration: six gates + counter-check on the merged tree, PR to `main`, merge, confirm Pages deploy | in progress | 3ca58211 | this file | Pages API + Actions runs | — |
+
+**Scope.** This session edits only `review/3ca58211/` and `COORDINATION.md`. No generator, data, asset, workflow or page changes; no new FLG/SG/Q rows (this pass's observations reinforce existing FLG-001/FLG-015 and live in the review file). `data/products.json` untouched — the P3 ® and P4 ℉ glyph notes are logged in the record for the register owner, not silently edited.
