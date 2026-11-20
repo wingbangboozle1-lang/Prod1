@@ -87,7 +87,11 @@ POSITION = {
 def cta_note(p):
     return (f'Sponsored link &middot; opens Amazon &middot; as listed {VERIFIED} &middot; '
             f'<a href="verification.html#{p["id"]}">source record</a>')
-def product_card(pid, bullets_n=3, detailed=False):
+def product_card(pid, bullets_n=3, detailed=False, level=3):
+    """`level` keeps the heading outline honest: a card directly under an <h1> is an h2, and a
+    card under a section <h2> is an h3. Shipping every card as h3 was a real outline break on
+    five pages (the structure check caught it)."""
+    h = f"h{level}"
     p = PRODS[pid]; pos = POSITION[pid]; dm = dims_of(p)
     bl = "".join(f"<li>{esc(b)}</li>" for b in p["bullets"][:bullets_n])
     dims = esc(p["dimensions"]) if p["dimensions"] else "not shown in the fields we captured"
@@ -105,7 +109,7 @@ def product_card(pid, bullets_n=3, detailed=False):
   {art(pid)}
   <div class="prod-head">
     <span class="chip">{esc(p['form'])}</span>
-    <h3>{esc(p['shortName'])}</h3>
+    <{h}>{esc(p['shortName'])}</{h}>
     <p class="prod-sub">{esc(pos['headline'])} &middot; {esc(p['category'])}</p>
     {money}{rating}
   </div>
@@ -449,7 +453,7 @@ af_body = f"""
 <h1>Three air fryers, three different jobs</h1>
 <p class="lede">One cooks two dishes at once, one feeds a family and roasts a chicken, one disappears into a shallow counter. Pick the job first, then check the depth - it is the number that ends most returns. Specs below are quoted from each listing, with the link.</p>
 <div class="callout"><strong>Short version:</strong> two dishes at once &rarr; <a href="#P1">Chefman 6QT dual</a>. Four to six people, rotisserie, pizza &rarr; <a href="#P2">Emeril 26QT</a>. Limited depth, one big batch &rarr; <a href="#P3">Chefman 8QT basket</a>.</div>
-<div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
+<div class="grid cols-3">{product_card('P1',level=2)}{product_card('P2',level=2)}{product_card('P3',level=2)}</div>
 <h2>The spec table</h2>
 <div class="table-scroll"><table>
 <tr><th>Field</th><th>Chefman 6QT Dual-Basket<br>B0CDY277D3</th><th>Emeril 26QT French-Door<br>B09B7SB46R</th><th>Chefman 8QT TurboFry<br>B08DKYBTPH</th></tr>
@@ -482,7 +486,7 @@ th_body = f"""
 <h1>Instant-read or wireless? It is a distance question</h1>
 <p class="lede">If you stand at the grill, a one-second handheld read is all you need. If you cook a brisket for six hours while doing something else, you want probes that phone you. Accuracy claims below are quoted from the listing with the certification named - we have not calibrated either unit, and we say so where it matters.</p>
 <div class="callout"><strong>Short version:</strong> fast checks and candy &rarr; <a href="#P4">ThermoMaven instant-read</a>. Long cooks, multiple proteins, alerts at the other end of the house &rarr; <a href="#P5">CHEF iQ Sense</a>.</div>
-<div class="grid cols-2">{product_card('P4')}{product_card('P5')}</div>
+<div class="grid cols-2">{product_card('P4',level=2)}{product_card('P5',level=2)}</div>
 <h2>The spec table</h2>
 <div class="table-scroll"><table>
 <tr><th>Field</th><th>ThermoMaven Instant-Read<br>B0DHZTCNR5</th><th>CHEF iQ Sense Wireless<br>B0DZFD6R9Z</th></tr>
@@ -497,8 +501,11 @@ th_body = f"""
 <tr><td>Dimensions</td><td><span class="badge-flag">Not stated on the listing &mdash; <a href="flagged.html#FLG-004">FLG-004</a></span></td><td><span class="badge-flag">Not stated on the listing &mdash; <a href="flagged.html#FLG-004">FLG-004</a></span></td></tr>
 <tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">Amazon listing</a></td></tr>
 </table></div>
-<h2>Guide</h2>
-<ul><li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims without being misled</a></li></ul>
+<h2>Guides for thermometer buyers</h2>
+<ul>
+<li><a href="guide-thermometer-accuracy.html">Instant-read or wireless? How to read accuracy claims</a></li>
+<li><a href="guide-instant-read-vs-wireless.html">Instant-read vs wireless thermometer: do you need both?</a></li>
+</ul>
 <p><a class="btn secondary" href="compare.html">Compare with air fryers</a></p>
 """
 page_to("thermometers.html","Instant-read vs wireless thermometers | Countertop Guide","ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as listed, probes, range and care.",th_body)
@@ -543,6 +550,7 @@ guides_body = """
 <p class="eyebrow">Guides</p>
 <h1>Question-shaped guides, answered from the listing</h1>
 <p class="lede">Each guide starts from a question a buyer actually types, then answers it with verified listing facts - and says plainly what the listing does not tell us. No popularity or trend claims without a dated snapshot.</p>
+<h2>Ten guides, three clusters</h2>
 <div class="grid cols-2">
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Dual-basket vs French-door oven vs single basket: cooking two dishes, crowd capacity, and counter depth.</p><p><a class="btn small" href="guide-basket-vs-oven.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, "feeds 4-6", rotisserie and pizza claims - how to read capacity without being misled.</p><p><a class="btn small" href="guide-capacity-checklist.html">Read guide</a></p></article>
@@ -667,6 +675,7 @@ exec_body = f"""
 <h1>What is live, what is verified, what needs your decision</h1>
 <p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
 
+<h2>The state of the publication</h2>
 <div class="grid cols-3">
   <article class="card"><span class="chip">Live</span><h3>1 publication, 30 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, ten question-shaped guides, a topic calendar, and the review desk. One sitemap of 20 buying URLs, one feed, one canonical host; the seven internal surfaces carry <code>noindex</code> (<a href="flagged.html#FLG-065">FLG-065</a>).</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on {VERIFIED}, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
@@ -1572,6 +1581,7 @@ desk_body = f"""
 <p class="eyebrow">Review desk</p>
 <h1>Everything internal, in one place</h1>
 <p class="lede">This is the counter behind the counter: the register, the open questions, the flags, the method and the money rules. Reader-facing pages stay out of here on purpose - you will not find a row of status badges on the shop pages - but every one of these surfaces is reachable from the masthead&rsquo;s Review desk link and from the footer of every page.</p>
+<h2>The eight surfaces</h2>
 <div class="grid cols-2">
   <article class="card"><span class="tag">Evidence</span><h3><a href="verification.html">Verification register</a></h3><p>Line by line: submitted short link, intended ASIN, official listing URL, confirmation date and source, the observed redirect target in its own separate field, and every product fact with the link it came from.</p></article>
   <article class="card"><span class="tag">Open items</span><h3><a href="flagged.html">Flagged for review</a></h3><p>Every irregularity and unverified item, with the action that would close it. Flags never block publishing; they block claims.</p></article>
