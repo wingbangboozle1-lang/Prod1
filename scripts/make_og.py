@@ -62,24 +62,36 @@ def main():
     s1, _ = fit(d, "The Countertop Guide", "serif", 74, RIGHT - M)
     d.text((M, 100), "The Countertop Guide", font=font("serif", s1), fill=PAPER)
 
+    # Every block below records its true bottom edge and the next block starts under it.
+    # An earlier version hard-coded a y for the diagram label that overlapped the
+    # subtitle; this version cannot overlap because it measures instead of guessing.
     y = 196
     for line in ["Air fryers and meat thermometers,", "compared from the listing - not from a guess."]:
         s, wdt = fit(d, line, "serifr", 42, RIGHT - M)
         d.text((M, y), line, font=font("serifr", s), fill=PAPER)
         y += s + 12
     s, _ = fit(d, "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", "sans", 22, RIGHT - M)
-    d.text((M, y + 12), "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", font=font("sans", s), fill=MUTED)
-    d.text((M, y + 42), "so no page pretends otherwise. No stale prices either - the button is the price.", font=font("sans", s), fill=MUTED)
+    sub = font("sans", s)
+    d.text((M, y + 10), "Every spec links to the Amazon page it came from. Nobody here has cooked with these,", font=sub, fill=MUTED)
+    d.text((M, y + 10 + s + 8), "so no page pretends otherwise. No stale prices either - the button is the price.", font=sub, fill=MUTED)
+    sub_bottom = y + 10 + s + 8 + s
 
     # our own diagram, from the dimensions the listings state
-    bars, y0, scale, bw, gap = [], 516, 7.5, 236, 26
+    label_s, label_f, label_gap = 16, font("sansb", 16), 18
+    label_y = sub_bottom + label_gap + 2
+    y0, scale, bw, gap = 528, 6.4, 236, 26
+    GLYPH_TOP = 26  # a bar tall enough to hold its own 34px figure: ~26px of glyph stack
+    bars = []
     for pid in ("P3", "P1", "P2"):
         v = depth_of(pid)
         if v:
             nm = PRODS[pid]["shortName"]
             nm = nm.replace(PRODS[pid]["brand"], "").strip() or PRODS[pid]["shortName"]
             bars.append((PRODS[pid]["brand"] + " " + nm, v))
-    d.text((M, 344), "COUNTER DEPTH AS THE LISTINGS STATE IT - OUR DIAGRAM", font=font("sansb", 16), fill=MUTED)
+    # a bar shorter than GLYPH_TOP would put its own figure above the bar, so the
+    # diagram is only drawn when the space is there; the guard is explicit, not hope.
+    assert label_y + 16 + 8 + GLYPH_TOP < y0 - 20, "og-image: no room for the depth diagram"
+    d.text((M, label_y), "COUNTER DEPTH AS THE LISTINGS STATE IT - OUR DIAGRAM", font=label_f, fill=MUTED)
     x = M
     for name, depth in bars:
         hgt = int(depth * scale)
@@ -88,6 +100,8 @@ def main():
         d.text((x + 18, y0 - hgt + 12), f'{depth}"', font=font("serif", 34), fill=PAPER)
         d.text((x + 18, y0 - hgt + 54), f"{round(depth * 2.54, 1)} cm", font=font("sans", 19), fill=MUTED)
         ns, _ = fit(d, name, "sansb", 19, bw - 30)
+        # the caption sits under the baseline and must clear the footer band
+        assert y0 + 12 + 19 <= H - 56 - 8, "og-image: bar captions run into the footer band"
         d.text((x + 18, y0 + 12), name, font=font("sansb", ns), fill=PAPER)
         x += bw + gap
     d.line([M, y0, x - gap, y0], fill="#3B2F24", width=2)

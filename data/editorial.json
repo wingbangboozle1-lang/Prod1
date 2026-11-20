@@ -106,9 +106,27 @@
         "title": "Wattage, circuits and shared outlets: what the listing does and does not say",
         "status": "covered by guide-wattage-outlets.html (2026-11-19); the 2027-01-05 slot is free for a new question",
         "page": "guide-wattage-outlets.html"
+      },
+      {
+        "week": "2027-01-12",
+        "title": "Air fryer basket vs oven: which one actually fits your counter?",
+        "status": "queued (drafted by session a8a06a38 for December; moved to an open slot because three other guides shipped ahead of it)",
+        "page": ""
+      },
+      {
+        "week": "2027-01-19",
+        "title": "Instant-read vs wireless thermometer: do you need both?",
+        "status": "queued",
+        "page": ""
+      },
+      {
+        "week": "2027-01-26",
+        "title": "Counter space math: will a 26-quart oven fit your kitchen?",
+        "status": "queued",
+        "page": ""
       }
     ],
-    "deviation": "The rule says one guide per Tuesday. Three shipped on Friday 2026-11-20 (the fit guide, the accessories guide and the price-check guide), because a fixed weekday is a plan, not a promise to readers. Recorded here so the calendar stays auditable instead of quietly amended. Note also what the site will not do: name a specific Amazon promotion on a reader page, because that clause ties the reference to the promotion's own lifetime."
+    "deviation": "The rule says one guide per Tuesday. Three shipped on Friday 2026-11-20 (the fit guide, the accessories guide and the price-check guide), because a fixed weekday is a plan, not a promise to readers. Recorded here so the calendar stays auditable instead of quietly amended. Note also what the site will not do: name a specific Amazon promotion on a reader page, because that clause ties the reference to the promotion's own lifetime. Sessions a8a06a38 and 1b65e5a1 drafted three further topics into the same window on 2026-11-20; because this pass published three guides out of slot, those three drafts were moved to open January slots rather than dropped, and one duplicated a topic that already has a page."
   },
   "voice": {
     "name": "Plain-spoken buying desk",

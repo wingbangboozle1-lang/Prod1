@@ -13,7 +13,11 @@
  *
  * Usage: node scripts/test_pages_dom.mjs
  */
-import { JSDOM } from '/tmp/domtest/node_modules/jsdom/lib/api.js';
+// jsdom is a local-only dependency (the Pages workflow installs nothing). The sandbox path is
+// tried first so the script runs without an install step; otherwise npm's copy is used.
+let JSDOM;
+try { ({ JSDOM } = await import('/tmp/domtest/node_modules/jsdom/lib/api.js')); }
+catch { ({ JSDOM } = await import('jsdom')); }
 import fs from 'node:fs';
 import process from 'node:process';
 const ROOT=process.cwd()+'/';
@@ -41,7 +45,14 @@ await run('index.html', async w=>{
   const ok=links.length>0 && links.every(a=>/rel="sponsored nofollow noopener"/.test(a.outerHTML)&&/\?tag=shopnow047c-20/.test(a.href)&&/sponsored, opens Amazon/.test(a.nextElementSibling.textContent));
   return `chooser: ${links.length} outbound link(s), all sponsored+tagged+labelled: ${ok}`;
 });
-const w2 = await run('suggestions.html');
+const w2 = await run('suggestions.html', async w => {
+  // every numbered row on the desk must carry a control, or the board silently loses rows
+  const ids = new Set([...w.document.querySelectorAll('[id^="SG-"],[id^="Q-"],[id^="DI-"]')]
+    .map(e => e.id).filter(x => /^(SG|Q|DI)-\d+$/.test(x)));
+  const ctrls = w.document.querySelectorAll('select[data-pick]').length;
+  if (!(ids.size > 0 && ctrls >= ids.size)) throw new Error(`desk coverage: ${ctrls} controls for ${ids.size} numbered rows`);
+  return `desk coverage: ${ctrls} controls over ${ids.size} numbered rows`;
+});
 w2.document.getElementById('sg-export').click();
 const txt=await w2.__blob.text();
 console.log('export head:', JSON.stringify(txt.split('\n')[0]), '| lines:', txt.trim().split('\n').length);

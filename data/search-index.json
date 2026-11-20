@@ -57,7 +57,7 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "50 ranked suggestions with options and trade-offs, a design brief to paste, and 31 questions whose answers gate the next build. Pick a row, export, decide."
+    "text": "52 ranked suggestions with options and trade-offs, a design brief to paste, and 31 questions whose answers gate the next build. Pick a row, export, decide."
   },
   {
     "title": "Verification register, line by line",
@@ -80,9 +80,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: 11 spec-backed buyer questions",
+    "title": "Topic calendar: fifteen buyer questions",
     "url": "topics.html",
-    "text": "11 question-shaped working titles - 8 published, 3 queued - each with the verified listing fields it is built from and the sources beside it."
+    "text": "Fifteen question-shaped working titles - eight published, seven queued - each with the verified listing fields it is built from and the sources beside it."
   },
   {
     "title": "Search the guides and products",
@@ -97,17 +97,17 @@
   {
     "title": "Holiday hosting: which air fryer feeds a crowd?",
     "url": "guide-holiday-hosting.html",
-    "text": "Hosting answers from verified Amazon listings: two dishes at once, rotisserie and pizza claims, and the counter-depth math that decides fit."
+    "text": "Holiday hosting questions from verified listings: two dishes at once, rotisserie and pizza claims, counter-depth math."
   },
   {
-    "title": "Kitchen gifts by budget: $25, $80, $150 bands",
+    "title": "Kitchen gifts under $25, $80 and $150",
     "url": "guide-gifts-by-budget.html",
-    "text": "Gift bands mapped to five verified listings: who each pick suits, the listing's own gift claims quoted, and a gift-giver's checklist."
+    "text": "Holiday gift bands from five verified Amazon listings: who each pick is for, the listings' own gift claims quoted, and a gift-giver's checklist."
   },
   {
-    "title": "Breaker math: air fryer wattage and outlets",
+    "title": "Will it trip the breaker? Air fryer wattage math",
     "url": "guide-wattage-outlets.html",
-    "text": "What 1000W vs 1700W means on a 120V circuit, the wattage conflict on one listing, and a checklist to verify wattage anywhere."
+    "text": "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing."
   },
   {
     "title": "What fits under the cabinet? Check counter height",
