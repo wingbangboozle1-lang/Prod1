@@ -169,3 +169,24 @@ img.og{max-width:100%;height:auto;border-radius:12px}
 .review-panel{display:flex;gap:.6rem;flex-wrap:wrap;margin:1rem 0}
 .review-panel .btn{margin:0}
 .pick-status{color:var(--muted);font-size:.85rem}
+
+/* to-scale footprint drawings (ours, from the listing's inches) */
+.fit{margin:.85rem 0 .2rem;padding:.7rem .8rem;background:#FFFDF8;border:1px dashed var(--line);border-radius:10px}
+.fit svg{display:block;width:100%;height:auto;max-width:340px}
+.svg-ref{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:5 4}
+.svg-fit{fill:rgba(180,67,43,.16);stroke:var(--accent);stroke-width:1.6}
+.svg-edge{stroke:var(--ink);stroke-width:1.4}
+.svg-lab{font:700 11px var(--sans);fill:var(--accent-dark)}
+.svg-cap{font:500 10.5px var(--sans);fill:var(--muted)}
+.fit figcaption{font-size:.78rem;color:var(--muted);margin-top:.35rem}
+/* decision register */
+.gate{margin:1.4rem 0;padding:1.5rem 1.5rem 1.3rem}
+.gate h2{margin:.1em 0 .5em}
+.gate h3{margin:1.3em 0 .35em;font-size:1.02rem;text-transform:uppercase;letter-spacing:.09em;color:var(--teal);font-family:var(--sans)}
+.gate-grid{display:grid;gap:1rem;grid-template-columns:1.2fr 1fr 1fr}
+@media(max-width:900px){.gate-grid{grid-template-columns:1fr}}
+ul.tight{margin:.3rem 0;padding-left:1.15rem}
+ul.tight li{margin:.3rem 0}
+.risk-cell{color:var(--warn)}
+.ids{font-size:.86rem;line-height:1.9}
+pre.reply{background:#2B1D12;color:#F2E3CB;padding:1rem 1.1rem;border-radius:10px;overflow:auto;font-size:.88rem;line-height:1.9}

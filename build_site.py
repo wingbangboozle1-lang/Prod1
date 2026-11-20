@@ -51,22 +51,37 @@ POSITION = {
            "check": "no +/-F accuracy figure appears in the fields we captured, and it needs WiFi, the hub and the app to earn its place",
            "headline": "The phone-watched setup"},
 }
+# Re-read of 2026-11-20, performed by session arena/42e09357-prod1. Deliberately narrow: this
+# session confirmed that each listing page is reachable, that its title still matches the register,
+# and the one buy-box price it could attribute to the product itself. It did NOT re-read every
+# spec table, so verifiedDate stays 2026-11-19 and no field on the shop pages is relabelled as
+# freshly confirmed. Full record: review/42e09357/VERIFICATION-2026-11-20.md
+RECHECK_DATE = "2026-11-20"
+RECHECK = {
+  "P1": ("title matches, page reachable", "buy box not isolated in this read, so the dated figure stands"),
+  "P2": ("title matches, still states 24 One-Touch Preset Options and Six Cooking Accessories", "FLG-002 and FLG-021 unchanged by this read"),
+  "P3": ("title matches (the register drops the registered-trademark mark from TurboFry)", "newer 6QT B0CNY1YVDD still shown in the page's own carousel at $59.99, 4.6/7,602, corroborating FLG-003"),
+  "P4": ("title matches; the seller has added holiday keywords to it", "buy box read in this session: $16.99, matching the register's dated figure"),
+  "P5": ("title matches, including Gen3 and 5 Sensors", "no dimensions in the fields captured, so FLG-004 stays open"),
+}
+
 # ---------------------------------------------------------------- product card
 def cta_note(p):
-    return (f'Sponsored link &middot; opens Amazon &middot; as listed {VERIFIED} &middot; '
+    return (f'Sponsored link &middot; Amazon price and stock govern &middot; '
+            f'specs read from this listing {VERIFIED} &middot; '
             f'<a href="verification.html#{p["id"]}">source record</a>')
 def product_card(pid, bullets_n=3, detailed=False):
     p = PRODS[pid]; pos = POSITION[pid]; dm = dims_of(p)
     bl = "".join(f"<li>{esc(b)}</li>" for b in p["bullets"][:bullets_n])
-    dims = esc(p["dimensions"]) if p["dimensions"] else "not shown in the fields we captured"
+    dims = esc(p["dimensions"]) if p["dimensions"] else "not stated on the listing"
     if SHOW_PRICE:
         money = f'<p class="price-row"><span class="price">{esc(p["priceNew"])}</span> <span class="fine">listed {VERIFIED} &middot; Amazon price governs</span></p>'
     else:
-        money = f'<p class="price-row"><span class="price-live">Price moves on Amazon</span> <span class="fine">we do not publish a stale figure &mdash; the button shows today&rsquo;s</span></p>'
+        money = f'<p class="price-row"><span class="price-live">Today&rsquo;s price sits on Amazon</span> <span class="fine">we link to it instead of quoting a number that goes stale</span></p>'
     rating = (f'<p class="fine"><span class="stars">&#9733; {esc(p["rating"])}</span> from {esc(p["ratingCount"])} ratings, as counted on {VERIFIED}. Live count on the listing.</p>') if SHOW_RATING else ""
     footprint = f'<div><dt>Counter depth</dt><dd>{dm["depth_in"]} in ({dm["depth_cm"]} cm)</dd></div>' if dm else ""
-    height = f'<div><dt>Height</dt><dd>{dm["height_in"]} in ({dm["height_cm"]} cm) &mdash; check your cabinet clearance</dd></div>' if dm and dm.get("height_cm") else ""
-    power = f'<div><dt>Power, as listed</dt><dd>{flaglinks(esc(p["wattage"]))}</dd></div>' if p.get("wattage") and p["wattage"] not in ("", "—") else ""
+    height = f'<div><dt>Height to clear a cabinet</dt><dd>{dm["height_in"]} in ({dm["height_cm"]} cm)</dd></div>' if dm and dm.get("height_cm") else ""
+    power = f'<div><dt>Power draw</dt><dd>{flaglinks(esc(p["wattage"]))}</dd></div>' if p.get("wattage") and p["wattage"] not in ("", "—") else ""
     extra = f'<ul class="bullets">{bl}</ul>' if detailed else ""
     return f"""
 <article class="prod" id="{pid}">
@@ -77,11 +92,12 @@ def product_card(pid, bullets_n=3, detailed=False):
     {money}{rating}
   </div>
   <dl class="specs">
-    <div><dt>Capacity, as titled</dt><dd>{esc(p['capacityTitle'])}</dd></div>
-    <div><dt>Footprint on the listing</dt><dd>{dims}</dd></div>
+    <div><dt>Capacity</dt><dd>{esc(p['capacityTitle'])}</dd></div>
+    <div><dt>Stated size (D x W x H)</dt><dd>{dims}</dd></div>
     {footprint}{height}{power}
-    <div><dt>Features, as listed</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
+    <div><dt>Features the listing calls out</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
   </dl>
+  {fit_svg(pid)}
   <p class="best"><strong>Good for:</strong> {esc(pos['good'])}</p>
   <p class="watch"><strong>Check before you buy:</strong> {esc(pos['check'])}</p>
   {extra}
@@ -89,6 +105,39 @@ def product_card(pid, bullets_n=3, detailed=False):
      <a class="link-quiet" href="compare.html#{pid}">See how it compares</a></p>
   <p class="fine">{cta_note(p)}</p>
 </article>"""
+def fit_svg(pid):
+    """A to-scale footprint drawing, generated from the inches the listing states.
+
+    Why this exists: the photography decision (SG-04 / FLG-009) blocks every product image, which
+    left the shop pages with nothing spatial in an article about things that have to fit. A drawing
+    we make ourselves is not Program Content, it cannot go stale the way a price sticker does, and
+    the only number in it is one the register already carries. One scale (9 px per inch) is used
+    for every product so two cards can be compared by eye.
+    """
+    p = PRODS[pid]; dm = dims_of(p)
+    if not dm:
+        return ""
+    S = 9
+    w = dm["width_in"]; d = dm["depth_in"]; h = dm.get("height_in") or 0
+    ref = 12 * S
+    top = 34
+    base = top + max(ref, round(d * S))
+    x0 = 24
+    px = x0 + ref + 26
+    pw = round(w * S); pd = round(d * S)
+    return f"""<figure class="fit">
+<svg viewBox="0 0 320 {base + 24}" role="img" aria-label="To-scale drawing of the {esc(p['shortName'])} footprint, {w} inches wide by {d} inches deep, against a 12 by 12 inch reference square.">
+<title>Counter footprint to scale, from the listing's stated inches</title>
+<rect class="svg-ref" x="{x0}" y="{base - ref}" width="{ref}" height="{ref}"/>
+<text class="svg-cap" x="{x0}" y="{base + 15}">12 x 12 in reference</text>
+<rect class="svg-fit" x="{px}" y="{base - pd}" width="{pw}" height="{pd}"/>
+<text class="svg-lab" x="{px}" y="{base - pd - 8}">{w} in wide</text>
+<text class="svg-cap" x="{px}" y="{base + 15}">{d} in deep, {h} in tall &middot; {dm['footprint_sqin']} sq in of counter</text>
+<line class="svg-edge" x1="{x0}" y1="{base}" x2="300" y2="{base}"/>
+</svg>
+<figcaption>Our drawing, scaled from the dimensions on the listing ({esc(p['sourceUrl'].rsplit('/',1)[-1])}). Not a photograph of the product.</figcaption>
+</figure>"""
+
 # ---------------------------------------------------------------- chrome
 NAV = f"""<nav class="nav" aria-label="Main">
   <a href="air-fryers.html">Air fryers</a>
@@ -947,7 +996,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 </div>
 </div>
 """
-_board_n = len(set(re.findall(r'id="(SG-\d\d)"', sugg_body))), len(set(re.findall(r'id="(Q-\d\d)"', sugg_body))))
+_board_n = len(set(re.findall(r'id="(SG-\d\d)"', sugg_body))), len(set(re.findall(r'id="(Q-\d\d)"', sugg_body)))
 page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide",f"{_board_n[0]} suggestions and {_board_n[1]} questions with options, evidence and trade-offs, mapped to the seven gates on the decision register.",sugg_body)
 
 # ---------- DECISION REGISTER (session arena/42e09357-prod1, 2026-11-20) ----------
