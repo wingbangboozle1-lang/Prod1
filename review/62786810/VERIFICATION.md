@@ -32,7 +32,7 @@ session makes no claim either way.
 | P1 List Price | $99.99 | $99.99 | unchanged |
 | P1 buy-box unit price | not recorded | $39.97 per count | new field, not published (policy: no prices on shop pages) |
 | P4 rating | 4.6 (3,499) | 4.6 (3,499) | unchanged |
-| P4 item length | not captured | **6.5 in** (`Item Length`, Measurements block) | new — recorded in FLG-064 |
+| P4 item length | not captured | **6.5 in** (`Item Length`, Measurements block) | new — recorded in FLG-072 |
 
 Ratings, prices and badges are volatile Program Content. They live in the register as dated
 observations and are **not** displayed on shop pages; the policy reason is on
@@ -64,7 +64,7 @@ Total 182,364 bytes. Self-hosted: no request leaves the visitor's browser to a f
 is both a privacy choice and a rule the new style gate enforces by warning on any
 `fonts.googleapis.com` link.
 
-**Irregularity found while doing this (published as FLG-060):** the license file inside the
+**Irregularity found while doing this (published as FLG-067):** the license file inside the
 Fraunces package named the *Inter* project in its first line. That is an upstream packaging
 artifact, not a licensing ambiguity — the authoritative OFL text from the Fraunces repository
 was fetched and the local header corrected to match it. Both fonts are OFL 1.1 regardless.
@@ -94,10 +94,10 @@ python3 counter-check/tools/check_site.py -> PASSED (16 pages, 5 products, 21 fl
 
 | Item | Why not | Where it is published |
 |---|---|---|
-| Whether a click on any of the five links is attributed to `shopnow047c-20` | requires an Associates Central login; no session credential exists | FLG-001, SG-48, Q-30 |
-| Search Console queries, impressions, position | property does not exist | SG-47, methodology.html |
-| CHEF iQ temperature tolerance | not stated anywhere in the listing's fields; the manual is a linked PDF this session did not open | FLG-063, Q-31 |
-| Full dimensions for either thermometer | P4 gives `Item Length` only; P5 gives none | FLG-004, FLG-064 |
+| Whether a click on any of the five links is attributed to `shopnow047c-20` | requires an Associates Central login; no session credential exists | FLG-001, SG-53, Q-30 |
+| Search Console queries, impressions, position | property does not exist | SG-52, methodology.html |
+| CHEF iQ temperature tolerance | not stated anywhere in the listing's fields; the manual is a linked PDF this session did not open | FLG-071, Q-31 |
+| Full dimensions for either thermometer | P4 gives `Item Length` only; P5 gives none | FLG-004, FLG-072 |
 | Emeril warranty term | the listing links a warranty PDF; no term in the listing text | FLG-005 |
 | Whether the listings' dimensions match the shipped unit | requires a physical unit | Q-32 |
 | Anything about traffic, revenue or ranking | no first-party report exists; the ledger is empty by design | methodology.html, FLG-011 |
