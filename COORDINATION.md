@@ -415,3 +415,21 @@ Scope: re-run the publishing gates, confirm the live site, and re-check the five
 **Still open, and requires the owner (cannot be closed from this sandbox):** the Special Link validation for each product in the enrolled Associates workflow (FLG-001 / SG-01) needs an Associates account login; analytics endpoint hosting (FLG-008 / SG-03); photography licence (FLG-009 / SG-04); API-policy decision (FLG-023); custom domain (SG-02); wattage conflict on P3 (FLG-022). These stay on flagged.html.
 
 **Live-site note.** The sandbox cannot reach github.io directly (no outbound access to that host), so the live check was made through the page fetch tool, not curl.
+
+## Claim — session arena/e7dcb638-prod1 (2026-11-20)
+
+Session ID: **e7dcb638**. Branch `arena/e7dcb638-prod1`. Base: `c42d017` (PR #25), then **merged `pr27` head `9ba69c3` at the start of this session** so the footprint-label fix and the 2026-11-20 short-link record are inside my branch, not beside it. No file of session `1187e20d` is edited beyond that merge; if PR #27 is merged by its owner, this branch already contains it and the merge is a no-op.
+
+| Task | Status | Owner | Files touched (scope) | Files deliberately NOT touched |
+|---|---|---|---|---|
+| E1 Shop polish: original in-house artwork (SVG/CSS + one commissioned illustration), product-card and category-tile visuals, front-page composition, CSS design pass — "read like a shop, not an audit" | in progress | e7dcb638 | `assets/style.css`, `assets/img/**` (new), `build_site.py` (render functions + front page only), `index.html` etc. (generated) | `data/products.json` (register), `docs/**`, `articles/**`, `counter-check/**` |
+| E2 Decision desk rebuild: ranked paths with recommended default, approve/defer/reject review state (local-only), Q/I/A register with discovery method for every gap | in progress | e7dcb638 | `build_site.py` (suggestions + review-desk builders), `suggestions.html`, `review-desk.html` (generated), `DESIGN_PROMPT.md` | `flagged.html` rows other than the new FLG-052… rows this session files |
+| E3 Editorial: promote two queued calendar topics to published guides, keep sitemap/feed/index generated | in progress | e7dcb638 | `build_site.py` (GUIDES + new guide bodies), `data/editorial.json` (cadence queue status fields only), `sitemap.xml`, `feed.xml`, `topics.html` (generated) | `data/editorial.json` display/voice/policy fields |
+| E4 Machinery: one event taxonomy across client and endpoint + a contract test, so the "five defined events" actually validate | in progress | e7dcb638 | `assets/app.js`, `analytics-endpoint/server.py`, `analytics-endpoint/README.md`, `scripts/test_event_contract.py` (new) | — |
+| E5 Executive summary refresh (what is live, what is verified, what is blocked, the five next moves) | in progress | e7dcb638 | `build_site.py` (exec-summary builder) | — |
+| E6 Independent re-read of the five listings (fields the site displays) recorded in `review/e7dcb638/` | in progress | e7dcb638 | `review/e7dcb638/VERIFICATION-2026-11-20.md` (new) | `verification.html` (register-owned: the date bump is a request to the register owner, logged as a flag, not an edit) |
+| E7 Final integration: rebuild, both gates, counter-check, PR to main, merge, Pages confirmation | in progress | e7dcb638 | `COORDINATION.md` | — |
+
+**Handoff note (60-minute rule).** No other session has commits on an open branch at claim time; the only open PRs are #27 (`1187e20d`, merged into this branch as described above) and draft #10 (`a17ba53c`, still proposing a second site under `docs/` — not merged, still a request for owner review, and this session does not edit it).
+
+**Requests logged instead of edited.** To the `data/products.json` owner: the five listings were re-read by `1187e20d` on 2026-11-20 (short links + titles) and independently by this session on 2026-11-20 (displayed spec fields); the register still carries `verifiedDate: 2026-11-19`. Either bump the date or record the 2026-11-20 pass on the register rows — this session will not touch the register to avoid a collision.
