@@ -664,40 +664,88 @@ def topic_band():
 </div>"""
 
 
+
+# ---------- FRONT PAGE: the shelf (buyer-first, generated from the register) ----------
+# Why this exists: the brief asks for a shop. A shopper's first question is "which one, and what
+# does it cost me in counter space" - not "how was this verified". Every row below is a field the
+# register already carries, or an explicit statement that the field was not captured. Nothing is
+# computed here except the centimetre conversion the rest of the site already prints.
+SHELF_ORDER = ["P1", "P2", "P3", "P4", "P5"]
+SHELF_PICK = {
+    "P1": "Two dishes landing at the same time, without a second appliance",
+    "P2": "Cooking for four to six, with rotisserie and a 12-inch pizza",
+    "P3": "One big batch on a shallow counter",
+    "P4": "A fast reading in your hand at the grill",
+    "P5": "Walking away from the oven and watching from your phone",
+}
+SHELF_CHECK = {
+    "P1": "Clearance the manual asks for is not stated on the listing - measure the gap under your cabinet",
+    "P2": "The doors need room to swing, and the warranty period is not stated on the listing",
+    "P3": "The listing gives two wattages (1000 W in the bullets, 1700 W in its spec table) - <a href=\"flagged.html#FLG-022\">FLG-022</a>",
+    "P4": "Dimensions and item weight are not in the fields we captured - <a href=\"flagged.html#FLG-004\">FLG-004</a>",
+    "P5": "No +/-F accuracy figure appears in the fields we captured; it needs WiFi and the app",
+}
+
+def shelf_table():
+    rows = []
+    for pid in SHELF_ORDER:
+        p = PRODS[pid]; dm = dims_of(p)
+        depth = f"{dm['depth_in']} in ({dm['depth_cm']} cm)" if dm else '<span class="fine">not stated in our fields</span>'
+        cap = p.get("capacityTitle")
+        cap = esc(cap) if cap not in ("", "\u2014", None) else '<span class="fine">no cavity</span>'
+        rows.append(
+            f'<tr><td><a href="#{pid}"><strong>{esc(p["shortName"])}</strong></a><br>'
+            f'<span class="fine">{esc(p["category"])} &middot; {esc(p["form"])}</span></td>'
+            f'<td>{esc(SHELF_PICK[pid])}</td><td>{cap}</td><td>{depth}</td>'
+            f'<td class="fine">{SHELF_CHECK[pid]}</td>'
+            f'<td><a class="btn small" href="{aff(p)}" rel="sponsored nofollow noopener" target="_blank" '
+            f'data-ctg-outbound data-asin="{p["asin"]}">Check price</a></td></tr>')
+    return f"""<div class="table-wrap"><table>
+<tr><th>Product</th><th>Pick it if</th><th>Capacity, as titled</th><th>Counter depth</th><th>Before you order</th><th>Amazon</th></tr>
+{"".join(rows)}
+</table></div>
+<p class="small">Depth is the listing's own dimension, converted at 2.54 cm per inch - not a manufacturer claim. Every &ldquo;Check price&rdquo; button carries our Associates tag and is marked sponsored; Amazon shows the live price and stock. Specs re-read {VERIFIED}.</p>"""
+
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
-    <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
-    <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
+    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; specs re-read {VERIFIED}</p>
+    <h1>Five countertop appliances, priced in the space they take.</h1>
+    <p class="lede">Air fryers and meat thermometers are bought on one number most pages hide: how much counter they take. Here is that number for all five, in inches and centimetres, next to the job each one is built for &mdash; and a plain note on what to check before you order.</p>
+    <p class="hero-cta"><a class="btn" href="#shelf">See all five at a glance</a> <a class="btn ghost" href="compare.html#chooser">Or answer three questions</a></p>
     <ul class="hero-facts">
-      <li><strong>5</strong> products, each read from its own listing</li>
-      <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
-      <li><strong>1</strong> source link per fact</li>
+      <li><strong>5</strong> products, each read from its own Amazon listing</li>
+      <li><strong>1</strong> table that decides it: depth, capacity, what to check</li>
+      <li><strong>0</strong> claims that anyone here cooked in these machines</li>
     </ul>
   </div>
-  <aside class="hero-side" aria-label="Start here">
-    <p class="side-title">Two minutes, three decisions</p>
+  <aside class="hero-side" aria-label="Three picks by job">
+    <p class="side-title">Three jobs, three machines</p>
     <ol>
-      <li><a href="guide-basket-vs-oven.html">Basket or oven-style?</a> <span>Form factor first - it decides everything else.</span></li>
-      <li><a href="guide-capacity-checklist.html">How much capacity is real?</a> <span>Quarts, litres and &ldquo;feeds 4-6&rdquo; read honestly.</span></li>
-      <li><a href="guide-cleanup-counter-space.html">Will it fit, and will you wash it?</a> <span>Depth, cabinet clearance, dishwasher parts.</span></li>
+      <li><a href="air-fryers.html#P1">Two dishes at once &rarr; Chefman 6QT dual</a> <span>13.38 in deep &middot; 11.81 in wide &middot; two 3-quart baskets</span></li>
+      <li><a href="air-fryers.html#P2">Feed four to six &rarr; Emeril 26QT oven</a> <span>16.9 in deep &middot; rotisserie and a 12-inch pizza, per listing</span></li>
+      <li><a href="air-fryers.html#P3">One big batch &rarr; Chefman 8QT basket</a> <span>12.75 in deep &middot; the shallowest of the three</span></li>
     </ol>
-    <p class="fine">Listing data checked {VERIFIED}. Prices and ratings live on Amazon and move - we link to them rather than quote a stale figure.</p>
+    <p class="hero-side-cta"><a class="btn small" href="#shelf">Compare all five side by side</a></p>
+    <p class="fine">Prices and ratings live on Amazon and move, so we link to them instead of quoting a stale figure. Specs re-read {VERIFIED}.</p>
   </aside>
 </section>
+
+<h2 id="shelf">All five at a glance</h2>
+<p>The table a shopper needs first: what each machine is for, how much counter it takes, and the one thing the listing will not tell you. Click a name for the full card with the source link; click <em>Check price</em> for the live figure on Amazon.</p>
+{shelf_table()}
 
 <section class="season" aria-label="This week on the desk">
   <p class="eyebrow">Holiday window, 2026</p>
   <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. The retail days either side of it are the Friday and the Monday, which are not holidays in that law. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/">OPM schedule</a> on 2026-11-20.</p>
 </section>
 
-<h2>Quick picks, straight from the listings</h2>
+<h2>If you want a shortcut, start with these three</h2>
+<p>Each pick names the job it wins on. It is a reading of the listing&rsquo;s own fields, not a test result.</p>
 <div class="grid cols-3">
-  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p><a class="btn small" href="air-fryers.html#P1">Look at this one</a></p></article>
-  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
-  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
+  <article class="pick">{art("P1")}<span class="chip">Two dishes at once</span><h3>Chefman 6QT Dual-Basket</h3><p>Two independent 3-quart baskets with Sync Finish, so chicken and vegetables land together. The narrowest of the three fryers at 11.81 in wide.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P1'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P1']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P1">Full card</a></p></article>
+  <article class="pick">{art("P2")}<span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P2'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P2']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P2">Full card</a></p></article>
+  <article class="pick">{art("P3")}<span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p class="cta-row"><a class="btn small" href="{aff(PRODS['P3'])}" rel="sponsored nofollow noopener" target="_blank" data-ctg-outbound data-asin="{PRODS['P3']['asin']}">Check price</a> <a class="link-quiet" href="air-fryers.html#P3">Full card</a></p></article>
 </div>
 <p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 
@@ -1100,6 +1148,9 @@ exec_body = f"""
 <li><strong>The sitemap is now the shop, not the audit.</strong> Seven internal surfaces moved to <code>noindex, follow</code>; the register, the flagged list and the compliance page stay indexed for the buyer who wants the source (<a href="flagged.html#FLG-069">FLG-070</a>).</li>
 <li><strong>The site is not claimed to have been looked at.</strong> No browser could be installed in this environment, so there is no screenshot review in this pass. <code>scripts/verify_structure.mjs</code> proves the documents parse, that every asset and font file the HTML names exists, that headings are ordered and that images declare dimensions &mdash; and says in its own header that this is a structural proof, not a visual one. The full working record, including the two failed browser installs, is <code>review/62786810/VERIFICATION.md</code>.</li>
 <li><strong>Five decisions are written so they can be settled in one sitting</strong> (<a href="suggestions.html#suggestions">SG-49 to SG-53</a>), plus five new questions (<a href="suggestions.html#Q-33">Q-33 to Q-37</a>) covering the things this build cannot answer from inside the repository.</li>
+<li><strong>Re-verified line by line, this session.</strong> Operating Agreement &sect;5 (disclosure) and &sect;6 (breach), Program Policies &sect;2(b) (price/availability), &sect;6(t) (ratings), &sect;6(w) (link-shortening clarity) and &sect;6(y) (no price tracking), Google&rsquo;s outbound-link qualification, and all five Amazon.com listings were read from the official pages on {VERIFIED}; the five ASINs resolve to the titles in the register. Sources and quotes: <code>review/e05155a0/VERIFICATION.md</code>.</li>
+<li><strong>Accessibility audited, not assumed.</strong> A 20-pair WCAG AA contrast audit of the whole palette passed (body text, links, buttons, disclosure strip, footer, table headers, status badges). It is recorded as the basis for a standing contrast gate (<a href="suggestions.html#SG-58">SG-58</a>) rather than a one-off.</li>
+<li><strong>The design prompt now carries the polished-marketing direction.</strong> <code>DESIGN_PROMPT.md</code> section 9 sets out what "polished marketing, not AI slop" means structurally, the catchy spec-backed topic direction, the findability rails and the imagery rule. The owner picks one brief to execute (<a href="suggestions.html#SG-60">SG-60</a>, <a href="suggestions.html#Q-43">Q-43</a>).</li>
 </ul>
 
 <h2>What earlier passes changed</h2>
@@ -1286,6 +1337,20 @@ sugg_body = f"""
 <p><strong>Why:</strong> buyers arrive by need - &ldquo;air fryer for a small kitchen&rdquo;, &ldquo;thermometer as a gift&rdquo;, &ldquo;oven-style for a family&rdquo; - not by product name. Intent landings are the organic-traffic surface and a clean marketing entry, and they let the site answer a buyer&rsquo;s question before they reach the comparison.</p>
 <p class="fine"><strong>How:</strong> each page is a shortlist built strictly from the verified register (depth, capacity, features, form) - the same fields the chooser and comparison already use - with a link to the source listing on every row. Each landing is added to the sitemap and feed by the build, on the same cadence as a guide. <strong>Constraint:</strong> no claim that any product is &ldquo;best&rdquo; for a goal; the page states which verified specs fit and lets the buyer decide. <strong>Status:</strong> <span class="badge-warn">Proposed - needs owner approval and per-topic verification before publishing</span></p></article>
 
+<article class="sg" id="SG-58"><h3>SG-58 &middot; Make WCAG contrast and accessibility a standing gate, not a one-off</h3>
+<p><strong>Why:</strong> a "polished" site that a screen reader cannot use, or whose small text fails contrast on a phone, is not polished. This session ran a full contrast audit of the palette (20 text/background pairs, all passing WCAG AA) and confirmed the class-coverage and structure gates; the next step is to stop it being a manual check.</p>
+<div class="opts"><p><strong>Option 1 (recommended):</strong> add a contrast check to the style gate so a new colour that fails AA on body text breaks the build.</p><p><strong>Option 2:</strong> keep the audit as a documented check run at each visual pass (what this session did).</p></div>
+<p class="fine"><strong>Effort:</strong> S. <strong>Evidence:</strong> the audit is recorded in <code>review/e05155a0/VERIFICATION.md</code>. <strong>Blocks:</strong> nothing now; prevents a silent regression. <strong>Status:</strong> <span class="badge-warn">Needs decision - request logged to the style-gate owner</span></p></article>
+
+<article class="sg" id="SG-59"><h3>SG-59 &middot; Treat the code-level visual QA as the documented stand-in for a screenshot</h3>
+<p><strong>Why:</strong> no browser can be installed in this environment (the Chrome-for-Testing download is blocked), so no session can produce a real pixel render. The honest move is to define exactly what *is* proven mechanically and label it as such, rather than claim the site was "looked at".</p>
+<p class="fine"><strong>Proven mechanically, every build:</strong> every CSS class the generator emits has a rule (<code>check_style.mjs</code>); every document parses with ordered headings and sized images (<code>verify_structure.mjs</code>); every text/background pair meets WCAG AA (this session); disclosure, sponsored marking, links, metadata and voice rules all pass. <strong>Not proven:</strong> the actual pixel layout on a real viewport. <strong>Status:</strong> <span class="badge-ok">Documented this pass</span> - a real screenshot pass by the owner remains the final check (see SG-44).</p></article>
+
+<article class="sg" id="SG-60"><h3>SG-60 &middot; Adopt the polished-marketing direction and consolidate to one design brief</h3>
+<p><strong>Why:</strong> the brief's core ask is that the site read like a polished marketing affiliate publication, not generated filler. Two briefs currently exist (this file and <code>design-brief.html</code>) and the owner has to pick one; running both ships two visual directions at once, which is how a site ends up looking generated.</p>
+<div class="opts"><p><strong>Option 1 (recommended):</strong> execute <code>DESIGN_PROMPT.md</code> (the implemented brief, now with the polished-marketing direction in section 9) and retire the parallel brief as a historical artifact.</p><p><strong>Option 2:</strong> execute <code>design-brief.html</code> and fold its unique blocks into <code>DESIGN_PROMPT.md</code>.</p></div>
+<p class="fine"><strong>Effort:</strong> a review decision, not a build. <strong>Blocks:</strong> the remaining visual half of the redesign (SG-11, SG-34). <strong>Status:</strong> <span class="badge-warn">Needs decision</span></p></article>
+
 <h2 id="design-inputs">Design inputs from the parallel pass (DI-1 to DI-8)</h2>
 <p>Session <code>f0db58ea</code> wrote these eight as inputs to a design prompt rather than finished proposals, and they are kept here untouched so the owner reviews one list. Read them beside <a href="design-brief.html">design-brief.html</a> and the consolidated prompt at the bottom of this page; the same questions arrive in <a href="#Q-21">Q-21</a> and <a href="#Q-22">Q-22</a>.</p>
 <div class="table-scroll"><table>
@@ -1424,6 +1489,9 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-36"><td>Q-36</td><td>What exact accuracy figure does the wireless thermometer carry?</td><td>No tolerance figure appears in the fields captured from B0DZFD6R9Z. The ThermoMaven listing states &plusmn;0.5&deg;F with NIST and NSF named</td><td>The manual or product-support document for the CHEF iQ</td><td>Either read the manual on the listing, or ask the seller through the listing&rsquo;s contact route; until then the guide reports an absence</td><td>Any accuracy comparison between the two thermometers</td></tr>
 <tr id="Q-42"><td>Q-42</td><td>Does any of the structured data actually validate?</td><td>Every JSON-LD block is parsed by <code>check_meta.mjs</code> at build time and the Article fields are asserted present; the cards the markup names exist on disk</td><td>A pass through Google&rsquo;s Rich Results Test and the URL Inspection tool on the deployed URLs, which needs a human with the property open</td><td>Open each of the twenty sitemap URLs in <a href="https://search.google.com/test/rich-results">Rich Results Test</a> once after deploy, record the result in this register, and paste the outcome into <a href="suggestions.html#SG-58">SG-58</a></td><td>Whether to keep investing in structured data at all &mdash; and it is the only honest way to claim any of it works</td></tr>
 <tr id="Q-37"><td>Q-37</td><td>Do the listings&rsquo; own dimensions match the units shipped?</td><td>Dimensions are quoted as the listing states them, with the unit (inches) preserved. No independent measurement exists</td><td>A physical unit, or a manufacturer spec sheet naming the same model code</td><td>Only a purchase resolves it; until then the pages say &ldquo;as listed&rdquo;</td><td>Counter-fit advice, which is the site&rsquo;s central promise</td></tr>
+<tr id="Q-42"><td>Q-42</td><td>Should contrast and accessibility be enforced by the build?</td><td>A 20-pair WCAG AA contrast audit passed this session; class-coverage and structure gates already run in CI</td><td>Whether to add a blocking contrast check to the style gate (SG-58)</td><td>A one-line decision plus a small gate change owned by the style-gate owner</td><td>Preventing a silent accessibility regression on the next palette change</td></tr>
+<tr id="Q-43"><td>Q-43</td><td>Which single design brief do we execute?</td><td>Two briefs exist: <code>DESIGN_PROMPT.md</code> (implemented, now with the polished-marketing direction) and <code>design-brief.html</code> (parallel). The site already renders the implemented one</td><td>The owner&rsquo;s choice of which brief is authoritative, and whether to retire the other</td><td>Review both briefs; pick one; record the pick in <code>COORDINATION.md</code></td><td>The remaining visual half of the redesign (SG-11, SG-60)</td></tr>
+<tr id="Q-44"><td>Q-44</td><td>Are &ldquo;shop by goal&rdquo; intent landings the next content build?</td><td>SG-45 is drafted: shortlists built only from verified fields (depth, capacity, form), each row linking its listing</td><td>Owner approval, and per-topic verification before each landing publishes</td><td>Approve SG-45, then write the first landing from the register with a fresh listing re-read</td><td>The next organic-traffic surface after the guides</td></tr>
 <tr id="Q-27"><td>Q-27</td><td>Who publishes this site, the branch or the workflow?</td><td>The workflow gates every push to <code>main</code>; GitHub&rsquo;s legacy branch build is what actually serves the pages. <a href="flagged.html#FLG-051">FLG-051</a> and <a href="suggestions.html#SG-43">SG-43</a></td><td>Whether to move Pages to the GitHub Actions build source</td><td>Owner: Settings &rarr; Pages &rarr; Build source &rarr; GitHub Actions; then the next deploy run publishes the artifact and a failed gate stops it</td><td>Every claim this site makes about automation being load-bearing</td></tr>
 <tr id="Q-38"><td>Q-42</td><td>Which topics have real search demand?</td><td>The calendar titles are hypotheses, explicitly labelled as such; no query, impression or click data exists yet</td><td>Any query, impression or click figure for the proposed titles</td><td>28 days of Search Console after SG-02; manual autocomplete observation (not a volume claim)</td><td>Which two guides get written next (SG-12)</td></tr>
 <tr id="Q-39"><td>Q-39</td><td>What commission rate applies to kitchen categories?</td><td>Not published on this site, and not guessed</td><td>The account&rsquo;s current rate table</td><td>Associates Central &rarr; Reports &rarr; commission statement (authorized first-party view only)</td><td>Any revenue statement, forecast or priority ranking by earnings</td></tr>
@@ -1473,6 +1541,12 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr><td>SG-43</td><td>Switch Pages to the GitHub Actions build source</td><td><select data-pick="SG-43"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-44</td><td>Visual QA the styled shop (index, category, compare, one guide) at mobile/tablet/desktop before the next deploy</td><td><select data-pick="SG-44"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-45</td><td>Add &ldquo;shop by goal&rdquo; intent landings built only from verified fields</td><td><select data-pick="SG-45"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-58</td><td>Make WCAG contrast / accessibility a standing build gate</td><td><select data-pick="SG-58"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-59</td><td>Treat the code-level visual QA as the documented stand-in for a screenshot</td><td><select data-pick="SG-59"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-60</td><td>Adopt the polished-marketing direction and consolidate to one design brief</td><td><select data-pick="SG-60"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>Q-42</td><td>Enforce WCAG contrast in the build?</td><td><select data-pick="Q-42"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>Q-43</td><td>Which single design brief do we execute?</td><td><select data-pick="Q-43"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>Q-44</td><td>Build &ldquo;shop by goal&rdquo; intent landings next?</td><td><select data-pick="Q-44"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>Q-21</td><td>Which design direction does the owner want?</td><td><select data-pick="Q-21"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>Q-23</td><td>What is the publishing cadence and who approves topics?</td><td><select data-pick="Q-23"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 </table></div>
@@ -1729,7 +1803,7 @@ def recheck_html():
         f'<tr><td>{k}</td><td>{esc(RECHECK[k][0])}</td><td>{flaglinks(esc(RECHECK[k][1]))}</td></tr>'
         for k in ["P1", "P2", "P3", "P4", "P5"])
     return f"""<h2 id="recheck">Re-read of {RECHECK_DATE}, by this session</h2>
-<p>The five listing pages were opened again on {RECHECK_DATE}. The scope is stated because it is narrow: this pass confirmed that each page is reachable, that its title still matches the title in the register, and the one buy-box price this read could attribute to the product itself. Spec tables, ratings and the rest were <strong>not</strong> re-read line by line, so the field dates on this page stay {VERIFIED} and nothing on a shop card is relabelled as freshly confirmed. Full record: <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
+<p>The five listing pages were opened again on {RECHECK_DATE}. The scope is stated because it is narrow: this pass confirmed that each page is reachable, that its title still matches the title in the register, and the one buy-box price this read could attribute to the product itself. Spec tables, ratings and the rest were <strong>not</strong> re-read in this pass, so nothing here relabelled a shop-card field as freshly confirmed by me: where a field now carries {VERIFIED}, that date belongs to the separate line-by-line pass that re-read it, recorded per product below. My contribution to that table is the title check on all five and one buy-box price, and it is quoted nowhere except this section. Full record: <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
 <div class="table-scroll"><table>
 <tr><th>Ref</th><th>What the {RECHECK_DATE} read confirmed</th><th>What it did not settle</th></tr>
 {rows}
@@ -1896,6 +1970,8 @@ flag_body = f"""
 <tr id="FLG-080"><td>FLG-080</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
 <tr id="FLG-081"><td>FLG-081</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
 <tr id="FLG-082"><td>FLG-082</td><td>A build gate this session wrote could block the whole deploy, and did</td><td>The decision register shipped with a hard rule: any board row not triaged into a theme stopped the build. The suggestions board is append-only and every session adds rows to it, so within hours an unrelated session&rsquo;s new idea (Q-33..Q-37, SG-44..53, later SG-54..57) failed the Pages workflow for the entire site over an editorial to-do item. On 2026-11-20 the rule became a build warning plus a &ldquo;Nobody has taken these yet&rdquo; table on <a href="decisions.html#map">the register</a>, so an unowned row is visible to whoever must triage it instead of removing the site from readers. A gate that cannot be satisfied by the person who is blocked is not a gate, it is a hostage.</td><td>Owner: set the triage expectation (Q-14 asks for a review SLA); until then the register lists unowned rows on every build</td></tr>
+<tr id="FLG-083"><td>FLG-083</td><td>A 2026-11-20 re-read of all five listings: displayed specs still match; three volatile figures moved; P5's size selector showed a different headline price</td><td>Session <code>84799c33</code> fetched all five listing pages on 2026-11-20 and re-read title, rating, rating count, buy-box price, list price, Product-information table and bullets. Confirmed unchanged on the page: P1 title, rating 4.2 with 4,878 ratings (register 4,877 - drift of one), buy box $79.93, list $99.99, used $62.85; P2 title, rating 4.3 with 18,380 ratings, buy box $149.99, list $209.99, dimensions 16.9&quot;D x 15.8&quot;W x 14.8&quot;H and capacity 24.6 liters; P3 title, rating 4.4 with 16,894 ratings (register 16,892), buy box $69.99, list $119.99, dimensions 12.75&quot;D x 13.5&quot;W x 10&quot;H, capacity 8 quarts, the 1000 W/120 V bullet and the same page carrying a Black Friday deal label; P4 title, rating 4.6 with 3,499 ratings, buy box $16.99, Product-information table (Brand, Special Feature, Color, Included Components, Specification Met, Unit Count - again no dimensions row); P5 title, buy box $119.99 for the 3-probe variant, list $219.99, Item-details table including 3 Probes, Hub and the two-year CHEF iQ assurance bullet. <strong>Two things are recorded, not published.</strong> (1) P3's rating count moved 16,892 &rarr; 16,894 between passes; that is the normal drift the site already refuses to print. (2) P5's page shows a size selector in which the 3-probe variant reads $119.99 while the variant list also shows 1 Probe at $99.99 (list $129.99), 2 Probes at $99.99 (list $179.99) and 4 Probes at $142.49; the register's &ldquo;$119.99 (3-probe variant)&rdquo; remains correct for the ASIN's default variant, but a buyer on a small screen may land on a different variant's price, which is exactly why shop pages link to Amazon rather than print a figure. No value was edited on the strength of a carousel or a sponsored placement. Sources: <code>https://www.amazon.com/gp/aw/d/&lt;ASIN&gt;</code> for B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z, fetched 2026-11-20.</td><td>None blocking. Next cadence pass re-reads and re-dates; the register keeps dated observations, the shop pages keep linking instead of quoting</td></tr>
+<tr id="FLG-084"><td>FLG-084</td><td>The front page now leads with a decision table, so a wrong reading of one field would be the most expensive mistake on the site</td><td>The front page was rebuilt in this pass around one table (product, the job it wins, capacity as titled, counter depth in inches and centimetres, what to check before ordering). Every cell is read from <code>data/products.json</code>, and the table is generated by <code>shelf_table()</code> in <code>build_site.py</code>, so a value can only change if the register changes. The risk this records is editorial, not technical: the &ldquo;pick it if&rdquo; column is a reading of listing fields, not a test result, and it must stay worded as a job description. Two rows deliberately print a gap (P4 and P5 depth) rather than a number, because the listings' captured fields do not state dimensions - <a href="#FLG-004">FLG-004</a>.</td><td>Owner: read the five &ldquo;pick it if&rdquo; lines as a buyer and change any that reads like a ranking claim; the gate can prove the values match the register, not that the sentence is fair</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
