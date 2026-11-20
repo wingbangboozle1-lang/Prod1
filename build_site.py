@@ -1624,12 +1624,23 @@ page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide
 # where an unowned row belongs: seen by the person who has to triage it, not silently dropped and not
 # fatal to readers. Ghost ids (a theme pointing at a deleted row) are dropped from the render for the
 # same reason - the anchor check in check_site.mjs would otherwise fail the deploy over a stale id.
+#
+# A row classified in TWO themes is a different fault from a row in no theme, and it stays a hard
+# failure. An unowned row is an ordinary editorial to-do: the board is append-only, so the row exists
+# and belongs to whoever triages it. A doubled row is a contradiction - the register claims each row
+# sits in exactly one theme, and a row in two themes counts twice against both of them, so the row
+# counts printed on decisions.html stop matching the board. It can only be introduced by an edit to
+# data/decisions.json itself, so unlike an unowned row it cannot be created by another session
+# appending to the board, and it never blocks readers by failing the publish.
 DEC = json.load(open("data/decisions.json"))
 DEC_UPDATED = DEC["updated"]
 _board_ids = sorted(set(re.findall(r'id="((?:SG|Q)-\d\d)"', sugg_body)))
-_theme_ids = sorted(set(i for t in DEC["themes"] for i in t["sgs"] + t["qs"]))
-_unknown = [i for i in _theme_ids if i not in _board_ids]
+_theme_id_list = [i for t in DEC["themes"] for i in t["sgs"] + t["qs"]]
+_theme_counts = {i: _theme_id_list.count(i) for i in set(_theme_id_list)}
+_theme_ids = sorted(_theme_counts)
+_unknown = sorted(i for i in _theme_ids if i not in _board_ids)
 _uncovered = [i for i in _board_ids if i not in _theme_ids]
+_duplicated = sorted(i for i, n in _theme_counts.items() if n != 1)
 if _unknown:
     print("warn: data/decisions.json points at board ids suggestions.html no longer has (dropped from "
           "the render, fix the theme): " + ", ".join(_unknown))
@@ -1639,6 +1650,10 @@ if _unknown:
 if _uncovered:
     print("warn: data/decisions.json has not triaged these board rows; they are listed on decisions.html "
           "under 'Nobody has taken these' and stay open: " + ", ".join(_uncovered))
+if _duplicated:
+    raise SystemExit("data/decisions.json classifies board ids more than once: " + ", ".join(_duplicated)
+                     + ". Keep each row in exactly one theme. A row in two themes counts twice against "
+                     "both themes on decisions.html, so the register's own numbers stop matching the board.")
 SG_N = len([i for i in _board_ids if i.startswith("SG")])
 Q_N = len([i for i in _board_ids if i.startswith("Q")])
 
