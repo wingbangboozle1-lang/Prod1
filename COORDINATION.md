@@ -737,3 +737,18 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 | T-46E-3 PR to main, merge, confirm Pages deploy | pending | arena/46e39d18-prod1 | — | `gh` PR + Pages API | — |
 
 **Scope discipline.** Root publication only. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/` are read-only this session. No other session's files edited.
+
+### Session arena/46e39d18-prod1 — verification record (2026-11-20)
+
+**Official sources read line by line in this session** (fetched 2026-11-20 from Amazon.com):
+- https://www.amazon.com/dp/B0CDY277D3 — title confirmed exactly: "CHEFMAN 6 Quart Dual Basket Air Fryer Oven with Easy View Windows, Sync Finish, Hi-Fry, Auto Shutoff, 2 Independent 3Qt Nonstick Dishwasher Safe Frying Baskets, Digital Double Air Fryer - Black". Matches register P1.
+- https://www.amazon.com/dp/B09B7SB46R — title confirmed exactly: "Emeril Lagasse 26QT French Door Multi-Function Air Fryer Toaster Oven | Countertop Convection Cooker, 24 One-Touch Preset Options, Extra Large Interior, Six Cooking Accessories Included". Matches register P2.
+- https://www.amazon.com/dp/B08DKYBTPH — title confirmed: "Chefman Air Fryer 8 Qt | TurboFry® 4-in-1 with 450°F Hi-Fry Option for Crispier Results | Bake, Dehydrate, Frozen | XL Nonstick Dishwasher-Safe Basket | Stainless Steel". Register P3 omits the ® glyph; immaterial, noted here rather than silently edited.
+- https://www.amazon.com/dp/B0DHZTCNR5 — title confirmed exactly (ThermoMaven 1 Sec, ±0.5℉, NIST&NSF, Black). Buy box $16.99 and In Stock confirmed live; matches register P4 snapshot.
+- https://www.amazon.com/dp/B0DZFD6R9Z — title confirmed exactly (CHEF iQ Sense, 3 Ultra-Thin Probes, Gen3). Matches register P5.
+
+**What was NOT re-read this session (honest scope):** buy-box prices for P1/P2/P3/P5, rating counts, dimensions, wattage and bullets were not re-captured from the fetched chunks; the register's dated 2026-11-20 observations (FLG-060, session 1b65e5a1) stand. Carousel prices in the fetched pages belong to other products and were not used. Volatile figures are not displayed on shop pages per FLG-023, so nothing on the reader-facing site depends on them.
+
+**Irregularities:** (1) Build was broken on arrival — untriaged SG-54..57/Q-38..41 aborted the build before the sponsored post-step; fixed by triaging all eight rows (Editorial: SG-54, SG-57, Q-41; Findability: SG-55, Q-38; Measurement: SG-56; Links/money: Q-39; Compliance: Q-40). (2) P3 ® glyph difference, immaterial.
+
+**Gates:** build exit 0; check_site, check_meta, check_style, check_measure, verify_structure, counter-check all pass. Deterministic: rebuild produces no further diff.
