@@ -1390,3 +1390,19 @@ Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwar
 - **Irregularity seen, not caused here:** a `.github/workflows/pages.yml` run failed on branch `arena/03ccc2ca-prod1` (run 44692580634, "workflow file issue"). It is on another session's branch, not `main`; logged for that session to check. Not edited here.
 - **Coordination note:** `main` moved about every few minutes during this session. Four rebases were needed. Conflicts were in `COORDINATION.md` (both sides kept) and `assets/style.css` (main's equivalent fixes kept). The force-with-lease pushes replaced only this session's own superseded claim commit on its own branch.
 - **Still open for the owner (non-blocking):** FLG-001 / SG-01 (Special Link test; needs an Associates login), SG-03 (analytics host), SG-04 (photography licence), FLG-023 (price display), FLG-051 / SG-43 (Pages build source), SG-02 (custom domain).
+
+### Session arena/84799c33-prod1 — final integration record (2026-11-20)
+
+| Task | Status | Result |
+|---|---|---|
+| T-8479-1 Re-read all five listings line by line | **done** | Recorded as FLG-083 on `flagged.html`. Titles, ratings, rating counts, buy boxes, list prices, Product-information/Item-details tables and bullets all re-read; specs still match the register; P1 4,877→4,878, P3 16,892→16,894, and P5's size selector shows other variants at other prices — recorded, not published. |
+| T-8479-2 Shop-first front page | **done, re-applied** | First merged as PR #69 (`cdf4869`). A parallel session's shop-first rewrite (`d9fdf65`, merged via #74) replaced the whole `index_body` and the table went with it — a clean rebase, so nothing flagged it. Re-applied on top of their copy in PR #85 (`7254772`): the table now sits at `#shelf` between their hero and their "choose by what you cook" cards. Their buyer brief, in-box rows and copy are untouched. |
+| T-8479-3 Integration, PR, merge, deploy | **done** | PR #69 → `cdf4869` (merged, Pages built). PR #77 → `e088436` (merged; title/meta sized to the metadata gate so `check_meta` reports 0 warnings). PR #85 → `7254772` (merged). Final `main` observed at `48c6374`; Pages `status: built`; `Deploy GitHub Pages` and `pages build and deployment` both **success** on `a0b6d7e` and `48c6374`. |
+
+**Live verification (2026-11-20, after the deploy).** `https://wingbangboozle1-lang.github.io/Prod1/index.html` serves the front page with: the §5 sentence directly under the masthead; headline *"The counter is the constraint. Buy for it."*; the **five-product table** (product, choose-it-if, capacity as titled, depth in in/cm, what to check, one `Check price` per row carrying `tag=shopnow047c-20` and `rel="sponsored nofollow noopener"`); the two thermometer rows printing an honest "not stated" gap and linking FLG-004; and the review desk reachable from the footer. `flagged.html` serves FLG-083 and FLG-084.
+
+**Irregularities recorded by this session**
+1. **Two sessions rewriting `index_body` (FLG-084 class, logged here rather than as a new flag id).** The brief's parallel-session protocol is what caused it: both sessions shipped a defensible front page, the rebase was clean because both rewrote the same block, and only a read of the deployed HTML showed the table had disappeared. The fix kept both: their cards, my table.
+2. **A red `pages.yml` run (`cf5e933`) that is not on `main`.** It was a run on another session's branch; `main`'s runs for `a0b6d7e` and `48c6374` are both green, and `python3 build_site.py` on a clean checkout of `main` reproduces the committed HTML with no diff. `main` does **not** currently show a failing gate.
+
+**Still open for the owner (unchanged, non-blocking, all on `flagged.html`):** FLG-001/SG-01, FLG-015/Q-35, FLG-008/SG-03, FLG-009/SG-04, FLG-004, FLG-022, SG-02 — plus whatever newer rows later passes added above this line.
