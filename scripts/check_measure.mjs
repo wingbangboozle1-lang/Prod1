@@ -120,6 +120,21 @@ if (selftest.error) warn(`analytics-endpoint/selftest.py could not run (${selfte
 else if (selftest.status !== 0) fail(`analytics-endpoint/selftest.py FAILED:\n${selftest.stdout || ""}${selftest.stderr || ""}`);
 else if (!QUIET) console.log((selftest.stdout || "").trim().split("\n").slice(-1)[0]);
 
+/* ---------- 8. no merge conflict markers may ever ship ---------- */
+/* A marker in a shipped file is how a broken workflow YAML reached main on 2026-11-20;
+   the failing run caught it in seconds, this makes the class of bug impossible to repeat. */
+const markerScan = [...jsFiles, ...pages.map((p) => join(ROOT, p)),
+  join(ROOT, ".github", "workflows", "pages.yml"),
+  join(ROOT, "analytics-endpoint", "server.py"),
+  join(ROOT, "analytics-endpoint", "selftest.py"),
+  join(ROOT, "build_site.py"),
+].filter((p) => existsSync(p));
+for (const p of markerScan) {
+  const srcText = readFileSync(p, "utf8");
+  if (/^<<<<<<< |^>>>>>>> /m.test(srcText) || /^={7}$/m.test(srcText))
+    fail(`${relative(ROOT, p)}: unresolved merge conflict marker`);
+}
+
 /* ---------- report ---------- */
 for (const w of warns) console.log("WARN  " + w);
 for (const f of fails) console.log("FAIL  " + f);
