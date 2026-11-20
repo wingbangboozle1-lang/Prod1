@@ -53,7 +53,7 @@
 <p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
 
 <div class="grid cols-3">
-  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, nine question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Live</span><h3>1 publication, 30 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, ten question-shaped guides, a topic calendar, and the review desk. One sitemap of 26 URLs, one feed, one canonical host.</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on 2026-11-20, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
   <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
 </div>
@@ -88,7 +88,16 @@
 <h2>How money and measurement work</h2>
 <p>Outbound links carry tracking ID <code>shopnow047c-20</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because no endpoint is hosted. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
 
-<h2>What this pass changed</h2>
+<h2>What the 2026-11-20 pass changed</h2>
+<ul>
+<li><strong>The type the design always specified now actually loads.</strong> The stylesheet named Fraunces and Inter; neither file existed, so every page rendered in Georgia and the system UI font. Four self-hosted latin variable fonts (182 KB total, SIL Open Font License 1.1, licences committed alongside) now render the site (<a href="flagged.html#FLG-060">FLG-060</a>).</li>
+<li><strong>Original brand art on every product card.</strong> Five line drawings of the appliance <em>types</em>, drawn for this site. No photograph, no Amazon image, no rendering of a specific unit &mdash; the imagery rule the site set for itself still holds.</li>
+<li><strong>Navigation tells you where you are.</strong> The header marks the current section, and the stylesheet rule that was written for it is finally used (<a href="flagged.html#FLG-061">FLG-061</a>).</li>
+<li><strong>The calendar produced a page.</strong> The queued 2026-12-08 topic is published as <a href="guide-instant-read-vs-wireless.html">guide 10</a>, and it moved in the calendar, the sitemap and the RSS feed in the same commit, so those three cannot disagree.</li>
+<li><strong>Five decisions are written so they can be settled in one sitting</strong> (<a href="suggestions.html#suggestions">SG-44 to SG-48</a>), plus five new questions (<a href="suggestions.html#Q-28">Q-28 to Q-32</a>) covering the things this build cannot answer from inside the repository.</li>
+</ul>
+
+<h2>What earlier passes changed</h2>
 <ul>
 <li><strong>The site now looks designed, because the styles exist.</strong> The build was emitting 44 CSS classes with no rule and referencing 9 undefined custom properties, so cards, hero columns and status chips rendered as plain blocks. All of it is styled, and <code>scripts/check_style.mjs</code> fails the build if an unstyled class returns (<a href="flagged.html#FLG-052">FLG-052</a>).</li>
 <li><strong>Broken markup repaired.</strong> Three suggestion rows had malformed class attributes, so their status badges and row text never rendered (<a href="flagged.html#FLG-053">FLG-053</a>).</li>
