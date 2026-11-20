@@ -376,6 +376,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr><td>SG-51</td><td>One indexable publication: noindex the docs/ and counter-check/ builds</td><td><select data-pick="SG-51"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-52</td><td>Search Console first, self-hosted endpoint second</td><td><select data-pick="SG-52"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-53</td><td>One Associates click test per product</td><td><select data-pick="SG-53"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-54</td><td>Resolve the duplicate-topic row in the editorial calendar</td><td><select data-pick="SG-54"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-11</td><td>Run the design brief as the brief for the visual overhaul</td><td><select data-pick="SG-11"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-12</td><td>Adopt the eight-topic editorial calendar as the publishing cadence</td><td><select data-pick="SG-12"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-22</td><td>One site, one canonical, one sitemap (consolidate the builds)</td><td><select data-pick="SG-22"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
@@ -437,6 +438,15 @@ it says specific things, admits its gaps, and never asks to be believed.
 <p><strong>Path C:</strong> run the supplied <code>link.amazon</code> short links through the same test, which would also settle <a href="flagged.html#FLG-001">FLG-001</a>.</p>
 </div>
 <p class="fine"><strong>Effort:</strong> S, owner only. <strong>Evidence needed:</strong> a report row, not a click-through that merely looks correct. <strong>Blocks:</strong> any claim that the site is earning. <strong>Status:</strong> <span class="badge-warn">Needs owner action</span></p></article>
+
+<article class="sg path" id="SG-54"><h3>SG-54 &middot; Resolve the duplicate-topic row in the editorial calendar</h3>
+<p><strong>Why:</strong> the queue&rsquo;s 2026-12-01 row (&ldquo;Air fryer basket vs oven: which one actually fits your counter?&rdquo;) covers the same buyer question as topic 01, already published as <a href="guide-basket-vs-oven.html">guide-basket-vs-oven.html</a>. Publishing a second basket-vs-oven page would split one intent across two competing URLs on one host - the oldest findability mistake a growing site can make, and one this repository already flags for three builds (<a href="flagged.html#FLG-070">FLG-070</a>).</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> point the 2026-12-01 week at the existing guide (mark it published), and move a genuinely new question into that week - the 2026-12-22 &ldquo;dual baskets vs one big basket&rdquo; row is the nearest topic the register already supports (P1 dual basket, P3 single basket, both with stated capacities and footprints).</p>
+<p><strong>Path B:</strong> keep the queued title as a distinct counter-fit angle and accept two basket-vs-oven pages, with one canonicalised to the other. More work, weaker for search.</p>
+<p><strong>Path C:</strong> leave the calendar as printed. The row then stays a duplicated promise that <a href="flagged.html#FLG-075">FLG-075</a> already flags in part.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> S - one change in <code>data/editorial.json</code>. <strong>Evidence needed:</strong> none beyond the register; the overlap is between two titles on one board. <strong>Blocks:</strong> the 2026-12-01 publishing slot. <strong>Status:</strong> <span class="badge-warn">Needs owner decision</span> - recorded 2026-11-20 after the second listing read; nothing in the calendar was changed.</p></article>
 
 
 
