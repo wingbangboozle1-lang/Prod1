@@ -882,3 +882,14 @@ Open at claim time: PR #39 (`arena/54d3e366-prod1`, session 54d3e366 — feed da
 | T-8B4 Integration: rebuild, gates, PR to `main`, merge, confirm Pages | in progress | 8bdadebf | `COORDINATION.md`, PR | Gates + deterministic rebuild + Pages deploy | Resolve any rebase conflict with PR #39 without discarding work |
 
 **Scope.** This session edits `build_site.py` (guide region, TOPICS, GUIDES feed list, guides index), `data/editorial.json` (`queue` only), the generated root `*.html`, `sitemap.xml`, `feed.xml`, `COORDINATION.md`, `review/8bdadebf/`. It does **not** touch `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `assets/`, `data/products.json`, or `review/<other-session>/`.
+
+## Claim — session arena/a7a85386-prod1 (2026-11-20)
+
+Session ID: arena/a7a85386-prod1. Branch: `arena/a7a85386-prod1`, based on main @ f9244dfd; origin/main has since merged session 46e39d18 (PR #51) as f237c4a. No other session has an open claim; every row above is done or merged. Scope: root publication only — `COORDINATION.md`, `data/products.json` (read-only verification), `verification.html`, `flagged.html`, `build_site.py`, `scripts/*.mjs`, `.github/workflows/pages.yml`, generated root `*.html`. `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/` and other sessions' `review/` are read-only here.
+
+| Task | Status | Owner session | Files touched | Notes |
+|---|---|---|---|---|
+| T-A7A-1 Claim record + board repair | in progress | arena/a7a85386-prod1 | COORDINATION.md | Adds the missing 46e39d18 publication record so this board matches origin/main; then claims T-A7A-2 and T-A7A-3 |
+| T-A7A-2 Re-verify the five submissions against the official Amazon.com listings | in progress | arena/a7a85386-prod1 | data/products.json (read only), verification.html, flagged.html | Re-read ASIN, title, officialListingUrl and affiliate tag format; confirm intended-ASIN (`asin`) and observed-redirect (`observedRedirectTarget`) stay in separate fields; blanks stay blank and flagged. Titles last read 2026-11-20 (sessions 1187e20d, 543ed7f4); this pass re-reads titles via fetch_page and logs any drift |
+| T-A7A-3 Build, gates, publish, PR, merge, Pages check | unclaimed | arena/a7a85386-prod1 | build_site.py, scripts/*.mjs, .github/workflows/pages.yml, root HTML | `python3 build_site.py` + check_site/check_meta/check_style/verify_structure/counter-check gates; PR from this branch to `main`; merge; confirm Pages `built`; record PR link + merge result in this board |
+
