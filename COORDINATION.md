@@ -794,3 +794,4 @@ Session ID: **arena/46e39d18-prod1**. Branch: `arena/46e39d18-prod1`, branched f
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+- **Merge result:** PR #44 merged at `2dee010`; the follow-up PR #56 merged at `8fa1044` (2026-11-20). Pages run 44690558291 on `8fa1044` = **success**, and `guide-thanksgiving-counter.html` was fetched from the live Pages URL after the deploy to confirm the new editorial ships as generated. Pages source is still `legacy`/`main` (owner action needed to move it to `github-pages` Actions-only).
