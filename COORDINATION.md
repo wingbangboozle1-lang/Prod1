@@ -1474,3 +1474,23 @@ Session ID: **arena/dd9f338f-prod1**. Branch `arena/dd9f338f-prod1`, fast-forwar
 - **Tasks T-4741-V and T-4741-R: done.** T-4741-I: **done** (merge + deploy confirmed; this record is the close-out).
 - **Flagged, non-blocking, for the owner:** see `review/47414174/VERIFICATION.md` §D — T-V2's FLG-021/022 mis-attribution on this board; §6(w)/FLG-003 short-link question unresolved by design; four of five short links not re-observed today; Agent-terms/ML-clause boundary note for the "AI-powered" brief wording. Owner items unchanged: FLG-001, FLG-008, FLG-009, FLG-015, FLG-023, FLG-025, FLG-070, SG-02, SG-51, Q-35/SG-53.
 >>>>>>> origin/main
+
+### 2026-11-20 — `arena/03ccc2ca-prod1` — T-03A..T-03E complete (review, cadence, re-verification, decision surfaces, integration)
+
+**Scope (unchanged):** `build_site.py`, `data/editorial.json`, generated root `*.html`/`sitemap.xml`/`feed.xml`, `review/03ccc2ca/`, `COORDINATION.md`, `assets/style.css` (`.status-consolidated` only). Nothing of any other session's scope was edited.
+
+**Records:** `review/03ccc2ca/VERIFICATION.md` (dated evidence table: five listing pages' identification fields + Associates OA + Program Policies re-read this session; P3 `®`/P4 `℉` glyph-normalization notes; what was deliberately not re-read) and `review/03ccc2ca/REVIEW.md` (brief-requirement → implementation → source-link table, irregularities, gates).
+
+**Published (T-03B):** `guide-do-you-need-a-thermometer.html` (fills the calendar's last open slot, queue week 2027-01-26) — wired into the sitemap, feed, guides index and front page in the same commits. The dual-basket and accessories questions were already answered by parallel passes at `guide-dual-vs-single-basket.html` and `guide-accessories-included.html`; see the collision log below.
+
+**Decision surfaces (T-03D):** rows **SG-62** (keep the calendar consolidations — implemented this pass, reversible), **SG-63** (pause the publishing queue until measured queries exist), **SG-64** (resolve the Emeril accessory count at source), **Q-45** (authoritative accessory list for B09B7SB46R), **Q-46** (which queries bring readers — needs Search Console), **FLG-093** (calendar asked the same question twice — consolidated, reversible), **FLG-094** (two passes answered the same two questions the same day — one page survives each). Executive summary carries the latest-pass section.
+
+**Merge-conflict log (protocol §Conflicts):** this branch integrated `origin/main` twice (through PR #84, then through PR #94). All conflicts resolved by keeping both sessions' work; nothing of theirs was discarded.
+- *Same-URL content collision:* two passes wrote `guide-accessories-included.html`. The fuller checklist-and-table draft survives at the URL; the other pass's baskets-count FAQ was carried into it. The superseded draft is in git history (`origin/main` pre-merge side).
+- *Same-question, two-URL collision:* `guide-dual-vs-single-basket.html` (parallel pass) survives unchanged as the dual-basket guide; this pass's draft is the consolidated page `guide-dual-vs-single.html` pointing at it (FLG-047 pattern).
+- *ID collisions (three rounds on 2026-11-20 — the exact trap the board's numbering rule warns about):* my rows were renumbered twice after parallel passes claimed FLG-074/090/091/092, SG-54..61 and Q-38..44 (some reserved in `COORDINATION.md` records rather than as rows). Final numbers above. Their rows were never touched.
+- *Generated-file conflicts* (`suggestions.html`, `decisions.html`, `search-index.json`, feeds, sitemaps): resolved in `build_site.py` and the data files, then rebuilt — never hand-edited.
+
+**Gates (all green at merge):** `python3 build_site.py` (39 pages, 28 sitemap URLs, 5 consolidated; deterministic ×2) → `check_site.mjs` (64 files) → `check_meta.mjs` (0 warnings) → `check_style.mjs` (0 warnings) → `check_measure.mjs` + endpoint self-test (17/17) → `verify_structure.mjs` (0 blocking) → `counter-check/tools/check_site.py` → `make_og.py` (no drift).
+
+**Statuses:** T-03A..T-03E done. Owner items unchanged and unblocked: SG-02/03/04/43, SG-59/62/63/64, Q-45/46 plus the pre-existing open questions, FLG-001/003/005/021/022/070/074/091/092/093/094, draft PR #10 (second site under `docs/` — owner's call).

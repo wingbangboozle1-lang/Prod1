@@ -19,9 +19,9 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
 | Campaign ledger: empty, defined columns, first-party reports only | `methodology.html` + `docs/campaign-ledger.html` | Empty by design; no conversion score or revenue forecast anywhere | — |
 | Compliance gate in the publishing workflow (disclosure + API policy checks) | `.github/workflows/pages.yml`: determinism check + `check_site` + `check_meta` + `check_style` + `check_measure` (+ endpoint self-test) + `verify_structure` before upload | All six green on this branch (see §3) | FTC: https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers |
 | "Read like a shop, not an audit"; publication front page; dashboard surfaces in footer + one nav group | `index.html` hero/picks/chooser/guides; `DESIGN_PROMPT.md`; internal surfaces `noindex, follow` and out of the sitemap | Shipped across several passes; kept in this pass | https://wingbangboozle1-lang.github.io/Prod1/ |
-| Question-shaped guides; publishing cadence; each guide added to sitemap + feed | 13 guides in 3 clusters; calendar `topics.html` + `data/editorial.json`; `sitemap.xml` (23 URLs) + `feed.xml` generated from the page registry | This pass published 3 queued questions and merged 4 duplicate calendar rows (FLG-074/SG-54) | topics.html; feed.xml |
-| Suggestion desk with recommended paths + decision board before implementing | `suggestions.html`: SG-01..SG-56 with Path A/B/C and recommended paths, localStorage decision board with export | Shipped; this pass added SG-54..56 | suggestions.html |
-| Clear Q/I/A list of what is known / missing / how to discover | `suggestions.html` Q-01..Q-39 | Shipped; this pass added Q-38 (accessory count) and Q-39 (measured queries) | suggestions.html |
+| Question-shaped guides; publishing cadence; each guide added to sitemap + feed | 13 guides in 3 clusters; calendar `topics.html` + `data/editorial.json`; `sitemap.xml` (23 URLs) + `feed.xml` generated from the page registry | This pass published the thermometer guide and reconciled the calendar; duplicate rows consolidated (FLG-093/SG-62) | topics.html; feed.xml |
+| Suggestion desk with recommended paths + decision board before implementing | `suggestions.html`: SG-01..SG-64 with Path A/B/C and recommended paths, localStorage decision board with export | Shipped; this pass added SG-62..64 | suggestions.html |
+| Clear Q/I/A list of what is known / missing / how to discover | `suggestions.html` Q-01..Q-46 | Shipped; this pass added Q-45 (accessory count) and Q-46 (measured queries) | suggestions.html |
 | Executive summary | `executive-summary.html` | Refreshed this pass | executive-summary.html |
 | Parallel-session coordination board | `COORDINATION.md` | Claimed, worked, and recorded per protocol | this file + COORDINATION.md |
 
@@ -29,16 +29,18 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
 
 1. **Topic-calendar duplication (fixed, reversible).** TOPICS 06 vs 11 (same question),
    09 vs published guide 01, 12 vs published gift guide — the FLG-047 trap in a new
-   place. Fixed by merging to the surviving guides; owner-reversible; recorded as
-   **FLG-074 / SG-54**. The `data/editorial.json` queue had drifted from the TOPICS
-   table in the same way (including a "blocked" wattage row whose guide already
-   shipped); both are reconciled in this pass.
+   place. Consolidated to the surviving guides; owner-reversible; recorded as
+   **FLG-093 / SG-62**. The `data/editorial.json` queue had drifted from the TOPICS
+   table in the same way; both are reconciled. (IDs: renumbered twice during the
+   merge after parallel passes claimed FLG-074/090/091/092, SG-54..61 and Q-38..44;
+   the final numbers are FLG-093/094, SG-62/63/64, Q-45/46.)
 2. **Stale typed counts (fixed).** `guides.html` said "Ten guides" in the heading and
    "Nine question-led guides" in the meta description (the real count was 10 before
    this pass); `topics.html`'s meta said "five published, seven queued" while its body
    computed 6/6. The body counts are computed from `TOPICS`; the typed strings had
-   drifted. Fixed in this pass. **Recommendation for future sessions:** never type a
-   count — compute it (the front-page topic band already does).
+   drifted. Fixed: the parallel passes replaced typed guide counts with counts
+   computed from the data, and this pass did the same for the topic counts.
+   **Recommendation for future sessions:** never type a count — compute it.
 3. **Typographic normalization in the register (noted, not an error).** P3's title drops
    the `®` glyph ("TurboFry®" → "TurboFry") and P4's drops `℉`→`°F`; both confirmed
    character-identical otherwise against the listings this session
@@ -56,10 +58,19 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
    suppressed; owner decides), SG-02 (custom domain), SG-03 (analytics host), SG-04
    (photography licence). All are on `flagged.html` with sources; none blocks the merge
    per the brief.
-6. **Open draft PR #10** (`arena/a17ba53c-prod1`) proposes a second site under `docs/`.
-   Not merged by this session: it conflicts with the one-indexable-site rule. Owner's
-   call (see FLG-070/Q-34).
-7. **Visual QA remains impossible in this sandbox** (no browser installable; earlier
+7. **Same-day content collisions between parallel passes (FLG-094).** Two passes
+   independently answered the dual-basket question and the accessories question. The
+   dual-basket draft that survives is the one already on `main`
+   (`guide-dual-vs-single-basket.html`, unchanged); this pass's draft lives on as the
+   consolidated page `guide-dual-vs-single.html`. For `guide-accessories-included.html`
+   (both passes wrote the same URL) the fuller checklist-and-table draft survives with
+   the other pass's baskets-count FAQ carried in. Superseded drafts remain in git
+   history; each is one commit away. Owner call: SG-62.
+8. **Draft PR #10** (`arena/a17ba53c-prod1`, "Counter Notes: buyer site, guides,
+   dashboards, and checks (GitHub Pages from docs/)") is still open at the time of
+   writing. Not merged by this session: it conflicts with the one-indexable-site rule.
+   Owner's call (see FLG-070/Q-34).
+9. **Visual QA remains impossible in this sandbox** (no browser installable; earlier
    attempts recorded in `review/62786810/VERIFICATION.md`). `verify_structure.mjs`
    proves structure, not taste. SG-44 keeps the visual review open for the owner.
 
@@ -67,12 +78,13 @@ The dated source reads of this session are in [VERIFICATION.md](VERIFICATION.md)
 
 | Gate | Command | Result |
 |---|---|---|
-| Page structure, disclosure, links, claims | `node scripts/check_site.mjs` | PASSED, 58 HTML files |
+| Page structure, disclosure, links, claims | `node scripts/check_site.mjs` | PASSED, 64 HTML files |
 | Metadata, voice, price policy, sponsored marks | `node scripts/check_meta.mjs` | PASSED, 0 warnings |
 | Design-system integrity | `node scripts/check_style.mjs` | PASSED, 0 warnings |
 | Measurement contract (5 events) + endpoint self-test | `node scripts/check_measure.mjs` | PASSED (self-test 17/17) |
-| Structural proof | `node scripts/verify_structure.mjs` | PASSED, 33 pages, 0 blocking |
+| Structural proof | `node scripts/verify_structure.mjs` | PASSED, 39 pages, 0 blocking |
 | Secondary build gate | `python3 counter-check/tools/check_site.py` | PASSED (16 pages, 5 products, 21 flags) |
+| Render QA (added by parallel pass) | `node scripts/render_qa.mjs` | run in CI; not re-run here |
 | Determinism | rebuild ×2 | byte-identical (CI drift step would pass) |
 
 ## 4. Official sources for manual review (all fetched 2026-11-20 unless noted)
