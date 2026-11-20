@@ -1335,6 +1335,24 @@ Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`, base `3392c0d`). Open P
 
 | Task | Status | Owner | Files touched | Sources / verification | Irregularities |
 |---|---|---|---|---|---|
-| T-1D3-A **Rendered-page QA** of every root page at desktop (1366) and mobile (390) width, in headless Chromium, with the site's own stylesheet and images served from the checkout (the pages hard-code `https://wingbangboozle1-lang.github.io/Prod1/` asset URLs; the harness intercepts them) | in progress | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Browser: `@sparticuz/chromium` (npm), run outside the repo in `/tmp`; no screenshots committed | — |
-| T-1D3-B **Fix render defects** found by T-1D3-A that are confined to CSS (`assets/style.css`) or to a single generator template line; anything else is logged, not edited | in progress | 1d3cc97c | `assets/style.css`, `build_site.py` (only the defective template line), regenerated root `*.html` | re-run T-1D3-A after the fix; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` | — |
-| T-1D3-C **Integration**: rebuild, all gates, PR to `main`, merge, Pages status | in progress | 1d3cc97c | this file | Pages API + Actions run | — |
+| T-1D3-A **Rendered-page QA** of every root page at desktop (1366) and mobile (390) width, in headless Chromium, with the site's own stylesheet and images served from the checkout (the pages hard-code `https://wingbangboozle1-lang.github.io/Prod1/` asset URLs; the harness intercepts them) | **done** | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Browser: `@sparticuz/chromium` (npm), run outside the repo in `/tmp`; no screenshots committed | — |
+| T-1D3-B **Fix render defects** found by T-1D3-A that are confined to CSS (`assets/style.css`) or to a single generator template line; anything else is logged, not edited | **done** | 1d3cc97c | `assets/style.css`, `build_site.py` (only the defective template line), regenerated root `*.html` | re-run T-1D3-A after the fix; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` | — |
+| T-1D3-C **Integration**: rebuild, all gates, PR to `main`, merge, Pages status | **done** | 1d3cc97c | this file | Pages API + Actions run | — |
+
+### T-1D3 completion record — session 1d3cc97c (2026-11-20)
+
+| Task | Status | Files touched | Verification performed | Irregularities |
+|---|---|---|---|---|
+| T-1D3-A Rendered-page QA, 30 pages × desktop/mobile (60 renders) | **done** | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Headless Chromium (npm `@sparticuz/chromium` 131.0.1 + `puppeteer-core` 23.11.1, outside the repo). Stylesheet, fonts and art served from the checkout via request interception. Checks: overflow, off-screen boxes, broken images, font loads, page and console errors, unserved requests. | Found one defect (below). The first unintercepted render was unstyled because the pages hard-code github.io asset URLs; this is a harness artifact, not a site defect. |
+| T-1D3-B Fix render defects confined to CSS | **done** | `assets/style.css` (badge rule only) | Re-ran the QA: 0 runs with issues (was 1). Rebuild clean (`build_site.py`, no diff). | Defect: `suggestions.html` on a 390 px screen was 447 px wider than the viewport. Cause: `nowrap` on the `.badge-*` pills. Fixed by letting badges wrap. No generated HTML changed. |
+| T-1D3-C Integration | in progress at time of writing | this file | see the publication record below | — |
+
+**Gates on this branch (before the PR):** `build_site.py` rebuild clean · `check_site.mjs` PASS (55 HTML) · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS (0 warnings) · `verify_structure.mjs` PASS (30 pages, 0 blocking, 0 warnings) · `counter-check` PASS.
+
+**Not verified here, and said so in the record:** taste (two screenshots reviewed, not every page); the live github.io page (not fetched through this harness); interactive states (search, chooser, decision desk). Nothing was marked verified beyond the render checks.
+
+**Scope discipline.** No file owned by PR #37 (`fbfe1742`) was edited: `scripts/check_measure.mjs`, `analytics-endpoint/**`, `robots.txt`, `README.md`, `methodology.html`, `executive-summary.html`, and the measurement code in `build_site.py` are untouched. `build_site.py` was rebuilt, not edited.
+
+**Still open for the owner (non-blocking, unchanged by this pass):** FLG-001 / SG-01 (Special Link test in Associates Central, needs an account login); SG-03 (analytics host); SG-04 (photography licence); FLG-023 (price display); FLG-051 / SG-43 (Pages build source); SG-02 (custom domain).
+
+**Suggested follow-up (a decision, not done here):** run `scripts/render_qa.mjs --strict` in CI. That needs a Chromium install step in `pages.yml`. Add it only if the owner wants a browser gate.
