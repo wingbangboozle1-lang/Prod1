@@ -503,7 +503,7 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{esc(canon)}">
 {('<meta name="robots" content="noindex, follow">' if (slug in NOINDEX and not canonical) else '')}
-<meta name="theme-color" content="#1F2937">
+<meta name="theme-color" content="#1E1712">
 <meta property="og:site_name" content="{esc(BRAND)}">
 <meta property="og:title" content="{esc(title.split(' | ')[0])}">
 <meta property="og:description" content="{esc(desc)}">
@@ -1243,7 +1243,17 @@ exec_body = f"""
 </ol>
 <p class="fine">Full working list: <a href="suggestions.html">the decision desk</a> (options, trade-offs, effort, and what each one unblocks) and <a href="flagged.html">Flagged for review</a> (every irregularity, with its source).</p>
 
-<h2>Latest pass, 2026-11-20</h2>
+<h2>Latest pass, 2026-11-20 (session b2f99e67)</h2>
+<p>What changed on the site, and what was deliberately not touched:</p>
+<ul class="tight">
+<li><strong>The seven open decisions can now be settled in one sitting.</strong> The decision register grew a slate: one row per gate, the recommendation beside it, a picker per gate, and a JSON export. Picks stay in the reviewer&rsquo;s browser; nothing is transmitted (<a href="decisions.html#queue">the slate</a>).</li>
+<li><strong>Four design-prompt suggestions, each with a recommended path</strong> &mdash; an editorial illustration layer the site owns (never product photography), the gate picker to keep, an internal-link anchor audit, and an end date for the holiday layer (<a href="suggestions.html#suggestions-2026-11-20-b2f">SG-65 to SG-69</a>). None is implemented; the design prompt records the direction.</li>
+<li><strong>Four new questions in the Q/I/A register</strong> (Q-45 to Q-48): the holiday visual direction, the named author, the 28-day default rule, and the measurement hosting budget &mdash; each with a discovery route and the decision it blocks.</li>
+<li><strong>One generated-look tell fixed:</strong> the browser chrome colour (<code>theme-color</code>) was a generic slate grey off the brand palette; it is now the site&rsquo;s own ink (<a href="flagged.html#FLG-091">FLG-091</a>).</li>
+<li><strong>Not changed:</strong> no listing value was re-read in this pass (three parallel sessions own the re-verification lane and their records carry the dates), no price or rating figure appeared or moved, no claim, disclosure or outbound link changed, and no imagery was added. Policy sources the pass cites were re-read from the official pages on 2026-11-20 (Operating Agreement &sect;5 verbatim; Google&rsquo;s outbound-link qualification).</li>
+</ul>
+
+<h2>Earlier pass, 2026-11-20 (session 42e09357)</h2>
 <p>Session <code>42e09357</code>. What changed on the site, and what was deliberately not touched:</p>
 <ul class="tight">
 <li><strong>Three holiday-window guides published</strong> (counter fit before Thanksgiving, the ten-minute listing check for the buying window, the gift receipt test), each built only from fields in the register, each added to the calendar, the sitemap and the feed. The one-guide-a-week rule was deviated from on purpose and the deviation is recorded in <code>data/editorial.json</code>, not smoothed over.</li>
@@ -1328,6 +1338,12 @@ sugg_body = f"""
 <tr id="SG-57"><td>SG-57</td><td>Seasonal cadence: dated snapshot refreshes (Dec 1, Dec 15) for holiday gift and New Year cooking guides</td><td>Shows the site is maintained on a calendar, like a real publication; reuses verified data instead of new claims</td><td>Season calendar decision; re-snapshot prices at publish</td><td>Medium</td><td><span class="badge-warn">Proposed</span></td></tr>
 <tr id="SG-58"><td>SG-58</td><td>Show the Amazon "frequently bought together" pairing as an owned bundle note, not as a copied widget</td><td>Two of the five listings name a cheap companion item a first-time buyer usually needs (foil liners for the 6QT, a brine kit for a turkey cook). It is the one product page each listing does not sell you, and it is a second natural place a reader can click a link - but a copied widget would be Program Content we cannot refresh inside the cache window, and a fabricated checklist would be worse.</td><td>Owner approves a companion-item policy; each companion must be verified on its own listing and disclosed as an affiliate pick, with its own "this pairs with" reason that cites the listing language</td><td>Medium</td><td><span class="badge-warn">Proposed</span></td></tr>
 <tr><td>SG-59</td><td>Resolve the duplicate-topic row in the editorial calendar</td><td><select data-pick="SG-59"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr id="SG-65"><td>SG-65</td><td>Editorial illustration layer (our own drawings only, never product photography) for the hero and the seasonal band, per the imagery policy</td><td>The hero still reads as generated in one respect: it is type on a gradient. A publication opens with an image it owns</td><td>Owner approves the drawing style (SG-34 mockups); no licence needed because the drawings are ours; photography stays gated on SG-04</td><td>Medium</td><td><span class="badge-warn">Proposed</span></td></tr>
+<tr id="SG-66"><td>SG-66</td><td>One-pass gate picker on the decision register: choose an option per gate D-01 to D-07 and export the review sheet</td><td>Improves decision making directly: 90+ board rows become seven picks one reviewer can settle in one sitting</td><td>None &mdash; already implemented this pass as the slate on decisions.html; approve to keep it, revert is one commit</td><td>Low</td><td><span class="badge-ok">Shipped this pass &mdash; approve to keep</span></td></tr>
+<tr id="SG-67"><td>SG-67</td><td>Internal-link and anchor-text audit across the published spine: descriptive, question-shaped anchors on every cross-link</td><td>Internal links are the one traffic lever that needs no account, no budget and no claim; anchors that match buyer questions help both readers and crawlers</td><td>None &mdash; a link inventory from the built HTML; every change traceable in one diff</td><td>Low</td><td><span class="badge-warn">Proposed</span></td></tr>
+<tr id="SG-68"><td>SG-68</td><td>Reader-capture fork: keep the public GitHub-issue intake as-is, add a static form to the same endpoint as measurement (SG-03), or publish a contact route only</td><td>Owns an audience beyond search without a silent collector; the fork names the cost of each route</td><td>The hosting decision in SG-03 for the form route; owner preference otherwise</td><td>Low</td><td><span class="badge-warn">Proposed</span></td></tr>
+<tr id="SG-69"><td>SG-69</td><td>Holiday-window finish: run the SG-57 snapshot dates (Dec 1, Dec 15) and expire the seasonal band on 2027-01-05, in the generator not by hand</td><td>A seasonal layer that never expires reads as generated; a dated one reads as edited</td><td>Owner approves the dates; re-snapshots come from the listings and stay dated observations</td><td>Low</td><td><span class="badge-warn">Proposed</span></td></tr>
+<tr id="SG-70"><td>SG-70</td><td>Pre-registered CTA test plan: define the five-event funnel and the decision thresholds now, change no CTA copy until the events record real counts</td><td>Keeps Priority 4 honest &mdash; measure before optimising &mdash; and stops taste-driven tweaks from passing as evidence</td><td>The measurement host (SG-03) to produce counts; thresholds approved by the owner</td><td>Low</td><td><span class="badge-warn">Proposed</span></td></tr>
 </table></div>
 
 
@@ -1552,6 +1568,10 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-40"><td>Q-40</td><td>How often should prices be re-snapshot from the listings?</td><td>Prices in the register are dated 2026-11-20 observations; Amazon prices change daily</td><td>A re-read cadence that keeps dated figures honest without inventing live figures</td><td>Re-read each listing on the calendar date; record URL + date + figure; flag drift</td><td>Whether dated price chips can stay on any page at all</td></tr>
 <tr id="Q-41"><td>Q-41</td><td>Who reviews and approves topics before they are published?</td><td>Every row on this board waits on an owner choice; no reviewer is named</td><td>A reviewer identity and a review rhythm</td><td>Owner names the reviewer in <code>COORDINATION.md</code> and sets a cadence (e.g. weekly)</td><td>SG-40 cluster build-out; the publishing cadence</td></tr>
 <tr id="Q-42"><td>Q-42</td><td>How do we get an accurate size and in-box spec for the three units that do not state one?</td><td>P4 and P5 state no dimensions; P1 and P3 state no in-box contents. Those are the two fields a buyer checks before ordering a gift, and they are exactly the fields the listings leave out.</td><td>Either the seller's own spec sheet (manufacturer page or the PDF the listing links) or a reviewer who has measured one</td><td>Session can open a manufacturer page and quote it with a date; only the seller or a measured unit can settle the rest</td><td>The gift guides' fit advice and any bundle recommendation (SG-58)</td></tr>
+<tr id="Q-45"><td>Q-45</td><td>Which visual direction does the site commit to for the holiday window?</td><td>The current warm-editorial system is in force (palette, Fraunces/Inter, brand drawings); SG-37 and SG-69 propose a dated seasonal skin on top of it</td><td>Whether the owner wants a festive skin this year or the plain editorial look through the window</td><td>Review SG-37 and SG-69 on this board; pick one, dated, with an expiry</td><td>Seasonal skins and the December finish</td></tr>
+<tr id="Q-46"><td>Q-46</td><td>Who is the named author of record?</td><td>Every guide carries the byline &ldquo;By The Countertop Guide desk&rdquo; and the structured data types the author as an Organization &mdash; true, but generic</td><td>A name, a one-line credential, and a contact route &mdash; or a decision that the desk byline stands</td><td>Owner supplies the name/bio (the build reads it from one field), or answers &ldquo;desk stands&rdquo; and the question closes</td><td>Authorship polish (SG-17, SG-26); any future expert framing</td></tr>
+<tr id="Q-47"><td>Q-47</td><td>Does the 28-day default rule on the decision register become real?</td><td><code>data/decisions.json</code> proposes: an unanswered gate auto-applies its recommended option at 28 days, marked &ldquo;default applied&rdquo;, reversible in one commit. It is labelled proposed and does nothing (<a href="flagged.html#FLG-080">FLG-080</a>)</td><td>Whether the owner approves the rule, changes the window, or rejects auto-application outright</td><td>Answer on the slate at <a href="decisions.html#slate">decisions.html</a> (one pick), or set a different review cadence</td><td>Every gate&rsquo;s clock; the board&rsquo;s silence becoming an answer</td></tr>
+<tr id="Q-48"><td>Q-48</td><td>What hosting budget exists for measurement and search data?</td><td>The five-event endpoint is code-complete and CI-gated but unhosted (SG-03); Search Console needs only an owner verification (SG-02). GitHub Pages serves static files only</td><td>A host, a monthly ceiling if any, a retention period &mdash; or a decision to run local-only counts indefinitely</td><td>Compare the D-04 options on <a href="decisions.html#D-04">the register</a>; the free-tier paths are named there with their costs</td><td>SG-03, SG-52, SG-68, SG-70 &mdash; the whole measurement lane</td></tr>
 </table></div>
 
 <h2>What the evidence would look like, per decision</h2>
@@ -1597,6 +1617,8 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr><td>SG-45</td><td>Add &ldquo;shop by goal&rdquo; intent landings built only from verified fields</td><td><select data-pick="SG-45"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>Q-21</td><td>Which design direction does the owner want?</td><td><select data-pick="Q-21"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>Q-23</td><td>What is the publishing cadence and who approves topics?</td><td><select data-pick="Q-23"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-65</td><td>Editorial illustration layer (our own drawings) for the hero and seasonal band</td><td><select data-pick="SG-65"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-66</td><td>Keep the one-pass gate picker shipped on the decision register</td><td><select data-pick="SG-66"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 </table></div>
 <div class="review-panel">
   <button class="btn small" id="sg-export" type="button">Export review sheet (JSON)</button>
@@ -1660,7 +1682,44 @@ it says specific things, admits its gaps, and never asks to be believed.
 </div>
 <p class="fine"><strong>Effort:</strong> S - one change in <code>data/editorial.json</code>. <strong>Evidence needed:</strong> none beyond the register; the overlap was between two titles on one board. <strong>Blocks:</strong> the 2026-12-01 publishing slot. <strong>Status:</strong> <span class="badge-warn">Needs owner confirmation</span> - recorded 2026-11-20 after this session's second listing read. Update from the same-day merges: a parallel session applied Path A on <code>main</code> (the 2026-12-01 row now points at the existing guide as published), and the dual-basket topic is now published as its own page. The row stands as the confirmation record; reverting either way is one line in <code>data/editorial.json</code>. Renumbered three times the same day (SG-54/58/60/61 were each taken by parallel passes while this session worked) - see <code>COORDINATION.md</code>.</p></article>
 
+<h2 id="suggestions-2026-11-20-b2f">From the design-and-decision pass &mdash; four suggestions that feed the design prompt</h2>
+<p>Session <code>b2f99e67</code>, 2026-11-20. These rows feed <a href="design-brief.html">the design brief</a> and <code>DESIGN_PROMPT.md</code> directly. Same rules as above: every row is a proposal with a recommended path, nothing is implemented beyond what the row says, and every one can be settled from this page.</p>
 
+<article class="sg path" id="SG-65-card"><h3>SG-65 &middot; Give the front page an image it owns</h3>
+<p><strong>Why now:</strong> the hero is type on a gradient and the seasonal band is a text box. The site&rsquo;s own imagery policy (never copied, never generated product photography) is being read as &ldquo;no imagery at all&rdquo;, and a publication that opens without an image reads as generated no matter how good the copy is. The policy does not require that: original editorial drawings are ours, need no licence, and the five appliance-type drawings on the product cards already prove the format works.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> an original editorial illustration layer &mdash; one hero scene and one seasonal band drawing, in the same line-drawing language as <code>assets/art/</code>, each captioned as our drawing. Reversible in one commit. Photography stays gated on <a href="#SG-04">SG-04</a>; nothing depicts a specific unit.</p>
+<p><strong>Path B:</strong> wait for the <a href="#SG-34">SG-34</a> mockups and decide the whole visual direction in one review. Cleaner process, and the hero stays plain through the holiday window.</p>
+<p><strong>Path C:</strong> typographic hero only, indefinitely. Zero risk, zero warmth.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> one session. <strong>Evidence needed:</strong> the drawings are reviewed by whoever opens the page &mdash; this is a taste decision, not a data one. <strong>Blocks:</strong> nothing. <strong>Status:</strong> <span class="badge-warn">Proposed &mdash; the design prompt records the direction; nothing ships until this row is approved</span></p></article>
+
+<article class="sg path" id="SG-66-card"><h3>SG-66 &middot; Keep the one-pass gate picker on the decision register</h3>
+<p><strong>Why:</strong> the register already collapses the board into seven gates, but answering them still meant reading seven long cards and writing a reply block. The slate now lets one reviewer pick an option per gate and export the sheet &mdash; that is the &ldquo;review suggestions and choose the best path before anything is built&rdquo; flow the brief asks for, in one screen.</p>
+<div class="opts">
+<p><strong>Path A (recommended, done):</strong> keep the slate (this pass shipped it; the picks never leave the browser). Approve to keep; reverting is one commit.</p>
+<p><strong>Path B:</strong> replace the reply block with the slate entirely. Saves duplication, loses the copy-paste route for owners who do not click.</p>
+<p><strong>Path C:</strong> revert the slate and stay with the static queue.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> done. <strong>Evidence:</strong> the picker stores picks in <code>localStorage</code>, exports JSON, and sends nothing anywhere &mdash; open <code>assets/app.js</code> and read it. <strong>Blocks:</strong> nothing. <strong>Status:</strong> <span class="badge-ok">Shipped this pass &mdash; approve to keep</span></p></article>
+
+<article class="sg path" id="SG-67-card"><h3>SG-67 &middot; Audit the internal-link anchors across the published spine</h3>
+<p><strong>Why:</strong> every page already links its pillar, the comparison and the guides index (S-24), but some anchors read like labels rather than answers. Question-shaped anchors (&ldquo;how much capacity is real&rdquo;) match what a reader typed and make the link itself useful. This is the one organic-traffic lever that needs no account and makes no claim.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> one inventory of every internal <code>&lt;a&gt;</code> in the built HTML, an anchor rewrite to descriptive text where it is vague, one diff, gates green. Nothing else changes.</p>
+<p><strong>Path B:</strong> inventory only, publish it on the review desk, rewrite later with owner eyes.</p>
+<p><strong>Path C:</strong> skip it until Search Console shows which anchors underperform (needs <a href="#SG-02">SG-02</a> and four weeks).</p>
+</div>
+<p class="fine"><strong>Effort:</strong> one session, no new sources. <strong>Evidence needed:</strong> none &mdash; the inventory is the evidence. <strong>Blocks:</strong> nothing. <strong>Status:</strong> <span class="badge-warn">Proposed</span></p></article>
+
+<article class="sg path" id="SG-69-card"><h3>SG-69 &middot; Give the holiday window an end date</h3>
+<p><strong>Why:</strong> the seasonal layer (Thanksgiving week band, holiday guides) is live and dated, but nothing expires it. A seasonal layer that outlives its season reads as generated; a dated one reads as edited. SG-57 already proposed the snapshot refreshes (Dec 1, Dec 15) &mdash; this row adds the closing bracket.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> the generator stops rendering the holiday band after 2027-01-05 and the seasonal chip reverts to the neutral eyebrow, computed from the build date. The holiday guides stay published and indexed; only the seasonal dressing retires.</p>
+<p><strong>Path B:</strong> manual removal in January. Cheapest now, and it will be forgotten.</p>
+<p><strong>Path C:</strong> keep the band year-round as &ldquo;gift guides&rdquo; evergreen. Doubles as a gift hub, weakens the &ldquo;this week&rdquo; signal on the front page.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> one session when approved. <strong>Evidence needed:</strong> the owner&rsquo;s chosen end date. <strong>Blocks:</strong> nothing; pairs with SG-37 and SG-57. <strong>Status:</strong> <span class="badge-warn">Proposed</span></p></article>
 
 """
 _board_n = len(set(re.findall(r'id="(SG-\d\d)"', sugg_body))), len(set(re.findall(r'id="(Q-\d\d)"', sugg_body)))
@@ -1792,6 +1851,23 @@ _queue_rows = "".join(
     f'<tr><td><a href="#{g["id"]}">{g["id"]}</a></td><td>{esc(g["title"])}</td>'
     f'<td>{len(g["unblocks"])}</td><td>{esc(g["effort"])}</td>'
     f'<td><span class="badge-warn">awaiting owner</span></td></tr>' for g in DEC["gates"])
+def _strip_rec(label):
+    return re.sub(r"\s*\(recommended[^)]*\)", "", label)
+
+_slate_rows = ""
+for _g in DEC["gates"]:
+    _rec = next((o["label"] for o in _g["options"] if "recommended" in o["label"]), None)
+    _rec_cell = (f'<span class="badge-ok">recommended</span> {esc(_strip_rec(_rec))}' if _rec
+                 else f'<span class="fine">no recommendation recorded</span>')
+    _opts = ['<option value="">- pick a path -</option>'] + [
+        f'<option>Option {i}: {esc(_strip_rec(o["label"]))}</option>'
+        for i, o in enumerate(_g["options"], 1)]
+    _slate_rows += (
+        f'<tr id="slate-{_g["id"]}"><td><a href="#{_g["id"]}">{_g["id"]}</a></td>'
+        f'<td>{esc(_g["title"])}</td><td>{_rec_cell}</td>'
+        f'<td>{len(_g["unblocks"])}</td><td>{esc(_g["effort"])}</td>'
+        f'<td><select data-pick="{_g["id"]}">{"".join(_opts)}</select></td>'
+        f'<td class="pick-status">Not picked yet</td></tr>')
 _answered_rows = "".join(
     f'<tr><td>{esc(a["row"])}</td><td>{esc(a["question"])}</td><td>{esc(a["answer"])}</td>'
     f'<td>{esc(a["date"])}</td><td>{esc(a["recordedIn"])}</td></tr>' for a in DEC["answered"])
@@ -1822,11 +1898,20 @@ dec_body = f"""
 <h2>How to answer</h2>
 <ol class="tight">{"".join(f"<li>{esc(s)}</li>" for s in DEC['howThisWorks'])}</ol>
 <p class="fine">Answer format: <code>{esc(DEC['answerFormat'])}</code></p>
-<h2 id="queue">The queue</h2>
-<div class="table-scroll"><table>
-<tr><th>Gate</th><th>Decision</th><th>Rows it unblocks</th><th>Cost to answer</th><th>Status</th></tr>
-{_queue_rows}
+<h2 id="queue"><span id="slate"></span>The slate &mdash; seven picks, one pass</h2>
+<p>This is the short form of the page: one row per gate, the recommendation the register already makes, and a picker. Review the seven rows, choose an option in each, and export the sheet &mdash; that is a complete review of the site&rsquo;s open decisions in one sitting. The full reasoning for each gate sits below the slate; nothing is implemented until a row is answered here or in <a href="suggestions.html">the board</a>.</p>
+<div class="decision-board" id="gate-slate">
+<p class="fine">Picks stay in this browser only (localStorage) &mdash; nothing is sent anywhere on static hosting. Export the review sheet and paste it into <code>COORDINATION.md</code> (or use the reply block at the foot of this page) and a session will apply the answers.</p>
+<div class="table-wrap"><table>
+<tr><th>Gate</th><th>Decision</th><th>Recommended</th><th>Rows it unblocks</th><th>Cost to answer</th><th>Your pick</th><th>Status</th></tr>
+{_slate_rows}
 </table></div>
+<div class="review-panel">
+  <button class="btn small" id="sg-export" type="button">Export review sheet (JSON)</button>
+  <button class="btn secondary small" id="sg-print" type="button">Print the slate</button>
+  <button class="btn secondary small" id="sg-reset" type="button">Clear my picks</button>
+</div>
+</div>
 <p class="section-more"><a class="btn secondary" href="suggestions.html">Open the full board ({SG_N + Q_N} rows)</a> <a class="link-quiet" href="#map">or see how every row maps to these seven</a></p>
 <h2>The seven, one by one</h2>
 {"".join(gate_card(g) for g in DEC["gates"])}
@@ -2069,6 +2154,8 @@ flag_body = f"""
 <tr id="FLG-089"><td>FLG-089</td><td>The front page shows each product twice before the first buy button</td><td>Observed 2026-11-20 while checking whether the page read like a shop. The order is: five-product comparison table, then a three-card &ldquo;shortcut&rdquo; block, then the full register card for every product with each spec row, drawing and bullet list &mdash; so a shopper scrolling to a button passes the same machine twice, and the shortened card and the full card disagree in tone (the short one carries no depth figure, the long one does). This session built a compact shelf card as one candidate fix (capacity, counter depth, pick-it-if, check-first, one button), then withdrew it from the merge when two other sessions rebuilt the same page inside the same hour: landing a fourth competing layout would have been the duplication the flag is about. The observation stands; what is missing is a decision, not another variant.</td><td>Owner: pick one front-page layout. The comparison table plus one card per product is the smallest version that still leads with products</td></tr>
 
 <tr id="FLG-090"><td>FLG-090</td><td>Three topic-calendar rows are labelled &ldquo;editorial hypothesis&rdquo; when they are not hypotheses</td><td>Seen on the live page 2026-11-20, reading <code>topics.html</code> the way a visitor would. Row <strong>11</strong> is marked &ldquo;Consolidated - editorial hypothesis&rdquo; and rows <strong>08</strong> and <strong>09</strong> are marked &ldquo;Planned - editorial hypothesis&rdquo;. A hypothesis is a topic we intend to write. Row 11 is a decision already taken &mdash; the question is answered by <code>guide-counter-depth-fit.html</code> and this address points there &mdash; so the label invites a reader to think a published guide is still unwritten. Rows 08 and 09 are queued, which the word &ldquo;Planned&rdquo; already says; appending &ldquo;editorial hypothesis&rdquo; makes one cell read as two statuses. The suffix comes from a single conditional in the build that treats every non-&ldquo;Published&rdquo; status alike. Reported rather than silently reworded, because the status vocabulary is shared with the cadence queue and the decision register.</td><td>Register owner: decide whether a third status word is needed. The one-line fix is to make the suffix depend on the status instead of applying to all of them</td></tr>
+<tr id="FLG-091"><td>FLG-091</td><td>The browser chrome colour was off-palette, and two near-identical brand inks are in play</td><td>Every page shipped <code>&lt;meta name="theme-color" content="#1F2937"&gt;</code> &mdash; a generic slate grey that belongs to no palette this site uses &mdash; while the stylesheet ink is <code>#1E1712</code> and the favicon/og-card ink is <code>#171310</code>. Fixed 2026-11-20 (session b2f99e67): theme-color is now the stylesheet ink on all 34 pages; the two inks are left exactly as found, since they are visually indistinguishable and harmonising them touches the social card&rsquo;s determinism. Source: the generator&rsquo;s <code>page()</code> chrome, read 2026-11-20.</td><td>Owner: accept the fix (or revert one line in <code>build_site.py</code>); optionally fold <code>#171310</code> into <code>#1E1712</code> in <code>scripts/make_og.py</code> and <code>assets/favicon.svg</code> as one deliberate brand-ink commit</td></tr>
+<tr id="FLG-092"><td>FLG-092</td><td>Two local-measurement vocabularies live on one host</td><td>The root publication counts five named events under <code>ctg_counts</code> (<code>assets/app.js</code>, contract-gated by <code>scripts/check_measure.mjs</code>). The secondary builds under <code>articles/</code> and <code>docs/</code> load the root <code>app.js</code>, which keeps a single unlabelled counter under <code>cc_local_outbound_clicks</code> with no endpoint gate and no event names. R-06/R-07 unified the root publication&rsquo;s vocabulary on 2026-11-20; this script was outside that scope and was not touched in this pass (scope discipline: the secondary builds are another owner&rsquo;s files). Nothing transmits anywhere in either script, so this is a consistency irregularity, not a privacy one. Observed by reading both files, 2026-11-20.</td><td>Owner of the <code>articles/</code>/<code>docs/</code> builds: fold the script into the five-event contract or retire it with its build; the build question itself is <a href="suggestions.html#SG-51">SG-51</a> / <a href="flagged.html#FLG-070">FLG-070</a></td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
