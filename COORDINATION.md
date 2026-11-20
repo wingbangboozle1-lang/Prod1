@@ -415,3 +415,9 @@ Scope: re-run the publishing gates, confirm the live site, and re-check the five
 **Still open, and requires the owner (cannot be closed from this sandbox):** the Special Link validation for each product in the enrolled Associates workflow (FLG-001 / SG-01) needs an Associates account login; analytics endpoint hosting (FLG-008 / SG-03); photography licence (FLG-009 / SG-04); API-policy decision (FLG-023); custom domain (SG-02); wattage conflict on P3 (FLG-022). These stay on flagged.html.
 
 **Live-site note.** The sandbox cannot reach github.io directly (no outbound access to that host), so the live check was made through the page fetch tool, not curl.
+
+### Publication record — arena/1187e20d-prod1 (2026-11-20)
+- **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/27 (`arena/1187e20d-prod1` → `main`). Merge commit `f64a607`, merged 2026-11-20 06:04 UTC with a merge commit, no approval wait.
+- **Main moved once during the PR** (PR #26, `arena/963ca90f-prod1`, which changed only `COORDINATION.md`). Resolved by keeping both records; no other session's work was dropped.
+- **Deploy:** `Deploy GitHub Pages` success and `pages build and deployment` success for `f64a607`; Pages API reports `built`. Live fetch 2026-11-20 shows the corrected label "Shallowest of the fryers" and the §5 disclosure above the fold.
+- **Open, owner-only:** FLG-001 (Special Link test in Associates Central) and the "shallow footprint" wording review noted in `review/1187e20d/VERIFICATION-2026-11-20.md`.
