@@ -1175,3 +1175,38 @@ product pages as ~20 chunks of which the majority is advertising; the item-detai
 reliably retrievable through this sandbox's fetch path today. Those values therefore keep their
 existing dates and provenance and are **not** upgraded to "re-verified 2026-11-20". The structural
 link checks still confirm that all five listings resolve for their ASINs.
+
+### T-8AA outcome after rebasing onto `main` (2026-11-20, second pass)
+
+`main` advanced past `bebe082` while this branch was open (PR #37–#43, session `fbfe1742`), so the
+rebase surfaced two things. Both are recorded here rather than quietly resolved.
+
+**1. Merge conflict, resolved without discarding either side.** `build_site.py`, `executive-summary.html`
+and this file conflicted. `build_site.py`: `main` had replaced the hardcoded "30 pages / ten guides"
+sentence with `@@PAGES@@` / `@@GUIDES@@` tokens — strictly better than my literal numbers — so
+**their version was kept** and my FLG-069 label fix re-applied on top. `executive-summary.html` is
+generated, so the conflict was resolved by rebuilding, never by hand-editing output. This file:
+both sides kept in full (this session's record retained beneath theirs). Also verified while
+resolving: `main`'s `.github/workflows/pages.yml` references a `check_measure.mjs` step, and that
+file **is** present, so the workflow is not broken.
+
+**2. A new page from `main` overflows on mobile — found and fixed.**
+`decisions.html` (new in `main`) rendered a **456px document on a 390px phone**.
+Root cause: `.gate-grid` used bare `1fr` tracks. A bare `1fr` has an automatic minimum of the
+column's **min-content** width, and that card quotes full URLs as plain text, so one unbreakable
+token set a 423px floor. Three separate fixes were needed, each verified in a browser:
+
+| Attempt | Change | Result |
+|---|---|---|
+| 1 | `minmax(0,…)` on the three-column rule | still 456 — the `@media(max-width:900px)` override sets `1fr` again, and *that* is the rule a phone actually uses |
+| 2 | `minmax(0,1fr)` in the media query too | grid column now 324px (correct) but document still 456 — children kept a 423px min-content floor |
+| 3 | `overflow-wrap:anywhere` on `.gate-grid` and its children | **390px. Fixed.** `break-word` would not have done it: only `anywhere` removes the token's contribution to min-content width |
+
+Final state: **68 renders (34 pages × 1440px and 390px): 0 problem rows.** Disclosure above the fold
+and in the footer on all 34 pages at both widths, still 0 failures. All six gates pass and the
+rebuild is byte-identical.
+
+**Carried forward for the owner, non-blocking:** `decisions.html` is a strong addition from
+`fbfe1742` — it is exactly the suggestion-review surface the brief asked for, with a dated answer
+format and every gate honestly marked `awaiting owner`. Nothing in it was marked approved by this
+pass.
