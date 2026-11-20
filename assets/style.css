@@ -756,3 +756,21 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
   .card, .prod, .sg { box-shadow: none; border: 1px solid #999; break-inside: avoid; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; }
 }
+
+/* Guide-card motifs: our own line drawings of the subject a guide is about, drawn in the
+   same hand as the product art (assets/art). They are illustrations of a topic, not pictures
+   of a product, so they carry the same licence position as the rest of the art (FLG-079):
+   original SVG, no Amazon content, no photography. */
+.motif {
+  display: block; width: 100%; max-width: 132px;
+  background: linear-gradient(150deg, var(--surface-2), var(--tint));
+  border-radius: var(--r-sm); padding: .55rem; color: var(--clay-ink);
+  margin-bottom: .4rem;
+}
+.motif img { display: block; width: 100%; height: auto; }
+/* Review-state host the decision desk writes around a pick control it injects, and the
+   board meter line. Both are behaviour-owned classes, added here so the style gate can see
+   them and the desk cannot ship unstyled. */
+.review-state { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; margin: .45rem 0 0; }
+.review-state select { min-height: 34px; font-size: .85rem; }
+.pick-meter { color: var(--muted); font-size: .85rem; margin: .35rem 0 0; }

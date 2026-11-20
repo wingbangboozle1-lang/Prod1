@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "13 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
+    "text": "16 question-led guides on air fryers and meat thermometers: form factor, capacity, counter fit, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -38,6 +38,21 @@
     "title": "Cleanup & counter space trade-offs",
     "url": "guide-cleanup-counter-space.html",
     "text": "Dishwasher-safe parts as listed, footprint arithmetic and capacity per centimetre of counter depth for three verified air fryers."
+  },
+  {
+    "title": "What fits under the cabinet? Check counter height",
+    "url": "guide-counter-height.html",
+    "text": "Listed heights are 10 in, 10.63 in and 14.8 in. How to check yours against a cabinet gap, a vent clearance and an outlet, before you order."
+  },
+  {
+    "title": "What comes in the box? Air fryer accessories",
+    "url": "guide-accessories-in-box.html",
+    "text": "One listing says six accessories in the title and seven in its details. How to read an included-components field, using three verified listings."
+  },
+  {
+    "title": "Is that air fryer on sale? How to check the claim",
+    "url": "guide-price-check.html",
+    "text": "A strikethrough price is not a saving. Six checks on any discounted appliance listing, and why this site links to the price instead of quoting one."
   },
   {
     "title": "Before a multi-function appliance",
@@ -85,9 +100,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: twelve buyer questions",
+    "title": "Topic calendar: twenty-one buyer questions",
     "url": "topics.html",
-    "text": "Twelve question-shaped, spec-backed article working titles - five published, seven queued - with the verified fields and sources each is built from."
+    "text": "Twenty-one question-shaped, spec-backed article topics - sixteen published, five queued - with the verified fields and sources each is built from."
   },
   {
     "title": "Search the guides and products",
