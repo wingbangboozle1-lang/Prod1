@@ -433,3 +433,12 @@ Session ID: **1035d1e2** (branch `arena/1035d1e2-prod1`). Base: `c42d017`, merge
 **Scope discipline.** This session edits the root publication only: `build_site.py`, `assets/`, `data/`, `scripts/`, `.github/workflows/pages.yml`, the generated root `*.html`, and this file. It does **not** touch `counter-check/`, `docs/`, `articles/`, or `review/<other-session>/`. Requests against those are logged, not edited (see FLG-039: three builds on one host remains an owner decision).
 
 Cumulative scopes are non-overlapping with every merged session. No file owned by another active session is edited.
+
+### Merge resolution — arena/1035d1e2-prod1 ← origin/main (2026-11-20, PR #33)
+
+`main` advanced with PRs #30–#32 (sessions `05eca69e` and `a8a06a38`) while this pass was in review. Conflict was on generated files, resolved the repository's way: **in the generator, then rebuilt**, never by hand-editing output.
+
+- **Their work was kept in full.** Their seven new planned topics (n09–n12 were added to the existing eight) replace this pass's eight-entry list, so the calendar now carries **twelve** topics, five published and seven queued. Their corrected page titles for `topics.html`, `guide-holiday-hosting.html`, `guide-gifts-by-budget.html` and `guide-wattage-outlets.html` were adopted where they were shorter or more accurate than mine.
+- **This pass's work was kept in full.** FLG-052…059, the decision queue, the reader topic-request intake, the executive summary rewrite, the rebuilt front page, `scripts/check_style.mjs` and its CI step, and the `review/1035d1e2/` working papers are all present in the merged tree.
+- **Nothing was dropped.** The only losses would have been duplicate phrasings of the same sentence; the topic count on the front page and the topic page is now computed from `TOPICS` rather than typed, so this particular conflict cannot recur on the next merge.
+- **Post-merge gates:** `check_site.mjs` PASS (54 files) · `check_meta.mjs` PASS (29 pages, 0 warnings) · `check_style.mjs` PASS · `counter-check` gate PASS · rebuild deterministic.
