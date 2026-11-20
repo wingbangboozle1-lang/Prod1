@@ -1326,3 +1326,21 @@ Branch `arena/3c99f15c-prod1`, cut from `main` @ `f237c4a`, merged forward twice
 
 **No product fact was added or changed.** `data/products.json` was not edited. Price and rating stay off reader-facing pages (FLG-023 / FLG-032).
 
+
+
+
+## Claim — session arena/1d3cc97c-prod1 (2026-11-20) — superseded in part, narrowed to a tool
+
+Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`). Claimed a rendered-page QA task. During the work, `main` gained session `8aa7237d`'s browser QA (commit `ee36edd`), which covered the same pages and fixed the same two defects. This session therefore **did not duplicate the site fixes** and narrowed its PR to the reusable harness.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-1D3-A Reusable rendered-page QA harness (`scripts/render_qa.mjs`) | **done** (in PR #50) | 1d3cc97c | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Ran on current main `5810211`: 37 pages × 2 widths = 74 runs, 0 with issues (`--strict`). Browser: npm `@sparticuz/chromium` 131.0.1 + `puppeteer-core` 23.11.1, installed outside the repo. | — |
+| T-1D3-B Fix render defects (CSS) | **superseded, no change here** | 1d3cc97c | none | Both defects this session found (suggestions.html 447 px; decisions.html 66 px on a phone) were already fixed on main by `8aa7237d` (`ee36edd`). The branch's `assets/style.css` equals main. | Overlap logged so the owner sees it was done once. |
+| T-1D3-C Integration | done on merge | 1d3cc97c | this file | Gates on base `5810211`: `build_site.py` rebuild leaves tree unchanged · `check_site.mjs` · `check_meta.mjs` · `check_style.mjs` · `verify_structure.mjs` · `check_measure.mjs` · `counter-check` — all PASS; render QA 74/74 clean. | — |
+
+**Not verified here:** taste (page-by-page design review); the live github.io page; interactive surfaces. Nothing is marked verified beyond the render checks listed.
+
+**Scope discipline.** No site output changed by this session. No file owned by an open PR was edited. PR #37's measurement files were not touched.
+
+**Suggested follow-up (a decision, not done here):** run `scripts/render_qa.mjs --strict` in CI. That needs a Chromium install step in `pages.yml`. Add it only if the owner wants a browser gate.
