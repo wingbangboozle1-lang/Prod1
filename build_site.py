@@ -84,6 +84,16 @@ POSITION = {
            "headline": "The phone-watched setup"},
 }
 # ---------------------------------------------------------------- product card
+def capacity_row(p):
+    """A thermometer has no cavity, so "Capacity, as titled" followed by an em dash is a row
+    that tells the reader nothing. Say why the row is empty instead, in the reader's words.
+    This is the same placeholder problem as FLG-073, fixed at the point where it is read."""
+    cap = p.get("capacityTitle")
+    if cap not in ("", "\u2014", None):
+        return f"<div><dt>Capacity, as titled</dt><dd>{esc(cap)}</dd></div>"
+    kind = "handheld thermometer" if "handheld" in p.get("form", "").lower() else "wireless probe set"
+    return f"<div><dt>Capacity</dt><dd>Not applicable &mdash; a {kind} has no cooking cavity</dd></div>"
+
 def cta_note(p):
     return (f'Sponsored link &middot; opens Amazon &middot; as listed {VERIFIED} &middot; '
             f'<a href="verification.html#{p["id"]}">source record</a>')
@@ -114,7 +124,7 @@ def product_card(pid, bullets_n=3, detailed=False, level=3):
     {money}{rating}
   </div>
   <dl class="specs">
-    <div><dt>Capacity, as titled</dt><dd>{esc(p['capacityTitle'])}</dd></div>
+    {capacity_row(p)}
     <div><dt>Footprint on the listing</dt><dd>{dims}</dd></div>
     {footprint}{height}{power}
     <div><dt>Features, as listed</dt><dd>{esc(p['specialFeatures']) or 'not summarised here'}</dd></div>
