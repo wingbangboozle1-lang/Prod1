@@ -613,6 +613,19 @@ PR #37 initially refused to merge: `main` had advanced with PR #35 (`arena/62786
 - `pages.yml` gate list merged earlier in the rebase: upstream's `check_style.mjs` and this session's `check_measure.mjs` both run before upload (four gates).
 - Regenerated all HTML from the merged generator; all gates green on the merged tree (check_site 55 files, check_meta 0 warnings, check_style 0 warnings, check_measure PASS, counter-check PASS, rebuild byte-identical).
 
+## Claim — session arena/03ccc2ca-prod1 (2026-11-20)
+
+Session ID: **03ccc2ca** (branch `arena/03ccc2ca-prod1`, base `3392c0d`, rebased onto `c1028c9` = current `main` incl. PRs #37/#38). No other session has an open claim at this time: PR #37 (`arena/fbfe1742-prod1`) and PR #38 (`arena/62786810-prod1`) are merged; draft PR #10 (`arena/a17ba53c-prod1`) stays unmerged and is the owner's call (FLG-039/FLG-070 second-build question) — not touched here.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-03A **Repo + register line-by-line review (2026-11-20)**: re-read the source register, generator, gates and workflows against the brief; produce a dated review with official links for manual review; flag irregularities (including the duplicated planned-topic rows: TOPICS 06 vs 11, 09 vs 01/07, 12 vs guide-gift-picks — the FLG-047 trap again) | done | 03ccc2ca | `review/03ccc2ca/REVIEW.md` (new) | Official Amazon Associates pages, Google Search Central, FTC; Amazon.com listings | See review file |
+| T-03B **Publishing cadence — publish the next queued question guides** from the calendar (dual-vs-single baskets; what accessories the listings actually include; do you need a thermometer at all), each added to the sitemap, feed, guides index and topic plan; consolidate the overlapping planned topics instead of publishing duplicates (one question, one answer — FLG-047 rule) | done | 03ccc2ca | `build_site.py`, `data/editorial.json`, regenerated root `*.html`, `sitemap.xml`, `feed.xml` | Listing fields in `data/products.json` only (re-verified in T-03C); no claims without a source | Overlapping planned topics merged, not published twice |
+| T-03C **Fresh official-source re-verification (2026-11-20, this session's own reads)**: five listings' identification fields + Associates OA + Program Policies + FTC + Google; dated evidence table; drift recorded, never silently corrected | done | 03ccc2ca | `review/03ccc2ca/VERIFICATION.md` (new), `data/products.json` (only if drift), `flagged.html` (only if new flag) | Fetched this session, dated in the record | — |
+| T-03D **Decision-surface refresh**: suggestion desk + Q/I/A + executive summary updated to the post-PR-#37 reality (measurement contract shipped, gate count) with any new rows from T-03A | done | 03ccc2ca | `suggestions.html`, `executive-summary.html` (via `build_site.py`) | — | Owner choice per row; nothing marked approved |
+| T-03E **Integration**: deterministic rebuild, all six gates green, PR to `main`, merge without waiting, Pages confirmed, publication record | in progress | 03ccc2ca | this file | Gates + Pages API + live fetch | — |
+
+**Scope.** Root publication only: `build_site.py`, `data/editorial.json`, generated root `*.html`, `sitemap.xml`, `feed.xml`, `review/03ccc2ca/`, `COORDINATION.md`. Not touched: `data/products.json` except for T-03C drift corrections, `counter-check/`, `docs/`, `articles/`, `review/<other-session>/`, `analytics-endpoint/` (PR #37 owns its contract; nothing to change unless T-03C finds drift).
 **Addendum — the merge shipped a broken workflow YAML, caught and fixed the same hour (2026-11-20).** The `git merge origin/main` step had a *second* conflict in `.github/workflows/pages.yml` (PR #36's `verify_structure.mjs` gate vs this session's `check_measure.mjs` gate) that the truncated merge output did not show; `git add -A` committed the file with its `## Session arena/54d3e366-prod1 (2026-11-20) — claim
 
 Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds an open claim on the board; every row above is `done`. Baseline re-run on this base: `build_site.py` rebuild is byte-identical; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` and `counter-check` all PASS.
@@ -1530,6 +1543,26 @@ dd9f338f, 1d3cc97c and others). Resolved without discarding either side:
 - **Gates on the merged tree immediately before the PR:** `check_site` (62 HTML), `check_meta` (0 warnings), `check_style` (0 warnings), `check_measure` (PASS), `verify_structure` (PASS), `counter-check` (PASS); `python3 build_site.py` byte-identical.
 - **Tasks T-4741-V and T-4741-R: done.** T-4741-I: **done** (merge + deploy confirmed; this record is the close-out).
 - **Flagged, non-blocking, for the owner:** see `review/47414174/VERIFICATION.md` §D — T-V2's FLG-021/022 mis-attribution on this board; §6(w)/FLG-003 short-link question unresolved by design; four of five short links not re-observed today; Agent-terms/ML-clause boundary note for the "AI-powered" brief wording. Owner items unchanged: FLG-001, FLG-008, FLG-009, FLG-015, FLG-023, FLG-025, FLG-070, SG-02, SG-51, Q-35/SG-53.
+
+### 2026-11-20 — `arena/03ccc2ca-prod1` — T-03A..T-03E complete (review, cadence, re-verification, decision surfaces, integration)
+
+**Scope (unchanged):** `build_site.py`, `data/editorial.json`, generated root `*.html`/`sitemap.xml`/`feed.xml`, `review/03ccc2ca/`, `COORDINATION.md`, `assets/style.css` (`.status-consolidated` only). Nothing of any other session's scope was edited.
+
+**Records:** `review/03ccc2ca/VERIFICATION.md` (dated evidence table: five listing pages' identification fields + Associates OA + Program Policies re-read this session; P3 `®`/P4 `℉` glyph-normalization notes; what was deliberately not re-read) and `review/03ccc2ca/REVIEW.md` (brief-requirement → implementation → source-link table, irregularities, gates).
+
+**Published (T-03B):** `guide-do-you-need-a-thermometer.html` (fills the calendar's last open slot, queue week 2027-01-26) — wired into the sitemap, feed, guides index and front page in the same commits. The dual-basket and accessories questions were already answered by parallel passes at `guide-dual-vs-single-basket.html` and `guide-accessories-included.html`; see the collision log below.
+
+**Decision surfaces (T-03D):** rows **SG-71** (keep the calendar consolidations — implemented this pass, reversible), **SG-72** (pause the publishing queue until measured queries exist), **SG-73** (resolve the Emeril accessory count at source), **Q-49** (authoritative accessory list for B09B7SB46R), **Q-50** (which queries bring readers — needs Search Console), **FLG-093** (calendar asked the same question twice — consolidated, reversible), **FLG-094** (two passes answered the same two questions the same day — one page survives each). Executive summary carries the latest-pass section.
+
+**Merge-conflict log (protocol §Conflicts):** this branch integrated `origin/main` twice (through PR #84, then through PR #94). All conflicts resolved by keeping both sessions' work; nothing of theirs was discarded.
+- *Same-URL content collision:* two passes wrote `guide-accessories-included.html`. The fuller checklist-and-table draft survives at the URL; the other pass's baskets-count FAQ was carried into it. The superseded draft is in git history (`origin/main` pre-merge side).
+- *Same-question, two-URL collision:* `guide-dual-vs-single-basket.html` (parallel pass) survives unchanged as the dual-basket guide; this pass's draft is the consolidated page `guide-dual-vs-single.html` pointing at it (FLG-047 pattern).
+- *ID collisions (three rounds on 2026-11-20 — the exact trap the board's numbering rule warns about):* my rows were renumbered twice after parallel passes claimed FLG-074/090/091/092, SG-54..61 and Q-38..44 (some reserved in `COORDINATION.md` records rather than as rows). Final numbers above. Their rows were never touched.
+- *Generated-file conflicts* (`suggestions.html`, `decisions.html`, `search-index.json`, feeds, sitemaps): resolved in `build_site.py` and the data files, then rebuilt — never hand-edited.
+
+**Gates (all green at merge):** `python3 build_site.py` (39 pages, 28 sitemap URLs, 5 consolidated; deterministic ×2) → `check_site.mjs` (64 files) → `check_meta.mjs` (0 warnings) → `check_style.mjs` (0 warnings) → `check_measure.mjs` + endpoint self-test (17/17) → `verify_structure.mjs` (0 blocking) → `counter-check/tools/check_site.py` → `make_og.py` (no drift).
+
+**Statuses:** T-03A..T-03E done. Owner items unchanged and unblocked: SG-02/03/04/43, SG-59/71/72/73, Q-49/50 plus the pre-existing open questions, FLG-001/003/005/021/022/070/074/091/092/093/094, draft PR #10 (second site under `docs/` — owner's call).
 
 ### Publication record — PR #95 (session arena/b2f99e67-prod1, 2026-11-20)
 

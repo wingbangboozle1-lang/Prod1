@@ -587,7 +587,7 @@ CHOOSER = """
   <div id="chooser-result" aria-live="polite"></div>
 </form>"""
 # ---------- TOPICS (topic calendar, session bb3ae11b) ----------
-NUMW = {n: w for n, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen".split())}
+NUMW = {n: w for n, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split())}
 TOPICS = [
     {"n": "01", "title": "Basket or oven-style air fryer: what should you compare?", "cat": "Air fryers - Form",
      "status": "Published", "href": "guide-basket-vs-oven.html",
@@ -630,8 +630,8 @@ TOPICS = [
      "hooks": "Badge and rating fields as shown on listings (P1, P3, P4); dated-snapshot rule",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
     {"n": "09", "title": "Air fryer basket vs oven: which one actually fits your counter?", "cat": "Air fryers - Form",
-     "status": "Planned", "href": "topics.html#t09",
-     "angle": "Dual-basket, French-door oven and single basket side by side: depth, footprint and what each shape is genuinely good for.",
+     "status": "Consolidated", "href": "guide-basket-vs-oven.html",
+     "angle": "Dual-basket, French-door oven and single basket side by side: depth, footprint and what each shape is genuinely good for. This question is answered in the basket-vs-oven guide; the row stays for the calendar's history.",
      "hooks": "Listing form fields and dimensions (P1, P2, P3); derived footprint math",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"])]},
     {"n": "10", "title": "Instant-read vs wireless thermometer: do you need both?", "cat": "Thermometers",
@@ -664,21 +664,33 @@ TOPICS = [
      "angle": "Variant, fit, cleanup, setup burden and paperwork, all answerable from listing fields before you wrap.",
      "hooks": "Variant and colour fields (P1, P3, P5); cleanup bullets (P1, P3); probe, hub and app description (P5); warranty fields (P1, P2, P3, P5)",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])],
-     "note": "Published 2026-11-20 as the after-purchase half of topic 12, which is the choice of gift."}]
+     "note": "Published 2026-11-20 as the after-purchase half of topic 12, which is the choice of gift."},
+    {"n": "16", "title": "Air fryer accessories: which ones the listing actually includes", "cat": "Multi-function - In the box",
+     "status": "Published", "href": "guide-accessories-included.html",
+     "angle": "What 'included' means in a title, a bullet and an item-details table - and what to do when the three disagree, using the listing that does.",
+     "hooks": "P2 title (six accessories) vs Item-details (seven) - FLG-021; P1 baskets; P3 basket and tray; P4 calibration certificate; P5 probes and hub",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])],
+     "note": "Published 2026-11-20 by two passes in parallel; one content survives at the URL, see FLG-075."},
+    {"n": "17", "title": "Do you need a meat thermometer at all?", "cat": "Thermometers - Buying",
+     "status": "Published", "href": "guide-do-you-need-a-thermometer.html",
+     "angle": "What an oven dial measures versus what a thermometer measures, when one earns its drawer space, and what the two listings do and do not state.",
+     "hooks": "P4 tolerance, certification and included certificate; P5 probe count, sensors, range and heat rating",
+     "sources": [("P4 listing", PRODS["P4"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])],
+     "note": "Published 2026-11-20; answers the calendar's last open slot (week 2027-01-26)."}]
 
 def topic_band():
-    n_topics = len(TOPICS)
-    n_pub = sum(1 for t in TOPICS if t["status"] == "Published")
-    n_queue = n_topics - n_pub
     rows = "".join(
-        f'<a href="{t["href"]}"><span>{t["n"]}</span>{esc(t["title"])}<b class="{"status-published" if t["status"]=="Published" else "status-planned"}">{t["status"]}</b></a>'
+        f'<a href="{t["href"]}"><span>{t["n"]}</span>{esc(t["title"])}<b class="{"status-published" if t["status"]=="Published" else ("status-consolidated" if t["status"]=="Consolidated" else "status-planned")}">{t["status"]}</b></a>'
         for t in TOPICS)
+    _pub = sum(1 for t in TOPICS if t["status"] == "Published")
+    _cons = sum(1 for t in TOPICS if t["status"] == "Consolidated")
+    _queued = len(TOPICS) - _pub - _cons
     return f"""
 <div class="topic-band">
   <div class="wrap topic-inner">
     <div>
       <h2>The topic calendar</h2>
-      <p>{NUMW[len(TOPICS)].capitalize()} question-shaped topics, {NUMW[sum(1 for t in TOPICS if t["status"]=="Published")]} published and {NUMW[sum(1 for t in TOPICS if t["status"]!="Published")]} queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p>{NUMW[len(TOPICS)].capitalize()} question-shaped topics: {NUMW[_pub]} published, {NUMW[_queued]} queued, {NUMW[_cons]} consolidated into an existing guide so one question keeps one answer. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
       <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
     </div>
     <div class="topic-list">{rows}</div>
@@ -785,6 +797,14 @@ index_body = f"""
   <article class="card"><span class="tag">Circuits</span><h3><a href="guide-wattage-outlets.html">Will it trip the breaker?</a></h3><p>1000 W against 1700 W on a 120 V kitchen circuit, with the listing&rsquo;s own contradiction left visible.</p></article>
 </div>
 <p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-instant-read-vs-wireless.html">Instant-read vs wireless</a> &middot; <a href="topics.html">What we are writing next</a></p>
+
+<h2>Latest from the desk</h2>
+<div class="latest">
+  <a class="latest-item" href="guide-dual-vs-single-basket.html"><span class="latest-date">This week</span><strong>Two baskets or one: what dual-zone cooking actually changes</strong><span>Two dishes at once or one large cavity - decided on the listings' form and care facts.</span></a>
+  <a class="latest-item" href="guide-accessories-included.html"><span class="latest-date">In the box</span><strong>Air fryer accessories: which ones the listing actually includes</strong><span>One of our listings says six accessories and seven at the same time. Here is how to check.</span></a>
+  <a class="latest-item" href="guide-do-you-need-a-thermometer.html"><span class="latest-date">Thermometers</span><strong>Do you need a meat thermometer at all?</strong><span>An oven dial reports the oven; a thermometer reports the food.</span></a>
+</div>
+{topic_band()}
 
 <h2>How this desk works</h2>
 <div class="trust-row">
@@ -965,6 +985,7 @@ guides_body = """
 <article class="card"><span class="tag">Air fryers - Space &amp; fit</span><h3>Will a 26-quart oven fit your counter? The depth and height math</h3><p>Depth, height and footprint arithmetic from the listed dimensions, converted to centimetres, step by step.</p><p><a class="btn small" href="guide-counter-depth-fit.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Form</span><h3>Two baskets or one: what dual-zone cooking actually changes</h3><p>Dual-basket, single-basket and oven-cavity cooking, decided on the listings' form and capacity facts.</p><p><a class="btn small" href="guide-dual-vs-single-basket.html">Read guide</a></p></article>
 <article class="card"><span class="tag">In the box</span><h3>What's actually in the box: accessories, per the listing</h3><p>Included parts for all five picks as each listing states them - including one count the listing gives two ways.</p><p><a class="btn small" href="guide-accessories-included.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Thermometers - Buying</span><h3>Do you need a meat thermometer at all?</h3><p>An oven dial reports the oven; a thermometer reports the food. What changes when you stop guessing - from the listings.</p><p><a class="btn small" href="guide-do-you-need-a-thermometer.html">Read guide</a></p></article>
 </div>
 <h2>Pages that moved</h2>
 <p>Three pages published in an earlier pass answered questions the guides below already cover. Rather than delete a live address, each one points search engines and readers at the surviving guide, so one question has one answer. The reason, and the option to reverse it, are logged as <a href="flagged.html#FLG-047">FLG-047</a>.</p>
@@ -1142,29 +1163,44 @@ b12, j12 = guide_shell("Guide - Air fryers - Form", "Two baskets or one: what du
   ("Is a 26-quart oven the same as two baskets?", "No. The Emeril 26QT is one large oven cavity, not two baskets. The listing describes it for a whole chicken and pizza; it is a different cooking setup from a dual-basket fryer.")])
 page_to("guide-dual-vs-single-basket.html", "Two baskets or one: dual-zone cooking | Countertop Guide", "Dual-basket, single-basket and oven-cavity cooking, decided on the listings' own form, capacity and care facts.", b12, j12, "guide-page")
 # ---------- GUIDE 8 (session 8bdadebf): accessories in the box ----------
-b13, j13 = guide_shell("Guide - In the box", "What's actually in the box: accessories, per the listing",
- "The accessory list decides what you can cook on day one and what you will need to replace. Here is what each verified listing includes, stated as listed - including one count the listing itself gives two ways.",
- """
-<h2>Air fryers</h2>
-<ul>
-<li><strong>Chefman 6QT dual (B0CDY277D3):</strong> two 3-quart non-stick baskets, per the listing.</li>
-<li><strong>Chefman 8QT (B08DKYBTPH):</strong> an 8-quart non-stick basket and a flat frying tray, per the listing.</li>
-<li><strong>Emeril 26QT oven (B09B7SB46R):</strong> the title says six cooking accessories included; the listing's Item-details table lists seven. Both counts are the listing's and disagree - see <a href="flagged.html#FLG-021">FLG-021</a>. Count on the listing, not the headline.</li>
-</ul>
-<h2>Thermometers</h2>
-<ul>
-<li><strong>ThermoMaven instant-read (B0DHZTCNR5):</strong> includes a calibration certificate, per the listing's included-components field.</li>
-<li><strong>CHEF iQ Sense wireless (B0DZFD6R9Z):</strong> three ultra-thin probes plus a hub that charges all three at once, per the listing. Probe count is sold as variants - pick the count you need on the listing.</li>
-</ul>
-<h2>Why the count matters</h2>
-<p>Accessories are the parts that wear and the parts you replace. A title count and a table count that disagree is exactly the detail to resolve on the listing before you buy, because a missing tray or an extra probe changes what you can cook on day one.</p>
-<h2>What the listing cannot tell you</h2>
-<p>The listing states what is included, not how each accessory is cared for, whether replacements are stocked, or whether a given accessory fits other models. Check the care instructions and the replacement availability on the listing before relying on any one part.</p>
+b13, j13 = guide_shell("Guide - Multi-function - In the box", "Air fryer accessories: which ones the listing actually includes",
+ "The box is not the headline. A listing&rsquo;s title, its bullets and its item-details table can describe three different sets of accessories - one of the listings on this site does exactly that. Here is where to look, in order, applied to the five products we track.",
+ f"""
+<h2>A worked example: six accessories or seven?</h2>
+<p>The Emeril 26QT&rsquo;s title says &ldquo;Six Cooking Accessories Included&rdquo;. The Item-details table on the same listing describes a configuration with seven accessories. Both figures are on one page; both are quoted here with the date we read them ({{VERIFIED}}), and the disagreement stays visible as <a href="flagged.html#FLG-021">FLG-021</a> rather than being smoothed into one number. When a listing argues with itself, the safe move is not to pick the friendlier figure - it is to find the box list.</p>
+
+<h2>Where to look, in order</h2>
+<ol>
+<li><strong>The title.</strong> It is marketing text and the least precise field - but it is where &ldquo;included&rdquo; promises start.</li>
+<li><strong>The bullets.</strong> Look for &ldquo;in the box&rdquo;, &ldquo;includes&rdquo; or included-components wording. The Chefman 8QT bullets name an 8-quart basket and a flat frying tray; the ThermoMaven&rsquo;s included-components field names a calibration certificate.</li>
+<li><strong>The Product information / Item-details table.</strong> This is where the Emeril lists accessories as configuration data - and where its count disagrees with the title.</li>
+<li><strong>The manual or product PDFs linked from the listing.</strong> They often carry the definitive parts list. The Emeril&rsquo;s warranty terms live exactly there, in a PDF, with no period stated on the page (<a href="flagged.html#FLG-005">FLG-005</a>).</li>
+<li><strong>Ask the seller through the listing</strong> if two fields still disagree after all of that. Keep the answer with your order record.</li>
+</ol>
+
+<h2>What our five listings state</h2>
+<div class="table-scroll"><table>
+<tr><th>Product</th><th>What the listing says is included</th><th>Where it says it</th></tr>
+<tr><td>Chefman 6QT Dual <span class="meta">B0CDY277D3</span></td><td>Two independent 3-quart non-stick baskets, removable and dishwasher safe</td><td>Title and bullets</td></tr>
+<tr><td>Emeril 26QT Oven <span class="meta">B09B7SB46R</span></td><td>Six cooking accessories per the title; seven per the Item-details table <span class="badge-warn">conflict - FLG-021</span></td><td>Title vs Item-details</td></tr>
+<tr><td>Chefman 8QT TurboFry <span class="meta">B08DKYBTPH</span></td><td>8-quart non-stick basket and flat frying tray, top-rack dishwasher safe</td><td>Bullets</td></tr>
+<tr><td>ThermoMaven instant-read <span class="meta">B0DHZTCNR5</span></td><td>One calibration certificate</td><td>Included-components field</td></tr>
+<tr><td>CHEF iQ Sense wireless <span class="meta">B0DZFD6R9Z</span></td><td>Three ultra-thin probes plus a hub that charges all three at once</td><td>Bullets</td></tr>
+</table></div>
+
+<h2>Included is not the same as covered</h2>
+<p>Two follow-up questions matter as much as the box list. First, care: the dishwasher claims above are the seller&rsquo;s wording, and they differ by part (whole baskets on the 6QT; top rack only on the 8QT). Second, cover: the Chefman listings state a one-year assurance, the CHEF iQ states two years per its bullets, and the Emeril&rsquo;s warranty period is not stated on the page at all - only a PDF link. We quote what each page states; we have not opened a box or filed a claim.</p>
+<p>Accessories also wear out before appliances do. Before you buy a unit for its accessory count, check what a replacement part costs on the same listing - the count is only a deal if the parts stay available.</p>
 """,
- [("How many accessories come with the Emeril 26QT?", "The title says six cooking accessories; the listing's Item-details table lists seven. We publish both and flag the disagreement (FLG-021) rather than choosing one."),
-  ("What comes with the CHEF iQ Sense thermometer?", "Three ultra-thin probes plus a hub that charges all three at once, per the listing. Probe count is sold as variants, so confirm the count on the listing."),
-  ("Do the baskets count as accessories?", "Yes - the Chefman 6QT lists two 3-quart baskets and the Chefman 8QT lists a basket and a flat frying tray. They are the removable, replaceable parts of these appliances.")], picks=("P1", "P2", "P5"))
-page_to("guide-accessories-included.html", "Accessories in the box, per the listing | Countertop Guide", "Included parts for all five verified picks, as each listing states them - including one count the listing gives two ways.", b13, j13, "guide-page")
+ [("How many accessories come with the Emeril 26QT?","The title says six cooking accessories; the Item-details table on the same listing describes seven. We show both and flag the conflict (FLG-021) rather than choosing one. Check the In-the-box wording on the listing before you order."),
+  ("Which parts are dishwasher safe?","Per the bullets: the Chefman 6QT's removable non-stick baskets, and the Chefman 8QT's basket and flat tray on the top rack. Confirm the exact wording on the listing you buy from - we have not washed any of them."),
+  ("Does the ThermoMaven include anything besides the thermometer?","Its included-components field states one calibration certificate is included. What the certificate contains is not described in the fields we captured; check the listing or ask the seller."),
+  ("What warranty do these accessories carry?","The Chefman listings state a one-year assurance each; the CHEF iQ states two years per its bullets. The Emeril page links a warranty PDF but states no period on the page (FLG-005)."),
+  ("Do the baskets count as accessories?", "Yes - the Chefman 6QT lists two 3-quart baskets and the Chefman 8QT lists a basket and a flat frying tray. They are the removable, replaceable parts of these appliances.")],
+ picks=("P2", "P1", "P3"))
+page_to("guide-accessories-included.html", "Air fryer accessories: what's in the box | Countertop Guide",
+ "Title, bullets and item-details can disagree about what ships - one of our listings says six accessories and seven at once. A checklist for the box before you order.",
+ b13, j13, "guide-page")
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
@@ -1212,7 +1248,15 @@ exec_body = f"""
 <h2>Automation boundary</h2>
 <p>This is a static affiliate publication, not a live AI research or campaign-optimization service. The build automates page generation and compliance checks; the event names and endpoint are implemented and tested locally, but the endpoint is not hosted, no conversion reports are connected, and no AI agent is currently sourcing products, scoring commissions, publishing automatically, or optimizing campaigns. Those capabilities require documented data access, policy review and an operating host before they can be represented as live. The open questions and recommended discovery steps are on the <a href="suggestions.html">suggestions desk</a> and <a href="decisions.html">decision register</a>.</p>
 
-<h2>What the 2026-11-20 pass changed</h2>
+<h2>What the latest pass changed (2026-11-20, later)</h2>
+<ul>
+<li><strong>Three queued questions are answered by published guides</strong> - <a href="guide-dual-vs-single-basket.html">two baskets or one</a> (the parallel pass&rsquo;s draft is the surviving page; this pass&rsquo;s draft was consolidated into it rather than published beside it), <a href="guide-accessories-included.html">what the listings actually include</a> (this pass&rsquo;s draft is the surviving page, with the parallel pass&rsquo;s FAQ carried over), and <a href="guide-do-you-need-a-thermometer.html">do you need a meat thermometer at all</a> (new this pass - it fills the calendar&rsquo;s last open slot). Each moved through the calendar, the <a href="sitemap.xml">sitemap</a> and the <a href="feed.xml">feed</a> in the same commit.</li>
+<li><strong>Where two passes wrote the same page, one answer survives - and the choice is reversible.</strong> The calendar&rsquo;s duplicate questions are consolidated to the surviving guides (<a href="flagged.html#FLG-093">FLG-093</a>, <a href="flagged.html#FLG-094">FLG-094</a>, <a href="suggestions.html#SG-71">SG-71</a>), and the superseded drafts stay in this repository&rsquo;s history with a documented restore path.</li>
+<li><strong>Re-verified 2026-11-20, line by line.</strong> This pass re-read the five listing pages&rsquo; identification fields and both policy pages itself; the evidence table, the two typographic notes and what was deliberately not re-read are in <code>review/03ccc2ca/VERIFICATION.md</code>.</li>
+<li><strong>Three new decisions and two new questions wait for you</strong> (<a href="suggestions.html#SG-71">SG-71 to SG-73</a>, <a href="suggestions.html#Q-49">Q-49 and Q-50</a>), covering the consolidations, the publishing pause and the one listing that counts its accessories two different ways.</li>
+</ul>
+
+<h2>What the earlier 2026-11-20 pass changed</h2>
 <ul>
 <li><strong>The type the design always specified now actually loads.</strong> The stylesheet named Fraunces and Inter; neither file existed, so every page rendered in Georgia and the system UI font. Four self-hosted latin variable fonts (182 KB total, SIL Open Font License 1.1, licences committed alongside) now render the site (<a href="flagged.html#FLG-067">FLG-067</a>).</li>
 <li><strong>Original brand art on every product card.</strong> Five line drawings of the appliance <em>types</em>, drawn for this site. No photograph, no Amazon image, no rendering of a specific unit &mdash; the imagery rule the site set for itself still holds.</li>
@@ -1562,6 +1606,8 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-35"><td>Q-35</td><td>Can any of the five outbound links be attributed to this tag?</td><td>The links carry <code>tag=shopnow047c-20</code> and the correct ASINs, verified against the listings. No Associates report has been read, because no session can log in</td><td>One report row per product</td><td>Owner runs the click test (<a href="#SG-53">SG-53</a>)</td><td>Any revenue statement; nothing about publishing</td></tr>
 <tr id="Q-36"><td>Q-36</td><td>What exact accuracy figure does the wireless thermometer carry?</td><td>No tolerance figure appears in the fields captured from B0DZFD6R9Z. The ThermoMaven listing states &plusmn;0.5&deg;F with NIST and NSF named</td><td>The manual or product-support document for the CHEF iQ</td><td>Either read the manual on the listing, or ask the seller through the listing&rsquo;s contact route; until then the guide reports an absence</td><td>Any accuracy comparison between the two thermometers</td></tr>
 <tr id="Q-37"><td>Q-37</td><td>Do the listings&rsquo; own dimensions match the units shipped?</td><td>Dimensions are quoted as the listing states them, with the unit (inches) preserved. No independent measurement exists</td><td>A physical unit, or a manufacturer spec sheet naming the same model code</td><td>Only a purchase resolves it; until then the pages say &ldquo;as listed&rdquo;</td><td>Counter-fit advice, which is the site&rsquo;s central promise</td></tr>
+<tr id="Q-49"><td>Q-49</td><td>Which accessory list is authoritative for the Emeril 26QT (B09B7SB46R)?</td><td>The title says six cooking accessories; the Item-details table on the same listing describes seven. Both values are published side by side (<a href="flagged.html#FLG-021">FLG-021</a>), and the new <a href="guide-accessories-included.html">accessories guide</a> shows the conflict as a worked example</td><td>The definitive In-the-box list, or a manual page naming the parts</td><td>Re-read the listing&rsquo;s In-the-box section and open the PDFs linked from the listing; record the exact wording in the register with a date, or ask the seller through the listing</td><td>Closing FLG-021; nothing in publishing - both values stay visible until then</td></tr>
+<tr id="Q-50"><td>Q-50</td><td>Which queries actually bring readers to these guides?</td><td>Nothing is measured yet: no analytics host is configured, no Search Console property is verified, and the five events count only in visitors&rsquo; browsers</td><td>28 days of Search Console query data</td><td>Owner verifies the Search Console property (<a href="suggestions.html#SG-52">SG-52</a>); then export queries and match them to pages</td><td>Evidence-based topic choice (Q-06); until then the calendar is a stated plan, not demand</td></tr>
 <tr id="Q-27"><td>Q-27</td><td>Who publishes this site, the branch or the workflow?</td><td>The workflow gates every push to <code>main</code>; GitHub&rsquo;s legacy branch build is what actually serves the pages. <a href="flagged.html#FLG-051">FLG-051</a> and <a href="suggestions.html#SG-43">SG-43</a></td><td>Whether to move Pages to the GitHub Actions build source</td><td>Owner: Settings &rarr; Pages &rarr; Build source &rarr; GitHub Actions; then the next deploy run publishes the artifact and a failed gate stops it</td><td>Every claim this site makes about automation being load-bearing</td></tr>
 <tr id="Q-38"><td>Q-38</td><td>Which topics have real search demand?</td><td>The calendar titles are hypotheses, explicitly labelled as such; no query, impression or click data exists yet</td><td>Any query, impression or click figure for the proposed titles</td><td>28 days of Search Console after SG-02; manual autocomplete observation (not a volume claim)</td><td>Which two guides get written next (SG-12)</td></tr>
 <tr id="Q-39"><td>Q-39</td><td>What commission rate applies to kitchen categories?</td><td>Not published on this site, and not guessed</td><td>The account&rsquo;s current rate table</td><td>Associates Central &rarr; Reports &rarr; commission statement (authorized first-party view only)</td><td>Any revenue statement, forecast or priority ranking by earnings</td></tr>
@@ -1609,6 +1655,9 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr><td>SG-51</td><td>One indexable publication: noindex the docs/ and counter-check/ builds</td><td><select data-pick="SG-51"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-52</td><td>Search Console first, self-hosted endpoint second</td><td><select data-pick="SG-52"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-53</td><td>One Associates click test per product</td><td><select data-pick="SG-53"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-71</td><td>Keep the topic-calendar consolidations (one question, one answer)</td><td><select data-pick="SG-71"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-72</td><td>Pause the publishing queue until measured queries exist</td><td><select data-pick="SG-72"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
+<tr><td>SG-73</td><td>Resolve the Emeril accessory-count conflict at its source</td><td><select data-pick="SG-73"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-11</td><td>Run the design brief as the brief for the visual overhaul</td><td><select data-pick="SG-11"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-12</td><td>Adopt the eight-topic editorial calendar as the publishing cadence</td><td><select data-pick="SG-12"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
 <tr><td>SG-22</td><td>One site, one canonical, one sitemap (consolidate the builds)</td><td><select data-pick="SG-22"><option value="">- pick a path -</option><option>Approve</option><option>Reject</option><option>Defer</option><option>Needs more info</option></select></td><td class="pick-status">Not picked yet</td></tr>
@@ -1681,6 +1730,32 @@ it says specific things, admits its gaps, and never asks to be believed.
 <p><strong>Path C:</strong> leave the calendar as printed. The row then stays a duplicated promise that <a href="flagged.html#FLG-075">FLG-075</a> already flags in part.</p>
 </div>
 <p class="fine"><strong>Effort:</strong> S - one change in <code>data/editorial.json</code>. <strong>Evidence needed:</strong> none beyond the register; the overlap was between two titles on one board. <strong>Blocks:</strong> the 2026-12-01 publishing slot. <strong>Status:</strong> <span class="badge-warn">Needs owner confirmation</span> - recorded 2026-11-20 after this session's second listing read. Update from the same-day merges: a parallel session applied Path A on <code>main</code> (the 2026-12-01 row now points at the existing guide as published), and the dual-basket topic is now published as its own page. The row stands as the confirmation record; reverting either way is one line in <code>data/editorial.json</code>. Renumbered three times the same day (SG-54/58/60/61 were each taken by parallel passes while this session worked) - see <code>COORDINATION.md</code>.</p></article>
+<article class="sg path" id="SG-71"><h3>SG-71 &middot; Keep the topic-calendar consolidations, or split the rows back out</h3>
+<p><strong>Why now:</strong> the calendar carried rows that re-asked questions the site already answers (recorded as <a href="flagged.html#FLG-093">FLG-093</a>). The passes that found them consolidated them into the surviving guides so one question keeps one answer - the rule the site already adopted in <a href="flagged.html#FLG-047">FLG-047</a>. The choice stays yours.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> keep the consolidations. The rows stay in the calendar as &ldquo;Consolidated&rdquo; with links to the surviving guides; no URL is lost, and no page is written twice.</p>
+<p><strong>Path B:</strong> split any merged row back into a standalone guide. More pages, but two URLs answer one question, and the drafts would need the dated figures stripped first.</p>
+<p><strong>Path C:</strong> keep the merges and delete the merged rows from the calendar entirely, leaving only live topics.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> 10 minutes. <strong>Evidence needed:</strong> none. <strong>Blocks:</strong> nothing. <strong>Status:</strong> <span class="badge-ok">Ready - implemented this pass, reversible in one edit per row</span></p></article>
+
+<article class="sg path" id="SG-72"><h3>SG-72 &middot; Pause the publishing queue until measured queries exist</h3>
+<p><strong>Why now:</strong> this pass published the three distinct queued questions early (dual-vs-single, accessories, thermometer-need). One queued topic remains (under-cabinet height). The cadence rule says the next topics come from measured queries once Search Console has 28 days of data - which cannot start until the property is verified.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> hold the last queued topic until 28 days of Search Console queries exist, then pick from the queries the pages do not answer. The calendar rule becomes true in practice, not just in text.</p>
+<p><strong>Path B:</strong> keep the weekly rhythm from the calendar while Search Console warms up, then switch to measured selection.</p>
+<p><strong>Path C:</strong> publish the remaining topic now and pause after it.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> Search Console verification (<a href="suggestions.html#SG-52">SG-52</a>) plus 28 days. <strong>Blocks:</strong> the evidence-based calendar (<a href="suggestions.html#Q-50">Q-50</a>). <strong>Status:</strong> <span class="badge-warn">Blocked on owner (Search Console)</span></p></article>
+
+<article class="sg path" id="SG-73"><h3>SG-73 &middot; Resolve the Emeril accessory-count conflict at its source</h3>
+<p><strong>Why now:</strong> the new <a href="guide-accessories-included.html">accessories guide</a> shows a listing that says six accessories and seven at once. Both values are published; neither is authoritative. The register keeps the conflict open as <a href="flagged.html#FLG-021">FLG-021</a>.</p>
+<div class="opts">
+<p><strong>Path A (recommended):</strong> read the listing&rsquo;s In-the-box section and the PDFs linked from the listing; record the exact parts list in the register, verbatim, with the date. No login needed.</p>
+<p><strong>Path B:</strong> ask the seller through the listing&rsquo;s contact route and keep the answer with the register row.</p>
+<p><strong>Path C:</strong> leave both values visible and the flag open - which is the current published state, and perfectly defensible.</p>
+</div>
+<p class="fine"><strong>Effort:</strong> 20 minutes. <strong>Evidence needed:</strong> none beyond the listing. <strong>Blocks:</strong> closing FLG-021 (<a href="suggestions.html#Q-49">Q-49</a>). <strong>Status:</strong> <span class="badge-ok">Ready</span></p></article>
 
 <h2 id="suggestions-2026-11-20-b2f">From the design-and-decision pass &mdash; four suggestions that feed the design prompt</h2>
 <p>Session <code>b2f99e67</code>, 2026-11-20. These rows feed <a href="design-brief.html">the design brief</a> and <code>DESIGN_PROMPT.md</code> directly. Same rules as above: every row is a proposal with a recommended path, nothing is implemented beyond what the row says, and every one can be settled from this page.</p>
@@ -2133,6 +2208,8 @@ flag_body = f"""
 <tr id="FLG-072"><td>FLG-072</td><td>ThermoMaven listing shows only an item length</td><td>The 2026-11-20 re-read found an <code>Item Length</code> of 6.5 inches and no width, height or depth in the listing&rsquo;s measurement block. The register stays blank rather than treating a single axis as dimensions. This narrows FLG-004 but does not close it.</td><td>Full dimension set from the manual, or leave blank (FLG-004)</td></tr>
 <tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across all 29 pages.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
 <tr id="FLG-073"><td>FLG-073</td><td>One placeholder was carrying two meanings</td><td>Thirteen fields in <code>data/products.json</code> hold the literal string <code>&mdash;</code>. The page correctly renders that as &ldquo;Blank &mdash; not captured&rdquo;, but the same character is also used where the field genuinely does not apply (a thermometer has no capacity). So the data cannot distinguish &ldquo;we looked and did not find it&rdquo; from &ldquo;this field is meaningless for this product&rdquo;. Publishing reads the dash as blank, which is the safe direction. A future session must not treat it as a recorded figure.</td><td>Owner of <code>data/products.json</code> to split the two into <code>null</code> and an explicit <code>notApplicable</code> reason</td></tr>
+<tr id="FLG-093"><td>FLG-093</td><td>The topic calendar asked the same question twice - consolidated, reversible</td><td>The planned-topic table (and the queue in <code>data/editorial.json</code>) carried rows that re-asked questions the site already answers: rows 06 and 11 both asked whether a 26-quart oven fits the counter (now answered by <a href="guide-counter-depth-fit.html">the counter-fit guide</a>, with row 11 marked Consolidated), row 09 re-asked the basket-vs-oven question (<a href="guide-basket-vs-oven.html">guide 01</a>), and row 12 re-asked the gift question (<a href="guide-gift-picks.html">the gift guide</a>) - the exact duplication problem <a href="#FLG-047">FLG-047</a> records. The 2026-11-20 passes consolidated those rows with links to the surviving guides (one question, one answer), published the three distinct queued questions (dual-vs-single, accessories, thermometer-need) rather than duplicating them, and replaced the typed guide counts on the guides and topic pages with counts computed from the data.</td><td>Owner: keep the consolidation (recommended), or restore any consolidated row as a standalone page - one status edit per row in <code>build_site.py</code>. Related decision: <a href="suggestions.html#SG-71">SG-71</a></td></tr>
+<tr id="FLG-094"><td>FLG-094</td><td>Two passes answered the same two questions on the same day - one page survives each</td><td>Parallel 2026-11-20 passes independently wrote answers to the dual-basket question and the accessories question. For the dual-basket question the draft at <a href="guide-dual-vs-single-basket.html">guide-dual-vs-single-basket.html</a> survives unchanged, and this pass&rsquo;s draft lives on as the consolidated page <a href="guide-dual-vs-single.html">guide-dual-vs-single.html</a> pointing at it. For the accessories question both passes wrote <a href="guide-accessories-included.html">guide-accessories-included.html</a> itself; the surviving content is the fuller checklist-and-table draft, with the other pass&rsquo;s baskets-count FAQ carried into it. The superseded drafts remain in this repository&rsquo;s history (see the merge commit for this session). Nothing is lost, but only one answer is published per question.</td><td>Owner: keep these choices (recommended), or restore either superseded draft from git history - each is one commit away. Related decision: <a href="suggestions.html#SG-71">SG-71</a></td></tr>
 
 <tr id="FLG-074"><td>FLG-074</td><td>Every feed item carries one date, and it is the listing re-read date</td><td>The RSS feed set <code>pubDate</code> from the listing verification date (<code>verifiedDate</code>) for all ten guides, so every item reads the same day. RSS 2.0 defines item <code>pubDate</code> as the publication date of the content (<a href="https://www.rssboard.org/rss-specification">RSS 2.0 spec, pubDate</a>). The generator now uses the page date (<code>contentDate</code>), as <code>data/editorial.json</code> already specifies. Today both values are 2026-11-20, so the feed output is unchanged. Per-guide publication dates are not recorded anywhere in the repo, and none is inferred here.</td><td>Owner of <code>data/editorial.json</code> to supply a publication date per guide (a <code>published</code> field) so each feed item can carry its own date</td></tr>
 <tr id="FLG-075"><td>FLG-075</td><td>Two guides are live before their cadence week</td><td>The cadence rule says one guide per week, published on Tuesday. The queue marks <code>guide-gift-picks.html</code> (week 2026-11-24) and <code>guide-instant-read-vs-wireless.html</code> (week 2026-12-08) as <code>published</code>, and both are live on 2026-11-20. The queue also has 2026-12-08 published before the queued 2026-12-01 topic. The status is read as "page exists", not "week reached". Nothing was hidden or re-dated in this pass.</td><td>Owner decision: keep both pages live now and reword the rule, or hold them until their Tuesday (sitemap and feed are generated from the build, so either path is a one-line change)</td></tr>
@@ -2255,15 +2332,22 @@ page_to("methodology.html","Method, events & campaign ledger | Countertop Guide"
 topic_rows = ""
 for t in TOPICS:
     src = " &middot; ".join(f'<a href="{u}">{esc(l)}</a>' for l, u in t["sources"])
-    status = f'<span class="status-published">{t["status"]}</span>' if t["status"] == "Published" else f'<span class="status-planned">{t["status"]} - editorial hypothesis</span>'
-    title_cell = f'<a href="{t["href"]}">{esc(t["title"])}</a>' if t["status"] == "Published" else esc(t["title"])
+    if t["status"] == "Published":
+        status = f'<span class="status-published">{t["status"]}</span>'
+        title_cell = f'<a href="{t["href"]}">{esc(t["title"])}</a>'
+    elif t["status"] == "Consolidated":
+        status = '<span class="status-consolidated">Consolidated - answered in the linked guide</span>'
+        title_cell = f'<a href="{t["href"]}">{esc(t["title"])}</a>'
+    else:
+        status = f'<span class="status-planned">{t["status"]} - editorial hypothesis</span>'
+        title_cell = esc(t["title"])
     topic_rows += f"""
 <tr id="t{t['n']}"><td>{t['n']}</td><td>{title_cell}</td><td>{esc(t['cat'])}</td><td>{status}</td><td>{esc(t['angle'])}</td><td>{esc(t['hooks'])}</td><td>{src}</td></tr>"""
 
 topics_body = f"""
 <p class="eyebrow">The desk &middot; Topic calendar</p>
 <h1>The topic calendar: {NUMW[len(TOPICS)]} buyer questions, spec-backed answers</h1>
-<p>{NUMW[sum(1 for t in TOPICS if t["status"]=="Published")].capitalize()} guides are published; {NUMW[sum(1 for t in TOPICS if t["status"]!="Published")]} are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
+<p>{NUMW[sum(1 for t in TOPICS if t["status"]=="Published")].capitalize()} guides are published; {NUMW[sum(1 for t in TOPICS if t["status"]=="Planned")]} are queued as working titles; {NUMW[sum(1 for t in TOPICS if t["status"]=="Consolidated")]} are answered by an existing guide and linked to it, so one question keeps one answer. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
 <div class="callout"><b>How this calendar works</b>
 <p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
 <h2>The calendar</h2>
@@ -2277,7 +2361,7 @@ topics_body = f"""
 """
 page_to("topics.html",
     f"Topic calendar: {NUMW[len(TOPICS)]} buyer questions | Countertop Guide",
-    f"{NUMW[sum(1 for t in TOPICS if t['status']=='Published')].capitalize()} published and {NUMW[sum(1 for t in TOPICS if t['status']!='Published')]} queued question-shaped titles, each with the verified listing fields and sources it is built from.",
+    f"{NUMW[sum(1 for t in TOPICS if t['status']=='Published')].capitalize()} published, {NUMW[sum(1 for t in TOPICS if t['status']=='Planned')]} queued and {NUMW[sum(1 for t in TOPICS if t['status']=='Consolidated')]} consolidated question-shaped titles, each with the verified listing fields and sources it is built from.",
     topics_body)
 
 
@@ -2671,6 +2755,41 @@ page_to("guide-instant-read-vs-wireless.html", "Instant-read vs wireless thermom
  "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure.",
  b10, j10, "guide-page")
 
+# ---------- GUIDE 13 (session 03ccc2ca): do you need a thermometer at all ----------
+b16, j16 = guide_shell("Guide - Thermometers - Buying", "Do you need a meat thermometer at all?",
+ "An oven dial reports the oven. A thermometer reports the food. That is the entire argument for owning one - and the argument for spending a little more is about which kind: a handheld read in about a second, or probes that report to your phone while you are in the other room.",
+ f"""
+<h2>What changes when the food, not the clock, decides</h2>
+<p>Timers and dials measure the machine&rsquo;s settings. The two thermometer listings on this site describe tools that measure the thing you are about to eat: the ThermoMaven states a one-second thermocouple read of the food with a stated &plusmn;0.5&deg;F tolerance and NIST and NSF certification named (per its title and bullets); the CHEF iQ Sense states three probes that report the food&rsquo;s temperature to a hub and an app while cooking continues (per its bullets). Neither claim tells you how anything tastes. Both remove the guesswork that a timer cannot touch.</p>
+
+<h2>What each listing states (read {{VERIFIED}})</h2>
+<div class="table-scroll"><table>
+<tr><th>Question</th><th>ThermoMaven instant-read (B0DHZTCNR5)</th><th>CHEF iQ Sense wireless (B0DZFD6R9Z)</th></tr>
+<tr><td>What it measures</td><td>One reading at a time, in your hand</td><td>Three probes at once, reported to the app</td></tr>
+<tr><td>Stated accuracy</td><td>&plusmn;0.5&deg;F, NIST and NSF certification named <span class="fine">(per title)</span></td><td>No tolerance figure in the fields we captured <span class="badge-warn">not stated</span></td></tr>
+<tr><td>Where it works</td><td>Grill, pan, oven door-check - you are holding it</td><td>Inside the cook, up to 1000&deg;F heat-safe probes <span class="fine">(per title)</span></td></tr>
+<tr><td>Included</td><td>One calibration certificate <span class="fine">(per included-components field)</span></td><td>Three probes plus a charging hub <span class="fine">(per bullets)</span></td></tr>
+<tr><td>Source</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">Amazon listing</a></td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">Amazon listing</a></td></tr>
+</table></div>
+
+<h2>Who actually needs one</h2>
+<p>The honest sorting question is not budget, it is habit. If you cook meat, bake bread, or make candy and currently judge doneness by look or by clock, the handheld answers the question the clock cannot. If you also leave the room during long cooks - smoke, roast, a bird with an hour to go - the probe set covers the gap a handheld never can. Most households that cook weekly need only the first; the second earns its place for specific cooks, and our <a href="guide-instant-read-vs-wireless.html">instant-read vs wireless guide</a> sorts that choice in detail.</p>
+
+<h2>The money question, kept honest</h2>
+<p>This page quotes no prices: they move, and the buy button goes to the live listing for a reason. On the <a href="guide-gifts-by-budget.html">gift-by-budget page</a> the handheld sits in the under-$25 band and the wireless set in a much higher one (bands are editorial frames, not price promises). The dated snapshots this desk read sit in the <a href="verification.html">verification register</a>. A useful way to think about it: the handheld is priced like a kitchen tool; the wireless set is priced like an appliance.</p>
+
+<h2>What the listings cannot tell you</h2>
+<p>We have not calibrated either unit or cooked with either. The tolerance and certification sentences above are the seller&rsquo;s claims, quoted with the certification they name - our <a href="guide-thermometer-accuracy.html">accuracy-claims guide</a> explains what those words do and do not prove. If a tolerance figure decides your purchase, find the manual on the listing before you order; the wireless listing states none in the fields we captured (<a href="flagged.html#FLG-071">FLG-071</a>).</p>
+""",
+ [("Is a meat thermometer worth buying?","If you cook anything where doneness matters and you currently guess, the listings describe tools that measure the food instead of the clock - a one-second read with a stated plus or minus 0.5 degree tolerance on the handheld (per its listing). Whether that is worth it is a cooking-habit question, not a spec question."),
+  ("Can I just use my oven's dial or timer?","An oven dial reports the oven's setting and a timer reports elapsed time; neither measures the food. A thermometer is the only tool here that does, which is what the listings' read-time and probe claims are about."),
+  ("Which thermometer should I start with?","Start with the handheld unless you leave the room during cooks. The full comparison - read time, probe count, range, and the accuracy figure one listing never states - is in the instant-read vs wireless guide."),
+  ("What does the calibration certificate include?","The ThermoMaven listing's included-components field states one calibration certificate is included. What the certificate contains is not described in the fields we captured - check the listing or ask the seller.")],
+ picks=("P4", "P5"))
+page_to("guide-do-you-need-a-thermometer.html", "Do you need a meat thermometer? | Countertop Guide",
+ "Oven dials report the oven; thermometers report the food. What an instant-read and a wireless probe set each measure - and when either earns its drawer space.",
+ b16, j16, "guide-page")
+
 
 # ---------- REVIEW DESK ----------
 desk_body = f"""
@@ -2790,6 +2909,11 @@ MERGED = [
   "Roast-thermometer guide | Countertop Guide",
   "This URL now points at the thermometer accuracy guide: what a stated tolerance, a named certification and a sensor count each do and do not prove.",
   "Roast like a pro"),
+ ("guide-dual-vs-single.html", "guide-dual-vs-single-basket.html",
+  "Two baskets or one: what dual-zone cooking actually changes",
+  "Two baskets or one big basket? | Countertop Guide",
+  "This URL now points at the dual-basket guide: what a two-basket split changes at dinner time, decided on the listings' own form, capacity and care facts.",
+  "Two baskets or one big basket?"),
 ]
 for slug, target, dest, title, desc, h1 in MERGED:
     merged_body = f"""<p class="eyebrow">Guide</p>
@@ -2829,7 +2953,8 @@ GUIDES = [
  ("guide-instant-read-vs-wireless.html","Instant-read vs wireless thermometer: do you need both?","Two thermometers, two jobs: a one-second handheld read against three probes monitored from a phone, and the accuracy figure one listing never states."),
  ("guide-counter-depth-fit.html","Will a 26-quart oven fit your counter? The depth and height math","Depth, height and footprint arithmetic from the listed dimensions, converted to centimetres and repeated step by step."),
  ("guide-dual-vs-single-basket.html","Two baskets or one: what dual-zone cooking actually changes","Dual-basket versus single-basket versus oven-cavity cooking, decided on the listings' own form, capacity and care facts."),
- ("guide-accessories-included.html","What's actually in the box: accessories, per the listing","Included parts for the five verified picks, stated exactly as each listing shows them, including the count the listing gives two ways."),
+ ("guide-accessories-included.html","Air fryer accessories: which ones the listing actually includes","Title, bullets and item-details can disagree - one of our listings says six accessories and seven at once. A checklist for the box before you order."),
+ ("guide-do-you-need-a-thermometer.html","Do you need a meat thermometer at all?","An oven dial reports the oven; a thermometer reports the food. What each listing states, and when either kind earns its drawer space."),
 ]
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',

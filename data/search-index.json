@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "16 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
+    "text": "17 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -60,9 +60,9 @@
     "text": "Dual-basket, single-basket and oven-cavity cooking, decided on the listings' own form, capacity and care facts."
   },
   {
-    "title": "Accessories in the box, per the listing",
+    "title": "Air fryer accessories: what's in the box",
     "url": "guide-accessories-included.html",
-    "text": "Included parts for all five verified picks, as each listing states them - including one count the listing gives two ways."
+    "text": "Title, bullets and item-details can disagree about what ships - one of our listings says six accessories and seven at once. A checklist for the box before you order."
   },
   {
     "title": "Executive summary for the owner",
@@ -72,7 +72,7 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "62 suggestions and 41 questions with options, evidence and trade-offs, mapped to the seven gates on the decision register."
+    "text": "65 suggestions and 43 questions with options, evidence and trade-offs, mapped to the seven gates on the decision register."
   },
   {
     "title": "Decision register: seven gates, in order",
@@ -100,9 +100,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: fifteen buyer questions",
+    "title": "Topic calendar: seventeen buyer questions",
     "url": "topics.html",
-    "text": "Twelve published and three queued question-shaped titles, each with the verified listing fields and sources it is built from."
+    "text": "Fourteen published, one queued and two consolidated question-shaped titles, each with the verified listing fields and sources it is built from."
   },
   {
     "title": "Search the guides and products",
@@ -153,6 +153,11 @@
     "title": "Instant-read vs wireless thermometer",
     "url": "guide-instant-read-vs-wireless.html",
     "text": "A one-second handheld read against three probes monitored from a phone: what each listing states, including the one that states no accuracy figure."
+  },
+  {
+    "title": "Do you need a meat thermometer?",
+    "url": "guide-do-you-need-a-thermometer.html",
+    "text": "Oven dials report the oven; thermometers report the food. What an instant-read and a wireless probe set each measure - and when either earns its drawer space."
   },
   {
     "title": "Review desk: register & open items",

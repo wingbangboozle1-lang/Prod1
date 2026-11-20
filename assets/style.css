@@ -526,8 +526,10 @@ code { font-family: var(--mono); font-size: .88em; background: var(--surface-2);
 }
 .status-published { color: var(--good); font-weight: 700; }
 .status-planned { color: var(--warn); font-weight: 700; }
+.status-consolidated { color: var(--ink-2); font-weight: 700; }
 .topic-list a b.status-published { background: var(--teal-soft); color: var(--teal); }
 .topic-list a b.status-planned { background: #FBF0D9; color: var(--warn); }
+.topic-list a b.status-consolidated { background: var(--tint); color: var(--ink-2); }
 
 /* ---------------------------------------------------------------- trust row */
 .trust-row {
