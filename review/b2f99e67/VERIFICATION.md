@@ -71,3 +71,20 @@ here only for consistency and were **not changed**.
 - The flagged register (FLG-085/086 at the foot): https://wingbangboozle1-lang.github.io/Prod1/flagged.html
 - Design prompt §10: `DESIGN_PROMPT.md` in the repository root
 - Policy sources: the three URLs in §1 above
+
+## 7. Addendum — pre-PR rebase onto origin/main (2026-11-20)
+
+The branch rebased onto `main` @ `726a977` before the PR; conflicts were resolved with
+both sides kept, and everything this pass publishes was re-checked on the merged tree:
+
+- This pass's flags renumbered **FLG-085→FLG-091**, **FLG-086→FLG-092** (parallel passes
+  had taken FLG-085/086 for different rows). Every reference in this pass's copy updated.
+- `data/decisions.json`: ghost theme ids (Q-43, Q-44, SG-60 — rows deleted in earlier
+  merges) removed; four double-classified rows (Q-02, Q-14, SG-33, SG-43) kept in their
+  first theme only, as main's new generator gate now requires. Recorded in COORDINATION.md.
+- Re-ran on the merged tree: build exit 0, no warnings; `check_site` PASSED (62 HTML),
+  `check_meta` PASSED (0 warnings), `check_style` PASSED, `check_measure` PASSED (37
+  pages), `verify_structure` PASSED, `counter-check` PASSED. Rebuild byte-identical.
+- The §2 claims re-checked against the merged output: slate renders 7 gates; SG-65…70 and
+  Q-45…48 rows present and triaged; theme-color `#1E1712` on every page; the five-event
+  contract untouched.

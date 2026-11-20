@@ -1474,3 +1474,30 @@ Full detail, including what was deliberately not verified: `review/b2f99e67/VERI
 **ID usage:** reserved SG-65…SG-70, Q-45…Q-48, FLG-085…FLG-092; used SG-65…70, Q-45…48, FLG-085/086. FLG-087…092 remain reserved and unused, so a later session can take them without renumbering.
 
 **Requests logged (not edited):** to the owner of the `articles/`/`docs/` builds — fold root `app.js` into the five-event contract or retire it with its build (FLG-086; the build question is SG-51 / FLG-070).
+
+#### Merge resolution — arena/b2f99e67-prod1 ← origin/main (2026-11-20, pre-PR rebase onto 726a977)
+
+`main` had advanced to PR #92 while this pass was in flight (sessions 84799c33, 0c26f71b,
+dd9f338f, 1d3cc97c and others). Resolved without discarding either side:
+
+- **Generated-file conflicts were resolved in the generator, then rebuilt** — never by hand:
+  `build_site.py` (5 hunks) keeps both sides' rows, cards and builder functions (their
+  `decision_maker()` answer-line tool + my `_slate_rows` picker; their SG-58/59 rows and
+  Q-42 row + my SG-65…70 and Q-45…48); `data/decisions.json` merged semantically (their
+  themes + mine); `DESIGN_PROMPT.md` kept both passes' sections (their §10 front-page
+  record, mine renumbered to §11); `assets/app.js` kept their `ctgDecision` tool and my
+  generalized `select[data-pick]` tooling.
+- **Flag renumber (collision):** parallel passes took FLG-082…FLG-090 for their rows,
+  including their own FLG-085/086. This pass's rows renumbered to **FLG-091** (theme-color
+  tell, fixed) and **FLG-092** (second measurement vocabulary, open). All references in
+  this pass's copy updated.
+- **Register repair (found by main's new hard gate):** `data/decisions.json` classified
+  Q-02, Q-14, SG-33 and SG-43 in two themes each (the irregularity fe0774e7 left for the
+  register owner) and pointed at ghost ids Q-43, Q-44, SG-60 that no longer exist on the
+  board. Main's rebuilt generator now hard-fails on duplicates and warns on ghosts. Fixed
+  as the gate instructs: each row kept in its first (original) theme, ghosts removed from
+  themes. Logged here because it edits the shared register.
+- **Gates on the merged tree (all green):** `check_site` PASSED (62 HTML) · `check_meta`
+  PASSED (0 warnings) · `check_style` PASSED · `check_measure` PASSED (37 pages wired) ·
+  `verify_structure` PASSED · `counter-check` PASSED · build exit 0 with no warnings ·
+  rebuild byte-identical.
