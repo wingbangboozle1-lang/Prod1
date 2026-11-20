@@ -403,3 +403,15 @@ Branch `arena/1187e20d-prod1` (base `c42d017`, main). Scope: a dated re-verifica
 | FLG-001 Associates Special Link test | **open — needs owner** | — | — | Requires login to Associates Central (no session can do this) | Blocks nothing in the publish, per the brief. |
 
 Gates on this branch: `python3 build_site.py` (deterministic, only `index.html` and `build_site.py` changed); `node scripts/check_site.mjs` PASSED (54 files); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED.
+
+## Session arena/963ca90f-prod1 (2026-11-20) — re-verification and gate pass
+
+Scope: re-run the publishing gates, confirm the live site, and re-check the five submitted ASINs against their Amazon.com listings. No data, copy or generator changes were needed; the rebuild was byte-identical to the committed output.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-963 Re-verify five ASINs and live site; gate pass | done | arena/963ca90f-prod1 | COORDINATION.md only | Amazon.com listing pages fetched 2026-11-20: https://www.amazon.com/dp/B0CDY277D3 (P1 title matches data/products.json), https://www.amazon.com/dp/B09B7SB46R (P2 title matches), https://www.amazon.com/dp/B08DKYBTPH (P3 title matches), https://www.amazon.com/dp/B0DHZTCNR5 (P4 title matches), https://www.amazon.com/dp/B0DZFD6R9Z (P5 title matches). Live site https://wingbangboozle1-lang.github.io/Prod1/ fetched 2026-11-20: disclosure above the fold, `tag=shopnow047c-20` on outbound links. Gates: `python3 build_site.py` (rebuild clean, no diff); `node scripts/check_site.mjs` PASSED (54 HTML); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED (16 pages, 5 products, 21 flags). | None new. Prices/ratings on the listings are live figures and were not re-scored; the dated snapshots in data/products.json are unchanged and remain subject to FLG-023. |
+
+**Still open, and requires the owner (cannot be closed from this sandbox):** the Special Link validation for each product in the enrolled Associates workflow (FLG-001 / SG-01) needs an Associates account login; analytics endpoint hosting (FLG-008 / SG-03); photography licence (FLG-009 / SG-04); API-policy decision (FLG-023); custom domain (SG-02); wattage conflict on P3 (FLG-022). These stay on flagged.html.
+
+**Live-site note.** The sandbox cannot reach github.io directly (no outbound access to that host), so the live check was made through the page fetch tool, not curl.
