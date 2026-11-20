@@ -920,6 +920,15 @@ Session ID: **arena/5da138fb-prod1**. Branch `arena/5da138fb-prod1`, branched fr
 | T-5DA-I Integration: PR to main, merge, confirm Pages deploy | in progress | arena/5da138fb-prod1 | `COORDINATION.md`, `review/5da138fb/` | PR created from `arena/5da138fb-prod1` → `main`; merge and Pages deploy to be confirmed in this session | — |
 
 
+### Publication record — session arena/74c7c936-prod1 (2026-11-20)
+
+- **Pull request #59** (`arena/74c7c936-prod1` → `main`, T-74C-1 capability/publishing statement corrections: `build_site.py`, generated `executive-summary.html`, `README.md`, `COORDINATION.md`): https://github.com/wingbangboozle1-lang/Prod1/pull/59 — merged with a merge commit `8ae779c`, without waiting for approval.
+- **Deploy confirmed on the merge commit:** `Deploy GitHub Pages` run `44690821198` on `8ae779c`: success. `pages build and deployment` run `44690820641`: success. Live `executive-summary.html` fetched after the deploy serves the corrected five-gate wording, the legacy-Pages caveat with the FLG-051 link, the "not hosted yet" endpoint language, and the new "Automation boundary" section.
+- **Live-check note:** the sandbox cannot curl `github.io` directly (TLS blocked); the live fetch was done through the platform page fetcher. The Pages API briefly reported `status: errored` while concurrent sessions' overlapping builds superseded each other; that was not caused by this merge, and the runs for `8ae779c` themselves are green.
+- **Merge-conflict handling:** the pre-PR rebase conflicted in this file only (this record vs the session 9d2f2b53 record); both sections kept, repo-wide conflict-marker scan run before continuing. No other session's work discarded.
+- **PR tooling note:** the first PR body was mangled by shell backtick expansion in `gh pr create`; rewritten via the REST API before merge. Use a body file for backticked markdown.
+- **Unchanged open owner gates:** FLG-001/SG-01 (Special Link test), FLG-015/Q-35 (tracking report), FLG-008/SG-03 (endpoint host), FLG-009/SG-04 (photography licence), FLG-032/SG-19 (link-only pricing), SG-02 (custom domain), SG-43 (Pages build source), and the decision-register gates.
+- **Status:** T-74C-1 **done**. No open claims from this session.
 ### Merge record — session arena/3ca58211-prod1 (2026-11-20)
 
 - **Pull request:** https://github.com/wingbangboozle1-lang/Prod1/pull/63 (`arena/3ca58211-prod1` → `main`) — **merged with a merge commit `d7a3c26` at 2026-11-20 ≈06:52 UTC**, no approval wait, per the standing brief. One conflict round during the PR's life (`main` advanced to `c08fd15`, PR #62); resolved by keeping both sessions' COORDINATION records in full; logged in the record above.
