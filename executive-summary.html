@@ -53,7 +53,7 @@
 <p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
 
 <div class="grid cols-3">
-  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, nine question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, 12 question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on 2026-11-19, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
   <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
 </div>
@@ -73,7 +73,7 @@
 <ul>
 <li><strong>Product facts</strong> come from each product&rsquo;s own listing, read on 2026-11-19, with the URL recorded per field in the <a href="verification.html">verification register</a>. Where a listing contradicts itself, both values are published and flagged rather than silently resolved (<a href="flagged.html#FLG-002">FLG-002</a>, <a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-022">FLG-022</a>).</li>
 <li><strong>Policy text</strong> was read from the official pages and quoted, not summarised from memory: Operating Agreement &sect;5 (disclosure), Program Policies (price and availability, ratings), Google Search Central (outbound link qualification), FTC (disclosure placement). Sources are listed on <a href="compliance.html">the compliance page</a> with the read date.</li>
-<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, and four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy, and now that every CSS class actually has a style. A page that fails cannot merge.</li>
+<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy and that every CSS class has a style, and the build itself refuses to write a comparative sentence (the narrowest, the deepest, the biggest) that data/products.json no longer supports. See the <a href="verification.html#claim-audit">claim audit</a>. A page that fails cannot merge.</li>
 </ul>
 
 <h2>What is not claimed, and why</h2>
@@ -105,6 +105,16 @@
 <li><strong>Write the next guide from measured queries</strong>, four weeks after step 2, not from instinct.</li>
 </ol>
 <p class="fine">Full working list: <a href="suggestions.html">the decision desk</a> (options, trade-offs, effort, and what each one unblocks) and <a href="flagged.html">Flagged for review</a> (every irregularity, with its source).</p>
+
+<h2>Latest pass, 2026-11-20</h2>
+<p>Session <code>42e09357</code>. What changed on the site, and what was deliberately not touched:</p>
+<ul class="tight">
+<li><strong>Three holiday-window guides published</strong> (counter fit before Thanksgiving, the ten-minute listing check for the buying window, the gift receipt test), each built only from fields in the register, each added to the calendar, the sitemap and the feed. The one-guide-a-week rule was deviated from on purpose and the deviation is recorded in <code>data/editorial.json</code>, not smoothed over.</li>
+<li><strong>A decision register</strong> at <a href="decisions.html">decisions.html</a>: the 70-row board collapsed into seven gates, each with what an official source already settles, what is missing, the steps that would produce it, and who can take them. The build refuses to write the page if any board row is unclassified.</li>
+<li><strong>Shop pages reworded</strong> where they read like an audit, and <strong>footprint drawings added</strong> to each product card, drawn to one shared scale from the inches the listing states. No Amazon imagery, because that licence question is still open.</li>
+<li><strong>A dated partial re-read</strong> of the five listings: titles confirmed on 2026-11-20, one buy-box price attributable and matching; the rest of the register keeps its 2026-11-19 field dates because those fields were not re-read in this pass.</li>
+<li><strong>Not changed:</strong> no price or rating figure was added anywhere, no testing claim, no popularity claim, no commission or revenue figure, no change to the disclosure, and no new product. The two brand-name sites under <code>counter-check/</code> and <code>docs/</code> are untouched, and their consolidation is still an owner decision (SG-22, Q-18).</li>
+</ul>
 
 </main>
 

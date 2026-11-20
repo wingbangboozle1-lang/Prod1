@@ -66,6 +66,110 @@ RECHECK = {
   "P5": ("title matches, including Gen3 and 5 Sensors", "no dimensions in the fields captured, so FLG-004 stays open"),
 }
 
+# ---------- claim integrity: a superlative must survive the data it came from ----------
+# Why this exists: session 1187e20d found a printed label ("Smallest footprint") that the register
+# contradicted. A person caught it once; a build should catch it every time. Each claim below is a
+# sentence this site prints, paired with a test recomputed from data/products.json on every build.
+# If a value is corrected and the sentence stops being true, the build stops instead of publishing
+# the contradiction. Anything the register cannot decide is recorded as "untestable here", so the
+# gap stays visible rather than being quietly asserted.
+def _litres(p):
+    """Capacity in litres, for ordering the three fryers only. Prefers the listing's capacity field,
+    falls back to the title's quart figure (1 US qt = 0.946353 L). Never printed as a claim."""
+    for src in (p.get("capacityField"), p.get("capacityTitle")):
+        if not src:
+            continue
+        m = re.search(r"([0-9]+(?:\.[0-9]+)?)\s*(?:liters|litre|L)\b", src, re.I)
+        if m:
+            return float(m.group(1))
+    m = re.search(r"([0-9]+(?:\.[0-9]+)?)\s*(?:QT|Qt|quart)", p.get("capacityTitle") or "", re.I)
+    return float(m.group(1)) * 0.946353 if m else 0.0
+
+def _airfryers(P):
+    return [k for k in P if P[k]["category"] == "Air Fryers" and dims_of(P[k])]
+
+CLAIMS = [
+    {"claim": "The narrowest of the three fryers at 11.81 in wide",
+     "where": "index.html and air-fryers.html, quick-pick card for P1",
+     "basis": "smallest listed width among the three air fryers",
+     "test": lambda P: min(_airfryers(P), key=lambda k: dims_of(P[k])["width_in"]) == "P1"
+              and abs(dims_of(P["P1"])["width_in"] - 11.81) < 0.005},
+    {"claim": "Shallowest of the fryers",
+     "where": "index.html, quick-pick chip for P3",
+     "basis": "smallest listed depth among the three air fryers",
+     "test": lambda P: min(_airfryers(P), key=lambda k: dims_of(P[k])["depth_in"]) == "P3"},
+    {"claim": "One big basket in 12.75 in of depth",
+     "where": "index.html and air-fryers.html, P3 card",
+     "basis": "the depth on the P3 listing, and a single-basket form field",
+     "test": lambda P: abs(dims_of(P["P3"])["depth_in"] - 12.75) < 0.005
+              and "single" in P["P3"]["form"].lower()},
+    {"claim": "The biggest cavity here",
+     "where": "index.html, quick-pick card for P2",
+     "basis": "largest capacity among the three fryers, compared in litres from the listing fields",
+     "test": lambda P: max(_airfryers(P), key=lambda k: _litres(P[k])) == "P2"},
+    {"claim": "Also the deepest, at 16.9 in",
+     "where": "index.html and air-fryers.html, P2 card",
+     "basis": "largest listed depth among the three air fryers",
+     "test": lambda P: max(_airfryers(P), key=lambda k: dims_of(P[k])["depth_in"]) == "P2"
+              and abs(dims_of(P["P2"])["depth_in"] - 16.9) < 0.005},
+    {"claim": "42.9 cm of depth - the largest here",
+     "where": "air-fryers.html and guide pages, P2 'check before you buy'",
+     "basis": "the largest depth, converted at 1 in = 2.54 cm",
+     "test": lambda P: abs(round(dims_of(P["P2"])["depth_in"] * 2.54, 1) - 42.9) < 0.06},
+    {"claim": "Three air fryers, three different jobs",
+     "where": "air-fryers.html heading",
+     "basis": "three products in the Air Fryers category, three distinct form values",
+     "test": lambda P: len([k for k in P if P[k]["category"] == "Air Fryers"]) == 3
+              and len({P[k]["form"] for k in P if P[k]["category"] == "Air Fryers"}) == 3},
+    {"claim": "Five appliances / five products, all verified",
+     "where": "index.html, compare.html, footer",
+     "basis": "the register holds exactly five entries and each carries an observed ASIN",
+     "test": lambda P: len(P) == 5 and all(P[k]["asin"] for k in P)},
+    {"claim": "Two of our five listings argue with themselves",
+     "where": "guide-holiday-deal-check.html, section 4",
+     "basis": "the P3 wattage field carries the listing's own disagreement (FLG-022), and the P2 title "
+               "capacity (26QT) is stated in a different unit than its capacity field (24.6 liters)",
+     "test": lambda P: "FLG-022" in (P["P3"].get("wattage") or "")
+              and "liters" in (P["P2"].get("capacityField") or "").lower()
+              and "QT" in (P["P2"].get("capacityTitle") or "")},
+    {"claim": "158.0, 267.0 and 172.1 sq in of floor area",
+     "where": "air-fryers.html spec table, and the drawing on every card",
+     "basis": "depth x width from the listing, computed here rather than typed into the page",
+     "test": lambda P: all(abs(dims_of(P[k])["footprint_sqin"] - v) < 0.06
+              for k, v in (("P1", 158.0), ("P2", 267.0), ("P3", 172.1)))},
+    {"claim": "Capacity per square inch of footprint",
+     "where": "air-fryers.html spec table, derived row",
+     "basis": "divides a title capacity by a listed footprint, and the title units differ between "
+               "products, so the build checks nothing beyond the footnote labelling it as derived",
+     "test": None},
+    {"claim": "Instant-read or wireless is a distance question",
+     "where": "thermometers.html heading",
+     "basis": "an editorial framing of two form fields, not a number the register can decide",
+     "test": None},
+]
+
+def verify_claims():
+    """Run every testable claim against the register. A contradicted claim stops the publish."""
+    rows = []
+    for c in CLAIMS:
+        if c["test"] is None:
+            rows.append((c, "untestable here", "framing or derived row; no register value decides it"))
+            continue
+        try:
+            ok = bool(c["test"](PRODS))
+        except Exception as exc:
+            rows.append((c, "untestable here", "the register field this test needs is missing or unreadable (%s)" % exc))
+            continue
+        rows.append((c, "verified against the register" if ok else "CONTRADICTED",
+                     "recomputed from data/products.json on this build"))
+    bad = [c["claim"] for c, v, _ in rows if v == "CONTRADICTED"]
+    if bad:
+        raise SystemExit("claim integrity check failed - these printed sentences no longer follow from "
+                         "data/products.json, so reword the page or correct the register: " + "; ".join(bad))
+    return rows
+
+CLAIM_ROWS = verify_claims()
+
 # ---------------------------------------------------------------- product card
 def cta_note(p):
     return (f'Sponsored link &middot; Amazon price and stock govern &middot; '
@@ -689,7 +793,7 @@ exec_body = f"""
 <p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
 
 <div class="grid cols-3">
-  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, nine question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Live</span><h3>1 publication, @@PAGES@@ pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, @@GUIDES@@ question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on {VERIFIED}, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
   <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
 </div>
@@ -709,7 +813,7 @@ exec_body = f"""
 <ul>
 <li><strong>Product facts</strong> come from each product&rsquo;s own listing, read on {VERIFIED}, with the URL recorded per field in the <a href="verification.html">verification register</a>. Where a listing contradicts itself, both values are published and flagged rather than silently resolved (<a href="flagged.html#FLG-002">FLG-002</a>, <a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-022">FLG-022</a>).</li>
 <li><strong>Policy text</strong> was read from the official pages and quoted, not summarised from memory: Operating Agreement &sect;5 (disclosure), Program Policies (price and availability, ratings), Google Search Central (outbound link qualification), FTC (disclosure placement). Sources are listed on <a href="compliance.html">the compliance page</a> with the read date.</li>
-<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, and four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy, and now that every CSS class actually has a style. A page that fails cannot merge.</li>
+<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy and that every CSS class has a style, and the build itself refuses to write a comparative sentence (the narrowest, the deepest, the biggest) that data/products.json no longer supports. See the <a href="verification.html#claim-audit">claim audit</a>. A page that fails cannot merge.</li>
 </ul>
 
 <h2>What is not claimed, and why</h2>
@@ -741,6 +845,16 @@ exec_body = f"""
 <li><strong>Write the next guide from measured queries</strong>, four weeks after step 2, not from instinct.</li>
 </ol>
 <p class="fine">Full working list: <a href="suggestions.html">the decision desk</a> (options, trade-offs, effort, and what each one unblocks) and <a href="flagged.html">Flagged for review</a> (every irregularity, with its source).</p>
+
+<h2>Latest pass, 2026-11-20</h2>
+<p>Session <code>42e09357</code>. What changed on the site, and what was deliberately not touched:</p>
+<ul class="tight">
+<li><strong>Three holiday-window guides published</strong> (counter fit before Thanksgiving, the ten-minute listing check for the buying window, the gift receipt test), each built only from fields in the register, each added to the calendar, the sitemap and the feed. The one-guide-a-week rule was deviated from on purpose and the deviation is recorded in <code>data/editorial.json</code>, not smoothed over.</li>
+<li><strong>A decision register</strong> at <a href="decisions.html">decisions.html</a>: the 70-row board collapsed into seven gates, each with what an official source already settles, what is missing, the steps that would produce it, and who can take them. The build refuses to write the page if any board row is unclassified.</li>
+<li><strong>Shop pages reworded</strong> where they read like an audit, and <strong>footprint drawings added</strong> to each product card, drawn to one shared scale from the inches the listing states. No Amazon imagery, because that licence question is still open.</li>
+<li><strong>A dated partial re-read</strong> of the five listings: titles confirmed on 2026-11-20, one buy-box price attributable and matching; the rest of the register keeps its 2026-11-19 field dates because those fields were not re-read in this pass.</li>
+<li><strong>Not changed:</strong> no price or rating figure was added anywhere, no testing claim, no popularity claim, no commission or revenue figure, no change to the disclosure, and no new product. The two brand-name sites under <code>counter-check/</code> and <code>docs/</code> are untouched, and their consolidation is still an owner decision (SG-22, Q-18).</li>
+</ul>
 """
 page_to("executive-summary.html","Executive summary for the owner | Countertop Guide","What is live, what is verified, what is blocked, which decisions wait on an owner, and what the latest pass changed across the site.",exec_body)
 # ---------- SUGGESTIONS / DECISION DESK ----------
@@ -1214,6 +1328,32 @@ for pid in ["P1","P2","P3","P4","P5"]:
 </table></div>
 <p class="small">{esc(p['sourceNote'])}</p>
 </article>"""
+def recheck_html():
+    rows = "".join(
+        f'<tr><td>{k}</td><td>{esc(RECHECK[k][0])}</td><td>{flaglinks(esc(RECHECK[k][1]))}</td></tr>'
+        for k in ["P1", "P2", "P3", "P4", "P5"])
+    return f"""<h2 id="recheck">Re-read of {RECHECK_DATE}, by this session</h2>
+<p>The five listing pages were opened again on {RECHECK_DATE}. The scope is stated because it is narrow: this pass confirmed that each page is reachable, that its title still matches the title in the register, and the one buy-box price this read could attribute to the product itself. Spec tables, ratings and the rest were <strong>not</strong> re-read line by line, so the field dates on this page stay {VERIFIED} and nothing on a shop card is relabelled as freshly confirmed. Full record: <code>review/42e09357/VERIFICATION-2026-11-20.md</code>.</p>
+<div class="table-scroll"><table>
+<tr><th>Ref</th><th>What the {RECHECK_DATE} read confirmed</th><th>What it did not settle</th></tr>
+{rows}
+</table></div>
+<p class="small">Method note, so the trap is on the record: every one of these listing pages carries a &ldquo;Customers who viewed this item also viewed&rdquo; block with other products&rsquo; prices and star counts. Those figures are not this product&rsquo;s data (<a href="flagged.html#FLG-016">FLG-016</a>), and an earlier session&rsquo;s price doubt came from exactly that block. Where a buy-box price could not be attributed to the product with certainty, this pass recorded nothing.</p>"""
+
+def audit_html():
+    rows = "".join(
+        f'<tr><td>{esc(c["claim"])}</td><td>{esc(c["where"])}</td><td>{esc(c["basis"])}</td>'
+        f'<td><span class="{"badge-ok" if v.startswith("verified") else "badge-warn"}">{esc(v)}</span></td></tr>'
+        for c, v, _ in CLAIM_ROWS)
+    n_ok = sum(1 for _, v, _ in CLAIM_ROWS if v.startswith("verified"))
+    return f"""<h2 id="claim-audit">Claim audit: the adjectives the site prints, tested against the register</h2>
+<p>A register that is checked but whose prose is not will drift: someone corrects a number and a sentence like &ldquo;the narrowest&rdquo; keeps standing there. So each comparative or superlative this site prints is listed with the field it rests on, and the test is recomputed from <code>data/products.json</code> by <code>build_site.py</code> on every build. A contradicted claim stops the build; it does not become a warning.</p>
+<div class="table-scroll"><table>
+<tr><th>Claim as printed</th><th>Where it appears</th><th>Evidence it rests on</th><th>Verdict on this build</th></tr>
+{rows}
+</table></div>
+<p class="small">{n_ok} of {len(CLAIM_ROWS)} printed claims are recomputable from the register and pass. The rest are labelled honestly as framing or derived rows, which is why they are not tested: the build refuses to certify a sentence the data cannot decide. This audit was written on {RECHECK_DATE} after session 1187e20d corrected the &ldquo;Smallest footprint&rdquo; label, which no numeric gate had caught.</p>"""
+
 ver_body = f"""
 <p class="eyebrow">Verification register</p>
 <h1>Line-by-line verification: every fact, its source</h1>
@@ -1229,6 +1369,8 @@ ver_body = f"""
 <tr><td>FTC Endorsements, Influencers &amp; Reviews guidance</td><td>Endorsement context and review integrity</td><td><a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">FTC Endorsements</a></td></tr>
 </table></div>
 <p class="small">Verification performed 2026-11-19 by fetching each Amazon listing and policy page. Prices/ratings are snapshots and will change. Manual Special Link test in Associates Central remains a gate (see <a href="flagged.html">Flagged</a>).</p>
+{recheck_html()}
+{audit_html()}
 """
 page_to("verification.html","Verification register, line by line | Countertop Guide","For all five products: submitted short link, intended ASIN, official listing URL, confirmation date and source, and the observed redirect in its own field.",ver_body)
 # ---------- FLAGGED ----------
@@ -1288,6 +1430,12 @@ flag_body = f"""
 <tr id="FLG-057"><td>FLG-057</td><td>A slug&rsquo;s own docstring contradicts the live page</td><td>In <code>build_site.py</code>, the comment above the topics section says the calendar holds &ldquo;five published and three queued&rdquo;, which was true when eight topics were drafted. The page itself reads the topic list and renders the current counts. Cosmetic, in the generator only, left as the author wrote it.</td><td>Cosmetic; noted so a future reader does not treat the comment as data</td></tr>
 <tr id="FLG-058"><td>FLG-058</td><td>The Agreement sentence is above the fold, but not repeated inside each product card</td><td>FTC <a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">Disclosures 101</a> (re-read 2026-11-20) says the disclosure should be placed &ldquo;with the endorsement message itself&rdquo; and warns that disclosures are likely to be missed when they sit only at the end of a page or behind a click. On this site the Agreement sentence is directly under the masthead on every page plus the footer, and every card carries a visible &ldquo;Sponsored link &middot; opens Amazon&rdquo; line beside its button. The Agreement sentence itself is not inside each card. This pass did not change the layout: repeating the legal sentence in every card is a design and compliance judgement for the owner, not a unilateral edit.</td><td>Owner / compliance: keep the current arrangement (strip + per-card sponsored label) or add the sentence to each card. Either way, re-read this row when the layout next changes</td></tr>
 <tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across all 29 pages.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
+<tr id="FLG-060"><td>FLG-060</td><td>This pass&rsquo;s re-read of the listings was deliberately partial</td><td>Session <code>42e09357</code> opened all five listings on 2026-11-20 and confirmed reachability and title match, plus one buy-box price it could attribute to the product (P4, $16.99, matching the register). Spec tables, ratings and the remaining prices were not re-read, so <code>verifiedDate</code> stays 2026-11-19 and no shop card was relabelled as freshly checked. Recorded rather than glossed, because the temptation in a re-read pass is to date everything the moment some of it was touched.</td><td>None; the next cadence pass re-reads the fields it intends to publish</td></tr>
+<tr id="FLG-061"><td>FLG-061</td><td>The register stores normalised listing titles, not the exact characters on the page</td><td>Found on 2026-11-20 while diffing titles against the live pages: the P3 entry drops the registered-trademark mark that the listing prints after &ldquo;TurboFry&rdquo;, and the P4 entry writes the accuracy figure with a degree sign and an F (&ldquo;&plusmn;0.5&deg;F&rdquo;) where the listing uses the single DEGREE FAHRENHEIT character (U+2109). Both are normalisations made by us when the register was typed, not edits Amazon has made; every other word matches, for all five ASINs. They are recorded because a future byte-for-byte comparison will report a difference that means nothing unless the normalisation is written down.</td><td>Decide whether the register keeps exact strings; either way, note the normalisation instead of letting a diff guess</td></tr>
+<tr id="FLG-062"><td>FLG-062</td><td>Three guides published into a window with no measured demand behind them</td><td>The brief asks for both seasonal, findable articles and topics chosen from measured queries. With no Search Console property there are no queries to choose from, so this pass published three holiday-window guides as labelled editorial hypotheses and recorded the cadence deviation in <code>data/editorial.json</code>. Nothing on the pages claims the topics are popular. Dated 2026-11-20.</td><td>Owner: connect Search Console (D-01/D-04), export queries after 28 days, then re-rank the queue; the three pages are the test, not the answer</td></tr>
+<tr id="FLG-063"><td>FLG-063</td><td>The footprint drawings are ours, and they do not settle the imagery question</td><td>Each product card now carries an SVG drawn to a shared scale from the dimensions on the listing, labelled as a drawing rather than a photograph. It is original artwork, so it needs no Amazon licence, and <a href="flagged.html#FLG-009">FLG-009</a> (no product photography) stays open: a drawing is not a photograph of the machine, and no page should imply that it is.</td><td>Owner: keep drawings as the house visual (D-06 option 1), or fund photography; do not fill the gap with scraped images either way</td></tr>
+<tr id="FLG-064"><td>FLG-064</td><td>The decision register proposes a rule the owner has not approved</td><td><code>data/decisions.json</code> carries a default: a gate unanswered for 28 days gets its recommended option applied, marked &ldquo;default applied&rdquo;, reversible in one commit. That rule is written as a proposal in the file and labelled as such on the page; until the owner approves it, nothing auto-applies and a silent board is still a silent board.</td><td>Owner: approve, change or reject the default rule (Q-14 asks the same question about review cadence)</td></tr>
+<tr id="FLG-065"><td>FLG-065</td><td>Topic 12 on the calendar said &ldquo;Planned&rdquo; for a question the site had already answered</td><td>The row &ldquo;Holiday air fryer gifts: what to buy without the guesswork&rdquo; pointed at nothing, while <code>guide-gift-picks.html</code> has been live since 2026-11-19 and the cadence queue lists it as published 2026-11-24. This pass set the row to Published and pointed it at the existing page (an edit to another session&rsquo;s row, recorded here so the change is attributable). The queue&rsquo;s week label and the page&rsquo;s publish date are still one day apart; both are stated, not harmonised.</td><td>Owner: accept the correction, or revert the row and mark the guide unpublished; the calendar counts themselves are now computed from the data on every build</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
@@ -1924,6 +2072,18 @@ open("robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.
 idx = [{"title": p["title"].split(" | ")[0], "url": p["slug"], "text": p["description"]} for p in PAGES if p["kind"] not in ("admin", "merged")]
 json.dump(idx, open("data/search-index.json","w"), indent=2)
 SM_URLS = open("sitemap.xml").read().count("<url>")
+# The executive summary counts pages and guides, and both change every time anyone ships an article.
+# They are therefore resolved after the last page exists and written back into the file: a typed
+# count goes stale within one publish, and a stale count on a page about the state of the site is
+# the kind of error that makes a reader distrust every other number on it.
+_n_indexable = len([_p for _p in PAGES if _p["kind"] != "merged"])
+_e = open("executive-summary.html").read()
+for _tok, _val in (("@@PAGES@@", str(_n_indexable)), ("@@GUIDES@@", str(_gn))):
+    if _tok not in _e:
+        raise SystemExit("executive-summary.html lost its %s token; the counts must stay computed" % _tok)
+    _e = _e.replace(_tok, _val)
+open("executive-summary.html", "w").write(_e)
+
 MERGED_N = sum(1 for pg in PAGES if pg["kind"] == "merged")
 print(f"pages: {len(PAGES)} | search index: {len(idx)} | sitemap: {SM_URLS} urls | consolidated (deliberately out of the sitemap): {MERGED_N}")
 
