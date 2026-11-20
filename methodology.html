@@ -6,6 +6,7 @@
 <title>Method, events &amp; campaign ledger | Countertop Guide</title>
 <meta name="description" content="What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep.">
 <link rel="canonical" href="https://wingbangboozle1-lang.github.io/Prod1/methodology.html">
+<meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#1F2937">
 <meta property="og:site_name" content="The Countertop Guide">
 <meta property="og:title" content="Method, events &amp; campaign ledger">
@@ -37,7 +38,7 @@
   <a href="compare.html">Compare</a>
   <a href="guides.html">Guides</a>
   <a href="about.html">About</a>
-  <a href="review-desk.html" class="nav-desk">Review desk</a>
+  <a href="review-desk.html" class="nav-desk" aria-current="page">Review desk</a>
 </nav>
 <form class="searchbox" id="site-search-form" role="search">
   <label class="skip" for="site-search-input">Search the site</label>
@@ -45,6 +46,11 @@
   <button class="btn small secondary" type="submit">Search</button>
 </form>
 </div></header>
+<div class="issue-bar"><div class="issue-inner">
+<span class="issue-vol">The Countertop Guide &middot; Issue of 20 November 2026</span>
+<span class="issue-note">Specs read from the Amazon listing, dated on every page &middot; no fake testing</span>
+<a class="issue-link" href="methodology.html">How we work</a>
+</div></div>
 <div class="disclosure-strip" role="note"><span class="disclosure-req">As an Amazon Associate I earn from qualifying purchases.</span> &middot; We are paid when a reader buys after clicking, which is why the specs, not hype, are the point. <a href="about.html#money">How this site works</a></div>
 <main id="main" class="wrap">
 
@@ -93,7 +99,7 @@
 <p>One guide per week, published Tuesday, from the queue in <code>data/editorial.json</code>. Each guide enters the sitemap and the feed at build time; the next four topics come from measured queries after 28 days of Search Console data, not from instinct. Until then the calendar is a stated plan, not a demand claim.</p>
 <div class="table-scroll"><table>
 <tr><th>Planned</th><th>Topic</th><th>Status</th></tr>
-<tr><td>2026-11-24</td><td>Holiday air fryer gifts: how to choose one that gets used</td><td>published &middot; guide-gift-picks.html</td></tr><tr><td>2026-12-01</td><td>Air fryer basket vs oven: which one actually fits your counter?</td><td>queued</td></tr><tr><td>2026-12-08</td><td>Instant-read vs wireless thermometer: do you need both?</td><td>queued</td></tr><tr><td>2026-12-15</td><td>Counter space math: will a 26-quart oven fit your kitchen?</td><td>queued</td></tr><tr><td>2026-12-22</td><td>Dual baskets vs one big basket: what changes at dinner time</td><td>queued</td></tr><tr><td>2027-01-05</td><td>Wattage, circuits and shared outlets: what the listing does and does not say</td><td>blocked</td></tr><tr><td>2027-01-12</td><td>What fits under the cabinet? Checking counter height before you order</td><td>queued</td></tr><tr><td>2027-01-19</td><td>Air fryer accessories: which ones the listing actually includes</td><td>queued</td></tr>
+<tr><td>2026-11-24</td><td>Holiday air fryer gifts: how to choose one that gets used</td><td>published &middot; guide-gift-picks.html</td></tr><tr><td>2026-12-01</td><td>Air fryer basket vs oven: which one actually fits your counter?</td><td>queued</td></tr><tr><td>2026-12-08</td><td>Instant-read vs wireless thermometer: do you need both?</td><td>published &middot; guide-instant-read-vs-wireless.html</td></tr><tr><td>2026-12-15</td><td>Counter space math: will a 26-quart oven fit your kitchen?</td><td>queued</td></tr><tr><td>2026-12-22</td><td>Dual baskets vs one big basket: what changes at dinner time</td><td>queued</td></tr><tr><td>2027-01-05</td><td>Wattage, circuits and shared outlets: what the listing does and does not say</td><td>blocked</td></tr><tr><td>2027-01-12</td><td>What fits under the cabinet? Checking counter height before you order</td><td>queued</td></tr><tr><td>2027-01-19</td><td>Air fryer accessories: which ones the listing actually includes</td><td>queued</td></tr><tr><td>2027-01-26</td><td>Do you need a thermometer at all? What a $17 tool changes</td><td>queued</td></tr>
 </table></div>
 <p class="fine">One guide per week, published Tuesday. Each guide is added to data/editorial-driven sitemap.xml and feed.xml by build_site.py; no page exists on the sitemap that the build did not write. A new guide is only promoted from the calendar after its topic question is checked against the register (no claim without a source). After Search Console has 28 days of queries (SG-02), the next four topics are chosen from arriving queries that our pages do not answer, not from instinct. Until then the calendar below is a stated plan, not a demand claim.</p>
 

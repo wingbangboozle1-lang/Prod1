@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Line drawing of a wireless meat thermometer hub with three probes and a phone showing a temperature">
+  <g fill="none" stroke="#8A2E1B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="26" y="130" width="86" height="56" rx="12" fill="#F7EAD6"/>
+    <path d="M42 146h54M42 160h34"/>
+    <path d="M112 150c22 0 22-40 44-40M112 166c26 0 26-16 44-16M112 178c22 0 22 10 44 10"/>
+    <rect x="188" y="34" width="94" height="150" rx="14" fill="#FFFDF9"/>
+    <path d="M212 54h46v40h-46z" fill="#EFE0CC" stroke="#B4432B" stroke-width="2"/>
+    <path d="M222 86h26" stroke="#B4432B"/>
+    <path d="M206 112h58M206 128h44M206 144h52"/>
+  </g>
+  <g stroke="#B4432B" stroke-width="2" stroke-linecap="round" opacity=".55">
+    <path d="M148 126a10 10 0 0 1 0 20M162 118a20 20 0 0 1 0 36"/>
+  </g>
+</svg>

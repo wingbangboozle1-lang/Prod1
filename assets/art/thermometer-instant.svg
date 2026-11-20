@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Line drawing of a handheld instant-read thermometer with a folding probe and a readout">
+  <g fill="none" stroke="#8A2E1B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="118" y="42" width="72" height="126" rx="18" fill="#F7EAD6"/>
+    <rect x="130" y="58" width="48" height="46" rx="8" fill="#FFFDF9" stroke="#B4432B" stroke-width="2"/>
+    <path d="M140 78h10M156 78h12M140 90h28"/>
+    <circle cx="154" cy="128" r="9"/>
+    <path d="M154 150v14"/>
+    <path d="M152 164h-8l-30 46" />
+    <path d="M152 164h8l30 46"/>
+  </g>
+  <g stroke="#B4432B" stroke-width="2" stroke-linecap="round" opacity=".55">
+    <path d="M82 118h18M82 132h12M220 118h18M226 132h12"/>
+  </g>
+</svg>

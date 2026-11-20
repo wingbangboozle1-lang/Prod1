@@ -113,6 +113,43 @@ for (const p of pages) {
   }
 }
 
+/* ---------- 8. a declared font family must actually ship ----------
+   assets/style.css names Fraunces and Inter. For several sessions neither file existed and
+   no @font-face rule declared them, so every page silently rendered in Georgia and the
+   system UI font while the design document claimed an editorial serif (FLG-060). A fallback
+   is not a design. Any family named in a font-family stack without a system fallback keyword
+   must be declared by @font-face AND have its woff2 on disk. */
+const SYSTEM_FAMILIES = new Set(["serif", "sans-serif", "monospace", "system-ui", "ui-monospace",
+  "ui-serif", "ui-sans-serif", "cursive", "fantasy", "-apple-system", "helvetica", "arial",
+  "georgia", "times", "courier", "menlo", "consolas", "roboto", "blinkmacsystemfont"]);
+const faceFamilies = new Set([...cssCode.matchAll(/@font-face\s*\{[^}]*font-family\s*:\s*["']?([^;"'}]+)["']?/g)]
+  .map((m) => m[1].trim().toLowerCase()));
+const faceSrcs = [...cssCode.matchAll(/@font-face\s*\{[^}]*src\s*:\s*url\(["']?([^"')]+)["']?\)/g)].map((m) => m[1]);
+const usedFamilies = new Set();
+for (const m of cssCode.matchAll(/font-family\s*:\s*([^;}]+)/g)) {
+  if (/^\s*["']?(?:inherit|initial|unset)\s*$/.test(m[1])) continue;
+  for (const raw of m[1].split(",")) {
+    const name = raw.trim().replace(/^["']|["']$/g, "").trim().toLowerCase();
+    if (!name || SYSTEM_FAMILIES.has(name) || name.startsWith("var(")) continue;
+    usedFamilies.add(name);
+  }
+}
+for (const fam of usedFamilies) {
+  if (!faceFamilies.has(fam)) fail(`assets/style.css uses the font family "${fam}" but declares no @font-face for it - the page falls back to a system font`);
+}
+if (faceFamilies.size && !faceSrcs.length) fail("assets/style.css has @font-face blocks with no src url()");
+for (const src of faceSrcs) {
+  if (/^https?:|^\/\//.test(src)) { warn(`@font-face loads ${src} from another host; a third-party font host is a runtime dependency and a privacy surface`); continue; }
+  const onDisk = join(ROOT, "assets", src.replace(/^\.?\//, ""));
+  if (!existsSync(onDisk)) fail(`@font-face points at ${src}, which does not exist in assets/ - the browser 404s and falls back`);
+}
+for (const p2 of pages) {
+  const h = readFileSync(join(ROOT, p2), "utf8");
+  for (const m of h.matchAll(/<link[^>]+href="[^"]*fonts\.googleapis\.com[^"]*"/g)) {
+    warn(`${p2}: loads fonts from Google Fonts at runtime; self-hosting is the house rule (see assets/fonts/OFL-*.txt for how the current faces are licensed)`);
+  }
+}
+
 /* ---------- 7. duplicate element ids ---------- */
 for (const p of pages) {
   const h = readFileSync(join(ROOT, p), "utf8");
