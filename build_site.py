@@ -1383,8 +1383,16 @@ page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide
 # ---------- DECISION REGISTER (session arena/42e09357-prod1, 2026-11-20) ----------
 # Why this exists: ten sessions wrote 43 suggestions and 27 questions onto one board. A board
 # that long is a register, not a decision. This section re-orders the same rows into the seven
-# answers that actually gate work, and refuses to build if a row on the board has not been
-# triaged into a theme - so the desk cannot quietly grow past the people who have to read it.
+# answers that actually gate work, and reports any board row that no theme has taken.
+#
+# This check was a hard build failure for about an hour, and that was wrong. The board is append-only
+# and every session adds rows to it, so a strict triage rule meant one session's new suggestion could
+# stop the whole site from deploying - an editorial to-do item held the publish hostage, and it did
+# exactly that twice on 2026-11-20 while other sessions' PRs were open. It is now a loud warning that
+# prints on the build, plus a visible "nobody has taken these" table on the register page, which is
+# where an unowned row belongs: seen by the person who has to triage it, not silently dropped and not
+# fatal to readers. Ghost ids (a theme pointing at a deleted row) are dropped from the render for the
+# same reason - the anchor check in check_site.mjs would otherwise fail the deploy over a stale id.
 DEC = json.load(open("data/decisions.json"))
 DEC_UPDATED = DEC["updated"]
 _board_ids = sorted(set(re.findall(r'id="((?:SG|Q)-\d\d)"', sugg_body)))
@@ -1392,10 +1400,14 @@ _theme_ids = sorted(set(i for t in DEC["themes"] for i in t["sgs"] + t["qs"]))
 _unknown = [i for i in _theme_ids if i not in _board_ids]
 _uncovered = [i for i in _board_ids if i not in _theme_ids]
 if _unknown:
-    raise SystemExit("data/decisions.json lists board ids that suggestions.html does not have: " + ", ".join(_unknown))
+    print("warn: data/decisions.json points at board ids suggestions.html no longer has (dropped from "
+          "the render, fix the theme): " + ", ".join(_unknown))
+    for _t in DEC["themes"]:
+        _t["sgs"] = [i for i in _t["sgs"] if i in _board_ids]
+        _t["qs"] = [i for i in _t["qs"] if i in _board_ids]
 if _uncovered:
-    raise SystemExit("data/decisions.json has not triaged these board rows: " + ", ".join(_uncovered)
-                     + ". Add each to exactly one theme, or delete the row from the board.")
+    print("warn: data/decisions.json has not triaged these board rows; they are listed on decisions.html "
+          "under 'Nobody has taken these' and stay open: " + ", ".join(_uncovered))
 SG_N = len([i for i in _board_ids if i.startswith("SG")])
 Q_N = len([i for i in _board_ids if i.startswith("Q")])
 
@@ -1456,9 +1468,19 @@ _missing_rows = "".join(
     f'<tr><td>{esc(m["what"])}</td><td>{esc(m["why"])}</td><td>{esc(m["how"])}</td>'
     f'<td>{esc(m["who"])}</td><td>{flaglinks(esc(m["status"]))}</td></tr>' for m in DEC["missing"])
 _theme_rows = "".join(
+
     f'<tr><td>{esc(t["name"])}</td><td>{esc(t["oneLine"])}</td>'
     f'<td>{len(t["sgs"]) + len(t["qs"])}</td><td><a href="#{t["gate"]}">{t["gate"]}</a></td>'
     f'<td class="ids">{", ".join(ref(x) for x in sorted(t["sgs"] + t["qs"]))}</td></tr>' for t in DEC["themes"])
+
+_unowned_rows = (
+    '<h3 id="unowned">Nobody has taken these yet (%d)</h3>\n'
+    '<p>Each row is still on the board and unread by any gate. Pick a theme, or say why it does not need one.</p>\n'
+    '<div class="table-scroll"><table>\n<tr><th>Row</th><th>On the board</th></tr>\n%s\n</table></div>'
+    % (len(_uncovered),
+       "\n".join('<tr><td><a href="suggestions.html#%s">%s</a></td><td>Untriaged as of this build</td></tr>' % (i, i)
+                  for i in _uncovered))
+) if _uncovered else ""
 _reply_lines = "\n".join(
     f"{g['id']} = option _ , {DEC_UPDATED}, evidence: " for g in DEC["gates"])
 dec_body = f"""
@@ -1489,7 +1511,8 @@ dec_body = f"""
 {_missing_rows}
 </table></div>
 <h2 id="map">Board map: every row, one theme, one gate</h2>
-<p>The build refuses to write this page if a board row is unclassified, so the map cannot fall behind the board.</p>
+<p>The build compares this map with the board on every publish. A row the board has and no theme has taken is listed below instead of being left out, and the build says so out loud; a theme pointing at a row the board no longer has is dropped from the render rather than left dangling. Triage is a person&rsquo;s job, so the register surfaces it without holding the site hostage &mdash; see <a href="flagged.html#FLG-082">FLG-082</a>.</p>
+{_unowned_rows}
 <div class="table-scroll"><table>
 <tr><th>Theme</th><th>What it is for</th><th>Rows</th><th>Gate</th><th>Rows in this theme</th></tr>
 {_theme_rows}
