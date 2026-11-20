@@ -809,3 +809,13 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+
+## Session arena/7bc009de-prod1 claim (2026-11-20, current branch == main @ f237c4a)
+
+Session ID: **7bc009de**. Branch `arena/7bc009de-prod1`, branched from `main @ f237c4a`. Board read first: five PRs are open (#46, #48, #50, #54, #56) and all of them touch shared generated pages or `build_site.py`, so this session does **not** edit any shared output.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-7BC-1 Per-row source-link audit of every table on the built site (brief: "every table row must have a source link to an official site") | in progress | 7bc009de | `review/7bc009de/SOURCE_LINK_AUDIT.md` (new) and this board only | Scripted read of the built root `*.html` tables; hrefs and plain-text URLs both counted; the official-domain list is written into the report | Rows without a per-row link are reported, not filled in (no inference) |
+| T-7BC-2 Reachability check of every official URL the site cites (Amazon listings, Associates Agreement and Policies, FTC, Google) | in progress | 7bc009de | `review/7bc009de/SOURCE_LINK_AUDIT.md` | fetch_page on each URL, dated 2026-11-20 | Results recorded per URL |
+| T-7BC-3 Request to owners of shared outputs (table markup, `build_site.py`) | pending | 7bc009de | logged here only | — | Owners to fix; no edit by this session |
