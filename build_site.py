@@ -6,6 +6,7 @@ PRODS = {p["id"]: p for p in D["products"]}
 VERIFIED = SITE["verifiedDate"]
 TAG = SITE["trackingId"]
 E = json.load(open("data/editorial.json"))
+RS = json.load(open("data/reader-suggestions.json"))
 BASE = E["baseUrl"].rstrip("/")
 SHOW_PRICE = bool(E["display"]["pricesOnShopPages"])
 SHOW_RATING = bool(E["display"]["ratingsOnShopPages"])
@@ -248,7 +249,7 @@ CHOOSER = """
   <div id="chooser-result" aria-live="polite"></div>
 </form>"""
 # ---------- TOPICS (topic calendar, session bb3ae11b) ----------
-# ---------- TOPICS (topic calendar, session bb3ae11b) ----------
+NUMW = {n: w for n, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen".split())}
 TOPICS = [
     {"n": "01", "title": "Basket or oven-style air fryer: what should you compare?", "cat": "Air fryers - Form",
      "status": "Published", "href": "guide-basket-vs-oven.html",
@@ -312,7 +313,6 @@ TOPICS = [
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
 ]
 
-
 def topic_band():
     rows = "".join(
         f'<a href="{t["href"]}"><span>{t["n"]}</span>{esc(t["title"])}<b class="{"status-published" if t["status"]=="Published" else "status-planned"}">{t["status"]}</b></a>'
@@ -322,7 +322,7 @@ def topic_band():
   <div class="wrap topic-inner">
     <div>
       <h2>The topic calendar</h2>
-      <p>Twelve question-shaped topics, five published and seven queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p>{NUMW[len(TOPICS)].capitalize()} question-shaped topics, {NUMW[sum(1 for t in TOPICS if t["status"]=="Published")]} published and {NUMW[sum(1 for t in TOPICS if t["status"]!="Published")]} queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
       <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
     </div>
     <div class="topic-list">{rows}</div>
@@ -333,14 +333,14 @@ def topic_band():
 index_body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow">Air fryers &amp; meat thermometers</p>
+    <p class="eyebrow">Air fryers &amp; meat thermometers &middot; checked {VERIFIED}</p>
     <h1>Find the one that fits your counter and your weeknight.</h1>
-    <p class="lede">Five machines worth reading about, compared on the four things that decide it: capacity, counter depth, cleanup, and what the listing quietly does not say. Every spec links to the Amazon page it came from, dated.</p>
+    <p class="lede">Five machines, compared on the four things that actually decide it: capacity, counter depth, cleanup, and what the listing quietly leaves out. Every spec links to the Amazon page it came from, with the date we read it.</p>
     <p class="hero-cta"><a class="btn" href="compare.html#chooser">Answer three questions</a> <a class="btn ghost" href="air-fryers.html">Browse air fryers</a></p>
     <ul class="hero-facts">
-      <li><strong>5</strong> products, all from one category page each</li>
-      <li><strong>0</strong> claims about cooking with a machine nobody cooked with</li>
-      <li><strong>1</strong> link per fact, on the listing</li>
+      <li><strong>5</strong> products, each read from its own listing</li>
+      <li><strong>0</strong> claims of cooking with a machine nobody cooked with</li>
+      <li><strong>1</strong> source link per fact</li>
     </ul>
   </div>
   <aside class="hero-side" aria-label="Start here">
@@ -360,10 +360,11 @@ index_body = f"""
   <article class="pick"><span class="chip">Feeding four to six</span><h3>Emeril Lagasse 26QT French-Door</h3><p>The biggest cavity here: rotisserie for a 6-lb chicken and a 12-inch pizza, per the listing. Also the deepest, at 16.9 in - measure before you order.</p><p><a class="btn small" href="air-fryers.html#P2">Look at this one</a></p></article>
   <article class="pick"><span class="chip">Shallowest of the fryers</span><h3>Chefman 8QT TurboFry</h3><p>One big basket in 12.75 in of depth, 450F Hi-Fry in the title, basket and tray top-rack dishwasher safe per the bullets.</p><p><a class="btn small" href="air-fryers.html#P3">Look at this one</a></p></article>
 </div>
+<p class="section-more"><a class="link-quiet" href="thermometers.html">Two meat thermometers, compared the same way &rarr;</a></p>
 
 <h2>All five, side by side</h2>
 <div class="grid cols-3">{product_card('P1')}{product_card('P2')}{product_card('P3')}</div>
-<div class="grid cols-2" style="margin-top:1rem">{product_card('P4')}{product_card('P5')}</div>
+<div class="grid cols-2 grid-gap-top">{product_card('P4')}{product_card('P5')}</div>
 <p class="section-more"><a class="btn secondary" href="compare.html">Open the full comparison table</a> <a class="link-quiet" href="verification.html">or check our sources first</a></p>
 
 <h2>Not sure yet? Answer three questions</h2>
@@ -372,9 +373,9 @@ index_body = f"""
 
 <h2>Guides worth ten minutes</h2>
 <div class="grid cols-3">
-  <article class="card"><span class="tag">Form factor</span><h3>Basket or oven-style air fryer: what should you compare?</h3><p>Two dishes at once, crowd capacity, counter depth - decided with the three fryers on this page.</p><p><a href="guide-basket-vs-oven.html">Read the guide</a></p></article>
-  <article class="card"><span class="tag">Capacity</span><h3>A no-hype checklist for comparing air fryer capacity</h3><p>Quarts vs litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p><p><a href="guide-capacity-checklist.html">Read the guide</a></p></article>
-  <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a href="guide-gift-picks.html">Read the guide</a></p></article>
+  <article class="card"><span class="tag">Form factor</span><h3><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer: what should you compare?</a></h3><p>Two dishes at once, crowd capacity, counter depth - decided with the three fryers on this page.</p></article>
+  <article class="card"><span class="tag">Capacity</span><h3><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer capacity</a></h3><p>Quarts vs litres, split baskets, and what &ldquo;feeds 4-6&rdquo; is actually claiming.</p></article>
+  <article class="card"><span class="tag">Seasonal</span><h3><a href="guide-gift-picks.html">Holiday air fryer gifts: how to choose one that gets used</a></h3><p>The gift checklist that does not need a price tag: depth, cleanup, one control panel they will actually learn.</p></article>
 </div>
 <p class="section-more"><a href="guides.html">All guides</a> &middot; <a href="guide-multifunction-questions.html">Multi-function questions</a> &middot; <a href="guide-thermometer-accuracy.html">Thermometer accuracy claims</a> &middot; <a href="suggestions.html">Ask for a topic</a></p>
 {topic_band()}
@@ -502,7 +503,7 @@ guides_body = """
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
 """
-page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Buying guides for air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting and wattage math.",guides_body)
+page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Nine question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy, gift picks, hosting and wattage.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
@@ -608,43 +609,62 @@ page_to("guide-thermometer-accuracy.html","Reading thermometer accuracy claims |
 # ---------- EXECUTIVE SUMMARY ----------
 exec_body = f"""
 <p class="eyebrow">Executive summary</p>
-<h1>What this site is, what is verified, and what happens next</h1>
-<p class="lede">The Countertop Guide is a spec-backed affiliate publication for two kitchen categories - air fryers and meat thermometers - built from five Amazon listings verified on {VERIFIED}. It leads with products and buyer questions, not with process. Every number links to its source.</p>
+<h1>What is live, what is verified, what needs your decision</h1>
+<p class="lede">Three minutes. This page is for whoever owns the site: the state of the publication, the evidence behind the product data, what is deliberately not claimed, and the short list of decisions only you can make.</p>
+
+<div class="grid cols-3">
+  <article class="card"><span class="chip">Live</span><h3>1 publication, 29 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, nine question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on {VERIFIED}, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
+  <article class="card"><span class="chip">Waiting on you</span><h3>6 owner decisions</h3><p>Special Link test, search console, canonical domain, photography licence, analytics host, byline. None blocks publishing; each blocks a claim or a scale step. <a href="suggestions.html#SG-01">See the decision queue</a>.</p></article>
+</div>
+
 <h2>The five products</h2>
 <div class="table-scroll"><table>
-<tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Spec fields verified</th><th>Listing</th></tr>
+<tr><th>ID</th><th>Product</th><th>ASIN</th><th>Category</th><th>Verified from the listing</th><th>Listing</th></tr>
 <tr><td>P1</td><td>Chefman 6QT Dual-Basket Air Fryer Oven</td><td>B0CDY277D3</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets</td><td><a href="https://www.amazon.com/dp/B0CDY277D3">B0CDY277D3</a></td></tr>
 <tr><td>P2</td><td>Emeril Lagasse 26QT French-Door Oven</td><td>B09B7SB46R</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets, wattage (warranty period not stated)</td><td><a href="https://www.amazon.com/dp/B09B7SB46R">B09B7SB46R</a></td></tr>
 <tr><td>P3</td><td>Chefman 8QT TurboFry Basket</td><td>B08DKYBTPH</td><td>Air fryers</td><td>title, capacity, dimensions, features, bullets</td><td><a href="https://www.amazon.com/dp/B08DKYBTPH">B08DKYBTPH</a></td></tr>
-<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>title, accuracy claim, features, bullets (dimensions not captured)</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a></td></tr>
-<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>title, sensors, features, bullets (dimensions and +/-F figure not captured)</td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a></td></tr>
+<tr><td>P4</td><td>ThermoMaven 1-Second Instant-Read</td><td>B0DHZTCNR5</td><td>Thermometers</td><td>title, accuracy claim, features, bullets (dimensions not stated)</td><td><a href="https://www.amazon.com/dp/B0DHZTCNR5">B0DHZTCNR5</a></td></tr>
+<tr><td>P5</td><td>CHEF iQ Sense Wireless (3 probes)</td><td>B0DZFD6R9Z</td><td>Thermometers</td><td>title, sensors, features, bullets (dimensions and tolerance figure not stated)</td><td><a href="https://www.amazon.com/dp/B0DZFD6R9Z">B0DZFD6R9Z</a></td></tr>
 </table></div>
-<h2>What is verified</h2>
+<p class="fine">Tracking ID <code>{TAG}</code>. Outbound format <code>https://www.amazon.com/dp/ASIN?tag={TAG}</code>. The supplied <code>link.amazon</code> short links are recorded as submitted, with their observed redirects in a separate field; they are not used as buttons.</p>
+
+<h2>What is verified, and how</h2>
 <ul>
-<li>Each submitted short link resolves to the ASIN and official listing URL in <a href="verification.html">verification register</a> (intended ASIN kept separate from observed redirect target).</li>
-<li>Titles, dimensions (air fryers), capacity, special features and bullets as shown on Amazon.com on {VERIFIED}. Price and rating were observed on the same date and are recorded in the register, not displayed on shop pages - see FLG-032 for the policy reason.</li>
-<li>Compliance posture: disclosure above the fold on every page and in the footer; every outbound product link is rel="sponsored" and labeled; no trend or popularity claims without a dated snapshot; no hands-on testing claims.</li>
+<li><strong>Product facts</strong> come from each product&rsquo;s own listing, read on {VERIFIED}, with the URL recorded per field in the <a href="verification.html">verification register</a>. Where a listing contradicts itself, both values are published and flagged rather than silently resolved (<a href="flagged.html#FLG-002">FLG-002</a>, <a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-022">FLG-022</a>).</li>
+<li><strong>Policy text</strong> was read from the official pages and quoted, not summarised from memory: Operating Agreement &sect;5 (disclosure), Program Policies (price and availability, ratings), Google Search Central (outbound link qualification), FTC (disclosure placement). Sources are listed on <a href="compliance.html">the compliance page</a> with the read date.</li>
+<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, and four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy, and now that every CSS class actually has a style. A page that fails cannot merge.</li>
 </ul>
-<h2>What is not verified (and therefore not claimed)</h2>
-<ul>
-<li>Thermometer dimensions (not stated on either listing), the Emeril warranty period (a PDF is linked, nothing on the page), the CHEF iQ +/-F accuracy figure, and the Chefman 8QT wattage, where one listing disagrees with itself - all blank or attributed, and flagged.</li>
-<li>Short-link compliance status (unresolved), Special Link test in Associates Central (manual gate), commission rates (not published here), search volume / popularity (not claimed).</li>
-<li>Product photography (no Amazon images used; real photography needs a licence decision).</li>
-</ul>
+
+<h2>What is not claimed, and why</h2>
+<div class="table-scroll"><table>
+<tr><th>Not claimed</th><th>Reason</th><th>What would change it</th></tr>
+<tr><td>Hands-on testing or &ldquo;we tried it&rdquo;</td><td>Nobody has cooked in these machines. The FTC guidance is explicit that you cannot talk about your experience with a product you have not tried, and Section 5 of the Amazon Agreement makes the same point about accuracy.</td><td>A funded test protocol with dated photos (<a href="suggestions.html#SG-09">SG-09</a>)</td></tr>
+<tr><td>Prices, ratings or &ldquo;bought in past month&rdquo; on shop pages</td><td>Program Policies allow price and availability only when Amazon serves the link or the data comes from the Creators/PA API within a 24-hour cache. A static build satisfies neither. The dated figures we saw live in the register as observations (<a href="flagged.html#FLG-032">FLG-032</a>).</td><td>Creators/PA API access with a refresh gate (<a href="suggestions.html#SG-20">SG-20</a>)</td></tr>
+<tr><td>Search volume, traffic or revenue</td><td>No Search Console property exists yet and no authorised first-party report has arrived. The campaign ledger is empty by design.</td><td>Search Console access + Associates reports, recorded with their dates</td></tr>
+<tr><td>Product photography</td><td>Amazon&rsquo;s Program Content is licensed, not owned; generated product shots would mislead. Imagery is our own drawings until a licence exists (<a href="flagged.html#FLG-041">FLG-041</a>).</td><td>A photography or permission decision (<a href="suggestions.html#SG-04">SG-04</a>)</td></tr>
+</table></div>
+
 <h2>How money and measurement work</h2>
-<p>Outbound links use tracking ID <code>{TAG}</code> and are marked sponsored. Click and conversion measurement is defined (five events) with a privacy-preserving local counter; the self-hosted endpoint is a documented stub, not yet deployed. The campaign ledger starts empty - orders and revenue are recorded only from authorized first-party reports. See <a href="methodology.html">Method &amp; campaign ledger</a>.</p>
+<p>Outbound links carry tracking ID <code>{TAG}</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because no endpoint is hosted. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
+
 <h2>What this pass changed</h2>
 <ul>
-<li><strong>Reader-facing order.</strong> Front page now leads with the picks and the products; the register, flags and method moved behind one Review desk link and the footer.</li>
-<li><strong>No stale figures.</strong> Price, rating, rating count, badge and &ldquo;bought in past month&rdquo; are off the shop pages, with the policy read behind the decision (<a href="flagged.html#FLG-032">FLG-032</a>).</li>
-<li><strong>Disclosure wording.</strong> The strip and footer carry the Operating Agreement&rsquo;s sentence verbatim, plus a plain-language line a reader can parse.</li>
-<li><strong>Findability.</strong> Per-page canonical, unique titles and descriptions, absolute raster og:image, generated sitemap and feed, ItemList/Article/Breadcrumb structured data, and the canonical-vs-sitemap mismatch closed.</li>
-<li><strong>Links.</strong> Script-built chooser links now carry <code>rel="sponsored"</code> and a visible label, and the CI gate checks the JavaScript too.</li>
-<li><strong>Gate in the pipeline.</strong> <code>scripts/check_meta.mjs</code> runs before the Pages upload, which also closes request R-01 from session b4c6c619.</li>
-<li><strong>New surfaces.</strong> <code>about.html</code> (who writes this, how it earns), <code>review-desk.html</code> (every internal surface in one group) and a seasonal guide that demonstrates the cadence pipeline.</li>
+<li><strong>The site now looks designed, because the styles exist.</strong> The build was emitting 44 CSS classes with no rule and referencing 9 undefined custom properties, so cards, hero columns and status chips rendered as plain blocks. All of it is styled, and <code>scripts/check_style.mjs</code> fails the build if an unstyled class returns (<a href="flagged.html#FLG-052">FLG-052</a>).</li>
+<li><strong>Broken markup repaired.</strong> Three suggestion rows had malformed class attributes, so their status badges and row text never rendered (<a href="flagged.html#FLG-053">FLG-053</a>).</li>
+<li><strong>The social card is readable.</strong> The shared-link image had text overlapping the subtitle and captions hidden under the footer; <code>make_og.py</code> now measures each block and asserts clearance (<a href="flagged.html#FLG-054">FLG-054</a>).</li>
+<li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-055">FLG-055</a>).</li>
+<li><strong>Search metadata fits.</strong> Five titles and descriptions that would truncate in results were rewritten; the metadata gate now reports zero warnings.</li>
 </ul>
-<h2>Next gates (owner decisions)</h2>
-<p>Canonical domain, Special Link validation, photography licence, analytics endpoint, and the Suggestions board priorities. Nothing scales until those gates pass. See <a href="suggestions.html">Suggestions &amp; decision log</a> and <a href="flagged.html">Flagged for review</a>.</p>
+
+<h2>What happens next, in order</h2>
+<ol>
+<li><strong>You run the Special Link test</strong> once per product in Associates Central and confirm the destination and the tracking report. This is the one gate no session can clear from inside the repository (<a href="suggestions.html#SG-01">SG-01</a>).</li>
+<li><strong>Claim the Search Console property</strong> for the canonical host and submit the sitemap. Without it the calendar is a plan, not a measurement (<a href="suggestions.html#SG-02">SG-02</a>).</li>
+<li><strong>Pick the domain and the build source</strong> — a custom domain if you want one, and GitHub Pages set to publish from Actions so a failed gate actually blocks a release (<a href="suggestions.html#SG-43">SG-43</a>).</li>
+<li><strong>Write the next guide from measured queries</strong>, four weeks after step 2, not from instinct.</li>
+</ol>
+<p class="fine">Full working list: <a href="suggestions.html">the decision desk</a> (options, trade-offs, effort, and what each one unblocks) and <a href="flagged.html">Flagged for review</a> (every irregularity, with its source).</p>
 """
 page_to("executive-summary.html","Executive summary for the owner | Countertop Guide","What is live, what is verified, what is blocked, which decisions wait on an owner, and what the latest pass changed across the site.",exec_body)
 # ---------- SUGGESTIONS / DECISION DESK ----------
@@ -655,6 +675,13 @@ sugg_body = f"""
 
 <div class="callout"><strong>Three things to know before you read.</strong> (1) The site currently shows <em>no</em> price or rating figures on shop pages, because Amazon&rsquo;s policies only allow a site to display price and availability when Amazon serves it or when it comes from the Creators/PA API, with caching capped at 24 hours &mdash; see <a href="flagged.html#FLG-032">FLG-032</a>. (2) We have not cooked in any product, so no copy may imply we have. (3) Traffic, ranking and revenue are not forecasted anywhere on this site; the campaign ledger is empty by design.</div>
 
+<h2>Ask for a topic</h2>
+<div class="card">
+<p><strong>What should we answer next?</strong> Reader questions pick the calendar, not instinct. A request opens as a public issue on the site repository, where you can see it, and where the answer will be published if we write it.</p>
+<p><a class="btn" href="https://github.com/wingbangboozle1-lang/Prod1/issues/new?labels=reader-suggestion&amp;title=Topic%20request%3A%20&amp;body=The%20question%20I%20want%20answered%3A%0A%0AThe%20product%20or%20category%20it%20is%20about%3A%0A%0AWhat%20I%20have%20already%20read%20on%20this%20site%3A%0A" rel="noopener">Suggest a topic</a> <a class="link-quiet" href="{RS["inbox"]}" rel="noopener">Read the requests already sent</a></p>
+<p class="fine">Nothing is collected silently: the form opens on GitHub, under your own account, and you can see and edit it afterwards. If you would rather not use GitHub, the <a href="about.html">about page</a> explains the other route. This desk shows <strong>{len(RS["items"])}</strong> reader-submitted topics so far. It is empty because none have arrived yet - we do not invent them to make the page look busy.</p>
+</div>
+
 <h2>Choose a path</h2>
 <p>If you approve a bundle, everything inside it moves together. Each bundle is a coherent story for the reader, not a random list.</p>
 <div class="grid cols-3">
@@ -663,6 +690,19 @@ sugg_body = f"""
   <article class="card path"><span class="chip">Path C</span><h3>Look like a magazine, not a spreadsheet</h3><p>The visual overhaul: the design brief below, a typography and layout pass, real imagery only once a licence exists, and a voice pass over every article.</p><ul><li>SG-24, SG-27, SG-28, SG-31, SG-33, SG-04</li></ul><p class="fine">Cost: the highest design effort and the only path that can go wrong visually. Blocked by SG-04 (photography licence) for the imagery half.</p></article>
 </div>
 <p class="section-more">Our recommendation, stated plainly: <strong>Path B first, then A, then the non-imagery half of C.</strong> The site&rsquo;s data is already better than most affiliate sites&rsquo;; its problem is that nobody has been shown it yet. Photography stays gated until SG-04 clears, because a licence problem is a bigger loss than a plain-looking page.</p>
+
+<h2 id="the-decisions">The decision queue &mdash; six items only you can settle</h2>
+<p>Each row is a decision, not a task: it names the choice, what it unblocks, and what evidence closes it. The board below carries the full reasoning and the options. Nothing is implemented until a row is marked approved here or in the board.</p>
+<div class="table-scroll"><table>
+<tr><th>#</th><th>Decision</th><th>The choice in front of you</th><th>Unblocks</th><th>What closes it</th></tr>
+<tr><td>1</td><td><a href="#SG-01">Special Link test</a></td><td>Click one tagged link per product in Associates Central and read the tracking report</td><td>Any claim that the links earn correctly; the short-link question (<a href="flagged.html#FLG-001">FLG-001</a>)</td><td>A screenshot or note per product, dated</td></tr>
+<tr><td>2</td><td><a href="#SG-02">Search Console</a></td><td>Claim the canonical host, submit <code>sitemap.xml</code></td><td>Choosing the next topic from measured queries instead of instinct</td><td>Property verified; first 28 days of query data</td></tr>
+<tr><td>3</td><td><a href="#SG-04">Photography licence</a></td><td>Own photos, manufacturer permission, or keep drawings</td><td>Any product imagery on the site (<a href="flagged.html#FLG-041">FLG-041</a>)</td><td>A signed permission or your own shoot</td></tr>
+<tr><td>4</td><td><a href="#SG-03">Analytics host</a></td><td>Where the five-event endpoint runs, if anywhere</td><td>Outbound-click counts beyond one browser (<a href="flagged.html#FLG-008">FLG-008</a>)</td><td>A host + retention decision</td></tr>
+<tr><td>5</td><td><a href="#SG-43">Pages build source</a></td><td>Publish from Actions instead of from the branch</td><td>Making a failed gate block a release (<a href="flagged.html#FLG-051">FLG-051</a>)</td><td>Settings &rarr; Pages &rarr; Build source</td></tr>
+<tr><td>6</td><td><a href="#SG-26">Byline</a></td><td>Desk byline, a named author with a bio, or a commissioned tester</td><td>Authorship signals and any &ldquo;tested&rdquo; content (<a href="flagged.html#FLG-010">FLG-010</a>)</td><td>A real person and a contact route</td></tr>
+</table></div>
+<p class="fine">The domain question (<a href="#SG-02">SG-02</a>) sits inside decision 2: the canonical host is the GitHub Pages URL today, and a custom domain changes every canonical, every og:url and the sitemap. Choosing it before Search Console is claimed is cheaper than choosing it after.</p>
 
 <h2>The board</h2>
 <div class="table-scroll"><table>
@@ -685,14 +725,14 @@ sugg_body = f"""
 <tr id="SG-16"><td>SG-16</td><td>Comparison-first homepage: lead with the side-by-side table and the three-question chooser above the fold, verification below</td><td>Buyers act on comparisons; the verification register moves below the products</td><td>Layout decision in the design brief</td><td>Medium</td><td>Proposed</td></tr>
 <tr id="SG-17"><td>SG-17</td><td>Add author bylines and an \"updated\" date to every article and comparison</td><td>Authorship and freshness signals; reads like a publication, not a template</td><td>Author name/bio decision; date source from verification log</td><td>Low</td><td>Proposed</td></tr>
 <tr id="SG-18"><td>SG-18</td><td>Internal-link cluster pages: one pillar per category linking every guide to the comparison and buying guide</td><td>Cluster structure helps search engines and keeps readers on-site longer</td><td>Topic approval (SG-12); link audit at publish</td><td>Medium</td><td>Proposed</td></tr>
-<tr id="SG-34"><td>SG-34</td><td>Design-prompt pass: feed this board into a visual design prompt (publication layout, type scale, product-card anatomy, seasonal skins) and review mockups before shipping</td><td>Turns &quot;make it look like a shop&quot; into a reviewable artifact instead of ad-hoc CSS edits</td><td>Owner picks a direction from mockups</td><td>Medium</td><td><span class="badge-warn&quot;>Needs decision</span></td></tr>
+<tr id="SG-34"><td>SG-34</td><td>Design-prompt pass: feed this board into a visual design prompt (publication layout, type scale, product-card anatomy, seasonal skins) and review mockups before shipping</td><td>Turns &quot;make it look like a shop&quot; into a reviewable artifact instead of ad-hoc CSS edits</td><td>Owner picks a direction from mockups</td><td>Medium</td><td><span class="badge-warn">Needs decision</span></td></tr>
 <tr id="SG-35"><td>SG-35</td><td>Product-card redesign: photo slot (once licensed), price snapshot date on the card, one primary CTA, spec chips instead of prose bullets</td><td>Shoppers scan cards, they do not read audits; cards are the conversion surface</td><td>Photography decision (SG-04) or approved placeholder art</td><td>Low</td><td>Proposed</td></tr>
-<tr id="SG-36"><td>SG-36</td><td>Editorial homepage modules: hero story, &quot;featured guide&quot; slot, category tiles, then the product line-up - ordered by reader intent, not by data pipeline</td><td>Publication feel; leads with products and questions, not verification process</td><td>None - content exists</td><td>Low</td><td><span class="badge-ok&quot;>Shipped in this pass (front page rebuilt)</span></td></tr>
+<tr id="SG-36"><td>SG-36</td><td>Editorial homepage modules: hero story, &quot;featured guide&quot; slot, category tiles, then the product line-up - ordered by reader intent, not by data pipeline</td><td>Publication feel; leads with products and questions, not verification process</td><td>None - content exists</td><td>Low</td><td><span class="badge-ok">Shipped in this pass (front page rebuilt)</span></td></tr>
 <tr id="SG-37"><td>SG-37</td><td>Seasonal skins: holiday gift-guide banner and dated price-snapshot badge (e.g. Black Friday) that auto-expires</td><td>Seasonal relevance lifts click-through without inventing claims</td><td>Dated snapshot rule already approved (D-19)</td><td>Low</td><td>Proposed</td></tr>
 <tr id="SG-38"><td>SG-38</td><td>Article template upgrade: key-takeaways box, at-a-glance spec table, &quot;what the listing cannot tell you&quot; callout, related-products rail</td><td>Consistent reader-facing polish across guides; reduces AI-slop look</td><td>Voice guide already approved (D-12)</td><td>Medium</td><td>Proposed</td></tr>
 <tr id="SG-39"><td>SG-39</td><td>Comparison-table UX: sticky first column, mobile card stack, &quot;share comparison&quot; link, print stylesheet</td><td>Tables are the most-used dashboard surface; mobile is most traffic</td><td>Usability feedback after launch</td><td>Medium</td><td>Proposed</td></tr>
 <tr id="SG-40"><td>SG-40</td><td>Topic cluster plan: 8 spec-backed articles mapped to the 5 products (titles already drafted as hypotheses), each added to sitemap + feed at publish</td><td>Cluster internal linking is the organic-traffic engine; cadence keeps it measurable</td><td>Search Console data after SG-02 to re-rank priority</td><td>Medium</td><td>Proposed</td></tr>
-<tr id="SG-41"><td>SG-41</td><td>Trust bar under masthead: &quot;every fact sourced - see the register&quot; one-liner linking to verification.html on all pages</td><td>Turns the audit strength into a shopper-facing promise without leading with process</td><td>None</td><td>Low</td><td><span class="badge-ok&quot;>Shipped in this pass</span></td></tr>
+<tr id="SG-41"><td>SG-41</td><td>Trust bar under masthead: &quot;every fact sourced - see the register&quot; one-liner linking to verification.html on all pages</td><td>Turns the audit strength into a shopper-facing promise without leading with process</td><td>None</td><td>Low</td><td><span class="badge-ok">Shipped in this pass</span></td></tr>
 <tr id="SG-42"><td>SG-42</td><td>Decide disclosure wording: verbatim Operating Agreement §5 or site-named variant</td><td>§5 requires "As an Amazon Associate I earn from qualifying purchases." or a substantially similar previously allowed statement</td><td>Compliance review of current variant</td><td>Low</td><td>Resolved 2026-11-19: verbatim wording adopted</td></tr>
 <tr id="SG-43"><td>SG-43</td><td>Switch the Pages build source from &ldquo;deploy from branch&rdquo; to GitHub Actions, so a gate failure can block a publish rather than only marking the commit red</td><td>Today the deploy workflow builds, checks and gates, and then skips publishing because the repository&rsquo;s Pages source is the branch; the site is served from whatever is committed to <code>main</code>. Artifact publishing makes the two gates load-bearing.</td><td>Owner action in Settings &rarr; Pages &rarr; Build source (the token in this session cannot: <code>gh api -X PUT /repos/&hellip;/pages</code> returned 403 &ldquo;Resource not accessible by integration&rdquo;, observed 2026-11-19)</td><td>Low</td><td><span class="badge-warn">Needs owner action</span></td></tr>
 </table></div>
@@ -1040,6 +1080,14 @@ flag_body = f"""
 <tr id="FLG-049"><td>FLG-049</td><td>A third parallel pass built a second dashboard hub and its own numbering on this board</td><td>Session <code>f0db58ea</code> (PR #19) shipped a shop-first front page, a <code>dashboard.html</code> hub, eight design inputs DI-1…DI-8 and its own <code>SG-19…SG-27</code> / <code>Q-15…Q-20</code> rows - the same ranges this pass had already claimed. Merged without discarding: their design inputs keep the DI prefix and land on the board as a new section; their suggestions renumber to <a href="suggestions.html#SG-34">SG-34…SG-42</a> and their questions to <a href="suggestions.html#Q-21">Q-21…Q-26</a>, with the references inside each row shifted the same way. Their <code>dashboard.html</code> duplicated this pass&rsquo;s <a href="review-desk.html">review desk</a>, so it stays live as a canonical pointer rather than as a second hub, and their front page was not applied because both passes rebuilt the same file and only one can win - this page&rsquo;s version is the one the gate and the editorial policy drive.</td><td>Owner: if the hub&rsquo;s framing was preferred over the review desk, flip the pair in <code>MERGED</code> in <code>build_site.py</code>; if any of SG-34…SG-42 duplicates a row above it, reject the pair rather than shipping both</td></tr>
 <tr id="FLG-050"><td>FLG-050</td><td>Two of their rows described state that this build has since changed</td><td>Their imagery question said the share card was &ldquo;a typographic SVG&rdquo; and their review-SLA row counted 26 suggestions and 19 questions. Neither is true of the merged site: the share card is a generated 1200&times;630 PNG and the board now holds 42 suggestions and 26 questions. Both cells were rewritten rather than deleted, and the rewrite is recorded here so the change is attributable to the merge, not to the other session.</td><td>None; noted for the audit trail</td></tr>
 <tr id="FLG-051"><td>FLG-051</td><td>The deploy workflow cannot publish while Pages is set to build from the branch</td><td>Run <code>44627271033</code> for the merge of PR #20 failed at <code>actions/deploy-pages@v4</code> with every earlier step green: the build, the determinism check and both gates. <code>GET /repos/&hellip;/pages</code> reports <code>build_type: legacy</code> with <code>source: main</code>, which is GitHub&rsquo;s branch publishing mode; <code>deploy-pages</code> only works when the build source is &ldquo;GitHub Actions&rdquo;. The site itself deployed correctly through the legacy builder and serves this pass (verified by fetching the live URL). The workflow now reads the build source and skips the publish steps in legacy mode, so a green run means &ldquo;the commit is shippable&rdquo; rather than &ldquo;the workflow published it&rdquo;.</td><td>Owner: flip the build source (SG-43) if gated publishing is wanted; otherwise treat the workflow as CI on <code>main</code></td></tr>
+<tr id="FLG-052"><td>FLG-052</td><td>44 CSS classes the generator emitted had no style rule at all</td><td>Found 2026-11-20 by reading the built pages against <code>assets/style.css</code>. Every class the markup uses is now defined: the product card (<code>.prod</code>, <code>.prod-head</code>, <code>.prod-sub</code>, <code>.specs</code>), the picks (<code>.pick</code>), the hero columns (<code>.hero-copy</code>, <code>.hero-side</code>, <code>.hero-facts</code>), the topic band, the trust row, <code>.chip</code>, <code>.fine</code>, <code>.best</code>, <code>.watch</code>, <code>.cta-row</code>, <code>.link-quiet</code>, <code>.fbrand</code> and others rendered as plain unstyled blocks. Nine custom properties (<code>--ink-2</code>, <code>--tint</code>, <code>--clay</code>, <code>--clay-ink</code>, <code>--line-strong</code>, <code>--paper</code>, <code>--good</code>, <code>--r</code>, <code>--r-sm</code>) were referenced but never declared, so those rules were dropped by the browser. This is the mechanical reason the site read as generated rather than designed. <code>scripts/check_style.mjs</code> now fails the build if a class is emitted without a rule, if a <code>var()</code> has no value, or if an inline <code>style=</code> attribute reappears.</td><td>Closed in this pass. Owner: review the look in a browser; the gate can prove coverage, not taste</td></tr>
+<tr id="FLG-053"><td>FLG-053</td><td>Three rows of the suggestion table carried broken class attributes</td><td>SG-34, SG-36 and SG-41 were written with an escaped quote and a stray closing bracket inside the class attribute (the value read <em>badge-warn</em> followed by an encoded quote and a &gt;), so the status badge and the rest of the row markup were swallowed into the attribute and never rendered. Fixed in the generator 2026-11-20; the design gate now rejects any class attribute containing an escaped quote or angle bracket.</td><td>Closed in this pass</td></tr>
+<tr id="FLG-054"><td>FLG-054</td><td>The social card had overlapping text and captions hidden under the footer</td><td>In <code>assets/og-image.png</code>, the diagram label was drawn at a hard-coded height that landed on top of the subtitle, and the two shorter bar captions sat under the footer band. The image is the preview for every shared link, so the collision was the most-seen drawing the site had. <code>scripts/make_og.py</code> now measures each block and asserts that the label clears the subtitle and that the captions clear the footer; the card was regenerated and read back to confirm.</td><td>Closed in this pass; re-run <code>python3 scripts/make_og.py</code> after any copy change on the card</td></tr>
+<tr id="FLG-055"><td>FLG-055</td><td>No way existed for a reader to send a suggestion</td><td>The brief asks for a suggestions section where someone can review options and choose a path, and the desk had that for the owner. It had no intake: a reader with a question had no route except an email address that was never published. Added 2026-11-20: a &ldquo;Suggest a topic&rdquo; form on the desk that opens a public GitHub issue on the repository (label <code>reader-suggestion</code>), and a reader-facing count that reads from <code>data/reader-suggestions.json</code>. The count is <strong>0</strong> because no reader has sent one; the file is deliberately not pre-filled.</td><td>Owner: if a different intake is wanted (email, a form service), the issue route is the current one and is recorded here rather than implied</td></tr>
+<tr id="FLG-056"><td>FLG-056</td><td>Register IDs FLG-023 to FLG-031 are gaps in the published table</td><td>The published table jumps from FLG-022 to FLG-032. Those nine numbers appear only in earlier sessions&rsquo; narrative in <code>COORDINATION.md</code> (they were proposals or items later renumbered). No page links to any of them: every <code>FLG-nnn</code> reference in the built HTML resolves to an existing row, checked mechanically 2026-11-20. The gap is recorded rather than renumbered so older session notes keep meaning what they meant.</td><td>Nothing needed; read a gap as &ldquo;identity retired, never published&rdquo;</td></tr>
+<tr id="FLG-057"><td>FLG-057</td><td>A slug&rsquo;s own docstring contradicts the live page</td><td>In <code>build_site.py</code>, the comment above the topics section says the calendar holds &ldquo;five published and three queued&rdquo;, which was true when eight topics were drafted. The page itself reads the topic list and renders the current counts. Cosmetic, in the generator only, left as the author wrote it.</td><td>Cosmetic; noted so a future reader does not treat the comment as data</td></tr>
+<tr id="FLG-058"><td>FLG-058</td><td>The Agreement sentence is above the fold, but not repeated inside each product card</td><td>FTC <a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">Disclosures 101</a> (re-read 2026-11-20) says the disclosure should be placed &ldquo;with the endorsement message itself&rdquo; and warns that disclosures are likely to be missed when they sit only at the end of a page or behind a click. On this site the Agreement sentence is directly under the masthead on every page plus the footer, and every card carries a visible &ldquo;Sponsored link &middot; opens Amazon&rdquo; line beside its button. The Agreement sentence itself is not inside each card. This pass did not change the layout: repeating the legal sentence in every card is a design and compliance judgement for the owner, not a unilateral edit.</td><td>Owner / compliance: keep the current arrangement (strip + per-card sponsored label) or add the sentence to each card. Either way, re-read this row when the layout next changes</td></tr>
+<tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across all 29 pages.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
 </table></div>
 """
 page_to("flagged.html","Flagged for review: open items | Countertop Guide","Every irregularity and unverified item on this site, with the source read and the action that would close it. Flags block claims, not publishing.",flag_body)
@@ -1057,7 +1105,7 @@ comp_body = f"""
 <li>Attributes: <code>rel="sponsored nofollow noopener"</code>, <code>target="_blank"</code>, visible "sponsored" label and "Opens amazon.com" text so destination is never obscured.</li>
 <li>Short links are recorded in the <a href="verification.html">verification register</a> as submitted links with observed redirect targets in a separate field. They are not used as outbound buttons.</li>
 </ul>
-<h2>What the policies say, in their own words (read {VERIFIED})</h2>
+<h2>What the policies say, in their own words (re-read 2026-11-20)</h2>
 <div class="table-scroll"><table>
 <tr><th>Rule</th><th>What we read</th><th>What this site does because of it</th></tr>
 <tr><td>Identifying yourself as an Associate<br><span class="fine">Operating Agreement, Section 5</span></td><td>&quot;You must clearly and prominently state the following, or any substantially similar statement previously allowed under this Agreement&hellip;: &lsquo;As an Amazon Associate I earn from qualifying purchases.&rsquo;&quot; Section 6 treats a violation of Section 5 as a material breach.</td><td>That exact sentence appears in the strip under the masthead and in the footer of every page, with a plain-language addition beside it. A reworded variant was in use before this pass; see <a href="flagged.html#FLG-042">FLG-042</a>.</td></tr>
@@ -1141,8 +1189,8 @@ for t in TOPICS:
 
 topics_body = f"""
 <p class="eyebrow">The desk &middot; Topic calendar</p>
-<h1>The topic calendar: eight questions, eight spec-backed answers</h1>
-<p>Five guides are published; seven are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
+<h1>The topic calendar: twelve buyer questions, spec-backed answers</h1>
+<p>{NUMW[sum(1 for t in TOPICS if t["status"]=="Published")].capitalize()} guides are published; {NUMW[sum(1 for t in TOPICS if t["status"]!="Published")]} are queued as working titles. Every title is an editorial hypothesis backed by verified listing fields - not a claim about search volume, popularity or product superiority. The next topic is chosen from measured queries, not instinct.</p>
 <div class="callout"><b>How this calendar works</b>
 <p>Each topic states the buyer question it answers, the verified fields it will be built from, and its sources. Queued titles publish only after their fields are verified against the listing and the guide is added to the <a href="sitemap.xml">sitemap</a> and <a href="feed.xml">feed</a>. Working titles may change at edit stage.</p></div>
 <h2>The calendar</h2>
@@ -1216,7 +1264,7 @@ about_body = f"""
 <li><a href="verification.html">Line-by-line verification register</a> for every product field.</li>
 <li>Amazon Associates <a href="https://affiliate-program.amazon.com/help/operating/agreement">Operating Agreement</a> and <a href="https://affiliate-program.amazon.com/help/operating/policies">Program Policies</a>; <a href="https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers">FTC Disclosures 101</a> and <a href="https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews">endorsement guidance</a>; <a href="https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links">Google on qualifying outbound links</a>.</li>
 </ul>
-<p class="fine">This page describes our practice; it is not legal advice. The Operating Agreement and the Program Policies govern, and were read on {VERIFIED}.</p>
+<p class="fine">This page describes our practice; it is not legal advice. The Operating Agreement and the Program Policies govern. The policy text in the table above was re-read on 2026-11-20; the Program Policies revision date shown on the page at that read is 2026-04-14.</p>
 """
 page_to("about.html","About us: how this site earns | Countertop Guide","Who writes here, how Amazon Associates money works, why no prices are quoted, what has not been tested and how corrections are handled.",about_body)
 
@@ -1340,12 +1388,13 @@ desk_body = f"""
 <div class="grid cols-2">
   <article class="card"><span class="tag">Evidence</span><h3><a href="verification.html">Verification register</a></h3><p>Line by line: submitted short link, intended ASIN, official listing URL, confirmation date and source, the observed redirect target in its own separate field, and every product fact with the link it came from.</p></article>
   <article class="card"><span class="tag">Open items</span><h3><a href="flagged.html">Flagged for review</a></h3><p>Every irregularity and unverified item, with the action that would close it. Flags never block publishing; they block claims.</p></article>
-  <article class="card"><span class="tag">Decisions</span><h3><a href="suggestions.html">Suggestions &amp; decision desk</a></h3><p>Ranked suggestions with options, a copy-paste design brief, and the fourteen questions whose answers gate the next build.</p></article>
+  <article class="card"><span class="tag">Decisions</span><h3><a href="suggestions.html">Suggestions &amp; decision desk</a></h3><p>Ranked suggestions with options, a copy-paste design brief, the six-item decision queue, and the questions whose answers gate the next build.</p></article>
   <article class="card"><span class="tag">Money &amp; policy</span><h3><a href="compliance.html">Compliance gate</a></h3><p>Disclosure wording, sponsored marking, price and image rules read from the Operating Agreement and Program Policies.</p></article>
   <article class="card"><span class="tag">Measurement</span><h3><a href="methodology.html">Method, events &amp; ledger</a></h3><p>What is automated, what is gated, the five defined events, and an empty campaign ledger that only first-party reports may fill.</p></article>
   <article class="card"><span class="tag">Design</span><h3><a href="suggestions.html#design-inputs">Design inputs DI-1 to DI-8</a></h3><p>The eight inputs a parallel pass wrote for the design prompt, kept as a separate register on the board so the owner can approve, reject or defer each line before any CSS ships.</p></article>
   <article class="card"><span class="tag">Design</span><h3><a href="design-brief.html">Design brief (parallel pass)</a></h3><p>A second, independently written brief for the visual overhaul: prompt blocks, three visual directions and an eight-topic calendar. The owner picks one brief to execute - the choice is noted at the end of the decision desk.</p></article>
-  <article class="card"><span class="tag">Snapshot</span><h3><a href="executive-summary.html">Executive summary</a></h3><p>One page for a decision-maker: what is live, what is verified, what is blocked and what happens next.</p></article>
+  <article class="card"><span class="tag">Working papers</span><h3><a href="suggestions.html#the-decisions">The decision queue</a></h3><p>Six decisions only the owner can settle, each with the choice, what it unblocks, and the evidence that closes it. The full Q/I/A register and a long-form working copy travel with the repository under <code>review/1035d1e2/</code>.</p></article>
+<article class="card"><span class="tag">Snapshot</span><h3><a href="executive-summary.html">Executive summary</a></h3><p>One page for a decision-maker: what is live, what is verified, what is blocked and what happens next.</p></article>
 </div>
 <h2>Status board</h2>
 <div class="table-scroll"><table>

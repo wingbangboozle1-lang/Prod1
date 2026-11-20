@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "note": "Reader-submitted topic requests. Empty by design: no reader has sent one yet, and this build does not invent submissions. A reader uses 'Suggest a topic' on suggestions.html, which opens a pre-filled GitHub issue on the public repository. The issue list is the inbox. Do not pre-fill this file to make the desk look active.",
+  "inbox": "https://github.com/wingbangboozle1-lang/Prod1/issues?q=is%3Aissue%20label%3Areader-suggestion",
+  "items": []
+}
