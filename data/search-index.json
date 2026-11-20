@@ -22,7 +22,12 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "16 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
+    "text": "19 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
+  },
+  {
+    "title": "19 buying guides for air fryers & probes",
+    "url": "guides.html",
+    "text": "19 question-led guides: fit, capacity, cleanup, height, what is in the box, price claims, accuracy and wattage - each from a dated listing read."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -72,7 +77,7 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "56 suggestions and 37 questions with options, evidence and trade-offs, mapped to the seven gates on the decision register."
+    "text": "63 ranked suggestions with options and trade-offs, a design brief to paste, and 41 questions whose answers gate the next build. Pick a row, export, decide."
   },
   {
     "title": "Decision register: seven gates, in order",
@@ -100,9 +105,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: fifteen buyer questions",
+    "title": "Topic calendar: eighteen buyer questions",
     "url": "topics.html",
-    "text": "Twelve published and three queued question-shaped titles, each with the verified listing fields and sources it is built from."
+    "text": "Eighteen question-shaped working titles - fifteen published, three queued - each with the verified listing fields it is built from and the sources beside it."
   },
   {
     "title": "Search the guides and products",
@@ -143,6 +148,21 @@
     "title": "Gift receipt test: five checks before you wrap",
     "url": "guide-gift-return-window.html",
     "text": "Five listing-based checks that decide whether a gifted appliance gets kept: variant, counter fit, cleanup, setup burden and the paperwork to keep."
+  },
+  {
+    "title": "What fits under the cabinet? Check counter height",
+    "url": "guide-counter-height.html",
+    "text": "Listed heights are 10 in, 10.63 in and 14.8 in. How to check yours against a cabinet gap, a vent clearance and an outlet, before you order."
+  },
+  {
+    "title": "What comes in the box? Air fryer accessories",
+    "url": "guide-accessories-in-box.html",
+    "text": "One listing says six accessories in the title and seven in the description. How to read an included-components field, using three verified listings."
+  },
+  {
+    "title": "Is that air fryer on sale? How to check the claim",
+    "url": "guide-price-check.html",
+    "text": "A strikethrough price is not a saving. Six checks on any discounted appliance listing, and why this site links to the price instead of quoting one."
   },
   {
     "title": "Air fryer gifts that get used",

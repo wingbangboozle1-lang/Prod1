@@ -75,6 +75,10 @@ jobs:
       - name: Publishing gate - page structure
         run: node scripts/verify_structure.mjs
 
+      # The measurement contract is checked even though the endpoint is not hosted: the day
+      # someone points the site at a host, the client and the endpoint must already agree.
+      - name: Measurement contract test
+        run: python3 scripts/test_event_contract.py
       # Pages here is published from the `main` branch (the repository's Pages build
       # source is "legacy"), which is why the root of this repo IS the site. In that mode
       # actions/deploy-pages always fails ("please use GitHub Actions as the build source"),

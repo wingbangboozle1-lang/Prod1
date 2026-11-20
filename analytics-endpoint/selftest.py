@@ -38,6 +38,9 @@ client_envelope = {
 }
 for name in FIVE:
     payload = dict(client_envelope, event=name)
+    if name == "chooser_complete":
+        # the client (assets/app.js) sends the three chooser answers in data
+        payload = dict(payload, data={"q1": "family", "q2": "compact", "q3": "budget"})
     ok, reason = server.validate(payload)
     check(ok, f"client envelope validates for {name}" + (f" ({reason})" if reason else ""))
 

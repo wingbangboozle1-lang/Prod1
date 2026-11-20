@@ -820,3 +820,48 @@ footer nav p { margin: .35rem 0; line-height: 1.8; }
 .decide input[type=text] { width: 100%; min-height: 44px; padding: .5rem .6rem; border: 1px solid var(--line-strong); border-radius: var(--r-sm); font-family: inherit; font-size: .9rem; background: var(--surface); }
 .decide .btn { margin-top: .6rem; }
 .decision-out { display: block; margin-top: .7rem; font-family: var(--mono); font-size: .82rem; line-height: 1.7; color: var(--ink); background: var(--surface); border-left: 3px solid var(--gold); padding: .6rem .8rem; border-radius: 0 var(--r-sm) var(--r-sm) 0; white-space: pre-wrap; }
+/* ---------------------------------------------------------------------------
+   Artwork + desk layer (session e7dcb638, 2026-11-20).
+   Only the classes this pass introduced, which the 2026-11-20 design-system pass
+   (a8a06a38) could not know about: our own SVG drawings on cards and tiles, the
+   guide-card and tile shells, and the decision-desk row state. Everything these
+   pages already styled elsewhere is deliberately NOT repeated here.
+   --------------------------------------------------------------------------- */
+.hero-chips {margin:.6rem 0 0}
+.cluster-head {font-size:clamp(1.25rem,2.8vw,1.6rem);color:var(--teal);border-bottom:2px solid var(--line);padding-bottom:.35rem}
+.product-card {display:flex;flex-direction:column}
+.product-card ul {padding-left:1.15rem;margin:.55rem 0}
+.spec-list li {margin:.22rem 0}
+/* tiles */
+.tile {border:none;min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;gap:.35rem}
+.tile h3 {font-size:1.45rem}
+.tile-fryers {background:linear-gradient(160deg,#F9E8CD,#F1D2A9)}
+.tile-thermos {background:linear-gradient(160deg,#DDEAE2,#C3DCCE)}
+/* trust + misc */
+.trust-strip {background:#2B1D12;color:#F2E5D2;border-radius:18px;padding:1.5rem 1.6rem;margin:2.25rem 0}
+.trust-strip h2,.trust-strip h3 {color:#FFF7E9}
+.trust-strip a {color:#F5D9A8}
+img.og {max-width:100%;height:auto;border-radius:12px}
+.hero-art {margin:1.4rem 0 0;position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#F3E4CC;box-shadow:var(--shadow)}
+.hero-art img {display:block;width:100%;height:auto}
+.hero-art figcaption {position:absolute;left:0;right:0;bottom:0;padding:.55rem .85rem;font-size:.74rem;letter-spacing:.02em;color:#FFF7E9;background:linear-gradient(transparent,rgba(34,21,10,.82))}
+.prod-art {position:relative;display:block;background:linear-gradient(150deg,#F8EDDA,#F0DCC0);border:1px solid var(--line);border-radius:14px;padding:.6rem .8rem;color:var(--teal)}
+.prod-art img {display:block;width:100%;max-width:230px;height:auto;margin:0 auto}
+.prod-art i {position:absolute;right:.6rem;bottom:.45rem;font-style:normal;font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+/* category tiles -------------------------------------------------------- */
+.tile {position:relative;overflow:hidden;isolation:isolate}
+.tile .tile-art {position:absolute;inset:auto -6% -10% auto;width:56%;color:var(--teal);opacity:.9;z-index:-1}
+.tile .tile-art img {display:block;width:100%;height:auto}
+.tile h3 {margin-top:.2rem}
+.tile p {font-size:.93rem;color:var(--ink-2)}
+/* guide cards + motifs -------------------------------------------------- */
+.guide-card {display:flex;flex-direction:column;gap:.5rem;height:100%}
+.motif {display:block;background:linear-gradient(150deg,#FBF1E1,#F2E0C6);border-radius:12px;padding:.5rem;color:var(--clay);width:100%;max-width:150px}
+.motif img {display:block;width:100%;height:auto}
+.paths {display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.2rem 0}
+.paths {grid-template-columns:1fr}
+.review-state {display:flex;gap:.4rem;flex-wrap:wrap;margin:.55rem 0 0}
+.review-state button {font:inherit;font-size:.8rem;font-weight:700;padding:.3rem .7rem;border-radius:999px;border:1px solid var(--line-strong);background:#fff;cursor:pointer;min-height:36px}
+.review-state button[aria-pressed="true"] {background:var(--ink);color:#FFF7E9;border-color:var(--ink)}
+.qia dt {font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:.7rem}
+.qia dd {margin:.2rem 0 0;font-size:.94rem}

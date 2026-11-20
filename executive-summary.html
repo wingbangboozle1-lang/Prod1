@@ -60,7 +60,7 @@
 
 <h2>The state of the publication</h2>
 <div class="grid cols-3">
-  <article class="card"><span class="chip">Live</span><h3>1 publication, 33 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, 16 question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
+  <article class="card"><span class="chip">Live</span><h3>1 publication, 37 pages</h3><p>Front page, two category hubs, a five-product comparison with a three-question chooser, 19 question-shaped guides, a topic calendar, and the review desk. One sitemap, one feed, one canonical host.</p></article>
   <article class="card"><span class="chip">Verified</span><h3>5 listings, dated</h3><p>Titles, dimensions, capacity, features and bullets read from Amazon.com on 2026-11-20, each linked. Submitted short links resolve to the five ASINs. Anything unconfirmed is blank and flagged, never inferred.</p></article>
   <article class="card"><span class="chip">Waiting on you</span><h3>7 open decisions, ranked</h3><p>The decision register collapses 55 suggestions and 37 questions into seven gates and prices each one: Special Link test, one canonical site, price display policy, measurement host, author, imagery licence, publishing cadence. Every gate has a one-line answer form on <a href="decisions.html">the register</a>. None blocks publishing; each blocks a claim or a scale step. For the longer version &mdash; eighteen decisions grouped by what they unlock, each with the missing fact and the one action that produces it, plus a shopping list of the fourteen facts the site still lacks &mdash; open the <a href="https://github.com/wingbangboozle1-lang/Prod1/blob/main/review/3c99f15c/DECISION_WORKSHEET.md">decision worksheet</a>.</p></article>
 </div>
@@ -99,8 +99,10 @@
 <h2>Automation boundary</h2>
 <p>This is a static affiliate publication, not a live AI research or campaign-optimization service. The build automates page generation and compliance checks; the event names and endpoint are implemented and tested locally, but the endpoint is not hosted, no conversion reports are connected, and no AI agent is currently sourcing products, scoring commissions, publishing automatically, or optimizing campaigns. Those capabilities require documented data access, policy review and an operating host before they can be represented as live. The open questions and recommended discovery steps are on the <a href="suggestions.html">suggestions desk</a> and <a href="decisions.html">decision register</a>.</p>
 
-<h2>What the 2026-11-20 pass changed</h2>
+<p>Every count on this page is read from the build, not remembered: <strong>41</strong> pages, <strong>19</strong> guides, <strong>18</strong> calendar topics, <strong>93</strong> rows on the flag list, <strong>63</strong> suggestions and <strong>41</strong> questions on the decision desk.</p>
+<h2>What the 2026-11-20 passes changed</h2>
 <ul>
+
 <li><strong>The type the design always specified now actually loads.</strong> The stylesheet named Fraunces and Inter; neither file existed, so every page rendered in Georgia and the system UI font. Four self-hosted latin variable fonts (182 KB total, SIL Open Font License 1.1, licences committed alongside) now render the site (<a href="flagged.html#FLG-067">FLG-067</a>).</li>
 <li><strong>Original brand art on every product card.</strong> Five line drawings of the appliance <em>types</em>, drawn for this site. No photograph, no Amazon image, no rendering of a specific unit &mdash; the imagery rule the site set for itself still holds.</li>
 <li><strong>Navigation tells you where you are.</strong> The header marks the current section, and the stylesheet rule that was written for it is finally used (<a href="flagged.html#FLG-071">FLG-071</a>).</li>
@@ -108,29 +110,32 @@
 <li><strong>The sitemap is now the shop, not the audit.</strong> Seven internal surfaces moved to <code>noindex, follow</code>; the register, the flagged list and the compliance page stay indexed for the buyer who wants the source (<a href="flagged.html#FLG-069">FLG-069</a>).</li>
 <li><strong>The site is not claimed to have been looked at.</strong> No browser could be installed in this environment, so there is no screenshot review in this pass. <code>scripts/verify_structure.mjs</code> proves the documents parse, that every asset and font file the HTML names exists, that headings are ordered and that images declare dimensions &mdash; and says in its own header that this is a structural proof, not a visual one. The full working record, including the two failed browser installs, is <code>review/62786810/VERIFICATION.md</code>.</li>
 <li><strong>Six decisions are written so they can be settled in one sitting</strong> (<a href="suggestions.html#suggestions">SG-49 to SG-53 and SG-59</a>), plus five new questions (<a href="suggestions.html#Q-33">Q-33 to Q-37</a>) covering the things this build cannot answer from inside the repository.</li>
-</ul>
 
-<h2>What earlier passes changed</h2>
-<ul>
+
 <li><strong>The site now looks designed, because the styles exist.</strong> The build was emitting 44 CSS classes with no rule and referencing 9 undefined custom properties, so cards, hero columns and status chips rendered as plain blocks. All of it is styled, and <code>scripts/check_style.mjs</code> fails the build if an unstyled class returns (<a href="flagged.html#FLG-052">FLG-052</a>).</li>
 <li><strong>Broken markup repaired.</strong> Three suggestion rows had malformed class attributes, so their status badges and row text never rendered (<a href="flagged.html#FLG-053">FLG-053</a>).</li>
 <li><strong>The social card is readable.</strong> The shared-link image had text overlapping the subtitle and captions hidden under the footer; <code>make_og.py</code> now measures each block and asserts clearance (<a href="flagged.html#FLG-054">FLG-054</a>).</li>
-<li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-055">FLG-055</a>).</li>
+<li><strong>Readers can ask for a topic.</strong> The desk now has an intake that opens a public issue, and shows an honest count of zero rather than pretending to have submissions (<a href="flagged.html#FLG-063">FLG-063</a>).</li>
 <li><strong>Search metadata fits.</strong> Five titles and descriptions that would truncate in results were rewritten; the metadata gate now reports zero warnings.</li>
 <li><strong>Re-verified 2026-11-20.</strong> Every listing was re-read line by line on 2026-11-20; the volatile figures that drifted (P1 rating count and used price, P2 rating count) were corrected in the register, and the new <a href="flagged.html#FLG-067">FLG-067</a> records the pass and its scope. Full evidence: <code>review/1b65e5a1/VERIFICATION.md</code>.</li>
 <li><strong>Two decision rows added.</strong> The desk now carries <a href="suggestions.html#SG-44">SG-44</a> (visual QA of the styled shop before the next deploy) and <a href="suggestions.html#SG-45">SG-45</a> (goal-based intent landings built only from verified fields).</li>
-</ul>
-
+<li><strong>Original artwork, ours.</strong> Five line drawings of the appliance <em>forms</em> (dual basket, French door, single basket, handheld, wireless probes) sit on the product cards and tiles, with a commissioned illustration opening the front page. Every one is captioned as our drawing, not product photography; no Amazon image is stored, linked or imitated. Product photographs remain gated by SG-04.</li>
+<li><strong>Three guides shipped</strong> from the topic calendar: <a href="guide-counter-height.html">counter height and cabinet fit</a>, <a href="guide-accessories-in-box.html">what is actually in the box</a>, and <a href="guide-price-check.html">how to check a price claim</a>. The guide list is now one source of truth: the same data builds the guides index, the front-page module, the footer column and the RSS feed, and the build fails if they disagree.</li>
+<li><strong>Dates separated.</strong> A guide&rsquo;s publish date (<code>data/editorial.json</code> &rarr; <code>dates.publish</code>) is no longer the same field as the register&rsquo;s verification date, so a page written today against a listing read last week says both, truthfully, in the markup and in the feed.</li>
+<li><strong>The measurement machinery is now tested, not described.</strong> The endpoint and the browser client disagreed on three of the five event names; they now share one contract, and <code>scripts/test_event_contract.py</code> runs in CI on every push. The endpoint still is not hosted and the site still sends nothing.</li>
+<li><strong>The decision desk is usable.</strong> Every one of the <strong>112</strong> numbered rows on the desk &mdash; suggestions, questions and discoveries, including the long-form cards &mdash; gets an approve / defer / reject control at runtime (six rows had one before this pass), the pick survives a reload, and the export writes a dated Markdown decision sheet a reviewer pastes into <code>docs/decisions.md</code>. Picks never leave the browser.</li></ul>
 <h2>What happens next, in order</h2>
 <ol>
+<li><strong>Decide what counts as an approval.</strong> Picks on the desk are saved in a browser and exported as Markdown; <code>docs/decisions.md</code> has no entries yet, so nothing on the board is a decision until it is written there (<a href="suggestions.html#Q-30">Q-30</a>).</li>
 <li><strong>You run the Special Link test</strong> once per product in Associates Central and confirm the destination and the tracking report. This is the one gate no session can clear from inside the repository (<a href="suggestions.html#SG-01">SG-01</a>).</li>
 <li><strong>Claim the Search Console property</strong> for the canonical host and submit the sitemap. Without it the calendar is a plan, not a measurement (<a href="suggestions.html#SG-02">SG-02</a>).</li>
-<li><strong>Pick the domain and the build source</strong> — a custom domain if you want one, and GitHub Pages set to publish from Actions so a failed gate actually blocks a release (<a href="suggestions.html#SG-43">SG-43</a>).</li>
-<li><strong>Write the next guide from measured queries</strong>, four weeks after step 2, not from instinct.</li>
+<li><strong>Pick the domain and the build source</strong> &mdash; a custom domain if you want one, and GitHub Pages set to publish from Actions so a failed gate actually blocks a release (<a href="suggestions.html#SG-43">SG-43</a>).</li>
+<li><strong>Decide the shop-and-earn bundle</strong>, which is the only path that changes how the pages read rather than what they record (<a href="suggestions.html#SG-03">SG-03</a> then <a href="suggestions.html#SG-04">SG-04</a>).</li>
+<li><strong>Write the next guide from measured queries</strong>, four weeks after step 3, not from instinct.</li>
 </ol>
 <p class="fine">Full working list: <a href="suggestions.html">the decision desk</a> (options, trade-offs, effort, and what each one unblocks) and <a href="flagged.html">Flagged for review</a> (every irregularity, with its source).</p>
 
-<h2>Latest pass, 2026-11-20</h2>
+<h2>The holiday-window pass, earlier on 2026-11-20 (session 42e09357)</h2>
 <p>Session <code>42e09357</code>. What changed on the site, and what was deliberately not touched:</p>
 <ul class="tight">
 <li><strong>Three holiday-window guides published</strong> (counter fit before Thanksgiving, the ten-minute listing check for the buying window, the gift receipt test), each built only from fields in the register, each added to the calendar, the sitemap and the feed. The one-guide-a-week rule was deviated from on purpose and the deviation is recorded in <code>data/editorial.json</code>, not smoothed over.</li>
@@ -139,7 +144,7 @@
 <li><strong>A dated partial re-read</strong> of the five listings: titles confirmed on 2026-11-20, one buy-box price attributable and matching; the rest of the register keeps its 2026-11-19 field dates because those fields were not re-read in this pass.</li>
 <li><strong>Not changed:</strong> no price or rating figure was added anywhere, no testing claim, no popularity claim, no commission or revenue figure, no change to the disclosure, and no new product. The two brand-name sites under <code>counter-check/</code> and <code>docs/</code> are untouched, and their consolidation is still an owner decision (SG-22, Q-18).</li>
 </ul>
-
+<p class="fine">Two limits on this page, stated rather than buried: nothing here is a forecast of traffic, ranking or revenue, and no session has yet seen a real query or a real click. The gates prove rules were followed, not that the pages are good &mdash; that judgement is the owner&rsquo;s, and the desk exists so it can be made row by row.</p>
 </main>
 
 <footer>
@@ -151,7 +156,7 @@
       <p class="fine">Product information is quoted from Amazon listings as observed on 2026-11-20. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates. Listings can change at any time &mdash; confirm the spec, the variant and the price on the product page before you buy.</p>
     </div>
     <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air fryers</a><br><a href="thermometers.html">Meat thermometers</a><br><a href="compare.html">Compare all five</a><br><a href="compare.html#chooser">Three-question chooser</a></p></nav>
-    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity, honestly</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a><br><a href="guide-gift-picks.html">Gift picks that get used</a></p></nav>
+    <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All 19 guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style air fryer</a><br><a href="guide-capacity-checklist.html">A no-hype checklist for comparing air fryer </a><br><a href="guide-cleanup-counter-space.html">How to assess cleanup and counter-space trad</a><br><a href="guide-counter-height.html">What fits under the cabinet? Checking counte</a><br><a href="guide-accessories-in-box.html">Air fryer accessories</a></p></nav>
     <nav aria-label="Review desk"><p><strong>Review desk</strong></p><p><a href="review-desk.html">Desk index</a><br><a href="decisions.html">Decision register</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="suggestions.html">Suggestions &amp; decisions</a><br><a href="methodology.html">Method &amp; ledger</a><br><a href="compliance.html">Compliance gate</a><br><a href="executive-summary.html">Executive summary</a><br><a href="design-brief.html">Design brief (parallel)</a><br><a href="about.html">About &amp; contact</a></p></nav>
   </div>
 </footer>

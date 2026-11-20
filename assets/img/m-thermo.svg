@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140" role="img" preserveAspectRatio="xMidYMid meet">
+<g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M92 26a14 14 0 0 1 28 0v54a20 20 0 1 1-28 0z" fill="currentColor" fill-opacity=".07"/>
+  <circle cx="106" cy="98" r="10" fill="currentColor" fill-opacity=".55"/>
+  <path d="M106 92V44"/>
+  <path d="M124 40h16M124 56h12M124 72h16" stroke-opacity=".6"/>
+</g>
+</svg>
