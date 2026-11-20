@@ -29,7 +29,7 @@
       "material": "Metal, Plastic",
       "specialFeatures": "+2Min Button, Automatic Shut-Off, Dual Zone Features, Hi-Fry, Mute",
       "rating": "4.2",
-      "ratingCount": "4,877",
+      "ratingCount": "4,878",
       "boughtPastMonth": "1K+ bought in past month",
       "badge": "Amazon's Choice (shown on listing)",
       "priceNew": "$79.93",
@@ -45,7 +45,7 @@
         "Touchscreen presets for chicken, vegetables, pizza, French fries, frozen foods and leftovers"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0CDY277D3",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read twice 2026-11-19 (integration pass confirmed buy box $79.93 and List Price $99.99). Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count (updated 4,876 to 4,877), buy-box $79.93, list $99.99, used price (updated $59.95 to $62.85), dimensions, capacity, wattage and bullets all re-confirmed on the listing."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read twice 2026-11-19 (integration pass confirmed buy box $79.93 and List Price $99.99). Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count (updated 4,876 to 4,877), buy-box $79.93, list $99.99, used price (updated $59.95 to $62.85), dimensions, capacity, wattage and bullets all re-confirmed on the listing. Re-read again 2026-11-20 (arena/0f8382dd integration pass): rating count updated 4,877 to 4,878 (intraday drift, see FLG-024); buy box $79.93 sold and shipped by Amazon.com, used $62.85, spec table and bullets re-confirmed; star value 4.2 carried from the earlier snapshot (widget not rendered in the static fetch)."
     },
     {
       "id": "P2",
@@ -84,7 +84,7 @@
         "Six cooking accessories included (per title)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021. Re-read line by line 2026-11-20: title, rating count (updated 18,375 to 18,380), buy-box $149.99, list $209.99, dimensions, capacity, features and bullets re-confirmed; the Item-details table again lists configuration as 24 functions and 7 accessories (title says six)."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021. Re-read line by line 2026-11-20: title, rating count (updated 18,375 to 18,380), buy-box $149.99, list $209.99, dimensions, capacity, features and bullets re-confirmed; the Item-details table again lists configuration as 24 functions and 7 accessories (title says six). Re-read again 2026-11-20 (arena/0f8382dd integration pass): title, rating 4.3/18,380, buy box $149.99 Black Friday Deal, list $209.99, spec table and bullets re-confirmed; the 24-vs-25 preset conflict is still live on the listing (FLG-002)."
     },
     {
       "id": "P3",
@@ -107,7 +107,7 @@
       "material": "Plastic, Stainless Steel",
       "specialFeatures": "Automatic Shut-Off, LED Shake Reminder, Programmable",
       "rating": "4.4",
-      "ratingCount": "16,892",
+      "ratingCount": "16,894",
       "boughtPastMonth": "3K+ bought in past month",
       "badge": "Amazon's Choice (shown on listing)",
       "priceNew": "$69.99",
@@ -123,7 +123,7 @@
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003. Re-read line by line 2026-11-20: title, rating 4.4/16,892, buy-box $69.99, list $119.99, dimensions, capacity, wattage (1000 W/120 V) and bullets all re-confirmed on the listing."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003. Re-read line by line 2026-11-20: title, rating 4.4/16,892, buy-box $69.99, list $119.99, dimensions, capacity, wattage (1000 W/120 V) and bullets all re-confirmed on the listing. Re-read again 2026-11-20 (arena/0f8382dd integration pass): rating count updated 16,892 to 16,894 (intraday drift, see FLG-024); buy box $69.99, list $119.99, size selector 6/8/9 quarts, spec table and bullets re-confirmed; the used figure $45.49 is the 2026-11-19/20 used-buy-box snapshot and is left unchanged - the offer wall today floors at $43.39 New & Used (a different measure)."
     },
     {
       "id": "P4",
@@ -162,7 +162,7 @@
         "Motion-activated wake and sleep (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
-      "sourceNote": "Title, rating, price (buy box and List Price), special features, specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count 3,499, buy-box $16.99, NIST/NSF specification field, included components and bullets re-confirmed on the listing (dimensions still not listed)."
+      "sourceNote": "Title, rating, price (buy box and List Price), special features, specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count 3,499, buy-box $16.99, NIST/NSF specification field, included components and bullets re-confirmed on the listing (dimensions still not listed). Re-read again 2026-11-20 (arena/0f8382dd integration pass): title, review count 3,499, buy box $16.99, specification field (NIST, NSF), included components and bullets re-confirmed; the details table again has no dimensions row (FLG-004 stands); list price $22.99 not visible in this fetch and carried from the earlier snapshot."
     },
     {
       "id": "P5",
@@ -201,7 +201,7 @@
         "Flip reminders, rest timers, estimated cooking times and Guided Cooking recipes in the app (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Re-read line by line 2026-11-20: title, rating 4.2/2,178, buy-box $119.99 (3-probe variant), list $219.99, included components, two-year assurance and bullets re-confirmed on the listing (dimensions still not listed)."
+      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Re-read line by line 2026-11-20: title, rating 4.2/2,178, buy-box $119.99 (3-probe variant), list $219.99, included components, two-year assurance and bullets re-confirmed on the listing (dimensions still not listed). Re-read again 2026-11-20 (arena/0f8382dd integration pass): title, rating 4.2/2,178, buy box $119.99 (3-probe), list $219.99, variant prices 1p $99.99 / 2p $99.99 / 3p $119.99 / 4p $142.49, included components and bullets re-confirmed; the details table again has no dimensions row (FLG-004 stands)."
     }
   ]
 }
