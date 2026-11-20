@@ -1339,15 +1339,15 @@ Session ID: **1d3cc97c** (branch `arena/1d3cc97c-prod1`, base `3392c0d`). Open P
 | T-1D3-B **Fix render defects** found by T-1D3-A that are confined to CSS (`assets/style.css`) or to a single generator template line; anything else is logged, not edited | **done** | 1d3cc97c | `assets/style.css`, `build_site.py` (only the defective template line), regenerated root `*.html` | re-run T-1D3-A after the fix; `check_site.mjs`, `check_meta.mjs`, `check_style.mjs`, `verify_structure.mjs` | — |
 | T-1D3-C **Integration**: rebuild, all gates, PR to `main`, merge, Pages status | in progress | 1d3cc97c | this file | Pages API + Actions run | — |
 
-### T-1D3 completion record — session 1d3cc97c (2026-11-20)
+### T-1D3 completion record — session 1d3cc97c (2026-11-20, rebased onto main 717cd94)
 
 | Task | Status | Files touched | Verification performed | Irregularities |
 |---|---|---|---|---|
-| T-1D3-A Rendered-page QA, 30 pages × desktop/mobile (60 renders) | **done** | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Headless Chromium (npm `@sparticuz/chromium` 131.0.1 + `puppeteer-core` 23.11.1, outside the repo). Stylesheet, fonts and art served from the checkout via request interception. Checks: overflow, off-screen boxes, broken images, font loads, page and console errors, unserved requests. | Found one defect (below). The first unintercepted render was unstyled because the pages hard-code github.io asset URLs; this is a harness artifact, not a site defect. |
-| T-1D3-B Fix render defects confined to CSS | **done** | `assets/style.css` (badge rule only) | Re-ran the QA: 0 runs with issues (was 1). Rebuild clean (`build_site.py`, no diff). | Defect: `suggestions.html` on a 390 px screen was 447 px wider than the viewport. Cause: `nowrap` on the `.badge-*` pills. Fixed by letting badges wrap. No generated HTML changed. |
+| T-1D3-A Rendered-page QA, 34 pages × desktop/mobile (68 renders) | **done** | `scripts/render_qa.mjs` (new), `review/1d3cc97c/RENDER-QA.md` (new) | Headless Chromium (npm `@sparticuz/chromium` 131.0.1 + `puppeteer-core` 23.11.1, outside the repo). Stylesheet, fonts and art served from the checkout via request interception. Checks: overflow, off-screen boxes, broken images, font loads, page and console errors, unserved requests. | Found one defect (below). The first unintercepted render was unstyled because the pages hard-code github.io asset URLs; this is a harness artifact, not a site defect. |
+| T-1D3-B Fix render defects confined to CSS | **done** | `assets/style.css` (badge rule and `.gate-grid` rule) | Final QA run: 68 renders, 0 runs with issues (before the fixes: 2). Rebuild clean (`build_site.py`, no diff). | Defect 1: `suggestions.html` on a 390 px screen was 447 px wider than the viewport. Cause: `nowrap` on the `.badge-*` pills. Fixed by letting badges wrap. Defect 2 (found after main added `decisions.html`): 66 px overflow from `.gate-grid` tracks sized `1fr`. Fixed with `minmax(0,…)` tracks. No generated HTML changed. |
 | T-1D3-C Integration | in progress at time of writing | this file | see the publication record below | — |
 
-**Gates on this branch (before the PR):** `build_site.py` rebuild clean · `check_site.mjs` PASS (55 HTML) · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS (0 warnings) · `verify_structure.mjs` PASS (30 pages, 0 blocking, 0 warnings) · `counter-check` PASS.
+**Gates on this branch (before the PR):** `build_site.py` rebuild clean · `check_site.mjs` PASS (59 HTML) · `check_meta.mjs` PASS (0 warnings) · `check_style.mjs` PASS (0 warnings) · `verify_structure.mjs` PASS · `check_measure.mjs` PASS · `counter-check` PASS.
 
 **Not verified here, and said so in the record:** taste (two screenshots reviewed, not every page); the live github.io page (not fetched through this harness); interactive states (search, chooser, decision desk). Nothing was marked verified beyond the render checks.
 

@@ -1,10 +1,10 @@
 # Rendered-page QA — session 1d3cc97c (T-1D3-A / T-1D3-B)
 
-Date: 2026-11-20 (UTC). Base: `main` at bebe082 (after PR #38). Scope: the root publication only.
+Date: 2026-11-20 (UTC). Base: `main` at 717cd94 (after PR #49). Scope: the root publication only.
 
 ## What was checked
 
-Every root `*.html` page (30 pages), at two widths: desktop 1366 px and mobile 390 px (touch, device pixel ratio 1). 60 renders in headless Chromium, with the stylesheet, fonts and art served from the checkout.
+Every root `*.html` page (34 pages), at two widths: desktop 1366 px and mobile 390 px (touch, device pixel ratio 1). 68 renders in headless Chromium, with the stylesheet, fonts and art served from the checkout.
 
 Per render:
 
@@ -26,9 +26,9 @@ Tooling sources (not product data, so no product row cites them): [puppeteer-cor
 
 ## Results (final run, after the fix)
 
-Re-run on the merged tree (main at 863fac5 with this branch rebased on it): 60 runs, 0 with issues. The table below is from the first post-fix run on bebe082; the merged-tree run was identical.
+Final run on the branch rebased onto main at 717cd94: 68 runs (34 pages × 2 widths), 0 with issues. The table is from that run.
 
-Runs: 60. Runs with an issue: **0**. Overflow, off-screen elements, broken images, failed fonts, page errors, console errors and unserved requests: all **0**. Loaded fonts on every page: Fraunces and Inter.
+Runs: 68. Runs with an issue: **0**. Overflow, off-screen elements, broken images, failed fonts, page errors, console errors and unserved requests: all **0**. Loaded fonts on every page: Fraunces and Inter.
 
 | Page | Desktop | Mobile | Result |
 |---|---|---|---|
@@ -37,6 +37,7 @@ Runs: 60. Runs with an issue: **0**. Overflow, off-screen elements, broken image
 | compare.html | ok | ok | none |
 | compliance.html | ok | ok | none |
 | dashboard.html | ok | ok | none |
+| decisions.html | ok | ok | none |
 | design-brief.html | ok | ok | none |
 | executive-summary.html | ok | ok | none |
 | flagged.html | ok | ok | none |
@@ -44,13 +45,16 @@ Runs: 60. Runs with an issue: **0**. Overflow, off-screen elements, broken image
 | guide-capacity-checklist.html | ok | ok | none |
 | guide-cleanup-counter-space.html | ok | ok | none |
 | guide-gift-picks.html | ok | ok | none |
+| guide-gift-return-window.html | ok | ok | none |
 | guide-gifts-by-budget.html | ok | ok | none |
+| guide-holiday-deal-check.html | ok | ok | none |
 | guide-holiday-gifts.html | ok | ok | none |
 | guide-holiday-hosting.html | ok | ok | none |
 | guide-holiday-roast.html | ok | ok | none |
 | guide-instant-read-vs-wireless.html | ok | ok | none |
 | guide-multifunction-questions.html | ok | ok | none |
 | guide-small-kitchen.html | ok | ok | none |
+| guide-thanksgiving-counter.html | ok | ok | none |
 | guide-thermometer-accuracy.html | ok | ok | none |
 | guide-wattage-outlets.html | ok | ok | none |
 | guides.html | ok | ok | none |
@@ -63,11 +67,12 @@ Runs: 60. Runs with an issue: **0**. Overflow, off-screen elements, broken image
 | topics.html | ok | ok | none |
 | verification.html | ok | ok | none |
 
-## Defect found and fixed
+## Defects found and fixed
 
-- **suggestions.html, mobile (390 px): page 447 px wider than the screen.** Cause: `.badge-ok`, `.badge-warn` and `.badge-flag` in `assets/style.css` set `white-space: nowrap`. A long status badge inside a paragraph (the SG-49 status line, line ~403 of the generated page) could not wrap, so it pushed the document wider. Tables on the same page were already in `.table-scroll` containers and were not the cause, though they were the first suspect.
-- **Fix:** badges now wrap (`white-space: normal; max-width: 100%; overflow-wrap: anywhere`). Stylesheet only; no generated HTML changed.
-- **Before:** 1 run with issues (suggestions.html mobile, 447 px overflow). **After:** 0 runs with issues.
+1. **suggestions.html, mobile (390 px): page 447 px wider than the screen.** Cause: `.badge-ok`, `.badge-warn` and `.badge-flag` in `assets/style.css` set `white-space: nowrap`. A long status badge inside a paragraph (the SG-49 status line) could not wrap. Fix: badges wrap (`white-space: normal; max-width: 100%; overflow-wrap: anywhere`). Tables on the same page were already in `.table-scroll` containers and were not the cause.
+2. **decisions.html, mobile (390 px): page 66 px wider than the screen.** Found when main added the page (PR #49 era). Cause: `.gate-grid` collapses to one column at 900 px, but its tracks were `1fr`, so a grid item grew to its content's minimum width (a long unbreakable string). Fix: `minmax(0, …)` tracks and `min-width: 0; overflow-wrap: anywhere` on the grid items.
+
+Before the fixes: 2 runs with issues. After: 0 runs with issues.
 
 ## Not checked, and why
 
