@@ -471,11 +471,15 @@ descriptions (check_meta warnings); R-06 event-vocabulary reconciliation with
 `analytics-endpoint/` (owned by another session, untouched here).
 
 **Integration record — PR from arena/a8a06a38-prod1 to main (2026-11-20):**
-- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/30 — merged without waiting
-  for approval, per the brief (merge commit recorded below once merged).
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/30 — **merged without
+  waiting for approval**, per the brief. Merge commit `62ed8e5e81b2e7d4558613cda0b6ed15b0b7bc3a`
+  ("Merge pull request #30 from wingbangboozle1-lang/arena/a8a06a38-prod1"), merged 2026-11-20
+  06:10:32 UTC; state MERGED.
 - Merge result: MERGED OK. GitHub Pages re-deployed from `main`; the Pages API reports
-  `status: built` and https://wingbangboozle1-lang.github.io/Prod1/ was fetched live after the
-  merge and serves the disclosure strip, sponsored links and all surfaces.
+  `status: built` (source: `main @ /`) and https://wingbangboozle1-lang.github.io/Prod1/ was
+  fetched live after the merge: disclosure strip above the fold, sponsored
+  `tag=shopnow047c-20` product links, the upstream "Smallest footprint" label fix, chooser,
+  guides, register and review records all serve correctly.
 - Merge conflict (append-vs-append in COORDINATION.md with the arena/1187e20d-prod1 record and
   the PRs #26-#29 records that reached origin/main first): resolved locally **without
   discarding either side** — all session records kept verbatim, upstream records first, this
