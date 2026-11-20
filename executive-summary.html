@@ -80,7 +80,7 @@
 <ul>
 <li><strong>Product facts</strong> come from each product&rsquo;s own listing, read on 2026-11-20, with the URL recorded per field in the <a href="verification.html">verification register</a>. Where a listing contradicts itself, both values are published and flagged rather than silently resolved (<a href="flagged.html#FLG-002">FLG-002</a>, <a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-022">FLG-022</a>).</li>
 <li><strong>Policy text</strong> was read from the official pages and quoted, not summarised from memory: Operating Agreement &sect;5 (disclosure), Program Policies (price and availability, ratings), Google Search Central (outbound link qualification), FTC (disclosure placement). Sources are listed on <a href="compliance.html">the compliance page</a> with the read date.</li>
-<li><strong>Mechanical checks</strong> run before every publish: the build is deterministic, four gates check disclosure placement, sponsored marking, internal links, metadata, voice rules, price policy and that every CSS class has a style, and the build itself refuses to write a comparative sentence (the narrowest, the deepest, the biggest) that data/products.json no longer supports. See the <a href="verification.html#claim-audit">claim audit</a>. A page that fails cannot merge.</li>
+<li><strong>Mechanical checks</strong> run on every main-branch push: five automated publishing gates collectively check disclosures, sponsored links, internal links, metadata, voice rules, price policy, CSS coverage, page structure and the five-event contract; the build also refuses to write comparative claims that the product register no longer supports. See the <a href="verification.html#claim-audit">claim audit</a>. The current Pages source is the legacy branch builder: a failed gate turns the workflow red, but this repository has not verified branch protection that would block a merge, and the Actions workflow does not itself publish the Pages artifact in this mode (<a href="flagged.html#FLG-051">FLG-051</a>).</li>
 </ul>
 
 <h2>What is not claimed, and why</h2>
@@ -95,6 +95,9 @@
 <h2>How money and measurement work</h2>
 <p>Outbound links carry tracking ID <code>shopnow047c-20</code> and are marked <code>rel="sponsored"</code> with a visible label, including the links the chooser script builds. Five privacy-preserving events are defined; they are counted in the visitor&rsquo;s browser only, because the self-hosted endpoint - code-complete with a CI-tested five-event contract - is not hosted yet. The campaign ledger starts empty and only accepts figures from authorised first-party reports, with a date. No conversion score or revenue forecast appears anywhere on this site.</p>
 <p class="fine">See <a href="methodology.html">Method &amp; campaign ledger</a> for the event contract, the endpoint self-test and the ledger rules.</p>
+
+<h2>Automation boundary</h2>
+<p>This is a static affiliate publication, not a live AI research or campaign-optimization service. The build automates page generation and compliance checks; the event names and endpoint are implemented and tested locally, but the endpoint is not hosted, no conversion reports are connected, and no AI agent is currently sourcing products, scoring commissions, publishing automatically, or optimizing campaigns. Those capabilities require documented data access, policy review and an operating host before they can be represented as live. The open questions and recommended discovery steps are on the <a href="suggestions.html">suggestions desk</a> and <a href="decisions.html">decision register</a>.</p>
 
 <h2>What the 2026-11-20 pass changed</h2>
 <ul>

@@ -836,3 +836,9 @@ Session ID: **7bc009de**. Branch `arena/7bc009de-prod1`, branched from `main @ f
 - **Requests to owners (not edited here).** (1) Per-row source links on spec tables (`build_site.py` table rendering). (2) Link the five "Confirmation date" source cells to `https://www.amazon.com/dp/<ASIN>`. (3) Compliance owner to decide whether a short Associates line should also sit beside each product card, given FTC *Disclosures 101* on placement "with the endorsement message itself". (4) Register owner to say which group-C rows need an external source.
 - **Flagged for review (non-blocking).** Items 1–3 above, buy-box prices for P1/P2/P3/P5 not re-read in the first chunk (dated register values stand), FLG-001 / FLG-015 short-link status unchanged.
 - **Files touched.** `review/7bc009de/SOURCE_LINK_AUDIT.md` (new), `review/7bc009de/audit_source_links.py` (new), `COORDINATION.md`. No shared output changed.
+
+## Session arena/74c7c936-prod1 — claim and completion (2026-11-20)
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-74C-1 Correct stale platform-capability and publishing statements in the executive summary and repository README | done | arena/74c7c936-prod1 | `build_site.py`, generated `executive-summary.html`, `README.md`, `COORDINATION.md` | Repository source review: `.github/workflows/pages.yml`, `analytics-endpoint/`, `data/editorial.json`, `flagged.html#FLG-051`; `python3 build_site.py`; `check_site`, `check_meta`, `check_style`, `check_measure` (including endpoint self-test), `verify_structure`, `counter-check/tools/check_site.py`; `git diff --check` | Legacy Pages source means Actions gates run, but the workflow does not itself deploy an artifact; branch protection is not verified. Analytics endpoint code is not hosted; no AI research or optimization service is currently active. No external account or live-site state was independently tested in this pass. |
