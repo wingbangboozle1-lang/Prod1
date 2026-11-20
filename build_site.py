@@ -346,15 +346,58 @@ def nav(slug, prefix=""):
 </form>''')
     return "\n".join(out)
 ISSUE = E.get("contentDate", VERIFIED)   # page date, not evidence date - see editorial.json
+
+# ---------------------------------------------------------------- dated provenance
+# Two dates were being printed as one. `verifiedDate` is when the Amazon listings were read;
+# `contentDate` is when the HTML last changed. An article's first-published date is a third
+# fact, and it cannot be recovered by guessing: these are read from `git log --diff-filter=A`
+# on the committed page, so the value is checkable against the repository history rather than
+# asserted by the generator. `python3 build_site.py --refresh-dates` re-derives them; the build
+# itself only reads them, so a rebuild is deterministic on a shallow checkout too.
+ARTICLE_PUBLISHED = {
+    "guide-basket-vs-oven.html": "2026-11-19",
+    "guide-capacity-checklist.html": "2026-11-19",
+    "guide-cleanup-counter-space.html": "2026-11-19",
+    "guide-gift-picks.html": "2026-11-19",
+    "guide-gifts-by-budget.html": "2026-11-19",
+    "guide-holiday-hosting.html": "2026-11-19",
+    "guide-multifunction-questions.html": "2026-11-19",
+    "guide-thermometer-accuracy.html": "2026-11-19",
+    "guide-wattage-outlets.html": "2026-11-19",
+    "guide-instant-read-vs-wireless.html": "2026-11-20",
+}
+# `dateModified` is NOT invented per page either: the build rewrites every page at
+# `contentDate`, and the sitemap stamps the same value as `<lastmod>`. Using one field for
+# both keeps the two signals from disagreeing, which Google's sitemap guidance is explicit
+# about (lastmod must be consistently and verifiably accurate).
+PAGE_DATE = {}
+
+
+def card_url(slug):
+    """Each guide gets its own social card. One shared og-image meant every share of every
+    guide rendered the same picture and the same `Article.image`, which is the opposite of
+    what the Article guidance asks for: an image representative of *that* article."""
+    if slug in ARTICLE_PUBLISHED:
+        return f"{BASE}/assets/cards/{slug.replace('.html', '')}.png"
+    return f"{BASE}/assets/og-image.png"
+def nice_date(iso):
+    if not iso:
+        return ""
+    y, mo, d = iso.split("-")
+    months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    return f"{int(d)} {months[int(mo)-1]} {y}"
+
+
 def issue_bar(slug):
     """A publication says what issue it is and when it was last read. Generated from the same
-    date the register uses, so the line cannot drift from the data it describes."""
-    y, mo, d = ISSUE.split("-")
-    months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    label = f"{int(d)} {months[int(mo)-1]} {y}"
+    date the register uses, so the line cannot drift from the data it describes. The evidence
+    date is `site.verifiedDate` (when the listings were read); the issue date is the content
+    date (when the HTML last changed). They are two different facts and were previously
+    printed as one, which read as "the listings were read on the day the page changed"."""
+    label = nice_date(ISSUE)
     return f'''<div class="issue-bar"><div class="issue-inner">
 <span class="issue-vol">{esc(BRAND)} &middot; Issue of {label}</span>
-<span class="issue-note">Specs read from the Amazon listing, dated on every page &middot; no fake testing</span>
+<span class="issue-note">Listings read {esc(nice_date(VERIFIED))} &middot; every figure dated on the page &middot; no fake testing</span>
 <a class="issue-link" href="methodology.html">How we work</a>
 </div></div>'''
 
@@ -394,9 +437,23 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
         kind = "merged"
     ld = [LD_ORG, crumbs(slug, title)]
     if kind == "Article":
-        ld.append({"@context": "https://schema.org", "@type": "Article", "headline": title.split(" | ")[0],
-                   "datePublished": VERIFIED, "dateModified": VERIFIED, "inLanguage": "en-US",
-                   "author": {"@type": "Organization", "name": DESK}, "publisher": LD_ORG,
+        # Google's Article guidance (fetched 2026-11-20) asks for headline, author, publisher,
+        # datePublished, dateModified, image and a URL that identifies the item. Two of those
+        # were missing here: `image`, so the article had no representative image, and
+        # `mainEntityOfPage`. `url` is added so the node is self-identifying rather than
+        # inferable only from position. Nothing below is invented: the dates come from
+        # data/products.json (evidence) and data/editorial.json (page), and the image is a
+        # file this build writes.
+        art_url = abs_url(slug)
+        ld.append({"@context": "https://schema.org", "@type": "Article",
+                   "headline": title.split(" | ")[0][:110],
+                   "url": art_url, "mainEntityOfPage": {"@type": "WebPage", "@id": art_url},
+                   "datePublished": ARTICLE_PUBLISHED.get(slug, VERIFIED),
+                   "dateModified": PAGE_DATE.get(slug, ISSUE),
+                   "inLanguage": "en-US",
+                   "author": {"@type": "Organization", "name": DESK, "url": abs_url("about.html")},
+                   "publisher": LD_ORG,
+                   "image": {"@type": "ImageObject", "url": card_url(slug), "width": 1200, "height": 630},
                    "isPartOf": {"@type": "WebSite", "name": BRAND, "url": abs_url("index.html")},
                    "description": desc})
     if slug == "index.html":
@@ -410,7 +467,9 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
     ld.append({"@context": "https://schema.org", "@type": "WebPage", "name": title.split(" | ")[0],
                "url": abs_url(slug), "inLanguage": "en-US", "description": desc})
     ldscripts = "".join(jsonld(x) for x in ld)
-    ogimg = BASE + "/assets/og-image.png"
+    ogimg = card_url(slug)
+    ogalt = (f"{BRAND} - {title.split(' | ')[0]}" if ogimg != BASE + "/assets/og-image.png"
+             else f"{BRAND} - spec-backed buying guides")
     PAGES.append({"slug": slug, "title": title, "description": desc, "kind": kind, "canonical": canon,
                   "indexable": not (slug in NOINDEX and not canonical)})
     return f"""<!DOCTYPE html>
@@ -431,7 +490,7 @@ def page(slug, title, desc, body, extra_head="", body_class="", canonical=None):
 <meta property="og:image" content="{esc(ogimg)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{esc(BRAND)} - spec-backed buying guides">
+<meta property="og:image:alt" content="{esc(ogalt)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title.split(' | ')[0])}">
 <meta name="twitter:description" content="{esc(desc)}">
@@ -1277,6 +1336,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr id="Q-34"><td>Q-34</td><td>Which build under this hostname is the publication?</td><td>Three builds are served: the root site (26 sitemap URLs), <code>docs/</code> and <code>counter-check/site/</code>. Only the root is in a sitemap</td><td>The owner&rsquo;s intent for the other two</td><td>Designate one; add <code>noindex</code> to the others (<a href="suggestions.html#SG-51">SG-51</a>)</td><td>Every ranking statement, and a clean Search Console property</td></tr>
 <tr id="Q-35"><td>Q-35</td><td>Can any of the five outbound links be attributed to this tag?</td><td>The links carry <code>tag=shopnow047c-20</code> and the correct ASINs, verified against the listings. No Associates report has been read, because no session can log in</td><td>One report row per product</td><td>Owner runs the click test (<a href="#SG-53">SG-53</a>)</td><td>Any revenue statement; nothing about publishing</td></tr>
 <tr id="Q-36"><td>Q-36</td><td>What exact accuracy figure does the wireless thermometer carry?</td><td>No tolerance figure appears in the fields captured from B0DZFD6R9Z. The ThermoMaven listing states &plusmn;0.5&deg;F with NIST and NSF named</td><td>The manual or product-support document for the CHEF iQ</td><td>Either read the manual on the listing, or ask the seller through the listing&rsquo;s contact route; until then the guide reports an absence</td><td>Any accuracy comparison between the two thermometers</td></tr>
+<tr id="Q-38"><td>Q-38</td><td>Does any of the structured data actually validate?</td><td>Every JSON-LD block is parsed by <code>check_meta.mjs</code> at build time and the Article fields are asserted present; the cards the markup names exist on disk</td><td>A pass through Google&rsquo;s Rich Results Test and the URL Inspection tool on the deployed URLs, which needs a human with the property open</td><td>Open each of the twenty sitemap URLs in <a href="https://search.google.com/test/rich-results">Rich Results Test</a> once after deploy, record the result in this register, and paste the outcome into <a href="suggestions.html#SG-54">SG-54</a></td><td>Whether to keep investing in structured data at all &mdash; and it is the only honest way to claim any of it works</td></tr>
 <tr id="Q-37"><td>Q-37</td><td>Do the listings&rsquo; own dimensions match the units shipped?</td><td>Dimensions are quoted as the listing states them, with the unit (inches) preserved. No independent measurement exists</td><td>A physical unit, or a manufacturer spec sheet naming the same model code</td><td>Only a purchase resolves it; until then the pages say &ldquo;as listed&rdquo;</td><td>Counter-fit advice, which is the site&rsquo;s central promise</td></tr>
 <tr id="Q-27"><td>Q-27</td><td>Who publishes this site, the branch or the workflow?</td><td>The workflow gates every push to <code>main</code>; GitHub&rsquo;s legacy branch build is what actually serves the pages. <a href="flagged.html#FLG-051">FLG-051</a> and <a href="suggestions.html#SG-43">SG-43</a></td><td>Whether to move Pages to the GitHub Actions build source</td><td>Owner: Settings &rarr; Pages &rarr; Build source &rarr; GitHub Actions; then the next deploy run publishes the artifact and a failed gate stops it</td><td>Every claim this site makes about automation being load-bearing</td></tr>
 <tr id="Q-38"><td>Q-38</td><td>Which topics have real search demand?</td><td>The calendar titles are hypotheses, explicitly labelled as such; no query, impression or click data exists yet</td><td>Any query, impression or click figure for the proposed titles</td><td>28 days of Search Console after SG-02; manual autocomplete observation (not a volume claim)</td><td>Which two guides get written next (SG-12)</td></tr>
@@ -1301,6 +1361,7 @@ it says specific things, admits its gaps, and never asks to be believed.
 <tr><td>S-04</td><td>Every page has its own title and meta description</td><td>Generated per page; the build gate fails on a duplicate</td></tr>
 <tr><td>S-05</td><td>Affiliate links carry rel=&quot;sponsored&quot; without weakening the disclosure</td><td>Every outbound link, plus the JS-built chooser links (which previously had no rel - <a href="flagged.html#FLG-034">FLG-034</a>)</td></tr>
 <tr><td>S-06</td><td>&ldquo;What it is like to live with&rdquo; content is <strong>not adopted</strong></td><td>No page claims use; kept that way by the banned-phrase gate</td></tr>
+<tr><td>S-25</td><td>Structured data and share cards per guide</td><td><strong>Done in this pass.</strong> All ten published guides declare <code>Article</code> with author, publisher, both dates, image and <code>mainEntityOfPage</code>; each has its own 1200&times;630 card; <code>datePublished</code> is read from the commit that first added the page. Gated so it cannot regress (<a href="flagged.html#FLG-074">FLG-074</a>, <a href="flagged.html#FLG-075">FLG-075</a>). No rich-result claim is made.</td></tr>
 <tr><td>S-09</td><td>Social preview + structured data</td><td>Partly done before; og:image is now a real absolute PNG card; FAQPage markup kept but must not be sold as a rich-result win (<a href="flagged.html#FLG-036">FLG-036</a>)</td></tr>
 <tr><td>S-12</td><td>Voice decided and applied once</td><td>Rules live in <code>data/editorial.json</code> and are enforced by the gate</td></tr>
 <tr><td>S-17</td><td>Front page rebuilt as a publication</td><td>Hero question, quick picks, products, chooser, guides, trust block last</td></tr>
@@ -1373,6 +1434,14 @@ it says specific things, admits its gaps, and never asks to be believed.
 </div>
 <p class="fine"><strong>Effort:</strong> Path A is 20 minutes of owner time. <strong>Evidence needed:</strong> owner verification of the domain property. <strong>Blocks:</strong> any statement that a topic is in demand. <strong>Status:</strong> <span class="badge-warn">Needs owner action</span></p></article>
 
+<article class="sg" id="SG-55"><h3>SG-55 &middot; Put a buy button beside each row of the verification register</h3>
+<p><strong>Why:</strong> <code>verification.html</code> is one of three audit pages deliberately kept <em>indexed</em> (<a href="flagged.html#FLG-069">FLG-069</a>), so it receives search traffic from people checking a spec. Every one of its 77 Amazon citations links to the clean canonical listing &mdash; which is right, because that field is evidence and must not be rewritten into an affiliate URL &mdash; and 77 out of 77 carry <code>rel="sponsored nofollow noopener"</code> but no <code>?tag=</code>. A reader who arrives there, trusts it, and clicks through buys without the site earning anything. The evidence stays clean either way; the only question is whether a labelled buy link sits beside it.</p>
+<div class="opts"><p><strong>Path A (recommended):</strong> keep the citation URL exactly as observed, and add a small <code>See today&rsquo;s price &rarr;</code> link per row carrying <code>?tag=shopnow047c-20</code>, marked sponsored, wired to <code>data-ctg-outbound</code> so the click is counted. Two links, two jobs, no field merged.</p><p><strong>Path B:</strong> leave it. The register then stays a pure reference page and that traffic earns nothing.</p></div>
+<p class="fine"><strong>Effort:</strong> S &mdash; one loop in <code>verification.html</code>&rsquo;s generator function. <strong>Evidence needed:</strong> none; every value is already in the register. <strong>Blocks:</strong> nothing. <strong>Conflicts with:</strong> PR #37 touches <code>verification.html</code>, which is why this pass logged it instead of editing the file (see <a href="methodology.html">methodology</a> on scope). <strong>Status:</strong> <span class="badge-warn">Needs decision</span></p></article>
+<article class="sg" id="SG-54"><h3>SG-54 &middot; Give the desk a real author entity, or keep declaring an organisation</h3>
+<p><strong>Why:</strong> every guide now declares its author as an <code>Organization</code> &mdash; the desk &mdash; because no individual here has a credential we can show. Google&rsquo;s author guidance accepts an organisation and asks for a <code>url</code> that identifies it; that url is now <code>about.html</code>. A named person with a bio would be stronger for a shopping publication, and it is a decision, not a build task.</p>
+<div class="opts"><p><strong>Path A (ship now, recommended until someone is willing to be named):</strong> keep the organisation byline and the <code>about.html</code> link. Honest, verifiable, no invented credentials.</p><p><strong>Path B:</strong> name a person, add a real bio to <code>about.html</code>, and link the <code>Person</code> entity. Requires that person to exist and agree &mdash; outside what any session can decide.</p></div>
+<p class="fine"><strong>Effort:</strong> S. <strong>Evidence needed:</strong> a named editor. <strong>Blocks:</strong> nothing; the organisation byline is already valid. <strong>Status:</strong> <span class="badge-warn">Needs decision</span></p></article>
 <article class="sg" id="SG-53"><h3>SG-53 &middot; Open one Associates click test per product, or stop calling the links validated</h3>
 <p><strong>Why:</strong> the five outbound buttons carry the tracking ID and the correct ASIN, but no session here can confirm that a click is attributed in the Associates report. Until it is confirmed once per product, every statement about earning is a statement about intent.</p>
 <div class="opts">
@@ -1660,7 +1729,7 @@ flag_body = f"""
 <tr id="FLG-033"><td>FLG-033</td><td>Register still shows dated price and rating figures</td><td>The verification register keeps the values observed on {VERIFIED} as an audit record, labelled as an observation on a date rather than as a current figure. Whether even a dated audit figure may appear on a Site is an interpretation we cannot resolve from the text alone.</td><td>Owner decision, or a written question to Associates support; if the answer is no, the register shows the field as &quot;observed, figure withheld&quot;</td></tr>
 <tr id="FLG-034"><td>FLG-034</td><td>Chooser-generated product links previously lacked <code>rel=&quot;sponsored&quot;</code></td><td>The recommendation list in the chooser is built in JavaScript. Those anchors pointed at tagged Amazon URLs with no <code>rel</code> attribute and no visible sponsored label, so a static HTML audit could not see them. Fixed in this pass: script-built links carry <code>rel=&quot;sponsored nofollow noopener&quot;</code>, the label, and the click attribute. <code>scripts/check_meta.mjs</code> now scans the JS as well as the HTML so it cannot regress.</td><td>None - closed by this pass; keep the JS check in CI</td></tr>
 <tr id="FLG-035"><td>FLG-035</td><td>Generator wrote placeholder canonicals; deployed HTML had been patched by hand</td><td><code>build_site.py</code> emitted a placeholder domain as the canonical on every page while the live files carried the GitHub Pages URL after PR #7&rsquo;s manual fix - so the next rebuild would have replaced real canonicals with a placeholder on all 17 pages. Every page now self-canonicalises to its own absolute URL, the sitemap lists exactly the pages the build writes, and the sitemap&rsquo;s home entry matches the home page&rsquo;s canonical. Google&rsquo;s guidance: do not declare different canonicals for the same page by different methods, and include a self-referential canonical on the canonical page. Sources: <a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">canonical</a>, <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap">sitemaps</a>.</td><td>Re-check coverage in Search Console after the next deploy; re-run this wiring if a custom domain is adopted (SG-02)</td></tr>
-<tr id="FLG-036"><td>FLG-036</td><td>FAQPage structured data must not be sold as an SEO win</td><td>Each guide emits FAQPage JSON-LD. Secondary sources reporting on Google&rsquo;s documentation state that FAQ rich results were restricted to well-known government and health sites in August 2023 and stopped appearing for everyone on 7 May 2026, with the FAQ documentation removed on 15 June 2026. We did not read that notice on an official Google page in this session, so it is recorded here rather than asserted on a page; the markup itself is harmless and may still help machines read the answer. Source: <a href="https://developers.google.com/search/docs/appearance/structured-data">Google structured data overview</a> for what remains supported.</td><td>Confirm against Google Search Central, then keep the markup without claiming a rich-result benefit (affects S-09)</td></tr>
+<tr id="FLG-036"><td>FLG-036</td><td>FAQPage structured data must not be sold as an SEO win</td><td><strong>Resolved 2026-11-20.</strong> Each guide still emits <code>FAQPage</code> JSON-LD. The earlier note here said the restriction on FAQ rich results was known only from secondary reporting. That is no longer true: Google Search Central's post <a href="https://developers.google.com/search/blog/2023/08/howto-faq-changes">&ldquo;Changes to HowTo and FAQ rich results&rdquo;</a> (published 2023-08-08, read 2026-11-20) states that FAQ rich results &ldquo;will only be shown for well-known, authoritative government and health websites&rdquo; and that &ldquo;structured data that&rsquo;s not being used does not cause problems for Search&rdquo;. So: the markup stays because it helps machines read the answer, and the site claims no rich result from it. The claim has been removed from every page that implied one.</td><td>None. Closed with an official citation.</td></tr>
 <tr id="FLG-037"><td>FLG-037</td><td>Creators/PA API eligibility not verified from an official page</td><td>Third-party guides consistently state that API access follows three qualifying sales inside 180 days. No Amazon page was read in this session that states it. This matters because the whole automation plan (SG-20) and the price/image policy (FLG-032) rest on it.</td><td>Read the eligibility notice in Associates Central &rarr; Tools &rarr; Product Advertising / Creators API and record the wording and date</td></tr>
 <tr id="FLG-038"><td>FLG-038</td><td>SiteStripe image options: second-hand claim</td><td>Several third-party tutorials state that SiteStripe stopped offering Image and Text+Image link types in late 2023, leaving API access as the route to compliant product imagery. We have not verified that in the Associates console. It changes the photography plan (SG-04), so it is stated as unverified rather than as a constraint.</td><td>Open SiteStripe on any product page and record which link types exist, with the date</td></tr>
 <tr id="FLG-039"><td>FLG-039</td><td>Three builds are published on one host, under two brands</td><td>The root publication, <code>counter-check/site/</code> (Counter Check) and the <code>docs/</code> + <code>articles/</code> build (Counter &amp; Crumb, still open as draft PR #10) are all reachable and all indexable, and the root sitemap previously listed <code>docs/</code> and <code>articles/</code> URLs. That splits the domain across near-duplicate content and two mastheads. Nothing here is a policy breach - it is a findability and brand problem. The sitemap generated by this pass lists only the pages this build writes. Update 2026-11-20: the generated <code>robots.txt</code> now disallows the secondary builds (<code>/counter-check/</code>, <code>/docs/</code>, <code>/articles/</code>, <code>/review/</code>, <code>/analytics-endpoint/</code>), so search engines are told to index the root publication only - one site to index, with nothing deleted.</td><td>Owner picks one publication (SG-22) and decides whether to delete or promote the secondary builds; until then keep the robots rules</td></tr>
@@ -1701,6 +1770,11 @@ flag_body = f"""
 <tr id="FLG-071"><td>FLG-071</td><td>CHEF iQ listing states no temperature-tolerance</td><td>The listing (B0DZFD6R9Z) gives heat safety (1000&deg;F), probe count, sensor count and range, but no &plusmn; accuracy figure in the fields captured. The comparison pages and the new guide report this as an absence rather than borrowing the other listing&rsquo;s number.</td><td>Read the manual linked from the listing, or request it from the seller (<a href="suggestions.html#Q-36">Q-36</a>)</td></tr>
 <tr id="FLG-072"><td>FLG-072</td><td>ThermoMaven listing shows only an item length</td><td>The 2026-11-20 re-read found an <code>Item Length</code> of 6.5 inches and no width, height or depth in the listing&rsquo;s measurement block. The register stays blank rather than treating a single axis as dimensions. This narrows FLG-004 but does not close it.</td><td>Full dimension set from the manual, or leave blank (FLG-004)</td></tr>
 <tr id="FLG-059"><td>FLG-059</td><td>Duplicate element ids introduced and removed during this pass</td><td>While adding a review panel to the decision desk, this session emitted a second set of buttons with the ids <code>sg-export</code>, <code>sg-print</code> and <code>sg-reset</code>. The desk already had them, so those ids appeared twice - an accessibility and scripting fault, because <code>getElementById</code> returns only the first. The redundant panel was removed and a duplicate-id check was added to <code>scripts/check_style.mjs</code>, which now reports zero across all 29 pages.</td><td>Closed in this pass; the gate prevents a repeat</td></tr>
+<tr id="FLG-078"><td>FLG-078</td><td>A one-letter typo in the tracking ID nearly shipped in a recommendation</td><td>While writing <a href="suggestions.html#SG-55">SG-55</a> this pass typed <code>tag=shownow047c-20</code> for <code>tag=shopnow047c-20</code>. It was caught by grepping my own output before committing, not by any check &mdash; and it is the most expensive class of typo on the site, because every click through a mistyped tag is attributed to nobody and looks like &ldquo;no traffic&rdquo; rather than &ldquo;broken link&rdquo;. <code>check_meta.mjs</code> now compares every tag-shaped string on every page against <code>site.trackingId</code> in <code>data/products.json</code> and fails on any mismatch; planted the typo back and it blocked with 3 failures. Worth noting that the typo appeared in <em>prose</em>, which is where the existing gates do not look.</td><td>None. Fixed before commit, and now gated.</td></tr>
+<tr id="FLG-074"><td>FLG-074</td><td>Ten of thirteen guides were not marked up as articles at all</td><td>Crawled the published output: <code>guide-gift-picks.html</code> carried <code>Article</code>; the other twelve published guides emitted <code>Organization</code> + <code>BreadcrumbList</code> + <code>WebPage</code> and nothing that says &ldquo;this is an article, written by someone, on this date&rdquo;. Only one page happened to carry the type, so every guide but one was invisible to any consumer that reads <code>Article</code>. Two fields the guidance lists were also absent from that one page: <code>image</code> and <code>mainEntityOfPage</code>. Fixed in the generator for all ten published guides, with <code>datePublished</code> taken from the commit that first added the page (<code>git log --diff-filter=A</code>), not from the build date. The three consolidated URLs correctly carry no <code>Article</code>: they canonicalise elsewhere. Source: <a href="https://developers.google.com/search/docs/appearance/structured-data/article">Google Search Central &mdash; Article structured data</a>, fetched 2026-11-20. <strong>Not claimed:</strong> that this produces a rich result. Google does not guarantee rich results for any markup, and the FAQ restriction recorded in <a href="flagged.html#FLG-036">FLG-036</a> is exactly the kind of promise this site does not make.</td><td>None for the fix. The <code>FAQPage</code> blocks stay, with no rich-result claim attached (FLG-036).</td></tr>
+<tr id="FLG-075"><td>FLG-075</td><td>Every guide shared one social image, so no share described the page it linked to</td><td><code>og:image</code> and the Article <code>image</code> both pointed at a single site-wide card on all thirty pages. A reader sharing the wattage guide and a reader sharing the gift guide saw the same picture. Google&rsquo;s Article guidance asks for &ldquo;an image that is representative of the article&rdquo;, so this was a mismatch as well as a weak share preview. Ten guide cards are now drawn by <code>scripts/make_og.py --cards</code> from each guide&rsquo;s own title and description, and <code>check_meta.mjs</code> fails the build if <code>og:image</code>, <code>Article.image</code> and the file on disk disagree. Brand art only &mdash; type and rules, never product photography (the imagery policy is unchanged; see FLG-009).</td><td>Owner may want a visual check of the ten cards; they are deterministic and reviewable in <code>assets/cards/</code>.</td></tr>
+<tr id="FLG-076"><td>FLG-076</td><td>A published sentence stopped mid-thought on five pages, and no gate could see it</td><td>The product card on every shop page read &ldquo;we do not publish a stale figure &mdash; the button shows today&rsquo;s&rdquo; and ended there. The object of the sentence was lost in an earlier edit. Every existing check passed, because the string was present, the tag was closed and the markup was valid &mdash; a presence check cannot read. <code>check_meta.mjs</code> now fails on a sentence that ends on a determiner, a preposition, a possessive or a transitive verb with no object, and the three planted-defect tests in this pass confirm it fires (13 blocking items on the old copy, 0 on the fix). The copy now reads &ldquo;so we do not publish a figure that would go stale &mdash; the button reads today&rsquo;s price on the listing&rdquo;.</td><td>None. It is the clearest argument on this page for a proofreader over a linter.</td></tr>
+<tr id="FLG-077"><td>FLG-077</td><td>The masthead printed the page date where the reader expects the evidence date</td><td>The issue bar said &ldquo;Specs read from the Amazon listing, dated on every page&rdquo; under an &ldquo;Issue of 20 November 2026&rdquo; line. Both numbers come from different fields &mdash; <code>contentDate</code> is when the HTML last changed, <code>verifiedDate</code> is when the listings were read &mdash; and on a day when a page changes but the listings were not re-read, the pairing reads as a fresh read that did not happen. The bar now names the evidence date explicitly (&ldquo;Listings read 20 November 2026&rdquo;), which is the field the product cards already quote.</td><td>None. The two dates stay separate, as the register requires.</td></tr>
 <tr id="FLG-073"><td>FLG-073</td><td>One placeholder was carrying two meanings</td><td>Thirteen fields in <code>data/products.json</code> hold the literal string <code>&mdash;</code>. The page correctly renders that as &ldquo;Blank &mdash; not captured&rdquo;, but the same character is also used where the field genuinely does not apply (a thermometer has no capacity). So the data cannot distinguish &ldquo;we looked and did not find it&rdquo; from &ldquo;this field is meaningless for this product&rdquo;. Publishing reads the dash as blank, which is the safe direction. A future session must not treat it as a recorded figure.</td><td>Owner of <code>data/products.json</code> to split the two into <code>null</code> and an explicit <code>notApplicable</code> reason</td></tr>
 
 <tr id="FLG-074"><td>FLG-074</td><td>Every feed item carries one date, and it is the listing re-read date</td><td>The RSS feed set <code>pubDate</code> from the listing verification date (<code>verifiedDate</code>) for all ten guides, so every item reads the same day. RSS 2.0 defines item <code>pubDate</code> as the publication date of the content (<a href="https://www.rssboard.org/rss-specification">RSS 2.0 spec, pubDate</a>). The generator now uses the page date (<code>contentDate</code>), as <code>data/editorial.json</code> already specifies. Today both values are 2026-11-20, so the feed output is unchanged. Per-guide publication dates are not recorded anywhere in the repo, and none is inferred here.</td><td>Owner of <code>data/editorial.json</code> to supply a publication date per guide (a <code>published</code> field) so each feed item can carry its own date</td></tr>
