@@ -36,8 +36,9 @@ could not be attributed to the product with certainty, nothing was recorded.
   "The narrowest of the three fryers at 11.81 in wide; 158.0, 267.0 and 172.1 sq in of floor area".
 - Two claims are labelled *untestable here* rather than passed: the derived capacity-per-square-inch
   row, and the "distance question" framing on the thermometers page.
-- Decision register (`data/decisions.json` + `decisions.html`) refuses to build while any SG/Q row on
-  the board is unclassified. It currently maps 43 suggestions and 27 questions to seven gates.
+- Decision register (`data/decisions.json` + `decisions.html`): the build compares the register with the board
+  on every publish and lists unowned rows on the page plus a warning on the build. It began as a hard failure and was
+  softened the same day - see FLG-082 - because an append-only board let an unrelated session's new row block the site's deploy. It currently maps 43 suggestions and 27 questions to seven gates.
 - Topic 12 on the calendar was marked Planned for a question `guide-gift-picks.html` already answers;
   corrected to Published with an href, and recorded as FLG-065 because it edits another session's row.
 

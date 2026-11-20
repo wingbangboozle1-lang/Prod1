@@ -1,18 +1,18 @@
 [
   {
-    "title": "Air fryers & thermometers, compared",
+    "title": "5 air fryers & thermometers, by counter depth",
     "url": "index.html",
-    "text": "Five appliances compared on capacity, counter depth, cleanup and what the listing does not say. Every spec links to the Amazon page it came from."
+    "text": "Five countertop appliances compared by depth, capacity and the job each does, with what to check before ordering. Every spec links to its Amazon listing."
   },
   {
-    "title": "Dual-basket vs oven-style air fryers",
+    "title": "Air fryers: which of the three fits your counter",
     "url": "air-fryers.html",
-    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry: capacity, depth and cleanup, each row linked to its listing."
+    "text": "Chefman 6QT dual-basket, Emeril 26QT French-door and Chefman 8QT TurboFry, chosen by job and counter depth, with every field linked to its listing."
   },
   {
-    "title": "Instant-read vs wireless thermometers",
+    "title": "Meat thermometers: instant-read vs wireless",
     "url": "thermometers.html",
-    "text": "ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as listed, probes, range and care."
+    "text": "ThermoMaven 1-second handheld against the CHEF iQ Sense 3-probe wireless set: accuracy claims as stated, probes, range, care and what neither listing says."
   },
   {
     "title": "Compare 5 air fryers & thermometers",
@@ -22,7 +22,7 @@
   {
     "title": "Buying guides for air fryers & probes",
     "url": "guides.html",
-    "text": "13 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
+    "text": "16 question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window."
   },
   {
     "title": "Basket or oven-style air fryer?",
@@ -50,6 +50,21 @@
     "text": "What a stated tolerance, a named certification, a sensor count and 'unlimited range' do and do not prove - for a handheld and a wireless probe set."
   },
   {
+    "title": "Will a 26-quart oven fit your counter?",
+    "url": "guide-counter-depth-fit.html",
+    "text": "Counter fit as listing arithmetic: depth, height and footprint for three verified air fryers, converted to centimetres, step by step."
+  },
+  {
+    "title": "Two baskets or one: dual-zone cooking",
+    "url": "guide-dual-vs-single-basket.html",
+    "text": "Dual-basket, single-basket and oven-cavity cooking, decided on the listings' own form, capacity and care facts."
+  },
+  {
+    "title": "Accessories in the box, per the listing",
+    "url": "guide-accessories-included.html",
+    "text": "Included parts for all five verified picks, as each listing states them - including one count the listing gives two ways."
+  },
+  {
     "title": "Executive summary for the owner",
     "url": "executive-summary.html",
     "text": "What is live, what is verified, what is blocked, which decisions wait on an owner, and what the latest pass changed across the site."
@@ -57,7 +72,7 @@
   {
     "title": "Decision desk: options & evidence",
     "url": "suggestions.html",
-    "text": "54 suggestions and 36 questions with options, evidence and trade-offs, mapped to the seven gates on the decision register."
+    "text": "56 suggestions and 37 questions with options, evidence and trade-offs, mapped to the seven gates on the decision register."
   },
   {
     "title": "Decision register: seven gates, in order",
@@ -85,9 +100,9 @@
     "text": "What is automated and what is gated, the five privacy-preserving events, the empty campaign ledger and the publishing cadence we keep."
   },
   {
-    "title": "Topic calendar: twelve buyer questions",
+    "title": "Topic calendar: fifteen buyer questions",
     "url": "topics.html",
-    "text": "Twelve question-shaped, spec-backed article working titles - five published, seven queued - with the verified fields and sources each is built from."
+    "text": "Twelve published and three queued question-shaped titles, each with the verified listing fields and sources it is built from."
   },
   {
     "title": "Search the guides and products",

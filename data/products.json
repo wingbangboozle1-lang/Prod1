@@ -29,9 +29,9 @@
       "material": "Metal, Plastic",
       "specialFeatures": "+2Min Button, Automatic Shut-Off, Dual Zone Features, Hi-Fry, Mute",
       "rating": "4.2",
-      "ratingCount": "4,877",
+      "ratingCount": "4,878",
       "boughtPastMonth": "1K+ bought in past month",
-      "badge": "Amazon's Choice (shown on listing)",
+      "badge": "Amazon's Choice (shown on listing; re-read 2026-11-20, session 0c26f71b)",
       "priceNew": "$79.93",
       "priceList": "$99.99",
       "priceUsed": "$62.85",
@@ -45,7 +45,12 @@
         "Touchscreen presets for chicken, vegetables, pizza, French fries, frozen foods and leftovers"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0CDY277D3",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read twice 2026-11-19 (integration pass confirmed buy box $79.93 and List Price $99.99). Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count (updated 4,876 to 4,877), buy-box $79.93, list $99.99, used price (updated $59.95 to $62.85), dimensions, capacity, wattage and bullets all re-confirmed on the listing."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read twice 2026-11-19 (integration pass confirmed buy box $79.93 and List Price $99.99). Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count (updated 4,876 to 4,877), buy-box $79.93, list $99.99, used price (updated $59.95 to $62.85), dimensions, capacity, wattage and bullets all re-confirmed on the listing. 2026-11-20 (session ae5eeead), line by line: title, rating 4.2, rating count 4,878 (moved from 4,877), buy box $79.93, list $99.99, used $62.85, dimensions, capacity field, special features, wattage 120 V/1700 W, cETL and the 1-year assurance bullet, and all ten bullets re-read on the page. No in-box contents field appears on this listing. Session 0c26f71b second same-day read (2026-11-20): title, rating 4.2/4,877, buy-box $79.93 with 20% savings, list $99.99, used $62.85, dimensions, capacity 6 liters, special features, color and material re-confirmed; no register value changed.",
+      "includedComponents": "",
+      "dealNotes": "Combined 6-quart capacity (bullets); 200–450°F range (bullets); easy-view windows (title)",
+      "recheckDate": "2026-11-20",
+      "amazonCategory": "Home & Kitchen > Kitchen & Dining > Small Appliances > Fryers > Air Fryers",
+      "careNotes": "Non-stick baskets are dishwasher safe (bullets); viewing windows in both baskets (title)"
     },
     {
       "id": "P2",
@@ -70,12 +75,12 @@
       "rating": "4.3",
       "ratingCount": "18,380",
       "boughtPastMonth": "8K+ bought in past month",
-      "badge": "—",
+      "badge": "Black Friday Deal promo shown on listing (read 2026-11-20, session 0c26f71b); no award badge",
       "priceNew": "$149.99",
       "priceList": "$209.99",
       "priceUsed": "—",
       "wattage": "1700 watts / 120 volts (Product information table on listing, read 2026-11-19)",
-      "warranty": "Warranty PDF linked from listing (no warranty term stated in listing text, read 2026-11-19)",
+      "warranty": "The listing links a warranty PDF and states no period in its text, so no term is recorded here (FLG-005). The owner's manual linked from the listing (model FAFO-001, fetched and read 2026-11-20, session 0c26f71b) states no warranty term either - its contents list a Money-Back Guarantee section only; its spec table confirms 120 V/1700 W/60 Hz, matching the register wattage.",
       "bullets": [
         "French doors open with a single pull; interior light to monitor food",
         "Listing bullets describe 26-quart capacity for 4–6 people, rotisserie for a 6-lb chicken, and baking a 12-inch pizza",
@@ -84,7 +89,12 @@
         "Six cooking accessories included (per title)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B09B7SB46R",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021. Re-read line by line 2026-11-20: title, rating count (updated 18,375 to 18,380), buy-box $149.99, list $209.99, dimensions, capacity, features and bullets re-confirmed; the Item-details table again lists configuration as 24 functions and 7 accessories (title says six)."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Wattage from the Product information table. Price is a snapshot and will change. Preset count differs between title (24) and bullets (25) — see flagged.html FLG-002. Warranty period not stated on the listing page (warranty PDF linked only) — see FLG-005. Accessory count differs across the listing — see FLG-021. Re-read line by line 2026-11-20: title, rating count (updated 18,375 to 18,380), buy-box $149.99, list $209.99, dimensions, capacity, features and bullets re-confirmed; the Item-details table again lists configuration as 24 functions and 7 accessories (title says six). 2026-11-20 (session ae5eeead): title, dimensions 16.9 x 15.8 x 14.8 in, capacity field 24.6 liters, special features, buy box $149.99, and the bullets re-read, including '25 COOKING PRE-SETS' against the title's 24 (FLG-021 unchanged). No warranty period in the listing text. Session 0c26f71b second same-day read (2026-11-20): rating 4.3/18,380, buy-box $149.99, list $209.99, 8K+ bought in past month, dimensions, capacity and bullets re-confirmed; a Black Friday Deal promo badge now shows; the linked owner's manual (FAFO-001) states 120 V/1700 W/60 Hz, 26 quarts (1519 cu in), 75-500 F, a 5-inch clearance rule, and no warranty term; Amazon's review-summary module reports 564 durability mentions, 445 negative (heating-element failures within 9-14 months) - recorded as a listing observation, not published.",
+      "includedComponents": "Six cooking accessories included (per the listing title). The item-details table lists seven - both are shown, and FLG-021 stays open.",
+      "dealNotes": "25 cooking pre-sets (bullets) against 24 in the title - both shown, FLG-021; six accessories per title, seven per the details table",
+      "recheckDate": "2026-11-20",
+      "amazonCategory": "Home & Kitchen > Kitchen & Dining > Small Appliances > Fryers > Air Fryers",
+      "careNotes": "Interior light and French doors that open with a single pull (bullets)"
     },
     {
       "id": "P3",
@@ -107,14 +117,14 @@
       "material": "Plastic, Stainless Steel",
       "specialFeatures": "Automatic Shut-Off, LED Shake Reminder, Programmable",
       "rating": "4.4",
-      "ratingCount": "16,892",
+      "ratingCount": "16,894",
       "boughtPastMonth": "3K+ bought in past month",
-      "badge": "Amazon's Choice (shown on listing)",
+      "badge": "Amazon's Choice (shown on listing; re-read 2026-11-20, session 0c26f71b); Black Friday Deal promo also shown (read 2026-11-20)",
       "priceNew": "$69.99",
       "priceList": "$119.99",
       "priceUsed": "$45.49",
       "wattage": "1000 Watts / 120 Volts (model RJ38-SQSS-8T, per listing bullets); listing Product information table says 1700 watts - discrepancy flagged FLG-022, both values shown",
-      "warranty": "1-year warranty provided by Chefman (per listing bullets); cETL approved (per listing bullets)",
+      "warranty": "1-year warranty provided by Chefman; cETL approved (per listing bullets)",
       "bullets": [
         "TurboFry 4-in-1: Air Fry, Bake, Dehydrate, Frozen (per title); four presets for French fries, chicken, meat and fish (per bullets)",
         "450°F Hi-Fry option (per title); general temperature range 200–400°F (per bullets)",
@@ -123,7 +133,12 @@
         "Available in 6, 8 and 9-quart sizes and in stainless steel / black (per listing variant selector)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B08DKYBTPH",
-      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003. Re-read line by line 2026-11-20: title, rating 4.4/16,892, buy-box $69.99, list $119.99, dimensions, capacity, wattage (1000 W/120 V) and bullets all re-confirmed on the listing."
+      "sourceNote": "Title, rating, price, dimensions, capacity field, special features, bullets and wattage as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). The listing itself gives two wattage figures (see Flagged FLG-022). Price is a snapshot and will change. The listing also shows a newer 6QT model (B0CNY1YVDD) — see flagged.html FLG-003. Re-read line by line 2026-11-20: title, rating 4.4/16,892, buy-box $69.99, list $119.99, dimensions, capacity, wattage (1000 W/120 V) and bullets all re-confirmed on the listing. 2026-11-20 (session ae5eeead): title, dimensions 12.75 x 13.5 x 10 in, capacity 8 quarts, special features, buy box $69.99, list $119.99, bullets (1000 W/120 V, RJ38-SQSS-8T, 200-400F, top-rack dishwasher safe, cETL, 1-year warranty) and the 6/8/9-quart variant selector re-read. The listing's other wattage figure (1700 W) is still on the page: FLG-022 open. Session 0c26f71b second same-day read (2026-11-20, later in the day): rating 4.4 with the count now 16,894 (was 16,892 on the earlier read - updated), buy-box $69.99, list $119.99, Amazon's Choice plus a Black Friday Deal promo badge, dimensions, capacity, 1000 W/120 V bullet and the newer-model box (B0CNY1YVDD, FLG-003) all re-confirmed.",
+      "includedComponents": "",
+      "dealNotes": "Four presets (bullets) and 200–400°F general range (bullets) while the title says 450°F Hi-Fry; variant selector offers 6, 8 and 9 quarts",
+      "recheckDate": "2026-11-20",
+      "amazonCategory": "Home & Kitchen > Kitchen & Dining > Small Appliances > Fryers > Air Fryers",
+      "careNotes": "8-quart non-stick basket and flat frying tray are top-rack dishwasher safe (bullets)"
     },
     {
       "id": "P4",
@@ -148,12 +163,12 @@
       "rating": "4.6",
       "ratingCount": "3,499",
       "boughtPastMonth": "5K+ bought in past month",
-      "badge": "Amazon's Choice (shown on listing)",
+      "badge": "Amazon's Choice (shown on listing; re-read 2026-11-20, session 0c26f71b); Black Friday Deal promo also shown (read 2026-11-20)",
       "priceNew": "$16.99",
       "priceList": "$22.99",
       "priceUsed": "—",
       "wattage": "—",
-      "warranty": "Includes 1× Calibration Certificate (per included-components field)",
+      "warranty": "The listing states no warranty period, so no term is recorded here.",
       "bullets": [
         "±0.5°F accuracy with NIST certification (per title and bullets)",
         "Thermocouple sensor with 1-second read (per bullets)",
@@ -162,7 +177,12 @@
         "Motion-activated wake and sleep (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DHZTCNR5",
-      "sourceNote": "Title, rating, price (buy box and List Price), special features, specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count 3,499, buy-box $16.99, NIST/NSF specification field, included components and bullets re-confirmed on the listing (dimensions still not listed)."
+      "sourceNote": "Title, rating, price (buy box and List Price), special features, specification field (NIST, NSF), included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Re-read line by line 2026-11-20: title, rating count 3,499, buy-box $16.99, NIST/NSF specification field, included components and bullets re-confirmed on the listing (dimensions still not listed). 2026-11-20 (session ae5eeead): title, specification field (NIST, NSF), included components, care instructions, bullets and buy box $16.99 re-read. No product dimensions and no warranty period on the page. Session 0c26f71b second same-day read (2026-11-20): rating 4.6/3,499, buy-box $16.99 with 26% savings, list $22.99, Amazon's Choice, 5K+ bought in past month, NIST/NSF field and included components re-confirmed; a Black Friday Deal promo badge and a ClimeCo Certified sustainability feature show; the product-information table again has no dimension row (FLG-004/072 open); the newer Orange model (B0GL7Z4KP4, FLG-003) is still shown.",
+      "includedComponents": "1 thermometer, 1 AAA battery, 1 user manual and 1 calibration certificate (listing Included Components field)",
+      "dealNotes": "1-second thermocouple read with ±0.5°F claimed (bullets, quote from the seller); IP67 waterproof and rinse-under-water (bullets); motion-activated wake and auto-rotating LED display",
+      "recheckDate": "2026-11-20",
+      "amazonCategory": "",
+      "careNotes": "IP67 waterproof and rinse-under-water (title and bullets); motion-activated wake, auto-rotating LED screen"
     },
     {
       "id": "P5",
@@ -187,7 +207,7 @@
       "rating": "4.2",
       "ratingCount": "2,178",
       "boughtPastMonth": "1K+ bought in past month",
-      "badge": "—",
+      "badge": "Black Friday Deal promo shown on listing (read 2026-11-20, session 0c26f71b); no award badge",
       "priceNew": "$119.99 (3-probe variant)",
       "priceList": "$219.99 (3-probe variant)",
       "priceUsed": "—",
@@ -201,7 +221,12 @@
         "Flip reminders, rest timers, estimated cooking times and Guided Cooking recipes in the app (per bullets)"
       ],
       "sourceUrl": "https://www.amazon.com/dp/B0DZFD6R9Z",
-      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Re-read line by line 2026-11-20: title, rating 4.2/2,178, buy-box $119.99 (3-probe variant), list $219.99, included components, two-year assurance and bullets re-confirmed on the listing (dimensions still not listed)."
+      "sourceNote": "Title, rating, price (3-probe variant buy box and List Price), special features, included components and bullets as shown on the Amazon.com listing, re-read 2026-11-19 (integration pass). Dimensions are not shown in the listing fields captured - left blank and flagged. Price is a snapshot and will change. Variant prices: 1-probe $99.99, 2-probe $99.99, 3-probe $119.99, 4-probe $142.49. Re-read line by line 2026-11-20: title, rating 4.2/2,178, buy-box $119.99 (3-probe variant), list $219.99, included components, two-year assurance and bullets re-confirmed on the listing (dimensions still not listed). 2026-11-20 (session ae5eeead): title, special features, included components (3 probes, hub), connectivity, care instructions, the two-year assurance bullet, the 1/2/3/4-probe variant selector and the 3-probe buy box $119.99 re-read. The listing still states no accuracy figure and no product dimensions. Session 0c26f71b second same-day read (2026-11-20): rating 4.2/2,178, buy-box $119.99 (3-probe) with 45% savings, list $219.99, all four variant prices, included components (3 probes + hub), two-year assurance and bullets re-confirmed; a Black Friday Deal promo badge shows; still no dimension row and no +/-F tolerance figure (FLG-004, FLG-071).",
+      "includedComponents": "3 probes and the charging hub (listing Included Components field)",
+      "dealNotes": "3 probes plus hub in the box (listing field) and probes rated to 1000°F (bullets); 4 internal sensors plus 1 ambient sensor, per bullets while the title says 5 sensors; 1-, 2-, 3- and 4-probe variants priced separately",
+      "recheckDate": "2026-11-20",
+      "amazonCategory": "",
+      "careNotes": "Probes are waterproof and dishwasher safe (bullets); the hub charges all three at once"
     }
   ]
 }

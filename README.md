@@ -8,13 +8,14 @@ Pages site. No build step to deploy: edit `data/products.json`, run
 GitHub Pages from `main` (see `.github/workflows/pages.yml`, which runs three publishing gates before deploy: `node scripts/check_site.mjs`, `node scripts/check_meta.mjs`, `node scripts/check_measure.mjs`). Canonical is the per-page GitHub Pages URL (`https://wingbangboozle1-lang.github.io/Prod1/<page>`) — a custom domain remains an owner decision (see `flagged.html` FLG-007 and `suggestions.html` SG-02).
 
 ## Structure
-- `index.html` — publication front page (hero, category tiles, picks, fresh guides, chooser)
+- `index.html` — shop front page (hero, **five-product decision table**, picks by job, full cards, chooser, guides)
 - `dashboard.html` — single hub for every dashboard surface (verification, flagged, compliance, method, summary, suggestions)
 - `air-fryers.html`, `thermometers.html` — category hubs with comparison tables
 - `compare.html` — all five side by side + 3-question chooser + counter-space math + sticky bar
-- `guides.html` — eleven question-shaped guides in three clusters (air fryers, thermometers, seasonal)
+- `guides.html` — thirteen question-shaped guides in three clusters (air fryers, thermometers, seasonal)
 - `guide-*.html` — basket-vs-oven, capacity, cleanup/space, multi-function, thermometer accuracy,
-  holiday hosting, gifts by budget, wattage & outlets, holiday gifts, holiday roast, small kitchen
+  counter-depth fit, dual-vs-single baskets, accessories-in-the-box, holiday hosting, gifts by
+  budget, wattage & outlets, holiday gifts, holiday roast, small kitchen
 - `suggestions.html` — review desk: ranked suggestions (SG-01..SG-17) with recommended paths,
   the merged upstream suggestion log (SG-11..SG-27, DI-1..DI-8) and the Q/I/A missing-information map (Q-01..Q-20)
 - `design-brief.html` — paste-ready design prompt blocks, three visual directions, anti-AI-slop rules, editorial calendar
@@ -61,7 +62,7 @@ Tracking ID: `shopnow047c-20` · Outbound format: `https://www.amazon.com/dp/ASI
 ```
 python3 -m pip install pillow        # once: regenerates the social card
 # edit data/products.json (facts + sources) or data/editorial.json (voice, policy, cadence)
-python3 build_site.py                # writes all 25 pages (21 in the sitemap, 4 consolidated), sitemap, feed, robots, search index
+python3 build_site.py                # writes all 33 pages (23 in the sitemap, 4 consolidated), sitemap, feed, robots, search index
 python3 scripts/make_og.py           # writes assets/og-image.png + assets/favicon.svg
 node scripts/check_meta.mjs          # publishing gate (same one CI runs)
 ```
