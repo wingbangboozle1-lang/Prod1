@@ -60,6 +60,11 @@
     "text": "Twenty-five ranked suggestions with options and trade-offs, a copy-paste design brief, and fourteen questions whose answers gate the next build."
   },
   {
+    "title": "Decision register: seven gates, in order",
+    "url": "decisions.html",
+    "text": "The seven decisions that gate this site, what an official source already settles, what is still missing, and the exact steps that would produce each missing piece."
+  },
+  {
     "title": "Verification register, line by line",
     "url": "verification.html",
     "text": "For all five products: submitted short link, intended ASIN, official listing URL, confirmation date and source, and the observed redirect in its own field."

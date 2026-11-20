@@ -117,7 +117,7 @@ FOOTER = f"""
     </div>
     <nav aria-label="Shop"><p><strong>Shop</strong></p><p><a href="air-fryers.html">Air fryers</a><br><a href="thermometers.html">Meat thermometers</a><br><a href="compare.html">Compare all five</a><br><a href="compare.html#chooser">Three-question chooser</a></p></nav>
     <nav aria-label="Guides"><p><strong>Guides</strong></p><p><a href="guides.html">All guides</a><br><a href="guide-basket-vs-oven.html">Basket or oven-style?</a><br><a href="guide-capacity-checklist.html">Capacity, honestly</a><br><a href="guide-cleanup-counter-space.html">Cleanup &amp; counter space</a><br><a href="guide-gift-picks.html">Gift picks that get used</a></p></nav>
-    <nav aria-label="Review desk"><p><strong>Review desk</strong></p><p><a href="review-desk.html">Desk index</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="suggestions.html">Suggestions &amp; decisions</a><br><a href="methodology.html">Method &amp; ledger</a><br><a href="compliance.html">Compliance gate</a><br><a href="executive-summary.html">Executive summary</a><br><a href="design-brief.html">Design brief (parallel)</a><br><a href="about.html">About &amp; contact</a></p></nav>
+    <nav aria-label="Review desk"><p><strong>Review desk</strong></p><p><a href="review-desk.html">Desk index</a><br><a href="decisions.html">Decision register</a><br><a href="verification.html">Verification register</a><br><a href="flagged.html">Flagged for review</a><br><a href="suggestions.html">Suggestions &amp; decisions</a><br><a href="methodology.html">Method &amp; ledger</a><br><a href="compliance.html">Compliance gate</a><br><a href="executive-summary.html">Executive summary</a><br><a href="design-brief.html">Design brief (parallel)</a><br><a href="about.html">About &amp; contact</a></p></nav>
   </div>
 </footer>"""
 # ---------------------------------------------------------------- page shell
@@ -947,7 +947,131 @@ it says specific things, admits its gaps, and never asks to be believed.
 </div>
 </div>
 """
-page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide","Twenty-five ranked suggestions with options and trade-offs, a copy-paste design brief, and fourteen questions whose answers gate the next build.",sugg_body)
+_board_n = len(set(re.findall(r'id="(SG-\d\d)"', sugg_body))), len(set(re.findall(r'id="(Q-\d\d)"', sugg_body))))
+page_to("suggestions.html","Decision desk: options & evidence | Countertop Guide",f"{_board_n[0]} suggestions and {_board_n[1]} questions with options, evidence and trade-offs, mapped to the seven gates on the decision register.",sugg_body)
+
+# ---------- DECISION REGISTER (session arena/42e09357-prod1, 2026-11-20) ----------
+# Why this exists: ten sessions wrote 43 suggestions and 27 questions onto one board. A board
+# that long is a register, not a decision. This section re-orders the same rows into the seven
+# answers that actually gate work, and refuses to build if a row on the board has not been
+# triaged into a theme - so the desk cannot quietly grow past the people who have to read it.
+DEC = json.load(open("data/decisions.json"))
+DEC_UPDATED = DEC["updated"]
+_board_ids = sorted(set(re.findall(r'id="((?:SG|Q)-\d\d)"', sugg_body)))
+_theme_ids = sorted(set(i for t in DEC["themes"] for i in t["sgs"] + t["qs"]))
+_unknown = [i for i in _theme_ids if i not in _board_ids]
+_uncovered = [i for i in _board_ids if i not in _theme_ids]
+if _unknown:
+    raise SystemExit("data/decisions.json lists board ids that suggestions.html does not have: " + ", ".join(_unknown))
+if _uncovered:
+    raise SystemExit("data/decisions.json has not triaged these board rows: " + ", ".join(_uncovered)
+                     + ". Add each to exactly one theme, or delete the row from the board.")
+SG_N = len([i for i in _board_ids if i.startswith("SG")])
+Q_N = len([i for i in _board_ids if i.startswith("Q")])
+
+def ref(x):
+    """A board reference becomes a link when the target exists, and stays plain text when it is
+    a phrase like 'the campaign ledger'. Links here must resolve; a dead anchor is a bug."""
+    if re.fullmatch(r"(?:SG|Q)-\d\d", x):
+        return f'<a href="suggestions.html#{esc(x)}">{esc(x)}</a>'
+    if re.fullmatch(r"FLG-\d+", x):
+        return f'<a href="flagged.html#{esc(x)}">{esc(x)}</a>'
+    return esc(x)
+
+def gate_card(g):
+    known = "".join(f"<li>{flaglinks(esc(k))}</li>" for k in g["known"])
+    steps = "".join(
+        f"<tr><td>{i + 1}</td><td>{esc(d['step'])}</td><td>{esc(d['where'])}</td>"
+        f"<td>{esc(d['who'])}</td><td>{esc(d['artifact'])}</td></tr>"
+        for i, d in enumerate(g["discovery"]))
+    def opt_row(o):
+        mark = '<span class="badge-ok">recommended</span> ' if "recommended" in o["label"] else ""
+        label = re.sub(r"\s*\(recommended[^)]*\)", "", o["label"])
+        return (f'<tr><td>{mark}{esc(label)}</td><td>{esc(o["effect"])}</td>'
+                f'<td class="risk-cell">{esc(o["risk"])}</td></tr>')
+    opts = "".join(opt_row(o) for o in g["options"])
+    unblocks = ", ".join(ref(x) for x in g["unblocks"])
+    return f"""
+<article class="card gate" id="{g['id']}">
+  <p class="eyebrow">{g['id']} &middot; {esc(g['effort'])}</p>
+  <h2>{esc(g['title'])}</h2>
+  <div class="gate-grid">
+    <p class="lede"><strong>Why now:</strong> {esc(g['whyNow'])}</p>
+    <div><h3>What we already know</h3><ul class="tight">{known}</ul></div>
+    <div><h3>What is missing</h3><p>{esc(g['missing'])}</p></div>
+  </div>
+  <h3>How to find it</h3>
+  <div class="table-scroll"><table>
+    <tr><th>#</th><th>Step</th><th>Where</th><th>Who can do it</th><th>Artifact it produces</th></tr>
+    {steps}
+  </table></div>
+  <h3>The paths, and what each one costs</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Option</th><th>What changes on the site</th><th>Risk</th></tr>
+    {opts}
+  </table></div>
+  <p class="callout"><strong>Recommended:</strong> {esc(g['recommendation'])}</p>
+  <p class="fine"><strong>Unblocks:</strong> {unblocks}. <strong>Risk of choosing:</strong> {esc(g['risk'])}.
+  <strong>Status:</strong> <span class="badge-warn">awaiting owner</span></p>
+</article>"""
+
+_queue_rows = "".join(
+    f'<tr><td><a href="#{g["id"]}">{g["id"]}</a></td><td>{esc(g["title"])}</td>'
+    f'<td>{len(g["unblocks"])}</td><td>{esc(g["effort"])}</td>'
+    f'<td><span class="badge-warn">awaiting owner</span></td></tr>' for g in DEC["gates"])
+_answered_rows = "".join(
+    f'<tr><td>{esc(a["row"])}</td><td>{esc(a["question"])}</td><td>{esc(a["answer"])}</td>'
+    f'<td>{esc(a["date"])}</td><td>{esc(a["recordedIn"])}</td></tr>' for a in DEC["answered"])
+_missing_rows = "".join(
+    f'<tr><td>{esc(m["what"])}</td><td>{esc(m["why"])}</td><td>{esc(m["how"])}</td>'
+    f'<td>{esc(m["who"])}</td><td>{flaglinks(esc(m["status"]))}</td></tr>' for m in DEC["missing"])
+_theme_rows = "".join(
+    f'<tr><td>{esc(t["name"])}</td><td>{esc(t["oneLine"])}</td>'
+    f'<td>{len(t["sgs"]) + len(t["qs"])}</td><td><a href="#{t["gate"]}">{t["gate"]}</a></td>'
+    f'<td class="ids">{", ".join(ref(x) for x in sorted(t["sgs"] + t["qs"]))}</td></tr>' for t in DEC["themes"])
+_reply_lines = "\n".join(
+    f"{g['id']} = option _ , {DEC_UPDATED}, evidence: " for g in DEC["gates"])
+dec_body = f"""
+<p class="eyebrow">Decision register</p>
+<h1>Seven decisions, in the order that unblocks the rest</h1>
+<p class="lede">The board carries {SG_N} suggestions and {Q_N} questions, written by ten sessions working in parallel. That is a register, not a decision. This page collapses it into the seven answers that gate everything else, and states for each one what is already known from an official source, what is still missing, the exact steps that would produce the missing piece, and what breaks loose when it arrives.</p>
+<div class="callout"><strong>Nothing here is approved.</strong> Every gate says <em>awaiting owner</em> because that is the truth: a session may recommend, but the byline, the licence, the API eligibility and the money decisions belong to the owner. {esc(DEC['defaultRule']['status'])}</div>
+<h2>How to answer</h2>
+<ol class="tight">{"".join(f"<li>{esc(s)}</li>" for s in DEC['howThisWorks'])}</ol>
+<p class="fine">Answer format: <code>{esc(DEC['answerFormat'])}</code></p>
+<h2 id="queue">The queue</h2>
+<div class="table-scroll"><table>
+<tr><th>Gate</th><th>Decision</th><th>Rows it unblocks</th><th>Cost to answer</th><th>Status</th></tr>
+{_queue_rows}
+</table></div>
+<p class="section-more"><a class="btn secondary" href="suggestions.html">Open the full board ({SG_N + Q_N} rows)</a> <a class="link-quiet" href="#map">or see how every row maps to these seven</a></p>
+<h2>The seven, one by one</h2>
+{"".join(gate_card(g) for g in DEC["gates"])}
+<h2 id="answered">Answered already, so nobody re-litigates it</h2>
+<div class="table-scroll"><table>
+<tr><th>Row</th><th>Question</th><th>Answer in force</th><th>Dated</th><th>Where it landed</th></tr>
+{_answered_rows}
+</table></div>
+<h2 id="missing">The information we do not have, and how to get it</h2>
+<p>Every blank cell on this site is here. The rule that produced them: a value that cannot be confirmed from an official source stays blank and gets a flag, rather than being inferred.</p>
+<div class="table-scroll"><table>
+<tr><th>Missing</th><th>Why it is blank</th><th>How to discover it</th><th>Who can</th><th>Status</th></tr>
+{_missing_rows}
+</table></div>
+<h2 id="map">Board map: every row, one theme, one gate</h2>
+<p>The build refuses to write this page if a board row is unclassified, so the map cannot fall behind the board.</p>
+<div class="table-scroll"><table>
+<tr><th>Theme</th><th>What it is for</th><th>Rows</th><th>Gate</th><th>Rows in this theme</th></tr>
+{_theme_rows}
+</table></div>
+<h2>Reply block</h2>
+<p>Paste this into <code>COORDINATION.md</code> or send it back as a message, fill the option number, and a session will apply it, move the row to <em>Answered</em> with your date, and rebuild the pages it touches.</p>
+<pre class="reply">{esc(_reply_lines)}</pre>
+<p class="fine">Register compiled {DEC_UPDATED} by session <code>42e09357</code> from COORDINATION.md, the flagged register, the verification log and this repository&rsquo;s data files. Source links inside each gate are the primary pages; the dates are when a session says it read them, which is the only freshness claim this site makes.</p>
+"""
+page_to("decisions.html", "Decision register: seven gates, in order | Countertop Guide",
+        "The seven decisions that gate this site, what an official source already settles, what is still missing, and the exact steps that would produce each missing piece.",
+        dec_body)
 
 # ---------- VERIFICATION ----------
 ver_rows = ""
@@ -1340,7 +1464,8 @@ desk_body = f"""
 <div class="grid cols-2">
   <article class="card"><span class="tag">Evidence</span><h3><a href="verification.html">Verification register</a></h3><p>Line by line: submitted short link, intended ASIN, official listing URL, confirmation date and source, the observed redirect target in its own separate field, and every product fact with the link it came from.</p></article>
   <article class="card"><span class="tag">Open items</span><h3><a href="flagged.html">Flagged for review</a></h3><p>Every irregularity and unverified item, with the action that would close it. Flags never block publishing; they block claims.</p></article>
-  <article class="card"><span class="tag">Decisions</span><h3><a href="suggestions.html">Suggestions &amp; decision desk</a></h3><p>Ranked suggestions with options, a copy-paste design brief, and the fourteen questions whose answers gate the next build.</p></article>
+  <article class="card"><span class="tag">Decisions</span><h3><a href="decisions.html">Decision register: seven gates</a></h3><p>The whole board collapsed into the seven answers that gate the rest, each with what an official source already settles, what is missing, and the steps that would produce it.</p></article>
+  <article class="card"><span class="tag">Evidence</span><h3><a href="suggestions.html">Full suggestion board</a></h3><p>Every suggestion and question the parallel passes wrote, with options, trade-offs and the reviewer&rsquo;s pick controls. Nothing is implemented from it until a row is approved.</p></article>
   <article class="card"><span class="tag">Money &amp; policy</span><h3><a href="compliance.html">Compliance gate</a></h3><p>Disclosure wording, sponsored marking, price and image rules read from the Operating Agreement and Program Policies.</p></article>
   <article class="card"><span class="tag">Measurement</span><h3><a href="methodology.html">Method, events &amp; ledger</a></h3><p>What is automated, what is gated, the five defined events, and an empty campaign ledger that only first-party reports may fill.</p></article>
   <article class="card"><span class="tag">Design</span><h3><a href="suggestions.html#design-inputs">Design inputs DI-1 to DI-8</a></h3><p>The eight inputs a parallel pass wrote for the design prompt, kept as a separate register on the board so the owner can approve, reject or defer each line before any CSS ships.</p></article>
