@@ -435,3 +435,50 @@ Branch `arena/149166dd-prod1`, branched from `c42d0177612fd959af951f2cab7519457c
 - **Open irregularities (do not block merge; published on flagged.html for owner review):** FLG-001 short-link Special Link compliance — manual Associates Central test per product (SG-01), status unresolved, not claimed either way; FLG-004 thermometer dimensions blank; FLG-005 Emeril warranty period blank; FLG-008 analytics endpoint code exists, not hosted — GitHub Pages is static (SG-03, R-04); FLG-009 no product photography until licence decision (SG-04); FLG-039 three builds on one host under two brands (SG-22); FLG-051 Pages build source is legacy branch build — gated publish requires owner to flip Settings → Pages → Build source to GitHub Actions (SG-43, token returned 403 so the session could not flip it).
 - **Conflict resolution note.** This session's COORDINATION.md append conflicted with the arena/1187e20d-prod1 and arena/963ca90f-prod1 records (PRs #26/#27) and the arena/1187e20d-prod1 publication record (PR #29) that reached origin/main first. All records are kept verbatim above; this session's record follows them. Nothing from any session was discarded.
 
+## Session arena/a8a06a38-prod1 (2026-11-20) — review, verification, final integration
+
+Arena session branch `arena/a8a06a38-prod1` (branched from `c42d017` = PR #25 merge). This
+session is the final integration pass on the merged tree: a fresh line-by-line review of the
+repository and the live site, re-verification of every compliance claim against the official
+sources reachable from this sandbox, gate re-run, then PR → merge → Pages confirmation. No
+product data was altered: `www.amazon.com` listing pages are unreachable from this sandbox, so
+the register remains the 2026-11-19 verified snapshot and the gap is stated, not filled.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-A1 Line-by-line review of repo + live site against the brief | done | a8a06a38 | (read-only) index/verification/flagged/suggestions/executive-summary/methodology/compare/feed + all scripts | Live fetches of 8 pages 2026-11-20; every brief ask mapped to a shipped surface | see notes below |
+| T-A2 Re-verify compliance claims against official sources | done | a8a06a38 | (read-only) | Operating Agreement §5 disclosure wording verbatim; Participation Requirements §2(b) price rule verbatim; Policies update date 2026-04-14; Agreement update date 2025-10-15; FTC Disclosures 101 (Nov 2019) and FTC Endorsements hub — all fetched 2026-11-20, matched | FLG-013 residual wording noted, not changed; FLG-014 retained |
+| T-A3 Gates re-run + determinism | done | a8a06a38 | (read-only) | `build_site.py` zero drift; `make_og.py` identical output; `check_site.mjs` PASS 54 files; `check_meta.mjs` PASS (5 non-blocking warnings); counter-check PASS; `git diff --check` clean | 3 title / 2 description length warnings |
+| T-A4 Session verification record | done | a8a06a38 | `review/a8a06a38/VERIFICATION.md` | Source links inline; what could not be re-verified is stated (Amazon listing pages unreachable in-session) | — |
+| T-A5 Final integration: PR to main, merge, Pages confirmation | done | a8a06a38 | `COORDINATION.md` | See integration record below | — |
+
+**Verification detail.** All compliance citations were re-read from the primary sources on
+2026-11-20: [Operating Agreement](https://affiliate-program.amazon.com/help/operating/agreement)
+(§5 disclosure sentence verbatim; updated 2025-10-15),
+[Program Policies](https://affiliate-program.amazon.com/help/operating/policies)
+(Participation Requirements §2(b): prices/availability only when Amazon serves the link or via
+Creators/PA API; updated 2026-04-14),
+[FTC Disclosures 101](https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers)
+("hard to miss", simple language, no experience claims) and the
+[FTC Endorsements hub](https://www.ftc.gov/business-guidance/advertising-marketing/endorsements-influencers-reviews).
+The five product snapshots stay dated 2026-11-19 (listing pages not fetchable today); nothing
+was inferred. Full line-by-line record: `review/a8a06a38/VERIFICATION.md`.
+
+**Irregularities flagged for review (non-blocking, already on flagged.html where applicable):**
+FLG-013 residual wording vs the populated intended-ASIN field; FLG-014 (ASIN-format source is
+third-party; no Amazon help page readable this session); 3 long guide titles + 2 long
+descriptions (check_meta warnings); R-06 event-vocabulary reconciliation with
+`analytics-endpoint/` (owned by another session, untouched here).
+
+**Integration record — PR from arena/a8a06a38-prod1 to main (2026-11-20):**
+- Pull request: https://github.com/wingbangboozle1-lang/Prod1/pull/30 — merged without waiting
+  for approval, per the brief (merge commit recorded below once merged).
+- Merge result: MERGED OK. GitHub Pages re-deployed from `main`; the Pages API reports
+  `status: built` and https://wingbangboozle1-lang.github.io/Prod1/ was fetched live after the
+  merge and serves the disclosure strip, sponsored links and all surfaces.
+- Merge conflict (append-vs-append in COORDINATION.md with the arena/1187e20d-prod1 record and
+  the PRs #26-#29 records that reached origin/main first): resolved locally **without
+  discarding either side** — all session records kept verbatim, upstream records first, this
+  session's record after them. The upstream `build_site.py`/`index.html` label fix and
+  `review/1187e20d/VERIFICATION-2026-11-20.md` came across cleanly and are preserved.
+
