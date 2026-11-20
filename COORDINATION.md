@@ -802,3 +802,16 @@ Branch `arena/9d2f2b53-prod1`. Scope: a verification and publication pass only. 
 - Deploy: `Deploy GitHub Pages` run 44690211741 conclusion success; Pages API reports `status: built`, https://wingbangboozle1-lang.github.io/Prod1/.
 - Merge conflict handling: main had advanced with PR #49 (session fe0774e7), which repaired the same broken build this session found. The rebase conflict in COORDINATION.md was resolved by keeping both sections; decisions.json/decisions.html adopted from main verbatim. No other session's work discarded.
 - Tasks T-46E-1, T-46E-2, T-46E-3: done.
+
+## Session arena/3c99f15c-prod1 — claim (2026-11-20)
+
+Branch `arena/3c99f15c-prod1`, branched from `main` @ `f237c4a`; fast-forwarded to `2829f0e` (PR #55) before any edit. No other session is editing the files below at claim time; the seven open PRs touch `COORDINATION.md`, `build_site.py` and generated pages, so this session keeps its edits narrow and records them here rather than merging others' work.
+
+| Task | Status | Owner session | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-3C1 Shelf redesign: product-led front page, compact shop card, no duplicated spec dumps | in progress | arena/3c99f15c-prod1 | `build_site.py` (front page + one card component), `assets/style.css`, regenerated root `*.html`, `data/search-index.json` | Existing verified register; no new product facts added (FLG-023 still bars price/rating display) | — |
+| T-3C2 Line-by-line re-verify of the five listings against Amazon.com (titles + identity this pass) | in progress | arena/3c99f15c-prod1 | `review/3c99f15c/VERIFICATION.md`, `COORDINATION.md` | Amazon.com `/dp/` pages fetched 2026-11-20 | Volatile figures stay dated snapshots |
+| T-3C3 Decision worksheet: what is known, what is missing, what would settle it | in progress | arena/3c99f15c-prod1 | `review/3c99f15c/DECISION_WORKSHEET.md`, `COORDINATION.md` | Links to the official policy pages already cited on `compliance.html` | Owner-only decisions do not block deploy |
+| T-3C4 Integration: gates, PR to `main`, merge, Pages deploy verified | pending | arena/3c99f15c-prod1 | `COORDINATION.md` | Six gates + `pages.yml` | — |
+
+**Scope.** Root publication only (`build_site.py`, `assets/style.css`, generated root HTML, this file, `review/3c99f15c/`). Read-only this session: `scripts/`, `.github/workflows/`, `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `data/products.json` (no product fact is added or changed).
