@@ -355,14 +355,32 @@ TOPICS = [
      "hooks": "Listed dimensions (P2: 16.9D x 15.8W x 14.8H in); derived footprint and capacity-per-cm math",
      "sources": [("P2 listing", PRODS["P2"]["sourceUrl"]), ("Counter-space math", "compare.html")]},
     {"n": "12", "title": "Holiday air fryer gifts: what to buy without the guesswork", "cat": "Seasonal - Gifts",
-     "status": "Planned", "href": "topics.html#t12",
+     "status": "Published", "href": "guide-gift-picks.html",
      "angle": "Depth, household size, dishwasher-safe parts and control-panel learnability - the gift checklist that needs no price tag.",
      "hooks": "Listing dimensions, capacity, care bullets and seller gift claims (P1, P2, P3, P4)",
      "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P4 listing", PRODS["P4"]["sourceUrl"])]},
-]
+    {"n": "13", "title": "Thanksgiving counter math: what actually fits on the counter?", "cat": "Seasonal - Thanksgiving",
+     "status": "Published", "href": "guide-thanksgiving-counter.html",
+     "angle": "Depth, cabinet clearance, wattage and the cooking claims a listing will stand behind, timed to 26 November 2026.",
+     "hooks": "Listed dimensions and power fields (P1, P2, P3); bullet-level cleanup and accessory claims",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("OPM 2026 holiday schedule", "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/")]},
+    {"n": "14", "title": "A holiday price looks like a deal: what to check in ten minutes", "cat": "Seasonal - Buying window",
+     "status": "Published", "href": "guide-holiday-deal-check.html",
+     "angle": "Quarts per dollar, the variant trap, what a badge is not, and listings that disagree with themselves.",
+     "hooks": "Capacity title vs capacity field (P1, P2); variant selector (P3); listing-internal disagreements FLG-002, FLG-021, FLG-022",
+     "sources": [("P3 listing", PRODS["P3"]["sourceUrl"]), ("P2 listing", PRODS["P2"]["sourceUrl"]), ("Associates Program Policies", "https://affiliate-program.amazon.com/help/operating/policies")]},
+    {"n": "15", "title": "The gift receipt test: does an appliance gift get kept?", "cat": "Seasonal - Gifting",
+     "status": "Published", "href": "guide-gift-return-window.html",
+     "angle": "Variant, fit, cleanup, setup burden and paperwork, all answerable from listing fields before you wrap.",
+     "hooks": "Variant and colour fields (P1, P3, P5); cleanup bullets (P1, P3); probe, hub and app description (P5); warranty fields (P1, P2, P3, P5)",
+     "sources": [("P1 listing", PRODS["P1"]["sourceUrl"]), ("P3 listing", PRODS["P3"]["sourceUrl"]), ("P5 listing", PRODS["P5"]["sourceUrl"])],
+     "note": "Published 2026-11-20 as the after-purchase half of topic 12, which is the choice of gift."}]
 
 
 def topic_band():
+    n_topics = len(TOPICS)
+    n_pub = sum(1 for t in TOPICS if t["status"] == "Published")
+    n_queue = n_topics - n_pub
     rows = "".join(
         f'<a href="{t["href"]}"><span>{t["n"]}</span>{esc(t["title"])}<b class="{"status-published" if t["status"]=="Published" else "status-planned"}">{t["status"]}</b></a>'
         for t in TOPICS)
@@ -371,7 +389,7 @@ def topic_band():
   <div class="wrap topic-inner">
     <div>
       <h2>The topic calendar</h2>
-      <p>Twelve question-shaped topics, five published and seven queued. Every queued title is an editorial hypothesis backed by verified listing fields - not a claim about search volume or popularity. The next topic is chosen from measured queries, not instinct.</p>
+      <p>{n_topics} question-shaped topics on the calendar, {n_pub} published and {n_queue} queued. Every queued title is an editorial hypothesis backed by verified listing fields, not a claim about search volume or popularity. The next topic is chosen from measured queries once Search Console has them, not from instinct.</p>
       <p><a class="btn secondary" href="topics.html">Open the full calendar</a></p>
     </div>
     <div class="topic-list">{rows}</div>
@@ -401,6 +419,11 @@ index_body = f"""
     </ol>
     <p class="fine">Listing data checked {VERIFIED}. Prices and ratings live on Amazon and move - we link to them rather than quote a stale figure.</p>
   </aside>
+</section>
+
+<section class="season" aria-label="This week on the desk">
+  <p class="eyebrow">Holiday window, 2026</p>
+  <p>Thanksgiving falls on <strong>Thursday, 26 November 2026</strong>, a federal holiday listed in 5 U.S.C. 6103. The retail days either side of it are the Friday and the Monday, which are not holidays in that law. Three guides answer that window: <a href="guide-thanksgiving-counter.html">what fits on the counter</a>, <a href="guide-holiday-deal-check.html">the ten-minute listing check</a> and <a href="guide-gift-return-window.html">the gift receipt test</a>. No deal claims, no price figures, no countdowns. Date read from the <a href="https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/">OPM schedule</a> on 2026-11-20.</p>
 </section>
 
 <h2>Quick picks, straight from the listings</h2>
@@ -546,12 +569,16 @@ guides_body = """
 <article class="card"><span class="tag">Seasonal</span><h3>Holiday air fryer gifts: how to choose one that gets used</h3><p>The gift checklist that works without a price tag: depth, cleanup, one control panel they will actually learn.</p><p><a class="btn small" href="guide-gift-picks.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal - Hosting</span><h3>The holiday hosting test: which air fryer actually feeds a crowd?</h3><p>Capacity claims, a 6-lb rotisserie chicken, 12-inch pizzas - and the counter-depth number that decides fit in December.</p><p><a class="btn small" href="guide-holiday-hosting.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Seasonal - Budget</span><h3>Kitchen gifts under $25, under $80 and under $150</h3><p>Budget bands mapped to the five verified picks, with each listing's own gift claims quoted, not invented.</p><p><a class="btn small" href="guide-gifts-by-budget.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Thanksgiving</span><h3>Thanksgiving counter math: what actually fits?</h3><p>Depth, cabinet height, wattage and the cooking claims a listing will actually stand behind, checked before the 26 November dinner.</p><p><a class="btn small" href="guide-thanksgiving-counter.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Buying window</span><h3>A holiday price looks like a deal. Check the listing for ten minutes.</h3><p>Quarts per dollar, the variant trap, what a badge is not, and what to do when a listing argues with itself.</p><p><a class="btn small" href="guide-holiday-deal-check.html">Read guide</a></p></article>
+<article class="card"><span class="tag">Seasonal - Gifting</span><h3>The gift receipt test: five checks before you wrap</h3><p>Variant, fit, cleanup, setup burden and the paperwork that turns a December problem into a form.</p><p><a class="btn small" href="guide-gift-return-window.html">Read guide</a></p></article>
 <article class="card"><span class="tag">Air fryers - Specs</span><h3>Will it trip the breaker? Wattage and outlet math for air fryers</h3><p>1000W or 1700W? One of our listings answers that question two different ways - here is how to check yours.</p><p><a class="btn small" href="guide-wattage-outlets.html">Read guide</a></p></article>
 </div>
 <h2>Consolidated URLs</h2>
 <p class="small">A parallel pass published three more seasonal pages on questions this list already covers. They stay live but return a canonical reference to the surviving guide, so one question has one answer: <a href="guide-holiday-gifts.html">holiday gifts</a> &rarr; <a href="guide-gift-picks.html">gift picks</a>; <a href="guide-small-kitchen.html">small-kitchen fit</a> &rarr; <a href="guide-cleanup-counter-space.html">counter space</a>; <a href="guide-holiday-roast.html">holiday roast thermometer</a> &rarr; <a href="guide-thermometer-accuracy.html">accuracy claims</a>. Reason and reversal option: <a href="flagged.html#FLG-047">FLG-047</a>.</p>
 """
-page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide","Buying guides for air fryers and meat thermometers: form factor, capacity, cleanup, presets, accuracy claims, gift picks, hosting and wattage math.",guides_body)
+_gn = guides_body.count('<a class="btn small" href="guide-')
+page_to("guides.html","Buying guides for air fryers & probes | Countertop Guide",f"{_gn} question-led guides on air fryers and meat thermometers: form factor, capacity, cleanup, accuracy claims, gifts, hosting and the 2026 holiday window.",guides_body)
 # ---------- GUIDE 1 ----------
 b1, j1 = guide_shell("Guide - Air fryers", "Basket or oven-style air fryer: what should you compare?",
  "If you cook two different dishes at the same time, a dual-basket wins. If you cook for a crowd or want rotisserie and a 12-inch pizza, an oven-style unit wins. Everything else is footprint and cleanup. Here is how to decide, using the three fryers on this site.",
@@ -1251,6 +1278,11 @@ comp_body = f"""
 <p class="small">This page is a publishing checklist, not legal advice. Review disclosure placement and endorsement context against the current Agreement and FTC guidance at each publish. If in doubt, flag it.</p>
 """
 page_to("compliance.html","Compliance: disclosure & policy | Countertop Guide","How the disclosure, the sponsored marking, price display and imagery are handled, with the Amazon and FTC rules quoted and linked.",comp_body)
+def cadence_row(c):
+    note = f'<p class="small">{esc(c["note"])}</p>' if c.get("note") else ""
+    page = f' &middot; {esc(c["page"])}' if c["page"] else ""
+    return f'<tr><td>{c["week"]}</td><td>{esc(c["title"])}{note}</td><td>{esc(c["status"])}{page}</td></tr>'
+
 # ---------- METHODOLOGY ----------
 meth_body = f"""
 <p class="eyebrow">Method</p>
@@ -1298,7 +1330,7 @@ meth_body = f"""
 <p>One guide per week, published Tuesday, from the queue in <code>data/editorial.json</code>. Each guide enters the sitemap and the feed at build time; the next four topics come from measured queries after 28 days of Search Console data, not from instinct. Until then the calendar is a stated plan, not a demand claim.</p>
 <div class="table-scroll"><table>
 <tr><th>Planned</th><th>Topic</th><th>Status</th></tr>
-{"".join(f'<tr><td>{c["week"]}</td><td>{esc(c["title"])}</td><td>{esc(c["status"])}{" &middot; " + esc(c["page"]) if c["page"] else ""}</td></tr>' for c in CADENCE["queue"])}
+{"".join(cadence_row(c) for c in CADENCE["queue"])}
 </table></div>
 <p class="fine">{esc(CADENCE["rule"])} {esc(CADENCE["measure"])}</p>
 """
@@ -1474,6 +1506,177 @@ b9, j9 = guide_shell("Guide - Air fryers - Specs", "Will it trip the breaker? Wa
   ("Why do two sections of the same listing show different wattage?","Seller-entered data can disagree between bullets and the Product information table, exactly as on the Chefman 8QT (FLG-022). Treat the conflict as unresolved and verify on the box or manufacturer's spec sheet.")],
  picks=("P3", "P1", "P2"))
 page_to("guide-wattage-outlets.html", "Will it trip the breaker? Air fryer wattage math | Countertop Guide", "What 1000W vs 1700W means for a 120V kitchen circuit, the wattage conflict on the Chefman 8QT, and a checklist for verifying wattage on any listing.", b9, j9, "guide-page")
+
+# ---------- SEASONAL GUIDES, 2026 holiday window (session arena/42e09357-prod1) ----------
+# The window is fixed by statute, not by instinct: Thanksgiving Day 2026 is Thursday, 26 November
+# (5 U.S.C. 6103, as listed by the US Office of Personnel Management, read 2026-11-20 at
+# https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/). The Friday and Monday
+# after it are retail names, not holidays in that law, so the copy treats them as days of the week.
+HOLIDAY = {
+    "thanksgiving": "Thursday, 26 November 2026",
+    "friday": "Friday, 27 November 2026",
+    "cybermonday": "Monday, 30 November 2026",
+    "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+    "read": "2026-11-20",
+}
+
+b10, j10 = guide_shell(
+    "Guide - Seasonal - Thanksgiving 2026",
+    "Thanksgiving counter math: what actually fits the week you cook for six?",
+    "The oven is spoken for on 26 November, so the question is what a countertop appliance can be asked to do, and whether it physically fits where you would put it. Both answers are on the listing. Nobody here has cooked a turkey in any of these machines, so this is a fit-and-claim check, not a recipe.",
+    """
+<section id="date">
+<h2>The date, and why the counter is the real constraint</h2>
+<p>Thanksgiving Day 2026 is <strong>Thursday, 26 November</strong>. That is federal law (5 U.S.C. 6103), listed on the <a href="HOLIDAY_SOURCE">US Office of Personnel Management's holiday schedule</a> and read on HOLIDAY_READ. The Friday after and the Monday after carry retail names; neither is a holiday in that law, so treat them as days when the kitchen is also busy.</p>
+<p>Ask two questions before you ask which machine cooks best. First: how much counter depth do you have where it will live, not where it will sit for one photograph? Second: what does this listing claim it can cook, in its own words? Everything below is those two questions applied to the three fryers on this site.</p>
+</section>
+<section id="footprints">
+<h2>Three machines, three footprints, stated sizes only</h2>
+<div class="table-scroll"><table>
+<tr><th>Machine</th><th>Stated size (D x W x H)</th><th>Counter depth</th><th>Floor area</th><th>What the listing says it cooks</th></tr>
+<tr><td>Chefman 6QT dual-basket (P1)</td><td>13.38 x 11.81 x 10.63 in</td><td>13.38 in (34.0 cm)</td><td>158.0 sq in</td><td>Two independent 3-quart baskets; Sync Finish so two dishes land together (per bullets)</td></tr>
+<tr><td>Emeril Lagasse 26QT French-door (P2)</td><td>16.9 x 15.8 x 14.8 in</td><td>16.9 in (42.9 cm)</td><td>267.0 sq in</td><td>Bullets describe capacity for 4-6 people, a rotisserie for a 6-lb chicken and a 12-inch pizza</td></tr>
+<tr><td>Chefman 8QT TurboFry (P3)</td><td>12.75 x 13.5 x 10 in</td><td>12.75 in (32.4 cm)</td><td>172.1 sq in</td><td>One 8-quart non-stick basket; four presets (per bullets)</td></tr>
+</table></div>
+<p class="small">Floor area is our arithmetic (depth x width from the listing), not a manufacturer claim. The drawings on the product cards are ours too, drawn to the same scale so you can compare them by eye.</p>
+<p>Read the depth column as the deciding number. Two of the three fit inside a shallow run of counter; the Emeril oven needs 16.9 in of it, which is why the sizing guide tells you to measure before the holiday, not after.</p>
+</section>
+<section id="height">
+<h2>Height is the number people forget until the cabinet is full</h2>
+<p>The listed heights are 10.63 in, 14.8 in and 10 in. If the appliance has to live under a wall cabinet, that clearance, plus whatever space the manual asks for around vents and the door swing, is the constraint, not the width. <strong>None of the three listings states a required clearance in the fields we captured</strong>, so this site cannot tell you a safe number. Get a tape measure, and if the space is tight, ask the seller the clearance question in writing before the week the delivery window closes.</p>
+<p>One more door-day detail: the Emeril's doors are French doors that "open with a single pull" per its bullets. Decide where the swing goes before you put a 16.9 in box in the corner.</p>
+</section>
+<section id="power">
+<h2>Two 1700 W machines and one outlet</h2>
+<p>The Chefman 6QT listing states 1700 W at 120 V; the Emeril's Product information table states 1700 W at 120 V. On one small kitchen circuit, two of those plus a kettle is a question worth asking before Thanksgiving dinner, not during it. The 8QT is the awkward one: its bullets say 1000 W while its own spec table says 1700 W, and we publish both rather than choosing (<a href="flagged.html#FLG-022">FLG-022</a>). The circuit arithmetic and what to ask an electrician live in the <a href="guide-wattage-outlets.html">wattage and outlets guide</a>.</p>
+</section>
+<section id="checklist">
+<h2>Ten days out: the fit check, in order</h2>
+<ol class="steps">
+<li>Measure the depth and the height of the spot it will live in. Write the two numbers down.</li>
+<li>Compare them against the stated size in the table above. If the appliance is deeper than the counter, stop there.</li>
+<li>Check what the listing says it cooks, in the listing's words. A capacity number in a title is not a meal plan.</li>
+<li>Read the variant selector before ordering. The 8QT comes in 6, 8 and 9-quart sizes and in two finishes per its own listing, and the photograph shows one of them.</li>
+<li>Decide who washes what. The 8QT's basket and tray are called top-rack dishwasher safe per bullets; the 6QT's baskets are called dishwasher safe per bullets; for the Emeril we captured no cleanup claim, so its accessories are a question for the listing, not for us.</li>
+<li>Confirm the power figure you will actually rely on, given the discrepancy above.</li>
+</ol>
+</section>
+<section id="limits">
+<h2>What this page cannot tell you</h2>
+<p>Not how long anything takes to cook. Not whether a 6-quart basket feeds your family. Not whether the machine is good. Those need a test kitchen and a protocol, and the decision on whether to build one is still open on the <a href="suggestions.html#SG-09">review desk</a> (SG-09, Q-19). What this page can tell you is what the seller stated, when we read it, and what the listing leaves out. The gaps are listed on <a href="flagged.html">Flagged for review</a>.</p>
+<p class="next">Next: <a href="compare.html#chooser">answer the three-question chooser</a>, or read the <a href="guide-holiday-deal-check.html">holiday listing check</a> before you buy in the sales window.</p>
+""",
+    [("Can an air fryer replace an oven on Thanksgiving?",
+      "Nothing on these listings claims it can cook a whole turkey, and we are not going to invent that claim. The Emeril listing describes a rotisserie for a 6-lb chicken and a 12-inch pizza. Whether that helps your menu is your call, and it is a question the listing answers only about capacity, not about timing."),
+     ("What size do I need to feed six people?",
+      "The only number on the listing that speaks to household size is the Emeril's bullet describing 26-quart capacity for four to six people. The other two state 6 and 8 quarts without a headcount. Do not read a headcount into a quart figure."),
+     ("Is the deepest one also the biggest inside?",
+      "By the stated figures, yes on both counts for the Emeril: 16.9 in of depth and 26QT in its title. Note the title-to-field gap the register carries, 26QT against a 24.6 liter capacity field, which we show as two values rather than converting silently."),
+     ("Do these listings say how much clearance they need?",
+      "Not in the fields captured for this register. That is why the fit check ends with a question for the seller instead of a number from us.")],
+    picks=("P1", "P2", "P3"))
+b10 = b10.replace("HOLIDAY_SOURCE", HOLIDAY["source"]).replace("HOLIDAY_READ", HOLIDAY["read"])
+page_to("guide-thanksgiving-counter.html", "Thanksgiving counter math: what fits? | Countertop Guide",
+        "Counter depth, cabinet height, wattage and what the listing actually claims it cooks, checked against the three fryers before Thanksgiving 2026.", b10, j10, "guide-page")
+
+b11, j11 = guide_shell(
+    "Guide - Seasonal - Holiday buying window",
+    "A holiday price looks like a deal. Ten minutes on the listing tells you which one it is.",
+    "Between 27 and 30 November 2026 a lot of appliance listings will show a lower number next to a higher one. Nothing about that makes a machine fit your counter or cook your food. This is the check we would run on any listing, in order, using only what the page itself states, and it works the same whether the discount is 5 percent or 40.",
+    """
+<section id="window">
+<h2>What the window is, and what it is not</h2>
+<p>The commercial days around Thanksgiving are named after the holiday rather than defined by it. Thanksgiving Day 2026 is Thursday, 26 November, the only one of the four in federal law (5 U.S.C. 6103; <a href="HOLIDAY_SOURCE">OPM schedule</a>, read HOLIDAY_READ). The Friday, 27 November, and the Monday, 30 November, are retail names for working weekdays. That matters for one practical reason: a delivery estimate or a return clock does not pause for a sale, so read both on the page instead of assuming.</p>
+<p>This site publishes no price figures at all, and it runs no price alerts or watchlists: the Program Policies' participation requirements forbid price-tracking or alerting functionality on a Site, which the <a href="compliance.html">compliance page</a> quotes. So the maths below is maths you do on Amazon's page, where the number is current.</p>
+</section>
+<section id="unit">
+<h2>1. Do the quarts-per-dollar maths yourself</h2>
+<p>Find the price, find the stated capacity, divide. Then do it for the other two machines you are considering. That one number exposes most of the nonsense in the category, because capacity is what you pay for and the marketing words around it are free.</p>
+<p>Two traps in that arithmetic, both visible on our own listings:</p>
+<ul>
+<li><strong>Title capacity is not always the capacity field.</strong> The Chefman 6QT's title says 6 Quart while its capacity field says 6 liters; the Emeril's title says 26QT against a field of 24.6 liters. We keep both values and flag the difference (<a href="flagged.html#FLG-002">FLG-002</a>) instead of picking one. If a comparison depends on a unit, check which unit the seller used.</li>
+<li><strong>A basket count changes what a quart means.</strong> Two 3-quart baskets is 6 quarts split, which is a different dinner from one 6-quart basket. The dual-basket claim is about finishing two dishes together, per the Sync Finish bullet, not about volume.</li>
+</ul>
+</section>
+<section id="model">
+<h2>2. Check the model number, not the photograph</h2>
+<p>The 8QT TurboFry listing offers 6, 8 and 9-quart sizes in two finishes, per its own variant selector. The image on the page shows one of them. A cheaper tile in a sale grid is often a smaller variant of the machine you read about, and the picture will not tell you. Read the size and colour fields, and the model string if the page gives one.</p>
+<p>The same trap in the opposite direction: a listing can stay identical while a newer model sits next to it. Ours does. The 8QT page's own suggestions show a 6QT Chefman model at a lower price with more ratings, recorded as <a href="flagged.html#FLG-003">FLG-003</a>. Whether to promote the newer ASIN is an open decision on the desk (SG-08), so we promote the submitted one and say plainly that a sibling exists.</p>
+</section>
+<section id="badges">
+<h2>3. Badges are listing furniture, not evidence</h2>
+<p>An Amazon's Choice chip and a "bought in past month" line belong to Amazon's page on a given day. They are not our ranking, not a quality score, and not a reason to buy today. The register's rule is that a popularity or trend statement needs a dated snapshot from an official page or it does not get written (<a href="flagged.html#FLG-012">FLG-012</a>), and this build displays none of those figures anywhere on the shop pages, for the Program Content reasons in <a href="flagged.html#FLG-032">FLG-032</a>.</p>
+</section>
+<section id="disagree">
+<h2>4. If the listing argues with itself, a discount is not the fix</h2>
+<p>Two of our five listings do exactly that:</p>
+<ul>
+<li>The 8QT states 1000 W in its bullets and 1700 W in its spec table. Both are shown; neither is inferred (<a href="flagged.html#FLG-022">FLG-022</a>).</li>
+<li>The Emeril's title says six cooking accessories, its item details say seven, and the included-components list names six. Its title says 24 one-touch presets while its bullets elsewhere describe 25 (<a href="flagged.html#FLG-021">FLG-021</a>, <a href="flagged.html#FLG-002">FLG-002</a>).</li>
+</ul>
+<p>If the number matters to you, that is a question for the seller or the manual, and it does not become answered because the price moved. This is also why our pages say "as listed" next to figures instead of stating them as facts about the world.</p>
+</section>
+<section id="after">
+<h2>5. Warranty, returns and the receipt, before you click</h2>
+<p>Captured from the listings on VERIFIED, in the sellers' words: the Chefman fryers state a 1-year assurance (P1) and a 1-year warranty (P3), both per bullets, plus cETL approval. The Emeril's listing links a warranty PDF and states no term in its text, so the field on our pages is blank rather than guessed (<a href="flagged.html#FLG-005">FLG-005</a>). The ThermoMaven includes one calibration certificate per its included-components field. Returns windows and exchange rules are not product fields: they live on your order page, so read them there.</p>
+<p class="next">Next: the <a href="guide-gift-return-window.html">gift receipt test</a> if this purchase is for someone else, or the <a href="verification.html">verification register</a> to see every figure and where it came from.</p>
+""",
+    [("Is there actually a deal in the holiday window?",
+      "We cannot say, and that is not modesty. This site publishes no price figures, so it also makes no claim about what happens to them on a given Friday. The check above works whether a price moved or not, which is the point."),
+     ("Should I wait for Black Friday instead of buying now?",
+      "That is a prediction about future prices, which we do not make: forecasting them would need a price-tracking feature, and the Program Policies bar a Site from having one. What you can do today is the arithmetic in section 1, on the page where the number is live."),
+     ("Do cheaper listings mean older machines?",
+      "Sometimes the difference is a variant, not a discount. Read the capacity, size and colour fields and the model string. A newer sibling can also sit on the same page at a lower price, which is exactly what the 8QT listing shows."),
+     ("Is a title claim like 26QT a promise?",
+      "It is a title. The spec fields next to it can disagree, as ours does, which is why the register shows both and flags the gap rather than resolving it for you.")],
+    picks=("P1", "P2", "P3"))
+b11 = b11.replace("HOLIDAY_SOURCE", HOLIDAY["source"]).replace("HOLIDAY_READ", HOLIDAY["read"]).replace("VERIFIED", VERIFIED)
+page_to("guide-holiday-deal-check.html", "Holiday listing check: ten minutes before you buy | Countertop Guide",
+        "A ten-minute check for any appliance listing in the holiday window: quarts per dollar, the variant trap, badge meaning and listings that disagree with themselves.", b11, j11, "guide-page")
+
+b12, j12 = guide_shell(
+    "Guide - Seasonal - Gifting",
+    "The gift receipt test: five checks that decide whether it gets kept",
+    "Most appliance gifts are not returned because they are bad. They are returned because they did not fit, the parts were wrong, or nobody could find the box. All five checks below can be done from the listing before you wrap anything, using fields this site has already verified.",
+    """
+<section id="receipt">
+<h2>1. Keep the box, the manual and the model string</h2>
+<p>An exchange without the model string is a phone call, and the string is on the label, the box and the listing. Write it on the gift note. That one habit answers most December problems, and it is the reason the shop pages link to the exact ASIN rather than to a search page: the recipient should be able to find the same page you read.</p>
+</section>
+<section id="variant">
+<h2>2. Confirm the variant you are buying, not the one in the photo</h2>
+<p>The 8QT TurboFry is offered in 6, 8 and 9-quart sizes and in stainless steel or black, per its listing's variant selector. The CHEF iQ Sense is sold in probe-count variants, and our register records the price fields per variant, which is how we know the tiles differ. Colour fields matter too: the Chefman 6QT listing lists Black and Gray; the Emeril states Stainless Steel. Order the tile you mean.</p>
+</section>
+<section id="fit">
+<h2>3. Ask for two numbers before you buy for someone else's kitchen</h2>
+<p>Depth and clearance. You do not need their floor plan, just the depth of the counter run and the height under the cabinet. Against the stated sizes: 13.38 in deep and 10.63 in tall (6QT), 16.9 in deep and 14.8 in tall (26QT), 12.75 in deep and 10 in tall (8QT). None of the three listings states a required clearance in the fields we captured, so if their space is tight, that is a question for the seller.</p>
+<p>The drawings on the product cards are ours, drawn to one shared scale from those inches, which makes them a reasonable thing to show a recipient who is holding a tape measure.</p>
+</section>
+<section id="cleanup">
+<h2>4. The dishwasher question is the marriage question</h2>
+<p>Per the bullets: the 8QT's basket and flat tray are top-rack dishwasher safe, and the 6QT's removable non-stick baskets are dishwasher safe. For the Emeril we captured no cleanup claim, so its six (or seven, see <a href="flagged.html#FLG-021">FLG-021</a>) accessories are a real hand-washing question that the listing does not settle. If the gift is for someone who will not soak a pan, that is the deciding field, not the preset count.</p>
+</section>
+<section id="setup">
+<h2>5. Some gifts need a network, a hub and an afternoon</h2>
+<p>The CHEF iQ Sense listing describes three ultra-thin probes plus a hub that charges all three, WiFi with app monitoring, Bluetooth in the connectivity field, ratings to 1000 F and up to 50 hours per charge. That is a lovely gift for someone who enjoys setting things up, and a chore for anyone else. It also has no accuracy figure in the fields we captured, which the register states as a gap (<a href="flagged.html#FLG-004">FLG-004</a> covers the missing dimensions for both thermometers). The ThermoMaven, by contrast, is handheld: no hub, no app, one-second read per its bullets, IP67 and rinsable per its title and bullets, and no setup at all. If the recipient just wants the steak right, the pocket read is the lower-friction gift.</p>
+</section>
+<section id="gaps">
+<h2>What this site cannot promise about a returned gift</h2>
+<p>Returns windows, exchange rules and gift-receipt mechanics belong to the order page, not to a product listing, so we do not state them here. Same for warranty terms: the Emeril's listing links a PDF and puts no period in its text, which stays blank on our tables rather than guessed (<a href="flagged.html#FLG-005">FLG-005</a>). Everything we do state carries a date and a link, so a recipient can check the same source.</p>
+<p class="next">Next: <a href="guide-gift-picks.html">which appliance to gift in the first place</a>, or the <a href="compare.html">side-by-side table</a> for the five products.</p>
+""",
+    [("Is an air fryer a good gift for someone who has one?",
+      "The listing fields cannot answer that, and neither can we without knowing the person. What we can say: the 6QT's two-basket Sync Finish claim and the 8QT's single large basket are different purchases solving different problems, so if their current machine is a single basket, the dual-basket one is the only one of the three that changes anything."),
+     ("What if it does not fit in their kitchen?",
+      "That is why the depth column is on every card. Compare their counter depth to 13.38, 16.9 or 12.75 inches before ordering, and keep the box and the model string so an exchange is a form, not a project."),
+     ("Do the thermometers need an app?",
+      "Only the wireless one: its listing describes a hub, WiFi and app monitoring. The handheld ThermoMaven is a read-in-your-hand device with an auto-rotating display per its bullets, which is the better gift for anyone who will not pair a device."),
+     ("Is the warranty included with a gift?",
+      "The two Chefman listings state a one-year assurance or warranty per their bullets, and the CHEF iQ states a two-year assurance per bullets. The Emeril's term is not in its listing text, so we show nothing rather than assume. Keep the packaging either way.")],
+    picks=("P1", "P3", "P5"))
+b12 = b12.replace("HOLIDAY_SOURCE", HOLIDAY["source"])
+page_to("guide-gift-return-window.html", "Gift receipt test: five checks before you wrap | Countertop Guide",
+        "Five listing-based checks that decide whether a gifted appliance gets kept: variant, counter fit, cleanup, setup burden and the paperwork to keep.", b12, j12, "guide-page")
 
 # ---------- GIFT GUIDE ----------
 b6, j6 = guide_shell("Guide - Seasonal", "Holiday air fryer gifts: how to choose one that gets used",
@@ -1654,6 +1857,9 @@ GUIDES = [
  ("guide-holiday-hosting.html","The holiday hosting test: which air fryer actually feeds a crowd?","Capacity claims, two-dish cooking and counter-depth math for December counters, from the listings."),
  ("guide-gifts-by-budget.html","Kitchen gifts under $25, under $80 and under $150","Budget bands mapped to five verified picks, each listing's own gift claims quoted."),
  ("guide-wattage-outlets.html","Will it trip the breaker? Wattage and outlet math for air fryers","1000W vs 1700W on a 120V circuit, the Chefman 8QT wattage conflict, and a listing checklist."),
+ ("guide-thanksgiving-counter.html","Thanksgiving counter math: what fits on the counter this year?","Depth, height, wattage and the cooking claims three listings will stand behind, checked before 26 November 2026."),
+ ("guide-holiday-deal-check.html","A holiday price looks like a deal: the ten-minute listing check","Quarts per dollar, the variant trap, what badges are not, and listings that disagree with themselves."),
+ ("guide-gift-return-window.html","The gift receipt test: five checks before you wrap an appliance","Variant, counter fit, cleanup, setup burden and the paperwork that makes an exchange a form."),
 ]
 fd = ['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
       '<channel>', f'<title>{esc(BRAND)}</title>', f'<link>{esc(abs_url("index.html"))}</link>',
