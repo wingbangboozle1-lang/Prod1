@@ -624,3 +624,13 @@ Branch `arena/54d3e366-prod1` (base `main` @ `bebe082`). No other session holds 
 - **PR #41** (`arena/54d3e366-prod1` → `main`, marker fix in `pages.yml`, both gate steps kept): merged as `71a09cf`. Run `44689450742`: every gate step **success** (`check_site`, `check_meta`, `check_style`, `check_measure`, `verify_structure`, and the drift check), then `Read the Pages build source` **success**; the deploy steps are skipped in legacy mode, as designed. A `pages build and deployment` run for the same commit also succeeded. The Pages API reports `status: built`, `build_type: legacy`, source `main` `/`.
 - **Live check:** `https://wingbangboozle1-lang.github.io/Prod1/flagged.html` fetched and serves the current register (FLG-001 … FLG-033 in the first chunk; FLG-074 and FLG-075 are generated in the same build and sit at the end of the table).
 - **Open for the owner, non-blocking:** FLG-074 (per-guide publication dates), FLG-075 (two guides live before their cadence week), plus the items already listed above (FLG-001, FLG-008, FLG-009, FLG-023, FLG-070, SG-02).
+
+## Claim — session arena/fe0774e7-prod1 (2026-11-20)
+
+Branch `arena/fe0774e7-prod1` (from `main` @ `bebe082`). Scope is deliberately narrow because the brief's remaining items are already built and merged by earlier sessions, or need an owner account this sandbox does not have (Associates Central Special Link test, Search Console, analytics host, domain, photo licence). Session `fbfe1742` has an open PR #37 touching measurement, robots and verification; this session does **not** touch those files.
+
+| Task | Status | Owner | Files touched (scope) | Notes |
+|---|---|---|---|---|
+| T-FE-A Reader-facing titles on the three consolidated guides (`guide-holiday-gifts`, `guide-holiday-roast`, `guide-small-kitchen`): drop the audit label "(consolidated)" from `<title>` only; canonicals and noindex unchanged | in progress | fe0774e7 | `build_site.py` (title strings in the `MERGED` table only), regenerated `guide-holiday-gifts.html`, `guide-holiday-roast.html`, `guide-small-kitchen.html` | Brief: "read like a shop, not an audit" |
+| T-FE-B Brief coverage audit: map each requirement in the brief to the page that satisfies it, the evidence, and the owner action still blocking it | in progress | fe0774e7 | this file only | Read-only; no new claims |
+| T-FE-C Integration: rebuild, four gates + CI drift check, PR to `main`, merge, confirm Pages | in progress | fe0774e7 | this file | Flagged items do not block the merge |
