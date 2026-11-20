@@ -388,3 +388,18 @@ Fourth merge round: `main` advanced with PRs #23-#24 (session arena/bb3ae11b-pro
 - **Merge history:** main advanced four times during the PR's life (PRs #15-#17, #19-#22, #23-#24). Each round was resolved without dropping either side; resolution notes 1-4 above record the decisions (their 3 seasonal guides ported then consolidated per FLG-047; per-page canonical + dashboard hub adopted; their editorial-policy generator adopted with this session's three guides ported in; topics.html + decision-desk layer merged cleanly).
 - **Deploy:** `counter-check-checks` **success** and `Deploy GitHub Pages` **success** for merge `96643ae`; the GitHub Pages API reports `built` at https://wingbangboozle1-lang.github.io/Prod1/ and the live fetch (2026-11-19) shows the exact Section 5 disclosure above the fold, sponsored `tag=shopnow047c-20` product links, the figure policy in effect, chooser, guides and source-record links.
 - **Gates on the merged tree:** `node scripts/check_site.mjs` PASSED (54 HTML files); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED; rebuild deterministic (drift gate would pass).
+
+
+## Session arena/1187e20d-prod1 (2026-11-20) — claim, verification and integration
+
+Branch `arena/1187e20d-prod1` (base `c42d017`, main). Scope: a dated re-verification pass and one accuracy fix. No new products, no new pages, no data-value changes.
+
+| Task | Status | Owner | Files touched | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-1187-V1 Re-resolve the five submitted short links to ASINs and compare with `data/products.json` | done | arena/1187e20d-prod1 | `review/1187e20d/VERIFICATION-2026-11-20.md` (new) | All five `link.amazon` codes fetched 2026-11-20; each resolves to the recorded ASIN (B0CDY277D3, B09B7SB46R, B08DKYBTPH, B0DHZTCNR5, B0DZFD6R9Z). Amazon listing pages linked in the record. | Resolved links carry no `tag=` (FLG-015, unchanged). |
+| T-1187-V2 Re-read Associates Operating Agreement §5 disclosure wording | done | arena/1187e20d-prod1 | none (read only) | Operating Agreement, updated 2025-10-15, fetched 2026-11-20: https://affiliate-program.amazon.com/help/operating/agreement | None. Site disclosure matches §5 verbatim. |
+| T-1187-V3 Claim check on front-page pick labels | done | arena/1187e20d-prod1 | `build_site.py`, `index.html` (regenerated) | Listing dimensions from `data/products.json` (P1 13.38"D×11.81"W; P3 12.75"D×13.5"W) | Label "Smallest footprint" was not supported by the listing (P1 has the smaller floor area). Changed to "Shallowest of the fryers". Other "shallow footprint" phrases left for owner review. |
+| T-1187-V4 Live-site check | done | arena/1187e20d-prod1 | none | https://wingbangboozle1-lang.github.io/Prod1/ fetched 2026-11-20 | None |
+| FLG-001 Associates Special Link test | **open — needs owner** | — | — | Requires login to Associates Central (no session can do this) | Blocks nothing in the publish, per the brief. |
+
+Gates on this branch: `python3 build_site.py` (deterministic, only `index.html` and `build_site.py` changed); `node scripts/check_site.mjs` PASSED (54 files); `node scripts/check_meta.mjs` PASSED (5 warnings, 0 blocking); `python3 counter-check/tools/check_site.py` PASSED.
