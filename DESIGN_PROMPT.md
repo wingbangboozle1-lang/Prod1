@@ -82,79 +82,110 @@ until authorized first-party reports exist. See methodology.html.
 3. Custom domain vs github.io canonical (SG-13) — the design assumes the Pages URL.
 4. December gift-guide refresh cadence (SG-14).
 
-## 9. Polished marketing layer (suggestions — owner decides whether to ship)
+## 9. Polished-marketing direction (feeds the design prompt — owner to approve)
 
-This section feeds the visual design prompt with concrete, catchy article topics and
-organic-traffic hooks. Every item is a proposal, not a decision: none is implemented
-until it lands on the suggestions board (`suggestions.html`) and a reviewer marks it
-Approve / Reject / Defer with a date.
+This section answers the brief's core ask: *the site should read like a polished marketing
+affiliate publication with catchy, spec-backed articles and topics that earn organic traffic —
+not like generated filler.* Everything here is a **suggestion for the design prompt**, not a
+decision. Nothing is implemented until a reviewer marks it Approve / Reject / Defer with a date
+on `suggestions.html`. (Section 9 was written by two sessions in parallel and merged here; both
+sets of suggestions are kept.)
 
-### 9.1 Catchy trendy article topics (question-shaped, spec-backed)
+### 9.1 What "polished marketing, not AI slop" means (the tell is structural)
 
-Headlines are buyer questions a person would actually type, not promises about
-outcomes. Each title below is tied to fields that exist in `data/products.json`, so no
-article can claim a number the listing does not carry.
+- **Lead with the buyer's question, not the pipeline.** Every page opens with the question a
+  person types ("Will a 26-quart air fryer fit my counter?"), then answers it with the verified
+  spec. The verification machinery stays one click away in the footer and the "Review desk" nav
+  group. A page that opens with "here is how we verified" reads as a register; a page that opens
+  with the answer reads as a shop.
+- **One opinion per page.** A polished site takes a position inside the bounds of the data
+  ("the shallowest of the three", "the one to reach for if you cook two things at once") rather
+  than listing facts symmetrically. Opinions are built only from fields the listing states.
+- **Numbers, not adjectives.** "16.9 in (42.9 cm) deep" beats "spacious". Adjectives are where
+  generated copy fills space.
+- **Honest gaps as content.** "The listing does not state the warranty period" is a sentence a
+  buyer trusts more than a polished lie. Gap callouts are a marketing asset, not a weakness.
+- **No emoji-as-icon, no gradient glow, no badge soup.** Warm paper + one clay accent + one
+  teal; a display serif + a grotesque. That restraint is what makes it read published, not
+  templated.
 
-Working titles (all hypotheses — not popularity, volume or superiority claims):
+### 9.2 Catchy, spec-backed article topics (question-shaped; working hypotheses)
 
-- "Basket or oven-style air fryer: what should you compare?" — dual-basket (P1) vs
-  French-door oven (P2): capacity, counter depth, what each is genuinely good for.
-- "A no-hype checklist for comparing air fryer capacity" — 6 Qt vs 8 Qt vs 26 QT, how
-  the listed capacity maps to people and counter space, with the exact numbers from the
-  listings.
-- "How to assess cleanup and counter-space trade-offs" — dishwasher-safe baskets vs
-  oven racks, footprint math from the register (158.0 / 267.0 / 172.1 sq in), what fits
-  under a cabinet.
-- "Questions to ask before buying a multi-function kitchen appliance" — presets,
-  wattage, circuits, shared outlets, what the listing does and does not say.
-- "Instant-read vs wireless thermometer: do you need both?" — P4 read time and tolerance
-  vs P5 probes, range, heat rating; one listing states no accuracy figure — say so.
-- "Air fryer for a small kitchen: what actually fits" — depth-led shortlist from the
-  dimension column, blanks left blank.
-- "Thermometer as a holiday gift: what to check before you order" — probes, range,
-  return window, warranty, gift tiers tied to dated snapshots.
+Headlines are buyer questions a person would type, not promises about outcomes. Each title is
+tied to fields that exist in `data/products.json`, so no article can claim a number the listing
+does not carry. None is a popularity, volume or superiority claim.
+
+- "Basket or oven-style air fryer: what should you compare?" — dual-basket (P1) vs French-door
+  oven (P2): capacity, counter depth, what each is genuinely good for.
+- "A no-hype checklist for comparing air fryer capacity" — 6 Qt vs 8 Qt vs 26 QT, how the listed
+  capacity maps to people and counter space, with the exact numbers from the listings.
+- "How to assess cleanup and counter-space trade-offs" — dishwasher-safe baskets vs oven racks,
+  footprint math from the register (158.0 / 267.0 / 172.1 sq in), what fits under a cabinet.
+- "Questions to ask before buying a multi-function kitchen appliance" — presets, wattage,
+  circuits, shared outlets, what the listing does and does not say.
+- "Instant-read vs wireless thermometer: do you need both?" — P4 read time and tolerance vs P5
+  probes, range, heat rating; one listing states no accuracy figure — say so.
+- "Will a 26-quart air fryer actually fit on your counter?" — depth math from the verified
+  footprint (16.9 in / 42.9 cm).
+- "Two baskets or one: what dual-zone cooking actually changes" — Sync Finish, from the listing.
+- "Air fryer for a small kitchen: what actually fits" — depth-led shortlist, blanks left blank.
+- "What \"dishwasher-safe\" really means for cleanup" — from the bullets, attributed.
+- "Holiday air fryer gifts: how to choose one that gets used" — seasonal, spec-first, tied to
+  dated snapshots.
 - "Wattage, circuits and shared outlets: what the listing does and does not say" — 120 V /
   1000–1700 W from the register, circuit advice kept general, no electrical claims.
 
-Each topic gets one shortlist, one at-a-glance spec table, one honest "what the listing
-cannot tell you" callout, and one "see today's price on Amazon" button marked sponsored.
-That is the whole article anatomy — nothing is padded.
+The twelve-topic calendar on `topics.html` is the live version; this list is the *direction* for
+the prompt.
 
-### 9.2 Organic traffic hooks (findability, not forecasting)
+### 9.3 Article anatomy (the whole shape — nothing is padded)
 
-- One canonical site under one host, self-canonicalising pages, sitemap + RSS written by
-  the build, robots.txt, per-page Open Graph + unique titles/descriptions.
-- Intent landings ("shop by goal": small kitchen, holiday gift, family oven) built only
-  from verified fields, each added to sitemap and feed at publish.
-- Question-shaped H2s in every guide — the page answers the exact phrase the reader
-  typed, which is what earns the click.
-- Internal-link spine: every guide links its pillar category, the comparison page and
-  the buying-guides index (S-24). One question, one canonical answer.
-- Search Console is the topic picker: after 28 days of queries, the next four topics come
-  from arriving queries our pages do not answer — never from instinct. Until then the
-  calendar above is a stated plan.
-- Reader capture via a public GitHub issue ("Suggest a topic") — nothing is collected
-  silently, nothing is pre-filled to look busy.
+Each topic gets one shortlist, one at-a-glance spec table, one honest "what the listing cannot
+tell you" callout, and one "see today's price on Amazon" button marked sponsored.
 
-### 9.3 Anti-AI-slop rules for marketing copy (SG-13, SG-14, enforced by the gate)
+### 9.4 Organic-traffic hooks (findability, not forecasting)
 
-- Second person, active voice, one idea per sentence. Numbers instead of adjectives:
-  "34.0 cm deep" not "compact".
-- Never: "we tested", "we loved", "game-changer", "must-have", "best-in-class", "top
-  rated", "trending now", "viral", "#1", "guaranteed", "act now". The banned-phrase list
-  lives in `data/editorial.json` and `scripts/check_meta.mjs` fails the build on a hit.
-- No invented scarcity, countdowns, or "everyone is buying" lines.
-- Every claim names its source in the same breath, or it is not written. Seller claims
-  are attributed ("per listing").
-- Where a spec is missing, the page says so in the sentence where the reader wanted it.
-  A blank with a date is more trustworthy than a guessed number.
+- One canonical site under one host, self-canonicalising pages, sitemap + RSS written by the
+  build, robots.txt, per-page Open Graph and unique question-shaped titles/descriptions.
+- Intent landings ("shop by goal": small kitchen, holiday gift, family oven) built only from
+  verified fields, each added to sitemap and feed at publish.
+- Question-shaped H2s in every guide — the page answers the exact phrase the reader typed.
+- Internal-link spine: every guide links its pillar category, the comparison page and the
+  buying-guides index. One question, one canonical answer.
+- `rel="sponsored"` on every outbound link; structured data (Organization / Article / FAQPage)
+  that matches the visible content.
+- Search Console is the topic picker: after 28 days of queries, the next four topics come from
+  arriving queries our pages do not answer — never from instinct. Until then the calendar is a
+  stated plan.
+- Reader capture via a public GitHub issue ("Suggest a topic") — nothing collected silently,
+  nothing pre-filled to look busy.
 
-### 9.4 What this layer is not (so it cannot be misread)
+### 9.5 Anti-AI-slop rules for marketing copy (enforced by the gate)
 
-- Not a forecast of traffic, ranking, clicks or revenue. The campaign ledger is empty by
-  design until authorized first-party Associates reports exist.
-- Not hands-on testing. No page claims use; a testing programme is SG-09 and requires a
-  funded protocol first.
+- Second person, active voice, one idea per sentence. Numbers instead of adjectives.
+- Never: "we tested", "we loved", "game-changer", "must-have", "best-in-class", "top rated",
+  "trending now", "viral", "#1", "guaranteed", "act now". The banned-phrase list lives in
+  `data/editorial.json` and `scripts/check_meta.mjs` fails the build on a hit.
+- No invented scarcity, countdowns, or "everyone is buying" lines. Any "trending" wording appears
+  only next to a dated snapshot from an official source, or not at all.
+- Every claim names its source in the same breath, or it is not written. Seller claims are
+  attributed ("per listing").
+- Where a spec is missing, the page says so in the sentence where the reader wanted it. A blank
+  with a date is more trustworthy than a guessed number.
+
+### 9.6 Imagery
+
+Brand diagrams and typography only until SG-04 (photography licence) clears. A single ownable
+visual — the counter-depth scale comparing 32.4 / 34.0 / 42.9 cm — is the strongest
+non-photographic hero the site can carry, and it is built from our own derived numbers, so it
+cannot be mistaken for stock.
+
+### 9.7 What this layer is not (so it cannot be misread)
+
+- Not a forecast of traffic, ranking, clicks or revenue. The campaign ledger is empty by design
+  until authorized first-party Associates reports exist.
+- Not hands-on testing. No page claims use; a testing programme is SG-09 and requires a funded
+  protocol first.
 - Not a price or rating display on shop pages. Prices and ratings stay dated register
   observations; the button links to Amazon where Amazon serves the live figure.
 

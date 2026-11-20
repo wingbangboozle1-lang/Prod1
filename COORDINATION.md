@@ -979,3 +979,57 @@ table carries `rel="sponsored nofollow noopener"`, `data-ctg-outbound` and the t
 enrolled Associates account), FLG-015 / Q-35 (tracking report), FLG-008 / SG-03 (analytics host),
 FLG-009 / SG-04 (photography licence), FLG-004 (thermometer dimensions), FLG-022 (P3 wattage
 conflict, both values published), SG-02 (custom domain), and the seven gates on `decisions.html`.
+## Claim — session arena/e05155a0-prod1 (2026-11-20)
+
+Session ID: **e05155a0** (branch `arena/e05155a0-prod1`, base `3392c0d` = current `main`). At claim time the tree is clean and equal to `main`; no other session has an open branch or a claim newer than the merged PR #35 record above. This session takes the next slot rather than running a parallel branch.
+
+| Task | Status | Owner | Files touched (scope) | Sources / verification | Irregularities |
+|---|---|---|---|---|---|
+| T-E1 Line-by-line re-verification from official sources, this session | done | e05155a0 | read-only (`review/e05155a0/VERIFICATION.md` new) | OA §5 + §6, Program Policies §1/§2(b)/§6(t)/§6(w)/§6(y), Google qualify-outbound-links; five Amazon.com listings fetched 2026-11-20 | None new; register consistent |
+| T-E2 Visual-structure + anti-AI-slop QA pass (code-level layout audit; no browser available) | in progress | e05155a0 | `assets/style.css`, `build_site.py` (chrome/markup only), regenerated root `*.html` | `scripts/check_style.mjs`, `check_meta.mjs`, `check_site.mjs`, `verify_structure.mjs` | FLG-074+ as found |
+| T-E3 Strengthen the design prompt / design-brief with polished-marketing suggestions (catchy spec-backed topics, anti-slop rules, brand & imagery direction) | in progress | e05155a0 | `DESIGN_PROMPT.md`, `design-brief.html` via `build_site.py` | Existing verified data; no new claims | — |
+| T-E4 Suggestion desk + Q/I/A expansion with this session's findings | in progress | e05155a0 | `suggestions.html` via `build_site.py` | Findings from T-E1/T-E2 | Owner choice per row |
+| T-E5 Executive summary refresh for a three-minute read | in progress | e05155a0 | `executive-summary.html` via `build_site.py` | Figures quoted from the register; verification dated this session | — |
+| T-E6 Integration: rebuild, four gates, PR to main, merge, confirm Pages | in progress | e05155a0 | `COORDINATION.md`, shared outputs (sitemap, feed, nav) | See publication record | Flagged/unverified items do not block |
+
+**Scope discipline.** This session edits the root publication only: `build_site.py`, `assets/style.css`, `DESIGN_PROMPT.md`, and the generated root `*.html`, `review/e05155a0/`, `COORDINATION.md`. It does **not** touch `data/products.json` (re-verified read-only, no correction needed), `counter-check/`, `docs/`, `articles/`, `analytics-endpoint/`, `scripts/`, `.github/workflows/`, or `review/<other-session>/`. Shared outputs (sitemap, feed, search index, nav) are changed by this final integration session only.
+
+### e05155a0 — verification, visual QA and design-prompt strengthening (2026-11-20)
+
+**T-E1 — line-by-line re-verification (done).** Read directly from the official pages this
+session: Operating Agreement §5 (disclosure, verbatim "As an Amazon Associate I earn from
+qualifying purchases.") and §6 (a §5 violation is a material breach); Program Policies
+§1 (original content), §2(b) (price/availability only via an Amazon-served link or the
+Creators/PA API), §6(t) (reviews/star ratings only via Creators/PA API), §6(w) (link-shortening
+must not obscure that the destination is Amazon), §6(y) (no price tracking/alerting); Google
+qualify-outbound-links (`rel="sponsored"` for paid links, multiple values allowed); and all five
+Amazon.com listing pages (each ASIN resolves to the title in the register). Full quotes and
+source links: `review/e05155a0/VERIFICATION.md`. No correction to `data/products.json` was needed.
+
+**T-E2 — visual-structure / anti-slop QA (done).** No browser is installable here (the
+Chrome-for-Testing download is blocked at the socket), so this is a code-level audit, labelled as
+such. Results: a 20-pair WCAG AA contrast audit of the palette passed (body, links, buttons,
+disclosure strip, footer, table headers, status badges); `check_style.mjs` confirms every emitted
+class has a rule; `verify_structure.mjs` confirms parse + heading order + sized images; a scan
+for AI-slop phrases found every hit inside banned-phrase rules or negative examples, not in
+reader-facing copy. Recorded as SG-55 (the documented stand-in for a screenshot) and SG-54 (a
+standing contrast gate, request logged to the style-gate owner — see R-10 below).
+
+**T-E3 — design prompt strengthened (done).** `DESIGN_PROMPT.md` gained section 9, "Polished-
+marketing direction", the brief's core ask: what "polished marketing, not AI slop" means
+structurally, the catchy spec-backed topic direction, findability rails and the imagery rule.
+
+**T-E4 — suggestion desk + Q/I/A (done).** Added SG-54 (contrast/accessibility gate), SG-55
+(code-level visual QA as the documented stand-in), SG-56 (adopt the polished-marketing direction
+and consolidate to one brief); Q-38 (enforce contrast in the build), Q-39 (which single design
+brief to execute), Q-40 (build "shop by goal" intent landings next). All wired into the
+interactive decision board. Every row awaits owner choice.
+
+**T-E5 — executive summary refresh (done).** `executive-summary.html` records this session's
+re-verification, the contrast audit and the design-prompt strengthening.
+
+**Requests logged, not edited here.**
+- **R-10 → style-gate owner (`scripts/check_style.mjs` / `scripts/check_meta.mjs`):** consider
+  adding a blocking WCAG-contrast check for body/link text, using the palette audit in
+  `review/e05155a0/VERIFICATION.md` as the reference. No file outside this session's scope was
+  changed.
